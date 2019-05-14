@@ -1,0 +1,56 @@
+﻿using System;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using Unicon2.Infrastructure.BaseItems;
+using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Services.LogService;
+
+namespace Unicon2.Connections.OfflineConnection
+{
+
+    [DataContract(IsReference = true)]
+    public class OfflineConnection : Disposable, IDeviceConnection
+    {
+        private IDeviceLogger _currentDeviceLogger;
+
+        public void SetLogger(IDeviceLogger currentDeviceLogger)
+        {
+            this._currentDeviceLogger = currentDeviceLogger;
+        }
+
+        public string ConnectionName => "Offline";
+
+
+        public bool TryOpenConnection(bool isThrowingException)
+        {
+            return true;
+        }
+
+        public async Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
+        {
+            return false;
+        }
+
+        public Action<bool> LastQueryStatusChangedAction { get; set; }
+
+        public Action ConnectionLostAction { get; }
+
+        public bool IsConnected => false;
+
+
+        public void CloseConnection()
+        {
+            //
+        }
+
+
+        #region Implementation of ICloneable
+
+        public object Clone()
+        {
+            return new OfflineConnection();
+        }
+
+        #endregion
+    }
+}

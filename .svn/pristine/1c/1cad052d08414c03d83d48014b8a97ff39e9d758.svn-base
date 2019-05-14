@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EF9BF685-16AA-4942-A33C-D65562BD4215}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Unicon2.Presentation.Infrastructure</RootNamespace>
+    <AssemblyName>Unicon2.Presentation.Infrastructure</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums\PlacementEnum.cs" />
+    <Compile Include="Factories\IDeviceViewModelFactory.cs" />
+    <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
+    <Compile Include="Factories\IFragmentPaneViewModelFactory.cs" />
+    <Compile Include="Factories\IValueViewModelFactory.cs" />
+    <Compile Include="FragmentSettings\IFragmentSettingViewModel.cs" />
+    <Compile Include="FragmentSettings\IQuickAccessMemorySettingViewModel.cs" />
+    <Compile Include="Keys\PresentationKeys.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />
+    <Compile Include="TreeGrid\IGroupedConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModels\Connection\IConnectionStateViewModel.cs" />
+    <Compile Include="ViewModels\Device\IComPortConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Device\IDeviceLoggerViewModel.cs" />
+    <Compile Include="ViewModels\DockingManagerWindows\IAnchorableWindow.cs" />
+    <Compile Include="ViewModels\DockingManagerWindows\IDockingWindow.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionGroupViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionToggleCommandViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentSettings\IFragmentSettingsViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\IFragmentEditorViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionsViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionCommandViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\IFragmentViewModel.cs" />
+    <Compile Include="ViewModels\Device\IDeviceViewModel.cs" />
+    <Compile Include="ViewModels\IDeviceConnectionViewModel.cs" />
+    <Compile Include="ViewModels\IDeviceDefinitionViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\IFragmentPaneViewModel.cs" />
+    <Compile Include="ViewModels\ILocalAndDeviceValueContainingViewModel.cs" />
+    <Compile Include="ViewModels\IUshortFormattableEditorViewModel.cs" />
+    <Compile Include="ViewModels\Resources\IResourceViewModel.cs" />
+    <Compile Include="ViewModels\Values\IBoolValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\IEditableValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\IErrorValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\IRangeableViewModel.cs" />
+    <Compile Include="ViewModels\Values\IRangeViewModel.cs" />
+    <Compile Include="ViewModels\Windows\ILogServiceViewModel.cs" />
+    <Compile Include="ViewModels\Values\IChosenFromListValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\ICollectionValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\IFormattedValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\INumericValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\IStringValueViewModel.cs" />
+    <Compile Include="ViewModels\Windows\IProjectBrowserViewModel.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
+      <Project>{d025ec77-dfd4-444e-8f2c-218a5181c721}</Project>
+      <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

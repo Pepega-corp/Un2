@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Unicon2.Fragments.Configuration</RootNamespace>
+    <AssemblyName>Unicon2.Fragments.Configuration</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFLocalizeExtension, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WPFLocalizeExtension.3.3.1\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="XAMLMarkupExtensions, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.5.1\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\TreeViewToggleButtonBehavior.cs" />
+    <Compile Include="Converters\IsItemsGroupToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToBorderColorConverter.cs" />
+    <Compile Include="Factories\ConfigurationItemFactory.cs" />
+    <Compile Include="Factories\ConfigurationItemViewModelFactory.cs" />
+    <Compile Include="Factories\ValueViewModelFactory.cs" />
+    <Compile Include="Model\Base\LocalDeviceValuesConfigurationItemBase.cs" />
+    <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
+    <Compile Include="Model\DefaultDeviceConfiguration.cs" />
+    <Compile Include="Model\Properties\ComplexProperty.cs" />
+    <Compile Include="Model\Properties\DefaultProperty.cs" />
+    <Compile Include="Model\DefaultItemsGroup.cs" />
+    <Compile Include="Model\ConfigurationItemBase.cs" />
+    <Compile Include="Model\DependentProperty\DependentProperty.cs" />
+    <Compile Include="Model\DependentProperty\DependancyCondition.cs" />
+    <Compile Include="Model\Properties\SubProperty.cs" />
+    <Compile Include="Module\ConfigurationModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ViewModel\Helpers\ConfigurationOptionsHelper.cs" />
+    <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />
+    <Compile Include="ViewModel\Properties\RuntimeDependentPropertyViewModel.cs" />
+    <Compile Include="ViewModel\Properties\RuntimePropertyViewModel.cs" />
+    <Compile Include="ViewModel\Properties\RuntimeSubPropertyViewModel.cs" />
+    <Compile Include="ViewModel\RuntimeItemGroupViewModel.cs" />
+    <Compile Include="ViewModel\RuntimeConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\RuntimeConfigurationItemViewModelBase.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\ConfigurationTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Unicon2.Unity\Unicon2.Unity.csproj">
+      <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
+      <Name>Unicon2.Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Fragments.Configuration.Infrastructure\Unicon2.Fragments.Configuration.Infrastructure.csproj">
+      <Project>{b809ed9d-0916-49fb-8b7e-d7693836c55e}</Project>
+      <Name>Unicon2.Fragments.Configuration.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
+      <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>
+      <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+      <Project>{EF9BF685-16AA-4942-A33C-D65562BD4215}</Project>
+      <Name>Unicon2.Presentation.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Unicon2.SharedResources\Unicon2.SharedResources.csproj">
+      <Project>{ca06a2c8-e39c-4d5c-b19b-3c60e7151aef}</Project>
+      <Name>Unicon2.SharedResources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

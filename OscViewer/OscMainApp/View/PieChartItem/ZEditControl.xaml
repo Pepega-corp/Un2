@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="Oscilloscope.View.PieChartItem.ZEditControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignWidth="300" Background="White" Height="83">
+    
+    
+    <GroupBox x:Name="Group1" Header="    Контур Ф-N" Height="83" VerticalAlignment="Top" >
+        <Canvas>
+            <Grid Width="318">
+
+                <Label Content="Z0 =" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                <Label Content="Z1 =" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,28,0,0"/>
+                <Label Content="+ j" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,2,0,0"/>
+                <Label Content="+ j" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,31,0,0"/>
+                <TextBox x:Name="Z1R0Tb" HorizontalAlignment="Left" Height="23" Margin="51,2,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="79" Text="1" />
+                <TextBox x:Name="Z1X1Tb" HorizontalAlignment="Left" Height="23" Margin="164,34,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="79" Text="1"/>
+                <TextBox x:Name="Z1R1Tb" HorizontalAlignment="Left" Height="23" Margin="51,31,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="79" Text="1"/>
+                <TextBox x:Name="Z1X0Tb" HorizontalAlignment="Left" Height="23" Margin="164,3,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="79" Text="1"/>
+            </Grid>
+            <CheckBox x:Name="Stage1Cb" IsChecked="True"   VerticalAlignment="Top" Margin="0,-13,414,0" Background="White" Checked="Stage1Cb_Checked" Panel.ZIndex="2" Unchecked="Stage1Cb_Unchecked"/>
+        </Canvas>
+
+    </GroupBox>
+</UserControl>

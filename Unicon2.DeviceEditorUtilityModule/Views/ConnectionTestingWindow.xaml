@@ -1,0 +1,199 @@
+﻿<controls:MetroWindow
+    x:Class="Unicon2.DeviceEditorUtilityModule.Views.ConnectionTestingWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:extensions="clr-namespace:Unicon2.Infrastructure.Extensions;assembly=Unicon2.Infrastructure"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Unicon2.DeviceEditorUtilityModule.ViewModels"
+    Name="connectionTestingWindow"
+    Title="{lex:Loc ConnectionTesting}"
+    Margin="0"
+    HorizontalContentAlignment="Stretch"
+    dialogs:DialogParticipation.Register="{Binding}"
+    lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
+    lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    BorderBrush="{DynamicResource AccentColorBrush}"
+    BorderThickness="1"
+    IsWindowDraggable="True"
+    NonActiveBorderBrush="Black"
+    ShowCloseButton="False"
+    ShowMaxRestoreButton="False"
+    ShowMinButton="False"
+    ShowSystemMenuOnRightClick="False"
+    SizeToContent="WidthAndHeight"
+    mc:Ignorable="d">
+
+    <controls:MetroWindow.Resources>
+        <DataTemplate x:Key="ResourceViewModelDataTemplate" DataType="viewModels:ResourceViewModel">
+            <TextBox Style="{DynamicResource EditableFieldBoxStyle}" Text="{Binding Name}" />
+        </DataTemplate>
+    </controls:MetroWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            MaxWidth="700"
+            Margin="5"
+            HorizontalAlignment="Left"
+            Text="{lex:Loc ConnectionTestingDescription}"
+            TextWrapping="WrapWithOverflow" />
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Text="{lex:Loc PropertyForTest}" />
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                MinWidth="200"
+                Margin="5"
+                Text="{Binding SelectedPropertyString}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                Width="80"
+                Height="30"
+                VerticalAlignment="Top"
+                Command="{Binding SelectTestConnectionProperty}"
+                Content="{lex:Loc Select}"
+                Style="{DynamicResource UniconButtonStyle}" />
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <TextBlock Margin="5" Text="{lex:Loc ExpectedValue}" />
+                <Rectangle
+                    Width="8"
+                    Height="12"
+                    Margin="5,0,5,10">
+                    <Rectangle.ToolTip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <UniformGrid Grid.Row="0" Columns="2">
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <TextBlock Margin="5" Text="{lex:Loc CharacterClass}" />
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <TextBlock Margin="5" Text="{lex:Loc Quantifier}" />
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <TextBlock Margin="5" Text="{lex:Loc AnyWordCharacterClassDescription}" />
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <TextBlock Margin="5" Text="{lex:Loc ZeroOrMoreTimesQuantifierDescription}" />
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <TextBlock Margin="5" Text="{lex:Loc AnyDecimalDigitCharacterClassDescription}" />
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <TextBlock Margin="5" Text="{lex:Loc OneOrMoreTimesQuantifierDescription}" />
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <TextBlock Margin="5" Text="{lex:Loc AnyWhiteSpaceCharacterClassDescription}" />
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <TextBlock Margin="5" Text="{lex:Loc ExactlyNTimesQuantifierDescription}" />
+                                </Border>
+                            </UniformGrid>
+                            <TextBlock
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                FontWeight="Bold"
+                                Text="{lex:Loc VersionStringExample}" />
+                        </Grid>
+                    </Rectangle.ToolTip>
+                    <Rectangle.Fill>
+                        <VisualBrush Visual="{DynamicResource appbar_information}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </StackPanel>
+
+            <ItemsControl
+                Name="stringsItemsControl"
+                Grid.Row="1"
+                Grid.Column="1"
+                MinWidth="200"
+                Margin="3"
+                ItemsSource="{Binding ExpectedValues}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="extensions:StringWrapper">
+                        <TextBox Margin="3" Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem
+                                        Command="{Binding Source={x:Reference stringsItemsControl}, Path=DataContext.DeleteExpectedValueCommand}"
+                                        CommandParameter="{Binding}"
+                                        Header="{lex:Loc Delete}" />
+                                </ContextMenu>
+                            </TextBox.ContextMenu>
+                        </TextBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button
+                Grid.Row="1"
+                Grid.Column="2"
+                Width="80"
+                Height="30"
+                Margin="3"
+                VerticalAlignment="Top"
+                Command="{Binding AddExpectedValueCommand}"
+                Content="{lex:Loc Add}"
+                Style="{DynamicResource UniconButtonStyle}" />
+
+            <Grid Grid.Row="2">
+                <ContentControl
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Content="{Binding DefaultComPortConfigurationViewModel}" />
+            </Grid>
+        </Grid>
+        <StackPanel
+            Grid.Row="2"
+            Margin="5"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="100"
+                MinHeight="25"
+                Margin="2"
+                Command="{Binding SubmitCommand}"
+                CommandParameter="{Binding ElementName=connectionTestingWindow}"
+                Content="{lex:Loc Ok}"
+                Style="{DynamicResource UniconButtonStyle}" />
+            <Button
+                Width="100"
+                MinHeight="25"
+                Margin="2"
+                Command="{Binding CancelCommand}"
+                CommandParameter="{Binding ElementName=connectionTestingWindow}"
+                Content="{lex:Loc Cancel}"
+                Style="{DynamicResource UniconButtonStyle}" />
+        </StackPanel>
+
+    </Grid>
+</controls:MetroWindow>

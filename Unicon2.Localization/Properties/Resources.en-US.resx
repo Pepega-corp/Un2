@@ -1,0 +1,1305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddChild" xml:space="preserve">
+    <value>Add child</value>
+  </data>
+  <data name="AddChildGroup" xml:space="preserve">
+    <value>Add сhild group</value>
+  </data>
+  <data name="AddingMode" xml:space="preserve">
+    <value>Adding</value>
+  </data>
+  <data name="AddKeyValuePair" xml:space="preserve">
+    <value>Add key-value pair</value>
+  </data>
+  <data name="AddRoot" xml:space="preserve">
+    <value>Add root element</value>
+  </data>
+  <data name="Adress" xml:space="preserve">
+    <value>Adress</value>
+  </data>
+  <data name="AddressDec" xml:space="preserve">
+    <value>Address (dec)</value>
+  </data>
+  <data name="AddressHex" xml:space="preserve">
+    <value>Address (hex)</value>
+  </data>
+  <data name="AsciiStringFormatter" xml:space="preserve">
+    <value>ASCII string formatter</value>
+  </data>
+  <data name="AsciiStringFormatterDescription" xml:space="preserve">
+    <value>Format recieved bytes to ASCII string</value>
+  </data>
+  <data name="BaseAdressDec" xml:space="preserve">
+    <value>Base adress (Dec)</value>
+  </data>
+  <data name="BaseAdressHex" xml:space="preserve">
+    <value>Base adress (Hex)</value>
+  </data>
+  <data name="BaseColor" xml:space="preserve">
+    <value>Base Color</value>
+  </data>
+  <data name="BaseTheme" xml:space="preserve">
+    <value>Base Theme</value>
+  </data>
+  <data name="BaudRate" xml:space="preserve">
+    <value>Baud Rate</value>
+  </data>
+  <data name="BitGroupFormatterDescription" xml:space="preserve">
+    <value>Recieved from device value divides into groups of bits. Every group has its own formatting.</value>
+  </data>
+  <data name="BitGroupsFormatter" xml:space="preserve">
+    <value>Fofmatting by grouping bits</value>
+  </data>
+  <data name="BitwiseIndicatorFormatter" xml:space="preserve">
+    <value>Bitwise indicator</value>
+  </data>
+  <data name="BitwiseIndicatorFormatterDescription" xml:space="preserve">
+    <value>Formatting by detection bits in recieved from device value, and matching index number of bit and string.</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Buffer" xml:space="preserve">
+    <value>Buffer</value>
+  </data>
+  <data name="BufferEmpty" xml:space="preserve">
+    <value>Buffer is empty</value>
+  </data>
+  <data name="BufferInvalidType" xml:space="preserve">
+    <value>Buffer contains object of invalid type.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Clean</value>
+  </data>
+  <data name="ComPortConfiguration" xml:space="preserve">
+    <value>ComPort Configuration</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateAndAddInProject" xml:space="preserve">
+    <value>Create &amp; Add in project</value>
+  </data>
+  <data name="Currentformatting" xml:space="preserve">
+    <value>Current formatting</value>
+  </data>
+  <data name="DataBits" xml:space="preserve">
+    <value>Data Bits</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteGroup" xml:space="preserve">
+    <value>Delete group</value>
+  </data>
+  <data name="DeleteKeyValuePair" xml:space="preserve">
+    <value>Delete key-value pair</value>
+  </data>
+  <data name="DeleteSelectedItemQuestion" xml:space="preserve">
+    <value>Do you really want to delete selected item?</value>
+  </data>
+  <data name="Deleting" xml:space="preserve">
+    <value>Deleting</value>
+  </data>
+  <data name="Device" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="DeviceEditor" xml:space="preserve">
+    <value>Device Editor</value>
+  </data>
+  <data name="DeviceFile" xml:space="preserve">
+    <value>Device File</value>
+  </data>
+  <data name="Devices" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="DictionaryMatchingFormatter" xml:space="preserve">
+    <value>Dictionary matching formatter</value>
+  </data>
+  <data name="DictionaryMatchingFormatterDescription" xml:space="preserve">
+    <value>Recieved value from device is key. Formatter get string by its key from dictionary.</value>
+  </data>
+  <data name="DirectFormatterDescription" xml:space="preserve">
+    <value>Value from the device is not formatted</value>
+  </data>
+  <data name="DirectUshortFormatter" xml:space="preserve">
+    <value>Direct value from device</value>
+  </data>
+  <data name="DublicateValuesMessage" xml:space="preserve">
+    <value>Collection has repeatable values</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditingMode" xml:space="preserve">
+    <value>Editing</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Errors</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ExitQuestion" xml:space="preserve">
+    <value>Do you really want to exit?</value>
+  </data>
+  <data name="FailedQueries" xml:space="preserve">
+    <value>Failed queries</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FormatError" xml:space="preserve">
+    <value>Format error</value>
+  </data>
+  <data name="FormatterParameters" xml:space="preserve">
+    <value>Formatting parameters</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formatting</value>
+  </data>
+  <data name="Formula" xml:space="preserve">
+    <value>Formula</value>
+  </data>
+  <data name="FormulaFormatter" xml:space="preserve">
+    <value>Formula formatter</value>
+  </data>
+  <data name="FormulaFormatterDescription" xml:space="preserve">
+    <value>Formatter gets X from device as argument for written formula above.</value>
+  </data>
+  <data name="Fotmatting" xml:space="preserve">
+    <value>Fotmatting</value>
+  </data>
+  <data name="GetFromBuffer" xml:space="preserve">
+    <value>Get from buffer</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info Messages</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="IsAllLoggingLoggingEnabled" xml:space="preserve">
+    <value>Logging all</value>
+  </data>
+  <data name="IsErrorLoggingEnabled" xml:space="preserve">
+    <value>Logging errors</value>
+  </data>
+  <data name="IsLoggingDisabled" xml:space="preserve">
+    <value>Logging disabled</value>
+  </data>
+  <data name="IsLoggingInFileEnabled" xml:space="preserve">
+    <value>Logging in file</value>
+  </data>
+  <data name="IsReadOnly" xml:space="preserve">
+    <value>Is read only</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LastOpened" xml:space="preserve">
+    <value>Last Opened</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="LoadExisting" xml:space="preserve">
+    <value>Load Existing</value>
+  </data>
+  <data name="Logging" xml:space="preserve">
+    <value>Logging</value>
+  </data>
+  <data name="LoggingToFileEnabled" xml:space="preserve">
+    <value>Logging to file enabled</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="ModbusMemory" xml:space="preserve">
+    <value>Memory view</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NewDevice" xml:space="preserve">
+    <value>NewDevice</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>New Project</value>
+  </data>
+  <data name="NotSet" xml:space="preserve">
+    <value>Not set</value>
+  </data>
+  <data name="NullOrEmptyMesasage" xml:space="preserve">
+    <value>Item must have a value</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="NumberOfBits" xml:space="preserve">
+    <value>Number of bits</value>
+  </data>
+  <data name="NumberOfPoints" xml:space="preserve">
+    <value>Number of points</value>
+  </data>
+  <data name="OffTransmission" xml:space="preserve">
+    <value>Off Transmission</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="OnTransmission" xml:space="preserve">
+    <value>On Transmission</value>
+  </data>
+  <data name="OpenDeviceEditor" xml:space="preserve">
+    <value>Open Device Editor</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Open log file</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="Parity" xml:space="preserve">
+    <value>Parity</value>
+  </data>
+  <data name="Parity_Even" xml:space="preserve">
+    <value>Even</value>
+  </data>
+  <data name="Parity_Mark" xml:space="preserve">
+    <value>Mark</value>
+  </data>
+  <data name="Parity_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Parity_Odd" xml:space="preserve">
+    <value>Odd</value>
+  </data>
+  <data name="Parity_Space" xml:space="preserve">
+    <value>Space</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Queries" xml:space="preserve">
+    <value>Queries</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="ReallyWantToDeleteWithChildRequest" xml:space="preserve">
+    <value>Do you really want to delete element with all his childlen?</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Save As</value>
+  </data>
+  <data name="SaveInFile" xml:space="preserve">
+    <value>Save in file</value>
+  </data>
+  <data name="SelectedConnectionNullMessage" xml:space="preserve">
+    <value>Connection is not selected</value>
+  </data>
+  <data name="SelectedDeviceNullMessage" xml:space="preserve">
+    <value>Device is not selected</value>
+  </data>
+  <data name="SetInBuffer" xml:space="preserve">
+    <value>Set in buffer</value>
+  </data>
+  <data name="SetLogFile" xml:space="preserve">
+    <value>Set log file</value>
+  </data>
+  <data name="SlaveId" xml:space="preserve">
+    <value>Slave ID</value>
+  </data>
+  <data name="StopBits" xml:space="preserve">
+    <value>Stop Bits</value>
+  </data>
+  <data name="StopBits_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="StopBits_One" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="StopBits_OnePointFive" xml:space="preserve">
+    <value>1,5</value>
+  </data>
+  <data name="StopBits_Two" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="SuccessfulQueries" xml:space="preserve">
+    <value>Successful queries</value>
+  </data>
+  <data name="TestResult" xml:space="preserve">
+    <value>Test result</value>
+  </data>
+  <data name="TestValueOfX" xml:space="preserve">
+    <value>Test value of X</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="VisualSettings" xml:space="preserve">
+    <value>Visual Settings</value>
+  </data>
+  <data name="WaitAnswer" xml:space="preserve">
+    <value>Wait Answer</value>
+  </data>
+  <data name="WaitByte" xml:space="preserve">
+    <value>Wait Byte</value>
+  </data>
+  <data name="Write" xml:space="preserve">
+    <value>Write</value>
+  </data>
+  <data name="DeviceSettings" xml:space="preserve">
+    <value>Device settings</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ConvertedValue" xml:space="preserve">
+    <value>Converted value</value>
+  </data>
+  <data name="LimitOfValue" xml:space="preserve">
+    <value>Limit of value</value>
+  </data>
+  <data name="ScaleLimit" xml:space="preserve">
+    <value>Scale limit</value>
+  </data>
+  <data name="EmptyDevice" xml:space="preserve">
+    <value>Empty device</value>
+  </data>
+  <data name="AddBlock" xml:space="preserve">
+    <value>Add block</value>
+  </data>
+  <data name="ConfigurationEditor" xml:space="preserve">
+    <value>Configuration editor</value>
+  </data>
+  <data name="DeviceSignature" xml:space="preserve">
+    <value>Device signature</value>
+  </data>
+  <data name="OpeningPortErrorMessage" xml:space="preserve">
+    <value>Port opening error</value>
+  </data>
+  <data name="PortErrorMessage" xml:space="preserve">
+    <value>Port error</value>
+  </data>
+  <data name="ConnectionSettings" xml:space="preserve">
+    <value>Connection settings</value>
+  </data>
+  <data name="DeleteDevice" xml:space="preserve">
+    <value>Delete device</value>
+  </data>
+  <data name="DeviceData" xml:space="preserve">
+    <value>Device Data</value>
+  </data>
+  <data name="LocalData" xml:space="preserve">
+    <value>Local Data</value>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="MeasureUnit" xml:space="preserve">
+    <value>Measure unit</value>
+  </data>
+  <data name="AddChildElement" xml:space="preserve">
+    <value>Add сhild element</value>
+  </data>
+  <data name="AddElementRoot" xml:space="preserve">
+    <value>Add root element</value>
+  </data>
+  <data name="AddGroupElement" xml:space="preserve">
+    <value>Add group element</value>
+  </data>
+  <data name="AddGroupElementRoot" xml:space="preserve">
+    <value>Add root group element</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>Signature</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Date/Time</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="RecentNotifications" xml:space="preserve">
+    <value>Recent notifications:</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Windows" xml:space="preserve">
+    <value>Windows</value>
+  </data>
+  <data name="ExecuteQuery" xml:space="preserve">
+    <value>Execute query</value>
+  </data>
+  <data name="Acknowlege" xml:space="preserve">
+    <value>The server (or slave) has accepted the request and is processing it, but a long duration of time will be required to do so.This response is returned to prevent a timeout error from occurring in the client(or master)</value>
+  </data>
+  <data name="EmptyEndPoint" xml:space="preserve">
+    <value>Argument endPoint cannot be empty</value>
+  </data>
+  <data name="GatewayPathUnavailable" xml:space="preserve">
+    <value>Specialized use in conjunction with gateways, indicates that the gateway was unable to allocate an internal communication path from the input port to the output port for processing the request.Usually means that the gateway is misconfigured or overloaded.</value>
+  </data>
+  <data name="GatewayTargetDeviceFailedToRespond" xml:space="preserve">
+    <value>Specialized use in conjunction with gateways, indicates that no response was obtained from the target device.Usually means that the device is not present on the network.</value>
+  </data>
+  <data name="HexCharacterCountNotEven" xml:space="preserve">
+    <value>Hex string must have even number of characters.</value>
+  </data>
+  <data name="IllegalDataAddress" xml:space="preserve">
+    <value>The data address received in the query is not an allowable address for the server (or slave). More specifically, the combination of reference number and transfer length is invalid.For a controller with 100 registers, the PDU addresses the first register as 0, and the last one as 99. If a request is submitted with a starting register address of 96 and a quantity of registers of 4, then this request will successfully operate(address-wise at least) on registers 96, 97, 98, 99. If a request is submitted with a starting register address of 96 and a quantity of registers of 5, then this request will fail with Exception Code 0x02 “Illegal Data Address” since it attempts to operate on registers 96, 97, 98, 99 and 100, and there is no register with address 100.</value>
+  </data>
+  <data name="IllegalDataValue" xml:space="preserve">
+    <value>Illegal data value.</value>
+  </data>
+  <data name="IllegalFunction" xml:space="preserve">
+    <value>Illegal function.</value>
+  </data>
+  <data name="MemoryParityError" xml:space="preserve">
+    <value>Memory parity error.</value>
+  </data>
+  <data name="ModbusMemoryQuery" xml:space="preserve">
+    <value>Modbus memory reading query.</value>
+  </data>
+  <data name="ModbusSingleMemoryQuery" xml:space="preserve">
+    <value>Modbus memory reading query (single)</value>
+  </data>
+  <data name="NetworkBytesNotEven" xml:space="preserve">
+    <value>Array networkBytes must contain an even number of bytes.</value>
+  </data>
+  <data name="SlaveDeviceBusy" xml:space="preserve">
+    <value>Slave device busy.</value>
+  </data>
+  <data name="SlaveDeviceFailure" xml:space="preserve">
+    <value>Slave device failure.</value>
+  </data>
+  <data name="TimeoutNotSupported" xml:space="preserve">
+    <value>The compact framework UDP client does not support timeouts.</value>
+  </data>
+  <data name="UdpClientNotConnected" xml:space="preserve">
+    <value>Udp client not connected.</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="WaitRetryGreaterThanZero" xml:space="preserve">
+    <value>WaitToRetryMilliseconds must be greater than 0.</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="ValueOutOfRange" xml:space="preserve">
+    <value>Value out of range</value>
+  </data>
+  <data name="OneWordEditing" xml:space="preserve">
+    <value>Editing word in memory</value>
+  </data>
+  <data name="WriteModbusMemoryQuery" xml:space="preserve">
+    <value>Modbus memory writing query</value>
+  </data>
+  <data name="TransferFromDeviceToLocal" xml:space="preserve">
+    <value>Transfer data from device to local </value>
+  </data>
+  <data name="WriteLocalValuesToDevice" xml:space="preserve">
+    <value>Write local values to device</value>
+  </data>
+  <data name="ValueChanged" xml:space="preserve">
+    <value>Value changed</value>
+  </data>
+  <data name="WriteConfigurationQuery" xml:space="preserve">
+    <value>Write configuration.</value>
+  </data>
+  <data name="SaveConfiguration" xml:space="preserve">
+    <value>Save сonfiguration</value>
+  </data>
+  <data name="LoadFromFile" xml:space="preserve">
+    <value>Load from file</value>
+  </data>
+  <data name="CurrentItem" xml:space="preserve">
+    <value>Current Item</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="InvalidRangeError" xml:space="preserve">
+    <value>Invalid range</value>
+  </data>
+  <data name="AddGroup" xml:space="preserve">
+    <value>Add group</value>
+  </data>
+  <data name="ReadingPropertyQuery" xml:space="preserve">
+    <value>Reading property query</value>
+  </data>
+  <data name="Activation" xml:space="preserve">
+    <value>Activation</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ModbusMemoryDescription" xml:space="preserve">
+    <value>This block add function of reading and writing device memory.</value>
+  </data>
+  <data name="BoolFormatter" xml:space="preserve">
+    <value>Bool formatter</value>
+  </data>
+  <data name="CollapseLevel" xml:space="preserve">
+    <value>Collapse one level</value>
+  </data>
+  <data name="ExpandLevel" xml:space="preserve">
+    <value>Expand one level</value>
+  </data>
+  <data name="Tree" xml:space="preserve">
+    <value>Tree</value>
+  </data>
+  <data name="SharedResources" xml:space="preserve">
+    <value>Shared resources</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Adding" xml:space="preserve">
+    <value>Adding</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="ResourceKey" xml:space="preserve">
+    <value>Resource Key</value>
+  </data>
+  <data name="AddAsResource" xml:space="preserve">
+    <value>Add as resource</value>
+  </data>
+  <data name="SelectFromResources" xml:space="preserve">
+    <value>Select from resources</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CurrentResource" xml:space="preserve">
+    <value>Current resource</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="PasteAsChild" xml:space="preserve">
+    <value>Paste as child</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="AddDependentProperty" xml:space="preserve">
+    <value>Add Dependent Property</value>
+  </data>
+  <data name="DependentProperty" xml:space="preserve">
+    <value>DependentProperty</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="DefaultFormatter" xml:space="preserve">
+    <value>Default Formatter</value>
+  </data>
+  <data name="AddCondition" xml:space="preserve">
+    <value>Add Condition</value>
+  </data>
+  <data name="DeleteCondition" xml:space="preserve">
+    <value>Delete Condition</value>
+  </data>
+  <data name="ReferencedProperty" xml:space="preserve">
+    <value>Referenced Property</value>
+  </data>
+  <data name="ApplyingFormatter" xml:space="preserve">
+    <value>Applying Formatter</value>
+  </data>
+  <data name="Condition" xml:space="preserve">
+    <value>Condition</value>
+  </data>
+  <data name="ConditionFormatter" xml:space="preserve">
+    <value>Formatter applying on condition</value>
+  </data>
+  <data name="ConditionResult" xml:space="preserve">
+    <value>Condition Result</value>
+  </data>
+  <data name="DisableInteraction" xml:space="preserve">
+    <value>Disable Interaction</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Equal</value>
+  </data>
+  <data name="HaveFalseBitAt" xml:space="preserve">
+    <value>Have False Bit At</value>
+  </data>
+  <data name="HaveTrueBitAt" xml:space="preserve">
+    <value>Have True Bit At</value>
+  </data>
+  <data name="Less" xml:space="preserve">
+    <value>Less</value>
+  </data>
+  <data name="LessOrEqual" xml:space="preserve">
+    <value>Less Or Equal</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="MoreOrEqual" xml:space="preserve">
+    <value>More Or Equal</value>
+  </data>
+  <data name="NotEqual" xml:space="preserve">
+    <value>Not Equal</value>
+  </data>
+  <data name="EditDescription" xml:space="preserve">
+    <value>Edit Description</value>
+  </data>
+  <data name="AddRange" xml:space="preserve">
+    <value>Add range</value>
+  </data>
+  <data name="AddressRanges" xml:space="preserve">
+    <value>Address ranges</value>
+  </data>
+  <data name="DeleteRange" xml:space="preserve">
+    <value>Delete range</value>
+  </data>
+  <data name="EndAddress" xml:space="preserve">
+    <value>End address</value>
+  </data>
+  <data name="QuickAccessMemory" xml:space="preserve">
+    <value>Quick memory access</value>
+  </data>
+  <data name="StartAddress" xml:space="preserve">
+    <value>Start address</value>
+  </data>
+  <data name="SaveInDefaultDirectory" xml:space="preserve">
+    <value>Save in default directory</value>
+  </data>
+  <data name="SaveInDefaultDirectoryDescription" xml:space="preserve">
+    <value>Save in default directory ("Devices" in application root)</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="NumberOfRecords" xml:space="preserve">
+    <value>Number of records</value>
+  </data>
+  <data name="OpenProject" xml:space="preserve">
+    <value>Open project</value>
+  </data>
+  <data name="AddComplexProperty" xml:space="preserve">
+    <value>Add Complex Property</value>
+  </data>
+  <data name="AddSubProperty" xml:space="preserve">
+    <value>Add Subproprerty</value>
+  </data>
+  <data name="ComplexProperty" xml:space="preserve">
+    <value>Complex property</value>
+  </data>
+  <data name="Bits" xml:space="preserve">
+    <value>Bits</value>
+  </data>
+  <data name="CheckConnection" xml:space="preserve">
+    <value>Check Connection</value>
+  </data>
+  <data name="AddComplexRecordParameter" xml:space="preserve">
+    <value>Add Complex Record Parameter</value>
+  </data>
+  <data name="AddRecordParameter" xml:space="preserve">
+    <value>Add Record Parameter</value>
+  </data>
+  <data name="AddSubParameter" xml:space="preserve">
+    <value>Add Subparameter</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Journal</value>
+  </data>
+  <data name="RecordsNumberOfPoints" xml:space="preserve">
+    <value>Number Of Points in Record</value>
+  </data>
+  <data name="UniconJournal" xml:space="preserve">
+    <value>Journal</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="WordFormatFrom" xml:space="preserve">
+    <value>Word Format From</value>
+  </data>
+  <data name="DefaultTimeFormatter" xml:space="preserve">
+    <value>Default Time Formatter</value>
+  </data>
+  <data name="DayInMonth" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="DefaultTimeFormatterDescription" xml:space="preserve">
+    <value>Values of words format into time and date. You can select count of words to format and what means each of them.</value>
+  </data>
+  <data name="Element" xml:space="preserve">
+    <value>Element</value>
+  </data>
+  <data name="ElementsPlacement" xml:space="preserve">
+    <value>Elements placement</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="Milliseconds" xml:space="preserve">
+    <value>Milliseconds</value>
+  </data>
+  <data name="MillisecondsDecimalsPlaces" xml:space="preserve">
+    <value>Milliseconds decimals places</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="NumberOfPointsInUse" xml:space="preserve">
+    <value>Number of points to use</value>
+  </data>
+  <data name="Placement" xml:space="preserve">
+    <value>Placement</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>Seconds</value>
+  </data>
+  <data name="WordFormatNotForTheWholeRecord" xml:space="preserve">
+    <value>Word format not for the whole record</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="AddArgument" xml:space="preserve">
+    <value>Add Argument</value>
+  </data>
+  <data name="DynamicValuesCheckingImpossible" xml:space="preserve">
+    <value>Dynamic values checking impossible</value>
+  </data>
+  <data name="ComplexParameter" xml:space="preserve">
+    <value>Complex parameter</value>
+  </data>
+  <data name="ReplaceExistingItemQuestion" xml:space="preserve">
+    <value>Replace existing item?</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Saving</value>
+  </data>
+  <data name="JournalRecordReadingQuery" xml:space="preserve">
+    <value>Journal record reading query.</value>
+  </data>
+  <data name="ReadingConfigurationQuery" xml:space="preserve">
+    <value>Reading configuration query</value>
+  </data>
+  <data name="Values" xml:space="preserve">
+    <value>Values</value>
+  </data>
+  <data name="AddAnalogSignal" xml:space="preserve">
+    <value>Add analog signal</value>
+  </data>
+  <data name="AddDiscretSignal" xml:space="preserve">
+    <value>Add discret signal</value>
+  </data>
+  <data name="AddMeasuringGroup" xml:space="preserve">
+    <value>Add measuring group</value>
+  </data>
+  <data name="Measuring" xml:space="preserve">
+    <value>Measuring</value>
+  </data>
+  <data name="MeasuringMonitor" xml:space="preserve">
+    <value>Measuring monitor</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Presentation" xml:space="preserve">
+    <value>Presentation</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>View All</value>
+  </data>
+  <data name="AnalogMeasuringElement" xml:space="preserve">
+    <value>Analog Measuring</value>
+  </data>
+  <data name="BitNumberInWord" xml:space="preserve">
+    <value>Bit Number In Word</value>
+  </data>
+  <data name="DiscretMeasuringElement" xml:space="preserve">
+    <value>Discret Measuring</value>
+  </data>
+  <data name="IsReadingEnabled" xml:space="preserve">
+    <value>Reading Enabled</value>
+  </data>
+  <data name="IsWritingEnabled" xml:space="preserve">
+    <value>Writing Enabled</value>
+  </data>
+  <data name="ModbusFunction" xml:space="preserve">
+    <value>Modbus Function</value>
+  </data>
+  <data name="WriteSingleBitQuery" xml:space="preserve">
+    <value>Write Single Bit Query</value>
+  </data>
+  <data name="AddControlSignal" xml:space="preserve">
+    <value>Add Control Signal</value>
+  </data>
+  <data name="ControlSignal" xml:space="preserve">
+    <value>Control Signal</value>
+  </data>
+  <data name="ValueToWrite" xml:space="preserve">
+    <value>Value To Write</value>
+  </data>
+  <data name="CycleLoading" xml:space="preserve">
+    <value>Cycle Loading</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="ReadMeasuringSignalsQuery" xml:space="preserve">
+    <value>Read measuring signals query</value>
+  </data>
+  <data name="SetFalseBit" xml:space="preserve">
+    <value>Set False Bit</value>
+  </data>
+  <data name="SetTrueBit" xml:space="preserve">
+    <value>Set True Bit</value>
+  </data>
+  <data name="ValueDec" xml:space="preserve">
+    <value>Value (Dec)</value>
+  </data>
+  <data name="ValueHex" xml:space="preserve">
+    <value>Value (Hex)</value>
+  </data>
+  <data name="LoadingSequence" xml:space="preserve">
+    <value>Loading sequence</value>
+  </data>
+  <data name="OffsetLoadingSequence" xml:space="preserve">
+    <value>Offset loading sequence</value>
+  </data>
+  <data name="JournalReadingError" xml:space="preserve">
+    <value>Journal reading error</value>
+  </data>
+  <data name="AddDependentParameter" xml:space="preserve">
+    <value>Add dependent parameter</value>
+  </data>
+  <data name="AddParameterTag" xml:space="preserve">
+    <value>Add Parameter-Tag</value>
+  </data>
+  <data name="AddressOfOscillogram" xml:space="preserve">
+    <value>Address of oscillogram</value>
+  </data>
+  <data name="AddVariable" xml:space="preserve">
+    <value>Add variable</value>
+  </data>
+  <data name="BoolFormatterDescription" xml:space="preserve">
+    <value>If word value equals 0, return value will be true, else false.</value>
+  </data>
+  <data name="CountingStructure" xml:space="preserve">
+    <value>Counting structure</value>
+  </data>
+  <data name="FullPageLoading" xml:space="preserve">
+    <value>Full page loading</value>
+  </data>
+  <data name="LoadingParameters" xml:space="preserve">
+    <value>Loading Parameters</value>
+  </data>
+  <data name="NumberOfPointsInRecord" xml:space="preserve">
+    <value>Number of points in record</value>
+  </data>
+  <data name="Oscilloscope" xml:space="preserve">
+    <value>Oscilloscope</value>
+  </data>
+  <data name="OscilloscopeJournal" xml:space="preserve">
+    <value>Oscilloscope Journal</value>
+  </data>
+  <data name="OscilloscopeJournalLoadingSequence" xml:space="preserve">
+    <value>Oscilloscope journal loading sequence</value>
+  </data>
+  <data name="SourceParameter" xml:space="preserve">
+    <value>Source Parameter</value>
+  </data>
+  <data name="UshortToIntegerFormatter" xml:space="preserve">
+    <value>2 Words to Integer Formatter</value>
+  </data>
+  <data name="UshortToIntegerFormatterDescription" xml:space="preserve">
+    <value>Value of 2 words format into 1 value of integer type.</value>
+  </data>
+  <data name="OscillogramNotLoaded" xml:space="preserve">
+    <value>Oscillogram not loaded.</value>
+  </data>
+  <data name="MaxSizeOfRewritableOscillogramInMs" xml:space="preserve">
+    <value>Max size of re-writeable osc-m (ms)</value>
+  </data>
+  <data name="DefaultBitMaskFormatter" xml:space="preserve">
+    <value>Default bit mask formatter</value>
+  </data>
+  <data name="DefaultBitMaskFormatterDescription" xml:space="preserve">
+    <value>All bits in selected words wil be parsed in array if bits with signatures below (can be empty)</value>
+  </data>
+  <data name="DefaultProperty" xml:space="preserve">
+    <value>Default property</value>
+  </data>
+  <data name="OpenOscillogram" xml:space="preserve">
+    <value>Open oscillogram</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="AddSignature" xml:space="preserve">
+    <value>Add Signature</value>
+  </data>
+  <data name="DeleteSignature" xml:space="preserve">
+    <value>Delete signature</value>
+  </data>
+  <data name="IsLoaded" xml:space="preserve">
+    <value>Is loaded</value>
+  </data>
+  <data name="LoadSelectedOscillograms" xml:space="preserve">
+    <value>Load Selected Oscillograms</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="ProjectOpened" xml:space="preserve">
+    <value>Project Opened</value>
+  </data>
+  <data name="ProjectSaved" xml:space="preserve">
+    <value>Project Saved</value>
+  </data>
+  <data name="DefaultItemGroup" xml:space="preserve">
+    <value>Group of items</value>
+  </data>
+  <data name="SubProperty" xml:space="preserve">
+    <value>SubProperty</value>
+  </data>
+  <data name="BitMatrix" xml:space="preserve">
+    <value>Bit Matrix</value>
+  </data>
+  <data name="AppointableMatrix" xml:space="preserve">
+    <value>Appointable Matrix</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>Variables</value>
+  </data>
+  <data name="Bit" xml:space="preserve">
+    <value>Bit</value>
+  </data>
+  <data name="Word" xml:space="preserve">
+    <value>Word</value>
+  </data>
+  <data name="ValueSignatures" xml:space="preserve">
+    <value>Value Signatures</value>
+  </data>
+  <data name="PossibleValues" xml:space="preserve">
+    <value>Possible Values</value>
+  </data>
+  <data name="AddPossibleValue" xml:space="preserve">
+    <value>Add Possible Value</value>
+  </data>
+  <data name="BoolMatrixTemplate" xml:space="preserve">
+    <value>Boolean MatrixTemplate</value>
+  </data>
+  <data name="False" xml:space="preserve">
+    <value>False</value>
+  </data>
+  <data name="ListMatrixTemplate" xml:space="preserve">
+    <value>List Matrix Template</value>
+  </data>
+  <data name="MustBe" xml:space="preserve">
+    <value>Must Be</value>
+  </data>
+  <data name="NumberOfBitsOnEachVariable" xml:space="preserve">
+    <value>Number of bits on each variable</value>
+  </data>
+  <data name="True" xml:space="preserve">
+    <value>True</value>
+  </data>
+  <data name="BoolMatrixTemplateDescription" xml:space="preserve">
+    <value>Each variable is described by array of boolean values/</value>
+  </data>
+  <data name="ListMatrixTemplateDescription" xml:space="preserve">
+    <value>Each variable is described by array of values. Each value can be selected from list of possible.</value>
+  </data>
+  <data name="MatrixTemplate" xml:space="preserve">
+    <value>Matrix Template</value>
+  </data>
+  <data name="NumberOfSimbolsAfterComma" xml:space="preserve">
+    <value>Number of simbols after comma</value>
+  </data>
+  <data name="IsKeysAreNumbersOfBits" xml:space="preserve">
+    <value>Keys are numbers of bits</value>
+  </data>
+  <data name="IncreaseAddress" xml:space="preserve">
+    <value>Increase address</value>
+  </data>
+  <data name="AddMatrix" xml:space="preserve">
+    <value>Add matrix</value>
+  </data>
+  <data name="ArrangeBitsInOrder" xml:space="preserve">
+    <value>Arrange Bits In Order</value>
+  </data>
+  <data name="DecreaseAddress" xml:space="preserve">
+    <value>Decrease Address</value>
+  </data>
+  <data name="StringFormatter1251" xml:space="preserve">
+    <value>String formatter (1251)</value>
+  </data>
+  <data name="StringFormatter1251Description" xml:space="preserve">
+    <value>Formatting bytes from device into string (encoding 1251)</value>
+  </data>
+  <data name="Transpone" xml:space="preserve">
+    <value>Transpone</value>
+  </data>
+  <data name="ConnectionTesting" xml:space="preserve">
+    <value>Connection Testing</value>
+  </data>
+  <data name="ConnectionTestingDescription" xml:space="preserve">
+    <value>Select property to test connection. You can set expected value for this property to find out if connected device matches current description file.</value>
+  </data>
+  <data name="ExpectedValue" xml:space="preserve">
+    <value>Expected value</value>
+  </data>
+  <data name="PropertyForTest" xml:space="preserve">
+    <value>Property for test</value>
+  </data>
+  <data name="Interrogate" xml:space="preserve">
+    <value>Interrogate</value>
+  </data>
+  <data name="Interrogation" xml:space="preserve">
+    <value>Interrogation</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Property address</value>
+  </data>
+  <data name="Speed" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="DevicesNotFound" xml:space="preserve">
+    <value>Devices not found</value>
+  </data>
+  <data name="AnyDecimalDigitCharacterClassDescription" xml:space="preserve">
+    <value>\d               Matches any decimal digit.</value>
+  </data>
+  <data name="AnyWhiteSpaceCharacterClassDescription" xml:space="preserve">
+    <value>\s               Matches any white-space character.</value>
+  </data>
+  <data name="AnyWordCharacterClassDescription" xml:space="preserve">
+    <value>\w              Matches any word character.</value>
+  </data>
+  <data name="CharacterClass" xml:space="preserve">
+    <value>Character Class</value>
+  </data>
+  <data name="ExactlyNTimesQuantifierDescription" xml:space="preserve">
+    <value>{n}            Matches the previous element exactly n times.</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
+    <value>Ip Address</value>
+  </data>
+  <data name="OneOrMoreTimesQuantifierDescription" xml:space="preserve">
+    <value>+              Matches the previous element one or more times.</value>
+  </data>
+  <data name="Quantifier" xml:space="preserve">
+    <value>Quantifier</value>
+  </data>
+  <data name="ZeroOrMoreTimesQuantifierDescription" xml:space="preserve">
+    <value>*                Matches the previous element zero or more times.</value>
+  </data>
+  <data name="IsGroupedProperty" xml:space="preserve">
+    <value>Grouped Property</value>
+  </data>
+  <data name="FileBrowserDescription" xml:space="preserve">
+    <value>Add function of browsing file system of device.</value>
+  </data>
+  <data name="CurrentDirectory" xml:space="preserve">
+    <value>Current Directory</value>
+  </data>
+  <data name="Memory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="MultipleAssignmentAllowed" xml:space="preserve">
+    <value>Multiple assignment allowed</value>
+  </data>
+  <data name="ResetConditions" xml:space="preserve">
+    <value>Reset conditions</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="ProgrammingEditorDescription" xml:space="preserve">
+    <value>Programming editor</value>
+  </data>
+  <data name="Programming" xml:space="preserve">
+    <value>Programming</value>
+  </data>
+  <data name="VersionStringExample" xml:space="preserve">
+    <value>Example: MR 5 N\d* VERSION 70.\d</value>
+  </data>
+</root>

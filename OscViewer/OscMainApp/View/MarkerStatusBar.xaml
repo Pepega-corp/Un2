@@ -1,0 +1,101 @@
+﻿<UserControl
+    x:Class="Oscilloscope.View.MarkerStatusBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Bar"
+    Width="550"
+    Height="47"
+    Background="White"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+
+        <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+
+        <Label
+            Margin="12,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Маркер 1"
+            Foreground="#FF00005a" />
+        <TextBox
+            x:Name="Marker1Tb"
+            Width="60"
+            Height="23"
+            Margin="80,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Foreground="#FF00005a"
+            KeyDown="Marker1Tb_KeyDown"
+            PreviewTextInput="Marker1Tb_PreviewTextInput"
+            Style="{StaticResource textBoxInError}"
+            TextWrapping="Wrap">
+            <TextBox.Text>
+                <Binding
+                    Mode="OneWayToSource"
+                    Path="Tag"
+                    RelativeSource="{RelativeSource Self}"
+                    UpdateSourceTrigger="PropertyChanged" />
+            </TextBox.Text>
+        </TextBox>
+        <Label
+            Margin="145,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="мс" />
+
+        <Label
+            Margin="190,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Маркер 2"
+            Foreground="#FF820000" />
+        <TextBox
+            x:Name="Marker2Tb"
+            Width="60"
+            Height="23"
+            Margin="258,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Foreground="#FF820000"
+            KeyDown="Marker2Tb_KeyDown"
+            PreviewTextInput="Marker1Tb_PreviewTextInput"
+            Style="{StaticResource textBoxInError}"
+            TextWrapping="Wrap">
+            <TextBox.Text>
+                <Binding
+                    Mode="OneWayToSource"
+                    Path="Tag"
+                    RelativeSource="{RelativeSource Self}"
+                    UpdateSourceTrigger="PropertyChanged" />
+            </TextBox.Text>
+        </TextBox>
+        <Label
+            Margin="323,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="мс" />
+
+        <Label
+            Margin="406,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="&#x0394; =" />
+        <TextBlock
+            x:Name="DeltaTb"
+            Margin="435,16,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            TextWrapping="Wrap" />
+
+    </Grid>
+</UserControl>

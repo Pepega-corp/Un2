@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{944258B7-607D-4DE3-B161-D80A89C825AD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Unicon2.Fragments.FileOperations</RootNamespace>
+    <AssemblyName>Unicon2.Fragments.FileOperations</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WPFLocalizeExtension, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WPFLocalizeExtension.3.3.1\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="XAMLMarkupExtensions, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.5.1\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Factories\BrowserElementFactory.cs" />
+    <Compile Include="Factories\BrowserElementViewModelFactory.cs" />
+    <Compile Include="FileOperations\CommandSender.cs" />
+    <Compile Include="FileOperations\CommandStateReader.cs" />
+    <Compile Include="FileOperations\FileDataReader.cs" />
+    <Compile Include="FileOperations\FileDataWriter.cs" />
+    <Compile Include="FileOperations\FileDriver.cs" />
+    <Compile Include="Model\BrowserElements\BrowserElementBase.cs" />
+    <Compile Include="Model\BrowserElements\DeviceDirectory.cs" />
+    <Compile Include="Model\BrowserElements\DeviceFile.cs" />
+    <Compile Include="Model\FileBrowser.cs" />
+    <Compile Include="Model\Loaders\DirectoryLoader.cs" />
+    <Compile Include="Model\Loaders\FileLoader.cs" />
+    <Compile Include="Module\FileOperationsModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemplateSelectors\TreeDataTemplatesSelector.cs" />
+    <Compile Include="ViewModel\BrowserElementViewModelBase.cs" />
+    <Compile Include="ViewModel\DeviceDirectoryViewModel.cs" />
+    <Compile Include="ViewModel\DeviceFileViewModel.cs" />
+    <Compile Include="ViewModel\FileBrowserViewModel.cs" />
+    <Compile Include="View\NewDirectoryWindow.xaml.cs">
+      <DependentUpon>NewDirectoryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FileBrowserView.xaml.cs">
+      <DependentUpon>FileBrowserView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
+      <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>
+      <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+      <Project>{EF9BF685-16AA-4942-A33C-D65562BD4215}</Project>
+      <Name>Unicon2.Presentation.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Unicon2.Unity\Unicon2.Unity.csproj">
+      <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
+      <Name>Unicon2.Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Fragments.FileOperations.Infrastructure\Unicon2.Fragments.FileOperations.Infrastructure.csproj">
+      <Project>{04BC9301-24B1-487A-AB74-BBCEF3EFECC7}</Project>
+      <Name>Unicon2.Fragments.FileOperations.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\FileOperationsTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\NewDirectoryWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FileBrowserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

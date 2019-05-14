@@ -1,0 +1,91 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter"
+    xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors"
+    xmlns:device="clr-namespace:Unicon2.Presentation.ViewModels.Device;assembly=Unicon2.Presentation"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com">
+
+    <converter:IgnoringFailedLocalizationConverter x:Key="IgnoringFailedLocalizationConverter" />
+    <converter:EnumMatchToBooleanConverter x:Key="EnumMatchToBooleanConverter" />
+    <converter:IsConnectedToIconConverter x:Key="IsConnectedToIconConverter" />
+    <converter:BoolToVisConverter x:Key="BoolToVisConverter" />
+    <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector x:Key="ValuesDataTemplateSelector" />
+
+    <DataTemplate x:Key="DeviceTreeTemplate" DataType="{x:Type device:DeviceViewModel}">
+        <TreeViewItem ItemsSource="{Binding FragmentViewModels}">
+            <TreeViewItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="2" Text="{Binding DeviceSignature}">
+                        <TextBlock.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{lex:Loc Logging}">
+                                    <StackPanel Orientation="Vertical">
+                                        <CheckBox
+                                            Margin="3"
+                                            Content="{lex:Loc Errors}"
+                                            IsChecked="{Binding DeviceLoggerViewModel.IsErrorsLoggingEnabled}" />
+                                        <CheckBox
+                                            Margin="3"
+                                            Content="{lex:Loc Info}"
+                                            IsChecked="{Binding DeviceLoggerViewModel.IsInfoMessagesLoggingEnabled}" />
+                                        <CheckBox
+                                            Margin="3"
+                                            Content="{lex:Loc SuccessfulQueries}"
+                                            IsChecked="{Binding DeviceLoggerViewModel.IsSuccessfulQueriesLoggingEnabled}" />
+                                        <CheckBox
+                                            Margin="3"
+                                            Content="{lex:Loc FailedQueries}"
+                                            IsChecked="{Binding DeviceLoggerViewModel.IsFailedQueriesLoggingEnabled}" />
+                                    </StackPanel>
+                                </MenuItem>
+
+                                <MenuItem Header="{lex:Loc DeviceSignature}">
+                                    <TextBox MinWidth="100" Text="{Binding DeviceSignature, UpdateSourceTrigger=PropertyChanged}" />
+                                </MenuItem>
+                                <MenuItem Command="{Binding NavigateToDeviceEditingCommand}" Header="{lex:Loc ConnectionSettings}" />
+                                <MenuItem Command="{Binding DeleteSelectedDeviceCommand}" Header="{lex:Loc DeleteDevice}" />
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
+                    <Image
+                        Width="20"
+                        Height="20"
+                        Margin="20,0,0,0"
+                        Source="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource IsConnectedToIconConverter}}">
+
+                        <Image.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding ConnectionStateViewModel.CheckConnectionCommand}" Header="{lex:Loc CheckConnection}" />
+                            </ContextMenu>
+                        </Image.ContextMenu>
+                        <Image.ToolTip>
+                            <ContentControl
+                                Content="{Binding ConnectionStateViewModel.TestValueViewModel}"
+                                ContentTemplateSelector="{StaticResource ValuesDataTemplateSelector}"
+                                Visibility="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource BoolToVisConverter}}" />
+                        </Image.ToolTip>
+                    </Image>
+                </StackPanel>
+            </TreeViewItem.Header>
+            <TreeViewItem.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <lex:LocProxy Name="FragmentNameProxy" Source="{Binding NameForUiKey}" />
+                        <TextBlock Text="{Binding ElementName=FragmentNameProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}">
+                            <TextBlock.InputBindings>
+                                <MouseBinding
+                                    Command="{Binding ElementName=MainWindow, Path=DataContext.AddNewFragmentCommand}"
+                                    CommandParameter="{Binding}"
+                                    Gesture="LeftDoubleClick"
+                                    MouseAction="LeftDoubleClick" />
+                            </TextBlock.InputBindings>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </TreeViewItem.ItemTemplate>
+        </TreeViewItem>
+    </DataTemplate>
+
+
+</ResourceDictionary>

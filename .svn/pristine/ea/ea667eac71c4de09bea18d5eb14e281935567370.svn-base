@@ -1,0 +1,132 @@
+﻿<UserControl x:Class="Unicon2.Connections.ModBusRtuConnection.Views.ComPortConfigurationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Unicon2.Connections.ModBusRtuConnection.Views"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        mc:Ignorable="d"
+        Name="comPortConfigurationView" Height="300" Width="300">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBlock
+                Margin="8"
+                Style="{DynamicResource DialogFormHeadingStyle}"
+                Text="{lex:Loc ComPortConfiguration}" />
+            <Grid>
+                <UniformGrid Columns="2">
+
+
+
+                    <Label
+                        Margin="2"
+                        Content="{lex:Loc BaudRate}"
+                        Target="BaudRatesComboBox" />
+                    <ComboBox
+                        Name="BaudRatesComboBox"
+                        Margin="2"
+                        ItemsSource="{Binding BaudRates}"
+                        SelectedItem="{Binding SelectedBaudRate,UpdateSourceTrigger=PropertyChanged}" />
+
+
+
+                    <Label
+                        Margin="2"
+                        Content="{lex:Loc DataBits}"
+                        Target="databitsComboBox" />
+                    <ComboBox
+                        Name="databitsComboBox"
+                        Margin="2"
+                        ItemsSource="{Binding DataBitsCollection}"
+                        SelectedItem="{Binding SelectedDataBits,UpdateSourceTrigger=PropertyChanged}" />
+
+
+                    <Label
+                        Margin="2"
+                        Content="{lex:Loc StopBits}"
+                        Target="stopbitsComboBox" />
+                    <ComboBox
+                        Name="stopbitsComboBox"
+                        Margin="2"
+                        ItemsSource="{Binding StopBitsCollection}"
+                        SelectedItem="{Binding SelectedStopBits}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <lex:LocProxy
+                                        x:Name="StopBitsProxy"
+                                        PrependType="True"
+                                        Source="{Binding}" />
+                                    <TextBlock FontWeight="Normal" Text="{Binding Result,UpdateSourceTrigger=PropertyChanged, ElementName=StopBitsProxy}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+
+                    <Label
+                        Margin="2"
+                        Content="{lex:Loc Parity}"
+                        Target="ParityComboBox" />
+                    <ComboBox
+                        Name="ParityComboBox"
+                        Margin="2"
+                        ItemsSource="{Binding ParityCollection}"
+                        SelectedItem="{Binding SelectedParity}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <lex:LocProxy
+                                        x:Name="ParityProxy"
+                                        PrependType="True"
+                                        Source="{Binding}" />
+                                    <TextBlock FontWeight="Normal" Text="{Binding Result,UpdateSourceTrigger=PropertyChanged, ElementName=ParityProxy}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+
+                    <Label
+                        Margin="2"
+                        Content="{lex:Loc WaitAnswer}"
+                        Target="WaitAnswerTextBox" />
+                    <TextBox
+                        Name="WaitAnswerTextBox"
+                        Margin="2"
+                        Text="{Binding WaitAnswer,UpdateSourceTrigger=PropertyChanged}" />
+
+
+                    <Label
+                        Margin="2"
+                        Content="{lex:Loc WaitByte}"
+                        Target="WaitByteTextBox" />
+                    <TextBox
+                        Name="WaitByteTextBox"
+                        Margin="2"
+                        Text="{Binding WaitByte,UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!--<Label
+                        Margin="2"
+                        Content="{lex:Loc OnTransmission}"
+                        Target="OnTransmissionTextBox" />
+                    <TextBox
+                        Name="OnTransmissionTextBox"
+                        Margin="2"
+                        Text="{Binding OnTransmission}" />
+
+                    <Label
+                        Margin="2"
+                        Content="{lex:Loc OffTransmission}"
+                        Target="OffTransmissionTextBox" />
+                    <TextBox
+                        Name="OffTransmissionTextBox"
+                        Margin="2"
+                        Text="{Binding OffTramsmission}" />-->
+                </UniformGrid>
+            </Grid>
+
+
+        </StackPanel>
+    </Grid>
+</UserControl>

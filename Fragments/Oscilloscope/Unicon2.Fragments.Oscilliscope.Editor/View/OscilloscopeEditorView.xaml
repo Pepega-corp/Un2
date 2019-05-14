@@ -1,0 +1,307 @@
+﻿<UserControl
+    x:Class="Unicon2.Fragments.Oscilliscope.Editor.View.OscilloscopeEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:oscillogramLoadingParameters="clr-namespace:Unicon2.Fragments.Oscilliscope.Editor.Interfaces.OscillogramLoadingParameters"
+    xmlns:views="clr-namespace:Unicon2.Fragments.Journals.Editor.Views;assembly=Unicon2.Fragments.Journals.Editor"
+    d:DesignHeight="600"
+    d:DesignWidth="900"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <controls:MetroAnimatedTabControl>
+            <controls:MetroAnimatedTabControl.Items>
+                <TabItem Header="{lex:Loc OscilloscopeJournal}" IsSelected="{Binding IsOscilloscopeJournalTabSelected}">
+                    <views:JournalsEditorView DataContext="{Binding OscilloscopeJournalEditorViewModel}" />
+                </TabItem>
+                <TabItem DataContext="{Binding OscillogramLoadingParametersEditorViewModel}" Header="{lex:Loc LoadingParameters}">
+                    <StackPanel Width="500" HorizontalAlignment="Left">
+                        <UniformGrid Columns="2">
+                            <TextBlock Margin="5" Text="{lex:Loc AddressOfOscillogram}" />
+                            <TextBox Margin="5" Text="{Binding AddressOfOscillogram}" />
+                            <TextBlock Margin="5" Text="{lex:Loc MaxSizeOfRewritableOscillogramInMs}" />
+                            <TextBox Margin="5" Text="{Binding MaxSizeOfRewritableOscillogramInMs}" />
+                            <CheckBox
+                                Margin="5"
+                                Content="{lex:Loc FullPageLoading}"
+                                IsChecked="{Binding IsFullPageLoading}" />
+                        </UniformGrid>
+                        <Button
+                            Width="150"
+                            Margin="10"
+                            Command="{Binding AddTagCommand}"
+                            Content="{lex:Loc AddVariable}"
+                            Style="{DynamicResource UniconButtonStyle}" />
+                        <ListBox Name="TagsEditorListBox" ItemsSource="{Binding OscilloscopeTagEditorViewModels}">
+
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="oscillogramLoadingParameters:IOscilloscopeTagEditorViewModel">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem
+                                                    Command="{Binding Source={x:Reference TagsEditorListBox}, Path=DataContext.DeleteTagCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    Header="{lex:Loc Delete}" />
+                                            </ContextMenu>
+                                        </Grid.ContextMenu>
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                            <TextBlock Margin="5" Text="{lex:Loc SourceParameter}" />
+                                            <ComboBox
+                                                Margin="5"
+                                                ItemsSource="{Binding AvailableJournalParameters}"
+                                                SelectedItem="{Binding SelectedJournalParameter}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <TextBlock Margin="5" Text="{lex:Loc Name}" />
+                                            <ComboBox
+                                                Margin="5"
+                                                ItemsSource="{Binding AvailableTags}"
+                                                SelectedItem="{Binding SelectedTag}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem DataContext="{Binding CountingTemplateEditorViewModel}" Header="{lex:Loc CountingStructure}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+
+                            <GroupBox Margin="0" Header="{lex:Loc General}">
+                                <StackPanel>
+                                    <Button
+                                        Margin="3"
+                                        Command="{Binding AddRecordParameterCommand}"
+                                        Content="{lex:Loc AddRecordParameter}"
+                                        Style="{DynamicResource UniconButtonStyle}" />
+                                    <Button
+                                        Margin="3"
+                                        Command="{Binding AddComplexRecordParameterCommand}"
+                                        Content="{lex:Loc AddComplexRecordParameter}"
+                                        Style="{DynamicResource UniconButtonStyle}" />
+                                    <Button
+                                        Margin="3"
+                                        Command="{Binding AddDependentParameterCommand}"
+                                        Content="{lex:Loc AddDependentParameter}"
+                                        Style="{DynamicResource UniconButtonStyle}" />
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox
+                                Margin="0"
+                                VerticalAlignment="Top"
+                                Header="{lex:Loc CurrentItem}">
+                                <StackPanel Margin="0">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button
+                                            Grid.Column="0"
+                                            Margin="3"
+                                            Command="{Binding SetElementUpCommand}"
+                                            Style="{DynamicResource UniconButtonStyle}">
+                                            <Rectangle
+                                                Width="18"
+                                                Height="15"
+                                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_up}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                        <Button
+                                            Name="EditElementButton"
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            HorizontalAlignment="Stretch"
+                                            Command="{Binding EditElementCommand}"
+                                            Content="{lex:Loc Edit}"
+                                            Style="{DynamicResource UniconButtonStyle}" />
+
+
+                                        <Button
+                                            Grid.Column="2"
+                                            Margin="3"
+                                            Command="{Binding SetElementDownCommand}"
+                                            Style="{DynamicResource UniconButtonStyle}">
+                                            <Rectangle
+                                                Width="18"
+                                                Height="15"
+                                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_down}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+
+                                        </Button>
+
+                                    </Grid>
+                                    <!--<Button
+                                Margin="3"
+                                HorizontalAlignment="Stretch"
+                                Command="{Binding AddSubParameterCommand}"
+                                Content="{lex:Loc AddSubParameter}"
+                                Style="{DynamicResource UniconButtonStyle}" />-->
+                                    <Button
+                                        Margin="3"
+                                        Command="{Binding DeleteElementCommand}"
+                                        Content="{lex:Loc Delete}"
+                                        Style="{DynamicResource UniconButtonStyle}" />
+                                    <UniformGrid Columns="2" Visibility="Collapsed">
+                                        <Button
+                                            Margin="3"
+                                            Command="{Binding CopyElementCommand}"
+                                            Content="{lex:Loc Copy}"
+                                            Style="{DynamicResource UniconButtonStyle}" />
+
+                                        <Button
+                                            Margin="3"
+                                            Command="{Binding PasteAsChildElementCommand}"
+                                            Content="{lex:Loc Paste}"
+                                            Style="{DynamicResource UniconButtonStyle}"
+                                            ToolTip="{lex:Loc PasteAsChild}" />
+                                    </UniformGrid>
+
+                                    <Button
+                                        Margin="3"
+                                        Command="{Binding ShowFormatterParametersCommand}"
+                                        Content="{lex:Loc FormatterParameters}"
+                                        Style="{DynamicResource UniconButtonStyle}" />
+
+                                    <ToggleButton
+                                        Margin="3"
+                                        Content="{lex:Loc MeasureUnit}"
+                                        IsChecked="{Binding SelectedJournalParameterEditorViewModel.IsMeasureUnitEnabled}"
+                                        IsEnabled="{Binding SelectedJournalParameterEditorViewModel, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IMeasurable}"
+                                        Style="{DynamicResource UniconToggleButtonStyle}" />
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+
+
+                        <Grid Name="ConfigGrid" Grid.Column="1">
+                            <Grid
+                                Name="dummygrid"
+                                Width="{Binding ElementName=ConfigGrid, Path=ActualWidth}"
+                                Visibility="Hidden">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                    <ColumnDefinition Width="0.4*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Name="dummywidthName" Grid.Column="0" />
+                                <Border Name="dummywidthAdress" Grid.Column="1" />
+                                <Border Name="dummywidthNumberOfPoints" Grid.Column="2" />
+                                <Border Name="dummywidthFormatting" Grid.Column="3" />
+                                <Border Name="dummywidthMeasureUnit" Grid.Column="4" />
+
+                            </Grid>
+                        </Grid>
+
+                        <ListView
+                            Name="ConfigListView"
+                            Grid.Column="1"
+                            MaxHeight="600"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            BorderThickness="0"
+                            ItemsSource="{Binding Path=AllJournalParameterEditorViewModels}"
+                            SelectedItem="{Binding Path=SelectedJournalParameterEditorViewModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                            <ListView.View>
+                                <GridView>
+                                    <GridView.Columns>
+                                        <GridViewColumn Width="{Binding ElementName=dummywidthName, Path=ActualWidth}" Header="{lex:Loc Name}">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBox
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            Style="{DynamicResource EditableFieldBoxStyle}"
+                                                            Text="{Binding Header}" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Width="{Binding ElementName=dummywidthAdress, Path=ActualWidth}" Header="{lex:Loc Address}">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Style="{DynamicResource EditableFieldBoxStyle}" Text="{Binding Address}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="{Binding ElementName=dummywidthNumberOfPoints, Path=ActualWidth}" Header="{lex:Loc NumberOfPoints}">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Style="{DynamicResource EditableNumericFieldStyle}" Text="{Binding NumberOfPoints}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="{Binding ElementName=dummywidthFormatting, Path=ActualWidth}" Header="{lex:Loc Formatting}">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel
+                                                        HorizontalAlignment="Stretch"
+                                                        controls:VisibilityHelper.IsCollapsed="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IComplexJournalParameterEditorViewModel}"
+                                                        Orientation="Horizontal">
+                                                        <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
+                                                        <TextBlock Margin="3" Text="{Binding ElementName=formatterProxy, Path=Result}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="{Binding ElementName=dummywidthMeasureUnit, Path=ActualWidth}" Header="{lex:Loc MeasureUnit}">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <TextBox
+                                                            Style="{DynamicResource EditableFieldBoxStyle}"
+                                                            Text="{Binding MeasureUnit}"
+                                                            Visibility="{Binding IsMeasureUnitEnabled, Converter={converter:BoolToVisConverter}}" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView.Columns>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+
+            </controls:MetroAnimatedTabControl.Items>
+        </controls:MetroAnimatedTabControl>
+    </Grid>
+</UserControl>
+

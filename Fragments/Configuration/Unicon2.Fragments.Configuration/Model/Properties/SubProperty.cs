@@ -1,0 +1,110 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.Interfaces;
+
+namespace Unicon2.Fragments.Configuration.Model.Properties
+{
+    [DataContract(Namespace = "SubPropertyNS", Name = nameof(SubProperty), IsReference = true)]
+
+    public class SubProperty : DefaultProperty, ISubProperty
+    {
+        private IComplexProperty _complexProperty;
+
+        public SubProperty(Func<IRange> range) : base(range)
+        {
+            this.BitNumbersInWord = new List<int>();
+        }
+
+
+        #region Implementation of ISubProperty
+
+        public void SetParent(IComplexProperty complexProperty)
+        {
+            this._complexProperty = complexProperty;
+            this._complexProperty.ConfigurationItemChangedAction += this.OnParentsPropertyValueChanged;
+        }
+
+        private void OnParentsPropertyValueChanged()
+        {
+            if (this._complexProperty.DeviceUshortsValue != null)
+            {
+                this.DeviceUshortsValue = this.GetUshortValueFromParentsValue(this._complexProperty.DeviceUshortsValue);
+            }
+            if (this._complexProperty.LocalUshortsValue != null)
+            {
+                this.LocalUshortsValue = this.GetUshortValueFromParentsValue(this._complexProperty.LocalUshortsValue);
+            }
+            this.ConfigurationItemChangedAction?.Invoke();
+        }
+
+
+        private ushort[] GetUshortValueFromParentsValue(ushort[] parentUshorts)
+        {
+            bool[] bools = new bool[this.BitNumbersInWord.Count];
+            BitArray bitArray = new BitArray(new int[] { parentUshorts[0] });
+            int index = 0;
+            foreach (int bitNum in this.BitNumbersInWord)
+            {
+                bools[index] = bitArray[bitNum];
+                index++;
+            }
+            return new[] { (ushort)(new BitArray(bools).GetIntFromBitArray()) };
+        }
+
+
+
+        [DataMember]
+        public List<int> BitNumbersInWord { get; set; }
+
+        public Action LocalValueChanged { get; set; }
+
+        #endregion
+
+
+        #region Overrides of DefaultProperty
+
+        public override string StrongName => ConfigurationKeys.SUB_PROPERTY;
+
+
+
+        public override async Task Load()
+        {
+            //напрямую не загружать
+        }
+
+
+        public override async Task<bool> Write()
+        {
+            //напрямую не записывать
+            return false;
+        }
+
+
+        #region Overrides of DefaultProperty
+
+        protected override IConfigurationItem OnCloning()
+        {
+            SubProperty subProperty = new SubProperty(this._rangeGetFunc);
+            subProperty.UshortsFormatter = this.UshortsFormatter;
+            subProperty.Address = this.Address;
+            subProperty.NumberOfPoints = this.NumberOfPoints;
+            subProperty.MeasureUnit = this.MeasureUnit;
+            subProperty.IsMeasureUnitEnabled = this.IsMeasureUnitEnabled;
+            subProperty.Range = this.Range.Clone() as IRange;
+            subProperty.IsRangeEnabled = this.IsRangeEnabled;
+            this.BitNumbersInWord.ForEach((i => subProperty.BitNumbersInWord.Add(i)));
+            return subProperty;
+        }
+
+        #endregion
+
+        #endregion
+    }
+}

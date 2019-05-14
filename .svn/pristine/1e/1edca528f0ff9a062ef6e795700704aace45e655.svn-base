@@ -1,0 +1,32 @@
+﻿<UserControl
+    x:Class="Oscilloscope.View.FrequencyChartItem.FrequencyChartPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem
+                x:Name="ActiveMenuItem"
+                Click="ActiveMenuItem_Click"
+                Header="Настройки" />
+            <MenuItem x:Name="ChannelMenu" Header="Каналы">
+                <MenuItem Click="MenuItem_Click_1" Header="Показать всё" />
+                <MenuItem Click="MenuItem_Click_2" Header="Скрыть всё" />
+                <Separator />
+            </MenuItem>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <ScrollViewer
+        x:Name="viewer"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+
+        <WrapPanel x:Name="MainPanel" Background="White" />
+
+
+    </ScrollViewer>
+</UserControl>

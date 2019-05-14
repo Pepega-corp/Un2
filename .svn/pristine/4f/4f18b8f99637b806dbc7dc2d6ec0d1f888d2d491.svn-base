@@ -1,0 +1,58 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interfaces="clr-namespace:Unicon2.Fragments.Journals.Editor.Interfaces"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:loadingSequence="clr-namespace:Unicon2.Fragments.Journals.Editor.Interfaces.LoadingSequence"
+    xmlns:views="clr-namespace:Unicon2.Fragments.Journals.Editor.Views">
+
+
+    <DataTemplate x:Key="UniconJournalEditorViewModelDataTemplate" DataType="{x:Type interfaces:IUniconJournalEditorViewModel}">
+        <views:JournalsEditorView />
+    </DataTemplate>
+
+    <DataTemplate x:Key="OffsetLoadingSequenceEditorViewModelDataTemplate" DataType="{x:Type loadingSequence:IOffsetLoadingSequenceEditorViewModel}">
+
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <UniformGrid Columns="2">
+
+                <TextBlock Margin="5" Text="{lex:Loc StartAddress}" />
+                <TextBox
+                    MinWidth="150"
+                    Margin="5"
+                    Text="{Binding JournalStartAddress}" />
+                <TextBlock Margin="5" Text="{lex:Loc NumberOfRecords}" />
+                <TextBox
+                    MinWidth="150"
+                    Margin="5"
+                    Text="{Binding NumberOfRecords}" />
+                <TextBlock Margin="5" Text="{lex:Loc RecordsNumberOfPoints}" />
+                <TextBox
+                    MinWidth="150"
+                    Margin="5"
+                    Text="{Binding NumberOfPointsInRecord}" />
+            </UniformGrid>
+            <CheckBox
+                Margin="5"
+                Content="{lex:Loc WordFormatNotForTheWholeRecord}"
+                IsChecked="{Binding IsWordFormatNotForTheWholeRecord}" />
+            <StackPanel IsEnabled="{Binding IsWordFormatNotForTheWholeRecord}" Orientation="Horizontal">
+                <TextBlock Margin="5" Text="{lex:Loc WordFormatFrom}" />
+                <TextBox
+                    MinWidth="50"
+                    Margin="5"
+                    Text="{Binding WordFormatFrom}" />
+                <TextBlock Margin="5" Text="{lex:Loc To}" />
+                <TextBox
+                    MinWidth="50"
+                    Margin="5"
+                    Text="{Binding WordFormatTo}" />
+            </StackPanel>
+
+        </StackPanel>
+
+
+    </DataTemplate>
+
+
+</ResourceDictionary>

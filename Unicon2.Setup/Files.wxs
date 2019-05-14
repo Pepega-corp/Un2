@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <DirectoryRef Id="INSTALLFOLDER" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug">
+      <Component Id="ProductComponent" Guid="b11556a2-e066-4393-af5c-9c9210187228">
+        <!-- Nugets and other DLL  -->
+        <File Id='ControlzEx' DiskId='1' Name='ControlzEx.dll'/>
+        <File Id='Fluent' DiskId='1' Name='Fluent.dll'/>
+        <File Id='FluentValidation' DiskId='1' Name='FluentValidation.dll'/>
+        <File Id='GongSolutionsWPFDragDrop' DiskId='1' Name='GongSolutions.WPF.DragDrop.dll'/>
+        <File Id='MahAppsMetro' DiskId='1' Name='MahApps.Metro.dll'/>
+        <File Id='MathParserorgmXparserNet45' DiskId='1' Name='MathParser.org-mXparser.dll'/>
+        <File Id='MicrosoftExpressionDrawing' DiskId='1' Name='Microsoft.Expression.Drawing.dll'/>
+        <File Id='UnityAbstractions' DiskId='1' Name='Unity.Abstractions.dll'/>
+        <File Id='UnityContainer' DiskId='1' Name='Unity.Container.dll'/>
+        <File Id='CommonServiceLocator' DiskId='1' Name='CommonServiceLocator.dll'/>
+        <File Id='PrismUnityWpf' DiskId='1' Name='Prism.Unity.Wpf.dll'/>
+        <File Id='PrismWpf' DiskId='1' Name='Prism.Wpf.dll'/>
+        <File Id='Prism' DiskId='1' Name='Prism.dll'/>
+        <File Id='SystemWindows.Interactivity' DiskId='1' Name='System.Windows.Interactivity.dll'/>
+        <File Id='WPFLocalizeExtension' DiskId='1' Name='WPFLocalizeExtension.dll'/>
+        <File Id='XAMLMarkupExtensions' DiskId='1' Name='XAMLMarkupExtensions.dll'/>
+        <File Id='XceedWpfAvalonDock' DiskId='1' Name='Xceed.Wpf.AvalonDock.dll'/>
+        <File Id='XceedWpfAvalonDockThemesMetro' DiskId='1' Name='Xceed.Wpf.AvalonDock.Themes.Metro.dll'/>
+        <!-- Project files -->
+        <File Id='Shell' DiskId='1' Name='Unicon2.Shell.exe'/>
+        <File Id='NLogConfig' DiskId='1' Name='NLog.config'/>
+        <File Id='NLog' DiskId='1' Name='NLog.dll'/>
+        <File Id='NModbus4' DiskId='1' Name='NModbus4.dll'/>
+        <File Id='NModbus4Serial' DiskId='1' Name='NModbus4.Serial.dll'/>
+        <File Id='Oscilloscope' DiskId='1' Name='Oscilloscope.exe'/>
+        <File Id='Oscilloscopeexexml' DiskId='1' Name='Oscilloscope.exe.config'/>
+        <File Id='Unicon2Connections.DataProvider' DiskId='1' Name='Unicon2.Connections.DataProvider.dll'/>
+        <File Id='Unicon2Connections.ModBusRtuConnection' DiskId='1' Name='Unicon2.Connections.ModBusRtuConnection.dll'/>
+        <File Id='Unicon2ConnectionsModBusTcpConnection' DiskId='1' Name='Unicon2.Connections.ModBusTcpConnection.dll'/>
+        <File Id='Unicon2Connections.OfflineConnection' DiskId='1' Name='Unicon2.Connections.OfflineConnection.dll'/>
+        <File Id='Unicon2DeviceEditorUtilityModule' DiskId='1' Name='Unicon2.DeviceEditorUtilityModule.dll'/>
+        <File Id='Unicon2Formatting' DiskId='1' Name='Unicon2.Formatting.dll'/>
+        <File Id='Unicon2FormattingEditor' DiskId='1' Name='Unicon2.Formatting.Editor.dll'/>
+        <File Id='Unicon2FormattingInfrastructure' DiskId='1' Name='Unicon2.Formatting.Infrastructure.dll'/>
+        <File Id='Unicon2FragmentsConfiguration' DiskId='1' Name='Unicon2.Fragments.Configuration.dll'/>
+        <File Id='Unicon2FragmentsConfigurationEditor' DiskId='1' Name='Unicon2.Fragments.Configuration.Editor.dll'/>
+        <File Id='Unicon2FragmentsConfigurationInfrastructure' DiskId='1' Name='Unicon2.Fragments.Configuration.Infrastructure.dll'/>
+        <File Id='Unicon2FragmentsConfigurationMatrix' DiskId='1' Name='Unicon2.Fragments.Configuration.Matrix.dll'/>
+        <File Id='Unicon2FragmentsJournals' DiskId='1' Name='Unicon2.Fragments.Journals.dll'/>
+        <File Id='Unicon2FragmentsJournalsEditor' DiskId='1' Name='Unicon2.Fragments.Journals.Editor.dll'/>
+        <File Id='Unicon2FragmentsJournalsInfrastructure' DiskId='1' Name='Unicon2.Fragments.Journals.Infrastructure.dll'/>
+        <File Id='Unicon2FragmentsMeasuring' DiskId='1' Name='Unicon2.Fragments.Measuring.dll'/>
+        <File Id='Unicon2FragmentsMeasuringEditor' DiskId='1' Name='Unicon2.Fragments.Measuring.Editor.dll'/>
+        <File Id='Unicon2FragmentsMeasuringInfrastructure' DiskId='1' Name='Unicon2.Fragments.Measuring.Infrastructure.dll'/>
+        <File Id='Unicon2FragmentsModbusMemory' DiskId='1' Name='Unicon2.Fragments.ModbusMemory.dll'/>
+        <File Id='Unicon2FragmentsModbusMemoryInfrastructure' DiskId='1' Name='Unicon2.Fragments.ModbusMemory.Infrastructure.dll'/>
+        <File Id='Unicon2FragmentsOscilliscope' DiskId='1' Name='Unicon2.Fragments.Oscilliscope.dll'/>
+        <File Id='Unicon2FragmentsOscilliscopeEditor' DiskId='1' Name='Unicon2.Fragments.Oscilliscope.Editor.dll'/>
+        <File Id='Unicon2FragmentsOscilliscopeInfrastructure' DiskId='1' Name='Unicon2.Fragments.Oscilliscope.Infrastructure.dll'/>
+        <File Id='Unicon2FragmentsProgramming' DiskId='1' Name='Unicon2.Fragments.Programming.dll'/>
+        <File Id='Unicon2FragmentsProgrammingEditor' DiskId='1' Name='Unicon2.Fragments.Programming.Editor.dll'/>
+        <File Id='Unicon2FragmentsProgrammingInfrastructure' DiskId='1' Name='Unicon2.Fragments.Programming.Infrastructure.dll'/>
+        <File Id='Unicon2Infrastructure' DiskId='1' Name='Unicon2.Infrastructure.dll'/>
+        <File Id='Unicon2Localization' DiskId='1' Name='Unicon2.Localization.dll'/>
+        <File Id='Unicon2Model' DiskId='1' Name='Unicon2.Model.dll'/>
+        <File Id='Unicon2ModuleDeviceEditing' DiskId='1' Name='Unicon2.ModuleDeviceEditing.dll'/>
+        <File Id='Unicon2Presentation' DiskId='1' Name='Unicon2.Presentation.dll'/>
+        <File Id='Unicon2Presentation.Infrastructure' DiskId='1' Name='Unicon2.Presentation.Infrastructure.dll'/>
+        <File Id='Unicon2Services' DiskId='1' Name='Unicon2.Services.dll'/>
+        <File Id='Unicon2SharedResources' DiskId='1' Name='Unicon2.SharedResources.dll'/>
+        <File Id='Unicon2PrismAdapter' DiskId='1' Name='Unicon2.Unity.dll'/>
+        <File Id='Unicon2FragmentsFileOperationsdll' DiskId='1' Name='Unicon2.Fragments.FileOperations.dll'/>
+        <File Id='Unicon2FragmentsFileOperationsEditordll' DiskId='1' Name='Unicon2.Fragments.FileOperations.Editor.dll'/>
+        <File Id='Unicon2FragmentsFileOperationsInfrastructuredll' DiskId='1' Name='Unicon2.Fragments.FileOperations.Infrastructure.dll'/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="DevicesFolder" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug\Devices\">
+      <Component Id="devices" Guid="b11556a2-e066-4393-af5c-9c9210187e32">
+        <File Id='mr771' DiskId='1' Name='MR771.xml'/>
+      </Component>
+    </DirectoryRef>
+	  <DirectoryRef Id="SharedResourcesFolder" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug\SharedResources\">
+	    <Component Id="sharedResources" Guid="b11556a2-e066-4393-af5c-9c9210187e33">
+	      <File Id="sharedResources" DiskId='1' Name='SharedResources.sr'/>
+	    </Component>
+	  </DirectoryRef>
+	  <DirectoryRef Id="enUSFolder" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug\en-US\">
+	    <Component Id="enUSFolder" Guid="b11556a2-e066-4393-af5c-9c9210187230">
+	      <File Id='Unicon2Localizationresourcesen' DiskId='1' Name='Unicon2.Localization.resources.dll'/>
+	    </Component>
+	  </DirectoryRef>
+	  <DirectoryRef Id="ruRUFolder" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug\ru-RU\">
+	    <Component Id="ruRUFolder" Guid="b11556a2-e066-4393-af5c-9c9210187229">
+	      <File Id='Unicon2Localizationresourcesru' DiskId='1' Name='Unicon2.Localization.resources.dll'/>
+	    </Component>
+	  </DirectoryRef>
+
+  </Fragment>
+</Wix>

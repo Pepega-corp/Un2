@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B58DE9D5-66E6-4F90-9775-F866A902E7EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Unicon2.Connections.ModBusTcpConnection</RootNamespace>
+    <AssemblyName>Unicon2.Connections.ModBusTcpConnection</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WPFLocalizeExtension, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WPFLocalizeExtension.3.3.1\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="XAMLMarkupExtensions">
+      <HintPath>..\..\packages\XAMLMarkupExtensions.1.5.1\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Factories\ModBusTcpConnectionFactory.cs" />
+    <Compile Include="Interfaces\IModbusTcpConnection.cs" />
+    <Compile Include="Interfaces\IModbusTcpConnectionViewModel.cs" />
+    <Compile Include="Keys\ModBusTcpKeys.cs" />
+    <Compile Include="ViewModel\ModbusTcpConnectionViewModel.cs" />
+    <Compile Include="Model\ModbusTcpConnection.cs" />
+    <Compile Include="Module\ModBusTcpModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\ModBusTcpConnectionResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NModbus4\NModbus4\NModbus4.csproj">
+      <Project>{8212BD78-1DFC-46A2-9238-72CB48BEB6A4}</Project>
+      <Name>NModbus4</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicon2.Unity\Unicon2.Unity.csproj">
+      <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
+      <Name>Unicon2.Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Connections.DataProvider\Unicon2.Connections.DataProvider.csproj">
+      <Project>{18D933A1-2305-473A-A440-8AA40F8DBD7F}</Project>
+      <Name>Unicon2.Connections.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
+      <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>
+      <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

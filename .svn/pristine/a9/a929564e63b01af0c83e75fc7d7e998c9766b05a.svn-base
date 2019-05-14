@@ -1,0 +1,94 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:elements="clr-namespace:Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements"
+    xmlns:elements1="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel.Elements"
+    xmlns:interfaces="clr-namespace:Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:view="clr-namespace:Unicon2.Fragments.Measuring.Editor.View">
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+    <DataTemplate x:Key="MeasuringMonitorEditorViewModelDataTemplate" DataType="{x:Type interfaces:IMeasuringMonitorEditorViewModel}">
+        <view:MeasuringMonitorEditorView />
+    </DataTemplate>
+
+
+
+    <DataTemplate DataType="{x:Type elements1:AnalogMeasuringElementEditorViewModel}">
+        <Grid>
+            <StackPanel Orientation="Horizontal">
+                <UniformGrid Columns="2">
+                    <CheckBox
+                        Margin="2"
+                        Content="{lex:Loc MeasureUnit}"
+                        IsChecked="{Binding IsMeasureUnitEnabled}" />
+                    <TextBox
+                        MinWidth="100"
+                        Margin="2"
+                        IsEnabled="{Binding IsMeasureUnitEnabled}"
+                        Text="{Binding MeasureUnit}" />
+                    <TextBlock Margin="2" Text="{lex:Loc Address}" />
+                    <TextBox
+                        MinWidth="150"
+                        Margin="2"
+                        Text="{Binding Address}" />
+                    <TextBlock Margin="2" Text="{lex:Loc NumberOfPoints}" />
+                    <TextBox
+                        MinWidth="150"
+                        Margin="2"
+                        Text="{Binding NumberOfPoints}" />
+                </UniformGrid>
+                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+                    <TextBlock Margin="5" Text="{lex:Loc Formatting}" />
+                    <TextBlock Margin="5" Text=":" />
+                    <TextBlock Margin="20,5,5,5" Text="{Binding ElementName=formatterCondProxy, Path=Result}" />
+                    <lex:LocProxy Name="formatterCondProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
+                    <Button
+                        Width="200"
+                        Height="30"
+                        Command="{Binding ShowFormatterParametersCommand}"
+                        Content="{lex:Loc FormatterParameters}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type elements1:DiscretMeasuringElementEditorViewModel}">
+        <UniformGrid HorizontalAlignment="Left" Columns="2">
+            <TextBlock Margin="2" Text="{lex:Loc ModbusFunction}" />
+            <TextBox Margin="2" Text="{Binding BitAddressEditorViewModel.FunctionNumber}" />
+            <TextBlock Margin="2" Text="{lex:Loc Address}" />
+            <TextBox
+                MinWidth="150"
+                Margin="2"
+                Text="{Binding BitAddressEditorViewModel.Address}" />
+            <TextBlock Margin="2" Text="{lex:Loc BitNumberInWord}" />
+            <TextBox
+                MinWidth="150"
+                Margin="2"
+                IsEnabled="{Binding BitAddressEditorViewModel.IsBitNumberInWordActual}"
+                Text="{Binding BitAddressEditorViewModel.BitNumberInWord}" />
+        </UniformGrid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type elements1:ControlSignalEditorViewModel}">
+        <UniformGrid HorizontalAlignment="Left" Columns="2">
+            <TextBlock Margin="2" Text="{lex:Loc ModbusFunction}" />
+            <TextBox Margin="2" Text="{Binding WritingValueContextViewModel.NumberOfFunction}" />
+            <TextBlock Margin="2" Text="{lex:Loc Address}" />
+            <TextBox
+                Height="30"
+                Margin="2"
+                VerticalAlignment="Top"
+                Text="{Binding WritingValueContextViewModel.Address}" />
+            <TextBlock Margin="2" Text="{lex:Loc ValueToWrite}" />
+            <TextBox
+                Height="30"
+                Margin="2"
+                VerticalAlignment="Top"
+                Text="{Binding WritingValueContextViewModel.ValueToWrite}" />
+        </UniformGrid>
+    </DataTemplate>
+
+</ResourceDictionary>

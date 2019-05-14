@@ -1,0 +1,479 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:formatters="clr-namespace:Unicon2.Formatting.Editor.ViewModels"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com">
+
+    <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
+    <converter:BoolToVisConverter x:Key="BoolToInVisConverter" Invert="True" />
+
+    <Style x:Key="ErrorStyle" TargetType="FrameworkElement">
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Border
+                            VerticalAlignment="Top"
+                            BorderBrush="#FFdc000c"
+                            BorderThickness="1">
+                            <Grid>
+                                <AdornedElementPlaceholder x:Name="adorner" Margin="-1" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip">
+                    <Setter.Value>
+                        <ToolTip Background="#FFdc000c" Content="{Binding PlacementTarget.(Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="KeyValueListBoxStyle"
+        BasedOn="{StaticResource ErrorStyle}"
+        TargetType="ListBox">
+        <Setter Property="ItemTemplate" Value="{DynamicResource KeyValueListBoxItem}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+
+    <DataTemplate DataType="{x:Type formatters:DefaultTimeFormatterViewModel}">
+        <Grid Height="450">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="3"
+                Text="{lex:Loc DefaultTimeFormatterDescription}"
+                TextWrapping="Wrap" />
+
+            <GroupBox Grid.Row="1" Header="{lex:Loc ElementsPlacement}">
+                <UniformGrid Columns="2">
+                    <TextBlock Margin="3" Text="{lex:Loc NumberOfPointsInUse}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding NumberOfPointsInUse}" />
+
+                    <TextBlock Margin="3" Text="{lex:Loc MillisecondsDecimalsPlaces}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding MillisecondsDecimalsPlaces}" />
+                </UniformGrid>
+            </GroupBox>
+
+            <GroupBox Grid.Row="2" Header="{lex:Loc ElementsPlacement}">
+                <UniformGrid Margin="3" Columns="2">
+                    <TextBlock
+                        Width="80"
+                        Margin="30,3,3,3"
+                        Text="{lex:Loc Element}" />
+                    <TextBlock
+                        Width="80"
+                        Margin="30,3,3,3"
+                        Text="{lex:Loc Placement}" />
+
+                    <TextBlock Margin="3" Text="{lex:Loc Year}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding YearPointNumber}" />
+
+                    <TextBlock Margin="3" Text="{lex:Loc Month}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding MonthPointNumber}" />
+
+                    <TextBlock Margin="3" Text="{lex:Loc DayInMonth}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding DayInMonthPointNumber}" />
+
+                    <TextBlock Margin="3" Text="{lex:Loc Hours}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding HoursPointNumber}" />
+
+                    <TextBlock Margin="3" Text="{lex:Loc Minutes}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding MinutesPointNumber}" />
+
+                    <TextBlock Margin="3" Text="{lex:Loc Seconds}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding SecondsPointNumber}" />
+
+                    <TextBlock Margin="3" Text="{lex:Loc Milliseconds}" />
+                    <controls:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        Value="{Binding MillisecondsPointNumber}" />
+
+                </UniformGrid>
+            </GroupBox>
+
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type formatters:AsciiStringFormatterViewModel}">
+        <TextBlock
+            Margin="3"
+            Text="{lex:Loc AsciiStringFormatterDescription}"
+            TextWrapping="Wrap" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type formatters:StringFormatter1251ViewModel}">
+        <TextBlock
+            Margin="3"
+            Text="{lex:Loc StringFormatter1251Description}"
+            TextWrapping="Wrap" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type formatters:UshortToIntegerFormatterViewModel}">
+        <TextBlock
+            Margin="3"
+            Text="{lex:Loc UshortToIntegerFormatterDescription}"
+            TextWrapping="Wrap" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type formatters:DefaultBitMaskFormatterViewModel}">
+        <StackPanel>
+            <TextBlock
+                Margin="3"
+                Text="{lex:Loc DefaultBitMaskFormatterDescription}"
+                TextWrapping="Wrap" />
+            <ListBox
+                Height="300"
+                ItemsSource="{Binding Path=BitSignatures}"
+                SelectedItem="{Binding SelectedBitSignature}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBox Margin="20,5,5,5" Text="{Binding StringValue, Mode=TwoWay}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="1"
+                    Margin="10"
+                    Command="{Binding AddSignatureCommand}"
+                    Content="{lex:Loc AddSignature}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+                <Button
+                    Grid.Column="0"
+                    Margin="10"
+                    Command="{Binding DeleteSignatureCommand}"
+                    Content="{lex:Loc DeleteSignature}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+            </Grid>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type formatters:DictionaryMatchingFormatterViewModel}">
+        <Grid Width="auto" Margin="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="3"
+                Text="{lex:Loc DictionaryMatchingFormatterDescription}"
+                TextWrapping="Wrap" />
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    Text="{lex:Loc Key}" />
+                <TextBlock
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    Text="{lex:Loc Value}" />
+            </Grid>
+            <ListBox
+                Grid.Row="2"
+                Height="400"
+                dd:DragDrop.CanDragWithMouseRightButton="False"
+                dd:DragDrop.DragHandler="{Binding}"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True"
+                ItemsSource="{Binding Path=KeyValuesDictionary}"
+                SelectedItem="{Binding SelectedKeyValuePair}"
+                Style="{DynamicResource KeyValueListBoxStyle}" />
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="1"
+                    Margin="10"
+                    Command="{Binding AddKeyValuePairCommand}"
+                    Content="{lex:Loc AddKeyValuePair}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+                <Button
+                    Grid.Column="0"
+                    Margin="10"
+                    Command="{Binding DeleteKeyValuePairCommand}"
+                    Content="{lex:Loc DeleteKeyValuePair}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+                <!--<Button Grid.Column="2"
+                        Margin="10"
+                        Command="{Binding ImportFromSharedTablesCommand}"
+                        Content="{lex:Loc ImportFromSharedTables}" />-->
+            </Grid>
+            <CheckBox
+                Grid.Row="4"
+                Content="{lex:Loc IsKeysAreNumbersOfBits}"
+                IsChecked="{Binding IsKeysAreNumbersOfBits}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type formatters:FormulaFormatterViewModel}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="5"
+                Text="{lex:Loc FormulaFormatterDescription}"
+                TextWrapping="Wrap" />
+            <StackPanel
+                Grid.Row="1"
+                Margin="10"
+                Orientation="Horizontal">
+                <TextBlock Margin="10" Text="{lex:Loc Formula}" />
+                <TextBox
+                    Width="auto"
+                    Height="auto"
+                    MinWidth="200"
+                    Margin="5"
+                    FontSize="20"
+                    Text="{Binding FormulaString}" />
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical">
+                <Button
+                    Width="150"
+                    Height="auto"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Command="{Binding AddArgumentCommand}"
+                    Content="{lex:Loc AddArgument}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+                <ListBox Name="argumentsListBox" ItemsSource="{Binding ArgumentViewModels}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5" Text="{Binding ArgumentName}" />
+                                <TextBlock Margin="5" Text="{Binding ResourceNameString}" />
+                                <Button
+                                    Margin="5"
+                                    Command="{Binding DataContext.DeleteArgumentCommand, ElementName=argumentsListBox}"
+                                    CommandParameter="{Binding .}"
+                                    Content="{lex:Loc Delete}" />
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                <UniformGrid
+                    Margin="10"
+                    Columns="2"
+                    Rows="2">
+                    <TextBlock Margin="5" Text="{lex:Loc TestValueOfX}" />
+                    <TextBox Margin="5" Text="{Binding TestValueOfX}" />
+                    <TextBlock Margin="5" Text="{lex:Loc TestResult}" />
+                    <TextBox Margin="5" Text="{Binding TestResult}" />
+                </UniformGrid>
+                <Button
+                    Height="auto"
+                    Margin="10"
+                    Command="{Binding CheckCommand}"
+                    Content="{lex:Loc Check}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="4"
+                Margin="10"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <TextBlock Width="250" Text="{lex:Loc NumberOfSimbolsAfterComma}" />
+                <TextBox Width="250" Text="{Binding NumberOfSimbolsAfterComma}" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type formatters:DirectFormatterViewModel}">
+        <TextBlock
+            Margin="3"
+            Text="{lex:Loc DirectFormatterDescription}"
+            TextWrapping="Wrap" />
+    </DataTemplate>
+
+    <!--<DataTemplate DataType="{x:Type formatters:BitwiseIndicatorFormatterViewModel}">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="3"
+                Text="{lex:Loc BitwiseIndicatorFormatterDescription}"
+                TextWrapping="Wrap" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Label Content="{lex:Loc NumberOfBits}" />
+                <TextBox IsEnabled="False" Text="{Binding NumberOfPairs}" />
+            </StackPanel>
+            <CheckBox
+                Grid.Row="2"
+                Content="{lex:Loc IsReadOnly}"
+                IsChecked="{Binding IsReadOnly}" />
+            <DataGrid
+                Grid.Row="2"
+                HorizontalAlignment="Stretch"
+                AlternatingRowBackground="{DynamicResource AccentColorBrush2}"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                GridLinesVisibility="All"
+                ItemsSource="{Binding NumOfBitStringDictionary}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="Auto"
+                        Binding="{Binding Key}"
+                        Header="{lex:Loc Number}" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Value}"
+                        CanUserSort="False"
+                        Header="{lex:Loc Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DataTemplate>-->
+
+    <DataTemplate DataType="{x:Type formatters:BoolFormatterViewModel}">
+        <Grid>
+            <TextBlock
+                Margin="3"
+                Text="{lex:Loc BoolFormatterDescription}"
+                TextWrapping="Wrap" />
+        </Grid>
+    </DataTemplate>
+
+    <!--<DataTemplate DataType="{x:Type formatters:BitGroupFormatterViewModel}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="3"
+                Text="{lex:Loc BitGroupFormatterDescription}"
+                TextWrapping="Wrap" />
+            <ListBox
+                Grid.Row="1"
+                MinHeight="500"
+                ItemsSource="{Binding BitGroupViewModels}"
+                SelectedItem="{Binding SelectedBitGroupViewModel}" />
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button Command="{Binding AddNewBitGroupCommand}" Content="{lex:Loc AddGroup}" />
+                <Button Command="{Binding DeleteSelectedBitGroupCommand}" Content="{lex:Loc DeleteGroup}" />
+
+            </StackPanel>
+        </Grid>
+    </DataTemplate>-->
+
+    <DataTemplate x:Key="KeyValueListBoxItem">
+        <Border
+            Margin="3"
+            HorizontalAlignment="Stretch"
+            BorderBrush="{DynamicResource AccentColorBrush}"
+            BorderThickness="1">
+            <UniformGrid HorizontalAlignment="Stretch" Columns="2">
+                <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource EditableKeyField}" />
+                <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource EditableValueField}" />
+            </UniformGrid>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditableKeyField">
+        <Grid>
+            <TextBlock
+                Margin="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToInVisConverter}}" />
+            <controls:NumericUpDown
+                Margin="3"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVisConverter}}"
+                Value="{Binding Key}" />
+
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditableValueField">
+        <Grid>
+            <TextBlock
+                Margin="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding Value}"
+                Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToInVisConverter}}" />
+            <TextBox
+                Margin="3"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Text="{Binding Value}"
+                Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVisConverter}}" />
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,502 @@
+﻿<Window
+    x:Class="Oscilloscope.View.MainItem.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:avalonDock="clr-namespace:Xceed.Wpf.AvalonDock;assembly=Xceed.Wpf.AvalonDock"
+    xmlns:frequencyChartItem="clr-namespace:Oscilloscope.View.FrequencyChartItem"
+    xmlns:layout="clr-namespace:Xceed.Wpf.AvalonDock.Layout;assembly=Xceed.Wpf.AvalonDock"
+    xmlns:pieChartItem="clr-namespace:Oscilloscope.View.PieChartItem"
+    xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Xceed.Wpf.AvalonDock"
+    xmlns:vectorChartItem="clr-namespace:Oscilloscope.View.VectorChartItem"
+    xmlns:view="clr-namespace:Oscilloscope.View"
+    Width="1150"
+    Height="900"
+    MinWidth="800"
+    MinHeight="600">
+    <Window.Style>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="shell:WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <shell:WindowChrome />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Grid>
+                            <Border
+                                x:Name="MainBorder"
+                                Background="White"
+                                BorderBrush="#FF5860E2"
+                                BorderThickness="2">
+                                <DockPanel LastChildFill="True">
+                                    <Border
+                                        x:Name="PART_TITLEBAR"
+                                        Height="20"
+                                        Margin="0,0,0,0"
+                                        Background="#FF5860E2"
+                                        DockPanel.Dock="Top">
+                                        <DockPanel LastChildFill="True">
+                                            <Button
+                                                x:Name="CloseButton"
+                                                Width="20"
+                                                Height="20"
+                                                Margin="0"
+                                                VerticalAlignment="Center"
+                                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                                Command="Close"
+                                                DockPanel.Dock="Right"
+                                                Style="{DynamicResource MetroWindowButtonStyle}">
+                                                <Path
+                                                    Width="10"
+                                                    Margin="0,0,0,0"
+                                                    Data="F1M54.0573,47.8776L38.1771,31.9974 54.0547,16.1198C55.7604,14.4141 55.7604,11.6511 54.0573,9.94531 52.3516,8.23962 49.5859,8.23962 47.8802,9.94531L32.0026,25.8229 16.1224,9.94531C14.4167,8.23962 11.6511,8.23962 9.94794,9.94531 8.24219,11.6511 8.24219,14.4141 9.94794,16.1198L25.8255,32 9.94794,47.8776C8.24219,49.5834 8.24219,52.3477 9.94794,54.0534 11.6511,55.7572 14.4167,55.7585 16.1224,54.0534L32.0026,38.1745 47.8802,54.0534C49.5859,55.7585 52.3516,55.7572 54.0573,54.0534 55.7604,52.3477 55.763,49.5834 54.0573,47.8776z"
+                                                    Fill="#FFFFFFFF"
+                                                    Stretch="Uniform" />
+                                            </Button>
+                                            <Button
+                                                x:Name="PART_MAXIMIZE_RESTORE"
+                                                Width="20"
+                                                Height="20"
+                                                Margin="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                                Click="PART_MAXIMIZE_RESTORE_Click"
+                                                DockPanel.Dock="Right"
+                                                Style="{DynamicResource MetroWindowButtonStyle}">
+                                                <Path
+                                                    Width="10"
+                                                    Margin="0,0,0,0"
+                                                    Data="M4.3685131,23.127279L4.3685131,47.283243 47.117023,47.283243 47.117023,23.127279z M0,10.684L53.755001,10.684 53.755001,51.668001 0,51.668001z M8.5679998,0L58.668022,0 64,0 64,5.6864691 64,45.317999 58.668022,45.317999 58.668022,5.6864691 8.5679998,5.6864691z"
+                                                    Fill="#FFFFFFFF"
+                                                    Stretch="Uniform" />
+                                            </Button>
+                                            <Button
+                                                x:Name="PART_MINIMIZE"
+                                                Width="20"
+                                                Height="20"
+                                                Margin="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                VerticalContentAlignment="Bottom"
+                                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                                Click="PART_MINIMIZE_Click"
+                                                DockPanel.Dock="Right"
+                                                Style="{DynamicResource MetroWindowButtonStyle}">
+                                                <Button.Content>
+                                                    <Path
+                                                        Width="10"
+                                                        Margin="0,0,0,5"
+                                                        Data="M0,20L53.333,20 53.333,8.888 0,8.888z"
+                                                        Fill="#FFFFFFFF"
+                                                        Stretch="Uniform" />
+                                                </Button.Content>
+                                            </Button>
+                                            <Menu shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <MenuItem Header="Меню">
+                                                    <MenuItem
+                                                        x:Name="OpenMenuItem"
+                                                        Command="Open"
+                                                        Header="Открыть"
+                                                        Visibility="Collapsed" />
+                                                    <MenuItem
+                                                        x:Name="SaveAsMenuItem"
+                                                        Command="SaveAs"
+                                                        Header="Сохранить как" />
+                                                    <Separator />
+                                                    <MenuItem
+                                                        x:Name="ExitMenuItem"
+                                                        Command="Close"
+                                                        Header="Выход" />
+                                                </MenuItem>
+                                            </Menu>
+                                            <TextBlock
+                                                Margin="4,-2,0,2"
+                                                VerticalAlignment="Center"
+                                                DockPanel.Dock="Top"
+                                                FontSize="16"
+                                                Foreground="#FFAAAAAA"
+                                                Text="{TemplateBinding Title}"
+                                                TextAlignment="Center"
+                                                TextWrapping="NoWrap" />
+                                        </DockPanel>
+                                    </Border>
+                                    <AdornerDecorator DockPanel.Dock="Bottom">
+                                        <ContentPresenter
+                                            Content="{TemplateBinding Content}"
+                                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                    </AdornerDecorator>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="ResizeMode" Value="CanResizeWithGrip">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Window}">
+                                <Border
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid>
+                                        <AdornerDecorator>
+                                            <ContentPresenter
+                                                Content="{TemplateBinding Content}"
+                                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                        </AdornerDecorator>
+                                        <ResizeGrip
+                                            x:Name="WindowResizeGrip"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            IsTabStop="False"
+                                            Visibility="Collapsed" />
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="ResizeMode" Value="CanResizeWithGrip" />
+                                            <Condition Property="WindowState" Value="Normal" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="WindowResizeGrip" Property="Visibility" Value="Visible" />
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
+    <Window.Resources>
+        <Style x:Key="MetroWindowButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle
+                                        Margin="2"
+                                        SnapsToDevicePixels="True"
+                                        Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                        StrokeDashArray="1 2"
+                                        StrokeThickness="1" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter
+                                x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Focusable="False"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFBEE6FD" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFC4E5F6" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#FFF4F4F4" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" />
+                                <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="#FF838383" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="Grid1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120" />
+            <RowDefinition />
+            <RowDefinition Height="43" />
+        </Grid.RowDefinitions>
+
+        <avalonDock:DockingManager Grid.Row="1">
+            <layout:LayoutRoot>
+                <layout:LayoutPanel>
+
+                    <layout:LayoutPanel Orientation="Vertical">
+                        <layout:LayoutAnchorablePane>
+                            <layout:LayoutAnchorable x:Name="DocumentPanel" Title="Сигналы" />
+                        </layout:LayoutAnchorablePane>
+                        <layout:LayoutAnchorablePane x:Name="FrequencyPane" DockHeight="200">
+                            <layout:LayoutAnchorable x:Name="FrequencyPanel" Title="Частотная диаграмма">
+                                <frequencyChartItem:FrequencyChartPanel x:Name="FrequencyChart" Height="Auto" />
+                            </layout:LayoutAnchorable>
+                        </layout:LayoutAnchorablePane>
+                    </layout:LayoutPanel>
+
+                    <layout:LayoutPanel
+                        x:Name="RightPanel"
+                        DockMinWidth="50"
+                        DockWidth="300"
+                        Orientation="Vertical">
+                        <layout:LayoutAnchorablePane
+                            x:Name="VectorPane"
+                            DockMinHeight="50"
+                            DockMinWidth="50">
+                            <layout:LayoutAnchorable x:Name="VectorPanel" Title="Векторная диаграмма">
+                                <vectorChartItem:VectorChart x:Name="VectorChart" Height="Auto" />
+                            </layout:LayoutAnchorable>
+                        </layout:LayoutAnchorablePane>
+                        <layout:LayoutAnchorablePane
+                            x:Name="PiePane"
+                            DockMinHeight="50"
+                            DockMinWidth="50">
+                            <layout:LayoutAnchorable x:Name="PiePanel" Title="Диаграмма сопротивлений">
+                                <pieChartItem:PieChart x:Name="PieChart" Height="Auto" />
+                            </layout:LayoutAnchorable>
+                        </layout:LayoutAnchorablePane>
+                    </layout:LayoutPanel>
+                </layout:LayoutPanel>
+
+            </layout:LayoutRoot>
+
+        </avalonDock:DockingManager>
+
+        <Grid Grid.Row="0" Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="121" />
+                <ColumnDefinition Width="149" />
+                <ColumnDefinition Width="123" />
+                <ColumnDefinition Width="319" />
+                <ColumnDefinition Width="169" />
+                <ColumnDefinition Width="94" />
+                <ColumnDefinition Width="159" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Масштаб">
+                <Canvas>
+                    <Button
+                        x:Name="IncreaseXButton"
+                        Canvas.Left="83"
+                        Canvas.Top="10"
+                        Width="21"
+                        Height="73"
+                        Click="increaseXButton_Click"
+                        Content="x+" />
+                    <Button
+                        x:Name="DecreaseXButton"
+                        Canvas.Left="10"
+                        Canvas.Top="10"
+                        Width="21"
+                        Height="73"
+                        Click="decreaseXButton_Click"
+                        Content="x-" />
+                    <Button
+                        x:Name="NormalizationButton"
+                        Canvas.Left="35"
+                        Canvas.Top="36"
+                        Click="normalizationButton_Click"
+                        Content="Норма" />
+                    <Button
+                        x:Name="IncreaseYButton"
+                        Canvas.Left="35"
+                        Canvas.Top="9"
+                        Width="43"
+                        Click="increaseYButton_Click"
+                        Content="y+" />
+                    <Button
+                        x:Name="DecreaseYButton"
+                        Canvas.Left="35"
+                        Canvas.Top="61"
+                        Width="43"
+                        Click="decreaseYButton_Click"
+                        Content="y-" />
+                </Canvas>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Настройка">
+                <StackPanel>
+                    <Button Click="MenuItem_Click_1" Content="Каналы" />
+                    <CheckBox
+                        x:Name="RunOscCb"
+                        Checked="RunOscCb_Checked"
+                        Content="Пуск осциллографа"
+                        IsChecked="False"
+                        Unchecked="RunOscCb_Unchecked" />
+                    <Button Click="MenuItem_Click_2">
+                        <TextBlock TextAlignment="Center">
+                            Масштабирующий
+                            <LineBreak />
+                            коэффициент
+                        </TextBlock>
+                    </Button>
+                    <StackPanel Margin="0,0,-25,0" Orientation="Horizontal">
+                        <RadioButton
+                            Width="143"
+                            Checked="RadioButton_Checked_1"
+                            Content=""
+                            IsChecked="True"
+                            Visibility="Collapsed" />
+                        <RadioButton
+                            Checked="RadioButton_Checked_2"
+                            Content="Втор."
+                            Visibility="Collapsed" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="2" Header="Диаграммы">
+                <StackPanel>
+                    <CheckBox
+                        x:Name="VectorCheckBox"
+                        Content="Векторная"
+                        IsChecked="True" />
+                    <CheckBox
+                        x:Name="PieCheckBox"
+                        Content="Сопротивлений"
+                        IsChecked="True" />
+                    <CheckBox
+                        x:Name="FreqCharCheckBox"
+                        Content="Частотная"
+                        IsChecked="True" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="3" Header="Аналоговые сигналы">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="156" />
+                        <ColumnDefinition Width="121" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Представление сигнала">
+                        <StackPanel>
+                            <TextBlock Text=" в первичных величинах" />
+                            <RadioButton
+                                x:Name="ActivValuesButton"
+                                Checked="ActivValuesButton_Checked"
+                                Content="Мгновенное"
+                                IsChecked="True" />
+                            <RadioButton
+                                x:Name="RmsValuesButton"
+                                Checked="RmsValuesButton_Checked"
+                                Content="Среднеквадратичное" />
+                            <RadioButton
+                                x:Name="FirstHarmonicValuesButton"
+                                Checked="FirstHarmonicValuesButton_Checked"
+                                Content="1 гармоника" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox
+                        Grid.Column="1"
+                        Margin="0,0,-28,0"
+                        Header="Отобр. значения">
+                        <StackPanel>
+                            <CheckBox
+                                x:Name="MinCheckBox"
+                                Checked="MinCheckBox_Checked"
+                                Content="Min"
+                                IsChecked="False"
+                                Unchecked="MinCheckBox_Checked" />
+                            <CheckBox
+                                x:Name="MaxCheckBox"
+                                Checked="MaxCheckBox_Checked"
+                                Content="Max"
+                                IsChecked="False"
+                                Unchecked="MaxCheckBox_Checked" />
+                            <CheckBox
+                                x:Name="RmsCheckBox"
+                                Checked="RmsCheckBox_Checked"
+                                Content="Среднеквадратичное"
+                                IsChecked="False"
+                                Unchecked="RmsCheckBox_Checked" />
+                            <CheckBox
+                                x:Name="FirstFarmocCheckBox"
+                                Checked="FirstHarmocCheckBox_Checked"
+                                Content="1 гармоника"
+                                IsChecked="False"
+                                Unchecked="FirstHarmocCheckBox_Checked" />
+                            <CheckBox
+                                x:Name="FrequencyCheckBox"
+                                Checked="FrequencyCheckBox_Checked"
+                                Content="Мгновенная частота"
+                                IsChecked="False"
+                                Unchecked="FrequencyCheckBox_Checked" />
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Column="4" Header="Дискретные сигналы">
+                <StackPanel>
+                    <RadioButton
+                        x:Name="DiscretAllButton"
+                        Checked="DiscretAllButton_Checked"
+                        Content="Отображать все"
+                        IsChecked="True" />
+                    <RadioButton
+                        x:Name="DiscretEnabledButton"
+                        Checked="DiscretEnabledButton_Checked"
+                        Content="Отображать ненулевые" />
+                    <RadioButton
+                        x:Name="DiscretDisabledButton"
+                        Checked="DiscretDisabledButton_Checked"
+                        Content="Не отображать" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox
+                Grid.Column="6"
+                Header="Res"
+                Visibility="Collapsed">
+                <StackPanel>
+                    <Button Click="RibbonButton_Click_1" Content="Обрезать" />
+                    <Button Click="RibbonButton_Click_2" Content="Приклеить" />
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Height="47"
+            VerticalAlignment="Bottom">
+            <view:MarkerStatusBar
+                x:Name="CommonStatusBar"
+                Width="Auto"
+                Margin="0,5,0,0" />
+        </Grid>
+    </Grid>
+</Window>

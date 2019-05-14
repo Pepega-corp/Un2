@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Feature Id="ProductFeature" Title="ULA" Level="1">
+      <ComponentRef Id="ApplicationShortcutUnicon2" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+      <ComponentRef Id="ProductComponent" />
+      <ComponentRef Id="devices" />
+      <ComponentRef Id="sharedResources" />
+      <ComponentRef Id="enUSFolder" />
+      <ComponentRef Id="ruRUFolder" />
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" ></Property>
+    <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
+    <WixVariable Id="WixUIDialogBmp" Value="bemnLogoWide.png" />
+    <UIRef Id="WixUI_InstallDir"/>
+    
+    <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
+
+    <Upgrade Id="$(var.UpgradeCode)">
+      <UpgradeVersion
+       Minimum="1.0.0.0" Maximum="99.0.0.0"
+       Property="PREVIOUSVERSIONSINSTALLED"
+       IncludeMinimum="yes" IncludeMaximum="no" />
+    </Upgrade>
+
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallInitialize" />
+    </InstallExecuteSequence>
+  </Product>
+  
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DesktopFolder" Name="Desktop"/>
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDERBEMN" Name="$(var.Manufacturer)">
+          <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
+            <Directory Id="DevicesFolder" Name="Devices"/>
+            <Directory Id="SharedResourcesFolder" Name="SharedResources"/>
+            <Directory Id="ruRUFolder" Name="ru-RU"/>
+            <Directory Id="enUSFolder" Name="en-US"/>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)"/>
+      </Directory>
+    </Directory>
+  </Fragment>
+</Wix>

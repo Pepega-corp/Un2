@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{326BC120-600A-409B-B24B-46B245131288}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Unicon2.Shell</RootNamespace>
+    <AssemblyName>Unicon2.Shell</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net45\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Fluent, Version=6.1.0.326, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fluent.Ribbon.6.1.0.326\lib\net45\Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="Unity.Abstractions, Version=4.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net45\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.8.11\lib\net45\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFLocalizeExtension, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFLocalizeExtension.3.3.1\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="XAMLMarkupExtensions, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XAMLMarkupExtensions.1.5.1\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Behaviors\AnchorableSelectedBehavior.cs" />
+    <Compile Include="Behaviors\DynamicRibbonTabItemBehavior.cs" />
+    <Compile Include="ControlRegionAdapter\FlyoutsControlRegionAdapter.cs" />
+    <Compile Include="Models\AccentColor.cs" />
+    <Compile Include="Models\ApplicationTheme.cs" />
+    <Compile Include="Services\ApplicationSettingsService.cs" />
+    <Compile Include="Services\LayoutInitializer.cs" />
+    <Compile Include="ViewModels\UniconSplashScreenViewModel.cs" />
+    <Compile Include="Views\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellSettingsFlyOut.xaml.cs">
+      <DependentUpon>ShellSettingsFlyOut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UniconSplashScreen.xaml.cs">
+      <DependentUpon>UniconSplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ShellSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Images\drawing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Shell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ShellSettingsFlyOut.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UniconSplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="app.manifest" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Connections\Unicon2.Connections.ModBusRtuConnection\Unicon2.Connections.ModBusRtuConnection.csproj">
+      <Project>{7DBCD949-CD63-44F3-A11B-491D89D71397}</Project>
+      <Name>Unicon2.Connections.ModBusRtuConnection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Connections\Unicon2.Connections.ModBusTcpConnection\Unicon2.Connections.ModBusTcpConnection.csproj">
+      <Project>{B58DE9D5-66E6-4F90-9775-F866A902E7EF}</Project>
+      <Name>Unicon2.Connections.ModBusTcpConnection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Connections\Unicon2.Connections.OfflineConnection\Unicon2.Connections.OfflineConnection.csproj">
+      <Project>{24F25022-4A99-4C63-95ED-40BEB122E0ED}</Project>
+      <Name>Unicon2.Connections.OfflineConnection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Formatting\Unicon2.Formatting.Editor\Unicon2.Formatting.Editor.csproj">
+      <Project>{0F26E688-7767-4264-B287-43DA0C5D8C58}</Project>
+      <Name>Unicon2.Formatting.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Formatting\Unicon2.Formatting\Unicon2.Formatting.csproj">
+      <Project>{DACD757A-1BEE-4C5E-BD62-D5BF7B89DA14}</Project>
+      <Name>Unicon2.Formatting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration.Editor\Unicon2.Fragments.Configuration.Editor.csproj">
+      <Project>{D1A9A1AC-BFAA-4DA5-AB7D-DB7D082EDFA4}</Project>
+      <Name>Unicon2.Fragments.Configuration.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration.Matrix\Unicon2.Fragments.Configuration.Matrix.csproj">
+      <Project>{091C3FCE-7FB2-4852-9B3F-7B7C967B84B4}</Project>
+      <Name>Unicon2.Fragments.Configuration.Matrix</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration\Unicon2.Fragments.Configuration.csproj">
+      <Project>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</Project>
+      <Name>Unicon2.Fragments.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\FileOperations\Unicon2.Fragments.FileOperations.Editor\Unicon2.Fragments.FileOperations.Editor.csproj">
+      <Project>{DC9AD8EF-2C40-4E97-8F5A-FBBD14E30A5B}</Project>
+      <Name>Unicon2.Fragments.FileOperations.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\FileOperations\Unicon2.Fragments.FileOperations\Unicon2.Fragments.FileOperations.csproj">
+      <Project>{944258B7-607D-4DE3-B161-D80A89C825AD}</Project>
+      <Name>Unicon2.Fragments.FileOperations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Journals\Unicon2.Fragments.Journals.Editor\Unicon2.Fragments.Journals.Editor.csproj">
+      <Project>{7F407E3A-51F9-4D5F-8014-3C371E45BAA9}</Project>
+      <Name>Unicon2.Fragments.Journals.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Journals\Unicon2.Fragments.Journals\Unicon2.Fragments.Journals.csproj">
+      <Project>{91D9AFB4-A011-4DF9-8BB7-C730009FB48A}</Project>
+      <Name>Unicon2.Fragments.Journals</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Measuring\Unicon2.Fragments.Measuring.Editor\Unicon2.Fragments.Measuring.Editor.csproj">
+      <Project>{2D4814E6-8345-4DF7-8623-824AB20F1CE3}</Project>
+      <Name>Unicon2.Fragments.Measuring.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Measuring\Unicon2.Fragments.Measuring\Unicon2.Fragments.Measuring.csproj">
+      <Project>{AC3F6D9F-5D07-495B-BE6A-4F1E6CE4C392}</Project>
+      <Name>Unicon2.Fragments.Measuring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\ModBusMemory\Unicon2.Fragments.ModbusMemory\Unicon2.Fragments.ModbusMemory.csproj">
+      <Project>{3C34747B-D562-4900-880D-67E8574544AE}</Project>
+      <Name>Unicon2.Fragments.ModbusMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Oscilloscope\Unicon2.Fragments.Oscilliscope.Editor\Unicon2.Fragments.Oscilliscope.Editor.csproj">
+      <Project>{32997C3B-9259-4810-B965-DA3C96EA90DE}</Project>
+      <Name>Unicon2.Fragments.Oscilliscope.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Oscilloscope\Unicon2.Fragments.Oscilliscope\Unicon2.Fragments.Oscilliscope.csproj">
+      <Project>{FF127F58-7577-49AE-B63A-0B6B9542EAF6}</Project>
+      <Name>Unicon2.Fragments.Oscilliscope</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Programming\Unicon2.Fragments.Programming.Editor\Unicon2.Fragments.Programming.Editor.csproj">
+      <Project>{1101E22E-FA58-4F20-AA4A-D62DFDFC5059}</Project>
+      <Name>Unicon2.Fragments.Programming.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Programming\Unicon2.Fragments.Programming\Unicon2.Fragments.Programming.csproj">
+      <Project>{1265EC7B-41C1-497C-A873-98A6836162F1}</Project>
+      <Name>Unicon2.Fragments.Programming</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.DeviceEditorUtilityModule\Unicon2.DeviceEditorUtilityModule.csproj">
+      <Project>{E263B732-5DC2-4237-9C45-2B655C51A033}</Project>
+      <Name>Unicon2.DeviceEditorUtilityModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
+      <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>
+      <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Localization\Unicon2.Localization.csproj">
+      <Project>{3c6c1c77-4826-4d28-8f4f-8680eebd02e7}</Project>
+      <Name>Unicon2.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Model\Unicon2.Model.csproj">
+      <Project>{2504F838-86E8-48C4-9288-5EDFB922F0CC}</Project>
+      <Name>Unicon2.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.ModuleDeviceEditing\Unicon2.ModuleDeviceEditing.csproj">
+      <Project>{973b568f-ed39-4b50-bb1f-dede5e61b73a}</Project>
+      <Name>Unicon2.ModuleDeviceEditing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+      <Project>{EF9BF685-16AA-4942-A33C-D65562BD4215}</Project>
+      <Name>Unicon2.Presentation.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Presentation\Unicon2.Presentation.csproj">
+      <Project>{2080fee4-0721-4ea8-9be3-34808437faeb}</Project>
+      <Name>Unicon2.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Services\Unicon2.Services.csproj">
+      <Project>{0288D2C4-EC3E-4A92-8EB6-2457AA6E16ED}</Project>
+      <Name>Unicon2.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.SharedResources\Unicon2.SharedResources.csproj">
+      <Project>{ca06a2c8-e39c-4d5c-b19b-3c60e7151aef}</Project>
+      <Name>Unicon2.SharedResources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Unity\Unicon2.Unity.csproj">
+      <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
+      <Name>Unicon2.Unity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\BemnLogo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

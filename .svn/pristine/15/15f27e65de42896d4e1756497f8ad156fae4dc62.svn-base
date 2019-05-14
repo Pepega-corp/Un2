@@ -1,0 +1,25 @@
+﻿<controls:MetroWindow x:Class="Unicon2.Fragments.Configuration.Editor.View.DescriptionEditingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Editor.View"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"    
+                      Name="descriptionEditingWindow"
+                      lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
+                      lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+                      BorderThickness="1"
+                      BorderBrush="{DynamicResource AccentColorBrush}"
+        Title="{Binding Item.Header}" Height="150" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Text="{Binding Item.Description}" AcceptsReturn="True"></TextBox>
+        <Button Style="{DynamicResource UniconButtonStyle}" HorizontalAlignment="Left" Width="100" Grid.Row="1" Content="{lex:Loc Ok}" Command="{Binding SubmitCommand}" CommandParameter="{Binding ElementName=descriptionEditingWindow}"></Button>
+    </Grid>
+</controls:MetroWindow>
+

@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:view="clr-namespace:Unicon2.Fragments.Programming.Views"
+    xmlns:viewModels="clr-namespace:Unicon2.Fragments.Programming.ViewModels">
+
+    <DataTemplate DataType="{x:Type viewModels:ProgrammingViewModel}">
+        <view:ProgrammingView />
+    </DataTemplate>
+</ResourceDictionary>

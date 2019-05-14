@@ -1,0 +1,268 @@
+﻿<UserControl
+    x:Class="Unicon2.Fragments.ModbusMemory.Views.ModbusMemoryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:converters="clr-namespace:Unicon2.Fragments.ModbusMemory.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Unicon2.Fragments.ModbusMemory.Infrastructure.Model;assembly=Unicon2.Fragments.ModbusMemory.Infrastructure"
+    xmlns:viewModels="clr-namespace:Unicon2.Fragments.ModbusMemory.ViewModels"
+    d:DesignHeight="1000"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:BoolToColorBrushConverter x:Key="BoolToColorBrushConverter" />
+        <converters:SplittingBitMarginConverter x:Key="SplittingBitMarginConverter" />
+        <converter:InvertConverter x:Key="InvertConverter" />
+        <converter:DebugConverter x:Key="DebugConverter" />
+        <converter:BoolToVisConverter x:Key="BoolToInVisConverter" Invert="True" />
+        <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TabControl Grid.Row="0">
+            <TabControl.Items>
+                <TabItem Header="Word" IsSelected="True">
+                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding ModbusMemoryEntityViewModels}">
+
+                        <DataGrid.Resources>
+                            <ContextMenu x:Key="EntityContextMenu">
+                                <MenuItem
+                                    Command="{Binding DataContext.EditEntityCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}"
+                                    Header="{lex:Loc Edit}"
+                                    IsEnabled="{Binding DataContext.IsError, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource InvertConverter}}" />
+                            </ContextMenu>
+
+                        </DataGrid.Resources>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="ContextMenu" Value="{StaticResource EntityContextMenu}" />
+
+
+                            </Style>
+                        </DataGrid.RowStyle>
+
+
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn
+                                Binding="{Binding AdressDec}"
+                                Header="{lex:Loc AddressDec}"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding AdressHex}"
+                                CanUserSort="False"
+                                Header="{lex:Loc AddressHex}"
+                                IsReadOnly="True" />
+                            <DataGridTemplateColumn Header="15   14  13  12  11   10   9   8         7    6    5    4    3    2   1    0">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="viewModels:ModbusMemoryEntityViewModel">
+                                        <ItemsControl Margin="7,3,3,3" ItemsSource="{Binding Bits}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="model:IMemoryBitViewModel">
+                                                    <Border
+                                                        Width="15"
+                                                        Height="15"
+                                                        Margin="{Binding BitNumber, Converter={StaticResource SplittingBitMarginConverter}}"
+                                                        Background="{Binding BoolValue, Converter={StaticResource BoolToColorBrushConverter}}"
+                                                        Opacity="0.8" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn
+                                Binding="{Binding DirectValueHex}"
+                                Header="{lex:Loc ValueHex}"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding DirectValueDec}"
+                                Header="{lex:Loc ValueDec}"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding ModbusConversionParametersViewModel.MaximumOfUshortValue}"
+                                Header="{lex:Loc ScaleLimit}"
+                                IsReadOnly="False" />
+                            <DataGridTextColumn
+                                Binding="{Binding ModbusConversionParametersViewModel.LimitOfValue}"
+                                Header="{lex:Loc LimitOfValue}"
+                                IsReadOnly="False" />
+                            <DataGridTextColumn
+                                Binding="{Binding ConvertedValue}"
+                                Header="{lex:Loc ConvertedValue}"
+                                IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+
+                <TabItem Header="Discret" IsSelected="{Binding ModbusMemorySettingsViewModel.IsDiscretTabSelected}">
+                    <DataGrid
+                        Name="DiscretDataGrid"
+                        AutoGenerateColumns="False"
+                        ItemsSource="{Binding ModbusMemoryEntityViewModels}">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                                <Setter Property="Foreground" Value="Black" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Binding="{Binding AdressDec}"
+                                Header="{lex:Loc AddressDec}"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding AdressHex}"
+                                CanUserSort="False"
+                                Header="{lex:Loc AddressHex}"
+                                IsReadOnly="True" />
+                            <DataGridTemplateColumn Header="{lex:Loc Values}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="viewModels:ModbusMemoryEntityViewModel">
+                                        <ItemsControl Margin="7,3,3,3" ItemsSource="{Binding Bits}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="model:IMemoryBitViewModel">
+                                                    <Border
+                                                        Width="15"
+                                                        Height="15"
+                                                        Margin="{Binding BitNumber, Converter={StaticResource SplittingBitMarginConverter}}"
+                                                        Background="{Binding BoolValue, Converter={StaticResource BoolToColorBrushConverter}}"
+                                                        Opacity="0.8">
+                                                        <Border.ContextMenu>
+                                                            <ContextMenu>
+                                                                <MenuItem
+                                                                    Command="{Binding DataContext.SetTrueBitCommand, Source={x:Reference Name=DiscretDataGrid}}"
+                                                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}"
+                                                                    IsEnabled="{Binding DataContext.IsError, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource InvertConverter}}">
+                                                                    <MenuItem.Header>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Margin="3" Text="{lex:Loc AddressDec}" />
+
+                                                                            <TextBlock Margin="3" Text="{Binding DataContext.AddressAsDec, RelativeSource={RelativeSource Mode=Self}}" />
+                                                                            <TextBlock Margin="3" Text="{lex:Loc AddressHex}" />
+
+                                                                            <TextBlock Margin="3" Text="{Binding DataContext.AddressAsHex, RelativeSource={RelativeSource Mode=Self}}" />
+
+                                                                            <TextBlock Margin="3" Text="{lex:Loc SetTrueBit}" />
+                                                                        </StackPanel>
+                                                                    </MenuItem.Header>
+                                                                </MenuItem>
+                                                                <MenuItem
+                                                                    Command="{Binding DataContext.SetFalseBitCommand, Source={x:Reference Name=DiscretDataGrid}}"
+                                                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}"
+                                                                    IsEnabled="{Binding DataContext.IsError, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource InvertConverter}}">
+                                                                    <MenuItem.Header>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Margin="3" Text="{lex:Loc AddressDec}" />
+
+                                                                            <TextBlock Margin="3" Text="{Binding DataContext.AddressAsDec, RelativeSource={RelativeSource Mode=Self}}" />
+                                                                            <TextBlock Margin="3" Text="{lex:Loc AddressHex}" />
+
+                                                                            <TextBlock Margin="3" Text="{Binding DataContext.AddressAsHex, RelativeSource={RelativeSource Mode=Self}}" />
+
+                                                                            <TextBlock Margin="3" Text="{lex:Loc SetFalseBit}" />
+                                                                        </StackPanel>
+                                                                    </MenuItem.Header>
+                                                                </MenuItem>
+                                                            </ContextMenu>
+                                                        </Border.ContextMenu>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn
+                                Binding="{Binding DirectValueHex}"
+                                Header="{lex:Loc ValueHex}"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding DirectValueDec}"
+                                Header="{lex:Loc ValueDec}"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding ModbusConversionParametersViewModel.MaximumOfUshortValue}"
+                                Header="{lex:Loc ScaleLimit}"
+                                IsReadOnly="False" />
+                            <DataGridTextColumn
+                                Binding="{Binding ModbusConversionParametersViewModel.LimitOfValue}"
+                                Header="{lex:Loc LimitOfValue}"
+                                IsReadOnly="False" />
+                            <DataGridTextColumn
+                                Binding="{Binding ConvertedValue}"
+                                Header="{lex:Loc ConvertedValue}"
+                                IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl.Items>
+        </TabControl>
+
+        <StackPanel Grid.Column="1">
+            <Border
+                Height="Auto"
+                Margin="15"
+                BorderThickness="2">
+                <CheckBox
+                    Width="Auto"
+                    Margin="3"
+                    Content="{lex:Loc Queries}"
+                    IsChecked="{Binding IsQueriesStarted}" />
+                <Border.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsQueriesStartedError}" Value="True">
+                                <Setter Property="CheckBox.ToolTip" Value="{Binding QueriesError}" />
+                                <Setter Property="Border.BorderBrush" Value="DarkRed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <ContentControl Content="{Binding ModbusMemorySettingsViewModel}" />
+
+            <Button
+                Margin="5"
+                Command="{Binding ExecuteOneQueryCommand}"
+                Content="{lex:Loc ExecuteQuery}" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>

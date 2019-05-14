@@ -1,0 +1,16 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:editor="clr-namespace:Unicon2.Fragments.FileOperations.Editor.ViewModel"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com">
+
+
+    <DataTemplate DataType="{x:Type editor:FileBrowserEditorViewModel}">
+        <TextBlock
+            Margin="3"
+            Text="{lex:Loc FileBrowserDescription}"
+            TextWrapping="Wrap" />
+    </DataTemplate>
+
+
+</ResourceDictionary>

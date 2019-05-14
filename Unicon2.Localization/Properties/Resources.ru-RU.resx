@@ -1,0 +1,1308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AddChild" xml:space="preserve">
+    <value>Добавить дочерн. элемент</value>
+  </data>
+  <data name="AddChildGroup" xml:space="preserve">
+    <value>Добавить дочернюю группу</value>
+  </data>
+  <data name="AddingMode" xml:space="preserve">
+    <value>Добавление</value>
+  </data>
+  <data name="AddKeyValuePair" xml:space="preserve">
+    <value>Добавить пару ключ-значение</value>
+  </data>
+  <data name="AddRoot" xml:space="preserve">
+    <value>Добавить корн. элемент</value>
+  </data>
+  <data name="Adress" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="AddressDec" xml:space="preserve">
+    <value>Адрес (dec)</value>
+  </data>
+  <data name="AddressHex" xml:space="preserve">
+    <value>Адрес (hex)</value>
+  </data>
+  <data name="AsciiStringFormatter" xml:space="preserve">
+    <value>В ASCII строку</value>
+  </data>
+  <data name="AsciiStringFormatterDescription" xml:space="preserve">
+    <value>Форматирует полученные байты из устройства в строку</value>
+  </data>
+  <data name="BaseAdressDec" xml:space="preserve">
+    <value>Базовый адрес (Dec)</value>
+  </data>
+  <data name="BaseAdressHex" xml:space="preserve">
+    <value>Базовый адрес (Hex)</value>
+  </data>
+  <data name="BaseColor" xml:space="preserve">
+    <value>Основной цвет</value>
+  </data>
+  <data name="BaseTheme" xml:space="preserve">
+    <value>Основная тема</value>
+  </data>
+  <data name="BaudRate" xml:space="preserve">
+    <value>Скорость передачи</value>
+  </data>
+  <data name="BitGroupFormatterDescription" xml:space="preserve">
+    <value>Полученное значение из устройства разделяется на группы битов. Каждая группа битов имеет свое форматирование.</value>
+  </data>
+  <data name="BitGroupsFormatter" xml:space="preserve">
+    <value>Форматирование по группам битов</value>
+  </data>
+  <data name="BitwiseIndicatorFormatter" xml:space="preserve">
+    <value>Побитовый индикатор</value>
+  </data>
+  <data name="BitwiseIndicatorFormatterDescription" xml:space="preserve">
+    <value>Форматирование путем выделения битов из полученного слова и сопоставления порядкового номера бита строковому значению</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Просмотр</value>
+  </data>
+  <data name="Buffer" xml:space="preserve">
+    <value>Буффер</value>
+  </data>
+  <data name="BufferEmpty" xml:space="preserve">
+    <value>Буффер пуст</value>
+  </data>
+  <data name="BufferInvalidType" xml:space="preserve">
+    <value>Буффер содержит объект неверного типа</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>Проверить</value>
+  </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="ComPortConfiguration" xml:space="preserve">
+    <value>Конфигурация COM-порта</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="CreateAndAddInProject" xml:space="preserve">
+    <value>Создать и добавить в проект</value>
+  </data>
+  <data name="Currentformatting" xml:space="preserve">
+    <value>Текущее форматирование</value>
+  </data>
+  <data name="DataBits" xml:space="preserve">
+    <value>Длина</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteGroup" xml:space="preserve">
+    <value>Удалить группу</value>
+  </data>
+  <data name="DeleteKeyValuePair" xml:space="preserve">
+    <value>Удалить пару</value>
+  </data>
+  <data name="DeleteSelectedItemQuestion" xml:space="preserve">
+    <value>Вы действительно хотите удалить выбранный элемент?</value>
+  </data>
+  <data name="Deleting" xml:space="preserve">
+    <value>Удаление</value>
+  </data>
+  <data name="Device" xml:space="preserve">
+    <value>Устройство</value>
+  </data>
+  <data name="DeviceEditor" xml:space="preserve">
+    <value>Редактор устройств</value>
+  </data>
+  <data name="DeviceFile" xml:space="preserve">
+    <value>Файл устройства</value>
+  </data>
+  <data name="Devices" xml:space="preserve">
+    <value>Устройства</value>
+  </data>
+  <data name="DictionaryMatchingFormatter" xml:space="preserve">
+    <value>По соответствию словаря</value>
+  </data>
+  <data name="DictionaryMatchingFormatterDescription" xml:space="preserve">
+    <value>Полученное значение из устройства является ключом. По этому ключу в словаре находится соответствующая строка, которая отображается в поле значения.</value>
+  </data>
+  <data name="DirectFormatterDescription" xml:space="preserve">
+    <value>Выводится число, полученное напрямую из устройства, форматирование не применяется.</value>
+  </data>
+  <data name="DirectUshortFormatter" xml:space="preserve">
+    <value>Вывод значения без обработки</value>
+  </data>
+  <data name="DublicateValuesMessage" xml:space="preserve">
+    <value>Имеются повторения в коллекции</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="EditingMode" xml:space="preserve">
+    <value>Редактирование</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Ошибки</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="ExitQuestion" xml:space="preserve">
+    <value>Вы действительно хотите выйти?</value>
+  </data>
+  <data name="FailedQueries" xml:space="preserve">
+    <value>Ошиб. обмены</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="FormatError" xml:space="preserve">
+    <value>Ошибка формата</value>
+  </data>
+  <data name="FormatterParameters" xml:space="preserve">
+    <value>Параметры форматирования</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Форматирование</value>
+  </data>
+  <data name="Formula" xml:space="preserve">
+    <value>Формула</value>
+  </data>
+  <data name="FormulaFormatter" xml:space="preserve">
+    <value>Форматирование формулой</value>
+  </data>
+  <data name="FormulaFormatterDescription" xml:space="preserve">
+    <value>Из устройства берется Х в качестве аргумента в формуле ниже. Формула фолжна быть вида (x*400+256)/65535</value>
+  </data>
+  <data name="Fotmatting" xml:space="preserve">
+    <value>Форматирование</value>
+  </data>
+  <data name="GetFromBuffer" xml:space="preserve">
+    <value>Вставить из буффера</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="IsAllLoggingLoggingEnabled" xml:space="preserve">
+    <value>Логгирование всего</value>
+  </data>
+  <data name="IsErrorLoggingEnabled" xml:space="preserve">
+    <value>Логгирование ошибок</value>
+  </data>
+  <data name="IsLoggingDisabled" xml:space="preserve">
+    <value>Логгирование отключено</value>
+  </data>
+  <data name="IsLoggingInFileEnabled" xml:space="preserve">
+    <value>Логгирование в файл</value>
+  </data>
+  <data name="IsLoggingToFileEnabled" xml:space="preserve">
+    <value>Логгирование в файл</value>
+  </data>
+  <data name="IsReadOnly" xml:space="preserve">
+    <value>Режим чтения</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="LastOpened" xml:space="preserve">
+    <value>Последние открытые</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="LoadExisting" xml:space="preserve">
+    <value>Загрузить существующее</value>
+  </data>
+  <data name="Logging" xml:space="preserve">
+    <value>Логгирование</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="ModbusMemory" xml:space="preserve">
+    <value>Просмотр памяти</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="NewDevice" xml:space="preserve">
+    <value>НовоеУстройство</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>Новый проект</value>
+  </data>
+  <data name="NotSet" xml:space="preserve">
+    <value>Не установлено</value>
+  </data>
+  <data name="NullOrEmptyMesasage" xml:space="preserve">
+    <value>Элемент должен иметь значение</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="NumberOfBits" xml:space="preserve">
+    <value>Количество бит</value>
+  </data>
+  <data name="NumberOfPoints" xml:space="preserve">
+    <value>Количество слов</value>
+  </data>
+  <data name="OffTransmission" xml:space="preserve">
+    <value>Выкл. передачи</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ок</value>
+  </data>
+  <data name="OnTransmission" xml:space="preserve">
+    <value>Вкл. передачи</value>
+  </data>
+  <data name="OpenDeviceEditor" xml:space="preserve">
+    <value>Открыть редактор устройств</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Открыть лог-файл</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="Parity" xml:space="preserve">
+    <value>Четность</value>
+  </data>
+  <data name="Parity_Even" xml:space="preserve">
+    <value>Чет</value>
+  </data>
+  <data name="Parity_Mark" xml:space="preserve">
+    <value>Маркер</value>
+  </data>
+  <data name="Parity_None" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Parity_Odd" xml:space="preserve">
+    <value>Нечет</value>
+  </data>
+  <data name="Parity_Space" xml:space="preserve">
+    <value>Пробел</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Порт</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Проект</value>
+  </data>
+  <data name="Queries" xml:space="preserve">
+    <value>Обмены</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Прочитать</value>
+  </data>
+  <data name="ReallyWantToDeleteWithChildRequest" xml:space="preserve">
+    <value>Вы действительно хотите удалить этот элемент со всеми его дочерними элементами?</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Сохранить как</value>
+  </data>
+  <data name="SaveInFile" xml:space="preserve">
+    <value>Сохранить в файл</value>
+  </data>
+  <data name="SelectedConnectionNullMessage" xml:space="preserve">
+    <value>Подключение не выбрано</value>
+  </data>
+  <data name="SelectedDeviceNullMessage" xml:space="preserve">
+    <value>Устройство не выбрано</value>
+  </data>
+  <data name="SetInBuffer" xml:space="preserve">
+    <value>Копировать в буффер</value>
+  </data>
+  <data name="SetLogFile" xml:space="preserve">
+    <value>Установить лог-файл</value>
+  </data>
+  <data name="SlaveId" xml:space="preserve">
+    <value>Номер устройства</value>
+  </data>
+  <data name="StopBits" xml:space="preserve">
+    <value>Стоп-биты</value>
+  </data>
+  <data name="StopBits_None" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="StopBits_One" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="StopBits_OnePointFive" xml:space="preserve">
+    <value>1,5</value>
+  </data>
+  <data name="StopBits_Two" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="SuccessfulQueries" xml:space="preserve">
+    <value>Успешные обмены</value>
+  </data>
+  <data name="TestResult" xml:space="preserve">
+    <value>Результат теста</value>
+  </data>
+  <data name="TestValueOfX" xml:space="preserve">
+    <value>Тестовое значение Х</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="VisualSettings" xml:space="preserve">
+    <value>Настройки отображения</value>
+  </data>
+  <data name="WaitAnswer" xml:space="preserve">
+    <value>Ожидание ответа</value>
+  </data>
+  <data name="WaitByte" xml:space="preserve">
+    <value>Ожидание байта</value>
+  </data>
+  <data name="Write" xml:space="preserve">
+    <value>Записать</value>
+  </data>
+  <data name="DeviceSettings" xml:space="preserve">
+    <value>Настройки устройства</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="ConvertedValue" xml:space="preserve">
+    <value>Приведенное значение</value>
+  </data>
+  <data name="LimitOfValue" xml:space="preserve">
+    <value>Предел значения</value>
+  </data>
+  <data name="ScaleLimit" xml:space="preserve">
+    <value>Предел шкалы</value>
+  </data>
+  <data name="EmptyDevice" xml:space="preserve">
+    <value>Пустое устройство</value>
+  </data>
+  <data name="AddBlock" xml:space="preserve">
+    <value>Добавить блок</value>
+  </data>
+  <data name="ConfigurationEditor" xml:space="preserve">
+    <value>Редактор конфигурации</value>
+  </data>
+  <data name="DeviceSignature" xml:space="preserve">
+    <value>Подпись устойства</value>
+  </data>
+  <data name="OpeningPortErrorMessage" xml:space="preserve">
+    <value>Ошибка открытия порта</value>
+  </data>
+  <data name="PortErrorMessage" xml:space="preserve">
+    <value>Ошибка порта</value>
+  </data>
+  <data name="ConnectionSettings" xml:space="preserve">
+    <value>Настройки подключения</value>
+  </data>
+  <data name="DeleteDevice" xml:space="preserve">
+    <value>Удалить устройство</value>
+  </data>
+  <data name="DeviceData" xml:space="preserve">
+    <value>Данные из устройства</value>
+  </data>
+  <data name="LocalData" xml:space="preserve">
+    <value>Данные на компьютере</value>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>Диапазон</value>
+  </data>
+  <data name="MeasureUnit" xml:space="preserve">
+    <value>Единица измерения</value>
+  </data>
+  <data name="AddChildElement" xml:space="preserve">
+    <value>Добавить дочернее свойство</value>
+  </data>
+  <data name="AddElementRoot" xml:space="preserve">
+    <value>Добавить корневое свойство</value>
+  </data>
+  <data name="AddGroupElement" xml:space="preserve">
+    <value>Добавить группу свойств</value>
+  </data>
+  <data name="AddGroupElementRoot" xml:space="preserve">
+    <value>Добавить корневую группу свойств </value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>Подпись</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Дата/Время</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Источник</value>
+  </data>
+  <data name="RecentNotifications" xml:space="preserve">
+    <value>Новые уведомления:</value>
+  </data>
+  <data name="LoggingToFileEnabled" xml:space="preserve">
+    <value>Логгирование в файл</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="Windows" xml:space="preserve">
+    <value>Окна</value>
+  </data>
+  <data name="ExecuteQuery" xml:space="preserve">
+    <value>Выполнить обмен</value>
+  </data>
+  <data name="Acknowlege" xml:space="preserve">
+    <value>Сервер (или подчиненный) принял запрос и обрабатывает его. Этот ответ пришел для исключения истечения таймаута.</value>
+  </data>
+  <data name="EmptyEndPoint" xml:space="preserve">
+    <value>Конечная точка аргумента не должна быть пустой.</value>
+  </data>
+  <data name="GatewayPathUnavailable" xml:space="preserve">
+    <value>Путь шлюза недоступен.</value>
+  </data>
+  <data name="GatewayTargetDeviceFailedToRespond" xml:space="preserve">
+    <value>Ошибка связанная с работой со шлюзом. Нет ответа от устройства. Обычно означает, что устройства нет в сети.</value>
+  </data>
+  <data name="HexCharacterCountNotEven" xml:space="preserve">
+    <value>Строка hex должна иметь четное количество символов.</value>
+  </data>
+  <data name="IllegalDataAddress" xml:space="preserve">
+    <value>Недопустимый адресс данных.</value>
+  </data>
+  <data name="IllegalDataValue" xml:space="preserve">
+    <value>Недопустимое значение данных.</value>
+  </data>
+  <data name="IllegalFunction" xml:space="preserve">
+    <value>Недопустимая функция.</value>
+  </data>
+  <data name="MemoryParityError" xml:space="preserve">
+    <value>Ошибка четности памяти.</value>
+  </data>
+  <data name="ModbusMemoryQuery" xml:space="preserve">
+    <value>Modbus запрос на чтение памяти.</value>
+  </data>
+  <data name="ModbusSingleMemoryQuery" xml:space="preserve">
+    <value>Modbus запрос на чтение памяти (единичный).</value>
+  </data>
+  <data name="NetworkBytesNotEven" xml:space="preserve">
+    <value>Массив байт должен быть четным.</value>
+  </data>
+  <data name="SlaveDeviceBusy" xml:space="preserve">
+    <value>Устройство занято.</value>
+  </data>
+  <data name="SlaveDeviceFailure" xml:space="preserve">
+    <value>Ошибка устройства.</value>
+  </data>
+  <data name="TimeoutNotSupported" xml:space="preserve">
+    <value>Таймаут не поддерживается.</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Неизвестно.</value>
+  </data>
+  <data name="WaitRetryGreaterThanZero" xml:space="preserve">
+    <value>Время ожидания и повторения больше нуля.</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="ValueOutOfRange" xml:space="preserve">
+    <value>Значение за пределами допустимого диапазона.</value>
+  </data>
+  <data name="OneWordEditing" xml:space="preserve">
+    <value>Редактирование слова в памяти</value>
+  </data>
+  <data name="WriteModbusMemoryQuery" xml:space="preserve">
+    <value>Modbus запрос на запись в память</value>
+  </data>
+  <data name="TransferFromDeviceToLocal" xml:space="preserve">
+    <value>Перенести значения из устройства на комп.</value>
+  </data>
+  <data name="ValueChanged" xml:space="preserve">
+    <value>Значение изменено</value>
+  </data>
+  <data name="WriteLocalValuesToDevice" xml:space="preserve">
+    <value>Записать локальные значения в устройство</value>
+  </data>
+  <data name="WriteConfigurationQuery" xml:space="preserve">
+    <value>Запись конфигурации.</value>
+  </data>
+  <data name="SaveConfiguration" xml:space="preserve">
+    <value>Сохранить конфигурацию</value>
+  </data>
+  <data name="LoadFromFile" xml:space="preserve">
+    <value>Загрузить из файла</value>
+  </data>
+  <data name="CurrentItem" xml:space="preserve">
+    <value>Текущий элемент</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Общие</value>
+  </data>
+  <data name="InvalidRangeError" xml:space="preserve">
+    <value>Недопустимый диапазон</value>
+  </data>
+  <data name="AddGroup" xml:space="preserve">
+    <value>Добавить группу</value>
+  </data>
+  <data name="ReadingPropertyQuery" xml:space="preserve">
+    <value>Запрос на чтение свойства</value>
+  </data>
+  <data name="Activation" xml:space="preserve">
+    <value>Активация</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="ModbusMemoryDescription" xml:space="preserve">
+    <value>Этот блок добавляет функцию чтения и записи памяти.</value>
+  </data>
+  <data name="BoolFormatter" xml:space="preserve">
+    <value>Форматирование правда/ложь</value>
+  </data>
+  <data name="CollapseLevel" xml:space="preserve">
+    <value>Свернуть один уровень</value>
+  </data>
+  <data name="ExpandLevel" xml:space="preserve">
+    <value>Развернуть один уровень</value>
+  </data>
+  <data name="Tree" xml:space="preserve">
+    <value>Дерево</value>
+  </data>
+  <data name="SharedResources" xml:space="preserve">
+    <value>Разделяемые ресурсы</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Добавлено</value>
+  </data>
+  <data name="Adding" xml:space="preserve">
+    <value>Добавление</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="ResourceKey" xml:space="preserve">
+    <value>Ключ ресурса</value>
+  </data>
+  <data name="AddAsResource" xml:space="preserve">
+    <value>Добавить как ресурс</value>
+  </data>
+  <data name="SelectFromResources" xml:space="preserve">
+    <value>Выбрать из ресурсов</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CurrentResource" xml:space="preserve">
+    <value>Текущий ресурс</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="PasteAsChild" xml:space="preserve">
+    <value>Вставить как доч. элемент</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Переименовать</value>
+  </data>
+  <data name="AddDependentProperty" xml:space="preserve">
+    <value>Добавить зависимое свойство</value>
+  </data>
+  <data name="DependentProperty" xml:space="preserve">
+    <value>Зависимое свойство</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Ссылка</value>
+  </data>
+  <data name="DefaultFormatter" xml:space="preserve">
+    <value>Форматирование по умолчанию</value>
+  </data>
+  <data name="AddCondition" xml:space="preserve">
+    <value>Добавить условие</value>
+  </data>
+  <data name="DeleteCondition" xml:space="preserve">
+    <value>Удалить условие</value>
+  </data>
+  <data name="ReferencedProperty" xml:space="preserve">
+    <value>Ссылаемое свойство</value>
+  </data>
+  <data name="ApplyingFormatter" xml:space="preserve">
+    <value>Применение форматирования</value>
+  </data>
+  <data name="Condition" xml:space="preserve">
+    <value>Условие</value>
+  </data>
+  <data name="ConditionFormatter" xml:space="preserve">
+    <value>Форматирование при выполении условия</value>
+  </data>
+  <data name="ConditionResult" xml:space="preserve">
+    <value>Результат проверки</value>
+  </data>
+  <data name="DisableInteraction" xml:space="preserve">
+    <value>Запрет взаимодействия</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Равно</value>
+  </data>
+  <data name="HaveFalseBitAt" xml:space="preserve">
+    <value>Имеет бит "нет" по номеру</value>
+  </data>
+  <data name="HaveTrueBitAt" xml:space="preserve">
+    <value>Имеет бит "да" по номеру</value>
+  </data>
+  <data name="Less" xml:space="preserve">
+    <value>Меньше</value>
+  </data>
+  <data name="LessOrEqual" xml:space="preserve">
+    <value>Меньше либо равно</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>Больше</value>
+  </data>
+  <data name="MoreOrEqual" xml:space="preserve">
+    <value>Больше либо равно</value>
+  </data>
+  <data name="NotEqual" xml:space="preserve">
+    <value>Не равно</value>
+  </data>
+  <data name="EditDescription" xml:space="preserve">
+    <value>Редактировать описание</value>
+  </data>
+  <data name="AddRange" xml:space="preserve">
+    <value>Добавить диапазон</value>
+  </data>
+  <data name="AddressRanges" xml:space="preserve">
+    <value>Диапазоны адресов</value>
+  </data>
+  <data name="DeleteRange" xml:space="preserve">
+    <value>Удалить диапазон</value>
+  </data>
+  <data name="EndAddress" xml:space="preserve">
+    <value>Адрес конца</value>
+  </data>
+  <data name="QuickAccessMemory" xml:space="preserve">
+    <value>Быстрый доступ к памяти</value>
+  </data>
+  <data name="StartAddress" xml:space="preserve">
+    <value>Адрес начала</value>
+  </data>
+  <data name="SaveInDefaultDirectory" xml:space="preserve">
+    <value>Сохранить в папку по умолчанию</value>
+  </data>
+  <data name="SaveInDefaultDirectoryDescription" xml:space="preserve">
+    <value>Сохранение в папку "Devices" в корневой каталог программы</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="NumberOfRecords" xml:space="preserve">
+    <value>Число записей</value>
+  </data>
+  <data name="OpenProject" xml:space="preserve">
+    <value>Открыть проект</value>
+  </data>
+  <data name="AddComplexProperty" xml:space="preserve">
+    <value>Добавить составное свойство</value>
+  </data>
+  <data name="AddSubProperty" xml:space="preserve">
+    <value>Добавить подсвойство</value>
+  </data>
+  <data name="ComplexProperty" xml:space="preserve">
+    <value>Составное свойство</value>
+  </data>
+  <data name="Bits" xml:space="preserve">
+    <value>Биты</value>
+  </data>
+  <data name="CheckConnection" xml:space="preserve">
+    <value>Проверить подключение</value>
+  </data>
+  <data name="AddComplexRecordParameter" xml:space="preserve">
+    <value>Добавить составной параметр</value>
+  </data>
+  <data name="AddRecordParameter" xml:space="preserve">
+    <value>Добавить параметр </value>
+  </data>
+  <data name="AddSubParameter" xml:space="preserve">
+    <value>Добавить подпараметр</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Журнал</value>
+  </data>
+  <data name="RecordsNumberOfPoints" xml:space="preserve">
+    <value>Количество слов на запись</value>
+  </data>
+  <data name="UniconJournal" xml:space="preserve">
+    <value>Журнал</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>По:</value>
+  </data>
+  <data name="WordFormatFrom" xml:space="preserve">
+    <value>Формат Word с:</value>
+  </data>
+  <data name="DefaultTimeFormatter" xml:space="preserve">
+    <value>Форматирование времени</value>
+  </data>
+  <data name="DefaultTimeFormatterDescription" xml:space="preserve">
+    <value>DefaultTimeFormatterDescription</value>
+  </data>
+  <data name="DayInMonth" xml:space="preserve">
+    <value>День</value>
+  </data>
+  <data name="Element" xml:space="preserve">
+    <value>Элемент</value>
+  </data>
+  <data name="ElementsPlacement" xml:space="preserve">
+    <value>Расположение элементов</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>Часы</value>
+  </data>
+  <data name="Milliseconds" xml:space="preserve">
+    <value>Милисекудны</value>
+  </data>
+  <data name="MillisecondsDecimalsPlaces" xml:space="preserve">
+    <value>Число знаков после запятой для миллисекунд</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>Минуты</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Месяц</value>
+  </data>
+  <data name="NumberOfPointsInUse" xml:space="preserve">
+    <value>Число используемых слов</value>
+  </data>
+  <data name="Placement" xml:space="preserve">
+    <value>Расположение</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>Секунды</value>
+  </data>
+  <data name="WordFormatNotForTheWholeRecord" xml:space="preserve">
+    <value>Формат Word не для всей записи</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="AddArgument" xml:space="preserve">
+    <value>Добавить аргумент</value>
+  </data>
+  <data name="DynamicValuesCheckingImpossible" xml:space="preserve">
+    <value>Проверка динамических значений невозможна</value>
+  </data>
+  <data name="ComplexParameter" xml:space="preserve">
+    <value>Составной параметр</value>
+  </data>
+  <data name="ReplaceExistingItemQuestion" xml:space="preserve">
+    <value>Заменить существующий файл?</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Сохранение</value>
+  </data>
+  <data name="JournalRecordReadingQuery" xml:space="preserve">
+    <value>Обмен чтения записи журнала</value>
+  </data>
+  <data name="ReadingConfigurationQuery" xml:space="preserve">
+    <value>Запрос на чтение конфигурации</value>
+  </data>
+  <data name="Values" xml:space="preserve">
+    <value>Значения</value>
+  </data>
+  <data name="AddAnalogSignal" xml:space="preserve">
+    <value>Добавить аналоговый сигнал</value>
+  </data>
+  <data name="AddDiscretSignal" xml:space="preserve">
+    <value>Добавить дискретный сигнал</value>
+  </data>
+  <data name="AddMeasuringGroup" xml:space="preserve">
+    <value>Добавить группу измерений</value>
+  </data>
+  <data name="Measuring" xml:space="preserve">
+    <value>Измерения</value>
+  </data>
+  <data name="MeasuringMonitor" xml:space="preserve">
+    <value>Измерения</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Загрузка</value>
+  </data>
+  <data name="Presentation" xml:space="preserve">
+    <value>Отображение</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>Показать все</value>
+  </data>
+  <data name="AnalogMeasuringElement" xml:space="preserve">
+    <value>Аналоговый сигнал</value>
+  </data>
+  <data name="BitNumberInWord" xml:space="preserve">
+    <value>Номер бита в слове</value>
+  </data>
+  <data name="DiscretMeasuringElement" xml:space="preserve">
+    <value>Дискретный сигнал</value>
+  </data>
+  <data name="IsReadingEnabled" xml:space="preserve">
+    <value>Доступ для чтения</value>
+  </data>
+  <data name="IsWritingEnabled" xml:space="preserve">
+    <value>Доступ для записи</value>
+  </data>
+  <data name="ModbusFunction" xml:space="preserve">
+    <value>Функция Modbus</value>
+  </data>
+  <data name="WriteSingleBitQuery" xml:space="preserve">
+    <value>Обмен установки одного бита</value>
+  </data>
+  <data name="AddControlSignal" xml:space="preserve">
+    <value>Добавить сигнал управления</value>
+  </data>
+  <data name="ControlSignal" xml:space="preserve">
+    <value>Сигнал управления</value>
+  </data>
+  <data name="ValueToWrite" xml:space="preserve">
+    <value>Значение для записи</value>
+  </data>
+  <data name="CycleLoading" xml:space="preserve">
+    <value>Циклический опрос</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Групп</value>
+  </data>
+  <data name="ReadMeasuringSignalsQuery" xml:space="preserve">
+    <value>Запрос на чтение сигналов измерений</value>
+  </data>
+  <data name="SetFalseBit" xml:space="preserve">
+    <value>Установить бит в значение "Нет"</value>
+  </data>
+  <data name="SetTrueBit" xml:space="preserve">
+    <value>Установить бит в значение "Да"</value>
+  </data>
+  <data name="ValueDec" xml:space="preserve">
+    <value>Значение (Dec)</value>
+  </data>
+  <data name="ValueHex" xml:space="preserve">
+    <value>Значение (Hex)</value>
+  </data>
+  <data name="LoadingSequence" xml:space="preserve">
+    <value>Последовательность загрузки</value>
+  </data>
+  <data name="OffsetLoadingSequence" xml:space="preserve">
+    <value>Последовательность загрузки по смещению</value>
+  </data>
+  <data name="JournalReadingError" xml:space="preserve">
+    <value>Ошибка чтения журнала</value>
+  </data>
+  <data name="AddDependentParameter" xml:space="preserve">
+    <value>Добавить зависимый параметр</value>
+  </data>
+  <data name="AddParameterTag" xml:space="preserve">
+    <value>Добавить параметр-тэг</value>
+  </data>
+  <data name="AddressOfOscillogram" xml:space="preserve">
+    <value>Адрес осциллограммы</value>
+  </data>
+  <data name="AddVariable" xml:space="preserve">
+    <value>Добавить переменную</value>
+  </data>
+  <data name="BoolFormatterDescription" xml:space="preserve">
+    <value>Если значение слова будет 0, возвращаемое значение будет "правда", иначе "ложь"</value>
+  </data>
+  <data name="CountingStructure" xml:space="preserve">
+    <value>Страктура отсчета</value>
+  </data>
+  <data name="FullPageLoading" xml:space="preserve">
+    <value>Загрузка всей страницы</value>
+  </data>
+  <data name="LoadingParameters" xml:space="preserve">
+    <value>Параметры загрузки</value>
+  </data>
+  <data name="NumberOfPointsInRecord" xml:space="preserve">
+    <value>Количество слов в записи</value>
+  </data>
+  <data name="Oscilloscope" xml:space="preserve">
+    <value>Осциллограф</value>
+  </data>
+  <data name="OscilloscopeJournal" xml:space="preserve">
+    <value>Журнал осциллографа</value>
+  </data>
+  <data name="OscilloscopeJournalLoadingSequence" xml:space="preserve">
+    <value>Последовательность загрузки журнала осциллографа</value>
+  </data>
+  <data name="SourceParameter" xml:space="preserve">
+    <value>Исходный параметр</value>
+  </data>
+  <data name="UshortToIntegerFormatter" xml:space="preserve">
+    <value>Форматирование двух слов в тип Integer</value>
+  </data>
+  <data name="UshortToIntegerFormatterDescription" xml:space="preserve">
+    <value>Форматирование значения двух слов в тип Integer (32 бита)</value>
+  </data>
+  <data name="OscillogramNotLoaded" xml:space="preserve">
+    <value>Осциллограмма не загружена.</value>
+  </data>
+  <data name="MaxSizeOfRewritableOscillogramInMs" xml:space="preserve">
+    <value>Макс. размер перезаписываемой осц-мы (мс)</value>
+  </data>
+  <data name="DefaultBitMaskFormatter" xml:space="preserve">
+    <value>Стандартное форматирование битовой маской</value>
+  </data>
+  <data name="DefaultBitMaskFormatterDescription" xml:space="preserve">
+    <value>Все биты выбранных слов будут по порядку форматированы в массив битов с подписями ниже (подписи могут отсутствовать)</value>
+  </data>
+  <data name="DefaultProperty" xml:space="preserve">
+    <value>Стандартное свойство</value>
+  </data>
+  <data name="OpenOscillogram" xml:space="preserve">
+    <value>Открыть осциллограмму</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="AddSignature" xml:space="preserve">
+    <value>Добавить подпись</value>
+  </data>
+  <data name="DeleteSignature" xml:space="preserve">
+    <value>Удалить подпись</value>
+  </data>
+  <data name="IsLoaded" xml:space="preserve">
+    <value>Загружено</value>
+  </data>
+  <data name="LoadSelectedOscillograms" xml:space="preserve">
+    <value>Загрузить выбранные осциллограммы</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Остановить</value>
+  </data>
+  <data name="ProjectOpened" xml:space="preserve">
+    <value>Проект открыт</value>
+  </data>
+  <data name="ProjectSaved" xml:space="preserve">
+    <value>Проект сохранен</value>
+  </data>
+  <data name="DefaultItemGroup" xml:space="preserve">
+    <value>Группа элементов</value>
+  </data>
+  <data name="SubProperty" xml:space="preserve">
+    <value>Подсвойство</value>
+  </data>
+  <data name="BitMatrix" xml:space="preserve">
+    <value>Битовая матрица</value>
+  </data>
+  <data name="AppointableMatrix" xml:space="preserve">
+    <value>Назначаемая матрица</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>Переменные</value>
+  </data>
+  <data name="Bit" xml:space="preserve">
+    <value>Бит</value>
+  </data>
+  <data name="Word" xml:space="preserve">
+    <value>Слово</value>
+  </data>
+  <data name="ValueSignatures" xml:space="preserve">
+    <value>Подписи значений</value>
+  </data>
+  <data name="PossibleValues" xml:space="preserve">
+    <value>Возможные значения</value>
+  </data>
+  <data name="AddPossibleValue" xml:space="preserve">
+    <value>Добавить возможное значение</value>
+  </data>
+  <data name="BoolMatrixTemplate" xml:space="preserve">
+    <value>Шаблон булевой матрицы</value>
+  </data>
+  <data name="False" xml:space="preserve">
+    <value>Ложь</value>
+  </data>
+  <data name="ListMatrixTemplate" xml:space="preserve">
+    <value>Шаблон матрицы-списков</value>
+  </data>
+  <data name="MustBe" xml:space="preserve">
+    <value>Должен быть</value>
+  </data>
+  <data name="NumberOfBitsOnEachVariable" xml:space="preserve">
+    <value>Количество бит на переменную</value>
+  </data>
+  <data name="True" xml:space="preserve">
+    <value>Правда</value>
+  </data>
+  <data name="BoolMatrixTemplateDescription" xml:space="preserve">
+    <value>Каждая переменная описывается с помощью массива булевых (правда/ложь) значений.</value>
+  </data>
+  <data name="ListMatrixTemplateDescription" xml:space="preserve">
+    <value>Каждая переменная описывается с помощью массива ячеек. Значение ячейки выбирается из списки возможных значений.</value>
+  </data>
+  <data name="MatrixTemplate" xml:space="preserve">
+    <value>Шаблон матрицы</value>
+  </data>
+  <data name="NumberOfSimbolsAfterComma" xml:space="preserve">
+    <value>Количесто знаков после запятой</value>
+  </data>
+  <data name="IsKeysAreNumbersOfBits" xml:space="preserve">
+    <value>Ключи это номера бит по порядку.</value>
+  </data>
+  <data name="IncreaseAddress" xml:space="preserve">
+    <value>Увеличить адрес</value>
+  </data>
+  <data name="AddMatrix" xml:space="preserve">
+    <value>Добавить матрицу</value>
+  </data>
+  <data name="ArrangeBitsInOrder" xml:space="preserve">
+    <value>Расставить биты по порядку</value>
+  </data>
+  <data name="DecreaseAddress" xml:space="preserve">
+    <value>Уменьшить адрес</value>
+  </data>
+  <data name="StringFormatter1251" xml:space="preserve">
+    <value>Форматирование в строку (1251)</value>
+  </data>
+  <data name="StringFormatter1251Description" xml:space="preserve">
+    <value>Форматирование полученных байт в строку применяя кодировку 1251</value>
+  </data>
+  <data name="Transpone" xml:space="preserve">
+    <value>Транспонировать</value>
+  </data>
+  <data name="ConnectionTesting" xml:space="preserve">
+    <value>Тестирование подключения</value>
+  </data>
+  <data name="ConnectionTestingDescription" xml:space="preserve">
+    <value>Выберите свойство для теста подключения. Вы можете ввести ожидаемое значение, которое позволяет узнать, совпадает ли данный файл описания с подключенным устройством.</value>
+  </data>
+  <data name="ExpectedValue" xml:space="preserve">
+    <value>Ожидаемое значение</value>
+  </data>
+  <data name="PropertyForTest" xml:space="preserve">
+    <value>Свойство для теста</value>
+  </data>
+  <data name="Interrogate" xml:space="preserve">
+    <value>Опросить</value>
+  </data>
+  <data name="Interrogation" xml:space="preserve">
+    <value>Опрос</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Адрес свойства</value>
+  </data>
+  <data name="Speed" xml:space="preserve">
+    <value>Скорость</value>
+  </data>
+  <data name="DevicesNotFound" xml:space="preserve">
+    <value>Устройства не найдены</value>
+  </data>
+  <data name="AnyDecimalDigitCharacterClassDescription" xml:space="preserve">
+    <value>\d               Соответствует любой десятичной цифре.</value>
+  </data>
+  <data name="AnyWhiteSpaceCharacterClassDescription" xml:space="preserve">
+    <value>\s               Соответствует любому пробельному символу.</value>
+  </data>
+  <data name="AnyWordCharacterClassDescription" xml:space="preserve">
+    <value>\w              Соответствует любому алфавитно-цифровому знаку.</value>
+  </data>
+  <data name="CharacterClass" xml:space="preserve">
+    <value>Класс символа</value>
+  </data>
+  <data name="ExactlyNTimesQuantifierDescription" xml:space="preserve">
+    <value>{n}            Предыдущий элемент повторяется ровно n раз.</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
+    <value>IP адрес</value>
+  </data>
+  <data name="OneOrMoreTimesQuantifierDescription" xml:space="preserve">
+    <value>+               Соответствует предыдущему элементу один или более раз.</value>
+  </data>
+  <data name="Quantifier" xml:space="preserve">
+    <value>Квантификатор (количество вхождений)</value>
+  </data>
+  <data name="ZeroOrMoreTimesQuantifierDescription" xml:space="preserve">
+    <value>*                Соответствует предыдущему элементу ноль или более раз.</value>
+  </data>
+  <data name="IsGroupedProperty" xml:space="preserve">
+    <value>Группировать свойство</value>
+  </data>
+  <data name="FileBrowser" xml:space="preserve">
+    <value>Браузер файлов</value>
+  </data>
+  <data name="FileBrowserDescription" xml:space="preserve">
+    <value>Дает возможность просмотра файловой системы устройства</value>
+  </data>
+  <data name="CurrentDirectory" xml:space="preserve">
+    <value>Текущая папка</value>
+  </data>
+  <data name="Memory" xml:space="preserve">
+    <value>Память</value>
+  </data>
+  <data name="MultipleAssignmentAllowed" xml:space="preserve">
+    <value>Разрешить множественное назначение</value>
+  </data>
+  <data name="ResetConditions" xml:space="preserve">
+    <value>Сбросить условия</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="ProgrammingEditorDescription" xml:space="preserve">
+    <value>Редактор программирования</value>
+  </data>
+  <data name="Programming" xml:space="preserve">
+    <value>Программирование</value>
+  </data>
+  <data name="VersionStringExample" xml:space="preserve">
+    <value>Пример: MR 5 N\d* VERSION 70.\d</value>
+  </data>
+</root>

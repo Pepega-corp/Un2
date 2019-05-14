@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+	<Fragment>
+	  <Icon Id="logoIcon.ico" SourceFile="logoIcon.ico" />
+	  <DirectoryRef Id="ApplicationProgramsFolder">
+	    <Component Id="ApplicationShortcutUnicon2" Guid="4CEBD68F-E933-47f9-B02C-A4FC69FD1228">
+	      <Shortcut Id="ShortcutUnicon2"
+	                Name="$(var.ProductName)"
+	                Description="$(var.ProductName)"
+	                Target="[INSTALLFOLDER]Unicon2.Shell.exe"
+	                WorkingDirectory="INSTALLFOLDER"
+	                Icon ="logoIcon.ico"/>
+	      <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+	      <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+	    </Component>
+	  </DirectoryRef>
+
+	  <DirectoryRef Id="DesktopFolder">
+	    <Component Id="ApplicationShortcutDesktop" Guid="*">
+	      <Shortcut Id="ApplicationDesktopShortcut"
+	                Name="$(var.ProductName)"
+	                Description="Unicon 2"
+	                Target="[INSTALLFOLDER]Unicon2.Shell.exe"
+	                WorkingDirectory="INSTALLFOLDER"
+	                Icon ="logoIcon.ico"/>
+	      <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+	      <RegistryValue
+	        Root="HKCU"
+	        Key="Software\$(var.Manufacturer)\$(var.ProductName)"
+	        Name="installed"
+	        Type="integer"
+	        Value="1"
+	        KeyPath="yes"/>
+	    </Component>
+	  </DirectoryRef>
+	</Fragment>
+</Wix>

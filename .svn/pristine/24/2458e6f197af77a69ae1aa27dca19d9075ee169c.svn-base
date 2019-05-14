@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{326BC120-600A-409B-B24B-46B245131288}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Unicon2.Shell</RootNamespace>
+    <AssemblyName>Unicon2.Shell</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationGlobal\ApplicationGlobalCommands.cs" />
+    <Compile Include="Behaviors\AnchorableSelectedBehavior.cs" />
+    <Compile Include="Behaviors\DynamicRibbonTabItemBehavior.cs" />
+    <Compile Include="ControlRegionAdapter\FlyoutsControlRegionAdapter.cs" />
+    <Compile Include="LayoutHelpers\ActiveDocumentConverter.cs" />
+    <Compile Include="LayoutHelpers\DockingManagerTemplateSelector.cs" />
+    <Compile Include="LayoutHelpers\LayoutInitializer.cs" />
+    <Compile Include="LayoutHelpers\FragmentsLayoutTemplateSelector.cs" />
+    <Compile Include="LayoutHelpers\PanesStyleSelector.cs" />
+    <Compile Include="Models\AccentColor.cs" />
+    <Compile Include="Models\ApplicationTheme.cs" />
+    <Compile Include="ViewModels\UniconSplashScreenViewModel.cs" />
+    <Compile Include="Views\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellSettingsFlyOut.xaml.cs">
+      <DependentUpon>ShellSettingsFlyOut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UniconSplashScreen.xaml.cs">
+      <DependentUpon>UniconSplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ShellSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Bootstrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Connections\Unicon2.Connections.ModBusRtuConnection\Unicon2.Connections.ModBusRtuConnection.csproj">
+      <Project>{7DBCD949-CD63-44F3-A11B-491D89D71397}</Project>
+      <Name>Unicon2.Connections.ModBusRtuConnection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Connections\Unicon2.Connections.OfflineConnection\Unicon2.Connections.OfflineConnection.csproj">
+      <Project>{24f25022-4a99-4c63-95ed-40beb122e0ed}</Project>
+      <Name>Unicon2.Connections.OfflineConnection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Formatting\Unicon2.Formatting.Editor\Unicon2.Formatting.Editor.csproj">
+      <Project>{0F26E688-7767-4264-B287-43DA0C5D8C58}</Project>
+      <Name>Unicon2.Formatting.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Formatting\Unicon2.Formatting\Unicon2.Formatting.csproj">
+      <Project>{DACD757A-1BEE-4C5E-BD62-D5BF7B89DA14}</Project>
+      <Name>Unicon2.Formatting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\ModBusMemory\Unicon2.Fragments.ModbusMemory\Unicon2.Fragments.ModbusMemory.csproj">
+      <Project>{3C34747B-D562-4900-880D-67E8574544AE}</Project>
+      <Name>Unicon2.Fragments.ModbusMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Connections.ModBusQueryQueue\Unicon2.Connections.ModBusQueryQueue.csproj">
+      <Project>{E930C070-313F-4442-B5B0-8F2C39AD8EF2}</Project>
+      <Name>Unicon2.Connections.ModBusQueryQueue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.DeviceEditorUtilityModule\Unicon2.DeviceEditorUtilityModule.csproj">
+      <Project>{E263B732-5DC2-4237-9C45-2B655C51A033}</Project>
+      <Name>Unicon2.DeviceEditorUtilityModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Fragments.Configuration.Editor\Unicon2.Fragments.Configuration.Editor.csproj">
+      <Project>{D1A9A1AC-BFAA-4DA5-AB7D-DB7D082EDFA4}</Project>
+      <Name>Unicon2.Fragments.Configuration.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Fragments.Configuration\Unicon2.Fragments.Configuration.csproj">
+      <Project>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</Project>
+      <Name>Unicon2.Fragments.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
+      <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>
+      <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Localization\Unicon2.Localization.csproj">
+      <Project>{3c6c1c77-4826-4d28-8f4f-8680eebd02e7}</Project>
+      <Name>Unicon2.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Model\Unicon2.Model.csproj">
+      <Project>{2504F838-86E8-48C4-9288-5EDFB922F0CC}</Project>
+      <Name>Unicon2.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.ModuleDeviceEditing\Unicon2.ModuleDeviceEditing.csproj">
+      <Project>{973b568f-ed39-4b50-bb1f-dede5e61b73a}</Project>
+      <Name>Unicon2.ModuleDeviceEditing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+      <Project>{EF9BF685-16AA-4942-A33C-D65562BD4215}</Project>
+      <Name>Unicon2.Presentation.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Presentation\Unicon2.Presentation.csproj">
+      <Project>{2080fee4-0721-4ea8-9be3-34808437faeb}</Project>
+      <Name>Unicon2.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Services\Unicon2.Services.csproj">
+      <Project>{0288D2C4-EC3E-4A92-8EB6-2457AA6E16ED}</Project>
+      <Name>Unicon2.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.SharedResources\Unicon2.SharedResources.csproj">
+      <Project>{ca06a2c8-e39c-4d5c-b19b-3c60e7151aef}</Project>
+      <Name>Unicon2.SharedResources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\BemnLogo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ReferencePath Include="C:\Unicon2\packages\ControlzEx.2.2.0.4\lib\net45\ControlzEx.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\Fluent.Ribbon.5.0.2.46\lib\net45\Fluent.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\Prism.Core.6.3.0\lib\net45\Prism.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\Prism.Unity.6.3.0\lib\net45\Prism.Unity.Wpf.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\ControlzEx.2.2.0.4\lib\net45\System.Windows.Interactivity.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\UIAutomationProvider.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\UIAutomationTypes.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Connections.ModBusQueryQueue\bin\Debug\Unicon2.Connections.ModBusQueryQueue.dll" />
+    <ReferencePath Include="C:\Unicon2\Connections\Unicon2.Connections.ModBusRtuConnection\bin\Debug\Unicon2.Connections.ModBusRtuConnection.dll" />
+    <ReferencePath Include="C:\Unicon2\Connections\Unicon2.Connections.OfflineConnection\bin\Debug\Unicon2.Connections.OfflineConnection.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.DeviceEditorUtilityModule\bin\Debug\Unicon2.DeviceEditorUtilityModule.dll" />
+    <ReferencePath Include="C:\Unicon2\Formatting\Unicon2.Formatting\bin\Debug\Unicon2.Formatting.dll" />
+    <ReferencePath Include="C:\Unicon2\Formatting\Unicon2.Formatting.Editor\bin\Debug\Unicon2.Formatting.Editor.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Fragments.Configuration\bin\Debug\Unicon2.Fragments.Configuration.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Fragments.Configuration.Editor\bin\Debug\Unicon2.Fragments.Configuration.Editor.dll" />
+    <ReferencePath Include="C:\Unicon2\Fragments\ModBusMemory\Unicon2.Fragments.ModbusMemory\bin\Debug\Unicon2.Fragments.ModbusMemory.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Infrastructure\bin\Debug\Unicon2.Infrastructure.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Localization\bin\Debug\Unicon2.Localization.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Model\bin\Debug\Unicon2.Model.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.ModuleDeviceEditing\bin\Debug\Unicon2.ModuleDeviceEditing.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Presentation\bin\Debug\Unicon2.Presentation.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Presentation.Infrastructure\bin\Debug\Unicon2.Presentation.Infrastructure.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.Services\bin\Debug\Unicon2.Services.dll" />
+    <ReferencePath Include="C:\Unicon2\Unicon2.SharedResources\bin\Debug\Unicon2.SharedResources.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\WindowsBase.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\WpfLocalizeExtension.2.3.2\lib\net35\WPFLocalizeExtension.dll" />
+    <ReferencePath Include="C:\Unicon2\packages\XAMLMarkupExtensions.1.2.2\lib\net40\XAMLMarkupExtensions.dll" />
+    <ReferencePath Include="C:\Unicon2\Xceed.Wpf.AvalonDock.dll" />
+    <ReferencePath Include="C:\Unicon2\Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Collections.Concurrent.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Collections.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ComponentModel.Annotations.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ComponentModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ComponentModel.EventBasedAsync.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Diagnostics.Contracts.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Diagnostics.Debug.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Diagnostics.Tools.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Diagnostics.Tracing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Dynamic.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Globalization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.IO.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Linq.Expressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Linq.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Linq.Queryable.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Net.NetworkInformation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Net.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Net.Requests.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ObjectModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Reflection.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Reflection.Emit.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Reflection.Emit.ILGeneration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Reflection.Emit.Lightweight.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Reflection.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Reflection.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Resources.ResourceManager.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.InteropServices.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.InteropServices.WindowsRuntime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.Serialization.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.Serialization.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.Serialization.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Security.Principal.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ServiceModel.Duplex.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ServiceModel.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ServiceModel.NetTcp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ServiceModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.ServiceModel.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Text.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Text.Encoding.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Text.RegularExpressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Threading.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Threading.Tasks.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Threading.Tasks.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Xml.ReaderWriter.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Xml.XDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Xml.XmlSerializer.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="C:\Unicon2\Unicon2.Shell\obj\Debug\Views\Shell.g.cs" />
+    <Compile Include="C:\Unicon2\Unicon2.Shell\obj\Debug\Views\ShellSettingsFlyOut.g.cs" />
+    <Compile Include="C:\Unicon2\Unicon2.Shell\obj\Debug\Views\UniconSplashScreen.g.cs" />
+    <Compile Include="C:\Unicon2\Unicon2.Shell\obj\Debug\App.g.cs" />
+    <Compile Include="C:\Unicon2\Unicon2.Shell\obj\Debug\Unicon2.Shell_Content.g.cs" />
+    <Compile Include="C:\Unicon2\Unicon2.Shell\obj\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

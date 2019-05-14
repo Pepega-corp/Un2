@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Oscilloscope.View.CommonDiscretChartItems.CommonDiscretChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignWidth="346" Height="60"  >
+    <Border x:Name="MainBorder"  BorderThickness="0,0,0,0"  >
+
+        <Grid x:Name="MainGrid" Background="White" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition x:Name="ImageColumn" Width="197*"/>
+                <ColumnDefinition Width="4"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="InfoCanvas" Grid.Column="0" Margin="0,0,0,0"  Width="150" HorizontalAlignment="Left" Panel.ZIndex="1"   >
+                <StackPanel x:Name="InfoStack" />
+            </Grid>
+
+            <Grid x:Name="ImageGrid" Grid.Column="1"  SizeChanged="Grid_SizeChanged_1" Margin="0,0,0,0">
+                <StackPanel x:Name="ImageStack"  Orientation="Vertical" MouseDown="DrowCanvas_MouseDown"/>
+            </Grid>
+
+
+     
+
+        </Grid>
+    </Border>
+</UserControl>

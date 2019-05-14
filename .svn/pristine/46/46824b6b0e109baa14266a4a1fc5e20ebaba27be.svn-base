@@ -1,0 +1,16 @@
+﻿<Window x:Class="Oscilloscope.View.PieChartItem.PolygonalCharacteristicOptionForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PolygonalCharacteristicOptionForm" Height="174" Width="180">
+    <Grid>
+        <Label Content="R" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="X" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Label Content="f" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="RTb" HorizontalAlignment="Left" Height="23" Margin="32,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="XTb" HorizontalAlignment="Left" Height="23" Margin="32,43,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="FTb" HorizontalAlignment="Left" Height="23" Margin="32,74,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="OkButton" Content="Ok" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" Width="75" Click="OkButton_Click"/>
+        <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="90,112,0,0" VerticalAlignment="Top" Width="75" Click="CancelButton_Click"/>
+
+    </Grid>
+</Window>

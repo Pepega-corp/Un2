@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Unicon2.Fragments.Configuration.Matrix.View.ListMatrixTemplateEditorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>   <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <StackPanel>
+            
+            <TextBlock Margin="5" TextWrapping="WrapWithOverflow" Text="{lex:Loc ListMatrixTemplateDescription}"></TextBlock>
+            <Button
+                HorizontalAlignment="Left"
+                Margin="10"
+                Command="{Binding AddNewOptionPossibleValueCommand}"
+                Content="{lex:Loc AddPossibleValue}"  
+                Style="{DynamicResource UniconButtonStyle}"/>
+         
+            <ListBox
+                x:Name="listMatrixTemplateListBox"
+                Height="300"
+                ItemsSource="{Binding Path=OptionPossibleValueEditorViewModels}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                                <TextBox Height="20" Grid.Column="0" Margin="20,5,5,5" Text="{Binding  PossibleValueName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem 
+                                            Header="{lex:Loc Delete}" 
+                                            Command="{Binding Source={x:Reference listMatrixTemplateListBox},Path=DataContext.DeletePossibleValueCommand}" 
+                                            CommandParameter="{Binding .}">
+                                        </MenuItem>
+                                        <MenuItem 
+                                            Header="{lex:Loc AddCondition}" 
+                                            Command="{Binding AddConditionCommand}" >
+                                        </MenuItem>
+                                        <MenuItem 
+                                            Header="{lex:Loc ResetConditions}" 
+                                            Command="{Binding ResetConditionsCommand}" >
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </TextBox.ContextMenu>
+                            </TextBox>
+                                <ItemsControl Grid.Column="1" Name="possibleValueConditionsItemsControl"  ItemsSource="{Binding PossibleValueConditionEditorViewModels}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate >
+                                        <StackPanel Orientation="Horizontal">
+                                                <ComboBox 
+                                                    Margin="5" 
+                                                    Height="20" 
+                                                    SelectedItem="{Binding RelatedOptionPossibleValueEditorViewModel}" 
+                                                    DisplayMemberPath="PossibleValueName" 
+                                                    ItemsSource="{Binding Source={x:Reference listMatrixTemplateListBox},Path=DataContext.OptionPossibleValueEditorViewModels}">
+                                                </ComboBox>
+                                                <controls:ToggleSwitch ContentDirection="LeftToRight"  FontWeight="Regular" Margin="5" FontSize="15" Header="{lex:Loc MustBe}"  OnLabel="{lex:Loc True}" OffLabel="{lex:Loc False}" IsChecked="{Binding BoolConditionRule}"/>
+                                           
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Grid>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                </ListBox>
+          
+        </StackPanel>  </ScrollViewer>
+    </Grid>
+</UserControl>

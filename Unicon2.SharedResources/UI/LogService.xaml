@@ -1,0 +1,188 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:interactivity="http://prismlibrary.com/"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:logService="clr-namespace:Unicon2.Presentation.ViewModels.Windows;assembly=Unicon2.Presentation"
+    xmlns:logService1="clr-namespace:Unicon2.Infrastructure.Services.LogService;assembly=Unicon2.Infrastructure">
+    <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
+    <converter:LogMessageTypeToIconConverter x:Key="LogMessageTypeToIconConverter" />
+
+    <DataTemplate DataType="{x:Type logService:LogServiceViewModel}">
+        <Grid>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseUp">
+                    <i:InvokeCommandAction Command="{Binding RefreshHeaderStringCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <ComboBox
+                        MinWidth="150"
+                        ItemsSource="{Binding FilteringMessageSourceCollection}"
+                        SelectedItem="{Binding SelectedFilteringMessageSource}" />
+                    <UniformGrid Columns="4">
+                        <ToggleButton IsChecked="{Binding Path=IsInfoMessagesShowing}" Template="{DynamicResource UniconToggleButtonTemplate}">
+                            <ToggleButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="18"
+                                        Height="18"
+                                        Source="../Icons/Info.png" />
+                                    <TextBlock
+                                        Margin="1"
+                                        VerticalAlignment="Center"
+                                        FontSize="11"
+                                        Text="{lex:Loc Info}" />
+                                    <TextBlock
+                                        Margin="1"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding InfoMessagesCount, StringFormat={}({0})}" />
+                                </StackPanel>
+
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                        <ToggleButton IsChecked="{Binding Path=IsErrorsShowing}" Template="{DynamicResource UniconToggleButtonTemplate}">
+                            <ToggleButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="18"
+                                        Height="18"
+                                        Source="../Icons/Error.png" />
+                                    <TextBlock
+                                        Margin="1"
+                                        VerticalAlignment="Center"
+                                        FontSize="11"
+                                        Text="{lex:Loc Errors}" />
+                                    <TextBlock
+                                        Margin="1"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding ErrorMessagesCount, StringFormat={}({0})}" />
+                                </StackPanel>
+
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                        <ToggleButton IsChecked="{Binding Path=IsSuccessfulQueryShowing}" Template="{DynamicResource UniconToggleButtonTemplate}">
+                            <ToggleButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="18"
+                                        Height="18"
+                                        Source="../Icons/ExchangeSuccess.png" />
+                                    <TextBlock
+                                        Margin="1"
+                                        VerticalAlignment="Center"
+                                        FontSize="11"
+                                        Text="{lex:Loc SuccessfulQueries}" />
+                                    <TextBlock
+                                        Margin="1"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding SuccessfulQueryMessagesCount, StringFormat={}({0})}" />
+                                </StackPanel>
+
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                        <ToggleButton IsChecked="{Binding Path=IsFailedQueryShowing}" Template="{DynamicResource UniconToggleButtonTemplate}">
+                            <ToggleButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="18"
+                                        Height="18"
+                                        Source="../Icons/ExchangeFail.png" />
+                                    <TextBlock
+                                        Margin="1"
+                                        VerticalAlignment="Center"
+                                        FontSize="11"
+                                        Text="{lex:Loc FailedQueries}" />
+                                    <TextBlock
+                                        Margin="1"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding FailedQueryMessagesCount, StringFormat={}({0})}" />
+                                </StackPanel>
+
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                    </UniformGrid>
+
+                    <Button
+                        Margin="20,1,1,1"
+                        Command="{Binding Path=SetLogFilePathCommand}"
+                        Content="{lex:Loc SetLogFile}"
+                        FontSize="11"
+                        Template="{DynamicResource UniconButtonTemplate}" />
+                    <ToggleButton
+                        Margin="1"
+                        Content="{lex:Loc LoggingToFileEnabled}"
+                        FontSize="11"
+                        IsChecked="{Binding Path=IsLoggingToFileEnabled}"
+                        Template="{DynamicResource UniconToggleButtonTemplate}" />
+                </StackPanel>
+                <Button
+                    Grid.Column="2"
+                    Margin="1"
+                    Command="{Binding ClearLoggerCommand}"
+                    Content="{lex:Loc Clean}"
+                    FontSize="11"
+                    Template="{DynamicResource UniconButtonTemplate}" />
+            </Grid>
+
+
+            <DataGrid
+                Grid.Row="1"
+                AutoGenerateColumns="False"
+                BorderThickness="1"
+                EnableRowVirtualization="True"
+                ItemsSource="{Binding Path=InfoMessageCollectionToShow}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="logService1:ILogMessage">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Source="{Binding LogMessageType, Converter={StaticResource LogMessageTypeToIconConverter}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn
+                        Width="Auto"
+                        Binding="{Binding MessageSubject}"
+                        Header="{lex:Loc Source}" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        Binding="{Binding MessageDateTime}"
+                        Header="{lex:Loc DateTime}"
+                        SortDirection="Descending" />
+                    <DataGridTemplateColumn Width="*" Header="{lex:Loc Description}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="logService1:ILogMessage">
+                                <TextBlock
+                                    HorizontalAlignment="Stretch"
+                                    Text="{Binding Description}"
+                                    TextWrapping="WrapWithOverflow" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DataTemplate>
+
+
+
+</ResourceDictionary>

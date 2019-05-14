@@ -1,0 +1,99 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:innerMembers1="clr-namespace:Unicon2.Formatting.Editor.ViewModels.InnerMembers"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com">
+
+    <converter:ObjectsEqualityToBoolConverter x:Key="ObjectsEqualityToBoolConverter" />
+    <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
+    <converter:BoolToVisConverter x:Key="BoolToInVisConverter" Invert="True" />
+
+
+    <!--<DataTemplate DataType="{x:Type innerMembers1:BitGroupViewModel}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Label Margin="5" Content="{lex:Loc Name}" />
+                <TextBox
+                    MinWidth="100"
+                    Margin="5"
+                    Text="{Binding Header}" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Label Margin="5" Content="{lex:Loc Bits}" />
+                <ItemsControl
+                    Name="BitsListBox"
+                    Background="Transparent"
+                    ItemsSource="{Binding BitObservableCollectionOfGroup}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding NumberOfBit}" />
+                                <CheckBox
+                                    Background="White"
+                                    Command="{Binding ChangeValueByOwnerCommand}"
+                                    CommandParameter="{Binding ElementName=BitsListBox, Path=DataContext}"
+                                    IsChecked="{Binding Value, Mode=OneWay}"
+                                    IsManipulationEnabled="False"
+                                    Style="{DynamicResource BitCheckBoxStyle}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button
+                    Margin="3"
+                    Command="{Binding ShowFormatterParametersCommand}"
+                    Content="{lex:Loc FormatterParameters}"
+                    Style="{DynamicResource SquareButtonStyle}" />
+                <TextBlock Margin="5" Text="{lex:Loc Currentformatting}" />
+                <lex:LocProxy Name="SelectedUshortFormatterNameProxy" Source="{Binding SelectedUshortFormatterName, TargetNullValue=NotSet}" />
+                <TextBlock Margin="5" Text="{Binding ElementName=SelectedUshortFormatterNameProxy, Path=Result}" />
+
+            </StackPanel>
+
+        </Grid>
+    </DataTemplate>-->
+
+
+
+
+    <Style
+        x:Key="BitCheckBoxStyle"
+        BasedOn="{StaticResource MetroCheckBox}"
+        TargetType="CheckBox">
+
+        <Setter Property="Background" Value="Transparent" />
+        <Style.Triggers>
+            <DataTrigger Value="False">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{StaticResource ObjectsEqualityToBoolConverter}">
+                        <Binding ElementName="BitsListBox" Path="DataContext" />
+                        <Binding Path="Owner" />
+                    </MultiBinding>
+                </DataTrigger.Binding>
+                <DataTrigger.Setters>
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger.Setters>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+</ResourceDictionary>

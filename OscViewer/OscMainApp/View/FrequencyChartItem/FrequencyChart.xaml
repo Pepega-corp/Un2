@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Oscilloscope.View.FrequencyChartItem.FrequencyChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="570" Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Width="570" Height="170">  
+
+    <Grid x:Name="MainGrid">
+          <Line X1="10" X2="10" Y1="28" Y2="130" Stroke="Black" StrokeThickness="0.5"></Line>
+        <Line X1="560" X2="10" Y1="130" Y2="130" Stroke="Black" StrokeThickness="0.5"></Line>
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Canvas x:Name="ColorPanel" Width="10" Height="10"></Canvas>
+            <Label x:Name="InfoLabel"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,131 @@
+﻿<controls:MetroWindow
+    x:Class="Unicon2.Formatting.Editor.Views.FormatterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="FormattingWindow"
+    Title="{Binding FormatterOwnersName}"
+    MinWidth="300"
+    MinHeight="300"
+    MaxWidth="800"
+    MaxHeight="800"
+    d:DesignHeight="800"
+    d:DesignWidth="800"
+    dialogs:DialogParticipation.Register="{Binding}"
+    lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
+    lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    BorderBrush="{DynamicResource AccentColorBrush}"
+    BorderThickness="1"
+    GlowBrush="Black"
+    IsWindowDraggable="True"
+    NonActiveBorderBrush="Black"
+    ShowCloseButton="False"
+    ShowMaxRestoreButton="False"
+    ShowMinButton="False"
+    ShowSystemMenuOnRightClick="False"
+    SizeToContent="WidthAndHeight"
+    TitleAlignment="Center"
+    mc:Ignorable="d">
+    <controls:MetroWindow.Resources>
+        <converter:InvertConverter x:Key="InvertConverter" />
+
+
+
+    </controls:MetroWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Width="auto" Orientation="Horizontal">
+            <ComboBox
+                Width="auto"
+                MinWidth="150"
+                Margin="20"
+                IsEnabled="{Binding IsFormatterFromResource, Converter={StaticResource InvertConverter}}"
+                ItemsSource="{Binding UshortsFormatterViewModels}"
+                SelectedItem="{Binding SelectedUshortsFormatterViewModel}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <lex:LocProxy Name="FormatterNameProxy" Source="{Binding StrongName}" />
+                            <TextBlock Text="{Binding Result, ElementName=FormatterNameProxy}" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button
+                Margin="20,20,0,20"
+                Command="{Binding ResetCommand}"
+                Content="{lex:Loc Reset}"
+                Style="{DynamicResource UniconButtonStyle}" />
+            <!--<Button
+                Margin="5"
+                Command="{Binding SetInBufferCommand}"
+                Content="{lex:Loc SetInBuffer}" />
+            <Button
+                Margin="5,5,35,5"
+                Command="{Binding GetFromBufferCommand}"
+                Content="{lex:Loc GetFromBuffer}" />-->
+            <StackPanel>
+                <Button
+                    Margin="3"
+                    Command="{Binding AddAsResourceCommand}"
+                    Content="{lex:Loc AddAsResource}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+                <Button
+                    Margin="3"
+                    Command="{Binding SelectFromResourcesCommand}"
+                    Content="{lex:Loc SelectFromResources}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+            </StackPanel>
+            <TextBlock Margin="7" Text="{lex:Loc CurrentResource}" />
+            <TextBlock Margin="7" Text="{Binding CurrentResourceString, TargetNullValue={lex:Loc NotSet}}" />
+
+        </StackPanel>
+
+        <ContentControl Grid.Row="1" Content="{Binding SelectedUshortsFormatterViewModel}" />
+        <!--<StackPanel
+            Grid.Row="2"
+            Margin="5"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="10"
+                controls:VisibilityHelper.IsVisible="{Binding SelectedUshortsFormatterViewModel.IsMeasureUnitEnabled}"
+                Text="{lex:Loc MeasureUnit}" />
+            <TextBox
+                MinWidth="100"
+                Margin="5"
+                controls:VisibilityHelper.IsVisible="{Binding SelectedUshortsFormatterViewModel.IsMeasureUnitEnabled}"
+                IsEnabled="{Binding SelectedUshortsFormatterViewModel.IsMeasureUnitEnabled}"
+                Text="{Binding SelectedUshortsFormatterViewModel.MeasureUnit}" />
+        </StackPanel>-->
+        <UniformGrid
+            Grid.Row="3"
+            Width="auto"
+            Columns="2">
+            <Button
+                Margin="3"
+                Command="{Binding CancelCommand}"
+                CommandParameter="{Binding ElementName=FormattingWindow}"
+                Content="{lex:Loc Cancel}"
+                Style="{DynamicResource UniconButtonStyle}" />
+            <Button
+                Margin="3"
+                Command="{Binding OkCommand}"
+                CommandParameter="{Binding ElementName=FormattingWindow}"
+                Content="{lex:Loc Ok}"
+                Style="{DynamicResource UniconButtonStyle}" />
+        </UniformGrid>
+
+    </Grid>
+</controls:MetroWindow>
+

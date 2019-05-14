@@ -1,0 +1,162 @@
+﻿<controls:MetroWindow
+    x:Class="Unicon2.Fragments.ModbusMemory.Views.ModbusEntityEditingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:converters="clr-namespace:Unicon2.Fragments.ModbusMemory.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Unicon2.Fragments.ModbusMemory.Infrastructure.Model;assembly=Unicon2.Fragments.ModbusMemory.Infrastructure"
+    Name="EntityEditingWindow"
+    Title="{lex:Loc OneWordEditing}"
+    d:DesignHeight="180"
+    d:DesignWidth="600"
+    lex:LocalizeDictionary.DesignCulture="ru-RU"
+    lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
+    lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    GlowBrush="Black"
+    IsWindowDraggable="True"
+    NonActiveBorderBrush="Black"
+    ShowCloseButton="False"
+    ShowMaxRestoreButton="False"
+    ShowMinButton="False"
+    ShowSystemMenuOnRightClick="False"
+    SizeToContent="WidthAndHeight"
+    TitleAlignment="Center"
+    mc:Ignorable="d">
+    <controls:MetroWindow.Resources>
+        <converter:BoolToColorBrushConverter x:Key="BoolToColorBrushConverter" />
+        <converters:SplittingBitMarginConverter x:Key="SplittingBitMarginConverter" />
+    </controls:MetroWindow.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid
+            Name="MainGrid"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Text="{lex:Loc Address}" />
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <TextBlock Margin="5" Text="Hex" />
+                <TextBlock
+                    MinWidth="100"
+                    Margin="5"
+                    Text="{Binding ModbusMemoryEntityViewModelToEdit.AdressHex}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <TextBlock Margin="5" Text="Dec" />
+                <TextBlock
+                    MinWidth="100"
+                    Margin="5"
+                    Text="{Binding ModbusMemoryEntityViewModelToEdit.AdressDec}" />
+            </StackPanel>
+            <ItemsControl
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                MinWidth="300"
+                VerticalAlignment="Top"
+                ItemsSource="{Binding ModbusMemoryEntityViewModelToEdit.Bits}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="model:IMemoryBitViewModel">
+                        <StackPanel>
+                            <TextBlock Margin="5,0,0,0" Text="{Binding BitNumber}" />
+                            <Border
+                                Width="18"
+                                Height="18"
+                                Margin="{Binding BitNumber, Converter={StaticResource SplittingBitMarginConverter}}"
+                                Background="{Binding BoolValue, Converter={StaticResource BoolToColorBrushConverter}}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseUp">
+                                        <i:InvokeCommandAction Command="{Binding ElementName=EntityEditingWindow, Path=DataContext.ChangeBitValueCommand}" CommandParameter="{Binding BitNumber}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Border>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="5"
+                Text="{lex:Loc Value}" />
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="2"
+                Orientation="Horizontal">
+                <TextBlock Margin="5" Text="Hex" />
+                <TextBox
+                    MinWidth="100"
+                    Margin="5"
+                    Text="{Binding ValueHex, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="2"
+                Orientation="Horizontal">
+                <TextBlock Margin="5" Text="Dec" />
+                <TextBox
+                    MinWidth="100"
+                    Margin="5"
+                    Text="{Binding ValueDec, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Height="30"
+                Margin="15"
+                Command="{Binding WriteCommand}"
+                CommandParameter="{Binding ElementName=EntityEditingWindow}"
+                Content="{lex:Loc Write}" />
+            <Button
+                Grid.Column="1"
+                Height="30"
+                Margin="15"
+                Command="{Binding CancelCommand}"
+                CommandParameter="{Binding ElementName=EntityEditingWindow}"
+                Content="{lex:Loc Cancel}" />
+        </Grid>
+    </Grid>
+</controls:MetroWindow>
+

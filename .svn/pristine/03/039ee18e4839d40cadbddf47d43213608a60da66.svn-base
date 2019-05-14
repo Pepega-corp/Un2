@@ -1,0 +1,16 @@
+﻿<Window x:Class="Oscilloscope.View.MainItem.ChannelForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="243" Width="300" ResizeMode="NoResize" Title="Каналы">
+    <Grid>
+        <DataGrid x:Name="ChannelDataGrid" HorizontalAlignment="Left" Height="214" VerticalAlignment="Top" Width="294" 
+                  SelectedCellsChanged="TestGrid_OnSelectedCellsChanged" AutoGenerateColumns="False" HeadersVisibility="Column"
+                  CanUserResizeColumns="False" CanUserSortColumns="False" SelectionMode="Single">
+        <DataGrid.Columns>
+            <DataGridTextColumn Binding="{Binding Path=ChannelName, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Канал" />
+            <DataGridCheckBoxColumn Binding="{Binding Path=Visibility, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Вкл" />
+            <DataGridCheckBoxColumn Binding="{Binding Path=Vector, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Векторная" />
+            <DataGridCheckBoxColumn Binding="{Binding Path=Frequency, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Частотная" />
+        </DataGrid.Columns>
+    </DataGrid>
+    </Grid>
+</Window>

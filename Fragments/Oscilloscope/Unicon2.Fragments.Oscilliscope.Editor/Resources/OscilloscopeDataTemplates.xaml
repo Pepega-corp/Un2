@@ -1,0 +1,31 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="http://xamlmarkupextensions.codeplex.com"
+    xmlns:interfaces1="clr-namespace:Unicon2.Fragments.Journals.Editor.Interfaces;assembly=Unicon2.Fragments.Journals.Editor"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:loadingSequence="clr-namespace:Unicon2.Fragments.Oscilliscope.Editor.Interfaces.LoadingSequence"
+    xmlns:view="clr-namespace:Unicon2.Fragments.Oscilliscope.Editor.View"
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Oscilliscope.Editor.ViewModel">
+
+
+    <DataTemplate x:Key="OscilloscopeEditorViewModelDataTemplate" DataType="viewModel:OscilloscopeEditorViewModel">
+        <view:OscilloscopeEditorView />
+    </DataTemplate>
+
+
+    <DataTemplate x:Key="OscilloscopeJournalLoadingSequenceEditorViewModelDataTemplate" DataType="{x:Type loadingSequence:IOscilloscopeJournalLoadingSequenceEditorViewModel}">
+        <UniformGrid Columns="2">
+            <TextBlock Margin="5" Text="{lex:Loc StartAddress}" />
+            <TextBox
+                MinWidth="150"
+                Margin="5"
+                Text="{Binding AddressOfRecord}" />
+            <TextBlock Margin="5" Text="{lex:Loc NumberOfPointsInRecord}" />
+            <TextBox
+                MinWidth="150"
+                Margin="5"
+                Text="{Binding NumberOfPointsInRecord}" />
+        </UniformGrid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,208 @@
+﻿<UserControl
+    x:Class="Unicon2.Fragments.Measuring.Editor.View.MeasuringMonitorEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel"
+    d:DesignHeight="500"
+    d:DesignWidth="900"
+    dialogs:DialogParticipation.Register="{Binding}"
+    lex:LocalizeDictionary.DesignCulture="ru-RU"
+    lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
+    lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
+        <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+            <GroupBox Margin="0" Header="{lex:Loc General}">
+                <StackPanel Orientation="Vertical">
+                    <Button
+                        Margin="3"
+                        Command="{Binding AddMeasuringGroupCommand}"
+                        Content="{lex:Loc AddMeasuringGroup}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                    <Button
+                        Margin="3"
+                        Command="{Binding OpenConfigurationSettingsCommand}"
+                        Content="{lex:Loc Settings}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <controls:MetroAnimatedSingleRowTabControl
+            Name="groupsTabControl"
+            Grid.Column="1"
+            ItemsSource="{Binding MeasuringGroupEditorViewModels}">
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="viewModel:IMeasuringGroupEditorViewModel">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <UniformGrid
+                            Grid.Row="0"
+                            Width="auto"
+                            HorizontalAlignment="Left"
+                            Columns="3">
+                            <Button
+                                Margin="5"
+                                Command="{Binding AddAnalogMeasuringElementCommand}"
+                                Content="{lex:Loc AddAnalogSignal}"
+                                Style="{DynamicResource UniconButtonStyle}" />
+                            <Button
+                                Margin="5"
+                                Command="{Binding AddDiscretMeasuringElementCommand}"
+                                Content="{lex:Loc AddDiscretSignal}"
+                                Style="{DynamicResource UniconButtonStyle}" />
+                            <Button
+                                Margin="5"
+                                Command="{Binding AddControlSignalCommand}"
+                                Content="{lex:Loc AddControlSignal}"
+                                Style="{DynamicResource UniconButtonStyle}" />
+                        </UniformGrid>
+                        <ListBox
+                            Name="elementsListBox"
+                            Grid.Row="1"
+                            dragDrop:DragDrop.CanDragWithMouseRightButton="False"
+                            dragDrop:DragDrop.DragHandler="{Binding}"
+                            dragDrop:DragDrop.IsDragSource="True"
+                            dragDrop:DragDrop.IsDropTarget="True"
+                            IsHitTestVisible="True"
+                            ItemsSource="{Binding MeasuringElementEditorViewModels}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <i:InvokeCommandAction Command="{Binding CheckElementsPositionCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                                    <Setter Property="ContextMenu">
+                                        <Setter.Value>
+                                            <ContextMenu>
+                                                <MenuItem
+                                                    Command="{Binding PlacementTarget.Tag.DeleteMeasuringElementCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                    CommandParameter="{Binding}"
+                                                    Header="{lex:Loc Delete}" />
+                                            </ContextMenu>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Margin="5"
+                                        BorderBrush="{DynamicResource AccentColorBrush}"
+                                        BorderThickness="1">
+                                        <Grid Margin="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0">
+                                                <lex:LocProxy Name="NameForUiKeyProxy" Source="{Binding NameForUiKey}" />
+                                                <TextBlock Text="{Binding Result, ElementName=NameForUiKeyProxy}" />
+                                                <UniformGrid Columns="2">
+                                                    <TextBlock Margin="5" Text="{lex:Loc Name}" />
+                                                    <TextBox
+                                                        Height="30"
+                                                        MinWidth="100"
+                                                        Margin="5"
+                                                        VerticalAlignment="Top"
+                                                        Text="{Binding Header}" />
+                                                </UniformGrid>
+                                            </StackPanel>
+                                            <ContentPresenter Grid.Column="1" Content="{Binding}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="viewModel:IMeasuringGroupEditorViewModel">
+                    <TextBlock Text="{Binding Header}">
+                        <TextBlock.ContextMenu>
+                            <ContextMenu>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Opened">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.CheckElementsPositionCommand, Source={x:Reference Name=groupsTabControl}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <MenuItem Header="{lex:Loc Name}">
+                                    <TextBox Margin="10" Text="{Binding Header, UpdateSourceTrigger=LostFocus}" />
+                                </MenuItem>
+                                <MenuItem
+                                    Command="{Binding DataContext.DeleteGroupCommand, Source={x:Reference Name=groupsTabControl}}"
+                                    CommandParameter="{Binding .}"
+                                    Header="{lex:Loc Delete}" />
+                                <MenuItem Header="{lex:Loc Placement}">
+                                    <StackPanel Margin="0">
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Button
+                                                Grid.Column="0"
+                                                Margin="3"
+                                                Command="{Binding DataContext.SetElementLeftCommand, Source={x:Reference Name=groupsTabControl}}"
+                                                CommandParameter="{Binding .}"
+                                                Style="{DynamicResource UniconButtonStyle}">
+                                                <Rectangle
+                                                    Width="18"
+                                                    Height="15"
+                                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_left}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </Button>
+                                            <Button
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                Command="{Binding DataContext.SetElementRightCommand, Source={x:Reference Name=groupsTabControl}}"
+                                                CommandParameter="{Binding .}"
+                                                Style="{DynamicResource UniconButtonStyle}">
+                                                <Rectangle
+                                                    Width="18"
+                                                    Height="15"
+                                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </Button>
+                                        </Grid>
+                                    </StackPanel>
+                                </MenuItem>
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </controls:MetroAnimatedSingleRowTabControl>
+    </Grid>
+</UserControl>
+

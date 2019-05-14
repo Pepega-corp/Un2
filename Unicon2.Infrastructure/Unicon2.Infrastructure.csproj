@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D025EC77-DFD4-444E-8F2C-218A5181C721}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Unicon2.Infrastructure</RootNamespace>
+    <AssemblyName>Unicon2.Infrastructure</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentValidation.8.1.3\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationGlobalNames.cs" />
+    <Compile Include="BaseItems\Disposable.cs" />
+    <Compile Include="Common\BindableKeyValuePair.cs" />
+    <Compile Include="Common\CRC16.cs" />
+    <Compile Include="Common\Maybe.cs" />
+    <Compile Include="Common\StaticContainer.cs" />
+    <Compile Include="Common\ValidatableBindableBase.cs" />
+    <Compile Include="Connection\IConnectionState.cs" />
+    <Compile Include="Connection\IQueryResultFactory.cs" />
+    <Compile Include="DeviceInterfaces\IComPortConfiguration.cs" />
+    <Compile Include="DeviceInterfaces\IDataProvider.cs" />
+    <Compile Include="DeviceInterfaces\IDevice.cs" />
+    <Compile Include="DeviceInterfaces\IDeviceConnection.cs" />
+    <Compile Include="DeviceInterfaces\IDeviceCreator.cs" />
+    <Compile Include="Connection\IQueryResult.cs" />
+    <Compile Include="DeviceInterfaces\SharedResources\IDeviceSharedResources.cs" />
+    <Compile Include="DeviceInterfaces\SharedResources\IResourceContaining.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\StringWrapper.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSetting.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSettings.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\ISettingApplyingContext.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IAddressableItem.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IAddressRangeableWithDataProvider.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IMemoryValuesSet.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickAccessMemoryApplyingContext.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessDataProviderStub.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessSetting.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\QuickAccessModeEnum.cs" />
+    <Compile Include="FragmentInterfaces\IDeviceFragment.cs" />
+    <Compile Include="DeviceInterfaces\IUshortFormattable.cs" />
+    <Compile Include="FragmentInterfaces\IFragmentOptions.cs" />
+    <Compile Include="GeneralFactories\IGeneralViewModelFactory.cs" />
+    <Compile Include="IApplicationGlobalCommands.cs" />
+    <Compile Include="Interfaces\DataOperations\ISerializableInFile.cs" />
+    <Compile Include="Interfaces\DataOperations\IWriteable.cs" />
+    <Compile Include="Interfaces\Dependancy\ConditionresultEnum.cs" />
+    <Compile Include="Interfaces\Dependancy\ConditionsEnum.cs" />
+    <Compile Include="Interfaces\EditOperations\IAsChlidPasteable.cs" />
+    <Compile Include="Interfaces\EditOperations\IDeletable.cs" />
+    <Compile Include="Interfaces\EditOperations\IEditable.cs" />
+    <Compile Include="Interfaces\Factories\IFormatterEditorFactory.cs" />
+    <Compile Include="Interfaces\Factories\ISharedResourcesEditorFactory.cs" />
+    <Compile Include="Interfaces\Factories\ISharedResourcesViewModelFactory.cs" />
+    <Compile Include="Interfaces\IConnectable.cs" />
+    <Compile Include="Interfaces\IDataProviderContaining.cs" />
+    <Compile Include="Interfaces\IDeviceConnectionFactory.cs" />
+    <Compile Include="Interfaces\IParentDeviceNameRequirable.cs" />
+    <Compile Include="Interfaces\Values\IDeviceValueContaining.cs" />
+    <Compile Include="Interfaces\IInitializableFromContainer.cs" />
+    <Compile Include="Interfaces\Values\ILocalAndDeviceValuesContaining.cs" />
+    <Compile Include="Interfaces\IMeasurable.cs" />
+    <Compile Include="Interfaces\INameable.cs" />
+    <Compile Include="Interfaces\IRange.cs" />
+    <Compile Include="Interfaces\IRangeable.cs" />
+    <Compile Include="Interfaces\ISharedValueViewModel.cs" />
+    <Compile Include="Interfaces\IStronglyNamed.cs" />
+    <Compile Include="Progress\ITaskProgressReport.cs" />
+    <Compile Include="Services\ApplicationSettingsService\IApplicationSettingsService.cs" />
+    <Compile Include="Services\ItemChangingContext\ConnectableItemChangingContext.cs" />
+    <Compile Include="Services\ItemChangingContext\ItemModifyingTypeEnum.cs" />
+    <Compile Include="Services\LogService\IExceptionLoggerService.cs" />
+    <Compile Include="Services\UniconProject\IUniconProject.cs" />
+    <Compile Include="Services\UniconProject\IUniconProjectService.cs" />
+    <Compile Include="Services\UniconProject\ProjectSaveCheckingResultEnum.cs" />
+    <Compile Include="Values\Base\FormattedValueBase.cs" />
+    <Compile Include="Values\IBitGroupValue.cs" />
+    <Compile Include="Values\IBitMaskValue.cs" />
+    <Compile Include="Values\IBoolValue.cs" />
+    <Compile Include="Values\IChosenFromListValue.cs" />
+    <Compile Include="Values\IErrorValue.cs" />
+    <Compile Include="Values\INumericValue.cs" />
+    <Compile Include="Values\IStringValue.cs" />
+    <Compile Include="Values\ITimeValue.cs" />
+    <Compile Include="ViewModel\IUshortFormattableViewModel.cs" />
+    <Compile Include="Interfaces\IUshortsFormatter.cs" />
+    <Compile Include="Interfaces\DataOperations\ILoadable.cs" />
+    <Compile Include="Services\IDevicesContainerService.cs" />
+    <Compile Include="Services\ILocalizerService.cs" />
+    <Compile Include="Services\IResourcesService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ISerializerService.cs" />
+    <Compile Include="Services\LogService\IDeviceLogger.cs" />
+    <Compile Include="Services\LogService\ILogMessage.cs" />
+    <Compile Include="Services\LogService\ILogService.cs" />
+    <Compile Include="Services\LogService\LogMessageTypeEnum.cs" />
+    <Compile Include="Values\ICollectionValue.cs" />
+    <Compile Include="Values\IFormattedValue.cs" />
+    <Compile Include="ViewModel\IViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Unicon2.Unity\Unicon2.Unity.csproj">
+      <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
+      <Name>Unicon2.Unity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

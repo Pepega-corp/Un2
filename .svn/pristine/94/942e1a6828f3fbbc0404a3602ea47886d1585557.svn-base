@@ -1,0 +1,96 @@
+﻿<controls:MetroWindow x:Class="Unicon2.Fragments.Configuration.Editor.View.ComplexPropertyEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Editor.View"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:dependentProperty="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty"
+        xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+        xmlns:converters="clr-namespace:Unicon2.Fragments.Configuration.Editor.Converters"
+        xmlns:properties="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels.Properties"
+        mc:Ignorable="d"
+        BorderThickness="1" 
+                      BorderBrush="{DynamicResource AccentColorBrush}"
+                      Name="dependentPropertyEditorWindow"
+                      ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False"
+        Title="{lex:Loc ComplexProperty}" Height="400" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <UniformGrid Width="Auto" Grid.Row="0" Columns="2">
+            <TextBlock Margin="5" Text="{lex:Loc Name}"></TextBlock>
+            <TextBox Margin="5" Text="{Binding Header}"></TextBox>
+            <TextBlock Margin="5" Text="{lex:Loc Address}"></TextBlock>
+            <TextBox Margin="5" Text="{Binding Address}"></TextBox>
+            <CheckBox Margin="5" IsChecked="{Binding IsGroupedProperty}" Content="{lex:Loc IsGroupedProperty}"></CheckBox>
+        </UniformGrid>
+      
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <ListBox Grid.Row="1"  ItemsSource="{Binding SubPropertyEditorViewModels}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="properties:SubPropertyEditorViewModel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="10" Grid.Column="0">
+
+                                <TextBlock MinWidth="150" Margin="5" Text="{Binding Header}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="5" Content="{lex:Loc Bits}" />
+                                    <ItemsControl
+                                        Name="BitsListBox"
+                                        Background="Transparent"
+                                        ItemsSource="{Binding BitNumbersInWord}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="{Binding NumberOfBit}" />
+                                                    <CheckBox
+                                                        Background="White"
+                                                        Command="{Binding ChangeValueByOwnerCommand}"
+                                                        CommandParameter="{Binding ElementName=BitsListBox, Path=DataContext}"
+                                                        IsChecked="{Binding Value, Mode=OneWay}"
+                                                        IsManipulationEnabled="False"
+                                                        Style="{DynamicResource BitCheckBoxStyle}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+
+        <UniformGrid Grid.Column="0" Grid.Row="2" Columns="2">
+            <Button Content="{lex:Loc Ok}" Style="{DynamicResource UniconButtonStyle}" Command="{Binding SubmitCommand}" CommandParameter="{Binding ElementName=dependentPropertyEditorWindow}"></Button>
+            <Button Content="{lex:Loc Cancel}" Style="{DynamicResource UniconButtonStyle}" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=dependentPropertyEditorWindow}"></Button>
+        </UniformGrid>
+    </Grid>
+</controls:MetroWindow>
+

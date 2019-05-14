@@ -1,0 +1,47 @@
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
+using Unicon2.Fragments.Configuration.Matrix.Keys;
+
+namespace Unicon2.Fragments.Configuration.Matrix.Model
+{
+    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(ListMatrixBitOption), IsReference = true)]
+
+    public class ListMatrixBitOption : IBitOption
+    {
+        public ListMatrixBitOption()
+        {
+            this.NumbersOfAssotiatedBits = new List<int>();
+        }
+        
+        #region Implementation of IStronglyNamed
+
+
+
+        public string StrongName => MatrixKeys.LIST_MATRIX_BIT_OPTION;
+
+        #endregion
+
+        #region Implementation of IBitOption
+
+        public string FullSignature => this.VariableSignature.Signature + " " + this.OptionPossibleValue.PossibleValueName;
+
+        [DataMember]
+        public IVariableSignature VariableSignature { get; set; }
+
+        [DataMember]
+        public List<int> NumbersOfAssotiatedBits { get; set; }
+
+        public bool IsBitOptionEqual(IBitOption comparingBitOption)
+        {
+            return (comparingBitOption.VariableSignature == this.VariableSignature) &&
+                   ((comparingBitOption as ListMatrixBitOption).OptionPossibleValue == this.OptionPossibleValue) && (comparingBitOption.StrongName == this.StrongName);
+        }
+
+        [DataMember]
+        public IOptionPossibleValue OptionPossibleValue { get; set; }
+
+        #endregion
+    }
+}

@@ -1,0 +1,74 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:fragmentSettings="clr-namespace:Unicon2.Presentation.Infrastructure.FragmentSettings;assembly=Unicon2.Presentation.Infrastructure"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:values="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.Values;assembly=Unicon2.Presentation.Infrastructure">
+
+    <DataTemplate x:Key="QuickAccessMemoryConfigurationSettingViewModelDataTemplate" DataType="{x:Type fragmentSettings:IQuickAccessMemorySettingViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                Content="{lex:Loc QuickAccessMemory}"
+                IsChecked="{Binding IsSettingEnabled}" />
+            <Expander
+                Name="RangesExpander"
+                MinWidth="200"
+                Header="{lex:Loc AddressRanges}"
+                IsEnabled="{Binding IsSettingEnabled}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <UniformGrid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Columns="2">
+                        <Button
+                            Command="{Binding AddRangeCommand}"
+                            Content="{lex:Loc AddRange}"
+                            Style="{DynamicResource UniconButtonStyle}" />
+                        <Button
+                            Command="{Binding DeleteRangeCommand}"
+                            Content="{lex:Loc DeleteRange}"
+                            Style="{DynamicResource UniconButtonStyle}" />
+                    </UniformGrid>
+
+
+                    <ListBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        ItemsSource="{Binding RangeViewModels}"
+                        SelectedItem="{Binding SelectedRangeViewModel}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="values:IRangeViewModel">
+                                <Border
+                                    Margin="5"
+                                    BorderBrush="{DynamicResource AccentColorBrush3}"
+                                    BorderThickness="1">
+                                    <!--<Border.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{lex:Loc DeleteRange}" Command="{Binding DataContext.DeleteRangeCommand, ElementName=RangesExpander}" CommandParameter="{Binding}"></MenuItem>
+                                        </ContextMenu>
+                                    </Border.ContextMenu>-->
+                                    <UniformGrid Margin="3" Columns="4">
+                                        <TextBlock Margin="5" Text="{lex:Loc StartAddress}" />
+                                        <TextBox Text="{Binding RangeFrom}" />
+                                        <TextBlock Margin="5" Text="{lex:Loc EndAddress}" />
+                                        <TextBox Text="{Binding RangeTo}" />
+                                    </UniformGrid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Expander>
+            <UniformGrid
+                Margin="5"
+                Columns="2"
+                IsEnabled="{Binding IsSettingEnabled}" />
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

@@ -1,0 +1,107 @@
+﻿<UserControl
+    x:Class="Unicon2.Fragments.Programming.Editor.View.ProgrammingEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Editor.Behaviors"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:logic="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="400" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition MinWidth="150" MaxWidth=" 400" />
+        </Grid.ColumnDefinitions>
+        <GroupBox
+            Grid.Row="0"
+            Grid.Column="0"
+            Header="Все элементы свободно программируемой логики">
+            <StackPanel Orientation="Vertical">
+                <Expander Header="Элементы двоичной логики">
+                    <ListView ItemsSource="{Binding BooleanElements}" SelectedItem="{Binding Path=SelectedNewLogicElemItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="logic:ILogicElementViewModel">
+                                <Grid>
+                                    <Rectangle
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Fill="Transparent"
+                                        IsHitTestVisible="True"
+                                        Stroke="LightGray"
+                                        StrokeThickness="0.5">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:LogicElementForEditorBehavior />
+                                        </i:Interaction.Behaviors>
+                                    </Rectangle>
+                                    <TextBlock
+                                        Name="ElmentNameTB"
+                                        Margin="2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Text="{Binding ElementName}"
+                                        TextAlignment="Center">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip HorizontalOffset="5" VerticalOffset="5">
+                                                <TextBlock Text="{Binding Description}" />
+                                            </ToolTip>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Expander>
+                <Expander Header="Элементы аналоговых сигналов">
+                    <ListView ItemsSource="{Binding AnalogElements}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="logic:ILogicElementViewModel">
+                                <TextBlock Text="{Binding ElementName}">
+                                    <TextBlock.ToolTip>
+                                        <ToolTip HorizontalOffset="5" VerticalOffset="5">
+                                            <TextBlock Text="{Binding Description}" />
+                                        </ToolTip>
+                                    </TextBlock.ToolTip>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Expander>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Bottom">
+            <Button
+                Margin="5"
+                Command="{Binding AddElementCommand}"
+                Content="Добавить элемент" />
+            <Button
+                Margin="5,0,5,5"
+                Command="{Binding RemoveElementCommand}"
+                Content="Удалить эелемент" />
+            <Button Margin="5,0,5,5" Content="Редактировать" />
+        </StackPanel>
+        <GroupBox
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Header="Выбранные элементы">
+            <ListView ItemsSource="{Binding LibraryElements}" SelectedItem="{Binding Path=SelectedLibraryElemItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="logic:ILogicElementViewModel">
+                        <TextBlock Text="{Binding ElementName}">
+                            <TextBlock.ToolTip>
+                                <ToolTip HorizontalOffset="5" VerticalOffset="5">
+                                    <TextBlock Text="{Binding Description}" />
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+    </Grid>
+</UserControl>
