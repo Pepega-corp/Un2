@@ -68,6 +68,10 @@
       <Project>{8212BD78-1DFC-46A2-9238-72CB48BEB6A4}</Project>
       <Name>NModbus4</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+      <Project>{ef9bf685-16aa-4942-a33c-d65562bd4215}</Project>
+      <Name>Unicon2.Presentation.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unicon2.Unity\Unicon2.Unity.csproj">
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>
