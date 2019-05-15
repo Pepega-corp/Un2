@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Fragment>
-    <DirectoryRef Id="INSTALLFOLDER" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug">
+  <Fragment>
+    <DirectoryRef Id="INSTALLFOLDER" FileSource="c:\#git\Un2\Unicon2.Shell\bin\Release">
       <Component Id="ProductComponent" Guid="b11556a2-e066-4393-af5c-9c9210187228">
         <!-- Nugets and other DLL  -->
         <File Id='ControlzEx' DiskId='1' Name='ControlzEx.dll'/>
@@ -10,7 +10,6 @@
         <File Id='GongSolutionsWPFDragDrop' DiskId='1' Name='GongSolutions.WPF.DragDrop.dll'/>
         <File Id='MahAppsMetro' DiskId='1' Name='MahApps.Metro.dll'/>
         <File Id='MathParserorgmXparserNet45' DiskId='1' Name='MathParser.org-mXparser.dll'/>
-        <File Id='MicrosoftExpressionDrawing' DiskId='1' Name='Microsoft.Expression.Drawing.dll'/>
         <File Id='UnityAbstractions' DiskId='1' Name='Unity.Abstractions.dll'/>
         <File Id='UnityContainer' DiskId='1' Name='Unity.Container.dll'/>
         <File Id='CommonServiceLocator' DiskId='1' Name='CommonServiceLocator.dll'/>
@@ -28,8 +27,7 @@
         <File Id='NLog' DiskId='1' Name='NLog.dll'/>
         <File Id='NModbus4' DiskId='1' Name='NModbus4.dll'/>
         <File Id='NModbus4Serial' DiskId='1' Name='NModbus4.Serial.dll'/>
-        <File Id='Oscilloscope' DiskId='1' Name='Oscilloscope.exe'/>
-        <File Id='Oscilloscopeexexml' DiskId='1' Name='Oscilloscope.exe.config'/>
+
         <File Id='Unicon2Connections.DataProvider' DiskId='1' Name='Unicon2.Connections.DataProvider.dll'/>
         <File Id='Unicon2Connections.ModBusRtuConnection' DiskId='1' Name='Unicon2.Connections.ModBusRtuConnection.dll'/>
         <File Id='Unicon2ConnectionsModBusTcpConnection' DiskId='1' Name='Unicon2.Connections.ModBusTcpConnection.dll'/>
@@ -71,26 +69,33 @@
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="DevicesFolder" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug\Devices\">
+    <DirectoryRef Id="OsciloscopeFolder" FileSource="c:\#git\Un2\OscViewer\OscMainApp\bin\Release\">
+      <Component Id="Osciloscope" Guid="b11556a2-e066-4393-af5c-9c9210187e31">
+        <File Id='Oscilloscope' DiskId='1' Name='Oscilloscope.exe'/>
+        <File Id='Oscilloscopeexexml' DiskId='1' Name='Oscilloscope.exe.config'/>
+        <File Id='MicrosoftExpressionDrawing' DiskId='1' Name='Microsoft.Expression.Drawing.dll'/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DevicesFolder" FileSource="c:\#git\Un2\Unicon2.Shell\bin\Release\Devices\">
       <Component Id="devices" Guid="b11556a2-e066-4393-af5c-9c9210187e32">
         <File Id='mr771' DiskId='1' Name='MR771.xml'/>
       </Component>
     </DirectoryRef>
-	  <DirectoryRef Id="SharedResourcesFolder" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug\SharedResources\">
-	    <Component Id="sharedResources" Guid="b11556a2-e066-4393-af5c-9c9210187e33">
-	      <File Id="sharedResources" DiskId='1' Name='SharedResources.sr'/>
-	    </Component>
-	  </DirectoryRef>
-	  <DirectoryRef Id="enUSFolder" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug\en-US\">
-	    <Component Id="enUSFolder" Guid="b11556a2-e066-4393-af5c-9c9210187230">
-	      <File Id='Unicon2Localizationresourcesen' DiskId='1' Name='Unicon2.Localization.resources.dll'/>
-	    </Component>
-	  </DirectoryRef>
-	  <DirectoryRef Id="ruRUFolder" FileSource="D:\Unicon2\Unicon2.Shell\bin\Debug\ru-RU\">
-	    <Component Id="ruRUFolder" Guid="b11556a2-e066-4393-af5c-9c9210187229">
-	      <File Id='Unicon2Localizationresourcesru' DiskId='1' Name='Unicon2.Localization.resources.dll'/>
-	    </Component>
-	  </DirectoryRef>
+    <DirectoryRef Id="SharedResourcesFolder" FileSource="c:\#git\Un2\Unicon2.SharedResources\bin\Release\">
+      <Component Id="sharedResources" Guid="b11556a2-e066-4393-af5c-9c9210187e33">
+        <File Id="sharedResources" DiskId='1' Name='Unicon2.SharedResources.dll'/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="enUSFolder" FileSource="c:\#git\Un2\Unicon2.Localization\bin\Release\en-US\">
+      <Component Id="enUSFolder" Guid="b11556a2-e066-4393-af5c-9c9210187230">
+        <File Id='Unicon2Localizationresourcesen' DiskId='1' Name='Unicon2.Localization.resources.dll'/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ruRUFolder" FileSource="c:\#git\Un2\Unicon2.Localization\bin\Release\ru-RU\">
+      <Component Id="ruRUFolder" Guid="b11556a2-e066-4393-af5c-9c9210187229">
+        <File Id='Unicon2Localizationresourcesru' DiskId='1' Name='Unicon2.Localization.resources.dll'/>
+      </Component>
+    </DirectoryRef>
 
   </Fragment>
 </Wix>
