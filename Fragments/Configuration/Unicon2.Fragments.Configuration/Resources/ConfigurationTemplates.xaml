@@ -48,7 +48,7 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Width="{Binding ElementName=dummywidth1, Path=ActualWidth}" Header="{lex:Loc Name}">
+                            <GridViewColumn Width="180" Header="{lex:Loc Name}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Grid>
