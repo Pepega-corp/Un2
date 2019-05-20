@@ -246,7 +246,7 @@
                 <layoutHelpers:DockingManagerTemplateSelector>
                     <layoutHelpers:DockingManagerTemplateSelector.FragmentPaneTemplate>
                         <DataTemplate DataType="fragmentInterfaces:IFragmentPaneViewModel">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
                                 <ContentControl Content="{Binding FragmentViewModel}">
                                     <ContentControl.ContentTemplateSelector>
                                         <layoutHelpers:FragmentsLayoutTemplateSelector />
