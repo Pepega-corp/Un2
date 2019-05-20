@@ -7,7 +7,7 @@
 
     <MediaTemplate EmbedCab="yes"/>
 
-    <Feature Id="ProductFeature" Title="ULA" Level="1">
+    <Feature Id="ProductFeature" Title="Unicon2" Level="1">
       <ComponentRef Id="ApplicationShortcutUnicon2" />
       <ComponentRef Id="ApplicationShortcutDesktop" />
       <ComponentRef Id="ProductComponent" />
@@ -15,6 +15,7 @@
       <ComponentRef Id="sharedResources" />
       <ComponentRef Id="enUSFolder" />
       <ComponentRef Id="ruRUFolder" />
+      <ComponentRef Id="Osciloscope" />
     </Feature>
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" ></Property>
@@ -46,6 +47,7 @@
             <Directory Id="SharedResourcesFolder" Name="SharedResources"/>
             <Directory Id="ruRUFolder" Name="ru-RU"/>
             <Directory Id="enUSFolder" Name="en-US"/>
+            <Directory Id="OsciloscopeFolder" Name="OscApp"/>
           </Directory>
         </Directory>
       </Directory>

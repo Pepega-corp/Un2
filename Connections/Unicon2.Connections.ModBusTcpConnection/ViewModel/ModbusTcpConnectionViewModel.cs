@@ -2,10 +2,11 @@
 using Unicon2.Connections.ModBusTcpConnection.Keys;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
 {
-    public class ModbusTcpConnectionViewModel : ViewModelBase, IModbusTcpConnectionViewModel
+    public class ModbusTcpConnectionViewModel : ViewModelBase, IModbusTcpConnectionViewModel, IDeviceConnectionViewModel
     {
         private int _port;
         private IModbusTcpConnection _model;
@@ -16,7 +17,6 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
         {
             this._model = modbusTcpConnection;
         }
-
 
         #region Implementation of IModbusTcpConnectionViewModel
 

@@ -174,7 +174,7 @@ namespace Unicon2.Shell.ViewModels
             if (this.CheckExiting())
                 this._applicationGlobalCommands.ShutdownApplication();
         }
-        
+
         private bool CheckExiting()
         {
             ProjectSaveCheckingResultEnum res = this._uniconProjectService.CheckIfProjectSaved();
@@ -342,7 +342,7 @@ namespace Unicon2.Shell.ViewModels
         private void OnExecuteClosing(CancelEventArgs cancelEventArgs)
         {
             if (this.CheckExiting()) return;
-            
+
             if (cancelEventArgs != null) cancelEventArgs.Cancel = true;
         }
         #endregion

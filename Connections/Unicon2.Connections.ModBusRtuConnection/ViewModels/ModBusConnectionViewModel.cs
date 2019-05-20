@@ -10,13 +10,15 @@ using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 
+
 namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 {
-    public class ModBusConnectionViewModel : ValidatableBindableBase, IModBusConnectionViewModel
+    public class ModBusConnectionViewModel : ValidatableBindableBase, IModBusConnectionViewModel, IDeviceConnectionViewModel
     {
         private IComConnectionManager _connectionManager;
         private readonly ITypesContainer _container;
