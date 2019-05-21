@@ -52,11 +52,22 @@ namespace Unicon2.Services
             //инициализация подключения (добавление логгеров, датапровайдеров)
             device.InitializeConnection(deviceConnection);
             await device.ConnectionState.CheckConnection();
+            //ниже не работает как надо, запихивает девайс в любом случае, даже если переподключаться к одному и тому же устройству
             if (!this.ConnectableItems.Contains(device))
             {
                 this.AddConnectableItem(device);
             }
             return true;
+        }
+        public void RemoveConnectableItem(IConnectable device)
+        {
+            try
+            {
+                //this.ConnectableItems.RemoveAt(this.ConnectableItems.FindIndex(o => o.Equals(device)));
+                this.ConnectableItems.Remove(device);
+            }
+            catch (ArgumentNullException _ane) { }
+            catch (ArgumentOutOfRangeException _aofr) {  }
         }
 
         public void LoadDevicesDefinitions(string folderPath = ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH)

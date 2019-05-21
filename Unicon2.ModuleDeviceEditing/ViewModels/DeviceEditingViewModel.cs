@@ -290,7 +290,8 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
                 this._editingDevice = device;
                 this.DeviceSignature = device.DeviceSignature;
                 this.CurrentMode = ModesEnum.EditingMode;
-
+                //закрываем соединение, чтобы освободить сокет, иначе он будет занят навечно(пока не закроется прилага)
+                device.DeviceConnection.CloseConnection();
             }
             else
             {

@@ -231,6 +231,10 @@ namespace Unicon2.Shell.ViewModels
                         }
                         this.ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
                         this.ActiveFragmentViewModel = null;
+                        //закрываем соединение при удалении устройства
+                        (connectableItemChangingContext.Connectable as IDevice).DeviceConnection.CloseConnection();
+                        //надо удалить девайс из коллекции _devicesContainerService
+                        _devicesContainerService.RemoveConnectableItem(connectableItemChangingContext.Connectable as IDevice);
                         connectableItemChangingContext.Connectable.Dispose();
                     }
 
