@@ -20,7 +20,7 @@ namespace Unicon2.Infrastructure.Services.UniconProject
         /// Проверить сохранен ли проект
         /// </summary>
         /// <returns>Результат проверки</returns>
-        ProjectSaveCheckingResultEnum CheckIfProjectSaved();
+        ProjectSaveCheckingResultEnum CheckIfProjectSaved(object context);
         /// <summary>
         /// Строка файла текущего проекта для вывода пользователю
         /// </summary>

@@ -910,7 +910,7 @@
     <value>Часы</value>
   </data>
   <data name="Milliseconds" xml:space="preserve">
-    <value>Милисекудны</value>
+    <value>Миллисекунды</value>
   </data>
   <data name="MillisecondsDecimalsPlaces" xml:space="preserve">
     <value>Число знаков после запятой для миллисекунд</value>

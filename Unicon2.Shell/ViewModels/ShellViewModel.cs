@@ -177,7 +177,7 @@ namespace Unicon2.Shell.ViewModels
 
         private bool CheckExiting()
         {
-            ProjectSaveCheckingResultEnum res = this._uniconProjectService.CheckIfProjectSaved();
+            ProjectSaveCheckingResultEnum res = this._uniconProjectService.CheckIfProjectSaved(this);
             if (res == ProjectSaveCheckingResultEnum.ProjectAlreadySaved)
             {
                 if (this._dialogCoordinator.ShowModalMessageExternal(this, this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT), this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT_QUESTION),
