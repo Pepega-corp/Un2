@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Xml;
 using Unicon2.Infrastructure.Extensions;
@@ -41,8 +42,8 @@ namespace Unicon2.Services.UniconProject
                 using (XmlWriter fs = XmlWriter.Create(elementName, new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 }))
                 {
                     DataContractSerializer ds = new DataContractSerializer(typeof(UniconProject), this._serializerService.GetTypesForSerialiation());
-
                     ds.WriteObject(fs, this, this._serializerService.GetNamespacesAttributes());
+
                 }
             }
             catch (Exception e)

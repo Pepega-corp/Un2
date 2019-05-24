@@ -67,7 +67,7 @@ namespace Unicon2.Services
                 this.ConnectableItems.Remove(device);
             }
             catch (ArgumentNullException _ane) { }
-            catch (ArgumentOutOfRangeException _aofr) {  }
+            catch (ArgumentOutOfRangeException _aofr) { }
         }
 
         public void LoadDevicesDefinitions(string folderPath = ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH)
@@ -104,6 +104,14 @@ namespace Unicon2.Services
         public void Refresh()
         {
             this.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
+            foreach (var item in ConnectableItems)
+            {
+                try
+                {
+                    item.DeviceConnection.CloseConnection();
+                }
+                catch (Exception ex) { }
+            }
             this.ConnectableItems.Clear();
         }
 

@@ -34,7 +34,7 @@ namespace Unicon2.Infrastructure.Services.UniconProject
         /// Открыть проект
         /// </summary>
         /// <param name="lastProjectString">Необязательная строка, обозначающая предыдущий проект</param>
-        void OpenProject(string lastProjectString = "");
+        void OpenProject(string lastProjectString = "", object context = null);
 
         /// <summary>
         /// Установить контекст для вывода диалоговых сообщений

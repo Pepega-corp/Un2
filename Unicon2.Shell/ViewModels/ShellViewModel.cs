@@ -340,7 +340,7 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnOpenProjectExecute()
         {
-            this._uniconProjectService.OpenProject();
+            this._uniconProjectService.OpenProject("",this);
         }
 
         private void OnExecuteClosing(CancelEventArgs cancelEventArgs)

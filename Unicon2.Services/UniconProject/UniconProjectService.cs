@@ -15,7 +15,7 @@ using Unicon2.Services.Keys;
 using Unicon2.Unity.Interfaces;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
-namespace Unicon2.Services.UniconProject
+namespace Unicon2.Services.UniconProject                                                                                                                                       
 {
     public class UniconProjectService : IUniconProjectService
     {
@@ -49,8 +49,9 @@ namespace Unicon2.Services.UniconProject
 
         public void CreateNewProject()
         {
-            if (this.CheckIfProjectSaved() != ProjectSaveCheckingResultEnum.CancelledByUser)
+            if (this.CheckIfProjectSaved(this) != ProjectSaveCheckingResultEnum.CancelledByUser)
             {
+                this._devicesContainerService.Refresh();
                 this._uniconProject.Dispose();
                 this._devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
             }
@@ -114,9 +115,11 @@ namespace Unicon2.Services.UniconProject
             return t;
         }
 
-        public async void OpenProject(string lastProjectString = "")
+        public async void OpenProject(string lastProjectString = "", object dialogContext = null)
         {
-            if (this.CheckIfProjectSaved() == ProjectSaveCheckingResultEnum.CancelledByUser) return;
+            if (dialogContext != null)
+                this._dialogContext = dialogContext;
+            if (this.CheckIfProjectSaved(_dialogContext) == ProjectSaveCheckingResultEnum.CancelledByUser) return;
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
             ofd.Filter = "Unicon Project file (*.uniproj)|*.uniproj";
