@@ -125,13 +125,18 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\AnchorableSelectedBehavior.cs" />
+    <Compile Include="Behaviors\ButtonContextMenuOpenBehavior.cs" />
     <Compile Include="Behaviors\DynamicRibbonTabItemBehavior.cs" />
     <Compile Include="ControlRegionAdapter\FlyoutsControlRegionAdapter.cs" />
     <Compile Include="Models\AccentColor.cs" />
     <Compile Include="Models\ApplicationTheme.cs" />
     <Compile Include="Services\ApplicationSettingsService.cs" />
     <Compile Include="Services\LayoutInitializer.cs" />
+    <Compile Include="ViewModels\DynamicContextMenuViewModel.cs" />
     <Compile Include="ViewModels\UniconSplashScreenViewModel.cs" />
+    <Compile Include="Views\DynamicContextMenu.xaml.cs">
+      <DependentUpon>DynamicContextMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -150,6 +155,10 @@
     <Page Include="Images\drawing.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DynamicContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Shell.xaml">
       <Generator>MSBuild:Compile</Generator>

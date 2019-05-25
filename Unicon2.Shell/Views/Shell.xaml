@@ -65,17 +65,56 @@
     </controls:MetroWindow.Flyouts>
 
     <controls:MetroWindow.LeftWindowCommands>
-        <controls:WindowCommands>
+        <controls:WindowCommands Initialized="Shell_Initialized">
             <ToggleButton Cursor="Hand" IsChecked="{Binding IsOpen, ElementName=menuFlyOut}">
-                <Rectangle
-                    Width="15"
-                    Height="15"
-                    Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                <Rectangle 
+Width="15" 
+Height="15" 
+Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_cog}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </ToggleButton>
+            <Button Name="toggleButtonFile" FontSize="14" Foreground="{DynamicResource IdealForegroundColorBrush}" Content="{lex:Loc Key=File}" >
+                <i:Interaction.Behaviors>
+                    <behaviors:ButtonContextMenuOpenBehavior/>
+                </i:Interaction.Behaviors>
+                <Button.ContextMenu>
+                    <ContextMenu Name="fileContextMenu">
+                        <MenuItem Command="{Binding OpenProjectCommand}" Header="{lex:Loc Key=OpenProject}"></MenuItem>
+                        <MenuItem Command="{Binding NewProjectCommand}" Header="{lex:Loc Key=NewProject}"></MenuItem>
+                        <MenuItem Command="{Binding SaveProjectCommand}" Header="{lex:Loc Key=Save}"></MenuItem>
+                        <MenuItem Command="{Binding SaveAsProjectCommand}" Header="{lex:Loc Key=SaveAs}"></MenuItem>
+                        <MenuItem Command="{Binding ExitCommand}" Header="{lex:Loc Key=Exit}"></MenuItem>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+
+            <Button Name="toggleButtonDevice" FontSize="14" Foreground="{DynamicResource IdealForegroundColorBrush}" Content="{lex:Loc Key=Device}" >
+                <i:Interaction.Behaviors>
+                    <behaviors:ButtonContextMenuOpenBehavior/>
+                </i:Interaction.Behaviors>
+                <Button.ContextMenu>
+                    <ContextMenu Name="deviceContextMenu">
+                        <MenuItem Command="{Binding NavigateToDeviceAddingCommand}" 
+                                  CommandParameter="{x:Static infrastructure:ApplicationGlobalNames.ADDING_MODE}" 
+                                  Header="{lex:Loc Key=Add}"></MenuItem>
+                        <MenuItem Command="{Binding NavigateToDeviceEditorCommand}" Header="{lex:Loc OpenDeviceEditor}"></MenuItem>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+
+
+
+
+            <Button Name="oscOpenButton" FontSize="14" Foreground="{DynamicResource IdealForegroundColorBrush}" Command="{Binding OpenOscillogramCommand}" Content="{lex:Loc OpenOscillogram}"></Button>
+            <Button Name="dynamicContentButton" FontSize="14" Foreground="{DynamicResource IdealForegroundColorBrush}" Content="{Binding ActiveFragmentViewModel.FragmentTitle}" Visibility="{Binding ActiveFragmentViewModel, TargetNullValue=Collapsed}">
+                <i:Interaction.Behaviors>
+                    <behaviors:ButtonContextMenuOpenBehavior/>
+                    <behaviors:DynamicMenuTabItemBehavior TabItems="{Binding ActiveFragmentViewModel.FragmentViewModel.FragmentOptionsViewModel}" />
+                </i:Interaction.Behaviors>
+            </Button>
         </controls:WindowCommands>
     </controls:MetroWindow.LeftWindowCommands>
 
@@ -89,116 +128,6 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <fluent:Ribbon x:Name="ribbon" Grid.Row="0">
-
-            <fluent:Ribbon.Menu>
-                <Grid>
-                    <fluent:Backstage
-                        Background="{DynamicResource HighlightBrush}"
-                        Header="{lex:Loc Key=File}"
-                        Visibility="Visible">
-                        <fluent:BackstageTabControl>
-                            <fluent:Button
-                                Command="{Binding OpenProjectCommand}"
-                                Header="{lex:Loc Key=OpenProject}"
-                                KeyTip="S" />
-                            <fluent:Button
-                                Command="{Binding NewProjectCommand}"
-                                Header="{lex:Loc Key=NewProject}"
-                                KeyTip="S" />
-                            <fluent:Button
-                                Command="{Binding SaveProjectCommand}"
-                                Header="{lex:Loc Key=Save}"
-                                KeyTip="S" />
-                            <fluent:Button
-                                Command="{Binding SaveAsProjectCommand}"
-                                Header="{lex:Loc Key=SaveAs}"
-                                KeyTip="A" />
-
-                            <fluent:SeparatorTabItem />
-
-                            <fluent:BackstageTabItem Header="{lex:Loc Key=Information}" KeyTip="I">
-                                <Label Content="Информация о программе" />
-                            </fluent:BackstageTabItem>
-
-                            <fluent:BackstageTabItem Header="{lex:Loc Key=LastOpened}" KeyTip="R">
-                                <TabControl Margin="20,5,20,5">
-                                    <fluent:SeparatorTabItem Header="Test1" />
-                                    <TabItem Header="1" />
-                                    <TabItem Header="2" />
-                                    <TabItem Header="3" />
-                                    <fluent:SeparatorTabItem Header="Test2" />
-                                    <TabItem Header="4" />
-                                </TabControl>
-                            </fluent:BackstageTabItem>
-
-                            <fluent:SeparatorTabItem />
-
-                            <fluent:Button
-                                Command="{Binding ExitCommand}"
-                                Header="{lex:Loc Key=Exit}"
-                                KeyTip="X" />
-                        </fluent:BackstageTabControl>
-                    </fluent:Backstage>
-                </Grid>
-            </fluent:Ribbon.Menu>
-
-            <!--  дополнительные кнопочки справа (например кнопка показа/скрытия отдельных элементов меню)  -->
-
-            <fluent:RibbonTabItem Margin="2" Header="{lex:Loc Key=Main}">
-                <fluent:RibbonGroupBox Header="{lex:Loc Key=Device}" TabIndex="0">
-                    <fluent:Button
-                        x:Name="addDevice"
-                        Command="{Binding NavigateToDeviceAddingCommand}"
-                        CommandParameter="{x:Static infrastructure:ApplicationGlobalNames.ADDING_MODE}"
-                        Header="{lex:Loc Key=Add}"
-                        Size="Middle" />
-                </fluent:RibbonGroupBox>
-
-                <fluent:RibbonGroupBox Header="{lex:Loc DeviceEditor}">
-                    <fluent:Button
-                        x:Name="openDeviceEditor"
-                        Command="{Binding NavigateToDeviceEditorCommand}"
-                        Header="{lex:Loc OpenDeviceEditor}"
-                        Size="Middle" />
-                </fluent:RibbonGroupBox>
-
-                <fluent:RibbonGroupBox Header="{lex:Loc Windows}">
-                    <ItemsControl ItemsSource="{Binding AnchorableWindows}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="dockingManagerWindows:IAnchorableWindow">
-                                <fluent:CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay}" Size="Middle">
-                                    <fluent:CheckBox.Header>
-                                        <Grid>
-                                            <lex:LocProxy Name="WindowTitleProxy" Source="{Binding WindowNameKey}" />
-                                            <TextBlock Text="{Binding ElementName=WindowTitleProxy, Path=Result}" />
-                                        </Grid>
-                                    </fluent:CheckBox.Header>
-                                </fluent:CheckBox>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </fluent:RibbonGroupBox>
-
-                <fluent:RibbonGroupBox Header="{lex:Loc Oscilloscope}">
-                    <fluent:Button
-                        x:Name="openOscillogram"
-                        Command="{Binding OpenOscillogramCommand}"
-                        Header="{lex:Loc OpenOscillogram}"
-                        Size="Middle" />
-                </fluent:RibbonGroupBox>
-            </fluent:RibbonTabItem>
-
-            <fluent:RibbonTabItem
-                Margin="2"
-                Header="{Binding ActiveFragmentViewModel.FragmentTitle}"
-                KeyTip="H"
-                Visibility="{Binding ActiveFragmentViewModel, TargetNullValue=Collapsed}">
-                <i:Interaction.Behaviors>
-                    <behaviors:DynamicRibbonTabItemBehavior TabItems="{Binding ActiveFragmentViewModel.FragmentViewModel.FragmentOptionsViewModel}" />
-                </i:Interaction.Behaviors>
-            </fluent:RibbonTabItem>
-        </fluent:Ribbon>
 
         <xcad:DockingManager
             x:Name="DockingManager"
