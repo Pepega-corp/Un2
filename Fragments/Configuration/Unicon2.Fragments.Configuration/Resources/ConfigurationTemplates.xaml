@@ -97,7 +97,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="180" Header="{lex:Loc DeviceData}">
+                            <GridViewColumn  Width="{Binding ElementName=dummywidth2, Path=ActualWidth}" Header="{lex:Loc DeviceData}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ContentControl Content="{Binding DeviceValue}">
@@ -109,7 +109,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Width="180" Header="{lex:Loc LocalData}">
+                            <GridViewColumn  Width="{Binding ElementName=dummywidth3, Path=ActualWidth}" Header="{lex:Loc LocalData}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Border
@@ -132,7 +132,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Width="180" Header="{lex:Loc MeasureUnit}">
+                            <GridViewColumn  Width="{Binding ElementName=dummywidth4, Path=ActualWidth}" Header="{lex:Loc MeasureUnit}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ContentControl Content="{Binding MeasureUnit}" Visibility="{Binding IsMeasureUnitEnabled, Converter={StaticResource BoolToVisConverter}}" />
@@ -140,7 +140,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Width="180" Header="{lex:Loc Range}">
+                            <GridViewColumn  Width="{Binding ElementName=dummywidth5, Path=ActualWidth}" Header="{lex:Loc Range}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Grid Visibility="{Binding ., Converter={StaticResource IsItemsGroupToVisibilityConverter}}">
