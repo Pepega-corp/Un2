@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
-using Fluent;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+using Unicon2.Shell.Views;
 using WPFLocalizeExtension.Engine;
 
 namespace Unicon2.Shell.Behaviors
 {
-    public class DynamicRibbonTabItemBehavior : Behavior<RibbonTabItem>
+    public class DynamicMenuTabItemBehavior : Behavior<FrameworkElement>
     {
-        public static readonly DependencyProperty TabItemsProperty = DependencyProperty.Register("TabItems", typeof(IFragmentOptionsViewModel), typeof(DynamicRibbonTabItemBehavior), new PropertyMetadata(null, OnTabItemsPropertyChanged));
+        public static readonly DependencyProperty TabItemsProperty = DependencyProperty.Register("TabItems", typeof(IFragmentOptionsViewModel), typeof(DynamicMenuTabItemBehavior), new PropertyMetadata(null, OnTabItemsPropertyChanged));
 
         public IFragmentOptionsViewModel TabItems
         {
@@ -21,59 +23,62 @@ namespace Unicon2.Shell.Behaviors
 
         private static void OnTabItemsPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var beh = sender as DynamicRibbonTabItemBehavior;
+            var beh = sender as DynamicMenuTabItemBehavior;
             beh.OnTabItemsChanged();
         }
 
         protected virtual void OnTabItemsChanged()
         {
-            AssociatedObject.Groups.Clear();
+            AssociatedObject.ContextMenu = new ContextMenu();            
 
             if (TabItems == null) return;
 
-            List<RibbonGroupBox> ribbonGroupBoxs = new List<RibbonGroupBox>();
+            List<object> menuItems = new List<object>();
             foreach (IFragmentOptionGroupViewModel fragmentOptionGroupViewModel in TabItems.FragmentOptionGroupViewModels)
             {
-                RibbonGroupBox ribbonGroupBox = new RibbonGroupBox();
-                ribbonGroupBox.Header = LocalizeDictionary.Instance
-                    .GetLocalizedObject(fragmentOptionGroupViewModel.NameKey, null, LocalizeDictionary.Instance.Culture).ToString();
+                string headerGroup = LocalizeDictionary.Instance
+                     .GetLocalizedObject(fragmentOptionGroupViewModel.NameKey, null,
+                     LocalizeDictionary.Instance.Culture).ToString();
+             //   menuItems.Add(new TextBlock() { Text = headerGroup });
+                var visTree = new FrameworkElementFactory(typeof(StackPanel));
+                var textBlockVisTree = new FrameworkElementFactory(typeof(TextBlock));
+                textBlockVisTree.SetValue(TextBlock.TextProperty, headerGroup);
+                visTree.AppendChild(textBlockVisTree);
+                visTree.AppendChild(new FrameworkElementFactory(typeof(Separator)));
+                menuItems.Add(new Separator() { Template = new ControlTemplate() { VisualTree = visTree } });
 
                 foreach (IFragmentOptionCommandViewModel fragmentOptionCommandViewModel in fragmentOptionGroupViewModel.FragmentOptionCommandViewModels)
                 {
                     string header = LocalizeDictionary.Instance
-                        .GetLocalizedObject(fragmentOptionCommandViewModel.TitleKey, null,
-                            LocalizeDictionary.Instance.Culture).ToString();
+                    .GetLocalizedObject(fragmentOptionCommandViewModel.TitleKey, null,
+                    LocalizeDictionary.Instance.Culture).ToString();
                     if (fragmentOptionCommandViewModel is IFragmentOptionToggleCommandViewModel)
                     {
-                        Fluent.CheckBox toggleButton = new CheckBox();
-                        toggleButton.Header = header;
-                        toggleButton.SetBinding(Fluent.CheckBox.IsCheckedProperty,
-                            new Binding("IsChecked")
-                            {
-                                Source = fragmentOptionCommandViewModel,
-                                Mode = BindingMode.TwoWay
-                            });
-                        toggleButton.Size = RibbonControlSize.Middle;
-                        ribbonGroupBox.Items.Add(toggleButton);
-
+                        CheckBox toggleButton = new CheckBox();
+                        toggleButton.Content = header;
+                        toggleButton.SetBinding(CheckBox.IsCheckedProperty,
+                        new Binding("IsChecked")
+                        {
+                            Source = fragmentOptionCommandViewModel,
+                            Mode = BindingMode.TwoWay
+                        });
+                        menuItems.Add(toggleButton);
                     }
                     else
                     {
-                        Fluent.Button button = new Fluent.Button();
-                        button.Size = RibbonControlSize.Middle;
+                        MenuItem button = new MenuItem();
                         button.Command = fragmentOptionCommandViewModel.OptionCommand;
                         button.Header = header;
-                        ribbonGroupBox.Items.Add(button);
+                        menuItems.Add(button);
                     }
                 }
-                ribbonGroupBoxs.Add(ribbonGroupBox);
+               
             }
-
-            AssociatedObject.Groups.AddRange(ribbonGroupBoxs);
+            menuItems.ForEach((item => AssociatedObject.ContextMenu.Items.Add(item)));
         }
 
 
-        #region Overrides of Behavior
+        #region Overrides of Behavior 
 
         protected override void OnAttached()
         {
