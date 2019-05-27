@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
             BitNumbersInWord = new List<int>();
         }
         #region Implementation of ISubJournalParameter
-        [DataMember]
+        [DataMember(Name = nameof(BitNumbersInWord), Order = 0)]
         public List<int> BitNumbersInWord { get; set; }
 
         public IComplexJournalParameter ParentComplexJournalParameter { get; set; }

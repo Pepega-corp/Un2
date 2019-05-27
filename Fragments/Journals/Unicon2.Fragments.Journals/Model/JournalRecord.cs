@@ -6,15 +6,14 @@ using Unicon2.Infrastructure.Values;
 namespace Unicon2.Fragments.Journals.Model
 {
     [DataContract(Namespace = "JournalRecordNS")]
-   public class JournalRecord:IJournalRecord
+    public class JournalRecord : IJournalRecord
     {
         private bool _isLoaded;
 
         public JournalRecord()
         {
-            FormattedValues=new List<IFormattedValue>();
+            FormattedValues = new List<IFormattedValue>();
         }
-
 
         #region Implementation of IJournalRecord
         [DataMember]
@@ -25,7 +24,8 @@ namespace Unicon2.Fragments.Journals.Model
             get { return _isLoaded; }
             set { _isLoaded = value; }
         }
-        [DataMember]
+        //TODO: посмотреть сериализацию записей журнала, пишет какую-то херню,когда записывает этот лист
+        //[DataMember(Name = nameof(FormattedValues))]
         public List<IFormattedValue> FormattedValues { get; set; }
 
         #endregion

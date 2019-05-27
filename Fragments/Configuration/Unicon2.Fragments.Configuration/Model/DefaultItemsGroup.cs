@@ -22,10 +22,9 @@ namespace Unicon2.Fragments.Configuration.Model
 
         #region Implementation of IItemsGroup
 
-        [DataMember(Name = nameof(ConfigurationItemList), Order = 1)]
-
+        [DataMember(Name = nameof(ConfigurationItemList), Order = 0)]
         public List<IConfigurationItem> ConfigurationItemList { get; set; }
-        [DataMember(Name = nameof(ConfigurationItemList), Order = 2)]
+        //[DataMember(Name = nameof(ConfigurationItemList), Order = 2)]
 
 
         #endregion
