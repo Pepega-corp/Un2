@@ -61,6 +61,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteWriteLocalValuesToDevice);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
+            fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.EDIT_LOCAL_CONFIGURATION_VALUES_STRING_KEY;
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteEditLocalValues);
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
             fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
             fragmentOptionGroupViewModel = fragmentOptionGroupViewModelGettingFunc();
             //группа файл
@@ -105,7 +110,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         {
             (this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).Load();
         }
-        
+
         private bool ExpandLevelByIndex(List<IRuntimeConfigurationItemViewModel> configurationItemViewModels,
             int requestedLevel, int currentLevel)
         {
@@ -259,6 +264,48 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             if (isWritten)
                 (this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).FragmentSettings?.ApplySettingByKey(
                     ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING, null);
+        }
+
+        private void OnExecuteEditLocalValues()
+        {
+            //IDeviceConfiguration loadedConfig = this._container.Resolve<IDeviceConfiguration>();
+            //if (!(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).CheckEquality(loadedConfig)) return;
+            //foreach (IRuntimeConfigurationItemViewModel rootConfigurationItem in this._runtimeConfigurationViewModel.RootConfigurationItemViewModels)
+            //{
+            //    (rootConfigurationItem.Model as IConfigurationItem).InitializeLocalValue(
+            //        loadedConfig.RootConfigurationItemList[
+            //            this._runtimeConfigurationViewModel.RootConfigurationItemViewModels
+            //                .IndexOf(rootConfigurationItem)]);
+            //}
+            IDeviceConfiguration loadedConfig = this._container.Resolve<IDeviceConfiguration>();
+            loadedConfig = _runtimeConfigurationViewModel.Model as IDeviceConfiguration;
+            if (!(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).CheckEquality(loadedConfig)) return;
+
+            try
+            {
+                foreach (IRuntimeConfigurationItemViewModel rootConfigurationItem in this._runtimeConfigurationViewModel.RootConfigurationItemViewModels)
+                {
+
+                    //(rootConfigurationItem.Model as IConfigurationItem).InitializeValue(rootConfigurationItem as IConfigurationItem);
+                    (rootConfigurationItem.Model as IConfigurationItem).InitializeValue(
+
+                        loadedConfig.RootConfigurationItemList[
+                            this._runtimeConfigurationViewModel.RootConfigurationItemViewModels
+                                .IndexOf(rootConfigurationItem)]);
+                }
+            }
+            catch (Exception ex)
+            { }
+            //foreach (IRuntimeConfigurationItemViewModel rootConfigurationItem in this._runtimeConfigurationViewModel.RootConfigurationItemViewModels)
+            //{
+
+            //    //(rootConfigurationItem.Model as IConfigurationItem).InitializeValue(rootConfigurationItem as IConfigurationItem);
+            //    (rootConfigurationItem.Model as IConfigurationItem).InitializeLocalValue(
+
+            //        loadedConfig.RootConfigurationItemList[
+            //            this._runtimeConfigurationViewModel.RootConfigurationItemViewModels
+            //                .IndexOf(rootConfigurationItem)]);
+            //}
         }
 
         private void OnExecuteTransferFromDeviceToLocal()

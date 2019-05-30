@@ -43,8 +43,13 @@ namespace Unicon2.Fragments.Configuration.Model
         {
             this.ConfigurationItemChangedAction?.Invoke();
         }
+        public virtual void InitializeValue(IConfigurationItem localConfigurationItem)
+        {
+            this.InitEditableValueAction?.Invoke();
+        }
 
         public Action ConfigurationItemChangedAction { get; set; }
+        public Action InitEditableValueAction { get; set; }
 
         public virtual ExtensionDataObject ExtensionData
         {
