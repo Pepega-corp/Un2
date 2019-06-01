@@ -16,15 +16,15 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
             this.NumbersOfAssotiatedBits = new List<int>();
         }
 
-        public string FullSignature => this.VariableSignature?.Signature;
+        public string FullSignature => this.VariableColumnSignature?.Signature;
         [DataMember]
-        public IVariableSignature VariableSignature { get; set; }
+        public IVariableColumnSignature VariableColumnSignature { get; set; }
         [DataMember]
         public List<int> NumbersOfAssotiatedBits { get; set; }
 
         public bool IsBitOptionEqual(IBitOption comparingBitOption)
         {
-            return comparingBitOption.VariableSignature == this.VariableSignature && (comparingBitOption.StrongName == this.StrongName);
+            return comparingBitOption.VariableColumnSignature == this.VariableColumnSignature && (comparingBitOption.StrongName == this.StrongName);
         }
 
         #endregion

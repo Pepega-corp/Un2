@@ -47,7 +47,6 @@
 
         
         public const string APPOINTABLE_MATRIX = "AppointableMatrix";
-        public const string MATRIX_VARIABLE = "MatrixVariable";
 
 
 

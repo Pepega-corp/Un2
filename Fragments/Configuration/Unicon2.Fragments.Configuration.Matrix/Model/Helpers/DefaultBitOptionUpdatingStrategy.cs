@@ -8,21 +8,21 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
 {
-    public class DefaultResultBitOptionSeedingStrategy : IResultBitOptionSeedingStrategy
+    public class DefaultBitOptionUpdatingStrategy : IBitOptionUpdatingStrategy
     {
         private readonly ITypesContainer _container;
 
-        public DefaultResultBitOptionSeedingStrategy(ITypesContainer container)
+        public DefaultBitOptionUpdatingStrategy(ITypesContainer container)
         {
             this._container = container;
         }
 
         #region Implementation of IResultBitOptionSeedingStrategy
 
-        public List<IBitOption> UpdateBitOptions(IMatrixTemplate matrixTemplate, List<IBitOption> existingBitOptions)
+        public void UpdateBitOptions(IMatrixTemplate matrixTemplate)
         {
             List<IBitOption> resultBitOptions = new List<IBitOption>();
-            foreach (IVariableSignature variableOptionSignature in matrixTemplate.VariableOptionSignatures)
+            foreach (IVariableColumnSignature variableOptionSignature in matrixTemplate.VariableColumnSignatures)
             {
                 if (matrixTemplate.MatrixVariableOptionTemplate is ListMatrixVariableOptionTemplate)
                 {
@@ -32,25 +32,25 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
                     {
                         IBitOption bitOption = this._container.Resolve<IBitOption>(MatrixKeys.LIST_MATRIX_BIT_OPTION);
                         ((ListMatrixBitOption)bitOption).OptionPossibleValue = optionPossibleValue;
-                        bitOption.VariableSignature = variableOptionSignature;
+                        bitOption.VariableColumnSignature = variableOptionSignature;
 
                         IBitOption existing =
-                            existingBitOptions.FirstOrDefault((option => option.IsBitOptionEqual(bitOption)));
+                            matrixTemplate.ResultBitOptions.FirstOrDefault((option => option.IsBitOptionEqual(bitOption)));
                         resultBitOptions.Add(existing ?? bitOption);
                     }
                 }
                 else if (matrixTemplate.MatrixVariableOptionTemplate is BoolMatrixVariableOptionTemplate)
                 {
                     IBitOption bitOption = this._container.Resolve<IBitOption>(MatrixKeys.BOOL_MATRIX_BIT_OPTION);
-                    bitOption.VariableSignature = variableOptionSignature;
+                    bitOption.VariableColumnSignature = variableOptionSignature;
 
                     IBitOption existing =
-                        existingBitOptions.FirstOrDefault((option => option.IsBitOptionEqual(bitOption)));
+                        matrixTemplate.ResultBitOptions.FirstOrDefault((option => option.IsBitOptionEqual(bitOption)));
                     resultBitOptions.Add(existing ?? bitOption);
                 }
             }
 
-            return resultBitOptions;
+            matrixTemplate.ResultBitOptions= resultBitOptions;
         }
 
         #endregion

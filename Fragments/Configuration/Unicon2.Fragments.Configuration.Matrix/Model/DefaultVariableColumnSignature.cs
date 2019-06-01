@@ -3,13 +3,13 @@ using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(DefaultVariableSignature), IsReference = true)]
+    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(DefaultVariableColumnSignature), IsReference = true)]
 
-    public class DefaultVariableSignature : IVariableSignature
+    public class DefaultVariableColumnSignature : IVariableColumnSignature
     {
         [DataMember]
         public string Signature { get; set; }
         [DataMember]
-        public bool IsMultipleAssgnmentAllowed { get; set; }
+        public bool IsMultipleAssignmentAllowed { get; set; }
     }
 }
