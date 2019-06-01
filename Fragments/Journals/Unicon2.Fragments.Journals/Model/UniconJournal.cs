@@ -38,7 +38,7 @@ namespace Unicon2.Fragments.Journals.Model
         [DataMember]
         public IJournalLoadingSequence JournalLoadingSequence { get; set; }
 
-        [DataMember]
+        [DataMember(Name = nameof(JournalRecords))]
         public List<IJournalRecord> JournalRecords { get; set; }
 
         public Action<RecordChangingEventArgs> JournalRecordsChanged { get; set; }

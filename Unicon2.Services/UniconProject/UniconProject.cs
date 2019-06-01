@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Xml;
 using Unicon2.Infrastructure.Extensions;
@@ -16,12 +17,12 @@ namespace Unicon2.Services.UniconProject
     public class UniconProject : IUniconProject
     {
         private readonly ISerializerService _serializerService;
-        private readonly string TempProjectName = "TempProject";
+        private readonly string DefaultProjectName = "DefaultProject";
 
         public UniconProject(ISerializerService serializerService)
         {
             this._serializerService = serializerService;
-            this.Name = this.TempProjectName;
+            this.Name = this.DefaultProjectName;
             this.ProjectPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), this.Name);
 
             if (this.ProjectPath != null && !Directory.Exists(Path.Combine(this.ProjectPath, this.Name)))
@@ -41,8 +42,8 @@ namespace Unicon2.Services.UniconProject
                 using (XmlWriter fs = XmlWriter.Create(elementName, new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 }))
                 {
                     DataContractSerializer ds = new DataContractSerializer(typeof(UniconProject), this._serializerService.GetTypesForSerialiation());
-
                     ds.WriteObject(fs, this, this._serializerService.GetNamespacesAttributes());
+
                 }
             }
             catch (Exception e)
@@ -89,7 +90,7 @@ namespace Unicon2.Services.UniconProject
         {
             get
             {
-                if ((this.ProjectPath != null) && (this.Name != null) && this.Name != this.TempProjectName)
+                if ((this.ProjectPath != null) && (this.Name != null) && this.Name != this.DefaultProjectName)
                 {
                     if (File.Exists(this.ProjectPath + "\\" + this.Name + ".uniproj")) return true;
                 }

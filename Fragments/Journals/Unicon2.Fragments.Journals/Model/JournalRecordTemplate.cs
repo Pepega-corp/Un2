@@ -14,7 +14,7 @@ namespace Unicon2.Fragments.Journals.Model
 
 
         #region Implementation of IRecordTemplate
-        [DataMember]
+        [DataMember(Name = nameof(JournalParameters))]
         public List<IJournalParameter> JournalParameters { get; set; }
 
         #endregion

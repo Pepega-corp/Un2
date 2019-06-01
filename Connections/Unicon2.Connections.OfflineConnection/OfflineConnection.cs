@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Unicon2.Infrastructure.BaseItems;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services.LogService;
+using Unicon2.Connections.OfflineConnection.Interfaces;
 
 namespace Unicon2.Connections.OfflineConnection
 {

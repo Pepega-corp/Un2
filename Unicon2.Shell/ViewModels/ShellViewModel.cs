@@ -174,10 +174,10 @@ namespace Unicon2.Shell.ViewModels
             if (this.CheckExiting())
                 this._applicationGlobalCommands.ShutdownApplication();
         }
-        
+
         private bool CheckExiting()
         {
-            ProjectSaveCheckingResultEnum res = this._uniconProjectService.CheckIfProjectSaved();
+            ProjectSaveCheckingResultEnum res = this._uniconProjectService.CheckIfProjectSaved(this);
             if (res == ProjectSaveCheckingResultEnum.ProjectAlreadySaved)
             {
                 if (this._dialogCoordinator.ShowModalMessageExternal(this, this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT), this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT_QUESTION),
@@ -231,6 +231,10 @@ namespace Unicon2.Shell.ViewModels
                         }
                         this.ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
                         this.ActiveFragmentViewModel = null;
+                        //закрываем соединение при удалении устройства
+                        (connectableItemChangingContext.Connectable as IDevice).DeviceConnection.CloseConnection();
+                        //надо удалить девайс из коллекции _devicesContainerService
+                        _devicesContainerService.RemoveConnectableItem(connectableItemChangingContext.Connectable as IDevice);
                         connectableItemChangingContext.Connectable.Dispose();
                     }
 
@@ -336,13 +340,13 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnOpenProjectExecute()
         {
-            this._uniconProjectService.OpenProject();
+            this._uniconProjectService.OpenProject("",this);
         }
 
         private void OnExecuteClosing(CancelEventArgs cancelEventArgs)
         {
             if (this.CheckExiting()) return;
-            
+
             if (cancelEventArgs != null) cancelEventArgs.Cancel = true;
         }
         #endregion
