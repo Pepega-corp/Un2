@@ -36,12 +36,16 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FluentValidation.8.4.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity">
@@ -67,6 +71,7 @@
     <Compile Include="EditorViewModel\OptionTemplates\ListMatrixVariableOptionTemplateEditorViewModel.cs" />
     <Compile Include="EditorViewModel\OptionTemplates\OptionPossibleValueEditorViewModel.cs" />
     <Compile Include="EditorViewModel\OptionTemplates\PossibleValueConditionEditorViewModel.cs" />
+    <Compile Include="EditorViewModel\Validators\MatrixTemplateEditorViewModelValidator.cs" />
     <Compile Include="EditorViewModel\VariableSignatureEditorViewModel.cs" />
     <Compile Include="EditorViewModel\MatrixMemoryVariableEditorViewModel.cs" />
     <Compile Include="EditorViewModel\MatrixTemplateEditorViewModel.cs" />
@@ -130,6 +135,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

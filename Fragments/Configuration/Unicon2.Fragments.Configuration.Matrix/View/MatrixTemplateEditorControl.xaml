@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"></BooleanToVisibilityConverter>
-        <Style x:Key="ErrorStyle" TargetType="FrameworkElement">
+        <!--<Style x:Key="ErrorStyle" TargetType="FrameworkElement">
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
@@ -35,13 +35,13 @@
                     </Setter>
                 </Trigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <ItemsControl MaxHeight="470" Style="{StaticResource ErrorStyle}" Name="BitsToAssignItemsControl" ItemsSource="{Binding AssignedBitEditorViewModels}">
+        <ItemsControl MaxHeight="470" Style="{DynamicResource ErrorStyle}" Name="BitsToAssignItemsControl" ItemsSource="{Binding AssignedBitEditorViewModels}">
             <ItemsControl.ItemsPanel>
                <ItemsPanelTemplate>
                     <customControls:WrapPanelWithRowsOrColumnsCount

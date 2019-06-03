@@ -18,9 +18,36 @@
     Height="750"
     BorderBrush="Black"
     BorderThickness="1"
-    mc:Ignorable="d">
+    mc:Ignorable="d" >
     <controls:MetroWindow.Resources>
         <converters:MatrixTemplateSelectingConverter x:Key="MatrixTemplateSelectingConverter" />
+        <Style x:Key="ErrorStyle" TargetType="FrameworkElement">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border
+                                VerticalAlignment="Top"
+                                BorderBrush="#FFdc000c"
+                                BorderThickness="1">
+                                <Grid>
+                                    <AdornedElementPlaceholder x:Name="adorner" Margin="-1" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <ToolTip  Background="#B0dc000c"  Content="{Binding PlacementTarget.(Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </controls:MetroWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -42,7 +69,7 @@
                 Margin="5"
                 Text="{Binding MatrixName}" />
         </UniformGrid>
-        <controls:MetroAnimatedSingleRowTabControl SelectedItem="{Binding SelectedTab}" x:Name="SingleTabControl" Grid.Row="1">
+        <controls:MetroAnimatedSingleRowTabControl SelectedItem="{Binding SelectedTab,Mode=TwoWay}" x:Name="SingleTabControl" Grid.Row="1">
             <TabItem Header="{lex:Loc Memory}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -129,7 +156,7 @@
                         Command="{Binding AddSignatureCommand}"
                         Content="{lex:Loc AddSignature}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <ListBox Height="500" ItemsSource="{Binding Path=VariableSignatureEditorViewModels}">
+                    <ListBox Height="500" ItemsSource="{Binding Path=VariableSignatureEditorViewModels,ValidatesOnDataErrors=True}" Style="{StaticResource ErrorStyle}">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="editorViewModel:IVariableSignatureEditorViewModel">
                                 <UniformGrid Columns="2">
