@@ -13,6 +13,8 @@ namespace Unicon2.Model.FragmentSettings
         private readonly IQueryResultFactory _queryResultFactory;
         private IDataProvider _reserveDataProvider;
 
+        public Action TransactionCompleteAction { get; set; }
+
         public QuickMemoryAccessDataProviderStub(IQueryResultFactory queryResultFactory)
         {
             this._queryResultFactory = queryResultFactory;
@@ -106,6 +108,7 @@ namespace Unicon2.Model.FragmentSettings
         {
             if ((numberOfPoints == 1) && (this.IsMemoryValuesSetsContainsAddress(startAddress)))
             {
+                TransactionCompleteAction?.Invoke();
                 IQueryResult<ushort[]> queryResult = this._queryResultFactory.CreateDefaultQueryResult<ushort[]>();
                 queryResult.IsSuccessful = true;
                 queryResult.Result = new ushort[] { this.GetValueFromMemoryValuesSets(startAddress) };
@@ -119,17 +122,19 @@ namespace Unicon2.Model.FragmentSettings
 
         public async Task<IQueryResult<bool>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle)
         {
+            TransactionCompleteAction?.Invoke();
             return await this._reserveDataProvider.ReadCoilStatusAsync(coilAddress, dataTitle);
         }
 
         public async Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle, ushort numberOfPoints)
         {
+            TransactionCompleteAction?.Invoke();
             return await this._reserveDataProvider.ReadCoilStatusAsync(coilAddress, dataTitle, numberOfPoints);
         }
 
         public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle)
         {
-
+            TransactionCompleteAction?.Invoke();
             if ((dataToWrite.Length == 1) && (this.IsMemoryValuesSetsContainsAddress(startAddress)))
             {
                 IQueryResult queryResult = this._queryResultFactory.CreateDefaultQueryResult();
@@ -147,11 +152,13 @@ namespace Unicon2.Model.FragmentSettings
 
         public async Task<IQueryResult> WriteSingleCoilAsync(ushort coilAddress, bool valueToWrite, string dataTitle)
         {
+            TransactionCompleteAction?.Invoke();
             return await this._reserveDataProvider.WriteSingleCoilAsync(coilAddress, valueToWrite, dataTitle);
         }
 
         public async Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite, string dataTitle)
         {
+            TransactionCompleteAction?.Invoke();
             return await this._reserveDataProvider.WriteSingleRegisterAsync(registerAddress, valueToWrite, dataTitle);
         }
 
