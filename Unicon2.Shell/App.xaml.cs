@@ -62,7 +62,8 @@ namespace Unicon2.Shell
             {
                 MessageBox.Show("Приложение \"Unicon\" уже запущено", "Внимание", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
-                Current.Shutdown();
+                Environment.Exit(0);
+                //Current.Shutdown();
             }
             else
             {
