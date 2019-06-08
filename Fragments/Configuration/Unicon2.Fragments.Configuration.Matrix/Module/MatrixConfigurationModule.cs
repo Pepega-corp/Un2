@@ -13,9 +13,11 @@ using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model.Helpers;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
+using Unicon2.Fragments.Configuration.Matrix.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Module
@@ -27,10 +29,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
             container.Register<IConfigurationItem, AppointableMatrix>(ConfigurationKeys.APPOINTABLE_MATRIX);
             container.Register<IMatrixTemplate, DefaultMatrixTemplate>();
             container.Register<IMatrixMemoryVariable, DefaultMatrixMemoryVariable>();
-            container.Register<IVariableSignature, DefaultVariableSignature>();
+            container.Register<IVariableColumnSignature, DefaultVariableColumnSignature>();
             container.Register<IOptionPossibleValue, OptionPossibleValue>();
             container.Register<IPossibleValueCondition, PossibleValueCondition>();
-            container.Register<IResultBitOptionSeedingStrategy, DefaultResultBitOptionSeedingStrategy>();
+            container.Register<IBitOptionUpdatingStrategy, DefaultBitOptionUpdatingStrategy>();
 
             container.Register<IMatrixVariableOptionTemplate, ListMatrixVariableOptionTemplate>(MatrixKeys.LIST_MATRIX_TEMPLATE);
             container.Register<IMatrixVariableOptionTemplate, BoolMatrixVariableOptionTemplate>(MatrixKeys.BOOL_MATRIX_TEMPLATE);
@@ -44,7 +46,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
             container.Register(typeof(IViewModel), typeof(ListMatrixVariableOptionTemplateEditorViewModel),
                 MatrixKeys.LIST_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
-            container.Register<IMatrixTemplateEditorViewModel, MatrixTemplateEditorViewModel>();
+
+	        container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeAppointableMatrixViewModel),
+		        ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX +
+		        ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+
+
+			container.Register<IMatrixTemplateEditorViewModel, MatrixTemplateEditorViewModel>();
             container.Register<IMatrixMemoryVariableEditorViewModel, MatrixMemoryVariableEditorViewModel>();
             container.Register<IMatrixMemoryVariableEditorViewModelFactory, MatrixMemoryVariableEditorViewModelFactory>();
             container.Register<IVariableSignatureEditorViewModel, VariableSignatureEditorViewModel>();
@@ -61,7 +69,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
             serializerService.AddKnownTypeForSerialization(typeof(AppointableMatrix));
             serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixTemplate));
             serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixMemoryVariable));
-            serializerService.AddKnownTypeForSerialization(typeof(DefaultVariableSignature));
+            serializerService.AddKnownTypeForSerialization(typeof(DefaultVariableColumnSignature));
             serializerService.AddKnownTypeForSerialization(typeof(ListMatrixVariableOptionTemplate));
             serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixVariableOptionTemplate));
             serializerService.AddKnownTypeForSerialization(typeof(OptionPossibleValue));
@@ -70,6 +78,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
             serializerService.AddKnownTypeForSerialization(typeof(ListMatrixBitOption));
 
             serializerService.AddNamespaceAttribute("appointableMatrix", "AppointableMatrixNS");
-        }
+	        //регистрация ресурсов
+	        container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MatrixDataTemplates.xaml", this.GetType().Assembly);
+		}
     }
 }

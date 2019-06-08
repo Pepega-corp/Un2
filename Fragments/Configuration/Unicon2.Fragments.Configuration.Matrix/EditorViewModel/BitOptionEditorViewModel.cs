@@ -25,7 +25,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             }
         }
 
-        public bool IsEnabled => !(this.NumbersOfAssotiatedBits.Count > 0 && !this._model.VariableSignature.IsMultipleAssgnmentAllowed);
+        public bool IsEnabled => !(this.NumbersOfAssotiatedBits.Count > 0 && !this._model.VariableColumnSignature.IsMultipleAssignmentAllowed);
         public void UpdateIsEnabled()
         {
             this.RaisePropertyChanged(nameof(this.IsEnabled));
