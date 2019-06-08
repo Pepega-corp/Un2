@@ -20,7 +20,7 @@ namespace Unicon2.Infrastructure.Services.UniconProject
         /// Проверить сохранен ли проект
         /// </summary>
         /// <returns>Результат проверки</returns>
-        ProjectSaveCheckingResultEnum CheckIfProjectSaved(object context);
+        ProjectSaveCheckingResultEnum CheckIfProjectSaved();
         /// <summary>
         /// Строка файла текущего проекта для вывода пользователю
         /// </summary>
@@ -34,7 +34,7 @@ namespace Unicon2.Infrastructure.Services.UniconProject
         /// Открыть проект
         /// </summary>
         /// <param name="lastProjectString">Необязательная строка, обозначающая предыдущий проект</param>
-        void OpenProject(string lastProjectString = "", object context = null);
+        void OpenProject(string lastProjectString = "");
 
         /// <summary>
         /// Установить контекст для вывода диалоговых сообщений

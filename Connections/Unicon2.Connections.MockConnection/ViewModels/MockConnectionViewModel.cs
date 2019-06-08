@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Connections.MockConnection.Keys;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Connections.MockConnection.ViewModels
 {
-   public class MockConnectionConfigurationViewModel:ViewModelBase,IViewModel
+   public class MockConnectionViewModel:ViewModelBase, IDeviceConnectionViewModel
     {
         #region Implementation of IStronglyNamed
 
-        public string StrongName { get; }
+        public string StrongName => StringKeys.MOCK_CONNECTION + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
         #endregion
 
         #region Implementation of IViewModel
 
         public object Model { get; set; }
+
+        public string ConnectionName => StringKeys.MOCK_CONNECTION;
 
         #endregion
     }

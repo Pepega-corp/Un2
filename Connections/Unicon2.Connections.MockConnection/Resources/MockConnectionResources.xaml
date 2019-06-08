@@ -4,7 +4,7 @@
     xmlns:views="clr-namespace:Unicon2.Connections.MockConnection.Views"
     xmlns:viewModels1="clr-namespace:Unicon2.Connections.MockConnection.ViewModels">
 
-    <DataTemplate DataType="{x:Type viewModels1:MockConnectionConfigurationViewModel}">
+    <DataTemplate DataType="{x:Type viewModels1:MockConnectionViewModel}">
         <views:MockConnectionConfigurationView />
     </DataTemplate>
 </ResourceDictionary>

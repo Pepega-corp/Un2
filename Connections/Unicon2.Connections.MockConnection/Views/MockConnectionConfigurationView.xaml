@@ -7,6 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            
+        <StackPanel Margin="22" Orientation="Vertical">            
+            <TextBlock Text="Иммитация подключения" ></TextBlock>
+            <TextBlock Text="Только словные функции"></TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>
