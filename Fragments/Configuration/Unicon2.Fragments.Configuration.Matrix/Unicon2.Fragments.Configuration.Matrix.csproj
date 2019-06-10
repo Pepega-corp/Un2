@@ -36,12 +36,16 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FluentValidation.8.4.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity">
@@ -67,6 +71,7 @@
     <Compile Include="EditorViewModel\OptionTemplates\ListMatrixVariableOptionTemplateEditorViewModel.cs" />
     <Compile Include="EditorViewModel\OptionTemplates\OptionPossibleValueEditorViewModel.cs" />
     <Compile Include="EditorViewModel\OptionTemplates\PossibleValueConditionEditorViewModel.cs" />
+    <Compile Include="EditorViewModel\Validators\MatrixTemplateEditorViewModelValidator.cs" />
     <Compile Include="EditorViewModel\VariableSignatureEditorViewModel.cs" />
     <Compile Include="EditorViewModel\MatrixMemoryVariableEditorViewModel.cs" />
     <Compile Include="EditorViewModel\MatrixTemplateEditorViewModel.cs" />
@@ -82,15 +87,15 @@
     <Compile Include="Interfaces\EditorViewModel\IVariableSignatureEditorViewModel.cs" />
     <Compile Include="Interfaces\EditorViewModel\OptionTemplates\IOptionPossibleValueEditorViewModel.cs" />
     <Compile Include="Interfaces\EditorViewModel\OptionTemplates\IPossibleValueConditionEditorViewModel.cs" />
-    <Compile Include="Interfaces\Model\Helpers\IResultBitOptionSeedingStrategy.cs" />
+    <Compile Include="Interfaces\Model\Helpers\IBitOptionUpdatingStrategy.cs" />
     <Compile Include="Interfaces\Model\IAppointableMatrix.cs" />
     <Compile Include="Interfaces\Model\IBitOption.cs" />
     <Compile Include="Interfaces\Model\IMatrixMemoryVariable.cs" />
     <Compile Include="Interfaces\Model\IMatrixTemplate.cs" />
     <Compile Include="Interfaces\Model\IMatrixValue.cs" />
+    <Compile Include="Interfaces\Model\IVariableColumnSignature.cs" />
     <Compile Include="Interfaces\Model\OptionTemplates\IMatrixVariableOptionTemplate.cs" />
     <Compile Include="Interfaces\Model\OptionTemplates\IOptionPossibleValue.cs" />
-    <Compile Include="Interfaces\Model\IVariableSignature.cs" />
     <Compile Include="Interfaces\Model\OptionTemplates\IPossibleValueCondition.cs" />
     <Compile Include="Interfaces\ViewModel\IAppointableMatrixViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\IMatrixValueViewModel.cs" />
@@ -100,8 +105,8 @@
     <Compile Include="Model\BoolMatrixBitOption.cs" />
     <Compile Include="Model\DefaultMatrixMemoryVariable.cs" />
     <Compile Include="Model\DefaultMatrixTemplate.cs" />
-    <Compile Include="Model\DefaultVariableSignature.cs" />
-    <Compile Include="Model\Helpers\DefaultResultBitOptionSeedingStrategy.cs" />
+    <Compile Include="Model\DefaultVariableColumnSignature.cs" />
+    <Compile Include="Model\Helpers\DefaultBitOptionUpdatingStrategy.cs" />
     <Compile Include="Model\ListMatrixBitOption.cs" />
     <Compile Include="Model\OptionTemplates\BoolMatrixVariableOptionTemplate.cs" />
     <Compile Include="Model\OptionTemplates\ListMatrixVariableOptionTemplate.cs" />
@@ -110,6 +115,7 @@
     <Compile Include="Module\MatrixConfigurationModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\Options\BitOptionViewModel.cs" />
+    <Compile Include="ViewModel\RuntimeAppointableMatrixViewModel.cs" />
     <Compile Include="View\AppointedMatrixEditorWindow.xaml.cs">
       <DependentUpon>AppointedMatrixEditorWindow.xaml</DependentUpon>
     </Compile>
@@ -129,9 +135,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Resources\MatrixDataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AppointedMatrixEditorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -4,7 +4,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.Fact
 {
     public interface IVariableSignatureEditorViewModelFactory
     {
-        IVariableSignatureEditorViewModel CreateVariableSignatureEditorViewModel(IVariableSignature variableSignature);
+        IVariableSignatureEditorViewModel CreateVariableSignatureEditorViewModel(IVariableColumnSignature variableColumnSignature);
         IVariableSignatureEditorViewModel CreateVariableSignatureEditorViewModel();
 
     }
