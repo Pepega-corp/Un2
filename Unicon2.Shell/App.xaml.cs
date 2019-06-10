@@ -147,9 +147,10 @@ namespace Unicon2.Shell
             this.BootsrapperMessageAction?.Invoke("Adding Modules To Catalog");
             container.Register<IUnityModule, ServicesModule>(nameof(ServicesModule));
             container.Register<IUnityModule, ModuleDeviceEditingModule>(nameof(ModuleDeviceEditingModule));
-            container.Register<IUnityModule, ModbusRtuConnectionModule>(nameof(ModbusRtuConnectionModule));
-            container.Register<IUnityModule, OfflineConnectionModule>(nameof(OfflineConnectionModule));
             container.Register<IUnityModule, MockConnectionModule>(nameof(MockConnectionModule));
+            container.Register<IUnityModule, ModbusRtuConnectionModule>(nameof(ModbusRtuConnectionModule));
+            container.Register<IUnityModule, ModBusTcpModule>(nameof(ModBusTcpModule));
+            container.Register<IUnityModule, OfflineConnectionModule>(nameof(OfflineConnectionModule));
             container.Register<IUnityModule, DeviceEditorUtilityModule.Module.DeviceEditorUtilityModule>(nameof(DeviceEditorUtilityModule.Module.DeviceEditorUtilityModule));
             container.Register<IUnityModule, UniconModelModule>(nameof(UniconModelModule));
             container.Register<IUnityModule, PresentationModule>(nameof(PresentationModule));
@@ -164,7 +165,6 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));
             container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
             container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));
-            container.Register<IUnityModule, ModBusTcpModule>(nameof(ModBusTcpModule));
             container.Register<IUnityModule, FileOperationsModule>(nameof(FileOperationsModule));
             container.Register<IUnityModule, FileOperationsEditorModule>(nameof(FileOperationsEditorModule));
             container.Register<IUnityModule, MatrixConfigurationModule>(nameof(MatrixConfigurationModule));
