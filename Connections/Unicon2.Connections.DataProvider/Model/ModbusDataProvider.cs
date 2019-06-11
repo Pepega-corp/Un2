@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.Threading;
 using Unicon2.Infrastructure.BaseItems;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -20,6 +21,7 @@ namespace Unicon2.Connections.DataProvider.Model
         protected IModbusMaster _currentModbusMaster;
         protected byte _slaveId = 0; //for debug number of device =1. Defaul 0
         protected bool _lastQuerySucceed;
+        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1,1);
 
         public Action TransactionCompleteAction { get; set; }
 
@@ -43,6 +45,7 @@ namespace Unicon2.Connections.DataProvider.Model
 
         public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints, string dataTitle)
         {
+            await _semaphoreSlim.WaitAsync();
             IQueryResult<ushort[]> queryResult = this._queryResultFactory.CreateDefaultQueryResult<ushort[]>();
             if (!this.CheckConnection(queryResult)) return queryResult;
             try
@@ -65,11 +68,13 @@ namespace Unicon2.Connections.DataProvider.Model
                 this.LogQuery(false, dataTitle, "Fun:3" + " Addr:" + startAddress + " Num:" + numberOfPoints, exception: e);
                 queryResult.IsSuccessful = false;
             }
+            _semaphoreSlim.Release(1);
             return queryResult;
         }
 
         public async Task<IQueryResult<bool>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle)
         {
+            await _semaphoreSlim.WaitAsync();
             IQueryResult<bool> queryResult = this._queryResultFactory.CreateDefaultQueryResult<bool>();
             if (!this.CheckConnection(queryResult)) return queryResult;
 
@@ -85,11 +90,13 @@ namespace Unicon2.Connections.DataProvider.Model
                 this.LogQuery(false, dataTitle, "Fun:1" + " Addr:" + coilAddress + " Num:" + 1, exception: e);
                 queryResult.IsSuccessful = false;
             }
+            _semaphoreSlim.Release(1);
             return queryResult;
         }
 
         public async Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle, ushort numberOfPoints)
         {
+            await _semaphoreSlim.WaitAsync();
             IQueryResult<bool[]> queryResult = this._queryResultFactory.CreateDefaultQueryResult<bool[]>();
             if (!this.CheckConnection(queryResult)) return queryResult;
 
@@ -111,11 +118,13 @@ namespace Unicon2.Connections.DataProvider.Model
                 this.LogQuery(false, dataTitle, "Fun:1" + " Addr:" + coilAddress + " Num:" + numberOfPoints, exception: e);
                 queryResult.IsSuccessful = false;
             }
+            _semaphoreSlim.Release(1);
             return queryResult;
         }
 
         public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle)
         {
+            await _semaphoreSlim.WaitAsync();
             IQueryResult queryResult = this._queryResultFactory.CreateDefaultQueryResult();
             if (!this.CheckConnection(queryResult)) return queryResult;
 
@@ -140,6 +149,7 @@ namespace Unicon2.Connections.DataProvider.Model
                 queryResult.IsSuccessful = false;
 
             }
+            _semaphoreSlim.Release(1);
             return queryResult;
         }
 
@@ -147,6 +157,7 @@ namespace Unicon2.Connections.DataProvider.Model
 
         public async Task<IQueryResult> WriteSingleCoilAsync(ushort coilAddress, bool valueToWrite, string dataTitle)
         {
+            await _semaphoreSlim.WaitAsync();
             IQueryResult queryResult = this._queryResultFactory.CreateDefaultQueryResult();
             if (!this.CheckConnection(queryResult)) return queryResult;
 
@@ -162,11 +173,13 @@ namespace Unicon2.Connections.DataProvider.Model
                 this.LogQuery(false, dataTitle, "Fun:5" + " Addr:" + coilAddress + " Data:" + valueToWrite, exception: e);
                 queryResult.IsSuccessful = false;
             }
+            _semaphoreSlim.Release(1);
             return queryResult;
         }
 
         public async Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite, string dataTitle)
         {
+            await _semaphoreSlim.WaitAsync();
             IQueryResult queryResult = this._queryResultFactory.CreateDefaultQueryResult();
             if (!this.CheckConnection(queryResult)) return queryResult;
 
@@ -182,6 +195,7 @@ namespace Unicon2.Connections.DataProvider.Model
                 this.LogQuery(false, dataTitle, "Fun:6" + " Addr:" + registerAddress + " Data:" + valueToWrite, exception: e);
                 queryResult.IsSuccessful = false;
             }
+            _semaphoreSlim.Release(1);
             return queryResult;
         }
 
