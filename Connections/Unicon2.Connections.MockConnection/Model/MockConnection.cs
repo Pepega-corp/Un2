@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Connections.MockConnection.Keys;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
@@ -12,29 +13,32 @@ using Unicon2.Model.Connection;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Connections.MockConnection.Model
-{ 
+{
     /// <summary>
     /// класс иммитации подключения
     /// </summary>
-    [DataContract(Namespace = "ModBusRtuConnectionNS", IsReference = true)]
+    [DataContract(Namespace = "MockConnectionNS", IsReference = true)]
     public class MockConnection : IDeviceConnection, IDataProvider, IInitializableFromContainer
     {
-        public MockConnection()
+        public MockConnection(ITypesContainer typesContainer)
         {
-            MemorySlots=new Dictionary<int, ushort>();
+            MemorySlotDictionary = new Dictionary<ushort, ushort>();
+            this._typesContainer = typesContainer;
         }
 
         private IDeviceLogger _currentDeviceLogger;
+        private ITypesContainer _typesContainer;
 
         [DataMember]
-        private Dictionary<int, ushort> MemorySlots { get; }
-
+        public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
         #region Implementation of ICloneable
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var o = _typesContainer.Resolve<MockConnection>();
+            o.MemorySlotDictionary = MemorySlotDictionary.ToDictionary(entry => entry.Key, entry => entry.Value);
+            return o;
         }
 
         #endregion
@@ -43,14 +47,14 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
 
         #endregion
 
         #region Implementation of IDeviceConnection
 
-        public string ConnectionName { get; }
+        public string ConnectionName => StringKeys.MOCK_CONNECTION;
         public Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
         {
             _currentDeviceLogger = currentDeviceLogger;
@@ -68,36 +72,43 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints, string dataTitle)
         {
-            throw new NotImplementedException();
-            //   return new DefaultQueryResult<ushort[]>(){IsSuccessful=true,Result = MemorySlots.Select()};
+            await Task.Delay(1000);
+            PopulateMemoryIfNeeded(startAddress, numberOfPoints);
+            return new DefaultQueryResult<ushort[]>() { IsSuccessful = true, Result = MemorySlotDictionary.Where((pair) => startAddress <= pair.Key && pair.Key <= (startAddress + numberOfPoints - 1)).Select((pair) => pair.Value).ToArray() };
         }
 
-        public Task<IQueryResult<bool>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle)
+        public async Task<IQueryResult<bool>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle)
         {
-            throw new NotImplementedException();
+            return new DefaultQueryResult<bool>() { IsSuccessful = false };
         }
 
-        public Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle, ushort numberOfPoints)
+        public async Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle, ushort numberOfPoints)
         {
-            throw new NotImplementedException();
+            return new DefaultQueryResult<bool[]>() { IsSuccessful = false };
         }
 
-        public Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle)
+        public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            PopulateMemoryIfNeeded(startAddress, (ushort)dataToWrite.Count());
+            for (ushort i = startAddress; i < startAddress + (ushort)dataToWrite.Count(); i++)
+            {
+                MemorySlotDictionary[i] = dataToWrite[i - startAddress];
+            }
+            return new DefaultQueryResult() { IsSuccessful = true };
         }
 
-        public Task<IQueryResult> WriteSingleCoilAsync(ushort coilAddress, bool valueToWrite, string dataTitle)
+        public async Task<IQueryResult> WriteSingleCoilAsync(ushort coilAddress, bool valueToWrite, string dataTitle)
         {
-            throw new NotImplementedException();
+            return new DefaultQueryResult() { IsSuccessful=false};
         }
 
-        public Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite, string dataTitle)
+        public async Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite, string dataTitle)
         {
-            throw new NotImplementedException();
+            return new DefaultQueryResult() { IsSuccessful = false };
         }
 
-        public bool LastQuerySucceed { get; }
+        public bool LastQuerySucceed { get; } = true;
 
         #endregion
 
@@ -106,9 +117,19 @@ namespace Unicon2.Connections.MockConnection.Model
         public bool IsInitialized { get; }
         public void InitializeFromContainer(ITypesContainer container)
         {
-            throw new NotImplementedException();
+            _typesContainer = container;
         }
 
+        private void PopulateMemoryIfNeeded(ushort address, ushort numberOfPoints)
+        {
+            for (ushort i = address; i < address + numberOfPoints; i++)
+            {
+                if (!MemorySlotDictionary.ContainsKey(i))
+                {
+                    MemorySlotDictionary.Add(i, 0);
+                }
+            }
+        }
         #endregion
     }
 }

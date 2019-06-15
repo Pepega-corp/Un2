@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using Unicon2.Connections.MockConnection.Module;
 using Unicon2.Connections.ModBusRtuConnection.Module;
 using Unicon2.Connections.ModBusTcpConnection.Module;
 using Unicon2.Connections.OfflineConnection;
@@ -100,7 +101,7 @@ namespace Unicon2.Shell
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            string message = $"Возникло необрабатываемое исключение: {e.Exception.Message}\n";
+            string message = $"Возникло необрабатываемое исключение: {e.Exception.Message}\n {e.Exception.StackTrace}";
             MessageBox.Show(message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
@@ -147,6 +148,7 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, ModuleDeviceEditingModule>(nameof(ModuleDeviceEditingModule));
             container.Register<IUnityModule, ModbusRtuConnectionModule>(nameof(ModbusRtuConnectionModule));
             container.Register<IUnityModule, OfflineConnectionModule>(nameof(OfflineConnectionModule));
+            container.Register<IUnityModule, MockConnectionModule>(nameof(MockConnectionModule));
             container.Register<IUnityModule, DeviceEditorUtilityModule.Module.DeviceEditorUtilityModule>(nameof(DeviceEditorUtilityModule.Module.DeviceEditorUtilityModule));
             container.Register<IUnityModule, UniconModelModule>(nameof(UniconModelModule));
             container.Register<IUnityModule, PresentationModule>(nameof(PresentationModule));
