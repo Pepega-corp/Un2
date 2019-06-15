@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Unicon2.Formatting.Model.Base;
+using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Infrastructure.Values;
+
+namespace Unicon2.Fragments.Configuration.Matrix.Model
+{
+   public class MatrixValueFormatter: UshortsFormatterBase
+    {
+        private IAppointableMatrix _appointableMatrix;
+
+        public MatrixValueFormatter(IAppointableMatrix appointableMatrix)
+        {
+            _appointableMatrix = appointableMatrix;
+        }
+
+        #region Overrides of UshortsFormatterBase
+
+        public override ushort[] FormatBack(IFormattedValue formattedValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IFormattedValue OnFormatting(ushort[] ushorts)
+        {
+            return new MatrixValue(){MatrixTemplate=_appointableMatrix.MatrixTemplate,UshortsValue=ushorts};
+        }
+
+        public override string StrongName { get; }
+        public override object Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+}

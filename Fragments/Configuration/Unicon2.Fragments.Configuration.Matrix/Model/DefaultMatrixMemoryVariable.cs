@@ -11,8 +11,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         [DataMember]
         public string Name { get; set; }
         [DataMember]
-        public ushort StartAddress { get; set; }
-        [DataMember]
         public ushort StartAddressWord { get; set; }
         [DataMember]
         public ushort StartAddressBit { get; set; }
