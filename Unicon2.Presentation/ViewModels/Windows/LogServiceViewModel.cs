@@ -311,7 +311,7 @@ namespace Unicon2.Presentation.ViewModels.Windows
             {
                 Filter = " TXT файл (*.txt)|*.txt" + "|Все файлы (*.*)|*.* ",
                 DefaultExt = ".txt",
-                FileName = DateTime.Today.ToShortDateString()
+                FileName = "logfile." + DateTime.Today.ToShortDateString()
             };
             if (sfd.ShowDialog() == true)
             {
