@@ -61,6 +61,7 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
 
         private void OnPingDeviceCommand()
         {
+
             bool pingable = false;
             Ping pinger = null;
 
