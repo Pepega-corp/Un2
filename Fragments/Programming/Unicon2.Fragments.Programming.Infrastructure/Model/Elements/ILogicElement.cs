@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
@@ -11,10 +10,9 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         int BinSize { get; }
         ushort[] GetProgrammBin();
         void BinProgrammToProperty(ushort[] bin);
-        /// <summary>
-        /// Все свойства, описывающие данный элемент
-        /// </summary>
-        Dictionary<string, object> Property { get; }
+        
+        // Все свойства, описывающие данный элемент
+        //Dictionary<string, object> Property { get; }
     }
 
     public enum Functional
