@@ -18,6 +18,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
+
     public class RuntimeAppointableMatrixViewModel : RuntimePropertyViewModel
     {
         public RuntimeAppointableMatrixViewModel(ITypesContainer container, IValueViewModelFactory valueViewModelFactory) : base(container, valueViewModelFactory)
@@ -46,3 +47,4 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
     }
 }
+

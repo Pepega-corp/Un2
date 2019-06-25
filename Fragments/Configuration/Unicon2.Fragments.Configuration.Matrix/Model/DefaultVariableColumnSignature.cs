@@ -12,4 +12,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         [DataMember]
         public bool IsMultipleAssignmentAllowed { get; set; }
     }
+
 }
+

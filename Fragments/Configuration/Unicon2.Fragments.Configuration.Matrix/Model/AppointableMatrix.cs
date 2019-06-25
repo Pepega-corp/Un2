@@ -22,15 +22,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         #region Overrides of ConfigurationItemBase
 
         public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
-        protected override void FillAddressRanges(List<IRange> ranges)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IConfigurationItem OnCloning()
-        {
-            throw new NotImplementedException();
-        }
+      
 
         #endregion
 

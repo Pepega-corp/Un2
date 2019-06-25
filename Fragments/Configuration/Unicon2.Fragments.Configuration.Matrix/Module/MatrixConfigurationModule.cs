@@ -47,12 +47,14 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
                 MatrixKeys.LIST_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
 
+
             container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeAppointableMatrixViewModel),
                 ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX +
                 ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
 
             container.Register<IMatrixTemplateEditorViewModel, MatrixTemplateEditorViewModel>();
+
 
             container.Register<IMatrixMemoryVariableEditorViewModel, MatrixMemoryVariableEditorViewModel>();
             container.Register<IMatrixMemoryVariableEditorViewModelFactory, MatrixMemoryVariableEditorViewModelFactory>();
@@ -80,9 +82,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
 
             serializerService.AddNamespaceAttribute("appointableMatrix", "AppointableMatrixNS");
 
+
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MatrixDataTemplates.xaml", this.GetType().Assembly);
 
         }
+
     }
 }

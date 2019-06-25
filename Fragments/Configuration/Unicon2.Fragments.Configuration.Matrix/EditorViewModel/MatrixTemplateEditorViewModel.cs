@@ -19,6 +19,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 {
+
     public class MatrixTemplateEditorViewModel : ValidatableBindableBase, IMatrixTemplateEditorViewModel
     {
         private readonly IMatrixMemoryVariableEditorViewModelFactory _matrixMemoryVariableEditorViewModelFactory;
@@ -297,3 +298,4 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         #endregion
     }
 }
+

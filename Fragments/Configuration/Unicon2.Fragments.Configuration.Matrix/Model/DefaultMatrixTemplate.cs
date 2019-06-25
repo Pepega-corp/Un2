@@ -29,6 +29,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         public List<IVariableColumnSignature> VariableColumnSignatures { get; set; }
         [DataMember]
         public IMatrixVariableOptionTemplate MatrixVariableOptionTemplate { get; set; }
+
         [DataMember]
         public List<IBitOption> ResultBitOptions { get; set; }
 
@@ -42,5 +43,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         }
 
         #endregion
+
     }
 }

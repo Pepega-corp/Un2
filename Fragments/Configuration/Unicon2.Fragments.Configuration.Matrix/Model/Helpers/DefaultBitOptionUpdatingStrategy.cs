@@ -50,9 +50,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
                 }
             }
 
+
             matrixTemplate.ResultBitOptions = resultBitOptions;
+
         }
 
         #endregion
     }
+
 }
+

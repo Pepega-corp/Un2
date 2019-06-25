@@ -8,6 +8,7 @@ using Unicon2.Infrastructure.Services;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Validators
 {
+
     public class MatrixTemplateEditorViewModelValidator : AbstractValidator<MatrixTemplateEditorViewModel>
     {
         public MatrixTemplateEditorViewModelValidator(ILocalizerService localizerService)
@@ -18,3 +19,4 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Validators
         }
     }
 }
+

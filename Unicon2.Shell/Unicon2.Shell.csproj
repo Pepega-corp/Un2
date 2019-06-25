@@ -208,7 +208,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Connections\Unicon2.Connections.MockConnection\Unicon2.Connections.MockConnection.csproj">
+
       <Project>{0a46905f-1543-4b35-b859-e7b631325559}</Project>
+
       <Name>Unicon2.Connections.MockConnection</Name>
     </ProjectReference>
     <ProjectReference Include="..\Connections\Unicon2.Connections.ModBusRtuConnection\Unicon2.Connections.ModBusRtuConnection.csproj">

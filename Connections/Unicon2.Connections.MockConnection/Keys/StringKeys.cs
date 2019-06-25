@@ -14,6 +14,7 @@ namespace Unicon2.Connections.MockConnection.Keys
         ///   Название фабрики для создания имитация соединения
         /// </summary>
         public const string MOCK_CONNECTION_FACTORY_NAME = "MockConnectionFactory";
+
         
     }
 }

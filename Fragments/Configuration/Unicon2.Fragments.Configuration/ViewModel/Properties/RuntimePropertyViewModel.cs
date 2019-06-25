@@ -128,11 +128,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         protected override void SetModel(object model)
         {
             IProperty settingProperty = model as IProperty;
+
             if (settingProperty == null)
             {
                 base.SetModel(model);
                 return;
             }
+
             if ((this._model != null) && (this._model != model))
             {
                 (this._model as IProperty)?.Dispose();
