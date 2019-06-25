@@ -15,6 +15,8 @@ namespace Unicon2.Infrastructure.Services
         Action<ConnectableItemChangingContext> ConnectableItemChanged { get; set; }
 
         void AddConnectableItem(IConnectable device);
+        void RemoveConnectableItem(IConnectable device);
+
         Task<bool> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection);
 
 

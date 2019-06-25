@@ -3,7 +3,7 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.ViewModel
 {
-    public interface IMatrixValueViewModel:IViewModel<IMatrixValue>
+    public interface IMatrixValueViewModel:IViewModel
     {
         
     }

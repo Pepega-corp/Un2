@@ -7,7 +7,8 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:struct="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Configuration.Infrastructure"
-    xmlns:converters1="clr-namespace:Unicon2.Fragments.Configuration.Converters;assembly=Unicon2.Fragments.Configuration">
+    xmlns:converters1="clr-namespace:Unicon2.Fragments.Configuration.Converters;assembly=Unicon2.Fragments.Configuration"
+    xmlns:view="clr-namespace:Unicon2.Fragments.Configuration.Matrix.View">
 
     <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <converters1:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
@@ -17,7 +18,8 @@
     <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
 
     <DataTemplate x:Key="MatrixValueViewModelDataTemplate">
-        <Grid>
+        <view:MatrixValueView></view:MatrixValueView>
+        <!--<Grid>
             <Button
                 Width="40"
                 Margin="3"
@@ -32,11 +34,11 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-        </Grid>
+        </Grid>-->
     </DataTemplate>
-
     <DataTemplate x:Key="EditableMatrixValueViewModelDataTemplate">
-        <Grid>
+        <view:MatrixValueView></view:MatrixValueView>
+        <!--<Grid>
 
             <Button
                 Width="40"
@@ -52,7 +54,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-        </Grid>
+        </Grid>-->
     </DataTemplate>
 
 

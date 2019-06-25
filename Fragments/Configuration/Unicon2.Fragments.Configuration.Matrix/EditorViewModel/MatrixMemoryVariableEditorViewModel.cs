@@ -25,7 +25,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             get
             {
                 this._model.Name = this.Name;
-                this._model.StartAddress = this.StartAddress;
                 this._model.StartAddressBit = this.StartAddressBit;
                 this._model.StartAddressWord = this.StartAddressWord;
                 return this._model;
@@ -35,7 +34,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             {
                 this._model = value as IMatrixMemoryVariable;
                 this.Name = this._model.Name;
-                this.StartAddress = this._model.StartAddress;
                 this.StartAddressBit = this._model.StartAddressBit;
                 this.StartAddressWord = this._model.StartAddressWord;
             }

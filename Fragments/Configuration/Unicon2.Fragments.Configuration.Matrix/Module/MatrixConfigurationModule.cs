@@ -18,6 +18,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Module
@@ -55,6 +56,18 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
 
             container.Register<IMatrixTemplateEditorViewModel, MatrixTemplateEditorViewModel>();
 
+            container.Register<IFormattedValueViewModel, MatrixValueViewModel>(
+                 MatrixKeys.MATRIX_VALUE +
+                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+
+
+            container.Register<IFormattedValueViewModel, EditableMatrixValueViewModel>(
+                ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
+                MatrixKeys.MATRIX_VALUE +
+                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+
+
+            container.Register<IMatrixTemplateEditorViewModel, MatrixTemplateEditorViewModel>();
 
             container.Register<IMatrixMemoryVariableEditorViewModel, MatrixMemoryVariableEditorViewModel>();
             container.Register<IMatrixMemoryVariableEditorViewModelFactory, MatrixMemoryVariableEditorViewModelFactory>();
