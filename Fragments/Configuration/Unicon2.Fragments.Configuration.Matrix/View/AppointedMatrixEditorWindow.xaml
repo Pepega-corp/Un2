@@ -70,6 +70,14 @@
                 Text="{Binding MatrixName}" />
         </UniformGrid>
         <controls:MetroAnimatedSingleRowTabControl SelectedItem="{Binding SelectedTab,Mode=TwoWay}" x:Name="SingleTabControl" Grid.Row="1">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <!--<command:EventToCommand  PassEventArgsToCommand="True" Command="{Binding OnSelectionChangedCommand}" />-->
+                    <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=SingleTabControl}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
             <TabItem Header="{lex:Loc Memory}">
                 <Grid>
                     <Grid.RowDefinitions>

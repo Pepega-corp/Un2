@@ -15,7 +15,7 @@ using Unicon2.Services.Keys;
 using Unicon2.Unity.Interfaces;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
-namespace Unicon2.Services.UniconProject
+namespace Unicon2.Services.UniconProject                                                                                                                                       
 {
     public class UniconProjectService : IUniconProjectService
     {
@@ -49,8 +49,9 @@ namespace Unicon2.Services.UniconProject
 
         public void CreateNewProject()
         {
-            if (this.CheckIfProjectSaved() != ProjectSaveCheckingResultEnum.CancelledByUser)
+            if (this.CheckIfProjectSaved(this) != ProjectSaveCheckingResultEnum.CancelledByUser)
             {
+                this._devicesContainerService.Refresh();
                 this._uniconProject.Dispose();
                 this._devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
             }
@@ -70,8 +71,10 @@ namespace Unicon2.Services.UniconProject
         /// Проверить сохранен ли проект
         /// </summary>
         /// <returns>Было ли взаимодействие с пользователем по сохранению проекта</returns>
-        public ProjectSaveCheckingResultEnum CheckIfProjectSaved()
+        public ProjectSaveCheckingResultEnum CheckIfProjectSaved(object dialogContext = null)
         {
+            if (dialogContext != null)
+                this._dialogContext = dialogContext;
             if (this._uniconProject.GetIsProjectChanged())
             {
                 MessageDialogResult result = this._dialogCoordinator.ShowModalMessageExternal(this._dialogContext,
@@ -93,7 +96,7 @@ namespace Unicon2.Services.UniconProject
                 }
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    this.SaveProjectInFile(true);
+                    this.SaveProjectInFile(false);
                     return ProjectSaveCheckingResultEnum.ProjectSavedByUserInDialog;
                 }
                 if (result == MessageDialogResult.Negative)
@@ -112,9 +115,11 @@ namespace Unicon2.Services.UniconProject
             return t;
         }
 
-        public async void OpenProject(string lastProjectString = "")
+        public async void OpenProject(string lastProjectString = "", object dialogContext = null)
         {
-            if (this.CheckIfProjectSaved() == ProjectSaveCheckingResultEnum.CancelledByUser) return;
+            if (dialogContext != null)
+                this._dialogContext = dialogContext;
+            if (this.CheckIfProjectSaved(_dialogContext) == ProjectSaveCheckingResultEnum.CancelledByUser) return;
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
             ofd.Filter = "Unicon Project file (*.uniproj)|*.uniproj";
@@ -123,7 +128,7 @@ namespace Unicon2.Services.UniconProject
             {
                 this._uniconProject.DeserializeFromFile(ofd.FileName);
                 this._uniconProject.ProjectPath = Path.GetDirectoryName(ofd.FileName);
-                this._uniconProject.Name = Path.GetFileName(this._uniconProject.ProjectPath);
+                this._uniconProject.Name = Path.GetFileNameWithoutExtension(ofd.FileName);
                 this._devicesContainerService.Refresh();
                 foreach (IConnectable connectableItem in this._uniconProject.ConnectableItems)
                 {
@@ -139,7 +144,7 @@ namespace Unicon2.Services.UniconProject
                 }
                 string message = string.Empty;
                 message += this._localizerService.GetLocalizedString(ServicesKeys.PROJECT_OPENED);
-                message += " " + this._uniconProject.ProjectPath;
+                message += " " + this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj";
                 this._logService.RaiseInfoMessage(message);
             }
         }
@@ -154,7 +159,6 @@ namespace Unicon2.Services.UniconProject
             return this._uniconProject.ProjectPath;
         }
 
-
         private void SaveProjectInFile(bool isDefaultSaving)
         {
             this._uniconProject.ConnectableItems = this._devicesContainerService.ConnectableItems;
@@ -165,20 +169,15 @@ namespace Unicon2.Services.UniconProject
             }
             else
             {
-                FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-                folderBrowserDialog.Description = "Выберите папку для сохранения";
-                if (!string.IsNullOrEmpty(this._uniconProject.ProjectPath))
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Unicon Project file (*.uniproj)|*.uniproj";
+                if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    folderBrowserDialog.SelectedPath = this._uniconProject.ProjectPath;
+                    this._uniconProject.ProjectPath = projectPath = Path.GetDirectoryName(sfd.FileName);
+                    this._uniconProject.Name = Path.GetFileNameWithoutExtension(sfd.FileName);
+                    this._uniconProject.SerializeInFile(this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj", false);
                 }
-
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string folderPath = folderBrowserDialog.SelectedPath;
-                    this._uniconProject.Name = Path.GetFileName(folderPath);
-                    this._uniconProject.SerializeInFile(projectPath, false);
-                    this._uniconProject.ProjectPath = folderPath;
-                }
+                else return;
             }
             string message = string.Empty;
             message += this._localizerService.GetLocalizedString(ServicesKeys.PROJECT_SAVED);

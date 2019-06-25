@@ -29,19 +29,20 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         public List<IVariableColumnSignature> VariableColumnSignatures { get; set; }
         [DataMember]
         public IMatrixVariableOptionTemplate MatrixVariableOptionTemplate { get; set; }
-     
+
         [DataMember]
         public List<IBitOption> ResultBitOptions { get; set; }
 
         #endregion
 
-	    #region Implementation of ICloneable
+        #region Implementation of ICloneable
 
-	    public object Clone()
-	    {
-		    return new DefaultMatrixTemplate();
-	    }
+        public object Clone()
+        {
+            return new DefaultMatrixTemplate();
+        }
 
-	    #endregion
+        #endregion
+
     }
 }

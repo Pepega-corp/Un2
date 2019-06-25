@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IOfflineConnectionViewModel.cs" />
-    <Compile Include="Module\OfflineConnectionModule.cs" />
     <Compile Include="OfflineConnectionModule.cs" />
     <Compile Include="OfflineConnection.cs" />
     <Compile Include="OfflineConnectionFactory.cs" />
@@ -110,6 +109,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Module\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

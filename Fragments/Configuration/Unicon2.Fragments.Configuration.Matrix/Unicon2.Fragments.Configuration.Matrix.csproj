@@ -93,9 +93,10 @@
     <Compile Include="Interfaces\Model\IMatrixMemoryVariable.cs" />
     <Compile Include="Interfaces\Model\IMatrixTemplate.cs" />
     <Compile Include="Interfaces\Model\IMatrixValue.cs" />
+    <Compile Include="Interfaces\Model\IVariableColumnSignature.cs" />
     <Compile Include="Interfaces\Model\OptionTemplates\IMatrixVariableOptionTemplate.cs" />
     <Compile Include="Interfaces\Model\OptionTemplates\IOptionPossibleValue.cs" />
-    <Compile Include="Interfaces\Model\IVariableColumnSignature.cs" />
+
     <Compile Include="Interfaces\Model\OptionTemplates\IPossibleValueCondition.cs" />
     <Compile Include="Interfaces\ViewModel\IAppointableMatrixViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\IMatrixValueViewModel.cs" />
@@ -140,8 +141,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Resources\MatrixDataTemplates.xaml">
-      <Generator>MSBuild:Compile</Generator>
+
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+
     </Page>
     <Page Include="View\AppointedMatrixEditorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -36,7 +36,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         public bool IsBitOptionEqual(IBitOption comparingBitOption)
         {
             return (comparingBitOption.VariableColumnSignature == this.VariableColumnSignature) &&
-                   ((comparingBitOption as ListMatrixBitOption).OptionPossibleValue == this.OptionPossibleValue) && (comparingBitOption.StrongName == this.StrongName);
+
+                  ((comparingBitOption as ListMatrixBitOption).OptionPossibleValue == this.OptionPossibleValue) && (comparingBitOption.StrongName == this.StrongName);
+
         }
 
         [DataMember]

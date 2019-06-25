@@ -660,6 +660,9 @@
   <data name="WriteLocalValuesToDevice" xml:space="preserve">
     <value>Write local values to device</value>
   </data>
+  <data name="EditLocalConfigurationValues" xml:space="preserve">
+    <value>Edit local configuration values</value>
+  </data>
   <data name="ValueChanged" xml:space="preserve">
     <value>Value changed</value>
   </data>

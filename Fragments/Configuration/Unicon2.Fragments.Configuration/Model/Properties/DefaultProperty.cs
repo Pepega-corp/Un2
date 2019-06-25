@@ -117,9 +117,14 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             base.InitializeLocalValue(localConfigurationItem);
         }
 
+        public override void InitializeValue(IConfigurationItem localConfigurationItem)
+        {
+            base.InitializeValue(localConfigurationItem);
+        }
+
         #endregion
 
-        
+
         protected override IConfigurationItem OnCloning()
         {
             DefaultProperty cloneProperty = new DefaultProperty(_rangeGetFunc);

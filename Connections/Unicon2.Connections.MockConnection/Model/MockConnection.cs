@@ -29,6 +29,8 @@ namespace Unicon2.Connections.MockConnection.Model
         private IDeviceLogger _currentDeviceLogger;
         private ITypesContainer _typesContainer;
 
+        public Action TransactionCompleteAction { get; set; }
+
         [DataMember]
         public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
