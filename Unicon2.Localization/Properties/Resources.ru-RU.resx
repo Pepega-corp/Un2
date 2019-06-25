@@ -663,6 +663,9 @@
   <data name="WriteLocalValuesToDevice" xml:space="preserve">
     <value>Записать локальные значения в устройство</value>
   </data>
+  <data name="EditLocalConfigurationValues" xml:space="preserve">
+    <value>Редактировать локальные значения</value>
+  </data>
   <data name="WriteConfigurationQuery" xml:space="preserve">
     <value>Запись конфигурации.</value>
   </data>

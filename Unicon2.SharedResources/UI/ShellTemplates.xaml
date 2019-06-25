@@ -52,7 +52,8 @@
                         Width="20"
                         Height="20"
                         Margin="20,0,0,0"
-                        Source="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource IsConnectedToIconConverter}}">
+                        Source="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource IsConnectedToIconConverter}}"
+                        Opacity="{Binding ConnectionStateViewModel.IndicatorOpacity}">
 
                         <Image.ContextMenu>
                             <ContextMenu>

@@ -10,6 +10,8 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces
         string Description { get; set; }
         void TransferDeviceLocalData(bool isFromDeviceToLocal);
         void InitializeLocalValue(IConfigurationItem localConfigurationItem);
+        void InitializeValue(IConfigurationItem localConfigurationItem);
         Action ConfigurationItemChangedAction { get; set; }
+        Action InitEditableValueAction { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 {
     public class VariableSignatureEditorViewModel : ViewModelBase, IVariableSignatureEditorViewModel
     {
-        private IVariableSignature _model;
+        private IVariableColumnSignature _model;
         private string _signature;
         private bool _isMultipleAssgnmentAllowed;
 
@@ -23,15 +23,15 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             get
             {
                 this._model.Signature = this.Signature;
-                this._model.IsMultipleAssgnmentAllowed = this.IsMultipleAssgnmentAllowed;
+                this._model.IsMultipleAssignmentAllowed = this.IsMultipleAssgnmentAllowed;
                 return this._model;
 
             }
             set
             {
-                this._model = value as IVariableSignature;
+                this._model = value as IVariableColumnSignature;
                 this.Signature = this._model.Signature;
-                this.IsMultipleAssgnmentAllowed = this._model.IsMultipleAssgnmentAllowed;
+                this.IsMultipleAssgnmentAllowed = this._model.IsMultipleAssignmentAllowed;
             }
         }
 

@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for MatrixValueWindow.xaml
     /// </summary>
-    public partial class MatrixValueWindow 
+    public partial class MatrixValueView
     {
-        public MatrixValueWindow()
+        public MatrixValueView()
         {
             InitializeComponent();
         }

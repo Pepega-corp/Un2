@@ -25,18 +25,21 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
         #region Implementation of IBitOption
 
-        public string FullSignature => this.VariableSignature.Signature + " " + this.OptionPossibleValue.PossibleValueName;
+        public string FullSignature => this.VariableColumnSignature.Signature + " " + this.OptionPossibleValue.PossibleValueName;
 
         [DataMember]
-        public IVariableSignature VariableSignature { get; set; }
+        public IVariableColumnSignature VariableColumnSignature { get; set; }
 
         [DataMember]
         public List<int> NumbersOfAssotiatedBits { get; set; }
 
         public bool IsBitOptionEqual(IBitOption comparingBitOption)
         {
-            return (comparingBitOption.VariableSignature == this.VariableSignature) &&
-                   ((comparingBitOption as ListMatrixBitOption).OptionPossibleValue == this.OptionPossibleValue) && (comparingBitOption.StrongName == this.StrongName);
+
+            if (!(comparingBitOption is ListMatrixBitOption)) return false;
+                return (comparingBitOption.VariableColumnSignature == this.VariableColumnSignature) &&
+                   (((ListMatrixBitOption) comparingBitOption).OptionPossibleValue == this.OptionPossibleValue) && (comparingBitOption.StrongName == this.StrongName);
+
         }
 
         [DataMember]

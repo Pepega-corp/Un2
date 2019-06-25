@@ -29,6 +29,7 @@
         <File Id='NModbus4Serial' DiskId='1' Name='NModbus4.Serial.dll'/>
 
         <File Id='Unicon2Connections.DataProvider' DiskId='1' Name='Unicon2.Connections.DataProvider.dll'/>
+        <File Id='Unicon2Connections.MockConnection' DiskId='1' Name='Unicon2.Connections.MockConnection.dll'/>
         <File Id='Unicon2Connections.ModBusRtuConnection' DiskId='1' Name='Unicon2.Connections.ModBusRtuConnection.dll'/>
         <File Id='Unicon2ConnectionsModBusTcpConnection' DiskId='1' Name='Unicon2.Connections.ModBusTcpConnection.dll'/>
         <File Id='Unicon2Connections.OfflineConnection' DiskId='1' Name='Unicon2.Connections.OfflineConnection.dll'/>

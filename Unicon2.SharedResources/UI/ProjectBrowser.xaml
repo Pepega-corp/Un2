@@ -10,9 +10,11 @@
     xmlns:logService1="clr-namespace:Unicon2.Infrastructure.Services.LogService;assembly=Unicon2.Infrastructure">
 
     <DataTemplate DataType="{x:Type logService:ProjectBrowserViewModel}">
-        <ItemsControl
+        <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+            <ItemsControl
             x:Name="ProjectTreeView"
             ItemTemplate="{DynamicResource DeviceTreeTemplate}"
             ItemsSource="{Binding DeviceViewModels}" />
+        </ScrollViewer>
     </DataTemplate>
 </ResourceDictionary>

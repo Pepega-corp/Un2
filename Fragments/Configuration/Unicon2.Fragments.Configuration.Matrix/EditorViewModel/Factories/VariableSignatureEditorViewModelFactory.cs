@@ -16,11 +16,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
 
         #region Implementation of IVariableSignatureEditorViewModelFactory
 
-        public IVariableSignatureEditorViewModel CreateVariableSignatureEditorViewModel(IVariableSignature variableSignature)
+        public IVariableSignatureEditorViewModel CreateVariableSignatureEditorViewModel(IVariableColumnSignature variableColumnSignature)
         {
             IVariableSignatureEditorViewModel variableSignatureEditorViewModel =
                 this._container.Resolve<IVariableSignatureEditorViewModel>();
-            variableSignatureEditorViewModel.Model = variableSignature;
+            variableSignatureEditorViewModel.Model = variableColumnSignature;
             return variableSignatureEditorViewModel;
         }
 
@@ -28,7 +28,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
         {
             IVariableSignatureEditorViewModel variableSignatureEditorViewModel =
                 this._container.Resolve<IVariableSignatureEditorViewModel>();
-            variableSignatureEditorViewModel.Model = this._container.Resolve<IVariableSignature>();
+            variableSignatureEditorViewModel.Model = this._container.Resolve<IVariableColumnSignature>();
             return variableSignatureEditorViewModel;
         }
 

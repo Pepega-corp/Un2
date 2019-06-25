@@ -113,6 +113,16 @@ namespace Unicon2.Fragments.Configuration.Model
             }
             base.InitializeLocalValue(localConfigurationItem);
         }
+        public override void InitializeValue(IConfigurationItem localConfigurationItem)
+        {
+            if (!(localConfigurationItem is DefaultItemsGroup)) return;
+            foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+            {
+                configurationItem.InitializeValue((localConfigurationItem as DefaultItemsGroup).ConfigurationItemList[this.ConfigurationItemList.IndexOf(configurationItem)]);
+            }
+            base.InitializeValue(localConfigurationItem);
+        }
+
 
 
 

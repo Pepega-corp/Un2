@@ -12,13 +12,17 @@ namespace Unicon2.Infrastructure.Services
         List<IDeviceCreator> Creators { get; }
         List<IConnectable> ConnectableItems { get; set; }
 
-         Action<ConnectableItemChangingContext> ConnectableItemChanged { get; set; }
+        Action<ConnectableItemChangingContext> ConnectableItemChanged { get; set; }
 
         void AddConnectableItem(IConnectable device);
-       Task<bool> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection);
+        void RemoveConnectableItem(IConnectable device);
+
+        Task<bool> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection);
+
 
         void RemoveConnectableItem(IConnectable device);
         void LoadDevicesDefinitions(string folderPath="Devices");
+
         void UpdateDeviceDefinition(string deviceName);
 
         void Refresh();
