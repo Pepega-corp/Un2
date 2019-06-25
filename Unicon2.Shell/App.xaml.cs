@@ -12,6 +12,7 @@ using Unicon2.Connections.MockConnection.Module;
 using Unicon2.Connections.ModBusRtuConnection.Module;
 using Unicon2.Connections.ModBusTcpConnection.Module;
 using Unicon2.Connections.OfflineConnection;
+using Unicon2.Connections.MockConnection.Module;
 using Unicon2.Formatting.Editor.Module;
 using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;
@@ -63,7 +64,8 @@ namespace Unicon2.Shell
             {
                 MessageBox.Show("Приложение \"Unicon\" уже запущено", "Внимание", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
-                Current.Shutdown();
+                Environment.Exit(0);
+                //Current.Shutdown();
             }
             else
             {
@@ -146,7 +148,9 @@ namespace Unicon2.Shell
             this.BootsrapperMessageAction?.Invoke("Adding Modules To Catalog");
             container.Register<IUnityModule, ServicesModule>(nameof(ServicesModule));
             container.Register<IUnityModule, ModuleDeviceEditingModule>(nameof(ModuleDeviceEditingModule));
+            container.Register<IUnityModule, MockConnectionModule>(nameof(MockConnectionModule));
             container.Register<IUnityModule, ModbusRtuConnectionModule>(nameof(ModbusRtuConnectionModule));
+            container.Register<IUnityModule, ModBusTcpModule>(nameof(ModBusTcpModule));
             container.Register<IUnityModule, OfflineConnectionModule>(nameof(OfflineConnectionModule));
             container.Register<IUnityModule, MockConnectionModule>(nameof(MockConnectionModule));
             container.Register<IUnityModule, DeviceEditorUtilityModule.Module.DeviceEditorUtilityModule>(nameof(DeviceEditorUtilityModule.Module.DeviceEditorUtilityModule));
@@ -163,7 +167,6 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));
             container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
             container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));
-            container.Register<IUnityModule, ModBusTcpModule>(nameof(ModBusTcpModule));
             container.Register<IUnityModule, FileOperationsModule>(nameof(FileOperationsModule));
             container.Register<IUnityModule, FileOperationsEditorModule>(nameof(FileOperationsEditorModule));
             container.Register<IUnityModule, MatrixConfigurationModule>(nameof(MatrixConfigurationModule));

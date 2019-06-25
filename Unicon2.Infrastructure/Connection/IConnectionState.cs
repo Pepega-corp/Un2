@@ -14,6 +14,7 @@ namespace Unicon2.Infrastructure.Connection
         bool GetIsExpectedValueMatchesDevice();
         Action ConnectionStateChangedAction { get; set; }
         Task CheckConnection();
+        IDataProvider DataProvider { get;}
         IFormattedValue TestResultValue { get; set; }
         IDeviceValueContaining DeviceValueContaining { get; set; }
         List<string> ExpectedValues { get; set; }

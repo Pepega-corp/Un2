@@ -73,6 +73,12 @@
         /// <summary>
         ///    строка сохранения конфигурации
         /// </summary>
+        public const string EDIT_LOCAL_CONFIGURATION_VALUES_STRING_KEY =
+            "EditLocalConfigurationValues";
+
+        /// <summary>
+        ///    строка сохранения конфигурации
+        /// </summary>
         public const string LOAD_FROM_FILE_STRING_KEY =
             "LoadFromFile";
 
