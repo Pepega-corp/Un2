@@ -48,7 +48,7 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Width="Auto" Header="{lex:Loc Name}">
+                            <GridViewColumn  Width="{Binding Source={x:Reference dummywidth1}, Path=ActualWidth}" Header="{lex:Loc Name}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -97,7 +97,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn  Width="Auto" Header="{lex:Loc DeviceData}">
+                            <GridViewColumn  Width="{Binding Source={x:Reference dummywidth2}, Path=ActualWidth}" Header="{lex:Loc DeviceData}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ContentControl Content="{Binding DeviceValue}">
@@ -109,7 +109,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn  Width="Auto" Header="{lex:Loc LocalData}">
+                            <GridViewColumn Width="{Binding Source={x:Reference dummywidth3}, Path=ActualWidth}" Header="{lex:Loc LocalData}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Border

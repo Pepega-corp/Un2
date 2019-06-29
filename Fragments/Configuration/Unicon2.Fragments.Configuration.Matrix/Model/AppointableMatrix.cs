@@ -23,7 +23,14 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
             this.MatrixTemplate = matrixTemplate;
         }
 
-     
+        #region Overrides of DefaultProperty
+
+        public override Task<bool> Write()
+        {
+          return MatrixUshortLoadingHelper.WriteMatrixUshorts(this, _dataProvider,LocalUshortsValue);
+        }
+
+        #endregion
 
         #region Overrides of ConfigurationItemBase
 

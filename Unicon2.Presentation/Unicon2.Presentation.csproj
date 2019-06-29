@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\ConnectionStateViewModel.cs" />
+    <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Factories\DeviceViewModelFactory.cs" />
     <Compile Include="Factories\FragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\FragmentPaneViewModelFactory.cs" />
@@ -124,9 +125,13 @@
     <Compile Include="ViewModels\Fragment\FragmentOptions\DefaultFragmentOptionsViewModel.cs" />
     <Compile Include="ViewModels\Fragment\FragmentOptions\FragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="ViewModels\Fragment\FragmentPaneViewModel.cs" />
+    <Compile Include="ViewModels\ToolBarViewModel.cs" />
     <Compile Include="ViewModels\Windows\AnchorableWindowBase.cs" />
     <Compile Include="ViewModels\Windows\LogServiceViewModel.cs" />
     <Compile Include="ViewModels\Windows\ProjectBrowserViewModel.cs" />
+    <Compile Include="Views\ToolBarView.xaml.cs">
+      <DependentUpon>ToolBarView.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -151,6 +156,10 @@
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Views\ToolBarView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

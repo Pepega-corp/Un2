@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Helpers
             {
                 var sizeOfMemoryVariableInBits = memoryVariable.StartAddressBit +
                                                  appointableMatrix.MatrixTemplate.NumberOfBitsOnEachVariable;
-              var result = await  dataProvider.ReadHoldingResgistersAsync(memoryVariable.StartAddressWord,(ushort)(sizeOfMemoryVariableInBits / 16),
+              var result = await  dataProvider.ReadHoldingResgistersAsync(memoryVariable.StartAddressWord,(ushort)(Math.Ceiling((double)sizeOfMemoryVariableInBits / 16)),
                     "Read matrix variable" + appointableMatrix.Name);
                 if (result.IsSuccessful)
                 {
@@ -29,6 +29,29 @@ namespace Unicon2.Fragments.Configuration.Matrix.Helpers
                 }
             }
             appointableMatrix.DeviceUshortsValue = matrixUshorts.ToArray();
+        }
+        public static async Task<bool> WriteMatrixUshorts(IAppointableMatrix appointableMatrix, IDataProvider dataProvider,ushort[] ushortsToWrite)
+        {
+            var numOfUshortsToSkip = 0;
+            var res = true;
+            foreach (var memoryVariable in appointableMatrix.MatrixTemplate.MatrixMemoryVariables)
+            {
+                var sizeOfMemoryVariableInBits = memoryVariable.StartAddressBit +
+                                                 appointableMatrix.MatrixTemplate.NumberOfBitsOnEachVariable;
+                var numOfUshorts = (ushort) (Math.Ceiling((double) sizeOfMemoryVariableInBits / 16));
+                
+                var result = await dataProvider.WriteMultipleRegistersAsync(memoryVariable.StartAddressWord,ushortsToWrite.Skip(numOfUshortsToSkip).Take(numOfUshorts).ToArray() ,
+                    "Write matrix variable" + appointableMatrix.Name);
+                if (result.IsSuccessful) continue;
+                res = false;
+                break;
+            }
+
+            if (!res) return false;
+            appointableMatrix.DeviceUshortsValue = ushortsToWrite;
+            appointableMatrix.ConfigurationItemChangedAction?.Invoke();
+            return true;
+
         }
     }
 }

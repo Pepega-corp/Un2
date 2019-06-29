@@ -33,7 +33,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
                var newArray=new bool[size];
                 boolArray.CopyTo(newArray, variable.StartAddressBit);
 
-                var numberOfUshorts = boolArray.Length / 16;
+                var numberOfUshorts = Math.Ceiling((double)boolArray.Length / 16);
 
                 var ushorts=new List<ushort>();
                 for (int i = 0; i < numberOfUshorts; i++)

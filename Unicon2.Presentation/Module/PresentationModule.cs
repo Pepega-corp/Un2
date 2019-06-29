@@ -14,6 +14,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
+using Unicon2.Presentation.ViewModels;
 using Unicon2.Presentation.ViewModels.Device;
 using Unicon2.Presentation.ViewModels.Fragment;
 using Unicon2.Presentation.ViewModels.Fragment.FragmentOptions;
@@ -34,7 +35,7 @@ namespace Unicon2.Presentation.Module
             container.Register<IFormattedValueViewModel, StringValueViewModel>(
                 PresentationKeys.STRING_VALUE_KEY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<IFormattedValueViewModel, ErrorValueViewModel>(nameof(ErrorValueViewModel));
-
+            container.Register<ToolBarViewModel>(true);
             container.Register<IFormattedValueViewModel, EditableChosenFromListValueViewModel>(
                 ApplicationGlobalNames.CommonInjectionStrings.EDITABLE + PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
                 ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);

@@ -19,6 +19,7 @@
     xmlns:services="clr-namespace:Unicon2.Shell.Services"
     xmlns:views="clr-namespace:Unicon2.Shell.Views"
     xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+    xmlns:views1="clr-namespace:Unicon2.Presentation.Views;assembly=Unicon2.Presentation"
     x:Name="MainWindow"
     Title="Unicon 2"
     Width="900"
@@ -128,6 +129,8 @@ Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, Ancestor
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
+        <views1:ToolBarView Grid.Row="0" Grid.Column="0" DataContext="{Binding ToolBarViewModel}"></views1:ToolBarView>
 
         <xcad:DockingManager
             x:Name="DockingManager"

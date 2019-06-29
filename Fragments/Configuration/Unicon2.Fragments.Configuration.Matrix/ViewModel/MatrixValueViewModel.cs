@@ -51,7 +51,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
                     matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable =>variable.Name )).ToList(), true);
 
               
-              new MatrixViewModelTableFactory(matrixValue,_boolValue).FillMatrixDataTable(Table,matrixValue,()=>new BoolValueViewModel());
+              new MatrixViewModelTableFactory(matrixValue,_boolValue).FillMatrixDataTable(Table,()=>new BoolValueViewModel());
 
               
             }
