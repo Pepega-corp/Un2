@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,13 @@ using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.ViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
+using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
+using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Base;
 using Unicon2.SharedResources.Behaviors;
 using Unicon2.Unity.Commands;
@@ -17,13 +23,14 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
    public class MatrixValueViewModel: FormattableValueViewModelBase,IMatrixValueViewModel
     {
+        private readonly Func<IBoolValue> _boolValue;
         private DynamicDataTable _table;
 
         #region Overrides of FormattableValueViewModelBase
 
-        public MatrixValueViewModel()
+        public MatrixValueViewModel(Func<IBoolValue> boolValue)
         {
-           
+            _boolValue = boolValue;
         }
 
 
@@ -40,8 +47,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             if(matrixValue==null)return;
             try
             {
-                Table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),new List<string>(), true);
-                Table.AddFormattedValueViewModel();
+                Table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
+                    matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable =>variable.Name )).ToList(), true);
+
+              
+              new MatrixViewModelTableFactory(matrixValue,_boolValue).FillMatrixDataTable(Table,matrixValue,()=>new BoolValueViewModel());
+
+              
             }
             catch (Exception e)
             {
@@ -49,6 +61,12 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
                 throw;
             }
         }
+
+       
+      
+           
+        
+
 
         public DynamicDataTable Table
         {

@@ -57,7 +57,7 @@
 
     <DataTemplate x:Key="EditableBoolValueViewModelDataTemplate" DataType="{x:Type editable:EditableBoolValueViewModel}">
         <CheckBox
-            IsChecked="{Binding BoolValueProperty}"
+            IsChecked="{Binding BoolValueProperty,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}"
             IsEnabled="{Binding IsEditEnabled}"
             IsManipulationEnabled="True" />
     </DataTemplate>

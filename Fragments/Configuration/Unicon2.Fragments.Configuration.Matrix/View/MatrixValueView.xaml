@@ -17,8 +17,9 @@
     mc:Ignorable="d">
     <Grid
         Height="Auto"
-        HorizontalAlignment="Stretch"
+        HorizontalAlignment="Stretch"  
         VerticalAlignment="Stretch">
+       
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -29,6 +30,14 @@
                 VerticalAlignment="Stretch"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TargetUpdated">
+                        <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="SourceUpdated">
+                        <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <i:Interaction.Behaviors>
                     <behaviors:DynamicColumnsDataGridBehavior IsTransponed="{Binding ElementName=IsTransponedCheckBox, Path=IsChecked}" RowValues="{Binding Table}" />
                 </i:Interaction.Behaviors>

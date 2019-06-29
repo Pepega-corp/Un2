@@ -22,8 +22,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         #endregion
 
         #region Implementation of IMatrixValue
-
-        public ushort[] ValueUshorts { get; set; }
+        
         public IMatrixTemplate MatrixTemplate { get; set; }
 
         #endregion

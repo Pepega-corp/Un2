@@ -118,6 +118,8 @@
     <Compile Include="Module\MatrixConfigurationModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\EditableMatrixValueViewModel.cs" />
+    <Compile Include="ViewModel\Helpers\MatrixViewModelTableFactory.cs" />
+    <Compile Include="ViewModel\Helpers\MatrixViewModelTableParser.cs" />
     <Compile Include="ViewModel\MatrixValueViewModel.cs" />
     <Compile Include="ViewModel\Options\BitOptionViewModel.cs" />
     <Compile Include="ViewModel\RuntimeAppointableMatrixViewModel.cs" />

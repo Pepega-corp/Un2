@@ -5,6 +5,5 @@
         string Name { get; set; }
         ushort StartAddressWord { get; set; }
         ushort StartAddressBit { get; set; }
-
     }
 }
