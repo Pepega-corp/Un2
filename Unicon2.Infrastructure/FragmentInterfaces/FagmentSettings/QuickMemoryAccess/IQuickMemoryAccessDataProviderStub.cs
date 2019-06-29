@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
@@ -10,6 +11,7 @@ namespace Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryA
     {
         List<IMemoryValuesSet> MemoryValuesSets { get; set; }
         Task<IQueryResult> WriteMultipleRegistersByBitNumbersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle,List<int> bitNumbers);
+        Action TransactionCompleteAction { get; set; }
 
     }
 }

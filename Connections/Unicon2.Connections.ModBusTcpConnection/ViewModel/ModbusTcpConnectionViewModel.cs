@@ -3,6 +3,9 @@ using Unicon2.Connections.ModBusTcpConnection.Keys;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using System.Net.NetworkInformation;
+using System.Windows.Input;
+using Unicon2.Unity.Commands;
 
 namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
 {
@@ -11,12 +14,18 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
         private int _port;
         private IModbusTcpConnection _model;
         private string _ipAddress;
+        private bool _isPinging;
+
+        public ICommand PingDeviceCommand { get; set; }
 
 
         public ModbusTcpConnectionViewModel(IModbusTcpConnection modbusTcpConnection)
         {
             this._model = modbusTcpConnection;
+            this.PingDeviceCommand = new RelayCommand(this.OnPingDeviceCommand);
         }
+
+
 
         #region Implementation of IModbusTcpConnectionViewModel
 
@@ -40,6 +49,42 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
             }
         }
 
+        public bool IsPinging
+        {
+            get { return _isPinging; }
+            set
+            {
+                _isPinging = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private void OnPingDeviceCommand()
+        {
+
+            bool pingable = false;
+            Ping pinger = null;
+
+            try
+            {
+                pinger = new Ping();
+                PingReply reply = pinger.Send(IpAddress);
+                pingable = reply.Status == IPStatus.Success;
+            }
+            catch (PingException)
+            {
+                // Discard PingExceptions and return false;
+            }
+            finally
+            {
+                if (pinger != null)
+                {
+                    pinger.Dispose();
+                }
+            }
+            IsPinging = pingable;
+
+        }
         public string ConnectionName => this._model.ConnectionName;
 
         #endregion

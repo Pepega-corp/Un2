@@ -1330,6 +1330,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @EditLocalConfigurationValues.
+        /// </summary>
+        public static string EditLocalConfigurationValues {
+            get {
+                return ResourceManager.GetString("EditLocalConfigurationValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Element.
         /// </summary>
         public static string Element {

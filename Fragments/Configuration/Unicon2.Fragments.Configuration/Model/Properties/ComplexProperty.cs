@@ -47,6 +47,15 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             }
             base.InitializeLocalValue(localConfigurationItem);
         }
+        public override void InitializeValue(IConfigurationItem localConfigurationItem)
+        {
+            foreach (ISubProperty subProperty in this.SubProperties)
+            {
+                subProperty.LocalUshortsValue = new ushort[] { 0 };
+                subProperty.InitEditableValueAction?.Invoke();
+            }
+            base.InitializeValue(localConfigurationItem);
+        }
 
 
         public override async Task<bool> Write()
@@ -124,7 +133,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         }
 
         #endregion
-        
+
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)
         {

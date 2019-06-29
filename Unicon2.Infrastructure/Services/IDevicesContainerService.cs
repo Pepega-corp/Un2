@@ -19,7 +19,10 @@ namespace Unicon2.Infrastructure.Services
 
         Task<bool> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection);
 
-        void LoadDevicesDefinitions(string folderPath = "Devices");
+
+        void RemoveConnectableItem(IConnectable device);
+        void LoadDevicesDefinitions(string folderPath="Devices");
+
         void UpdateDeviceDefinition(string deviceName);
 
         void Refresh();

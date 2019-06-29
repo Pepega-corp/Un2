@@ -18,31 +18,33 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
-	public class RuntimeAppointableMatrixViewModel: RuntimePropertyViewModel
-	{
-		public RuntimeAppointableMatrixViewModel(ITypesContainer container, IValueViewModelFactory valueViewModelFactory) : base(container, valueViewModelFactory)
-		{
-			ShowDetails=new RelayCommand(OnShowDetails);
-		}
 
-		private void OnShowDetails()
-		{
-			
-		}
+    public class RuntimeAppointableMatrixViewModel : RuntimePropertyViewModel
+    {
+        public RuntimeAppointableMatrixViewModel(ITypesContainer container, IValueViewModelFactory valueViewModelFactory) : base(container, valueViewModelFactory)
+        {
+            ShowDetails = new RelayCommand(OnShowDetails);
+        }
 
+        private void OnShowDetails()
+        {
 
-
-		#region Overrides of ConfigurationItemViewModelBase
-
-		public override string TypeName => ConfigurationKeys.APPOINTABLE_MATRIX;
-		public override string StrongName=>ConfigurationKeys.RUNTIME+ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-
-		public RelayCommand ShowDetails { get; }
-
-		#endregion
+        }
 
 
 
-	}
+        #region Overrides of ConfigurationItemViewModelBase
+
+        public override string TypeName => ConfigurationKeys.APPOINTABLE_MATRIX;
+        public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
+
+        public RelayCommand ShowDetails { get; }
+
+        #endregion
+
+
+
+    }
 }
+

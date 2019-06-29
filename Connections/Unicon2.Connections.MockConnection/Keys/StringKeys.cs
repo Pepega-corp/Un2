@@ -13,7 +13,8 @@ namespace Unicon2.Connections.MockConnection.Keys
         /// <summary>
         ///   Название фабрики для создания имитация соединения
         /// </summary>
-        public const string MOCK_CONNECTION_FACTORY_NAME = "ModBusRtuConnectionFactory";
+        public const string MOCK_CONNECTION_FACTORY_NAME = "MockConnectionFactory";
+
         
     }
 }
