@@ -17,6 +17,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 using Unicon2.Presentation.ViewModels;
+using Unicon2.Shell.ViewModels.Helpers;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -85,11 +86,14 @@ namespace Unicon2.Shell.ViewModels
                 this.ProjectBrowserViewModel, this.LogServiceViewModel
             };
             ToolBarViewModel = toolBarViewModel;
+            StaticOptionsButtonsHelper.InitializeStaticButtons(this);
             this.NewProjectCommand = new RelayCommand(this.OnNewProjectExecute);
             this.SaveProjectCommand = new RelayCommand(this.OnSaveProjectExecute);
             this.SaveAsProjectCommand = new RelayCommand(this.OnSaveAsProjectExecute);
             this.OpenProjectCommand = new RelayCommand(this.OnOpenProjectExecute);
         }
+
+       
 
         private void OnOpenOscillogramExecute()
         {
@@ -108,6 +112,7 @@ namespace Unicon2.Shell.ViewModels
                 this._activeFragmentViewModel = value;
                 this.RaisePropertyChanged();
                 this.RaisePropertyChanged(nameof(this.ActiveFragmentViewModel.FragmentTitle));
+                ToolBarViewModel.SetDynamicOptionsGroup(ActiveFragmentViewModel?.FragmentViewModel?.FragmentOptionsViewModel);
             }
         }
 

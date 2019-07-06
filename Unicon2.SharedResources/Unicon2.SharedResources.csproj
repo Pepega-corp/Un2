@@ -123,6 +123,7 @@
     <Compile Include="Converter\ObjectEqualityDescriptionNullToVisibilityConverter.cs" />
     <Compile Include="Converter\ObjectsEqualityToBoolConverter.cs" />
     <Compile Include="DataTemplateSelectors\ViewModelByStrongNameDataTemplateSelector.cs" />
+    <Compile Include="Icons\IconResourceKeys.cs" />
     <Compile Include="LayoutHelpers\ActiveDocumentConverter.cs" />
     <Compile Include="LayoutHelpers\DockingManagerTemplateSelector.cs" />
     <Compile Include="LayoutHelpers\FragmentsLayoutTemplateSelector.cs" />

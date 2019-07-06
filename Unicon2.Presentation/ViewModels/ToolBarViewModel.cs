@@ -10,14 +10,18 @@ namespace Unicon2.Presentation.ViewModels
 {
     public class ToolBarViewModel: ViewModelBase
     {
-        private IFragmentOptionGroupViewModel _dynamicOptionsGroup;
+        private IFragmentOptionsViewModel _dynamicOptions;
         public IFragmentOptionGroupViewModel StaticOptionsGroup { get; set; }
 
-        public IFragmentOptionGroupViewModel DynamicOptionsGroup => _dynamicOptionsGroup;
+        public IFragmentOptionsViewModel DynamicOptionsGroup => _dynamicOptions;
 
-        public void SetDynamicOptionsGroup(IFragmentOptionGroupViewModel dynamicOptionsGroupViewModel)
+        public void SetDynamicOptionsGroup(IFragmentOptionsViewModel dynamicOptionsViewModel)
         {
-            _dynamicOptionsGroup = dynamicOptionsGroupViewModel;
+            if (dynamicOptionsViewModel == null)
+            {
+                _dynamicOptions?.FragmentOptionGroupViewModels?.Clear();
+            }
+            _dynamicOptions = dynamicOptionsViewModel;
             RaisePropertyChanged(nameof(DynamicOptionsGroup));
         }
     }

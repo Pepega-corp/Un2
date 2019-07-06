@@ -16,6 +16,7 @@ namespace Unicon2.Presentation.Services
         public ToolBarService(ToolBarViewModel toolBarViewModel)
         {
             _toolBarViewModel = toolBarViewModel;
+            
         }
 
 

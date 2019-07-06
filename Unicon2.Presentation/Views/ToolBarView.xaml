@@ -12,23 +12,80 @@
         <converters:StringToResourceConverter x:Key="StringToResourceConverter"></converters:StringToResourceConverter>
 
     </UserControl.Resources>
-    <Grid>
+    <StackPanel Orientation="Horizontal">
+        <ItemsControl ItemsSource="{Binding StaticOptionsGroup.FragmentOptionCommandViewModels}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button
+                                        Width="35"
+                                        Margin="2"
+                                        Height="35"
+                                        Command="{Binding OptionCommand}"
+                                        ToolTip="{Binding Title}"
+                           Style="{DynamicResource UniconButtonStyle}">
+                        <Rectangle
+                                Width="20"
+                                Height="20"
+                                Fill="Black">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill"  Visual="{Binding IconKey ,Converter={StaticResource StringToResourceConverter}}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"></StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <TextBlock Margin="10" Text=":"></TextBlock>
+        
+        
+        <ItemsControl ItemsSource="{Binding DynamicOptionsGroup.FragmentOptionGroupViewModels}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding FragmentOptionCommandViewModels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>                                
+                                <Button
+                                        Width="35"
+                                        Margin="2"
+                                        Height="35"
+                                        Command="{Binding OptionCommand}"
+                                        ToolTip="{Binding Title}"
+                           Style="{DynamicResource UniconButtonStyle}">
+                                    <Rectangle
+                                Width="20"
+                                Height="20"
+                                Fill="Black">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill"  Visual="{Binding IconKey ,Converter={StaticResource StringToResourceConverter}}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                   
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"></StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
         <StackPanel Orientation="Horizontal">
-        <!--<Button
-            Width="40"
-            Margin="3"
-            Height="40"
-            Command="{Binding StartShowDetails}"
-            Style="{DynamicResource UniconButtonStyle}">
-            <Rectangle
-                Width="25"
-                Height="25"
-                Fill="Black">
-                <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill"  Visual="{Binding TestIcon ,Converter={StaticResource StringToResourceConverter}}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>-->
+
+
         </StackPanel>
-    </Grid>
+    </StackPanel>
 </UserControl>

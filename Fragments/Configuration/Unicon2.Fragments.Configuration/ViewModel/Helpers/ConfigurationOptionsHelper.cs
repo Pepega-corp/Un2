@@ -1,12 +1,14 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
 
@@ -30,7 +32,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             IFragmentOptionsViewModel fragmentOptionsViewModel = container.Resolve<IFragmentOptionsViewModel>();
 
 
-            fragmentOptionsViewModel.FragmentOptionGroupViewModels = new List<IFragmentOptionGroupViewModel>();
+            fragmentOptionsViewModel.FragmentOptionGroupViewModels = new ObservableCollection<IFragmentOptionGroupViewModel>();
 
 
             IFragmentOptionGroupViewModel fragmentOptionGroupViewModel =
@@ -48,21 +50,25 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
 
             fragmentOptionCommandViewModel.TitleKey = ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxOut;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteReadConfiguration);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.TRANSFER_FROM_DEVICE_TO_LOCAL_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconChevronRight;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteTransferFromDeviceToLocal);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.WRITE_LOCAL_VALUES_TO_DEVICE_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteWriteLocalValuesToDevice);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.EDIT_LOCAL_CONFIGURATION_VALUES_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconEdit;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteEditLocalValues);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
@@ -74,11 +80,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.LOAD_FROM_FILE_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscUpload;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteLoadConfiguration);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.SAVE_CONFUGURATION_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscDownload;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteSaveConfiguration);
 
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
@@ -91,12 +99,14 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.EXPAND_LEVEL_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconStepInto;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteExpandLevel);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.COLLAPSE_LEVEL_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconStepOut;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteCollapseLevel);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
