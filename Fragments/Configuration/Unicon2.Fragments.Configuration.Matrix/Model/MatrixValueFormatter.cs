@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Formatting.Model.Base;
@@ -9,7 +10,8 @@ using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-   public class MatrixValueFormatter: UshortsFormatterBase
+    [DataContract(Name = nameof(MatrixValueFormatter), Namespace = "MatrixValueFormatterNS", IsReference = true)]
+    public class MatrixValueFormatter: UshortsFormatterBase
     {
         private IAppointableMatrix _appointableMatrix;
 

@@ -42,6 +42,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Helpers
                 
                 var result = await dataProvider.WriteMultipleRegistersAsync(memoryVariable.StartAddressWord,ushortsToWrite.Skip(numOfUshortsToSkip).Take(numOfUshorts).ToArray() ,
                     "Write matrix variable" + appointableMatrix.Name);
+                numOfUshortsToSkip += numOfUshorts;
                 if (result.IsSuccessful) continue;
                 res = false;
                 break;

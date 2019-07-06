@@ -92,8 +92,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
             serializerService.AddKnownTypeForSerialization(typeof(PossibleValueCondition));
             serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixBitOption));
             serializerService.AddKnownTypeForSerialization(typeof(ListMatrixBitOption));
+            serializerService.AddKnownTypeForSerialization(typeof(MatrixValueFormatter));
 
             serializerService.AddNamespaceAttribute("appointableMatrix", "AppointableMatrixNS");
+            serializerService.AddNamespaceAttribute("matrixValueFormatter", "MatrixValueFormatterNS");
 
 
             //регистрация ресурсов

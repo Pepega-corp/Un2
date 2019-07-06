@@ -73,7 +73,7 @@ namespace Unicon2.Model.DefaultDevice
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                throw;
             }
         }
 

@@ -6,5 +6,9 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Frag
     {
         string TitleKey { get; set; }
         ICommand OptionCommand { get; set; }
+        
     }
+
+  //  public static class Icons
+
 }

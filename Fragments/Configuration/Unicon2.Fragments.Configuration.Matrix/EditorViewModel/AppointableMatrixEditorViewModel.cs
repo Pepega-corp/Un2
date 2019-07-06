@@ -1,6 +1,8 @@
 ﻿using System;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
 using Unicon2.Fragments.Configuration.Matrix.View;
@@ -49,7 +51,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         public void DeleteElement()
         {
-            throw new NotImplementedException();
+            if (this.Parent != null)
+            {
+                if (this.Parent is IChildItemRemovable)
+                {
+                    (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
+                }
+            }
         }
 
         #endregion
