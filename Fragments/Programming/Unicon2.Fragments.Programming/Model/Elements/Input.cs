@@ -4,18 +4,23 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
-    public class Input : ILogicElement
+    public class Input : IInput
     {
         private const int BIN_SIZE = 3;
 
         private ushort _inputSignal;
         private ushort _base;
-        private ushort _connectionNumber;
-        
+        private int _connectionNumber;
+
+        public Dictionary<int, Dictionary<int, string>> AllInputSignals { get; }
+        public List<string> Bases { get; }
+
         public Input()
         {
             this.Functional = Functional.BOOLEAN;
             this.Group = Group.INPUT_OUTPUT;
+            this.AllInputSignals = new Dictionary<int, Dictionary<int, string>>();
+            this.Bases = new List<string>();
         }
 
         private Input(Input cloneable)
@@ -25,6 +30,14 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this._inputSignal = cloneable._inputSignal;
             this._base = cloneable._base;
             this._connectionNumber = cloneable._connectionNumber;
+            this.Bases = new List<string>(cloneable.Bases);
+
+            this.AllInputSignals = new Dictionary<int, Dictionary<int, string>>(cloneable.AllInputSignals);
+            for (int i = 0; i < this.Bases.Count; i++)
+            {
+                var copiedDictionary = cloneable.AllInputSignals[i];
+                this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
+            }
         }
 
         public Functional Functional { get; }
@@ -63,7 +76,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 }
             }
             bindata[1] = this._inputSignal;
-            bindata[2] = this._connectionNumber;
+            bindata[2] = (ushort)this._connectionNumber;
             return bindata;
         }
 
@@ -74,10 +87,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this._connectionNumber = bin[2];
         }
 
-        public Dictionary<string, List<string>> InputSignals;
-        public List<string> Bases;
-
-        public ushort ConnectionNumber
+        public int ConnectionNumber
         {
             get { return this._connectionNumber; }
             set { this._connectionNumber = value; }

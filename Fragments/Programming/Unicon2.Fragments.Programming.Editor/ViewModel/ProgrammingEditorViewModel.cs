@@ -6,7 +6,7 @@ using Unicon2.Fragments.Programming.Editor.Interfaces;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
@@ -19,28 +19,32 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         private IElementLibraryModel _model;
         private ILogicElementFactory _logicElementFactory;
 
-        private ILogicElementViewModel _selectedNewLogicElemItem;
-        private ILogicElementViewModel _selectedLibraryElemItem;
+        private ILogicElementEditorViewModel _selectedNewLogicElemItem;
+        private ILogicElementEditorViewModel _selectedLibraryElemItem;
+
+        public ICommand AddElementCommand { get; }
+        public ICommand RemoveElementCommand { get; }
+
 
         public ProgrammingEditorViewModel(ILogicElementFactory logicElementFactory)
         {
             this._logicElementFactory = logicElementFactory;
 
-            this.BooleanElements = new ObservableCollection<ILogicElementViewModel>(this._logicElementFactory.GetBooleanElementsViewModels());
-            this.AnalogElements = new ObservableCollection<ILogicElementViewModel>(this._logicElementFactory.GetAnalogElementsViewModels());
-            this.LibraryElements = new ObservableCollection<ILogicElementViewModel>();
+            this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsViewModels());
+            this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetAnalogElementsViewModels());
+            this.LibraryElements = new ObservableCollection<ILogicElementEditorViewModel>();
 
             this.AddElementCommand = new RelayCommand(this.OnAddElement);
             this.RemoveElementCommand = new RelayCommand(this.OnRemoveElement);
         }
         
-        public ObservableCollection<ILogicElementViewModel> BooleanElements { get; }
+        public ObservableCollection<ILogicElementEditorViewModel> BooleanElements { get; }
 
-        public ObservableCollection<ILogicElementViewModel> AnalogElements { get; }
+        public ObservableCollection<ILogicElementEditorViewModel> AnalogElements { get; }
 
-        public ObservableCollection<ILogicElementViewModel> LibraryElements { get; }
+        public ObservableCollection<ILogicElementEditorViewModel> LibraryElements { get; }
 
-        public ILogicElementViewModel SelectedNewLogicElemItem
+        public ILogicElementEditorViewModel SelectedNewLogicElemItem
         {
             get { return this._selectedNewLogicElemItem; }
             set
@@ -51,7 +55,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             }
         }
 
-        public ILogicElementViewModel SelectedLibraryElemItem
+        public ILogicElementEditorViewModel SelectedLibraryElemItem
         {
             get { return this._selectedLibraryElemItem; }
             set
@@ -61,10 +65,6 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
                 this.RaisePropertyChanged();
             }
         }
-
-        public ICommand AddElementCommand { get; }
-        public ICommand RemoveElementCommand { get; }
-
 
         private void OnAddElement()
         {
