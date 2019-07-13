@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
@@ -12,37 +13,53 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         private ushort _base;
         private int _connectionNumber;
 
-        public Dictionary<int, Dictionary<int, string>> AllInputSignals { get; }
-        public List<string> Bases { get; }
+        public Dictionary<int, Dictionary<int, string>> AllInputSignals { get; private set; }
+        public List<string> Bases { get; private set; }
 
         public Input()
         {
             this.Functional = Functional.BOOLEAN;
             this.Group = Group.INPUT_OUTPUT;
-            this.AllInputSignals = new Dictionary<int, Dictionary<int, string>>();
-            this.Bases = new List<string>();
+
+            this.Bases = new List<string> {"Base1"};
+
+            this.AllInputSignals =
+                new Dictionary<int, Dictionary<int, string>>
+                {
+                    {this.Bases.Count - 1, new Dictionary<int, string> {{0, string.Empty}}}
+                };
         }
 
         private Input(Input cloneable)
         {
-            this.Functional = cloneable.Functional;
-            this.Group = cloneable.Group;
-            this._inputSignal = cloneable._inputSignal;
-            this._base = cloneable._base;
-            this._connectionNumber = cloneable._connectionNumber;
-            this.Bases = new List<string>(cloneable.Bases);
+            this.CopyValues(cloneable);
+        }
 
-            this.AllInputSignals = new Dictionary<int, Dictionary<int, string>>(cloneable.AllInputSignals);
+        public Functional Functional { get; private set; }
+        public Group Group { get; private set; }
+        public int BinSize => BIN_SIZE;
+
+        public void CopyValues(ILogicElement source)
+        {
+            if (!(source is Input inputSource))
+            {
+                throw new ArgumentException("Copied source is not " + typeof(Input));
+            }
+
+            this.Functional = inputSource.Functional;
+            this.Group = inputSource.Group;
+            this._inputSignal = inputSource._inputSignal;
+            this._base = inputSource._base;
+            this._connectionNumber = inputSource._connectionNumber;
+            this.Bases = new List<string>(inputSource.Bases);
+
+            this.AllInputSignals = new Dictionary<int, Dictionary<int, string>>(inputSource.AllInputSignals);
             for (int i = 0; i < this.Bases.Count; i++)
             {
-                var copiedDictionary = cloneable.AllInputSignals[i];
+                var copiedDictionary = inputSource.AllInputSignals[i];
                 this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
             }
         }
-
-        public Functional Functional { get; }
-        public Group Group { get; }
-        public int BinSize => BIN_SIZE;
 
         public ushort[] GetProgrammBin()
         {

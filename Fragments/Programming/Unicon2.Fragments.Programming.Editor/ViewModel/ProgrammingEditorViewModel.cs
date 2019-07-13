@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Editor.Interfaces;
+using Unicon2.Fragments.Programming.Editor.View;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
@@ -18,16 +20,18 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
     {
         private IElementLibraryModel _model;
         private ILogicElementFactory _logicElementFactory;
+        private IApplicationGlobalCommands _globalCommands;
 
         private ILogicElementEditorViewModel _selectedNewLogicElemItem;
         private ILogicElementEditorViewModel _selectedLibraryElemItem;
 
         public ICommand AddElementCommand { get; }
         public ICommand RemoveElementCommand { get; }
+        public ICommand EditElementCommand { get; }
 
-
-        public ProgrammingEditorViewModel(ILogicElementFactory logicElementFactory)
+        public ProgrammingEditorViewModel(IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
         {
+            this._globalCommands = globalCommands;
             this._logicElementFactory = logicElementFactory;
 
             this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsViewModels());
@@ -36,6 +40,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 
             this.AddElementCommand = new RelayCommand(this.OnAddElement);
             this.RemoveElementCommand = new RelayCommand(this.OnRemoveElement);
+            this.EditElementCommand = new RelayCommand(this.OnEditElement, this.CanEditElement);
         }
         
         public ObservableCollection<ILogicElementEditorViewModel> BooleanElements { get; }
@@ -63,6 +68,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
                 if (this._selectedLibraryElemItem == value) return;
                 this._selectedLibraryElemItem = value;
                 this.RaisePropertyChanged();
+
+                ((RelayCommand)this.EditElementCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -78,6 +85,16 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             if (this.SelectedLibraryElemItem == null || !this.LibraryElements.Contains(this.SelectedLibraryElemItem)) return;
 
             this.LibraryElements.Remove(this.SelectedLibraryElemItem);
+        }
+
+        private void OnEditElement()
+        {
+            this._globalCommands.ShowWindowModal(() => new EditElementView(), new EditElementViewModel());
+        }
+
+        private bool CanEditElement()
+        {
+            return this.SelectedLibraryElemItem != null && this.LibraryElements.Count > 0;
         }
 
         #region Implementation of IStronglyNamed

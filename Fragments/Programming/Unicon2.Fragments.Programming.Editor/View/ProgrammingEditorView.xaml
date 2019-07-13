@@ -86,7 +86,10 @@
                 Margin="5,0,5,5"
                 Command="{Binding RemoveElementCommand}"
                 Content="Удалить эелемент" />
-            <Button Margin="5,0,5,5" Content="Редактировать" />
+            <Button
+                Margin="5,0,5,5"
+                Command="{Binding EditElementCommand}"
+                Content="Редактировать" />
         </StackPanel>
         <GroupBox
             Grid.Row="0"

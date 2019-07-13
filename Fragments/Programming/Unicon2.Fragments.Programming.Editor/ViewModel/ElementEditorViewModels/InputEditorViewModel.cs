@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
@@ -18,7 +18,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public string ElementName { get { return "Вход"; } }
 
-       public string Description { get { return "Входной логичексий сигнал"; } }
+       public string Description { get { return "Входной логический сигнал"; } }
 
         public string StrongName
         {
@@ -31,23 +31,19 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             set { this.SetModel(value); }
         }
 
-        public InputEditorViewModel()
-        {
-            this.Bases = new ObservableCollection<string>();
-            this.Bases.CollectionChanged += this.BasesOnCollectionChanged;
-            this.Bases.Add("Base1");
-        }
-
         private void BasesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs eventArgs)
         {
             switch (eventArgs.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     this._allInputSignals = this._allInputSignals ?? new Dictionary<int, Dictionary<int, string>>();
-                    this._allInputSignals.Add(this.Bases.Count-1, new Dictionary<int, string>());
-                    this._allInputSignals[this.Bases.Count - 1].Add(0, string.Empty);
+                    if (!this._allInputSignals.ContainsKey(this.Bases.Count - 1))
+                    {
+                        this._allInputSignals.Add(this.Bases.Count - 1, new Dictionary<int, string>());
+                        this._allInputSignals[this.Bases.Count - 1].Add(0, string.Empty);
+                    }
                     this.SelectedBase = this.Bases.Count - 1;
-                    return;
+                    break;
                 case NotifyCollectionChangedAction.Remove:
                     this._allInputSignals.Remove(this.SelectedBase);
                     this.SelectedBase = this.Bases.Count - 1;
@@ -55,7 +51,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             }
         }
 
-        public ObservableCollection<string> Bases { get; }
+        public ObservableCollection<string> Bases { get; private set; }
         public bool NeedBases { get; set; }
         public Dictionary<int, string> InputSignals { get; private set; }
 
@@ -77,12 +73,44 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         private IInput GetModel()
         {
+            if (this._model != null)
+            {
+                this._model.Bases.Clear();
+                this._model.Bases.AddRange(this.Bases);
+
+                this._model.AllInputSignals.Clear();
+                foreach (var inputSignal in this._allInputSignals)
+                {
+                    this._model.AllInputSignals.Add(inputSignal.Key, new Dictionary<int, string>(inputSignal.Value));
+                }
+            }
+
             return this._model;
         }
 
         private void SetModel(object value)
         {
+            if(value == null) 
+                return;
+
+            if (this._model != null)
+            {
+                this.Bases.CollectionChanged -= this.BasesOnCollectionChanged;
+                this.Bases.Clear();
+                this._allInputSignals.Clear();
+            }
+
             this._model = (IInput) value;
+
+            this._allInputSignals = new Dictionary<int, Dictionary<int, string>>();
+            foreach (var inputSignal in this._model.AllInputSignals)
+            {
+                this._allInputSignals.Add(inputSignal.Key, new Dictionary<int, string>(inputSignal.Value));
+            }
+
+            this.Bases = new ObservableCollection<string>();
+            this.Bases.CollectionChanged += this.BasesOnCollectionChanged;
+            this.Bases.AddCollection(this._model.Bases);
         }
 
         public object Clone()

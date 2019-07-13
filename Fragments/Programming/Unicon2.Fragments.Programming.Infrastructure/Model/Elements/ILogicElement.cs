@@ -10,6 +10,8 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         int BinSize { get; }
         ushort[] GetProgrammBin();
         void BinProgrammToProperty(ushort[] bin);
+
+        void CopyValues(ILogicElement source);
     }
 
     public enum Functional
