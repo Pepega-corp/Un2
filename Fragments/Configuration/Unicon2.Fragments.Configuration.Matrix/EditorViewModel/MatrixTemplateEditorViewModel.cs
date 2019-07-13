@@ -297,7 +297,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 var groupedAssignedBitEditorViewModels=new ObservableCollection<ObservableCollection<IAssignedBitEditorViewModel>>();
                 for (var i = 0; i < groupsNum; i++)
                 {
-                    groupedAssignedBitEditorViewModels.Add(i == groupsNum - 1
+                    groupedAssignedBitEditorViewModels.Add(i == groupsNum - 1 && AssignedBitEditorViewModels.Count % 16!=0
                         ? new ObservableCollection<IAssignedBitEditorViewModel>(AssignedBitEditorViewModels.Skip(i * 16)
                             .Take(AssignedBitEditorViewModels.Count % 16))
                         : new ObservableCollection<IAssignedBitEditorViewModel>(AssignedBitEditorViewModels.Skip(i * 16)

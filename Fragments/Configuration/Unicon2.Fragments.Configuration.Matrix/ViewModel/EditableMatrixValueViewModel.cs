@@ -67,7 +67,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
                 Table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
                     matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
                 
-                new MatrixViewModelTableFactory(matrixValue, _boolValue).FillMatrixDataTable(Table, () => new EditableBoolValueViewModel());
+                new MatrixViewModelTableFactory(matrixValue, _boolValue,null).FillMatrixDataTable(Table, () => new EditableBoolValueViewModel());
 
             }
             catch (Exception e)

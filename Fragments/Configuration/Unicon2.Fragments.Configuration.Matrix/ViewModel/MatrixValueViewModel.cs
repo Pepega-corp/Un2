@@ -24,13 +24,15 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
    public class MatrixValueViewModel: FormattableValueViewModelBase,IMatrixValueViewModel
     {
         private readonly Func<IBoolValue> _boolValue;
+        private readonly Func<IChosenFromListValue> _chosenFromListValueFunc;
         private DynamicDataTable _table;
 
         #region Overrides of FormattableValueViewModelBase
 
-        public MatrixValueViewModel(Func<IBoolValue> boolValue)
+        public MatrixValueViewModel(Func<IBoolValue> boolValue, Func<IChosenFromListValue> chosenFromListValueFunc)
         {
             _boolValue = boolValue;
+            _chosenFromListValueFunc = chosenFromListValueFunc;
         }
 
 
@@ -50,10 +52,18 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
                 Table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
                     matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable =>variable.Name )).ToList(), true);
 
-              
-              new MatrixViewModelTableFactory(matrixValue,_boolValue).FillMatrixDataTable(Table,()=>new BoolValueViewModel());
+                if (matrixValue.MatrixTemplate.MatrixVariableOptionTemplate is ListMatrixVariableOptionTemplate)
+                {
+                    new MatrixViewModelTableFactory(matrixValue, _boolValue,_chosenFromListValueFunc).FillMatrixDataTable(Table, () => new ChosenFromListValueViewModel());
 
-              
+                }
+                if (matrixValue.MatrixTemplate.MatrixVariableOptionTemplate is BoolMatrixVariableOptionTemplate)
+                {
+                    new MatrixViewModelTableFactory(matrixValue, _boolValue,_chosenFromListValueFunc).FillMatrixDataTable(Table, () => new BoolValueViewModel());
+                }
+
+
+
             }
             catch (Exception e)
             {

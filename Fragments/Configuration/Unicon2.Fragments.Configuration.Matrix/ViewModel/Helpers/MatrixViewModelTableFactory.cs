@@ -17,11 +17,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
     {
         private readonly IMatrixValue _matrixValue;
         private Func<IBoolValue> _boolValue;
+        private readonly Func<IChosenFromListValue> _chosenFromListValFunc;
 
-        public MatrixViewModelTableFactory(IMatrixValue matrixValue, Func<IBoolValue> boolValue)
+        public MatrixViewModelTableFactory(IMatrixValue matrixValue, Func<IBoolValue> boolValue,Func<IChosenFromListValue> chosenFromListValFunc)
         {
             _matrixValue = matrixValue;
             _boolValue = boolValue;
+            _chosenFromListValFunc = chosenFromListValFunc;
         }
 
 
@@ -34,12 +36,37 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
         private List<IFormattedValueViewModel> GetFormattedValueViewModels(IMatrixMemoryVariable matrixMemoryVariable,
             Func<IFormattedValueViewModel> valueViewModelFunc)
         {
-            Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
-                GetCellViewModel(valueViewModelFunc, matrixMemoryVariable,
-                    signature);
 
-            return MapVariableToValueViewModels(cellGettingFunc);
+            //if (_matrixValue.MatrixTemplate.MatrixVariableOptionTemplate is BoolMatrixVariableOptionTemplate)
+            //{
+                Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
+                    GetBoolCellViewModel(valueViewModelFunc, matrixMemoryVariable,
+                        signature);
+                return MapVariableToValueViewModels(cellGettingFunc);
+            //}
+            //else
+            //{
+            //    Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
+            //        GetListCellViewModel(valueViewModelFunc, matrixMemoryVariable,
+            //            signature);
+            //    return MapVariableToValueViewModels(cellGettingFunc);
+
+            //}
+
+
         }
+
+        //private IFormattedValueViewModel GetListCellViewModel(Func<IFormattedValueViewModel> valueViewModelFunc, IMatrixMemoryVariable variable, IVariableColumnSignature signature)
+        //{
+        //    var matrixValue = _matrixValue;
+        //    IChosenFromListValue chosenFromListValue = _chosenFromListValFunc();
+        //    var optionsTemplate =
+        //        _matrixValue.MatrixTemplate.MatrixVariableOptionTemplate as ListMatrixVariableOptionTemplate;
+        //    chosenFromListValue.InitList(
+        //        (optionsTemplate)
+        //        .OptionPossibleValues.Select((value => value.PossibleValueName)));
+        //    GetBitArrayOfVariable(variable)[matrixValue.]
+        //}
 
 
         private List<IFormattedValueViewModel> MapVariableToValueViewModels(
@@ -49,7 +76,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             return matrixValue.MatrixTemplate.VariableColumnSignatures.Select((cellViewModelGetFunc)).ToList();
         }
 
-        private IFormattedValueViewModel GetCellViewModel(Func<IFormattedValueViewModel> boolValueFunc, IMatrixMemoryVariable variable, IVariableColumnSignature signature)
+        private IFormattedValueViewModel GetBoolCellViewModel(Func<IFormattedValueViewModel> boolValueFunc, IMatrixMemoryVariable variable, IVariableColumnSignature signature)
         {
             var matrixValue = _matrixValue;
             IBoolValue boolValue = _boolValue();
