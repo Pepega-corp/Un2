@@ -19,7 +19,7 @@ namespace Unicon2.Presentation.ViewModels
         {
             if (dynamicOptionsViewModel == null)
             {
-                _dynamicOptions?.FragmentOptionGroupViewModels?.Clear();
+                _dynamicOptions = null;
             }
             _dynamicOptions = dynamicOptionsViewModel;
             RaisePropertyChanged(nameof(DynamicOptionsGroup));

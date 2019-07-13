@@ -15,5 +15,8 @@
         public static string IconDiscUpload = "appbar_disk_upload";
         public static string IconStepInto = "appbar_debug_step_into";
         public static string IconStepOut = "appbar_debug_step_out";
+        public static string IconArrowRightLeft = "appbar_arrow_right_left";
+        public static string IconAlignJustify = "appbar_align_justify";
+
     }
 }
