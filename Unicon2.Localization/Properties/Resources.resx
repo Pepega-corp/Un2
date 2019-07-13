@@ -1299,4 +1299,10 @@
   <data name="VersionStringExample" xml:space="preserve">
     <value>@VersionStringExample</value>
   </data>
+  <data name="AssignSignalsAutomatically" xml:space="preserve">
+    <value>@AssignSignalsAutomatically</value>
+  </data>
+  <data name="EnsuringMessage" xml:space="preserve">
+    <value>@EnsuringMessage</value>
+  </data>
 </root>

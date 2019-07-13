@@ -1063,7 +1063,7 @@
     <value>Если значение слова будет 0, возвращаемое значение будет "правда", иначе "ложь"</value>
   </data>
   <data name="CountingStructure" xml:space="preserve">
-    <value>Страктура отсчета</value>
+    <value>Структура отсчета</value>
   </data>
   <data name="FullPageLoading" xml:space="preserve">
     <value>Загрузка всей страницы</value>
@@ -1307,5 +1307,11 @@
   </data>
   <data name="VersionStringExample" xml:space="preserve">
     <value>Пример: MR 5 N\d* VERSION 70.\d</value>
+  </data>
+  <data name="AssignSignalsAutomatically" xml:space="preserve">
+    <value>Автоматически назначить сигналы</value>
+  </data>
+  <data name="EnsuringMessage" xml:space="preserve">
+    <value>Вы уверены?</value>
   </data>
 </root>

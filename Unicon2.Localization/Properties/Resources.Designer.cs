@@ -529,6 +529,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AssignSignalsAutomatically.
+        /// </summary>
+        public static string AssignSignalsAutomatically {
+            get {
+                return ResourceManager.GetString("AssignSignalsAutomatically", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @BaseAdressDec.
         /// </summary>
         public static string BaseAdressDec {
@@ -1380,6 +1389,15 @@ namespace Unicon2.Localization.Properties {
         public static string EndAddress {
             get {
                 return ResourceManager.GetString("EndAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @EnsuringMessage.
+        /// </summary>
+        public static string EnsuringMessage {
+            get {
+                return ResourceManager.GetString("EnsuringMessage", resourceCulture);
             }
         }
         

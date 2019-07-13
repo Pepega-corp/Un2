@@ -1305,4 +1305,10 @@
   <data name="VersionStringExample" xml:space="preserve">
     <value>Example: MR 5 N\d* VERSION 70.\d</value>
   </data>
+  <data name="AssignSignalsAutomatically" xml:space="preserve">
+    <value>Assign signals automatically</value>
+  </data>
+  <data name="EnsuringMessage" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
 </root>

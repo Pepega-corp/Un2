@@ -68,10 +68,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             var bools = new List<bool>();
             GetVariableUshorts(variable).ForEach(arg =>
             {
-                foreach (bool o in new BitArray(new[] { (int)arg }))
+                var bitArray = new BitArray(new[] {(int) arg});
+                for (int i = 0; i < 16; i++)
                 {
-                    bools.Add(o);
-                };
+                    bools.Add(bitArray[i]);
+                }
             });
             var matrixValue = _matrixValue;
             return bools.Take(matrixValue.MatrixTemplate.NumberOfBitsOnEachVariable).ToList();
