@@ -38,6 +38,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             {
                 this._rootConfigurationItemViewModels = value;
                 this.RaisePropertyChanged();
+               
             }
         }
         

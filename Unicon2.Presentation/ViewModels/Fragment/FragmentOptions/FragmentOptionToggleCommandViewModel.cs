@@ -1,4 +1,6 @@
-﻿using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+﻿using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 
 namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
 {
@@ -6,7 +8,9 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
         IFragmentOptionToggleCommandViewModel
     {
         private bool _isChecked;
-        
+        public string Title => StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(TitleKey);
+        public string IconKey { get; set; }
+
         #region Implementation of IFragmentOptionToggleCommandViewModel
 
         public bool IsChecked

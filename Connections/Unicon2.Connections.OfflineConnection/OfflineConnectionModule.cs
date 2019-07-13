@@ -15,6 +15,8 @@ namespace Unicon2.Connections.OfflineConnection
             //регистрация фабрики 
             container.Register<IDeviceConnectionFactory, OfflineConnectionFactory>(ApplicationGlobalNames.OFFLINE_CONNECTION_FACTORY_NAME);
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/OfflineConnectionResources.xaml",this.GetType().Assembly);
+
+            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(OfflineConnection));
         }
     }
 }

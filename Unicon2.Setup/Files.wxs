@@ -29,6 +29,7 @@
         <File Id='NModbus4Serial' DiskId='1' Name='NModbus4.Serial.dll'/>
 
         <File Id='Unicon2Connections.DataProvider' DiskId='1' Name='Unicon2.Connections.DataProvider.dll'/>
+        <File Id='Unicon2Connections.MockConnection' DiskId='1' Name='Unicon2.Connections.MockConnection.dll'/>
         <File Id='Unicon2Connections.ModBusRtuConnection' DiskId='1' Name='Unicon2.Connections.ModBusRtuConnection.dll'/>
         <File Id='Unicon2ConnectionsModBusTcpConnection' DiskId='1' Name='Unicon2.Connections.ModBusTcpConnection.dll'/>
         <File Id='Unicon2Connections.OfflineConnection' DiskId='1' Name='Unicon2.Connections.OfflineConnection.dll'/>
@@ -74,8 +75,25 @@
         <File Id='Oscilloscope' DiskId='1' Name='Oscilloscope.exe'/>
         <File Id='Oscilloscopeexexml' DiskId='1' Name='Oscilloscope.exe.config'/>
         <File Id='MicrosoftExpressionDrawing' DiskId='1' Name='Microsoft.Expression.Drawing.dll'/>
+
+        <File Id='XceedWpfAvalonDockdll' DiskId='1' Name='Xceed.Wpf.AvalonDock.dll'/>
+        <File Id='Xceed.Wpf.AvalonDock.Themes.Aero.dll' DiskId='1' Name='Xceed.Wpf.AvalonDock.Themes.Aero.dll'/>
+        <File Id='Xceed.Wpf.AvalonDock.Themes.Expression.dll' DiskId='1' Name='Xceed.Wpf.AvalonDock.Themes.Expression.dll'/>
+        <File Id='Xceed.Wpf.AvalonDock.Themes.Metro.dll' DiskId='1' Name='Xceed.Wpf.AvalonDock.Themes.Metro.dll'/>
+        <File Id='Xceed.Wpf.AvalonDock.Themes.VS2010.dll' DiskId='1' Name='Xceed.Wpf.AvalonDock.Themes.VS2010.dll'/>
+        <File Id='Xceed.Wpf.AvalonDock' DiskId='1' Name='Xceed.Wpf.AvalonDock.xml'/>
       </Component>
     </DirectoryRef>
+
+    <DirectoryRef Id="oscruRUFolder" FileSource="c:\#git\Un2\OscViewer\OscMainApp\bin\Release\ru">
+      <Component Id="OsciloscopeRu" Guid="b11556a2-e066-4393-af5c-9c9210229228">
+        <File Id='Microsoft.Expression.Drawing.resources.dll' DiskId='1' Name='Microsoft.Expression.Drawing.resources.dll'/>
+        <File Id='Xceed.Wpf.AvalonDock.resources.dll' DiskId='1' Name='Xceed.Wpf.AvalonDock.resources.dll'/>
+      </Component>
+    </DirectoryRef>
+
+   
+
     <DirectoryRef Id="DevicesFolder" FileSource="c:\#git\Un2\Unicon2.Shell\bin\Release\Devices\">
       <Component Id="devices" Guid="b11556a2-e066-4393-af5c-9c9210187e32">
         <File Id='mr771' DiskId='1' Name='MR771.xml'/>

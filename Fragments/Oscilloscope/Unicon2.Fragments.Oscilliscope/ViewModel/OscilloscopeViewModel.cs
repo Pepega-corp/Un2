@@ -9,6 +9,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Progress;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
@@ -43,11 +44,13 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel
             fragmentOptionGroupViewModel.NameKey = OscilloscopeKeys.OSCILLOSCOPE_JOURNAL;
             IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
             fragmentOptionCommandViewModel.TitleKey = "Load";
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
             fragmentOptionCommandViewModel.OptionCommand = this.OscilloscopeJournalViewModel.LoadCommand;
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
             fragmentOptionCommandViewModel.TitleKey = OscilloscopeKeys.LOAD_SELECTED_OSCILLOGRAMS;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscDownload;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
             fragmentOptionCommandViewModel.OptionCommand = this.LoadSelectedOscillogramsCommand;
 

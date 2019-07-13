@@ -15,8 +15,18 @@ namespace Unicon2.SharedResources.Behaviors
         private DynamicDataTable _journalDataTable;
         private ObservableCollection<List<IFormattedValueViewModel>> _collection;
 
+        #region Overrides of Behavior
 
+        protected override void OnDetaching()
+        {
+            if (_journalDataTable != null) _journalDataTable.TableUpdateAction = null;
+            base.OnDetaching();
+        }
+
+        #endregion
         #region RowValues dp
+
+       
 
         public static readonly DependencyProperty RowValuesProperty =
           DependencyProperty.Register("RowValues", typeof(DynamicDataTable), typeof(DynamicColumnsDataGridBehavior),

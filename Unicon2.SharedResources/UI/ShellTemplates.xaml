@@ -16,7 +16,7 @@
         <TreeViewItem ItemsSource="{Binding FragmentViewModels}">
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="2" Text="{Binding DeviceSignature}">
+                    <TextBlock Margin="5" Text="{Binding DeviceSignature}">
                         <TextBlock.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="{lex:Loc Logging}">
@@ -48,11 +48,12 @@
                             </ContextMenu>
                         </TextBlock.ContextMenu>
                     </TextBlock>
-                    <Image
-                        Width="20"
-                        Height="20"
-                        Margin="20,0,0,0"
-                        Source="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource IsConnectedToIconConverter}}">
+                    <Image                        
+                        Width="18"
+                        Height="18"
+                        Margin="10,0,0,0"
+                        Source="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource IsConnectedToIconConverter}}"
+                        Opacity="{Binding ConnectionStateViewModel.IndicatorOpacity}">
 
                         <Image.ContextMenu>
                             <ContextMenu>
@@ -72,7 +73,7 @@
                 <DataTemplate>
                     <Grid>
                         <lex:LocProxy Name="FragmentNameProxy" Source="{Binding NameForUiKey}" />
-                        <TextBlock Text="{Binding ElementName=FragmentNameProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}">
+                        <TextBlock Margin="3" Text="{Binding ElementName=FragmentNameProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}">
                             <TextBlock.InputBindings>
                                 <MouseBinding
                                     Command="{Binding ElementName=MainWindow, Path=DataContext.AddNewFragmentCommand}"

@@ -144,7 +144,7 @@ namespace Unicon2.Services
                 fileName = oscillogramPath;
             }
             System.Diagnostics.Process.Start(
-                Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Oscilloscope.exe"),
+                Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),"OscApp", "Oscilloscope.exe"),
                 fileName);
         }
 

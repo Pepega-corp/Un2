@@ -16,7 +16,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         {
             this.ResultBitOptions = new List<IBitOption>();
             this.MatrixMemoryVariables = new List<IMatrixMemoryVariable>();
-            this.VariableOptionSignatures = new List<IVariableSignature>();
+            this.VariableColumnSignatures = new List<IVariableColumnSignature>();
             this.MatrixVariableOptionTemplate = new BoolMatrixVariableOptionTemplate();
         }
 
@@ -26,18 +26,23 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         [DataMember]
         public List<IMatrixMemoryVariable> MatrixMemoryVariables { get; set; }
         [DataMember]
-        public List<IVariableSignature> VariableOptionSignatures { get; set; }
+        public List<IVariableColumnSignature> VariableColumnSignatures { get; set; }
         [DataMember]
         public IMatrixVariableOptionTemplate MatrixVariableOptionTemplate { get; set; }
-        public void UpdateResultBitOptions()
-        {
-            this.ResultBitOptions =
-            (StaticContainer.Container.Resolve(typeof(IResultBitOptionSeedingStrategy)) as
-                IResultBitOptionSeedingStrategy).UpdateBitOptions(this, this.ResultBitOptions);
-        }
+
         [DataMember]
         public List<IBitOption> ResultBitOptions { get; set; }
 
         #endregion
+
+        #region Implementation of ICloneable
+
+        public object Clone()
+        {
+            return new DefaultMatrixTemplate();
+        }
+
+        #endregion
+
     }
 }

@@ -50,7 +50,7 @@ namespace Unicon2.Presentation.Values.Base
         private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary = new Dictionary<string, bool>();
         private bool _isEditEnabled;
 
-        internal void SetIsChangedProperty(string propertyName, bool isChanged)
+        protected void SetIsChangedProperty(string propertyName, bool isChanged)
         {
             if (!this._signaturedIsChangedPropertyDictionary.ContainsKey(propertyName))
             {

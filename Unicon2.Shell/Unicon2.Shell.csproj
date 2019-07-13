@@ -125,13 +125,19 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\AnchorableSelectedBehavior.cs" />
+    <Compile Include="Behaviors\ButtonContextMenuOpenBehavior.cs" />
     <Compile Include="Behaviors\DynamicRibbonTabItemBehavior.cs" />
     <Compile Include="ControlRegionAdapter\FlyoutsControlRegionAdapter.cs" />
     <Compile Include="Models\AccentColor.cs" />
     <Compile Include="Models\ApplicationTheme.cs" />
     <Compile Include="Services\ApplicationSettingsService.cs" />
     <Compile Include="Services\LayoutInitializer.cs" />
+    <Compile Include="ViewModels\DynamicContextMenuViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\StaticOptionsButtonsHelper.cs" />
     <Compile Include="ViewModels\UniconSplashScreenViewModel.cs" />
+    <Compile Include="Views\DynamicContextMenu.xaml.cs">
+      <DependentUpon>DynamicContextMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -150,6 +156,10 @@
     <Page Include="Images\drawing.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DynamicContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -198,6 +208,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Connections\Unicon2.Connections.MockConnection\Unicon2.Connections.MockConnection.csproj">
+      <Project>{0a46905f-1543-4b35-b859-e7b631325559}</Project>
+      <Name>Unicon2.Connections.MockConnection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Connections\Unicon2.Connections.ModBusRtuConnection\Unicon2.Connections.ModBusRtuConnection.csproj">
       <Project>{7DBCD949-CD63-44F3-A11B-491D89D71397}</Project>
       <Name>Unicon2.Connections.ModBusRtuConnection</Name>

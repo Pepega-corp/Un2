@@ -28,7 +28,7 @@ namespace Unicon2.Model.Connection
         #region Implementation of IConnectionState
 
         public bool IsConnected { get; private set; }
-
+        public IDataProvider DataProvider { get { return (_deviceConnection as IDataProvider); } }
 
         public bool GetIsExpectedValueMatchesDevice()
         {

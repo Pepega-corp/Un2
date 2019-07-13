@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.Model
 {
-    public interface IMatrixTemplate
+
+    public interface IMatrixTemplate : ICloneable
+
     {
         int NumberOfBitsOnEachVariable { get; set; }
         List<IMatrixMemoryVariable> MatrixMemoryVariables { get; set; }
-        List<IVariableSignature> VariableOptionSignatures { get; set; }
+        List<IVariableColumnSignature> VariableColumnSignatures { get; set; }
         IMatrixVariableOptionTemplate MatrixVariableOptionTemplate { get; set; }
-        void UpdateResultBitOptions();
         List<IBitOption> ResultBitOptions { get; set; }
     }
 

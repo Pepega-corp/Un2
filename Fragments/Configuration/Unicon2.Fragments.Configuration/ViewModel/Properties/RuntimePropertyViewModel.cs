@@ -102,6 +102,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 
         }
 
+        protected virtual void InitializeValueViewModelLocal(IUshortsFormatter ushortsFormatter)
+        {
+            if ((this._model as IProperty).UshortsFormatter == null) return;
+            IFormattedValue formattedValue = ushortsFormatter.Format(new ushort[] { 0 });
+            this.LocalValue = (this._valueViewModelFactory as IPropertyValueViewModelFactory)?.CreateEditableFormattedValueViewModel(formattedValue, (this._model as IProperty), ushortsFormatter);
+        }
+
 
         #region Overrides of ConfigurationItemViewModelBase
 
@@ -122,12 +129,24 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         {
             IProperty settingProperty = model as IProperty;
 
+            if (settingProperty == null)
+            {
+                base.SetModel(model);
+                return;
+            }
+
             if ((this._model != null) && (this._model != model))
             {
                 (this._model as IProperty)?.Dispose();
 
             }
-
+            settingProperty.InitEditableValueAction += () =>
+            {
+                this.InitializeValueViewModelLocal(settingProperty.UshortsFormatter);
+                //this.InitializeValueViewModelLocal(settingProperty.UshortsFormatter);
+                if (settingProperty.DeviceUshortsValue != null)
+                    this.LocalValue?.SetBaseValueToCompare(settingProperty.DeviceUshortsValue);
+            };
 
             settingProperty.ConfigurationItemChangedAction += () =>
             {

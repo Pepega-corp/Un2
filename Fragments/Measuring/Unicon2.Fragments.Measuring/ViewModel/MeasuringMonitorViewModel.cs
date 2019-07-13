@@ -10,6 +10,7 @@ using Unicon2.Fragments.Measuring.Infrastructure.ViewModel;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
@@ -58,7 +59,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
                 }
                 await this._measuringMonitor.Load();
             });
-
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
             fragmentOptionCommandViewModel = fragmentOptionToggleCommandViewModelgetFunc();
@@ -77,6 +78,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
                     }
                 }
             });
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconArrowRightLeft;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
 
@@ -105,6 +107,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
                     }
                 }
             });
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconAlignJustify;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
             this.FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 

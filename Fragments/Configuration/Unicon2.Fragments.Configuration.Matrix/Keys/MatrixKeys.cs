@@ -3,6 +3,9 @@
     //228
     public static class MatrixKeys
     {
+        public const string MATRIX_VALUE = "MatrixValue";
+
+
         public const string LIST_MATRIX_TEMPLATE = "ListMatrixTemplate";
         public const string BOOL_MATRIX_TEMPLATE = "BoolMatrixTemplate";
 

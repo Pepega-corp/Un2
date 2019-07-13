@@ -13,6 +13,7 @@ using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Behaviors;
+using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -46,6 +47,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
             fragmentOptionGroupViewModel.NameKey = "Device";
             IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
             fragmentOptionCommandViewModel.TitleKey = "Load";
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
             this.LoadCommand = new RelayCommand(this.OnLoadJournal, this.CanLoadExecute);
             fragmentOptionCommandViewModel.OptionCommand = this.LoadCommand;

@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="Unicon2.Presentation.Views.ToolBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Unicon2.Presentation.Views"
+             xmlns:converters="clr-namespace:Unicon2.Presentation.Converters"
+             xmlns:fragmentOptions="clr-namespace:Unicon2.Presentation.ViewModels.Fragment.FragmentOptions"
+             xmlns:dataTemplateSelectors="clr-namespace:Unicon2.Presentation.DataTemplateSelectors"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <converters:StringToResourceConverter x:Key="StringToResourceConverter"></converters:StringToResourceConverter>
+        <dataTemplateSelectors:ToolbarButtonDataTemplateSelector x:Key="toolbarButtonDataTemplateSelector">
+            <dataTemplateSelectors:ToolbarButtonDataTemplateSelector.ToggleButtonDataTemplate>
+                <DataTemplate DataType="fragmentOptions:FragmentOptionToggleCommandViewModel">
+                    <ToggleButton
+                                Width="35"
+                                Margin="2"
+                                Height="35"
+                                IsChecked="{Binding IsChecked}"
+                                ToolTip="{Binding Title}"
+                                Style="{DynamicResource UniconToggleButtonStyle}">
+                        <Rectangle
+                                    Width="20"
+                                    Height="20"
+                                    Fill="Black">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill"  Visual="{Binding IconKey ,Converter={StaticResource StringToResourceConverter}}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </ToggleButton>
+                </DataTemplate>
+            </dataTemplateSelectors:ToolbarButtonDataTemplateSelector.ToggleButtonDataTemplate>
+            <dataTemplateSelectors:ToolbarButtonDataTemplateSelector.DefaultButtonDataTemplate>
+                <DataTemplate DataType="fragmentOptions:DefaultFragmentOptionCommandViewModel">
+                    <Button
+                                Width="35"
+                                Margin="2"
+                                Height="35"
+                                Command="{Binding OptionCommand}"
+                                ToolTip="{Binding Title}"
+                                Style="{DynamicResource UniconButtonStyle}">
+                        <Rectangle
+                                    Width="20"
+                                    Height="20"
+                                    Fill="Black">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill"  Visual="{Binding IconKey ,Converter={StaticResource StringToResourceConverter}}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                </DataTemplate>
+            </dataTemplateSelectors:ToolbarButtonDataTemplateSelector.DefaultButtonDataTemplate>
+        </dataTemplateSelectors:ToolbarButtonDataTemplateSelector>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal">
+        <ItemsControl ItemsSource="{Binding StaticOptionsGroup.FragmentOptionCommandViewModels}" ItemTemplateSelector="{StaticResource toolbarButtonDataTemplateSelector}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"></StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <TextBlock Margin="10" Text=":"></TextBlock>
+        
+        
+        <ItemsControl ItemsSource="{Binding DynamicOptionsGroup.FragmentOptionGroupViewModels}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding FragmentOptionCommandViewModels}"  ItemTemplateSelector="{StaticResource toolbarButtonDataTemplateSelector}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                   
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"></StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <StackPanel Orientation="Horizontal">
+
+
+        </StackPanel>
+    </StackPanel>
+</UserControl>

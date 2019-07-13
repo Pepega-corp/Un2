@@ -47,7 +47,6 @@
 
         
         public const string APPOINTABLE_MATRIX = "AppointableMatrix";
-        public const string MATRIX_VARIABLE = "MatrixVariable";
 
 
 
@@ -70,6 +69,12 @@
         /// </summary>
         public const string SAVE_CONFUGURATION_STRING_KEY =
             "SaveConfiguration";
+
+        /// <summary>
+        ///    строка сохранения конфигурации
+        /// </summary>
+        public const string EDIT_LOCAL_CONFIGURATION_VALUES_STRING_KEY =
+            "EditLocalConfigurationValues";
 
         /// <summary>
         ///    строка сохранения конфигурации

@@ -663,6 +663,9 @@
   <data name="WriteLocalValuesToDevice" xml:space="preserve">
     <value>@WriteLocalValuesToDevice</value>
   </data>
+  <data name="EditLocalConfigurationValues" xml:space="preserve">
+    <value>@EditLocalConfigurationValues</value>
+  </data>
   <data name="LoadFromFile" xml:space="preserve">
     <value>@LoadFromFile</value>
   </data>

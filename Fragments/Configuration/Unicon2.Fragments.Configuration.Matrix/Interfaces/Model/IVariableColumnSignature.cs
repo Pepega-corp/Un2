@@ -1,8 +1,8 @@
 ﻿namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.Model
 {
-    public interface IVariableSignature
+    public interface IVariableColumnSignature
     {
         string Signature { get; set; }
-        bool IsMultipleAssgnmentAllowed { get; set; }
+        bool IsMultipleAssignmentAllowed { get; set; }
     }
 }

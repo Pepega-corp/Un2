@@ -16,6 +16,8 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
+using Unicon2.Presentation.ViewModels;
+using Unicon2.Shell.ViewModels.Helpers;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -57,7 +59,7 @@ namespace Unicon2.Shell.ViewModels
             IDeviceViewModelFactory deviceViewModelFactory,
             IFragmentPaneViewModelFactory fragmentPaneViewModelFactory,
             IProjectBrowserViewModel projectBrowserViewModel,
-            IUniconProjectService uniconProjectService)
+            IUniconProjectService uniconProjectService,ToolBarViewModel toolBarViewModel)
         {
             this.LogServiceViewModel = logServiceViewModel;
             this.ProjectBrowserViewModel = projectBrowserViewModel;
@@ -83,12 +85,15 @@ namespace Unicon2.Shell.ViewModels
             {
                 this.ProjectBrowserViewModel, this.LogServiceViewModel
             };
-
+            ToolBarViewModel = toolBarViewModel;
+            StaticOptionsButtonsHelper.InitializeStaticButtons(this);
             this.NewProjectCommand = new RelayCommand(this.OnNewProjectExecute);
             this.SaveProjectCommand = new RelayCommand(this.OnSaveProjectExecute);
             this.SaveAsProjectCommand = new RelayCommand(this.OnSaveAsProjectExecute);
             this.OpenProjectCommand = new RelayCommand(this.OnOpenProjectExecute);
         }
+
+       
 
         private void OnOpenOscillogramExecute()
         {
@@ -107,6 +112,7 @@ namespace Unicon2.Shell.ViewModels
                 this._activeFragmentViewModel = value;
                 this.RaisePropertyChanged();
                 this.RaisePropertyChanged(nameof(this.ActiveFragmentViewModel.FragmentTitle));
+                ToolBarViewModel.SetDynamicOptionsGroup(ActiveFragmentViewModel?.FragmentViewModel?.FragmentOptionsViewModel);
             }
         }
 
@@ -177,7 +183,7 @@ namespace Unicon2.Shell.ViewModels
 
         private bool CheckExiting()
         {
-            ProjectSaveCheckingResultEnum res = this._uniconProjectService.CheckIfProjectSaved();
+            ProjectSaveCheckingResultEnum res = this._uniconProjectService.CheckIfProjectSaved(this);
             if (res == ProjectSaveCheckingResultEnum.ProjectAlreadySaved)
             {
                 if (this._dialogCoordinator.ShowModalMessageExternal(this, this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT), this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT_QUESTION),
@@ -231,6 +237,10 @@ namespace Unicon2.Shell.ViewModels
                         }
                         this.ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
                         this.ActiveFragmentViewModel = null;
+                        //закрываем соединение при удалении устройства
+                        (connectableItemChangingContext.Connectable as IDevice).DeviceConnection.CloseConnection();
+                        //надо удалить девайс из коллекции _devicesContainerService
+                        _devicesContainerService.RemoveConnectableItem(connectableItemChangingContext.Connectable as IDevice);
                         connectableItemChangingContext.Connectable.Dispose();
                     }
 
@@ -318,7 +328,7 @@ namespace Unicon2.Shell.ViewModels
         public ICommand SaveAsProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
         public ICommand OpenOscillogramCommand { get; }
-
+        public ToolBarViewModel ToolBarViewModel { get; }
         private void OnSaveAsProjectExecute()
         {
             this._uniconProjectService.SaveProjectAs();
@@ -336,7 +346,7 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnOpenProjectExecute()
         {
-            this._uniconProjectService.OpenProject();
+            this._uniconProjectService.OpenProject("",this);
         }
 
         private void OnExecuteClosing(CancelEventArgs cancelEventArgs)
