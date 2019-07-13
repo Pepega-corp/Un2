@@ -16,6 +16,7 @@
       <ComponentRef Id="enUSFolder" />
       <ComponentRef Id="ruRUFolder" />
       <ComponentRef Id="Osciloscope" />
+      <ComponentRef Id="OsciloscopeRu" />
     </Feature>
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" ></Property>
@@ -47,7 +48,9 @@
             <Directory Id="SharedResourcesFolder" Name="SharedResources"/>
             <Directory Id="ruRUFolder" Name="ru-RU"/>
             <Directory Id="enUSFolder" Name="en-US"/>
-            <Directory Id="OsciloscopeFolder" Name="OscApp"/>
+            <Directory Id="OsciloscopeFolder" Name="OscApp">
+              <Directory Id="oscruRUFolder" Name="ru-RU"/>       
+            </Directory>
           </Directory>
         </Directory>
       </Directory>
