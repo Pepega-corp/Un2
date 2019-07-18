@@ -126,26 +126,30 @@ namespace Unicon2.Services.UniconProject
             ofd.CheckFileExists = true;
             if (ofd.ShowDialog() == true)
             {
-                this._uniconProject.DeserializeFromFile(ofd.FileName);
-                this._uniconProject.ProjectPath = Path.GetDirectoryName(ofd.FileName);
-                this._uniconProject.Name = Path.GetFileNameWithoutExtension(ofd.FileName);
-                this._devicesContainerService.Refresh();
-                foreach (IConnectable connectableItem in this._uniconProject.ConnectableItems)
+                try
                 {
-                    if (connectableItem is IInitializableFromContainer)
+                    this._uniconProject.DeserializeFromFile(ofd.FileName);
+                    this._uniconProject.ProjectPath = Path.GetDirectoryName(ofd.FileName);
+                    this._uniconProject.Name = Path.GetFileNameWithoutExtension(ofd.FileName);
+                    this._devicesContainerService.Refresh();
+                    foreach (IConnectable connectableItem in this._uniconProject.ConnectableItems)
                     {
-                        (connectableItem as IInitializableFromContainer).InitializeFromContainer(this._container);
+                        if (connectableItem is IInitializableFromContainer)
+                        {
+                            (connectableItem as IInitializableFromContainer).InitializeFromContainer(this._container);
+                        }
+                        if (connectableItem.DeviceConnection != null)
+                        {
+                            await this._devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
+                                   connectableItem.DeviceConnection);
+                        }
                     }
-                    if (connectableItem.DeviceConnection != null)
-                    {
-                        await this._devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
-                               connectableItem.DeviceConnection);
-                    }
+                    string message = string.Empty;
+                    message += this._localizerService.GetLocalizedString(ServicesKeys.PROJECT_OPENED);
+                    message += " " + this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj";
+                    this._logService.RaiseInfoMessage(message);
                 }
-                string message = string.Empty;
-                message += this._localizerService.GetLocalizedString(ServicesKeys.PROJECT_OPENED);
-                message += " " + this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj";
-                this._logService.RaiseInfoMessage(message);
+                catch (Exception ex) { this._logService.RaiseInfoMessage(ex.Message); }
             }
         }
 
