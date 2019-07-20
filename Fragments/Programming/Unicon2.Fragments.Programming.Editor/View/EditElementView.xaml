@@ -2,20 +2,28 @@
     x:Class="Unicon2.Fragments.Programming.Editor.View.EditElementView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:Unicon2.Fragments.Programming.Editor.View"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     Name="EditElementWindow"
+    MinWidth="240"
+    MinHeight="300"
     ResizeMode="CanResizeWithGrip"
+    ShowMaxRestoreButton="False"
+    ShowMinButton="False"
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterScreen">
-    <Grid MinWidth="230" MinHeight="300">
+
+    <metro:MetroWindow.Resources>
+        <ResourceDictionary Source="../View/ElementEditorView/../ElementEditorView/ElementsViews.xaml" />
+    </metro:MetroWindow.Resources>
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <ContentControl />
+            <ContentControl Content="{Binding EditableEditorViewModel}" />
         </ScrollViewer>
 
         <Grid Grid.Row="1">
@@ -29,6 +37,8 @@
                 Height="30"
                 Margin="20,20,20,10"
                 HorizontalAlignment="Right"
+                Command="{Binding OkCommand}"
+                CommandParameter="{Binding ElementName=EditElementWindow}"
                 Content="OK" />
             <Button
                 Grid.Column="1"
@@ -36,6 +46,8 @@
                 Height="30"
                 Margin="20,20,20,10"
                 HorizontalAlignment="Center"
+                Command="{Binding CancelCommand}"
+                CommandParameter="{Binding ElementName=EditElementWindow}"
                 Content="Cancel" />
         </Grid>
     </Grid>

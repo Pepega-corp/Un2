@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Editor.Interfaces;
@@ -89,7 +88,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 
         private void OnEditElement()
         {
-            this._globalCommands.ShowWindowModal(() => new EditElementView(), new EditElementViewModel());
+            this._globalCommands.ShowWindowModal(() => new EditElementView(), new EditElementViewModel(this.SelectedLibraryElemItem));
         }
 
         private bool CanEditElement()

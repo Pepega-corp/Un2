@@ -7,45 +7,6 @@
     xmlns:formatters="clr-namespace:Unicon2.Formatting.Editor.ViewModels"
     xmlns:lex="http://wpflocalizeextension.codeplex.com">
 
-    <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
-    <converter:BoolToVisConverter x:Key="BoolToInVisConverter" Invert="True" />
-
-    <Style x:Key="ErrorStyle" TargetType="FrameworkElement">
-        <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Border
-                            VerticalAlignment="Top"
-                            BorderBrush="#FFdc000c"
-                            BorderThickness="1">
-                            <Grid>
-                                <AdornedElementPlaceholder x:Name="adorner" Margin="-1" />
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip">
-                    <Setter.Value>
-                        <ToolTip Background="#FFdc000c" Content="{Binding PlacementTarget.(Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style
-        x:Key="KeyValueListBoxStyle"
-        BasedOn="{StaticResource ErrorStyle}"
-        TargetType="ListBox">
-        <Setter Property="ItemTemplate" Value="{DynamicResource KeyValueListBoxItem}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-    </Style>
 
     <DataTemplate DataType="{x:Type formatters:DefaultTimeFormatterViewModel}">
         <Grid Height="450">
@@ -429,51 +390,4 @@
         </Grid>
     </DataTemplate>-->
 
-    <DataTemplate x:Key="KeyValueListBoxItem">
-        <Border
-            Margin="3"
-            HorizontalAlignment="Stretch"
-            BorderBrush="{DynamicResource AccentColorBrush}"
-            BorderThickness="1">
-            <UniformGrid HorizontalAlignment="Stretch" Columns="2">
-                <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource EditableKeyField}" />
-                <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource EditableValueField}" />
-            </UniformGrid>
-        </Border>
-    </DataTemplate>
-
-    <DataTemplate x:Key="EditableKeyField">
-        <Grid>
-            <TextBlock
-                Margin="3"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
-                Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToInVisConverter}}" />
-            <controls:NumericUpDown
-                Margin="3"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVisConverter}}"
-                Value="{Binding Key}" />
-
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate x:Key="EditableValueField">
-        <Grid>
-            <TextBlock
-                Margin="3"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="{Binding Value}"
-                Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToInVisConverter}}" />
-            <TextBox
-                Margin="3"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                Text="{Binding Value}"
-                Visibility="{Binding IsInEditMode, Converter={StaticResource BoolToVisConverter}}" />
-        </Grid>
-    </DataTemplate>
 </ResourceDictionary>

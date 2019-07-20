@@ -7,6 +7,5 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
     {
         string ElementName { get; }
 
-        string Description { get; }
-    }
+        string Description { get; }    }
 }
