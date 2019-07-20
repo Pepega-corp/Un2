@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Fragments.Configuration.Matrix.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Values;
@@ -19,7 +20,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
         private Func<IBoolValue> _boolValue;
         private readonly Func<IChosenFromListValue> _chosenFromListValFunc;
 
-        public MatrixViewModelTableFactory(IMatrixValue matrixValue, Func<IBoolValue> boolValue,Func<IChosenFromListValue> chosenFromListValFunc)
+        public MatrixViewModelTableFactory(IMatrixValue matrixValue, Func<IBoolValue> boolValue, Func<IChosenFromListValue> chosenFromListValFunc)
         {
             _matrixValue = matrixValue;
             _boolValue = boolValue;
@@ -46,27 +47,37 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             }
             else
             {
-                //Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
-                //    GetListCellViewModel(valueViewModelFunc, matrixMemoryVariable,
-                //        signature);
-                //return MapVariableToValueViewModels(cellGettingFunc);
+                Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
+                    GetListCellViewModel(valueViewModelFunc, matrixMemoryVariable,
+                        signature);
+                return MapVariableToValueViewModels(cellGettingFunc);
                 return null;
             }
 
 
         }
 
-        //private IFormattedValueViewModel GetListCellViewModel(Func<IFormattedValueViewModel> valueViewModelFunc, IMatrixMemoryVariable variable, IVariableColumnSignature signature)
-        //{
-        //    var matrixValue = _matrixValue;
-        //    IChosenFromListValue chosenFromListValue = _chosenFromListValFunc();
-        //    var optionsTemplate =
-        //        _matrixValue.MatrixTemplate.MatrixVariableOptionTemplate as ListMatrixVariableOptionTemplate;
-        //    chosenFromListValue.InitList(
-        //        (optionsTemplate)
-        //        .OptionPossibleValues.Select((value => value.PossibleValueName)));
-        //    GetBitArrayOfVariable(variable)[matrixValue.MatrixTemplate.]
-        //}
+        private IFormattedValueViewModel GetListCellViewModel(Func<IFormattedValueViewModel> valueViewModelFunc, IMatrixMemoryVariable variable, IVariableColumnSignature signature)
+        {
+            var matrixValue = _matrixValue;
+            IChosenFromListValue chosenFromListValue = _chosenFromListValFunc();
+            var optionsTemplate =
+                _matrixValue.MatrixTemplate.MatrixVariableOptionTemplate as ListMatrixVariableOptionTemplate;
+
+            chosenFromListValue.InitList(optionsTemplate.OptionPossibleValues.Select((value => value.PossibleValueName)));
+
+            var optionsList = matrixValue.MatrixTemplate.ResultBitOptions.Cast<ListMatrixBitOption>();
+
+            foreach (var optionInListbox in optionsTemplate.OptionPossibleValues)
+            {
+                var relatedOption = optionsList.First((option) => option.FullSignature == signature.Signature + " " + optionInListbox.PossibleValueName);
+                if (GetBitArrayOfVariable(variable)[relatedOption.NumbersOfAssotiatedBits.First()])
+                    chosenFromListValue.SelectedItem = chosenFromListValue.AvailableItemsList.First((item) => item == optionInListbox.PossibleValueName);
+            }
+            var viewModel = valueViewModelFunc();
+            viewModel.InitFromValue(chosenFromListValue);
+            return viewModel;
+        }
 
 
         private List<IFormattedValueViewModel> MapVariableToValueViewModels(
@@ -95,7 +106,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             var bools = new List<bool>();
             GetVariableUshorts(variable).ForEach(arg =>
             {
-                var bitArray = new BitArray(new[] {(int) arg});
+                var bitArray = new BitArray(new[] { (int)arg });
                 for (int i = 0; i < 16; i++)
                 {
                     bools.Add(bitArray[i]);
