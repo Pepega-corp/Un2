@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Presentation.Values.Editable;
 using Unicon2.SharedResources.Behaviors;
 
@@ -26,7 +27,37 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             var row = dynamicDataTable.Values[indexOfVariable];
             var boolArray = new bool[matrixValue.MatrixTemplate.NumberOfBitsOnEachVariable];
 
-            matrixValue.MatrixTemplate.ResultBitOptions.ForEach((option => boolArray[option.NumbersOfAssotiatedBits.First()]=(row[matrixValue.MatrixTemplate.ResultBitOptions.IndexOf(option)] as EditableBoolValueViewModel).BoolValueProperty ));
+
+
+
+
+            switch (matrixValue.MatrixTemplate.MatrixVariableOptionTemplate)
+            {
+                case BoolMatrixVariableOptionTemplate _:
+                    matrixValue.MatrixTemplate.ResultBitOptions.ForEach((option =>
+                        boolArray[option.NumbersOfAssotiatedBits.First()] =
+                            (row[matrixValue.MatrixTemplate.ResultBitOptions.IndexOf(option)] as
+                                EditableBoolValueViewModel)
+                            .BoolValueProperty));
+                    break;
+                case ListMatrixVariableOptionTemplate _:
+                    row.ForEach((valueViewModel =>
+                    {
+                        if (valueViewModel is EditableChosenFromListValueViewModel chosenFromListValueViewModel &&
+                            chosenFromListValueViewModel.SelectedItem != "нет")
+                        {
+                            var indexOfValue = row.IndexOf(valueViewModel);
+                            var signature = dynamicDataTable.ColumnNamesStrings[indexOfValue];
+                            var optionSelected = matrixValue.MatrixTemplate.ResultBitOptions.FirstOrDefault((option =>
+                                option.FullSignature == signature + " " + chosenFromListValueViewModel.SelectedItem));
+                            if (optionSelected.NumbersOfAssotiatedBits.Any())
+                                boolArray[optionSelected.NumbersOfAssotiatedBits.First()] = true;
+                        }
+                    }));
+                    break;
+            }
+
+
 
             var size=variable.StartAddressBit + matrixValue.MatrixTemplate.NumberOfBitsOnEachVariable;
            

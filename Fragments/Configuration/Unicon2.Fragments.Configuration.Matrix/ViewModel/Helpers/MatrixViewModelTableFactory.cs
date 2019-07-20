@@ -10,73 +10,104 @@ using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Values;
+using Unicon2.Presentation.Values.Editable;
 using Unicon2.SharedResources.Behaviors;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
 {
     public class MatrixViewModelTableFactory
     {
-        private readonly IMatrixValue _matrixValue;
-        private Func<IBoolValue> _boolValue;
+        private IMatrixValue _matrixValue;
+        private readonly Func<IBoolValue> _boolValue;
         private readonly Func<IChosenFromListValue> _chosenFromListValFunc;
+        private Func<IFormattedValueViewModel> _formattedValueViewModelFunc;
 
-        public MatrixViewModelTableFactory(IMatrixValue matrixValue, Func<IBoolValue> boolValue, Func<IChosenFromListValue> chosenFromListValFunc)
+        public MatrixViewModelTableFactory(Func<IBoolValue> boolValue, Func<IChosenFromListValue> chosenFromListValFunc)
         {
-            _matrixValue = matrixValue;
             _boolValue = boolValue;
             _chosenFromListValFunc = chosenFromListValFunc;
         }
 
 
-        public void FillMatrixDataTable(DynamicDataTable dataTable,
-            Func<IFormattedValueViewModel> valueViewModelFunc)
+        public DynamicDataTable CreateMatrixDataTable(IMatrixValue matrixValue, bool isEditable)
         {
-            _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) => dataTable.AddFormattedValueViewModel(GetFormattedValueViewModels(variable, valueViewModelFunc)));
+            _matrixValue = matrixValue;
+            switch (matrixValue.MatrixTemplate.MatrixVariableOptionTemplate)
+            {
+                case ListMatrixVariableOptionTemplate _:
+                    {
+                        DynamicDataTable table = new DynamicDataTable(matrixValue.MatrixTemplate.VariableColumnSignatures.Select((option => option.Signature)).ToList(),
+                            matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
+
+                        if (isEditable)
+                            _formattedValueViewModelFunc = () => new EditableChosenFromListValueViewModel();
+                        else
+                            _formattedValueViewModelFunc = () => new ChosenFromListValueViewModel();
+
+                        _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) =>
+                        {
+                            var bitArrayOfVariable = GetBitArrayOfVariable(variable);
+                            table.AddFormattedValueViewModel(GetFormattedValueViewModels((signature => GetListCellViewModel(signature, bitArrayOfVariable))));
+                        });
+                        return table;
+                    }
+                case BoolMatrixVariableOptionTemplate _:
+                    {
+                        DynamicDataTable table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
+                            matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
+                        if (isEditable)
+                            _formattedValueViewModelFunc = () => new EditableBoolValueViewModel();
+                        else
+                            _formattedValueViewModelFunc = () => new BoolValueViewModel();
+                        _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) =>
+                        {
+                            var bitArrayOfVariable = GetBitArrayOfVariable(variable);
+                            table.AddFormattedValueViewModel(GetFormattedValueViewModels((signature => GetBoolCellViewModel(signature, bitArrayOfVariable))));
+                        });
+                        return table;
+                    }
+
+            }
+            return null;
         }
 
-        private List<IFormattedValueViewModel> GetFormattedValueViewModels(IMatrixMemoryVariable matrixMemoryVariable,
-            Func<IFormattedValueViewModel> valueViewModelFunc)
+        private List<IFormattedValueViewModel> GetFormattedValueViewModels(Func<IVariableColumnSignature, IFormattedValueViewModel> cellViewModelGetFunc)
         {
-
-            if (_matrixValue.MatrixTemplate.MatrixVariableOptionTemplate is BoolMatrixVariableOptionTemplate)
-            {
-                Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
-                    GetBoolCellViewModel(valueViewModelFunc, matrixMemoryVariable,
-                        signature);
-                return MapVariableToValueViewModels(cellGettingFunc);
-            }
-            else
-            {
-                Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
-                    GetListCellViewModel(valueViewModelFunc, matrixMemoryVariable,
-                        signature);
-                return MapVariableToValueViewModels(cellGettingFunc);
-                return null;
-            }
-
-
+            return MapVariableToValueViewModels(cellViewModelGetFunc);
         }
 
-        private IFormattedValueViewModel GetListCellViewModel(Func<IFormattedValueViewModel> valueViewModelFunc, IMatrixMemoryVariable variable, IVariableColumnSignature signature)
+        private IFormattedValueViewModel GetListCellViewModel(IVariableColumnSignature signature, List<bool> bitArrayOfVariable)
         {
-            var matrixValue = _matrixValue;
-            IChosenFromListValue chosenFromListValue = _chosenFromListValFunc();
-            var optionsTemplate =
-                _matrixValue.MatrixTemplate.MatrixVariableOptionTemplate as ListMatrixVariableOptionTemplate;
-
-            chosenFromListValue.InitList(optionsTemplate.OptionPossibleValues.Select((value => value.PossibleValueName)));
-
-            var optionsList = matrixValue.MatrixTemplate.ResultBitOptions.Cast<ListMatrixBitOption>();
-
-            foreach (var optionInListbox in optionsTemplate.OptionPossibleValues)
+            try
             {
-                var relatedOption = optionsList.First((option) => option.FullSignature == signature.Signature + " " + optionInListbox.PossibleValueName);
-                if (GetBitArrayOfVariable(variable)[relatedOption.NumbersOfAssotiatedBits.First()])
-                    chosenFromListValue.SelectedItem = chosenFromListValue.AvailableItemsList.First((item) => item == optionInListbox.PossibleValueName);
+                var matrixValue = _matrixValue;
+                IChosenFromListValue chosenFromListValue = _chosenFromListValFunc();
+                var optionsTemplate =
+                    _matrixValue.MatrixTemplate.MatrixVariableOptionTemplate as ListMatrixVariableOptionTemplate;
+
+                var listToInit = optionsTemplate.OptionPossibleValues.Select((value => value.PossibleValueName)).ToList();
+                listToInit.Add("нет");
+                chosenFromListValue.InitList(listToInit);
+                chosenFromListValue.SelectedItem = "нет";
+                var optionsList = matrixValue.MatrixTemplate.ResultBitOptions.Cast<ListMatrixBitOption>();
+
+                foreach (var optionInListbox in optionsTemplate.OptionPossibleValues)
+                {
+                    var relatedOption = optionsList.First((option) => option.FullSignature == signature.Signature + " " + optionInListbox.PossibleValueName);
+                    if (relatedOption.NumbersOfAssotiatedBits.Any() && bitArrayOfVariable[relatedOption.NumbersOfAssotiatedBits.First()])
+                        chosenFromListValue.SelectedItem = chosenFromListValue.AvailableItemsList.First((item) => item == optionInListbox.PossibleValueName);
+                }
+                var viewModel = _formattedValueViewModelFunc();
+                viewModel.InitFromValue(chosenFromListValue);
+                return viewModel;
             }
-            var viewModel = valueViewModelFunc();
-            viewModel.InitFromValue(chosenFromListValue);
-            return viewModel;
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
 
 
@@ -87,16 +118,16 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             return matrixValue.MatrixTemplate.VariableColumnSignatures.Select((cellViewModelGetFunc)).ToList();
         }
 
-        private IFormattedValueViewModel GetBoolCellViewModel(Func<IFormattedValueViewModel> boolValueFunc, IMatrixMemoryVariable variable, IVariableColumnSignature signature)
+        private IFormattedValueViewModel GetBoolCellViewModel(IVariableColumnSignature signature, List<bool> bitArrayOfVariable)
         {
             var matrixValue = _matrixValue;
             IBoolValue boolValue = _boolValue();
             boolValue.BoolValueProperty =
-                GetBitArrayOfVariable(variable)[
+                bitArrayOfVariable[
                     matrixValue.MatrixTemplate.ResultBitOptions
                         .FirstOrDefault((option => option.VariableColumnSignature == signature))
                         .NumbersOfAssotiatedBits.First()];
-            var viewModel = boolValueFunc();
+            var viewModel = _formattedValueViewModelFunc();
             viewModel.InitFromValue(boolValue);
             return viewModel;
         }

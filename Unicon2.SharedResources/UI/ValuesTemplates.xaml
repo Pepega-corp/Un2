@@ -75,7 +75,7 @@
 
     <DataTemplate x:Key="ChosenFromListValueViewModelDataTemplate" DataType="{x:Type values1:ChosenFromListValueViewModel}">
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <TextBlock Text="{Binding SelectedItem}" />
+            <TextBlock Text="{Binding SelectedItem}"  Margin="5"/>
         </StackPanel>
     </DataTemplate>
 
@@ -86,7 +86,7 @@
             Grid.Column="0"
             MinWidth="100"
             ItemsSource="{Binding AvailableItemsList}"
-            SelectedItem="{Binding SelectedItem}" />
+            SelectedItem="{Binding SelectedItem,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" />
 
     </DataTemplate>
 

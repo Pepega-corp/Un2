@@ -28,7 +28,7 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
             this._oscillogramLoadingParameters = oscillogramLoadingParameters;
             this._oscilloscopeTagEditorViewModelFactory = oscilloscopeTagEditorViewModelFactory;
             this.OscilloscopeTagEditorViewModels = new ObservableCollection<IOscilloscopeTagEditorViewModel>();
-            
+
             this.AddTagCommand = new RelayCommand(this.OnAddTagExecute);
             this.DeleteTagCommand = new RelayCommand<object>(this.OnDeleteTagExecute);
 
@@ -61,7 +61,7 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
             oscilloscopeTagEditorViewModel.SetAvailableOptions(this._journalParameters, this._tagList);
             this.OscilloscopeTagEditorViewModels.Add(oscilloscopeTagEditorViewModel);
         }
-        
+
 
         #region Implementation of IOscillogramLoadingParametersEditorViewModel
 
@@ -125,7 +125,8 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
                 this._oscillogramLoadingParameters.OscilloscopeTags.Clear();
                 foreach (IOscilloscopeTagEditorViewModel oscilloscopeTagEditorViewModel in this.OscilloscopeTagEditorViewModels)
                 {
-                    this._oscillogramLoadingParameters.OscilloscopeTags.Add(oscilloscopeTagEditorViewModel.Model as IOscilloscopeTag);
+                    if (oscilloscopeTagEditorViewModel.SelectedTag != null && oscilloscopeTagEditorViewModel.SelectedJournalParameter != null)
+                        this._oscillogramLoadingParameters.OscilloscopeTags.Add(oscilloscopeTagEditorViewModel.Model as IOscilloscopeTag);
                 }
                 this._oscillogramLoadingParameters.AddressOfOscillogram = this.AddressOfOscillogram;
                 this._oscillogramLoadingParameters.IsFullPageLoading = this.IsFullPageLoading;

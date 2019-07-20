@@ -21,22 +21,20 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
-   public class MatrixValueViewModel: FormattableValueViewModelBase,IMatrixValueViewModel
+    public class MatrixValueViewModel : FormattableValueViewModelBase, IMatrixValueViewModel
     {
-        private readonly Func<IBoolValue> _boolValue;
-        private readonly Func<IChosenFromListValue> _chosenFromListValueFunc;
+        private readonly MatrixViewModelTableFactory _matrixViewModelTableFactory;
         private DynamicDataTable _table;
 
         #region Overrides of FormattableValueViewModelBase
 
-        public MatrixValueViewModel(Func<IBoolValue> boolValue, Func<IChosenFromListValue> chosenFromListValueFunc)
+        public MatrixValueViewModel(MatrixViewModelTableFactory matrixViewModelTableFactory)
         {
-            _boolValue = boolValue;
-            _chosenFromListValueFunc = chosenFromListValueFunc;
+            _matrixViewModelTableFactory = matrixViewModelTableFactory;
         }
 
 
-        public override string StrongName => MatrixKeys.MATRIX_VALUE+ ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+        public override string StrongName => MatrixKeys.MATRIX_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         public override void InitFromValue(IFormattedValue value)
         {
             Model = value;
@@ -45,25 +43,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         private void FillTable()
         {
-            IMatrixValue matrixValue=Model as IMatrixValue;
-            if(matrixValue==null)return;
+            IMatrixValue matrixValue = Model as IMatrixValue;
+            if (matrixValue == null) return;
             try
             {
-                Table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
-                    matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable =>variable.Name )).ToList(), true);
-
-                if (matrixValue.MatrixTemplate.MatrixVariableOptionTemplate is ListMatrixVariableOptionTemplate)
-                {
-                    new MatrixViewModelTableFactory(matrixValue, _boolValue,_chosenFromListValueFunc).FillMatrixDataTable(Table, () => new ChosenFromListValueViewModel());
-
-                }
-                if (matrixValue.MatrixTemplate.MatrixVariableOptionTemplate is BoolMatrixVariableOptionTemplate)
-                {
-                    new MatrixViewModelTableFactory(matrixValue, _boolValue,_chosenFromListValueFunc).FillMatrixDataTable(Table, () => new BoolValueViewModel());
-                }
-
-
-
+                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, false);
             }
             catch (Exception e)
             {
@@ -72,10 +56,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             }
         }
 
-       
-      
-           
-        
+
+
+
+
 
 
         public DynamicDataTable Table
@@ -87,7 +71,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
                 this.RaisePropertyChanged();
             }
         }
-        
+
         #endregion
 
         #region Implementation of IViewModel
