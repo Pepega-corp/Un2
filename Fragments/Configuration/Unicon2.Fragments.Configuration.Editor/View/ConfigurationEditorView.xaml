@@ -214,7 +214,10 @@
                 ItemsSource="{Binding Path=AllRows}"
                 SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ListView.Resources>
-                    <ContextMenu x:Key="ItemContextMenu" IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}">
+                    <ContextMenu x:Key="ItemContextMenu"
+                                 >
+                        <!-- свойство ниже ломает контекстное меню, пока убрал условие, надо уточнить, как оно должно работать -->
+                        <!--IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}">-->
                         <MenuItem Command="{Binding IncreaseAddressCommand}" Header="{lex:Loc IncreaseAddress}" />
                         <MenuItem Command="{Binding DecreaseAddressCommand}" Header="{lex:Loc DecreaseAddress}" />
                     </ContextMenu>
@@ -370,11 +373,7 @@
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
-                <ListView.Template>
-                    <ControlTemplate>
-                        <ItemsPresenter/>
-                    </ControlTemplate>
-                </ListView.Template>
+
             </ListView>
         </Grid>
     </Grid>

@@ -1119,6 +1119,21 @@
   <data name="DeleteSignature" xml:space="preserve">
     <value>Delete signature</value>
   </data>
+  <data name="Mask" xml:space="preserve">
+    <value>Signature mask</value>
+  </data>
+  <data name="StartBitNumber" xml:space="preserve">
+    <value>Start bit</value>
+  </data>
+  <data name="NumberOfPoints" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="IsInversion" xml:space="preserve">
+    <value>Inversion</value>
+  </data>
+  <data name="AddSignatureGroup" xml:space="preserve">
+    <value>Add Signature Group</value>
+  </data>
   <data name="IsLoaded" xml:space="preserve">
     <value>Is loaded</value>
   </data>
