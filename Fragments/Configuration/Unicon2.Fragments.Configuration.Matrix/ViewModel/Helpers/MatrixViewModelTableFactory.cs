@@ -37,21 +37,21 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             Func<IFormattedValueViewModel> valueViewModelFunc)
         {
 
-            //if (_matrixValue.MatrixTemplate.MatrixVariableOptionTemplate is BoolMatrixVariableOptionTemplate)
-            //{
+            if (_matrixValue.MatrixTemplate.MatrixVariableOptionTemplate is BoolMatrixVariableOptionTemplate)
+            {
                 Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
                     GetBoolCellViewModel(valueViewModelFunc, matrixMemoryVariable,
                         signature);
                 return MapVariableToValueViewModels(cellGettingFunc);
-            //}
-            //else
-            //{
-            //    Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
-            //        GetListCellViewModel(valueViewModelFunc, matrixMemoryVariable,
-            //            signature);
-            //    return MapVariableToValueViewModels(cellGettingFunc);
-
-            //}
+            }
+            else
+            {
+                //Func<IVariableColumnSignature, IFormattedValueViewModel> cellGettingFunc = (signature) =>
+                //    GetListCellViewModel(valueViewModelFunc, matrixMemoryVariable,
+                //        signature);
+                //return MapVariableToValueViewModels(cellGettingFunc);
+                return null;
+            }
 
 
         }
@@ -65,7 +65,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
         //    chosenFromListValue.InitList(
         //        (optionsTemplate)
         //        .OptionPossibleValues.Select((value => value.PossibleValueName)));
-        //    GetBitArrayOfVariable(variable)[matrixValue.]
+        //    GetBitArrayOfVariable(variable)[matrixValue.MatrixTemplate.]
         //}
 
 
