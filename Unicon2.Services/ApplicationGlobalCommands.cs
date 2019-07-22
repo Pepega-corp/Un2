@@ -49,14 +49,23 @@ namespace Unicon2.Services
 
         public void ShowWindowModal(Func<Window> getWindow, object dataContext)
         {
+            this.GetWindow(getWindow, dataContext);
+        }
+
+        public void ShowWindowModal(Func<Window> getWindow, object dataContext, bool isTopmost)
+        {
+            Window windowToShow = this.GetWindow(getWindow, dataContext);
+            windowToShow.Topmost = isTopmost;
+        }
+
+        private Window GetWindow(Func<Window> getWindow, object dataContext)
+        {
             Window windowToShow = getWindow.Invoke();
             windowToShow.Owner = Application.Current.MainWindow;
-            //windowToShow.Topmost = true;
+            windowToShow.Topmost = true;
             windowToShow.DataContext = dataContext;
-
-
             windowToShow.ShowDialog();
-
+            return windowToShow;
         }
 
         public bool AskUserToDeleteSelectedGlobal(object context)

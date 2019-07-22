@@ -25,13 +25,23 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         private Output(Output cloneable)
         {
-            this.Functional = cloneable.Functional;
-            this.Group = cloneable.Group;
-            this.Property = new Dictionary<string, object>(cloneable.Property);
+            CopyValues(cloneable);
         }
 
-        public Functional Functional { get; }
-        public Group Group { get; }
+        public void CopyValues(ILogicElement source)
+        {
+            if (!(source is Output outputSource))
+            {
+                throw new ArgumentException("Copied source is not " + typeof(Output));
+            }
+
+            this.Functional = outputSource.Functional;
+            this.Group = outputSource.Group;
+            this.Property = new Dictionary<string, object>(outputSource.Property);
+        }
+
+        public Functional Functional { get; private set; }
+        public Group Group { get; private set;}
         public int BinSize => BIN_SIZE;
 
         public ushort[] GetProgrammBin()
@@ -49,7 +59,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.Property[CONNECTION_NUMER] = bin[2];
         }
 
-        public Dictionary<string, object> Property { get; }
+        public Dictionary<string, object> Property { get; private set; }
 
         #region IStronglyName
         public string StrongName => ProgrammingKeys.OUTPUT;

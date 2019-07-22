@@ -35,6 +35,9 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -54,13 +57,16 @@
   <ItemGroup>
     <Compile Include="Behaviors\LogicElementForEditorBehavior.cs" />
     <Compile Include="Factories\LogicElementFactory.cs" />
-    <Compile Include="Interfaces\ILogicElementFactory.cs" />
-    <Compile Include="Interfaces\IProgrammingEditorViewModel.cs" />
     <Compile Include="Module\ProgrammingEditorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\EditElementViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\InputEditorViewModel.cs" />
     <Compile Include="ViewModel\ProgrammingEditorViewModel.cs" />
     <Compile Include="View\ProgrammingEditorView.xaml.cs">
       <DependentUpon>ProgrammingEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditElementView.xaml.cs">
+      <DependentUpon>EditElementView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +78,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\ElementEditorView\ElementsViews.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\ProgrammingEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditElementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

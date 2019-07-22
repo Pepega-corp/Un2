@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Programming.Editor.Interfaces
@@ -9,10 +9,10 @@ namespace Unicon2.Fragments.Programming.Editor.Interfaces
         /// <summary>
         /// Все доступные элементы булевой логики
         /// </summary>
-        ObservableCollection<ILogicElementViewModel> BooleanElements { get; }
+        ObservableCollection<ILogicElementEditorViewModel> BooleanElements { get; }
         /// <summary>
         /// Все доступные элементы 
         /// </summary>
-        ObservableCollection<ILogicElementViewModel> AnalogElements { get; }
+        ObservableCollection<ILogicElementEditorViewModel> AnalogElements { get; }
     }
 }
