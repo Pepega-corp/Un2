@@ -15,6 +15,9 @@
     BorderBrush="Black"
     BorderThickness="1"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <behaviors:BubbleScrollBehavior/>
+    </i:Interaction.Behaviors>
     <Expander Header="Матрица" HorizontalAlignment="Stretch"  
                VerticalAlignment="Stretch" ExpandDirection="Down">
     <Grid

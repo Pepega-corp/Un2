@@ -67,7 +67,7 @@ namespace Unicon2.Presentation.Values.Editable
                 _chosenFromListValue.SelectedItem = value;
                 RaisePropertyChanged();
                 SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue!= value);
-                _chosenFromListValue.UshortsValue = _ushortsFormatter.FormatBack(_chosenFromListValue);
+                _chosenFromListValue.UshortsValue = _ushortsFormatter?.FormatBack(_chosenFromListValue);
                 ValueChangedAction?.Invoke(_chosenFromListValue.UshortsValue);
             }
         }

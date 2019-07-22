@@ -26,7 +26,7 @@ namespace Unicon2.SharedResources.Behaviors
         #endregion
         #region RowValues dp
 
-       
+
 
         public static readonly DependencyProperty RowValuesProperty =
           DependencyProperty.Register("RowValues", typeof(DynamicDataTable), typeof(DynamicColumnsDataGridBehavior),
@@ -78,8 +78,13 @@ namespace Unicon2.SharedResources.Behaviors
                     int rowIndex = 0;
                     foreach (string columnNameString in this._journalDataTable.ColumnNamesStrings)
                     {
+
                         List<IFormattedValueViewModel> formattedValueViewModels = new List<IFormattedValueViewModel>();
-                        this._journalDataTable.Values.ForEach((list => formattedValueViewModels.Add(list[rowIndex])));
+                        this._journalDataTable.Values.ForEach((list =>
+                        {
+                            if (list.Count > rowIndex)
+                                formattedValueViewModels.Add(list[rowIndex]);
+                        }));
 
                         rowIndex++;
                         this.InsertRow(formattedValueViewModels);
@@ -269,7 +274,7 @@ namespace Unicon2.SharedResources.Behaviors
             this.OnRowValuesChanged();
             base.OnAttached();
         }
-        
+
         #endregion
     }
 }

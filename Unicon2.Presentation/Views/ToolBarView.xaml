@@ -8,7 +8,7 @@
              xmlns:fragmentOptions="clr-namespace:Unicon2.Presentation.ViewModels.Fragment.FragmentOptions"
              xmlns:dataTemplateSelectors="clr-namespace:Unicon2.Presentation.DataTemplateSelectors"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource AccentColorBrush4}">
 
     <UserControl.Resources>
         <converters:StringToResourceConverter x:Key="StringToResourceConverter"></converters:StringToResourceConverter>
@@ -17,7 +17,7 @@
                 <DataTemplate DataType="fragmentOptions:FragmentOptionToggleCommandViewModel">
                     <ToggleButton
                                 Width="35"
-                                Margin="2"
+                                Margin="3"
                                 Height="35"
                                 IsChecked="{Binding IsChecked}"
                                 ToolTip="{Binding Title}"
@@ -37,7 +37,7 @@
                 <DataTemplate DataType="fragmentOptions:DefaultFragmentOptionCommandViewModel">
                     <Button
                                 Width="35"
-                                Margin="2"
+                                Margin="3"
                                 Height="35"
                                 Command="{Binding OptionCommand}"
                                 ToolTip="{Binding Title}"
@@ -55,7 +55,7 @@
             </dataTemplateSelectors:ToolbarButtonDataTemplateSelector.DefaultButtonDataTemplate>
         </dataTemplateSelectors:ToolbarButtonDataTemplateSelector>
     </UserControl.Resources>
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal" Margin="5">
         <ItemsControl ItemsSource="{Binding StaticOptionsGroup.FragmentOptionCommandViewModels}" ItemTemplateSelector="{StaticResource toolbarButtonDataTemplateSelector}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

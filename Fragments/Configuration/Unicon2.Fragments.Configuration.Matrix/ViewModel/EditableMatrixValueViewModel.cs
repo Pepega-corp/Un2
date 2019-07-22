@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
+using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Values;
@@ -19,25 +20,25 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
     public class EditableMatrixValueViewModel : EditableValueViewModelBase
     {
+        private readonly MatrixViewModelTableFactory _matrixViewModelTableFactory;
         private ushort[] _initialUshortsToCompare;
         private DynamicDataTable _table;
-        private Func<IBoolValue> _boolValue;
 
         #region Overrides of EditableValueViewModelBase
 
-        public EditableMatrixValueViewModel(Func<IBoolValue> boolValue)
+        public EditableMatrixValueViewModel(MatrixViewModelTableFactory matrixViewModelTableFactory)
         {
-            _boolValue = boolValue;
-            MatrixUpdatedCommand=new RelayCommand(OnMatrixEdited);
+            _matrixViewModelTableFactory = matrixViewModelTableFactory;
+            MatrixUpdatedCommand = new RelayCommand(OnMatrixEdited);
         }
 
         private void OnMatrixEdited()
         {
-            var newUshorts =(new  MatrixViewModelTableParser()).GetUshortsFromTable(Table, Model as IMatrixValue);
+            var newUshorts = (new MatrixViewModelTableParser()).GetUshortsFromTable(Table, Model as IMatrixValue);
             if (!newUshorts.SequenceEqual(_initialUshortsToCompare))
             {
                 ValueChangedAction?.Invoke(newUshorts);
-                SetIsChangedProperty(nameof(_initialUshortsToCompare), _initialUshortsToCompare != newUshorts );
+                SetIsChangedProperty(nameof(_initialUshortsToCompare), _initialUshortsToCompare != newUshorts);
 
             }
         }
@@ -60,15 +61,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         private void FillTable()
         {
-            IMatrixValue matrixValue = Model as IMatrixValue;
-            if (matrixValue == null) return;
+            if (!(Model is IMatrixValue matrixValue)) return;
             try
             {
-                Table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
-                    matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
-                
-                new MatrixViewModelTableFactory(matrixValue, _boolValue,null).FillMatrixDataTable(Table, () => new EditableBoolValueViewModel());
-
+                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, true);
             }
             catch (Exception e)
             {

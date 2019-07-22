@@ -14,6 +14,7 @@ using Unicon2.Fragments.Configuration.Matrix.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model.Helpers;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel;
+using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.ViewModel;
@@ -39,6 +40,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
             container.Register<IMatrixVariableOptionTemplate, BoolMatrixVariableOptionTemplate>(MatrixKeys.BOOL_MATRIX_TEMPLATE);
             container.Register<IBitOption, BoolMatrixBitOption>(MatrixKeys.BOOL_MATRIX_BIT_OPTION);
             container.Register<IBitOption, ListMatrixBitOption>(MatrixKeys.LIST_MATRIX_BIT_OPTION);
+            container.Register<MatrixViewModelTableFactory>();
 
             container.Register(typeof(IViewModel), typeof(AppointableMatrixEditorViewModel),
                 ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
