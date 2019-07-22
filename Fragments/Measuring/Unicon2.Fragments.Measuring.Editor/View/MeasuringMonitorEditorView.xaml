@@ -136,6 +136,11 @@
                                     </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter/>
+                                </ControlTemplate>
+                            </ListBox.Template>
                         </ListBox>
                     </Grid>
                 </DataTemplate>

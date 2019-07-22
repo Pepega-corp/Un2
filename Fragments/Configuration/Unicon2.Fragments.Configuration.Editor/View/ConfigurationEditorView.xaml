@@ -370,7 +370,11 @@
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
-
+                <ListView.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter/>
+                    </ControlTemplate>
+                </ListView.Template>
             </ListView>
         </Grid>
     </Grid>

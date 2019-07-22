@@ -38,15 +38,22 @@ namespace Unicon2.Services.LogService
 
         private void SetFilePath()
         {
-            FileTarget target = (FileTarget)LogManager.Configuration.FindTargetByName("file");
-            if (target == null)
-            {
-                target = new FileTarget();
-                LogManager.Configuration.AddTarget("logfile", target);
-                LogManager.Configuration.LoggingRules.Add(new NLog.Config.LoggingRule("*", LogLevel.Info, target));
-            }
+            var config = new NLog.Config.LoggingConfiguration();
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = FilePath };
 
-            target.FileName = _filePath;
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
+            NLog.LogManager.Configuration = config;
+
+
+            //FileTarget target = (FileTarget)LogManager.Configuration.FindTargetByName("file");
+            //if (target == null)
+            //{
+            //    target = new FileTarget(FilePath);
+            //    LogManager.Configuration.AddTarget("logfile", target);
+            //    LogManager.Configuration.LoggingRules.Add(new NLog.Config.LoggingRule("*", LogLevel.Info, target));
+            //}
+
+            //target.FileName = _filePath;
             LogManager.ReconfigExistingLoggers();
         }
 

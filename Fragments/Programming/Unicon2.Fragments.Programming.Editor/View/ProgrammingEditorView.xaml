@@ -101,6 +101,11 @@
                         </TextBlock>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter/>
+                    </ControlTemplate>
+                </ListView.Template>
             </ListView>
         </GroupBox>
     </Grid>
