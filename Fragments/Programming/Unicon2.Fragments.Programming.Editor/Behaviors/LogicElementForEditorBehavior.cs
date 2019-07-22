@@ -1,34 +1,36 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using System.Windows.Shapes;
+using Unicon2.Fragments.Programming.Editor.ViewModel;
+//using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Infrastructure.HelperClasses;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.Behaviors
 {
-    public class LogicElementForEditorBehavior : Behavior<Rectangle>
+    public class LogicElementForEditorBehavior : Behavior<ListView>
     {
-        private ILogicElementViewModel _selectedItem;
-        private Rectangle _selectRect;
+        private ProgrammingEditorViewModel _programmingEditorViewModel;
+        private ListView _listView;
         private bool _dragStart;
 
         protected override void OnAttached()
         {
             base.OnAttached();
-            this._selectRect = AssociatedObject;
-            this._selectRect.MouseMove += this.OnMouseMove;
-            this._selectRect.MouseLeftButtonDown += this.OnRectClick;
-            this._selectRect.MouseLeftButtonUp += this.OnMouseUp;
-            this._selectedItem = (ILogicElementViewModel)this._selectRect.DataContext;
+            this._listView = AssociatedObject;
+            this._listView.MouseMove += this.OnMouseMove;
+            this._listView.MouseLeftButtonDown += this.OnRectClick;
+            this._listView.MouseLeftButtonUp += this.OnMouseUp;
+            this._programmingEditorViewModel = (ProgrammingEditorViewModel)this._listView.DataContext;
         }
 
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            this._selectRect.MouseMove -= this.OnMouseMove;
-            this._selectRect.MouseLeftButtonDown -= this.OnRectClick;
-            this._selectRect.MouseLeftButtonUp -= this.OnMouseUp;
+            this._listView.MouseMove -= this.OnMouseMove;
+            this._listView.MouseLeftButtonDown -= this.OnRectClick;
+            this._listView.MouseLeftButtonUp -= this.OnMouseUp;
         }
 
         private void OnRectClick(object sender, MouseButtonEventArgs e)
@@ -40,6 +42,7 @@ namespace Unicon2.Fragments.Programming.Editor.Behaviors
         private void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
             this._dragStart = false;
+            //TODO do check for cena drop
             e.Handled = true;
         }
 
@@ -47,9 +50,10 @@ namespace Unicon2.Fragments.Programming.Editor.Behaviors
         {
             if (this._dragStart && e.LeftButton == MouseButtonState.Pressed)
             {
-                ILogicElementViewModel item = (ILogicElementViewModel)this._selectedItem.Clone();
-                DragElement dragObject = new DragElement(item);
-                DragDrop.DoDragDrop(this._selectRect, dragObject, DragDropEffects.Copy);
+                //ILogicElementEditorViewModel item = (ILogicElementEditorViewModel)this._selectedItem.Clone();
+                ILogicElementEditorViewModel item = this._programmingEditorViewModel.SelectedNewLogicElemItem;
+                DragEditorElement dragObject = new DragEditorElement(item);
+                DragDrop.DoDragDrop(this._listView, dragObject, DragDropEffects.Copy);
                 e.Handled = true;
             }
             else

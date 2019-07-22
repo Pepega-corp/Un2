@@ -157,14 +157,59 @@
 
             <controls:MetroTabItem Header="{lex:Loc ValueSignatures}">
                 <StackPanel>
-
-                    <Button
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button
+                        Grid.Column="0"
                         Margin="10"
                         HorizontalAlignment="Left"
                         Command="{Binding AddSignatureCommand}"
                         Content="{lex:Loc AddSignature}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <ListBox Height="500" ItemsSource="{Binding Path=VariableSignatureEditorViewModels,ValidatesOnDataErrors=True}" Style="{StaticResource ErrorStyle}">
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="{lex:Loc Mask}" 
+                                       Margin="5" 
+                                       VerticalAlignment="Center"/>
+                            <TextBox Margin="5" 
+                                     Width="100"
+                                     Height="20"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding ValueSignatureMask,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{lex:Loc StartBitNumber}"
+                                       Margin="5"
+                                       VerticalAlignment="Center"/>
+                            <TextBox Margin="5"
+                                     Width="50"
+                                     Height="20"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding ValueSignatureStartBitNumber}"/>
+                            <TextBlock Text="{lex:Loc NumberOfPoints}"
+                                       Margin="5"
+                                       VerticalAlignment="Center"/>
+                            <TextBox Margin="5"
+                                     Width="50"
+                                     Height="20"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding ValuseSignaturesNumberOfPoints}"/>
+                            <CheckBox Content="{lex:Loc IsInversion}"
+                                      Margin="5"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding IsInversionChecked}"/>
+                            <Button Margin="10"
+                                    Command="{Binding AddSingnatureGroupCommand}"
+                                    Content="{lex:Loc AddSignatureGroup}"
+                                    Style="{DynamicResource UniconButtonStyle}"/>
+                        </StackPanel>
+
+                    </Grid>
+
+                    <ListBox Height="500" 
+                             ItemsSource="{Binding Path=VariableSignatureEditorViewModels,ValidatesOnDataErrors=True}" 
+                             Style="{StaticResource ErrorStyle}"
+                             KeyboardNavigation.TabNavigation="Continue">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="editorViewModel:IVariableSignatureEditorViewModel">
                                 <UniformGrid Columns="2">
@@ -185,6 +230,11 @@
                                 </UniformGrid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="IsTabStop" Value="False"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                     </ListBox>
                 </StackPanel>
             </controls:MetroTabItem>

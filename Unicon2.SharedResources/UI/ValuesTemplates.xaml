@@ -8,15 +8,6 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:values1="clr-namespace:Unicon2.Presentation.Values;assembly=Unicon2.Presentation">
 
-
-    <!--<DataTemplate DataType="{x:Type values1:CollectionValueViewModel}" x:Key="CollectionValueViewModelDataTemplate">
-       <Grid></Grid>
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type values1:CollectionValueViewModel}" x:Key="EditableCollectionValueViewModelDataTemplate">
-        <Grid></Grid>
-    </DataTemplate>-->
-
     <DataTemplate x:Key="ErrorValueViewModelDataTemplate" DataType="{x:Type values1:ErrorValueViewModel}">
         <Border
             BorderBrush="DarkRed"
@@ -57,21 +48,10 @@
 
     <DataTemplate x:Key="EditableBoolValueViewModelDataTemplate" DataType="{x:Type editable:EditableBoolValueViewModel}">
         <CheckBox
-            IsChecked="{Binding BoolValueProperty,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}"
+            IsChecked="{Binding BoolValueProperty, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
             IsEnabled="{Binding IsEditEnabled}"
             IsManipulationEnabled="True" />
     </DataTemplate>
-
-    <!--<DataTemplate DataType="{x:Type values1:BitwiseIndexatorValueViewModel}">
-        <ItemsControl ItemsSource="{Binding BitsStringsKeyValuePairs}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <CheckBox Content="{Binding Value}" IsChecked="{Binding Key}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </DataTemplate>-->
-
 
     <DataTemplate x:Key="ChosenFromListValueViewModelDataTemplate" DataType="{x:Type values1:ChosenFromListValueViewModel}">
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
@@ -79,13 +59,11 @@
         </StackPanel>
     </DataTemplate>
 
-
     <DataTemplate x:Key="EditableChosenFromListValueViewModelDataTemplate" DataType="{x:Type editable:EditableChosenFromListValueViewModel}">
-
         <ComboBox
-            Grid.Column="0"
             MinWidth="100"
             ItemsSource="{Binding AvailableItemsList}"
+
             SelectedItem="{Binding SelectedItem,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" />
 
     </DataTemplate>

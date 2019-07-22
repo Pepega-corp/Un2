@@ -394,6 +394,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddSignatureGroup.
+        /// </summary>
+        public static string AddSignatureGroup {
+            get {
+                return ResourceManager.GetString("AddSignatureGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @AddSubParameter.
         /// </summary>
         public static string AddSubParameter {
@@ -1798,6 +1807,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @IsInversion.
+        /// </summary>
+        public static string IsInversion {
+            get {
+                return ResourceManager.GetString("IsInversion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @IsKeysAreNumbersOfBits.
         /// </summary>
         public static string IsKeysAreNumbersOfBits {
@@ -2055,6 +2073,15 @@ namespace Unicon2.Localization.Properties {
         public static string Main {
             get {
                 return ResourceManager.GetString("Main", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @Mask.
+        /// </summary>
+        public static string Mask {
+            get {
+                return ResourceManager.GetString("Mask", resourceCulture);
             }
         }
         
@@ -3144,6 +3171,15 @@ namespace Unicon2.Localization.Properties {
         public static string StartAddress {
             get {
                 return ResourceManager.GetString("StartAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @StartBitNumber.
+        /// </summary>
+        public static string StartBitNumber {
+            get {
+                return ResourceManager.GetString("StartBitNumber", resourceCulture);
             }
         }
         

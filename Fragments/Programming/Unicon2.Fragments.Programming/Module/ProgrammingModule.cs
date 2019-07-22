@@ -28,8 +28,8 @@ namespace Unicon2.Fragments.Programming.Module
 
             container.Register<ILogicElement, Input>(ProgrammingKeys.INPUT);
             container.Register<ILogicElementViewModel, InputViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            container.Register<ILogicElement, Output>(ProgrammingKeys.OUTPUT);
-            container.Register<ILogicElementViewModel, OutputViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            //container.Register<ILogicElement, Output>(ProgrammingKeys.OUTPUT);
+            //container.Register<ILogicElementViewModel, OutputViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
         
             container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(ProgrammModel));
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
