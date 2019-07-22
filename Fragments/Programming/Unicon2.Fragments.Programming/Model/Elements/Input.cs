@@ -5,42 +5,66 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
-    public class Input : ILogicElement
+    public class Input : IInput
     {
-        public const string INP_SIGNAL = "InpSignal";
-        public const string BASE = "Base";
-        public const string CONNECTION_NUMER = "ConnectionNumber";
-        public const string LIST_OF_SIGNALS = "InpList";
         private const int BIN_SIZE = 3;
-        
+
+        private ushort _inputSignal;
+        private ushort _base;
+        private int _connectionNumber;
+
+        public Dictionary<int, Dictionary<int, string>> AllInputSignals { get; private set; }
+        public List<string> Bases { get; private set; }
+
         public Input()
         {
             this.Functional = Functional.BOOLEAN;
             this.Group = Group.INPUT_OUTPUT;
-            this.Property = new Dictionary<string, object>
-            {
-                {INP_SIGNAL, 0},
-                {BASE, 0},
-                {CONNECTION_NUMER, new ushort?()},
-                {LIST_OF_SIGNALS, new Dictionary<int, string>()}
-            };
+
+            this.Bases = new List<string> {"Base1"};
+
+            this.AllInputSignals =
+                new Dictionary<int, Dictionary<int, string>>
+                {
+                    {this.Bases.Count - 1, new Dictionary<int, string> {{0, string.Empty}}}
+                };
         }
 
         private Input(Input cloneable)
         {
-            this.Functional = cloneable.Functional;
-            this.Group = cloneable.Group;
-            this.Property = new Dictionary<string, object>(cloneable.Property);
+            this.CopyValues(cloneable);
         }
 
-        public Functional Functional { get; }
-        public Group Group { get; }
+        public Functional Functional { get; private set; }
+        public Group Group { get; private set; }
         public int BinSize => BIN_SIZE;
+
+        public void CopyValues(ILogicElement source)
+        {
+            if (!(source is Input inputSource))
+            {
+                throw new ArgumentException("Copied source is not " + typeof(Input));
+            }
+
+            this.Functional = inputSource.Functional;
+            this.Group = inputSource.Group;
+            this._inputSignal = inputSource._inputSignal;
+            this._base = inputSource._base;
+            this._connectionNumber = inputSource._connectionNumber;
+            this.Bases = new List<string>(inputSource.Bases);
+
+            this.AllInputSignals = new Dictionary<int, Dictionary<int, string>>(inputSource.AllInputSignals);
+            for (int i = 0; i < this.Bases.Count; i++)
+            {
+                var copiedDictionary = inputSource.AllInputSignals[i];
+                this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
+            }
+        }
 
         public ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
-            switch (Convert.ToInt32(this.Property[BASE]))
+            switch (this._base)
             {
                 case 0:
                 {
@@ -68,19 +92,23 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                     break;
                 }
             }
-            bindata[1] = Convert.ToUInt16(this.Property[INP_SIGNAL]);
-            bindata[2] = Convert.ToUInt16(this.Property[CONNECTION_NUMER]);
+            bindata[1] = this._inputSignal;
+            bindata[2] = (ushort)this._connectionNumber;
             return bindata;
         }
 
         public void BinProgrammToProperty(ushort[] bin)
         {
-            this.Property[BASE] = bin[0];
-            this.Property[INP_SIGNAL] = bin[1];
-            this.Property[CONNECTION_NUMER] = bin[2];
+            this._base = bin[0];
+            this._inputSignal = bin[1];
+            this._connectionNumber = bin[2];
         }
 
-        public Dictionary<string, object> Property { get; }
+        public int ConnectionNumber
+        {
+            get { return this._connectionNumber; }
+            set { this._connectionNumber = value; }
+        }
 
         #region IStronglyName
         public string StrongName => ProgrammingKeys.INPUT;
