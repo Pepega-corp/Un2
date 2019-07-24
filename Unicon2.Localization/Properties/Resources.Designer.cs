@@ -3112,6 +3112,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @SignatureNumberOfPoints.
+        /// </summary>
+        public static string SignatureNumberOfPoints {
+            get {
+                return ResourceManager.GetString("SignatureNumberOfPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @SlaveDeviceBusy.
         /// </summary>
         public static string SlaveDeviceBusy {
@@ -3171,15 +3180,6 @@ namespace Unicon2.Localization.Properties {
         public static string StartAddress {
             get {
                 return ResourceManager.GetString("StartAddress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на @StartBitNumber.
-        /// </summary>
-        public static string StartBitNumber {
-            get {
-                return ResourceManager.GetString("StartBitNumber", resourceCulture);
             }
         }
         

@@ -45,6 +45,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         private IMatrixTemplate _unchangedMatrixTemplate;
         private object _selectedTab;
 
+        private string _valueSignatureMask;
+        private int _valueSignatureNumberOfPoints;
+        private bool _isInversion;
+
+        #region [CONST]
+        private const string _inversionString = " Инв";
+        #endregion
         public MatrixTemplateEditorViewModel(
             IMatrixMemoryVariableEditorViewModelFactory matrixMemoryVariableEditorViewModelFactory,
             IVariableSignatureEditorViewModelFactory variableSignatureEditorViewModelFactory,
@@ -52,7 +59,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             IMatrixVariableOptionTemplateEditorViewModelFactory matrixVariableOptionTemplateEditorViewModelFactory,
             IGeneralViewModelFactory<IBitOptionEditorViewModel> bitOptionFactory,
             IGeneralViewModelFactory<IAssignedBitEditorViewModel> assignedBitViewModelFactory,
-            IBitOptionUpdatingStrategy bitOptionUpdatingStrategy, ILocalizerService localizerService,IDialogCoordinator dialogCoordinator)
+            IBitOptionUpdatingStrategy bitOptionUpdatingStrategy, ILocalizerService localizerService, IDialogCoordinator dialogCoordinator)
         {
             this._matrixMemoryVariableEditorViewModelFactory = matrixMemoryVariableEditorViewModelFactory;
             this._variableSignatureEditorViewModelFactory = variableSignatureEditorViewModelFactory;
@@ -72,21 +79,24 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             this.SubmitCommand = new RelayCommand<object>(this.OnSubmitExecute, CanExecuteSubmit);
             this.CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
             this.AssignSignalsAutomatically = new RelayCommand(this.OnAssignSignalsAutomatically);
-
+            this.AddSignatureGroupCommand = new RelayCommand(this.OnAddSignatureGroupExecute);
             this.AvailableMatrixVariableOptionTemplateEditorViewModels =
                 this._matrixVariableOptionTemplateEditorViewModelFactory.CreateAvailableMatrixVariableOptionTemplateEditorViewModel();
             this._bitOptionEditorViewModels = new ObservableCollection<IBitOptionEditorViewModel>();
             this.AssignedBitEditorViewModels = new ObservableCollection<IAssignedBitEditorViewModel>();
+
+            ValueSignatureMask = string.Empty;
+            ValueSignatureNumberOfPoints = 0;
         }
 
         private void OnAssignSignalsAutomatically()
         {
-            var minFromAsingableAndOptions = Math.Min(AssignedBitEditorViewModels.Count,_bitOptionEditorViewModels.Count);
+            var minFromAsingableAndOptions = Math.Min(AssignedBitEditorViewModels.Count, _bitOptionEditorViewModels.Count);
             for (int i = 0; i < minFromAsingableAndOptions; i++)
             {
                 AssignedBitEditorViewModels[i].SelectedBitOptionEditorViewModel = _bitOptionEditorViewModels[i];
             }
-           
+
         }
 
         private bool CanExecuteSubmit(object obj)
@@ -172,6 +182,48 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         {
             this.VariableSignatureEditorViewModels.Add(this._variableSignatureEditorViewModelFactory.CreateVariableSignatureEditorViewModel());
         }
+
+        private void OnAddSignatureGroupExecute()
+        {
+            try
+            {
+                int j = 1;
+                if (IsInversion)
+                {
+                    for (int i = 0; i < ValueSignatureNumberOfPoints; i++)
+                    {
+                        var variableModel = this._variableSignatureEditorViewModelFactory.CreateVariableSignatureEditorViewModel();
+                        variableModel.Signature = ValueSignatureMask + j;
+                        variableModel.IsMultipleAssgnmentAllowed = false;
+                        this.VariableSignatureEditorViewModels.Add(variableModel);
+                        variableModel = this._variableSignatureEditorViewModelFactory.CreateVariableSignatureEditorViewModel();
+                        variableModel.Signature = ValueSignatureMask + j + _inversionString;
+                        this.VariableSignatureEditorViewModels.Add(variableModel);
+                        j++;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i <  ValueSignatureNumberOfPoints; i++)
+                    {
+                        var variableModel = this._variableSignatureEditorViewModelFactory.CreateVariableSignatureEditorViewModel();
+                        variableModel.Signature = ValueSignatureMask + j;
+                        variableModel.IsMultipleAssgnmentAllowed = false;
+                        this.VariableSignatureEditorViewModels.Add(variableModel);
+                        j++;
+                    }
+                }
+
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                ValueSignatureMask = string.Empty;
+                ValueSignatureNumberOfPoints = 0;
+                IsInversion = false;
+            }
+        }
+
 
         private void OnAddMatrixVariableExucute()
         {
@@ -293,11 +345,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         {
             get
             {
-                var groupsNum = Math.Ceiling((decimal) AssignedBitEditorViewModels.Count / 16);
-                var groupedAssignedBitEditorViewModels=new ObservableCollection<ObservableCollection<IAssignedBitEditorViewModel>>();
+                var groupsNum = Math.Ceiling((decimal)AssignedBitEditorViewModels.Count / 16);
+                var groupedAssignedBitEditorViewModels = new ObservableCollection<ObservableCollection<IAssignedBitEditorViewModel>>();
                 for (var i = 0; i < groupsNum; i++)
                 {
-                    groupedAssignedBitEditorViewModels.Add(i == groupsNum - 1 && AssignedBitEditorViewModels.Count % 16!=0
+                    groupedAssignedBitEditorViewModels.Add(i == groupsNum - 1 && AssignedBitEditorViewModels.Count % 16 != 0
                         ? new ObservableCollection<IAssignedBitEditorViewModel>(AssignedBitEditorViewModels.Skip(i * 16)
                             .Take(AssignedBitEditorViewModels.Count % 16))
                         : new ObservableCollection<IAssignedBitEditorViewModel>(AssignedBitEditorViewModels.Skip(i * 16)
@@ -307,6 +359,36 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             }
         }
 
+        public string ValueSignatureMask
+        {
+            get { return _valueSignatureMask; }
+            set
+            {
+                _valueSignatureMask = value;
+                RaisePropertyChanged();
+            }
+
+        }
+
+
+        public int ValueSignatureNumberOfPoints
+        {
+            get { return _valueSignatureNumberOfPoints; }
+            set
+            {
+                _valueSignatureNumberOfPoints = value;
+                RaisePropertyChanged();
+            }
+        }
+        public bool IsInversion
+        {
+            get { return _isInversion; }
+            set
+            {
+                _isInversion = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public ICommand AssignSignalsAutomatically { get; }
 
@@ -317,6 +399,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         public ICommand DeleteSignatureCommand { get; }
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
+
+        public ICommand AddSignatureGroupCommand { get; }
 
         public string MatrixName
         {

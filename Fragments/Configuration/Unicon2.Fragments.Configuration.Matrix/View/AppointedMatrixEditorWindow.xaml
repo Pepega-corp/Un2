@@ -74,7 +74,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <!--<command:EventToCommand  PassEventArgsToCommand="True" Command="{Binding OnSelectionChangedCommand}" />-->
-                    <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=SingleTabControl}" />
+                    <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=SingleTabControl}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -169,7 +169,7 @@
                         Command="{Binding AddSignatureCommand}"
                         Content="{lex:Loc AddSignature}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock Text="{lex:Loc Mask}" 
                                        Margin="5" 
                                        VerticalAlignment="Center"/>
@@ -178,28 +178,20 @@
                                      Height="20"
                                      VerticalContentAlignment="Center"
                                      Text="{Binding ValueSignatureMask,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBlock Text="{lex:Loc StartBitNumber}"
+                            <TextBlock Text="{lex:Loc SignatureNumberOfPoints}"
                                        Margin="5"
                                        VerticalAlignment="Center"/>
                             <TextBox Margin="5"
                                      Width="50"
                                      Height="20"
                                      VerticalContentAlignment="Center"
-                                     Text="{Binding ValueSignatureStartBitNumber}"/>
-                            <TextBlock Text="{lex:Loc NumberOfPoints}"
-                                       Margin="5"
-                                       VerticalAlignment="Center"/>
-                            <TextBox Margin="5"
-                                     Width="50"
-                                     Height="20"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding ValuseSignaturesNumberOfPoints}"/>
+                                     Text="{Binding ValueSignatureNumberOfPoints}"/>
                             <CheckBox Content="{lex:Loc IsInversion}"
                                       Margin="5"
                                       VerticalAlignment="Center"
-                                      IsChecked="{Binding IsInversionChecked}"/>
+                                      IsChecked="{Binding IsInversion}"/>
                             <Button Margin="10"
-                                    Command="{Binding AddSingnatureGroupCommand}"
+                                    Command="{Binding AddSignatureGroupCommand}"
                                     Content="{lex:Loc AddSignatureGroup}"
                                     Style="{DynamicResource UniconButtonStyle}"/>
                         </StackPanel>

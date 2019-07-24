@@ -218,8 +218,13 @@
                                  >
                         <!-- свойство ниже ломает контекстное меню, пока убрал условие, надо уточнить, как оно должно работать -->
                         <!--IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}">-->
-                        <MenuItem Command="{Binding IncreaseAddressCommand}" Header="{lex:Loc IncreaseAddress}" />
-                        <MenuItem Command="{Binding DecreaseAddressCommand}" Header="{lex:Loc DecreaseAddress}" />
+
+                        <MenuItem Command="{Binding IncreaseAddressCommand}"
+                                  IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}"
+                                  Header="{lex:Loc IncreaseAddress}" />
+                        <MenuItem Command="{Binding DecreaseAddressCommand}"
+                                  IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}" 
+                                  Header="{lex:Loc DecreaseAddress}" />
                     </ContextMenu>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Style.Triggers>

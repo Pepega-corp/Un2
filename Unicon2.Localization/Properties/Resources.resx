@@ -1098,11 +1098,8 @@
   <data name="Mask" xml:space="preserve">
     <value>@Mask</value>
   </data>
-  <data name="StartBitNumber" xml:space="preserve">
-    <value>@StartBitNumber</value>
-  </data>
-  <data name="NumberOfPoints" xml:space="preserve">
-    <value>@NumberOfPoints</value>
+  <data name="SignatureNumberOfPoints" xml:space="preserve">
+    <value>@SignatureNumberOfPoints</value>
   </data>
   <data name="IsInversion" xml:space="preserve">
     <value>@IsInversion</value>

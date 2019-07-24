@@ -1114,25 +1114,22 @@
     <value>Параметр</value>
   </data>
   <data name="AddSignature" xml:space="preserve">
-    <value>Добавить подпись</value>
+    <value>Добавить пустую строку</value>
   </data>
   <data name="DeleteSignature" xml:space="preserve">
     <value>Удалить подпись</value>
   </data>
   <data name="Mask" xml:space="preserve">
-    <value>Маска</value>
+    <value>Название</value>
   </data>
-  <data name="StartBitNumber" xml:space="preserve">
-    <value>Начальный бит</value>
-  </data>
-  <data name="NumberOfPoints" xml:space="preserve">
+  <data name="SignatureNumberOfPoints" xml:space="preserve">
     <value>Кол-во</value>
   </data>
   <data name="IsInversion" xml:space="preserve">
     <value>Инверсия</value>
   </data>
   <data name="AddSignatureGroup" xml:space="preserve">
-    <value>Добавить группу сигнатур</value>
+    <value>Добавить группу</value>
   </data>
   <data name="IsLoaded" xml:space="preserve">
     <value>Загружено</value>
