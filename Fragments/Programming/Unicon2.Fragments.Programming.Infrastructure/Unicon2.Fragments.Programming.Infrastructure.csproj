@@ -46,6 +46,7 @@
     <Compile Include="Model\IElementLibraryModel.cs" />
     <Compile Include="Model\IProgrammModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\EditableBase.cs" />
     <Compile Include="ViewModels\IProgrammingViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IInputEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\ILogicElementEditorViewModel.cs" />
@@ -64,6 +65,10 @@
     <ProjectReference Include="..\..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
       <Project>{EF9BF685-16AA-4942-A33C-D65562BD4215}</Project>
       <Name>Unicon2.Presentation.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Unicon2.Unity\Unicon2.Unity.csproj">
+      <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
+      <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

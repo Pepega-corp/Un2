@@ -13,7 +13,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         private ushort _base;
         private int _connectionNumber;
 
-        public Dictionary<int, Dictionary<int, string>> AllInputSignals { get; private set; }
+        public List<Dictionary<int, string>> AllInputSignals { get; private set; }
         public List<string> Bases { get; private set; }
 
         public Input()
@@ -21,12 +21,12 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.Functional = Functional.BOOLEAN;
             this.Group = Group.INPUT_OUTPUT;
 
-            this.Bases = new List<string> {"Base1"};
+            this.Bases = new List<string> {"Base0"};
 
             this.AllInputSignals =
-                new Dictionary<int, Dictionary<int, string>>
+                new List<Dictionary<int, string>>
                 {
-                    {this.Bases.Count - 1, new Dictionary<int, string> {{0, string.Empty}}}
+                    new Dictionary<int, string> {{0, string.Empty}}
                 };
         }
 
@@ -53,7 +53,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this._connectionNumber = inputSource._connectionNumber;
             this.Bases = new List<string>(inputSource.Bases);
 
-            this.AllInputSignals = new Dictionary<int, Dictionary<int, string>>(inputSource.AllInputSignals);
+            this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
             for (int i = 0; i < this.Bases.Count; i++)
             {
                 var copiedDictionary = inputSource.AllInputSignals[i];
