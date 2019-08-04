@@ -17,7 +17,7 @@
     <!--  Селектор шаблонов DataTemplate  -->
     <!--<local:LibraryTemplateSelector x:Key="LibrarySelector" Inversion="{StaticResource Inversion}" />-->
 
-    <DataTemplate DataType="{x:Type vm:ElementLibraryViewModel}">
+    <!--<DataTemplate DataType="{x:Type vm:ElementLibraryViewModel}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical" UseLayoutRounding="True">
                 <Expander
@@ -50,9 +50,11 @@
                                         ToolTip="{Binding Description}"
                                         ToolTipService.InitialShowDelay="1000"
                                         ToolTipService.ShowDuration="2000">
-                                        <!--<i:Interaction.Behaviors>
+    -->
+    <!--<i:Interaction.Behaviors>
                                             <b:ElementsLibraryBehavior />
                                         </i:Interaction.Behaviors>-->
+    <!--
                                     </Rectangle>
                                     <TextBlock
                                         Name="Caption"
@@ -69,7 +71,9 @@
                                         VerticalContentAlignment="Center"
                                         Content="{Binding}"
                                         IsHitTestVisible="False" />
-                                    <!--  ContentTemplateSelector="{StaticResource LibrarySelector}"  -->
+    -->
+    <!--  ContentTemplateSelector="{StaticResource LibrarySelector}"  -->
+    <!--
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding Path=CaptionVisibility}" Value="False">
@@ -85,7 +89,7 @@
                 </Expander>
             </StackPanel>
         </ScrollViewer>
-    </DataTemplate>
+    </DataTemplate>-->
 
     <Style x:Key="VerticalExpanderStyle" TargetType="Expander">
         <Setter Property="FontFamily" Value="SegoeUI" />

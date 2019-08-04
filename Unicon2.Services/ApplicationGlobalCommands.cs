@@ -49,13 +49,16 @@ namespace Unicon2.Services
 
         public void ShowWindowModal(Func<Window> getWindow, object dataContext)
         {
-            this.GetWindow(getWindow, dataContext);
+            var windowToShow = this.GetWindow(getWindow, dataContext);
+            windowToShow.Topmost = false;
+            windowToShow.ShowDialog();
         }
 
-        public void ShowWindowModal(Func<Window> getWindow, object dataContext, bool isTopmost)
+        public void ShowWindowModalTopmost(Func<Window> getWindow, object dataContext)
         {
             Window windowToShow = this.GetWindow(getWindow, dataContext);
-            windowToShow.Topmost = isTopmost;
+            windowToShow.Topmost = true;
+            windowToShow.ShowDialog();
         }
 
         private Window GetWindow(Func<Window> getWindow, object dataContext)
@@ -64,7 +67,6 @@ namespace Unicon2.Services
             windowToShow.Owner = Application.Current.MainWindow;
             windowToShow.Topmost = true;
             windowToShow.DataContext = dataContext;
-            windowToShow.ShowDialog();
             return windowToShow;
         }
 

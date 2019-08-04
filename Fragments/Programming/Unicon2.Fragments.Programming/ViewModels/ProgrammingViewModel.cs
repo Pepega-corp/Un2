@@ -2,11 +2,13 @@
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
 
@@ -19,13 +21,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private IProgrammModel _programmModel;
         
         #region Constructor
-        public ProgrammingViewModel(ITypesContainer container, IApplicationGlobalCommands globalCommands, IElementLibraryViewModel library)
+        public ProgrammingViewModel(ITypesContainer container, IApplicationGlobalCommands globalCommands)
         {
             this._container = container;
             this._applicationGlobalCommands = globalCommands;
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
-            this.ElementLibraryModel = library;
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
             this.CloseTabCommand = new RelayCommand(this.CloseTab, this.CanCloseTab);
@@ -41,18 +42,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public int SelectedTabIndex { get; set; }
 
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
+        
+        public ObservableCollection<ILogicElement> ElementLibraryModel { get; set; }
 
-        private IElementLibraryViewModel _libraryViewModel;
-        public IElementLibraryViewModel ElementLibraryModel
-        {
-            get { return this._libraryViewModel; }
-            set
-            {
-                if (this._libraryViewModel != null) return;
-                this._libraryViewModel = value;
-                RaisePropertyChanged();
-            }
-        }
         #endregion
 
         #region NewSchemeCommand
@@ -137,8 +129,22 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public object Model
         {
-            get { return this._programmModel; }
-            set { this._programmModel = value as IProgrammModel; }
+            get { return this.GetModel(); }
+            set { this.SetModel(value); }
+        }
+
+        private void SetModel(object value)
+        {
+            if (value is IProgrammModel model)
+            {
+                this._programmModel = model;
+                this.ElementLibraryModel.AddCollection(this._programmModel.Elements);
+            }
+        }
+
+        private IProgrammModel GetModel()
+        {
+            return this._programmModel;
         }
 
         #endregion

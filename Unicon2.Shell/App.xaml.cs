@@ -12,7 +12,6 @@ using Unicon2.Connections.MockConnection.Module;
 using Unicon2.Connections.ModBusRtuConnection.Module;
 using Unicon2.Connections.ModBusTcpConnection.Module;
 using Unicon2.Connections.OfflineConnection;
-using Unicon2.Connections.MockConnection.Module;
 using Unicon2.Formatting.Editor.Module;
 using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;

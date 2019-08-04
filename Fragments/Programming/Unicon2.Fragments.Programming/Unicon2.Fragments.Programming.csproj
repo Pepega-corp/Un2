@@ -54,7 +54,6 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="DesignerCanvasItemsControl.cs" />
     <Compile Include="DragElement.cs" />
-    <Compile Include="Model\ElementLibraryModel.cs" />
     <Compile Include="Model\Elements\Input.cs" />
     <Compile Include="Model\Elements\Output.cs" />
     <Compile Include="Model\ProgrammModel.cs" />
@@ -67,7 +66,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="TabControlEx.cs" />
-    <Compile Include="ViewModels\ElementLibraryViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\InputViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\LogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
