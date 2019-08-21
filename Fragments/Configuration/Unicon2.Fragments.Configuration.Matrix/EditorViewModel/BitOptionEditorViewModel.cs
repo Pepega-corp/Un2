@@ -12,7 +12,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         #region Implementation of IBitOptionEditorViewModel
 
-        public string FullSugnature { get; private set; }
+        public string FullSugnature { get; set; }
 
         public List<int> NumbersOfAssotiatedBits
         {

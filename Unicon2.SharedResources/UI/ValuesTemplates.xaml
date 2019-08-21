@@ -63,8 +63,10 @@
         <ComboBox
             MinWidth="100"
             ItemsSource="{Binding AvailableItemsList}"
-
-            SelectedItem="{Binding SelectedItem,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" />
+            IsTextSearchEnabled="True"
+            IsEditable="True"
+            StaysOpenOnEdit="True"
+            SelectedItem="{Binding SelectedItem,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True, Mode=TwoWay}" />
 
     </DataTemplate>
 

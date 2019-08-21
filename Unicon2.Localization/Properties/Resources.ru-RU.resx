@@ -1323,6 +1323,13 @@
   <data name="AssignSignalsAutomatically" xml:space="preserve">
     <value>Автоматически назначить сигналы</value>
   </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>Очистить назначенные сигналы</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>Очистить подписи</value>
+  </data>
+  
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Вы уверены?</value>
   </data>

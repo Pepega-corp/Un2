@@ -1320,6 +1320,13 @@
   <data name="AssignSignalsAutomatically" xml:space="preserve">
     <value>Assign signals automatically</value>
   </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>Clear assigned signals</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>Clear signatures</value>
+  </data>
+  
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Are you sure?</value>
   </data>

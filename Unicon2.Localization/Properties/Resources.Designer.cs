@@ -763,6 +763,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @ClearAssignedSignals.
+        /// </summary>
+        public static string ClearAssignedSignals {
+            get {
+                return ResourceManager.GetString("ClearAssignedSignals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @ClearSignatures.
+        /// </summary>
+        public static string ClearSignatures {
+            get {
+                return ResourceManager.GetString("ClearSignatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Close.
         /// </summary>
         public static string Close {

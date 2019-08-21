@@ -1314,6 +1314,13 @@
   <data name="AssignSignalsAutomatically" xml:space="preserve">
     <value>@AssignSignalsAutomatically</value>
   </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>@ClearAssignedSignals</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>@ClearSignatures</value>
+  </data>
+  
   <data name="EnsuringMessage" xml:space="preserve">
     <value>@EnsuringMessage</value>
   </data>
