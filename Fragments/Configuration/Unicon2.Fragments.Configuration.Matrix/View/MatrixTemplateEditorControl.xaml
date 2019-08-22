@@ -59,17 +59,15 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="editorViewModel:IAssignedBitEditorViewModel">
+                                <DataTemplate DataType="{x:Type editorViewModel:IAssignedBitEditorViewModel}">
                                     <StackPanel Orientation="Horizontal" Margin="1">
                                         <TextBlock Width="25" Margin="5" Text="{Binding NumberOfBit}"/>
-                                        <!--йобаный рот этого казино блять, ебучий iseditable ломает отображение названия-->
-                                        <ComboBox 
+                                        <ComboBox
                                            Width="150" 
                                            SelectedItem="{Binding SelectedBitOptionEditorViewModel}"
                                             DisplayMemberPath="FullSugnature"
                                             IsTextSearchEnabled="True"
-                                            
-                                            IsEditable="False"
+                                            IsEditable="True"
                                             StaysOpenOnEdit="True"
                                             TextSearch.TextPath="FullSugnature"
                                            ItemsSource="{Binding BitOptionEditorViewModels}">

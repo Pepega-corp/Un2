@@ -12,7 +12,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         #region Implementation of IBitOptionEditorViewModel
 
-        public string FullSugnature { get; set; }
+        public string FullSugnature { get; private set; }
 
         public List<int> NumbersOfAssotiatedBits
         {
@@ -58,6 +58,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             }
         }
 
+        #endregion
+
+        #region ToString Override
+        public override string ToString()
+        {
+            return FullSugnature;
+        }
         #endregion
     }
 }
