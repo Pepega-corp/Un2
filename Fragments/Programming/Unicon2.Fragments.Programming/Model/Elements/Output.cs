@@ -1,31 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
-    public class Output : ILogicElement
+    [DataContract(Namespace = "OutputNS")]
+    public class Output : IOutput
     {
-        public const string OUT_SIGNAL = "OutSignal";
-        public const string CONNECTION_NUMER = "ConnectionNumber";
-        public const string LIST_OF_SIGNALS = "OutList";
         private const int BIN_SIZE = 3;
+        private const int DEFAULT_SIZE = 32;
+
+        [DataMember]
+        public List<string> OutputSignals { get; set; }
+        [DataMember]
+        public int OutputSignalNum { get; set; }
+        [DataMember]
+        public int ConnectionNumber { get; set; }
 
         public Output()
         {
             this.Functional = Functional.BOOLEAN;
             this.Group = Group.INPUT_OUTPUT;
-            this.Property = new Dictionary<string, object>
+
+            this.OutputSignals = new List<string>();
+            for (int i = 0; i < DEFAULT_SIZE; i++)
             {
-                {OUT_SIGNAL, 0},
-                {CONNECTION_NUMER, new ushort?()}
-            };
+                this.OutputSignals.Add($"ССЛ{i + 1}");
+            }
         }
 
         private Output(Output cloneable)
         {
-            CopyValues(cloneable);
+            this.OutputSignals = new List<string>();
+            this.CopyValues(cloneable);
         }
 
         public void CopyValues(ILogicElement source)
@@ -37,29 +46,29 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
             this.Functional = outputSource.Functional;
             this.Group = outputSource.Group;
-            this.Property = new Dictionary<string, object>(outputSource.Property);
+
+            this.OutputSignals.Clear();
+            this.OutputSignals.AddRange(outputSource.OutputSignals);
         }
 
         public Functional Functional { get; private set; }
-        public Group Group { get; private set;}
+        public Group Group { get; private set; }
         public int BinSize => BIN_SIZE;
 
         public ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
             bindata[0] = 5;
-            bindata[1] = Convert.ToUInt16(this.Property[OUT_SIGNAL]);
-            bindata[2] = Convert.ToUInt16(this.Property[CONNECTION_NUMER]);
+            bindata[1] = (ushort)this.OutputSignalNum;
+            bindata[2] = (ushort)this.ConnectionNumber;
             return bindata;
         }
 
         public void BinProgrammToProperty(ushort[] bin)
         {
-            this.Property[OUT_SIGNAL] = bin[1];
-            this.Property[CONNECTION_NUMER] = bin[2];
+            this.OutputSignalNum = bin[1];
+            this.ConnectionNumber = bin[2];
         }
-
-        public Dictionary<string, object> Property { get; private set; }
 
         #region IStronglyName
         public string StrongName => ProgrammingKeys.OUTPUT;

@@ -20,6 +20,7 @@ namespace Unicon2.Fragments.Programming.Editor.Module
             container.Register<ILogicElementFactory, LogicElementFactory>();
             //All view models
             container.Register<ILogicElementEditorViewModel, InputEditorViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            container.Register<ILogicElementEditorViewModel, OutputEditorViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ProgrammingEditorTemplate.xaml", GetType().Assembly);
         }

@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\EditElementViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\InputEditorViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\OutputEditorViewModel.cs" />
     <Compile Include="ViewModel\ProgrammingEditorViewModel.cs" />
     <Compile Include="View\ProgrammingEditorView.xaml.cs">
       <DependentUpon>ProgrammingEditorView.xaml</DependentUpon>

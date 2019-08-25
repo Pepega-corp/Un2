@@ -43,12 +43,14 @@
     <Compile Include="Keys\ProgrammingKeys.cs" />
     <Compile Include="Model\Elements\IInput.cs" />
     <Compile Include="Model\Elements\ILogicElement.cs" />
+    <Compile Include="Model\Elements\IOutput.cs" />
     <Compile Include="Model\IProgrammModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\EditableBase.cs" />
+    <Compile Include="ViewModels\EditableListItem.cs" />
     <Compile Include="ViewModels\IProgrammingViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IInputEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\ILogicElementEditorViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOutputEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\ILogicElementViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ILogicElementFactory.cs" />
     <Compile Include="ViewModels\Scheme\IProgrammingEditorViewModel.cs" />

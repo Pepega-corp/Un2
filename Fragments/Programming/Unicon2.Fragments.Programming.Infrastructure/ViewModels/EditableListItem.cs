@@ -2,19 +2,14 @@
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels
 {
-    public class EditableBase : ViewModelBase
+    public class EditableListItem : ViewModelBase
     {
         private string _baseString;
         private bool _isEditing;
 
-        public EditableBase(int newIndex)
+        public EditableListItem(string value)
         {
-            this.Value = "Base" + newIndex;
-        }
-
-        public EditableBase(string @base)
-        {
-            this.Value = @base;
+            this.Value = value;
         }
 
         public string Value

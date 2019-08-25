@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -17,23 +16,21 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 {
     public class InputEditorViewModel : ViewModelBase, IInputEditorViewModel
     {
+        private const string BASE_NAMING = "Base";
         private IInput _model;
         private List<Dictionary<int, string>> _allInputSignals;
         private BindableKeyValuePair<int, string> _selectedInputSignal;
-        private EditableBase _selectedBase;
+        private EditableListItem _selectedBase;
 
-        public string ElementName { get { return "Вход"; } }
+        public string ElementName => "Вход";
 
-       public string Description { get { return "Входной логический сигнал"; } }
+       public string Description =>"Входной логический сигнал";
 
-        public string StrongName
-        {
-            get { return ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL; }
-        }
+        public string StrongName => ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
         public InputEditorViewModel()
         {
-            this.Bases = new ObservableCollection<EditableBase>();
+            this.Bases = new ObservableCollection<EditableListItem>();
             this.InputSignals = new ObservableCollection<BindableKeyValuePair<int, string>>();          
             this._allInputSignals = new List<Dictionary<int, string>>();
 
@@ -55,7 +52,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public ICommand RemoveSignalCommand { get; }
 
 
-        public ObservableCollection<EditableBase> Bases { get; }
+        public ObservableCollection<EditableListItem> Bases { get; }
 
         public ObservableCollection<BindableKeyValuePair<int, string>> InputSignals { get; }
 
@@ -84,7 +81,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             }
         }
         
-        public EditableBase SelectedBaseItem
+        public EditableListItem SelectedBaseItem
         {
             get => this._selectedBase;
             set
@@ -168,13 +165,14 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
                 this._allInputSignals.Add(new Dictionary<int, string>(inputSignal));
             }
 
-            List<EditableBase> bases = this._model.Bases.Select(@base => new EditableBase(@base)).ToList();
+            List<EditableListItem> bases = this._model.Bases.Select(@base => new EditableListItem(@base)).ToList();
             this.Bases.AddCollection(bases);
         }
 
         private void AddBase()
         {
-            this.Bases.Add(new EditableBase(this.Bases.Count));
+            string newBaseStr = BASE_NAMING + this.Bases.Count;
+            this.Bases.Add(new EditableListItem(newBaseStr));
             
             this._allInputSignals.Add(new Dictionary<int, string>());
             this._allInputSignals[this.Bases.Count - 1].Add(0, string.Empty);
@@ -223,8 +221,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public object Clone()
         {
-            InputEditorViewModel clone = new InputEditorViewModel();
-            clone.Model = this._model.Clone();
+            InputEditorViewModel clone = new InputEditorViewModel {Model = this._model.Clone()};
             return clone;
         }
     }
