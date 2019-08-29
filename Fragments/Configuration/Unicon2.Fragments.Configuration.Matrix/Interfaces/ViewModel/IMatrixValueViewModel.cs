@@ -5,6 +5,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.ViewModel
 {
     public interface IMatrixValueViewModel:IViewModel
     {
-        
+        bool IsEditable { get; }
     }
 }

@@ -58,6 +58,7 @@
                                     <StackPanel Orientation="Vertical"></StackPanel>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
+                            
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type editorViewModel:IAssignedBitEditorViewModel}">
                                     <StackPanel Orientation="Horizontal" Margin="1">

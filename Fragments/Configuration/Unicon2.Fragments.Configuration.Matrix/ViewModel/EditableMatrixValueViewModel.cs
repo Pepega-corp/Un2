@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Fragments.Configuration.Matrix.Interfaces.ViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
@@ -18,11 +19,12 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
-    public class EditableMatrixValueViewModel : EditableValueViewModelBase
+    public class EditableMatrixValueViewModel : EditableValueViewModelBase, IMatrixValueViewModel
     {
         private readonly MatrixViewModelTableFactory _matrixViewModelTableFactory;
         private ushort[] _initialUshortsToCompare;
         private DynamicDataTable _table;
+        private bool _isEditable = true;
 
         #region Overrides of EditableValueViewModelBase
 
@@ -30,6 +32,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         {
             _matrixViewModelTableFactory = matrixViewModelTableFactory;
             MatrixUpdatedCommand = new RelayCommand(OnMatrixEdited);
+            ClearAssignedSignals = new RelayCommand(OnClearAssignedSignals);
         }
 
         private void OnMatrixEdited()
@@ -41,6 +44,26 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
                 SetIsChangedProperty(nameof(_initialUshortsToCompare), _initialUshortsToCompare != newUshorts);
 
             }
+        }
+        private void OnClearAssignedSignals()
+        {
+            if (!(Model is IMatrixValue matrixValue)) return;
+            try
+            {
+                for (int i = 0; i < matrixValue.UshortsValue.Count(); i++)
+                {
+                    matrixValue.UshortsValue[i] = 0;
+                }
+                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+
+
         }
 
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE + MatrixKeys.MATRIX_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
@@ -73,7 +96,16 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             }
         }
         public ICommand MatrixUpdatedCommand { get; }
-
+        public ICommand ClearAssignedSignals { get; }
+        public bool IsEditable
+        {
+            get { return _isEditable; }
+            private set
+            {
+                _isEditable = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public override void SetBaseValueToCompare(ushort[] ushortsToCompare)
         {
