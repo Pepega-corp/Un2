@@ -15,7 +15,6 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.ModuleDeviceEditing.Interfaces;
-using Unicon2.ModuleDeviceEditing.ViewModels.Validators;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;

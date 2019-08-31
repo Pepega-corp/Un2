@@ -33,8 +33,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             this._globalCommands = globalCommands;
             this._logicElementFactory = logicElementFactory;
 
-            this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsViewModels());
-            this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetAnalogElementsViewModels());
+            this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsEditorViewModels());
+            this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetAnalogElementsEditorViewModels());
             this.LibraryElements = new ObservableCollection<ILogicElementEditorViewModel>();
 
             this.Model = model;
@@ -126,7 +126,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 
             this._model = (IProgrammModel) model;
             this.LibraryElements.Clear();
-            this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsViewModels(this._model.Elements));
+            this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
         }
 
         #endregion

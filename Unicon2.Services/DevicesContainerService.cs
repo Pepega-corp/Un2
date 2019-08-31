@@ -34,8 +34,7 @@ namespace Unicon2.Services
         public void AddConnectableItem(IConnectable device)
         {
             this.ConnectableItems.Add(device);
-            this.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device,
-                ItemModifyingTypeEnum.Add));
+            this.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Add));
         }
 
         public async Task<bool> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection)

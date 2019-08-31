@@ -39,6 +39,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\LogicElementFactory.cs" />
     <Compile Include="HelperClasses\DragElement.cs" />
     <Compile Include="Keys\ProgrammingKeys.cs" />
     <Compile Include="Model\Elements\IInput.cs" />

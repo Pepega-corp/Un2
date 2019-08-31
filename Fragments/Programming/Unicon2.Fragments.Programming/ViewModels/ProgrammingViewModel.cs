@@ -5,28 +5,29 @@ using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
-using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
     public class ProgrammingViewModel : ViewModelBase, IProgrammingViewModel
     {
-        private readonly ITypesContainer _container;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
+        private readonly ILogicElementFactory _factory;
         private IProgrammModel _programmModel;
         
         #region Constructor
-        public ProgrammingViewModel(ITypesContainer container, IApplicationGlobalCommands globalCommands)
+        public ProgrammingViewModel(IApplicationGlobalCommands globalCommands, ILogicElementFactory factory)
         {
-            this._container = container;
             this._applicationGlobalCommands = globalCommands;
+            this._factory = factory;
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
+            this.ElementCollection = new ObservableCollection<ILogicElementViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
             this.CloseTabCommand = new RelayCommand(this.CloseTab, this.CanCloseTab);
@@ -43,7 +44,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
         
-        public ObservableCollection<ILogicElement> ElementLibraryModel { get; set; }
+        public ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
 
         #endregion
 
@@ -138,7 +139,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if (value is IProgrammModel model)
             {
                 this._programmModel = model;
-                this.ElementLibraryModel.AddCollection(this._programmModel.Elements);
+                var elementsViewModels = this._factory.GetAllElementsViewModels(this._programmModel.Elements);
+                this.ElementCollection.AddCollection(elementsViewModels);
             }
         }
 
