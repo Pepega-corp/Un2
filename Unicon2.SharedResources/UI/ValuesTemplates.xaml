@@ -8,6 +8,8 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:values1="clr-namespace:Unicon2.Presentation.Values;assembly=Unicon2.Presentation">
 
+    <converter:BoolToColorBrushConverter x:Key="BoolToColorBrushConverter"/>
+
     <DataTemplate x:Key="ErrorValueViewModelDataTemplate" DataType="{x:Type values1:ErrorValueViewModel}">
         <Border
             BorderBrush="DarkRed"
@@ -39,11 +41,16 @@
         <TextBlock Text="{Binding StringValue}" />
     </DataTemplate>
 
+
+
     <DataTemplate x:Key="BoolValueViewModelDataTemplate" DataType="{x:Type values1:BoolValueViewModel}">
-        <CheckBox
-            IsChecked="{Binding BoolValueProperty}"
-            IsEnabled="False"
-            IsManipulationEnabled="False" />
+        <Border
+            Background="{Binding BoolValueProperty,Converter={StaticResource BoolToColorBrushConverter}}"
+            Height="15"
+            Width="15"
+            VerticalAlignment="Center"
+            />
+        
     </DataTemplate>
 
     <DataTemplate x:Key="EditableBoolValueViewModelDataTemplate" DataType="{x:Type editable:EditableBoolValueViewModel}">

@@ -131,9 +131,9 @@
                                             <TextBlock
                                                 MinWidth="100"
                                                 Margin="5"
-                                                VerticalAlignment="Top"
+                                                VerticalAlignment="Center"
                                                 Text="{Binding Header}" />
-                                            <ContentPresenter Grid.Column="1" Content="{Binding}" />
+                                            <ContentPresenter Grid.Column="1" Content="{Binding}" VerticalAlignment="Center"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
