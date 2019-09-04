@@ -1744,6 +1744,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @IndexLoadingSequence.
+        /// </summary>
+        public static string IndexLoadingSequence {
+            get {
+                return ResourceManager.GetString("IndexLoadingSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Info.
         /// </summary>
         public static string Info {

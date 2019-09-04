@@ -38,13 +38,15 @@ namespace Unicon2.Fragments.Journals.Module
 
             container.Register<IJournalLoadingSequence, OffsetLoadingSequence>(JournalKeys
                 .OFFSET_LOADING_SEQUENCE);
-        
+            container.Register<IJournalLoadingSequence, IndexLoadingSequence>(JournalKeys
+                .INDEX_LOADING_SEQUENCE);
+
             ISerializerService serializerService = container.Resolve<ISerializerService>();
             serializerService.AddKnownTypeForSerializationRange(new[]
             {
                 typeof(DependentJournalParameter), typeof(JournalParameterDependancyCondition),
                 typeof(UniconJournal), typeof(JournalRecord), typeof(JournalParameter), typeof(RecordTemplate),
-                typeof(SubJournalParameter), typeof(ComplexJournalParameter), typeof(OffsetLoadingSequence)
+                typeof(SubJournalParameter), typeof(ComplexJournalParameter), typeof(OffsetLoadingSequence), typeof(IndexLoadingSequence)
             });
             serializerService.AddNamespaceAttribute("journal", "UniconJournalNS");
             serializerService.AddNamespaceAttribute("journalRecord", "JournalRecordNS");
@@ -52,6 +54,7 @@ namespace Unicon2.Fragments.Journals.Module
             serializerService.AddNamespaceAttribute("subJournalParameter", "SubJournalParameterNS");
             serializerService.AddNamespaceAttribute("complexJournalParameter", "ComplexJournalParameterNS");
             serializerService.AddNamespaceAttribute("offsetLoadingSequence", "OffsetLoadingSequenceNS");
+            serializerService.AddNamespaceAttribute("indexLoadingSequence", "IndexLoadingSequenceNS");
             serializerService.AddNamespaceAttribute("recordTemplate", "RecordTemplateNS");
             serializerService.AddNamespaceAttribute("journalParameterDependancyCondition",
                 "JournalParameterDependancyConditionNS");

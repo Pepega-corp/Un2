@@ -1038,6 +1038,9 @@
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>@OffsetLoadingSequence</value>
   </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>@IndexLoadingSequence</value>
+  </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>@JournalReadingError</value>
   </data>

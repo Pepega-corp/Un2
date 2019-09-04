@@ -1044,6 +1044,9 @@
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>Offset loading sequence</value>
   </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>Indexed loading sequence</value>
+  </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>Journal reading error</value>
   </data>

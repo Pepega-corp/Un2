@@ -28,7 +28,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="NumericValueViewModelDataTemplate" DataType="{x:Type values1:NumericValueViewModel}">
-        <TextBlock Text="{Binding NumValue}" />
+        <TextBlock Text="{Binding NumValue}" Margin="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </DataTemplate>
 
     <DataTemplate x:Key="EditableNumericValueViewModelDataTemplate" DataType="{x:Type values1:NumericValueViewModel}">
@@ -48,6 +48,8 @@
             Background="{Binding BoolValueProperty,Converter={StaticResource BoolToColorBrushConverter}}"
             Height="15"
             Width="15"
+            Margin="1"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             />
         

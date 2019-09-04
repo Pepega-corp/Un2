@@ -1044,6 +1044,9 @@
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>Последовательность загрузки по смещению</value>
   </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>Последовательность загрузки по счетчику</value>
+  </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>Ошибка чтения журнала</value>
   </data>

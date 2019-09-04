@@ -9,6 +9,7 @@
         public const string JOURNAL_RECORD = "JournalRecord";
         public const string JOURNAL_RECORD_READING_QUERY = "JournalRecordReadingQuery";
         public const string OFFSET_LOADING_SEQUENCE = "OffsetLoadingSequence";
+        public const string INDEX_LOADING_SEQUENCE = "IndexLoadingSequence";
         public const string RECORD_TEMPLATE = "RecordTempate";
 
     }

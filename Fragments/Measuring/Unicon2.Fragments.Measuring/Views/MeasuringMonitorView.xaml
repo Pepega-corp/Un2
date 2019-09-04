@@ -46,17 +46,22 @@
                     Binding="{Binding Header}"
                     Header="{lex:Loc Name}"
                     IsReadOnly="True" />
-                <DataGridTemplateColumn Header="{lex:Loc Value}" IsReadOnly="True">
+                <DataGridTemplateColumn Header="{lex:Loc Value}" 
+                                        IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="values:IFormattedValueViewModel">
-                            <ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" />
+                            <ContentPresenter Content="{Binding}" 
+                                              ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" 
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn
                     Binding="{Binding GroupName}"
                     Header="{lex:Loc Group}"
-                    IsReadOnly="True" />
+                    IsReadOnly="True" 
+                    />
             </DataGrid.Columns>
             <DataGrid.GroupStyle>
                 <GroupStyle>

@@ -28,6 +28,7 @@ namespace Unicon2.Fragments.Journals.Editor.Module
             container.Register<IJournalConditionEditorViewModel, JournalConditionEditorViewModel>();
             container.Register<ISubJournalParameterEditorViewModel, SubJournalParameterEditorViewModel>();
             container.Register<IJournalLoadingSequenceEditorViewModel, OffsetLoadingSequenceEditorViewModel>(JournalKeys.OFFSET_LOADING_SEQUENCE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            container.Register<IJournalLoadingSequenceEditorViewModel, IndexLoadingSequenceEditorViewModel>(JournalKeys.INDEX_LOADING_SEQUENCE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<IUniconJournalEditorViewModel, UniconJournalEditorViewModel>();
 
             container.Register<IJournalConditionEditorViewModelFactory, JournalConditionEditorViewModelFactory>();
