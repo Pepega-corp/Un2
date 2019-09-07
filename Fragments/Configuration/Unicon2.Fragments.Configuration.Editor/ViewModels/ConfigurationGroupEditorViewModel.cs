@@ -312,5 +312,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ICommand DecreaseAddressCommand { get; }
 
         #endregion
+
+        #region Implementation of IItemGroupViewModel
+        
+
+        #endregion
     }
 }

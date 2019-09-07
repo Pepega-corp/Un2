@@ -1,19 +1,54 @@
-﻿using Unicon2.Fragments.Configuration.Infrastructure.Factories;
+﻿using System;
+using System.Linq;
+using System.Windows.Input;
+using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.ViewModel.Table;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Extensions;
+using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
     public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel
     {
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
+        private bool _isTablePopupOpen;
+        private TableConfigurationViewModel _tableConfigurationViewModel;
 
         public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
         {
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
             this.IsCheckable = true;
+            TryTransformToTableCommand=new RelayCommand(OnTryTransformToTable);
+
+        }
+
+        private void OnTryTransformToTable()
+        {
+            var numberOfChildItemList = new int[ChildStructItemViewModels.Count];
+            for (int i = 0; i < ChildStructItemViewModels.Count; i++)
+            {
+                numberOfChildItemList[i] = ChildStructItemViewModels[i].ChildStructItemViewModels.Count;
+            }
+
+            var isAllNumbersEqual=numberOfChildItemList.Distinct().Count()==1;
+            if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel))&&isAllNumbersEqual)
+            {
+                TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
+                IsTablePopupOpen = !IsTablePopupOpen;
+            }
+        }
+
+        public TableConfigurationViewModel TableConfigurationViewModel
+        {
+            get => _tableConfigurationViewModel;
+            set
+            {
+                SetProperty(ref _tableConfigurationViewModel, value);
+            }
         }
 
         #region Overrides of ConfigurationItemViewModelBase
@@ -39,6 +74,17 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         #endregion
 
+        #endregion
+
+        #region Implementation of IItemGroupViewModel
+
+        public bool IsTablePopupOpen
+        {
+            get => _isTablePopupOpen;
+            set => SetProperty(ref _isTablePopupOpen,value);
+        }
+
+        public ICommand TryTransformToTableCommand { get; }
         #endregion
     }
 }
