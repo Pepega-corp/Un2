@@ -84,6 +84,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\IToolBarService.cs" />
+    <Compile Include="TreeGrid\IConfigurationAsTableViewModel.cs" />
     <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />
     <Compile Include="TreeGrid\IGroupedConfigurationItemViewModel.cs" />
     <Compile Include="ViewModels\Connection\IConnectionStateViewModel.cs" />

@@ -4,17 +4,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.SharedResources.Behaviors;
-using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Table
 {
-    public class TableConfigurationViewModel : ViewModelBase
+    public class TableConfigurationViewModel : RuntimeConfigurationItemViewModelBase
     {
         private readonly ObservableCollection<IRuntimeConfigurationItemViewModel> _itemGroupsToTransform;
         private DynamicDataTable _configTable;
@@ -82,6 +83,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             set => SetProperty(ref _configTable, value);
         }
 
-        
+        public override string TypeName => ConfigurationKeys.CONFIG_TABLE_VIEW;
+
+        public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.CONFIG_TABLE_VIEW+ ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
     }
 }

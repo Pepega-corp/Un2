@@ -8,14 +8,15 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Table;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel
+    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel, IConfigurationAsTableViewModel
     {
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
-        private bool _isTablePopupOpen;
+        private bool _isTableView;
         private TableConfigurationViewModel _tableConfigurationViewModel;
 
         public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
@@ -38,7 +39,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel))&&isAllNumbersEqual)
             {
                 TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
-                IsTablePopupOpen = !IsTablePopupOpen;
+                IsTableView = !IsTableView;
             }
         }
 
@@ -78,10 +79,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         #region Implementation of IItemGroupViewModel
 
-        public bool IsTablePopupOpen
+        public bool IsTableView
         {
-            get => _isTablePopupOpen;
-            set => SetProperty(ref _isTablePopupOpen,value);
+            get => _isTableView;
+            set => SetProperty(ref _isTableView, value);
         }
 
         public ICommand TryTransformToTableCommand { get; }

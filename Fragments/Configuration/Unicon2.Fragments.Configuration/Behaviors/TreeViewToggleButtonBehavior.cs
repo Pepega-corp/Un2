@@ -149,7 +149,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                             isAdded = true;
                         }
                     }
-
+                    if(newItem is IConfigurationAsTableViewModel configurationAsTableViewModel)
+                    {
+                        if (configurationAsTableViewModel.IsTableView)
+                        {
+                            
+                        }
+                    }
                     if (!isAdded)
                     {
                         index++;
