@@ -102,6 +102,7 @@
     <Compile Include="ViewModel\RuntimeItemGroupViewModel.cs" />
     <Compile Include="ViewModel\RuntimeConfigurationViewModel.cs" />
     <Compile Include="ViewModel\RuntimeConfigurationItemViewModelBase.cs" />
+    <Compile Include="ViewModel\Table\TableConfigurationViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

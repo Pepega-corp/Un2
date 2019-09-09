@@ -54,6 +54,7 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
@@ -65,16 +66,36 @@
                                                 Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
                                                 Style="{DynamicResource ConfigurationToggleButtonStyle}"
                                                 Tag="{Binding ElementName=ConfigListView, Path=ItemsSource}">
+                                                <ToggleButton.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="{lex:Loc Key=TryTransform}" Command="{Binding TryTransformToTableCommand}">
+                                                        </MenuItem>
+                                                    </ContextMenu>
+                                                </ToggleButton.ContextMenu>
                                                 <i:Interaction.Behaviors>
                                                     <behaviors:TreeViewToggleButtonBehavior />
                                                 </i:Interaction.Behaviors>
                                             </ToggleButton>
+                                            
+                                            <Popup Name="tablePopup" Grid.Column="2" IsOpen="{Binding IsTablePopupOpen,FallbackValue=false}">
+                                                  <Border Background="Bisque" BorderThickness="1" Width="600" Height="400">
+                                                      <DataGrid
+                                                          HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          AutoGenerateColumns="False"
+                                                          CanUserAddRows="False">
+                                                          <i:Interaction.Behaviors>
+                                                            <behaviors1:DynamicColumnsDataGridBehavior RowValues="{Binding TableConfigurationViewModel.ConfigTable}" />
+                                                          </i:Interaction.Behaviors>
+                                                      </DataGrid>
+                                                </Border>
+                                            </Popup>
                                             <TextBlock
                                                 Name="HeaderTextBlock"
-                                                Grid.Column="1"
+                                                Grid.Column="2"
                                                 Text="{Binding Path=Header}" />
                                             <Button
-                                                Grid.Column="2"
+                                                Grid.Column="3"
                                                 Width="20"
                                                 Style="{DynamicResource UniconButtonStyle}"
                                                 ToolTip="{Binding Path=Description}"

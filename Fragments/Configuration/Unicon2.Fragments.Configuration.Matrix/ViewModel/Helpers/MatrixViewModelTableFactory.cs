@@ -95,7 +95,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
                 foreach (var optionInListbox in optionsTemplate.OptionPossibleValues)
                 {
                     var relatedOption = optionsList.First((option) => option.FullSignature == signature.Signature + " " + optionInListbox.PossibleValueName);
-                    if (relatedOption.NumbersOfAssotiatedBits.Any() && bitArrayOfVariable[relatedOption.NumbersOfAssotiatedBits.First()])
+              
+                    if (GetIsListItemSelected(relatedOption,bitArrayOfVariable,optionsList))
                         chosenFromListValue.SelectedItem = chosenFromListValue.AvailableItemsList.First((item) => item == optionInListbox.PossibleValueName);
                 }
                 var viewModel = _formattedValueViewModelFunc();
@@ -109,6 +110,27 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             }
 
         }
+
+
+        private bool GetIsListItemSelected(ListMatrixBitOption relatedOption, List<bool> bitArrayOfVariable,IEnumerable<ListMatrixBitOption> optionsList)
+        {
+            if (!(relatedOption.NumbersOfAssotiatedBits.Any() &&
+                bitArrayOfVariable[relatedOption.NumbersOfAssotiatedBits.First()]))
+            {
+                return false;
+            }
+
+            if (relatedOption.OptionPossibleValue.PossibleValueConditions.Count == 0) return true;
+
+            var condition = relatedOption
+                .OptionPossibleValue.PossibleValueConditions.First();
+            var affectingOption =optionsList.First(option => option.FullSignature==relatedOption.VariableColumnSignature.Signature + " " + condition.RelatedOptionPossibleValue.PossibleValueName);
+            return affectingOption.NumbersOfAssotiatedBits.Any() &&
+                   bitArrayOfVariable[affectingOption.NumbersOfAssotiatedBits.First()] &&
+                   condition.BoolConditionRule;
+        }
+
+
 
 
         private List<IFormattedValueViewModel> MapVariableToValueViewModels(

@@ -29,6 +29,7 @@
 
 
         public const string DEFAULT_ITEM_GROUP = "DefaultItemGroup";
+        public const string CONFIG_TABLE_VIEW = "ConfigTableView";
 
 
         public const string DEFAULT_PROPERTY = "DefaultProperty";
