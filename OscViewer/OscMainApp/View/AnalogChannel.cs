@@ -48,6 +48,7 @@ namespace Oscilloscope.View
                 Brushes.Indigo,//9
                 Brushes.Coral //10
             };
+
         public static void SetBrushes(AnalogChannel[] channels)
         {
             int iCount = 0;
