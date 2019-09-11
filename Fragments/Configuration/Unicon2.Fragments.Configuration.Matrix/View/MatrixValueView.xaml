@@ -18,6 +18,15 @@
     <i:Interaction.Behaviors>
         <behaviors:BubbleScrollBehavior/>
     </i:Interaction.Behaviors>
+    <UserControl.Resources>
+        <Style x:Key="DataGridRowStyle" TargetType="DataGridRow" BasedOn="{StaticResource MetroDataGridRow}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            
+        </Style>
+    </UserControl.Resources>
     <Expander Header="Матрица" HorizontalAlignment="Stretch"  
                VerticalAlignment="Stretch" ExpandDirection="Down">
         <Grid
@@ -34,7 +43,9 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 AutoGenerateColumns="False"
-                CanUserAddRows="False">
+                CanUserAddRows="False"
+                    RowStyle="{StaticResource DataGridRowStyle}"
+                    >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TargetUpdated">
                             <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
@@ -44,7 +55,9 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <i:Interaction.Behaviors>
-                        <behaviors:DynamicColumnsDataGridBehavior IsTransponed="{Binding ElementName=IsTransponedCheckBox, Path=IsChecked}" RowValues="{Binding Table, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <behaviors:DynamicColumnsDataGridBehavior 
+                            IsTransponed="{Binding ElementName=IsTransponedCheckBox, Path=IsChecked}" 
+                            RowValues="{Binding Table, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </i:Interaction.Behaviors>
                 </DataGrid>
             </Border>
