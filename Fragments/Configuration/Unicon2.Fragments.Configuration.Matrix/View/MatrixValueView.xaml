@@ -26,6 +26,12 @@
             <Setter Property="BorderBrush" Value="Gray"/>
             
         </Style>
+        <Style x:Key="DataGridColumnCellsStyle" TargetType="DataGridCell" BasedOn="{StaticResource MetroDataGridCell}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+        </Style>
     </UserControl.Resources>
     <Expander Header="Матрица" HorizontalAlignment="Stretch"  
                VerticalAlignment="Stretch" ExpandDirection="Down">
@@ -44,7 +50,9 @@
                 VerticalAlignment="Stretch"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
+
                     RowStyle="{StaticResource DataGridRowStyle}"
+                    CellStyle="{StaticResource DataGridColumnCellsStyle}"
                     >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TargetUpdated">
