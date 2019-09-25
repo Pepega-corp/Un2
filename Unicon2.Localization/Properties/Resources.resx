@@ -963,6 +963,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>@AddDiscretSignal</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>@AddDiscretSignalGroup</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>@ElementsCount</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>@StartingBit</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>@AddMeasuringGroup</value>
   </data>

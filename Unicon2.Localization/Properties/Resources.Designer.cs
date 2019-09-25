@@ -205,6 +205,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddDiscretSignalGroup.
+        /// </summary>
+        public static string AddDiscretSignalGroup {
+            get {
+                return ResourceManager.GetString("AddDiscretSignalGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Added.
         /// </summary>
         public static string Added {
@@ -1380,6 +1389,15 @@ namespace Unicon2.Localization.Properties {
         public static string Element {
             get {
                 return ResourceManager.GetString("Element", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @ElementsCount.
+        /// </summary>
+        public static string ElementsCount {
+            get {
+                return ResourceManager.GetString("ElementsCount", resourceCulture);
             }
         }
         
@@ -3207,6 +3225,15 @@ namespace Unicon2.Localization.Properties {
         public static string StartAddress {
             get {
                 return ResourceManager.GetString("StartAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @StartingBit.
+        /// </summary>
+        public static string StartingBit {
+            get {
+                return ResourceManager.GetString("StartingBit", resourceCulture);
             }
         }
         

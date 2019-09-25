@@ -969,6 +969,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>Add discret signal</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>Add discret signal group</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>Elements Count</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>Starting bit</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>Add measuring group</value>
   </data>

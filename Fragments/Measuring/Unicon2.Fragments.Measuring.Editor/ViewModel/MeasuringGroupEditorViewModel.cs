@@ -19,12 +19,21 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         private readonly IMeasuringElementEditorViewModelFactory _measuringElementEditorViewModelFactory;
         private string _header;
         private IMeasuringGroup _measuringGroup;
-        
+        private int _discretGroupElementsCount;
+        private string _discretGroupName;
+        private ushort _discretGroupStartAddress;
+        private ushort _discretGroupStartingBit;
+
+        #region [CONST]
+        private static int FUNCTION_CODE = 3;
+        #endregion
+
         public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory)
         {
             this._measuringElementEditorViewModelFactory = measuringElementEditorViewModelFactory;
             this.MeasuringElementEditorViewModels = new ObservableCollection<IMeasuringElementEditorViewModel>();
             this.AddDiscretMeasuringElementCommand = new RelayCommand(this.OnAddDiscretMeasuringElementExecute);
+            this.AddDiscretMeasuringElementGroupCommand = new RelayCommand(this.OnAddDiscretMeasuringElementGroupCommandExecute);
             this.AddAnalogMeasuringElementCommand = new RelayCommand(this.OnAddAnalogMeasuringElementExecute);
             this.DeleteMeasuringElementCommand = new RelayCommand<object>(this.OnDeleteMeasuringElementExecute);
             this.AddControlSignalCommand = new RelayCommand<object>(this.OnAddControlSignalExecute);
@@ -53,6 +62,37 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         private void OnAddDiscretMeasuringElementExecute()
         {
             this.MeasuringElementEditorViewModels.Add(this._measuringElementEditorViewModelFactory.CreateDiscretMeasuringElementEditorViewModel());
+        }
+
+        private void OnAddDiscretMeasuringElementGroupCommandExecute()
+        {
+            try
+            {
+                for (int i = 0; i < DiscretGroupElementsCount; i++)
+                {
+                    if(DiscretGroupStartingBit > 15)
+                    {
+                        DiscretGroupStartAddress++;
+                        DiscretGroupStartingBit = 0;
+                    }
+                    var item = this._measuringElementEditorViewModelFactory.CreateDiscretMeasuringElementEditorViewModel() as IDiscretMeasuringElementEditorViewModel;
+                    item.BitAddressEditorViewModel.Address = DiscretGroupStartAddress;
+                    item.BitAddressEditorViewModel.BitNumberInWord = DiscretGroupStartingBit;
+                    item.BitAddressEditorViewModel.FunctionNumber = FUNCTION_CODE;
+                    item.Header = DiscretGroupName + " " + (i + 1);
+
+                    this.MeasuringElementEditorViewModels.Add(item);
+
+                    DiscretGroupStartingBit++;
+
+                }
+
+            }
+            catch (Exception ex) { }
+            finally
+            {
+
+            }
         }
 
 
@@ -109,10 +149,48 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             }
         }
 
+        public int DiscretGroupElementsCount
+        {
+            get { return this._discretGroupElementsCount; }
+            set
+            {
+                this._discretGroupElementsCount = value;
+                RaisePropertyChanged();
+            }
+        }
+        public string DiscretGroupName
+        {
+            get { return this._discretGroupName; }
+            set
+            {
+                this._discretGroupName = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ushort DiscretGroupStartAddress
+        {
+            get { return this._discretGroupStartAddress; }
+            set
+            {
+                this._discretGroupStartAddress = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ushort DiscretGroupStartingBit
+        {
+            get { return this._discretGroupStartingBit; }
+            set
+            {
+                this._discretGroupStartingBit = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         public ObservableCollection<IMeasuringElementEditorViewModel> MeasuringElementEditorViewModels { get; set; }
         public ICommand AddAnalogMeasuringElementCommand { get; }
         public ICommand AddDiscretMeasuringElementCommand { get; }
-
+        public ICommand AddDiscretMeasuringElementGroupCommand { get; }
         public ICommand AddControlSignalCommand { get; }
 
         public ICommand DeleteMeasuringElementCommand { get; }

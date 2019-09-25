@@ -70,8 +70,7 @@
 
     <DataTemplate x:Key="EditableChosenFromListValueViewModelDataTemplate" DataType="{x:Type editable:EditableChosenFromListValueViewModel}">
         <ComboBox
-            MinWidth="50"
-            Width="60"
+            MinWidth="100"
             ItemsSource="{Binding AvailableItemsList}"
             IsTextSearchEnabled="True"
             IsEditable="True"

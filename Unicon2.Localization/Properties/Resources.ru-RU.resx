@@ -969,6 +969,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>Добавить дискретный сигнал</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>Добавить группу дискр-х с-в</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>Кол-во элементов</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>Бит</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>Добавить группу измерений</value>
   </data>
