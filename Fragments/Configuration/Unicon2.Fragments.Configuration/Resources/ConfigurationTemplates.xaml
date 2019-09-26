@@ -39,9 +39,74 @@
             </Grid>
             <ListView
                 Name="ConfigListView"
-                Width="auto"
+                Width="auto" AlternationCount="0"
                 HorizontalAlignment="Stretch"
                 ItemsSource="{Binding Path=AllRows}">
+                <ListView.ItemContainerStyle>
+                    
+                    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border x:Name="Border"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                            BorderThickness="0,0,0,1"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                        <StackPanel Orientation="Vertical">
+                                            <GridViewRowPresenter Content="{TemplateBinding Content}"></GridViewRowPresenter>
+                                            <TextBlock Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Collapsed, TargetNullValue=Collapsed,Converter={StaticResource BoolToVisConverter}, Mode=OneWay}" Text="Jopa"></TextBlock>
+                                        </StackPanel>
+                                    </Border>
+
+
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush2}" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}" />
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                                        </MultiTrigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                                        </MultiTrigger>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Opacity" Value=".56" />
+                                        </Trigger>
+                                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+
+
+
+                                </ControlTemplate>
+
+                            </Setter.Value>
+
+                        </Setter>
+                        
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <i:Interaction.Behaviors>
                     <behaviors1:TreeGridBehavior />
                 </i:Interaction.Behaviors>

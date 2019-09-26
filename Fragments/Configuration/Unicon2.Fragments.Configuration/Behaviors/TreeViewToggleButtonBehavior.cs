@@ -14,7 +14,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
     public class TreeViewToggleButtonBehavior : Behavior<ToggleButton>
     {
         private ToggleButton _assToggleButton;
-        
+
         protected override void OnAttached()
         {
             this._assToggleButton = this.AssociatedObject;
@@ -35,14 +35,14 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             this._assToggleButton.Checked += this.TreeViewToggleButtonBehavior_Checked;
             this._assToggleButton.Unchecked += this.TreeViewToggleButtonBehavior_Unchecked;
         }
-        
+
         //OnDetaching не срабатывает, поэтому подпись на событие кнопки
         private void _assToggleButton_Unloaded(object sender, System.Windows.RoutedEventArgs e)
         {
             this._assToggleButton.Checked -= this.TreeViewToggleButtonBehavior_Checked;
             this._assToggleButton.Unchecked -= this.TreeViewToggleButtonBehavior_Unchecked;
         }
-        
+
         private void TreeGridItemCheched(bool? isToExpand)
         {
             if (!this._assToggleButton.IsChecked.HasValue) return;
@@ -117,7 +117,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             ObservableCollection<IRuntimeConfigurationItemViewModel> allItems =
                 (sender as ToggleButton).Tag as ObservableCollection<IRuntimeConfigurationItemViewModel>;
             if (allItems == null) return;
-            
+
             IRuntimeConfigurationItemViewModel oldItem = ((sender as ToggleButton).DataContext as IRuntimeConfigurationItemViewModel);
             if (oldItem == null) return;
             oldItem.IsChecked = false;
@@ -149,15 +149,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                             isAdded = true;
                         }
                     }
-                    if(oldItem is IConfigurationAsTableViewModel configurationAsTableViewModel)
-                     {
-                        if (configurationAsTableViewModel.IsTableView)
-                        {
-                            index++;
-                            this.AddTreeGridItem(treeGridItems, configurationAsTableViewModel.TableConfigurationViewModel as IRuntimeConfigurationItemViewModel, oldItem, index);
-                            break;
-                        }
-                    }
+
                     if (!isAdded)
                     {
                         index++;
@@ -166,7 +158,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 }
             }
         }
-        
+
         private void AddTreeGridItem(ObservableCollection<IRuntimeConfigurationItemViewModel> treeGridItems,
             IRuntimeConfigurationItemViewModel newConfigurationItem,
             IRuntimeConfigurationItemViewModel oldConfigurationItem, int index)
@@ -193,20 +185,11 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     this.DeleteTreeGridItem(treeGridItems, newItem, true);
                 }
             }
-
-            if (removingItem is IConfigurationAsTableViewModel configurationAsTableViewModel&& configurationAsTableViewModel.TableConfigurationViewModel!=null)
-            {
-                this.DeleteTreeGridItem(treeGridItems,
-                    configurationAsTableViewModel.TableConfigurationViewModel as IRuntimeConfigurationItemViewModel,
-                    true);
-            }
             else if (removingItem.ChildStructItemViewModels is IRuntimeConfigurationItemViewModel)
             {
-                this.DeleteTreeGridItem(treeGridItems,
-                    removingItem.ChildStructItemViewModels as IRuntimeConfigurationItemViewModel, true);
+                this.DeleteTreeGridItem(treeGridItems, removingItem.ChildStructItemViewModels as IRuntimeConfigurationItemViewModel, true);
 
             }
-
             if (removeFromCollection) this.RemoveItemFromList(treeGridItems, removingItem);
         }
 

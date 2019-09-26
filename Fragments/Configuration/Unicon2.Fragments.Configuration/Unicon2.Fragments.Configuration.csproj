@@ -94,6 +94,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Resources\GridViewWithRowDetails.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationOptionsHelper.cs" />
     <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimeDependentPropertyViewModel.cs" />
