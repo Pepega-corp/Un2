@@ -1323,4 +1323,7 @@
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
+  <data name="DependentParameter" xml:space="preserve">
+    <value>Dependent parameter</value>
+  </data>
 </root>

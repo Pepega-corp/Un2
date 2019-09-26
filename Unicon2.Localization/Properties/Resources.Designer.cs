@@ -1159,6 +1159,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @DependentParameter.
+        /// </summary>
+        public static string DependentParameter {
+            get {
+                return ResourceManager.GetString("DependentParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @DependentProperty.
         /// </summary>
         public static string DependentProperty {

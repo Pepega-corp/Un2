@@ -1317,4 +1317,7 @@
   <data name="EnsuringMessage" xml:space="preserve">
     <value>@EnsuringMessage</value>
   </data>
+  <data name="DependentParameter" xml:space="preserve">
+    <value>@DependentParameter</value>
+  </data>
 </root>
