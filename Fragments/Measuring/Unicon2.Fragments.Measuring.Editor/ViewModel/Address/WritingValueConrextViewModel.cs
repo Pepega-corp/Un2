@@ -8,7 +8,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
     public class WritingValueContextViewModel : ViewModelBase, IWritingValueContextViewModel
     {
         private ushort _address;
-        private ushort _bit;
         private ushort _numberOfFunction;
         private ushort _valueToWrite;
         private IWritingValueContext _writingValueContext;
@@ -19,15 +18,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
         }
 
         #region Implementation of IWritingValueContextViewModel
-        public ushort Bit
-        {
-            get { return _bit; }
-            set
-            {
-                this._bit = value;
-                RaisePropertyChanged();
-            }
-        }
         public ushort Address
         {
             get { return this._address; }
@@ -72,7 +62,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
         {
             get
             {
-                this._writingValueContext.Bit = this.Bit;
                 this._writingValueContext.Address = this.Address;
                 this._writingValueContext.NumberOfFunction = this.NumberOfFunction;
                 this._writingValueContext.ValueToWrite = this.ValueToWrite;
@@ -82,7 +71,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
             set
             {
                 this._writingValueContext = value as IWritingValueContext;
-                this.Bit = this._writingValueContext.Bit;
                 this.ValueToWrite = this._writingValueContext.ValueToWrite;
                 this.NumberOfFunction = this._writingValueContext.NumberOfFunction;
                 this.Address = this._writingValueContext.Address;

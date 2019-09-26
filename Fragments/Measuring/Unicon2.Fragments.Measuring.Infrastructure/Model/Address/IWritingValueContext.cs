@@ -3,7 +3,6 @@
     public interface IWritingValueContext
     {
         ushort Address { get; set; }
-        ushort Bit { get; set; }
         ushort NumberOfFunction { get; set; }
         ushort ValueToWrite { get; set; }
     }
