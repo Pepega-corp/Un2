@@ -9,6 +9,8 @@ namespace Unicon2.Fragments.Measuring.Model.Address
         [DataMember]
         public ushort Address { get; set; }
         [DataMember]
+        public ushort Bit { get; set; }
+        [DataMember]
         public ushort NumberOfFunction { get; set; }
         [DataMember]
         public ushort ValueToWrite { get; set; }
