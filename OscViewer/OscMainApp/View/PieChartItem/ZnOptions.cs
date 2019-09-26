@@ -12,8 +12,8 @@ namespace Oscilloscope.View.PieChartItem
         public double X0 { get; set; }
         public double X1 { get; set; }
 
-        public double Kr { get { return /*(R0/R1 - 1)/3.0;*/ (R0*R1 + X0*X1)/(R1*R1 + X1*X1) - 1; } }
-        public double Kx { get { return /*(X0 / X1 - 1) / 3.0;*/ (R1*X0 - R0*X1)/(R1*R1 + X1*X1); } }
+        public double Kr { get { return (R0*R1 + X0*X1)/(R1*R1 + X1*X1) - 1; } }
+        public double Kx { get { return (R1*X0 - R0*X1)/(R1*R1 + X1*X1); } }
 
         public void FromXml(XElement element)
         {
@@ -25,10 +25,10 @@ namespace Oscilloscope.View.PieChartItem
         public XElement ToXml(string name)
         {
             return new XElement(name,
-                                new XAttribute("R0", R0.ToString(CultureInfo.InvariantCulture)),
-                                new XAttribute("R1", R1.ToString(CultureInfo.InvariantCulture)),
-                                new XAttribute("X0", X0.ToString(CultureInfo.InvariantCulture)),
-                                new XAttribute("X1", X1.ToString(CultureInfo.InvariantCulture))
+                new XAttribute("R0", R0.ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("R1", R1.ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("X0", X0.ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("X1", X1.ToString(CultureInfo.InvariantCulture))
                 );
         }
     }

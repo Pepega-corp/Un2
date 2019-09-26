@@ -38,7 +38,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
                 case ListMatrixVariableOptionTemplate _:
                     {
                         DynamicDataTable table = new DynamicDataTable(matrixValue.MatrixTemplate.VariableColumnSignatures.Select((option => option.Signature)).ToList(),
-                            matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
+                            matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), false);
 
                         if (isEditable)
                             _formattedValueViewModelFunc = () => new EditableChosenFromListValueViewModel();
@@ -55,7 +55,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
                 case BoolMatrixVariableOptionTemplate _:
                     {
                         DynamicDataTable table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
-                            matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
+                            matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), false);
                         if (isEditable)
                             _formattedValueViewModelFunc = () => new EditableBoolValueViewModel();
                         else

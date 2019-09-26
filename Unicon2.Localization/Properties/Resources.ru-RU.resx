@@ -969,6 +969,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>Добавить дискретный сигнал</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>Добавить группу дискр-х с-в</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>Кол-во элементов</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>Бит</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>Добавить группу измерений</value>
   </data>
@@ -1043,6 +1052,9 @@
   </data>
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>Последовательность загрузки по смещению</value>
+  </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>Последовательность загрузки по счетчику</value>
   </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>Ошибка чтения журнала</value>
@@ -1323,6 +1335,13 @@
   <data name="AssignSignalsAutomatically" xml:space="preserve">
     <value>Автоматически назначить сигналы</value>
   </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>Очистить назначенные сигналы</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>Очистить подписи</value>
+  </data>
+  
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Вы уверены?</value>
   </data>

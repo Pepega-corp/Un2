@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows;
 
 namespace Oscilloscope.ComtradeFormat
 {
@@ -300,7 +299,7 @@ namespace Oscilloscope.ComtradeFormat
             }
 
             string[] head = strings[0].Split(new[] {','}, int.MaxValue, StringSplitOptions.RemoveEmptyEntries);
-            if (head.Length == 2)
+            if (head.Length >= 2)
             {
                 this._deviceName = head[0];
                 this._deviceId = head[1];
