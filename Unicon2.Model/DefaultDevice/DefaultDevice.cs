@@ -79,25 +79,20 @@ namespace Unicon2.Model.DefaultDevice
 
         public void DeserializeFromFile(string path)
         {
-            try
+            using (XmlReader fs = XmlReader.Create(path))
             {
-                using (XmlReader fs = XmlReader.Create(path))
+                DataContractSerializer ds =
+                    new DataContractSerializer(typeof(DefaultDevice),
+                        this._serializerService.GetTypesForSerialiation());
+                DefaultDevice device = (DefaultDevice) ds.ReadObject(fs);
+                this.Name = device.Name;
+                this.DeviceFragments = device.DeviceFragments;
+                if (device.DeviceSharedResources != null)
                 {
-                    DataContractSerializer ds = new DataContractSerializer(typeof(DefaultDevice), this._serializerService.GetTypesForSerialiation());
-                    DefaultDevice device = (DefaultDevice)ds.ReadObject(fs);
-                    this.Name = device.Name;
-                    this.DeviceFragments = device.DeviceFragments;
-                    if (device.DeviceSharedResources != null)
-                    {
-                        this.DeviceSharedResources = device.DeviceSharedResources;
-                    }
-                    this.ConnectionState = device.ConnectionState;
-                    this.DeviceLogger = device.DeviceLogger;
+                    this.DeviceSharedResources = device.DeviceSharedResources;
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                this.ConnectionState = device.ConnectionState;
+                this.DeviceLogger = device.DeviceLogger;
             }
         }
 

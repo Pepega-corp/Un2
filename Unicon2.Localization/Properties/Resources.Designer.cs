@@ -1249,6 +1249,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @DeviceReadingError.
+        /// </summary>
+        public static string DeviceReadingError {
+            get {
+                return ResourceManager.GetString("DeviceReadingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Devices.
         /// </summary>
         public static string Devices {

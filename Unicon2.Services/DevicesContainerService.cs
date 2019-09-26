@@ -9,6 +9,7 @@ using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ItemChangingContext;
+using Unicon2.Infrastructure.Services.LogService;
 
 namespace Unicon2.Services
 {
@@ -16,11 +17,15 @@ namespace Unicon2.Services
     {
         private readonly Func<IDevice> _deviceGettingFunc;
         private readonly Func<IDeviceCreator> _deviceCreatorGettingFunc;
+        private readonly ILogService _logService;
+        private readonly ILocalizerService _localizerService;
 
-        public DevicesContainerService(Func<IDevice> deviceGettingFunc, Func<IDeviceCreator> deviceCreatorGettingFunc)
+        public DevicesContainerService(Func<IDevice> deviceGettingFunc, Func<IDeviceCreator> deviceCreatorGettingFunc, ILogService logService,ILocalizerService localizerService)
         {
             this._deviceGettingFunc = deviceGettingFunc;
             this._deviceCreatorGettingFunc = deviceCreatorGettingFunc;
+            this._logService = logService;
+            this._localizerService = localizerService;
             this.ConnectableItems = new List<IConnectable>();
         }
 
@@ -83,11 +88,21 @@ namespace Unicon2.Services
                 deviceCreator.DeviceDescriptionFilePath = Path.Combine(folderPath, name);
 
                 IDevice device = this._deviceGettingFunc();
-                device.DeserializeFromFile(deviceCreator.DeviceDescriptionFilePath);
-                deviceCreator.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
-                device.Dispose();
-                deviceCreator.DeviceName = Path.GetFileNameWithoutExtension(name);
-                this.Creators.Add(deviceCreator);
+                try
+                {
+                    device.DeserializeFromFile(deviceCreator.DeviceDescriptionFilePath);
+                    deviceCreator.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
+                    device.Dispose();
+                    deviceCreator.DeviceName = Path.GetFileNameWithoutExtension(name);
+                    this.Creators.Add(deviceCreator);
+                }
+                catch
+                {
+                    var message =
+                        this._localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages
+                            .DEVICE_READING_ERROR);
+                    this._logService.RaiseInfoMessage(message +" "+ name);
+                }
             }
         }
 

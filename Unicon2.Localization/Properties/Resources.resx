@@ -1332,11 +1332,13 @@
   <data name="ClearSignatures" xml:space="preserve">
     <value>@ClearSignatures</value>
   </data>
-  
   <data name="EnsuringMessage" xml:space="preserve">
     <value>@EnsuringMessage</value>
   </data>
   <data name="DependentParameter" xml:space="preserve">
     <value>@DependentParameter</value>
+  </data>
+  <data name="DeviceReadingError" xml:space="preserve">
+    <value>@DeviceReadingError</value>
   </data>
 </root>
