@@ -69,8 +69,12 @@
     <Compile Include="ViewModels\ElementViewModels\InputViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\LogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
+    <Compile Include="ViewModels\NewSchemeViewModel.cs" />
     <Compile Include="ViewModels\ProgrammingViewModel.cs" />
     <Compile Include="ViewModels\SchemeTabViewModel.cs" />
+    <Compile Include="Views\NewSchemeView.xaml.cs">
+      <DependentUpon>NewSchemeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProgrammingView.xaml.cs">
       <DependentUpon>ProgrammingView.xaml</DependentUpon>
     </Compile>
@@ -124,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\NewSchemeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ProgrammingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,10 +139,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\Delete.png" />
+    <EmbeddedResource Include="Resources\Delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DeleteUnavalible.png" />
+    <EmbeddedResource Include="Resources\DeleteUnavalible.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

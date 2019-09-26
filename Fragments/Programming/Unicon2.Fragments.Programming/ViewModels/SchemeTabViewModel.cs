@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
@@ -29,19 +30,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private double _scale;
         #endregion
 
-        //public SchemeTabViewModel(string name, Size size)
-        //{
-        //    this.SchemeName = name;
-        //    this.SchemeHeight = size.Height;
-        //    this.SchemeWidth = size.Width;
-        //    this.ElementList = new ObservableCollection<IAbstractViewModel>();
-        //}
+        public SchemeTabViewModel(string name, Size size): this()
+        {
+            this.SchemeName = name;
+            this.SchemeHeight = size.Height;
+            this.SchemeWidth = size.Width;
+        }
 
         public SchemeTabViewModel()
         {
-            //this.SchemeName = name;
-            //this.SchemeHeight = size.Height;
-            //this.SchemeWidth = size.Width;
             this.ElementList = new ObservableCollection<ILogicElementViewModel>();
             this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
             this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
@@ -135,8 +132,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public void DeleteSelectedElements()
         {
-            //List<AbstractElementViewModel> selectedElements = this.ElementList.Where(e => e.IsSelected).ToList();
-            //foreach (AbstractElementViewModel element in selectedElements)
+            List<ILogicElementViewModel> selectedElements = this.ElementList.Where(e => e.IsSelected).ToList();
+            //foreach (ILogicElementViewModel element in selectedElements)
             //{
             //    if (element is ConnectionViewModel && this.ElementList.Contains(element))
             //    {

@@ -381,12 +381,12 @@
                         <Image
                             Name="DelImage"
                             Margin="3"
-                            Source="../Resources/Delete.png"
+                            Source="/Unicon2.Fragments.Programming;component/Resources/Delete.png"
                             Stretch="Fill" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="DelImage" Property="Source" Value="../Resources/DeleteUnavalible.png" />
+                            <Setter TargetName="DelImage" Property="Source" Value="../DeleteUnavalible.png" />
                             <Setter TargetName="BackgroundBorder" Property="Background" Value="LightGray" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">

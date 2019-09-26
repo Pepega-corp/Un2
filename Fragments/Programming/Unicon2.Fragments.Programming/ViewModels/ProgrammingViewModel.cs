@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
@@ -53,13 +54,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void CreateNewScheme()
         {
-            //TODO сделать открытие модального окна с зарегистрированной вьюмоделью
-            //if (info.DialogResult == DialogResultButtons.OK)
-            //{
-            //    SchemeTabViewModel tabViewModel = new SchemeTabViewModel(info.SchemeName, info.SchemeSize);
-            //    tabViewModel.CloseTabEvent += this.CloseTab;
-            //    this.SchemesCollection.Add(tabViewModel);
-            //}
+            var schemeViewModel = new NewSchemeViewModel();
+            this._applicationGlobalCommands.ShowWindowModal(()=>new NewSchemeView(), schemeViewModel);
+            if (schemeViewModel.DialogResult == MessageDialogResult.Affirmative)
+            {
+                SchemeTabViewModel tabViewModel = new SchemeTabViewModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
+                tabViewModel.CloseTabEvent += this.CloseTab;
+                this.SchemesCollection.Add(tabViewModel);
+            }
         }
         #endregion
 
