@@ -149,11 +149,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                             isAdded = true;
                         }
                     }
-                    if(newItem is IConfigurationAsTableViewModel configurationAsTableViewModel)
-                    {
+                    if(oldItem is IConfigurationAsTableViewModel configurationAsTableViewModel)
+                     {
                         if (configurationAsTableViewModel.IsTableView)
                         {
-                            
+                            index++;
+                            this.AddTreeGridItem(treeGridItems, configurationAsTableViewModel.TableConfigurationViewModel as IRuntimeConfigurationItemViewModel, oldItem, index);
+                            break;
                         }
                     }
                     if (!isAdded)
@@ -191,11 +193,20 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     this.DeleteTreeGridItem(treeGridItems, newItem, true);
                 }
             }
+
+            if (removingItem is IConfigurationAsTableViewModel configurationAsTableViewModel&& configurationAsTableViewModel.TableConfigurationViewModel!=null)
+            {
+                this.DeleteTreeGridItem(treeGridItems,
+                    configurationAsTableViewModel.TableConfigurationViewModel as IRuntimeConfigurationItemViewModel,
+                    true);
+            }
             else if (removingItem.ChildStructItemViewModels is IRuntimeConfigurationItemViewModel)
             {
-                this.DeleteTreeGridItem(treeGridItems, removingItem.ChildStructItemViewModels as IRuntimeConfigurationItemViewModel, true);
+                this.DeleteTreeGridItem(treeGridItems,
+                    removingItem.ChildStructItemViewModels as IRuntimeConfigurationItemViewModel, true);
 
             }
+
             if (removeFromCollection) this.RemoveItemFromList(treeGridItems, removingItem);
         }
 

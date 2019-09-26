@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
     {
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
         private bool _isTableView;
-        private TableConfigurationViewModel _tableConfigurationViewModel;
+        private IConfigurationItemViewModel _tableConfigurationViewModel;
 
         public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
         {
@@ -41,9 +41,17 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
                 IsTableView = !IsTableView;
             }
+            else
+            {
+                IsTableView = false;
+            }
+
+            Checked?.Invoke(false);
+            Checked?.Invoke(true);
+
         }
 
-        public TableConfigurationViewModel TableConfigurationViewModel
+        public IConfigurationItemViewModel TableConfigurationViewModel
         {
             get => _tableConfigurationViewModel;
             set

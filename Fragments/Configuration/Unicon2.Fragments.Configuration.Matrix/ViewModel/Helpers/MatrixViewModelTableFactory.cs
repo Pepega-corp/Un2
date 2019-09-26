@@ -36,48 +36,58 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             switch (matrixValue.MatrixTemplate.MatrixVariableOptionTemplate)
             {
                 case ListMatrixVariableOptionTemplate _:
+                {
+                    DynamicDataTable table = new DynamicDataTable(
+                        matrixValue.MatrixTemplate.VariableColumnSignatures.Select((option => option.Signature))
+                            .ToList(),
+                        matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(),
+                        true);
+
+                    if (isEditable)
+                        _formattedValueViewModelFunc = () => new EditableChosenFromListValueViewModel();
+                    else
+                        _formattedValueViewModelFunc = () => new ChosenFromListValueViewModel();
+
+                    _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) =>
                     {
-                        DynamicDataTable table = new DynamicDataTable(matrixValue.MatrixTemplate.VariableColumnSignatures.Select((option => option.Signature)).ToList(),
-                            matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
-
-                        if (isEditable)
-                            _formattedValueViewModelFunc = () => new EditableChosenFromListValueViewModel();
-                        else
-                            _formattedValueViewModelFunc = () => new ChosenFromListValueViewModel();
-
-                        _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) =>
-                        {
-                            var bitArrayOfVariable = GetBitArrayOfVariable(variable);
-                            table.AddFormattedValueViewModel(GetFormattedValueViewModels((signature => GetListCellViewModel(signature, bitArrayOfVariable))));
-                        });
-                        return table;
-                    }
+                        var bitArrayOfVariable = GetBitArrayOfVariable(variable);
+                        table.AddFormattedValueViewModel(GetFormattedValueViewModels((signature =>
+                            GetListCellViewModel(signature, bitArrayOfVariable))));
+                    });
+                    return table;
+                }
                 case BoolMatrixVariableOptionTemplate _:
+                {
+                    DynamicDataTable table = new DynamicDataTable(
+                        matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
+                        matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(),
+                        true);
+                    if (isEditable)
+                        _formattedValueViewModelFunc = () => new EditableBoolValueViewModel();
+                    else
+                        _formattedValueViewModelFunc = () => new BoolValueViewModel();
+                    _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) =>
                     {
-                        DynamicDataTable table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
-                            matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
-                        if (isEditable)
-                            _formattedValueViewModelFunc = () => new EditableBoolValueViewModel();
-                        else
-                            _formattedValueViewModelFunc = () => new BoolValueViewModel();
-                        _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) =>
-                        {
-                            var bitArrayOfVariable = GetBitArrayOfVariable(variable);
-                            table.AddFormattedValueViewModel(GetFormattedValueViewModels((signature => GetBoolCellViewModel(signature, bitArrayOfVariable))));
-                        });
-                        return table;
-                    }
+                        var bitArrayOfVariable = GetBitArrayOfVariable(variable);
+                        table.AddFormattedValueViewModel(GetFormattedValueViewModels((signature =>
+                            GetBoolCellViewModel(signature, bitArrayOfVariable))));
+                    });
+                    return table;
+                }
 
             }
+
             return null;
         }
 
-        private List<IFormattedValueViewModel> GetFormattedValueViewModels(Func<IVariableColumnSignature, IFormattedValueViewModel> cellViewModelGetFunc)
+        private List<IFormattedValueViewModel> GetFormattedValueViewModels(
+            Func<IVariableColumnSignature, IFormattedValueViewModel> cellViewModelGetFunc)
         {
             return MapVariableToValueViewModels(cellViewModelGetFunc);
         }
 
-        private IFormattedValueViewModel GetListCellViewModel(IVariableColumnSignature signature, List<bool> bitArrayOfVariable)
+        private IFormattedValueViewModel GetListCellViewModel(IVariableColumnSignature signature,
+            List<bool> bitArrayOfVariable)
         {
             try
             {
@@ -86,7 +96,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
                 var optionsTemplate =
                     _matrixValue.MatrixTemplate.MatrixVariableOptionTemplate as ListMatrixVariableOptionTemplate;
 
-                var listToInit = optionsTemplate.OptionPossibleValues.Select((value => value.PossibleValueName)).ToList();
+                var listToInit = optionsTemplate.OptionPossibleValues.Select((value => value.PossibleValueName))
+                    .ToList();
                 listToInit.Add("нет");
                 chosenFromListValue.InitList(listToInit);
                 chosenFromListValue.SelectedItem = "нет";
@@ -94,11 +105,15 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
 
                 foreach (var optionInListbox in optionsTemplate.OptionPossibleValues)
                 {
-                    var relatedOption = optionsList.First((option) => option.FullSignature == signature.Signature + " " + optionInListbox.PossibleValueName);
-              
-                    if (GetIsListItemSelected(relatedOption,bitArrayOfVariable,optionsList))
-                        chosenFromListValue.SelectedItem = chosenFromListValue.AvailableItemsList.First((item) => item == optionInListbox.PossibleValueName);
+                    var relatedOption = optionsList.First((option) =>
+                        option.FullSignature == signature.Signature + " " + optionInListbox.PossibleValueName);
+
+                    if (GetIsListItemSelected(relatedOption, bitArrayOfVariable, optionsList))
+                        chosenFromListValue.SelectedItem =
+                            chosenFromListValue.AvailableItemsList.First((item) =>
+                                item == optionInListbox.PossibleValueName);
                 }
+
                 var viewModel = _formattedValueViewModelFunc();
                 viewModel.InitFromValue(chosenFromListValue);
                 return viewModel;
@@ -112,10 +127,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
         }
 
 
-        private bool GetIsListItemSelected(ListMatrixBitOption relatedOption, List<bool> bitArrayOfVariable,IEnumerable<ListMatrixBitOption> optionsList)
+        private bool GetIsListItemSelected(ListMatrixBitOption relatedOption, List<bool> bitArrayOfVariable,
+            IEnumerable<ListMatrixBitOption> optionsList)
         {
             if (!(relatedOption.NumbersOfAssotiatedBits.Any() &&
-                bitArrayOfVariable[relatedOption.NumbersOfAssotiatedBits.First()]))
+                  bitArrayOfVariable[relatedOption.NumbersOfAssotiatedBits.First()]))
             {
                 return false;
             }
@@ -124,7 +140,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
 
             var condition = relatedOption
                 .OptionPossibleValue.PossibleValueConditions.First();
-            var affectingOption =optionsList.First(option => option.FullSignature==relatedOption.VariableColumnSignature.Signature + " " + condition.RelatedOptionPossibleValue.PossibleValueName);
+            var affectingOption = optionsList.First(option =>
+                option.FullSignature == relatedOption.VariableColumnSignature.Signature + " " +
+                condition.RelatedOptionPossibleValue.PossibleValueName);
             return affectingOption.NumbersOfAssotiatedBits.Any() &&
                    bitArrayOfVariable[affectingOption.NumbersOfAssotiatedBits.First()] &&
                    condition.BoolConditionRule;
@@ -140,7 +158,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             return matrixValue.MatrixTemplate.VariableColumnSignatures.Select((cellViewModelGetFunc)).ToList();
         }
 
-        private IFormattedValueViewModel GetBoolCellViewModel(IVariableColumnSignature signature, List<bool> bitArrayOfVariable)
+        private IFormattedValueViewModel GetBoolCellViewModel(IVariableColumnSignature signature,
+            List<bool> bitArrayOfVariable)
         {
             var matrixValue = _matrixValue;
             IBoolValue boolValue = _boolValue();
@@ -159,7 +178,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             var bools = new List<bool>();
             GetVariableUshorts(variable).ForEach(arg =>
             {
-                var bitArray = new BitArray(new[] { (int)arg });
+                var bitArray = new BitArray(new[] {(int) arg});
                 for (int i = 0; i < 16; i++)
                 {
                     bools.Add(bitArray[i]);
@@ -184,7 +203,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
 
         private int GetMatrixVariableOffset(IMatrixMemoryVariable variable)
         {
-            return (int)Math.Ceiling((double)(variable.StartAddressBit + _matrixValue.MatrixTemplate.NumberOfBitsOnEachVariable) / 16);
+            return (int) Math.Ceiling(
+                (double) (variable.StartAddressBit + _matrixValue.MatrixTemplate.NumberOfBitsOnEachVariable) / 16);
         }
 
     }

@@ -78,17 +78,7 @@
                                             </ToggleButton>
                                             
                                             <Popup Name="tablePopup" Grid.Column="2" IsOpen="{Binding IsTablePopupOpen,FallbackValue=false}">
-                                                  <Border Background="Bisque" BorderThickness="1" Width="600" Height="400">
-                                                      <DataGrid
-                                                          HorizontalAlignment="Stretch"
-                                                          VerticalAlignment="Stretch"
-                                                          AutoGenerateColumns="False"
-                                                          CanUserAddRows="False">
-                                                          <i:Interaction.Behaviors>
-                                                            <behaviors1:DynamicColumnsDataGridBehavior RowValues="{Binding TableConfigurationViewModel.ConfigTable}" />
-                                                          </i:Interaction.Behaviors>
-                                                      </DataGrid>
-                                                </Border>
+                                               
                                             </Popup>
                                             <TextBlock
                                                 Name="HeaderTextBlock"
@@ -220,6 +210,23 @@
                 </Rectangle>
             </Button>
         </Grid>
+    </DataTemplate>
+
+
+    <DataTemplate x:Key="RuntimeConfigTableValueViewModelDataTemplate">
+        <Expander IsExpanded="True">
+            <Border Background="Bisque" BorderThickness="1" Width="Auto" Height="Auto">
+                <DataGrid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False">
+                    <i:Interaction.Behaviors>
+                        <behaviors1:DynamicColumnsDataGridBehavior RowValues="{Binding ConfigTable}" />
+                    </i:Interaction.Behaviors>
+                </DataGrid>
+            </Border>
+        </Expander>
     </DataTemplate>
 
 </ResourceDictionary>
