@@ -27,10 +27,10 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             this.AddDiscretMeasuringElementCommand = new RelayCommand(this.OnAddDiscretMeasuringElementExecute);
             this.AddAnalogMeasuringElementCommand = new RelayCommand(this.OnAddAnalogMeasuringElementExecute);
             this.DeleteMeasuringElementCommand = new RelayCommand<object>(this.OnDeleteMeasuringElementExecute);
-            this.AddControlSignalCommand = new RelayCommand<object>(this.OnAddControlSignalExecute);
+            this.AddControlSignalCommand = new RelayCommand(this.OnAddControlSignalExecute);
         }
 
-        private void OnAddControlSignalExecute(object obj)
+        private void OnAddControlSignalExecute()
         {
             this.MeasuringElementEditorViewModels.Add(this._measuringElementEditorViewModelFactory.CreateControlSignalEditorViewModel());
         }

@@ -45,7 +45,7 @@
             IsEnabled="False"
             IsManipulationEnabled="False" />
     </DataTemplate>
-
+    
     <DataTemplate x:Key="EditableBoolValueViewModelDataTemplate" DataType="{x:Type editable:EditableBoolValueViewModel}">
         <CheckBox
             IsChecked="{Binding BoolValueProperty, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
@@ -53,6 +53,19 @@
             IsManipulationEnabled="True" />
     </DataTemplate>
 
+    <DataTemplate x:Key="BitMaskValueViewModelDataTemplate" DataType="{x:Type values1:BitMaskValueViewModel}">
+        <DataTemplate.Resources>
+            <converter:BitArrayToStringConverter x:Key="BitArrayToStringConverter"></converter:BitArrayToStringConverter>
+        </DataTemplate.Resources>
+        <ItemsControl ItemsSource="{Binding BitArray}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding .,Converter={StaticResource BitArrayToStringConverter}}"></TextBlock>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+    
     <DataTemplate x:Key="ChosenFromListValueViewModelDataTemplate" DataType="{x:Type values1:ChosenFromListValueViewModel}">
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <TextBlock Text="{Binding SelectedItem}"  Margin="5"/>

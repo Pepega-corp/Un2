@@ -30,6 +30,9 @@ namespace Unicon2.Presentation.Module
             container.Register<IFormattedValueViewModel, BoolValueViewModel>(nameof(BoolValueViewModel));
             container.Register<IFormattedValueViewModel, NumericValueViewModel>(nameof(NumericValueViewModel));
             container.Register<INumericValueViewModel, NumericValueViewModel>();
+            container.Register<IFormattedValueViewModel, BitMaskValueViewModel>(
+                PresentationKeys.BIT_MASK_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+
             container.Register<IFormattedValueViewModel, ChosenFromListValueViewModel>(
                 PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<IFormattedValueViewModel, StringValueViewModel>(
@@ -48,6 +51,7 @@ namespace Unicon2.Presentation.Module
             container.Register(typeof(IStringValueViewModel), typeof(StringValueViewModel));
 
             container.Register(typeof(IBoolValueViewModel), typeof(BoolValueViewModel));
+            container.Register(typeof(IBitMaskValueViewModel), typeof(BitMaskValueViewModel));
 
             container.Register(typeof(IFragmentOptionCommandViewModel), typeof(DefaultFragmentOptionCommandViewModel));
             container.Register(typeof(IFragmentOptionGroupViewModel), typeof(DefaultFragmentOptionGroupViewModel));
