@@ -6,6 +6,7 @@ using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.EvenrArgs;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
+using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
 using Unicon2.Fragments.Journals.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
@@ -65,6 +66,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
         {
             try
             {
+                _uniconJournal.JournalLoadingSequence.ResetSequence();
                 await this._uniconJournal.Load();
             }
             catch (Exception e)
