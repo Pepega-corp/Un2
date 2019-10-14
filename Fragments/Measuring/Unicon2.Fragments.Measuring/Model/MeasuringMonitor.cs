@@ -102,7 +102,7 @@ namespace Unicon2.Fragments.Measuring.Model
 
         private async Task LoadingCycle()
         {
-            while (true)
+            while (_dataProvider.LastQuerySucceed != false)
             {
                 if (this.IsLoadingCycleInProcess)
                 {

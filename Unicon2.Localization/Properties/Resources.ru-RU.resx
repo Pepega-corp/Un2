@@ -1236,6 +1236,9 @@
   <data name="DecreaseAddress" xml:space="preserve">
     <value>Уменьшить адрес</value>
   </data>
+  <data name="AddressIterator" xml:space="preserve">
+    <value>Увеличить адрес на</value>
+  </data>
   <data name="StringFormatter1251" xml:space="preserve">
     <value>Форматирование в строку (1251)</value>
   </data>

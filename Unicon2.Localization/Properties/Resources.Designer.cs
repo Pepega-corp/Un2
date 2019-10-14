@@ -367,6 +367,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddressIterator.
+        /// </summary>
+        public static string AddressIterator {
+            get {
+                return ResourceManager.GetString("AddressIterator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @AddressOfOscillogram.
         /// </summary>
         public static string AddressOfOscillogram {

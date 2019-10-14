@@ -1227,6 +1227,9 @@
   <data name="DecreaseAddress" xml:space="preserve">
     <value>@DecreaseAddress</value>
   </data>
+  <data name="AddressIterator" xml:space="preserve">
+    <value>@AddressIterator</value>
+  </data>
   <data name="StringFormatter1251" xml:space="preserve">
     <value>@StringFormatter1251</value>
   </data>

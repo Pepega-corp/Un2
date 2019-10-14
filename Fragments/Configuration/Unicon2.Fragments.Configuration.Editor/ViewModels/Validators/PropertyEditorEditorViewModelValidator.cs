@@ -19,7 +19,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
                 ushort u;
                 return ushort.TryParse(s, out u);
             }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.FORMAT_ERROR));
-
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         private IRangeViewModel _rangeViewModel;
         private bool _isRangeEnabled;
         private bool _isMeasureUnitEnabled;
+        private ushort _addressIteratorValue;
 
         #endregion
 
@@ -41,12 +42,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             this.RangeViewModel = rangeViewModel;
             this.IncreaseAddressCommand = new RelayCommand(() =>
              {
-                 ((IProperty)this._model).Address++;
+                 ((IProperty)this._model).Address += AddressIteratorValue;
                  this.Address = ((IProperty)this._model).Address.ToString();
              });
             this.DecreaseAddressCommand = new RelayCommand(() =>
             {
-                ((IProperty)this._model).Address--;
+                ((IProperty)this._model).Address -= AddressIteratorValue;
                 this.Address = ((IProperty)this._model).Address.ToString();
             });
         }
@@ -89,6 +90,17 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             set
             {
                 this._numberOfPoints = value;
+                this.RaisePropertyChanged();
+                this.FireErrorsChanged();
+            }
+        }
+
+        public  ushort AddressIteratorValue
+        {
+            get { return this._addressIteratorValue; }
+            set
+            {
+                this._addressIteratorValue = value;
                 this.RaisePropertyChanged();
                 this.FireErrorsChanged();
             }
