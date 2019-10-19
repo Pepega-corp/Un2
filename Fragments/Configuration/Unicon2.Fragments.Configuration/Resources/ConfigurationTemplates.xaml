@@ -43,7 +43,7 @@
                 HorizontalAlignment="Stretch"
                 ItemsSource="{Binding Path=AllRows}">
                 <ListView.ItemContainerStyle>
-                    
+
                     <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
                         <Setter Property="SnapsToDevicePixels" Value="True" />
                         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -59,7 +59,38 @@
                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                                         <StackPanel Orientation="Vertical">
                                             <GridViewRowPresenter Content="{TemplateBinding Content}"></GridViewRowPresenter>
-                                            <TextBlock Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Collapsed, TargetNullValue=Collapsed,Converter={StaticResource BoolToVisConverter}, Mode=OneWay}" Text="Jopa"></TextBlock>
+                                            <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Collapsed, TargetNullValue=Collapsed,Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2"></ColumnDefinition>
+                                                    <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock HorizontalAlignment="Center" Text="{lex:Loc DeviceData}"></TextBlock>
+                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False">
+                                                        <i:Interaction.Behaviors>
+                                                            <behaviors:DynamicPropertiesDataGridBehavior IsDeviceValues="True" RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" />
+                                                        </i:Interaction.Behaviors>
+                                                    </DataGrid>
+                                                </Grid>
+                                                <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"></GridSplitter>
+                                                <Grid Grid.Column="2">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock HorizontalAlignment="Center" Text="{lex:Loc LocalData}"></TextBlock>
+                                                    <DataGrid Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" CanUserAddRows="False">
+                                                        <i:Interaction.Behaviors>
+                                                            <behaviors:DynamicPropertiesDataGridBehavior IsDeviceValues="False" RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" />
+                                                        </i:Interaction.Behaviors>
+                                                    </DataGrid>
+                                                </Grid>
+                                            </Grid>
                                         </StackPanel>
                                     </Border>
 
@@ -104,7 +135,7 @@
                             </Setter.Value>
 
                         </Setter>
-                        
+
                     </Style>
                 </ListView.ItemContainerStyle>
                 <i:Interaction.Behaviors>
@@ -141,9 +172,9 @@
                                                     <behaviors:TreeViewToggleButtonBehavior />
                                                 </i:Interaction.Behaviors>
                                             </ToggleButton>
-                                            
+
                                             <Popup Name="tablePopup" Grid.Column="2" IsOpen="{Binding IsTablePopupOpen,FallbackValue=false}">
-                                               
+
                                             </Popup>
                                             <TextBlock
                                                 Name="HeaderTextBlock"

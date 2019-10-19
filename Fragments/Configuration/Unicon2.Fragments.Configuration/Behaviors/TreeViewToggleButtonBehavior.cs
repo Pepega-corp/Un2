@@ -149,7 +149,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                             isAdded = true;
                         }
                     }
-
                     if (!isAdded)
                     {
                         index++;

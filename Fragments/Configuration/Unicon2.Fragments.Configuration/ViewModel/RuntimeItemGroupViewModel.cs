@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Table;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Unity.Commands;
 
@@ -16,8 +17,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel
     public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel, IConfigurationAsTableViewModel
     {
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
+        private readonly IGlobalEventsService _globalEventsService;
         private bool _isTableView;
-        private IConfigurationItemViewModel _tableConfigurationViewModel;
+        private TableConfigurationViewModel _tableConfigurationViewModel;
 
         public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
         {
@@ -34,24 +36,23 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             {
                 numberOfChildItemList[i] = ChildStructItemViewModels[i].ChildStructItemViewModels.Count;
             }
-
             var isAllNumbersEqual=numberOfChildItemList.Distinct().Count()==1;
             if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel))&&isAllNumbersEqual)
             {
                 TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
                 IsTableView = !IsTableView;
+                if (IsTableView)
+                {
+                    Checked.Invoke(false);
+                }
             }
             else
             {
                 IsTableView = false;
             }
-
-            Checked?.Invoke(false);
-            Checked?.Invoke(true);
-
         }
 
-        public IConfigurationItemViewModel TableConfigurationViewModel
+        public TableConfigurationViewModel TableConfigurationViewModel
         {
             get => _tableConfigurationViewModel;
             set

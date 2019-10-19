@@ -64,6 +64,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\DynamicPropertiesDataGridBehavior.cs" />
+    <Compile Include="Behaviors\DynamicPropertiesTable.cs" />
     <Compile Include="Behaviors\TreeViewToggleButtonBehavior.cs" />
     <Compile Include="Converters\IsItemsGroupToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToBorderColorConverter.cs" />

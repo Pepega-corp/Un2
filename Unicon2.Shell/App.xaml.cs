@@ -34,11 +34,13 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Model.Module;
 using Unicon2.ModuleDeviceEditing;
+using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Module;
 using Unicon2.Presentation.ViewModels;
 using Unicon2.Services.Module;
 using Unicon2.Shell.ControlRegionAdapter;
+using Unicon2.Shell.EventAggregator;
 using Unicon2.Shell.Services;
 using Unicon2.Shell.ViewModels;
 using Unicon2.Shell.Views;
@@ -113,7 +115,7 @@ namespace Unicon2.Shell
             //Register TypesContainer that represent IUnityContainer
             containerRegistry.RegisterSingleton<ITypesContainer, TypesContainer>();
             StaticContainer.SetContainer(Container.Resolve<ITypesContainer>());
-
+            containerRegistry.RegisterSingleton<IGlobalEventsService,GlobalEventsService>();
             containerRegistry.RegisterInstance(DialogCoordinator.Instance);
             containerRegistry.Register<IDeviceDefinitionViewModel, DeviceDefinitionViewModel>();
             containerRegistry.RegisterInstance<IApplicationSettingsService>(new ApplicationSettingsService());

@@ -4,11 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Fragments.Configuration.Behaviors;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
@@ -17,25 +19,30 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Table
 {
-    public class TableConfigurationViewModel : RuntimeConfigurationItemViewModelBase
+    public class TableConfigurationViewModel :ViewModelBase
     {
         private readonly ObservableCollection<IRuntimeConfigurationItemViewModel> _itemGroupsToTransform;
-        private ConfigTableValueViewModel _deviceValue;
-        private ConfigTableValueViewModel _localValue;
+        private DynamicPropertiesTable _dynamicPropertiesTable;
 
         public TableConfigurationViewModel(ObservableCollection<IRuntimeConfigurationItemViewModel> itemGroupsToTransform)
         {
             _itemGroupsToTransform = itemGroupsToTransform;
             Initialize();
-        }
-        private void Initialize()
-        {
-            DeviceValue=new ConfigTableValueViewModel(new DynamicDataTable(GetColumnNames(_itemGroupsToTransform).ToList(), _itemGroupsToTransform.Select((model => model.Header)).ToList(),false));new DynamicDataTable(GetColumnNames(_itemGroupsToTransform).ToList(), _itemGroupsToTransform.Select((model => model.Header)).ToList(),false);
-            _itemGroupsToTransform.ForEach((group => DeviceValue.ConfigTable.AddFormattedValueViewModel(GetRowFromItemGroup(group,true))));
-            LocalValue = new ConfigTableValueViewModel(new DynamicDataTable(GetColumnNames(_itemGroupsToTransform).ToList(), _itemGroupsToTransform.Select((model => model.Header)).ToList(), false)); new DynamicDataTable(GetColumnNames(_itemGroupsToTransform).ToList(), _itemGroupsToTransform.Select((model => model.Header)).ToList(), false);
-            _itemGroupsToTransform.ForEach((group => LocalValue.ConfigTable.AddFormattedValueViewModel(GetRowFromItemGroup(group, false))));
 
         }
+
+        public DynamicPropertiesTable DynamicPropertiesTable
+        {
+            get => _dynamicPropertiesTable;
+            set => SetProperty(ref _dynamicPropertiesTable , value);
+        }
+
+        private void Initialize()
+        {
+            DynamicPropertiesTable=new DynamicPropertiesTable(GetColumnNames(_itemGroupsToTransform).ToList(), _itemGroupsToTransform.Select((model => model.Header)).ToList(), false);
+            _itemGroupsToTransform.ForEach((group => DynamicPropertiesTable.AddPropertyViewModel(GetRowFromItemGroup(group,true))));
+        }
+
 
         private List<string> GetColumnNames(IEnumerable<IRuntimeConfigurationItemViewModel> items)
         {
@@ -56,9 +63,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             return columnNames;
         }
 
-        private List<IFormattedValueViewModel> GetRowFromItemGroup(IRuntimeConfigurationItemViewModel group, bool isDeviceValue)
+        private List<ILocalAndDeviceValueContainingViewModel> GetRowFromItemGroup(IRuntimeConfigurationItemViewModel group, bool isDeviceValue)
         {
-            var result=new List<IFormattedValueViewModel>();
+            var result=new List<ILocalAndDeviceValueContainingViewModel>();
 
             group.ChildStructItemViewModels.ForEach((item =>
             {
@@ -68,73 +75,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                 }
                 else
                 {
-                    result.Add(GetCellViewModel(item, isDeviceValue));
+                    result.Add(item as ILocalAndDeviceValueContainingViewModel);
                 }
             }));
             return result;
         }
-
-        private IFormattedValueViewModel GetCellViewModel(IRuntimeConfigurationItemViewModel runtimeConfigurationItemViewModel,bool isDeviceValue)
-        {
-            if (runtimeConfigurationItemViewModel is ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel)
-            {
-                return isDeviceValue ? localAndDeviceValueContainingViewModel.DeviceValue : localAndDeviceValueContainingViewModel.LocalValue;
-            }
-            return null;
-        }
         
-
-
-    
-        public override string TypeName => ConfigurationKeys.CONFIG_TABLE_VIEW;
-
-        public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.CONFIG_TABLE_VIEW+ ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #region Implementation of ILocalAndDeviceValueContainingViewModel
-
-        public ConfigTableValueViewModel DeviceValue
-        {
-            get => _deviceValue;
-            set => SetProperty(ref _deviceValue,value);
-        }
-
-        public ConfigTableValueViewModel LocalValue
-        {
-            get => _localValue;
-            set => SetProperty(ref _localValue, value);
-        }
-
-        #region Overrides of DisposableBindableBase
-
-        protected override void OnDisposing()
-        {
-            base.OnDisposing();
-        }
-
-        #endregion
-
-        #endregion
     }
-
-
-    public class ConfigTableValueViewModel :ViewModelBase, IStronglyNamed
-    {
-        private DynamicDataTable _configTable;
-
-        public ConfigTableValueViewModel(DynamicDataTable dynamicDataTable )
-        {
-            ConfigTable = dynamicDataTable;
-        }
-        public DynamicDataTable ConfigTable
-        {
-            get => _configTable;
-            set => SetProperty(ref _configTable, value);
-        }
-        #region Implementation of IStronglyNamed
-
-        public string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.CONFIG_TABLE_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-    }
-
 }
