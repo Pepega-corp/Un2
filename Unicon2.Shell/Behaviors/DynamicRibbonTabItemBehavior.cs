@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
-using Unicon2.Shell.Views;
 using WPFLocalizeExtension.Engine;
 
 namespace Unicon2.Shell.Behaviors

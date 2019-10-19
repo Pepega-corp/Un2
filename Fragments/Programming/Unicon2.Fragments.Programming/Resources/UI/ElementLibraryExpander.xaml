@@ -1,12 +1,21 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:elementViewModels="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure">
+    xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
+    xmlns:elementViewModels="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:selectors="clr-namespace:Unicon2.Fragments.Programming.TemplateSelectors">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="VerticalExpander.xaml" />
         <ResourceDictionary Source="Shared.xaml" />
+        <!--  Ресурсы, в которых описаны DataTemplate всех элементов, как они будут выглядеть в списках  -->
+        <ResourceDictionary Source="../../ElementsLibraryResources/InputLibraryElement.xaml" />
+        <ResourceDictionary Source="../../ElementsLibraryResources/OutputLibraryElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <!--  Селектор шаблонов DataTemplate  -->
+    <selectors:ElementLibrarySelector x:Key="LibrarySelector" Input="{StaticResource InputLibraryElement}" />
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border
@@ -40,17 +49,61 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="LogicItemsListStyle" TargetType="ListView">
+    <Style x:Key="LogicItemsListStyle" TargetType="ItemsControl">
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type elementViewModels:ILogicElementViewModel}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding ElementName}" />
+                        <Rectangle
+                            Name="Border"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Height="50"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Fill="Transparent"
+                            IsHitTestVisible="True"
+                            StrokeDashArray="2,2"
+                            StrokeThickness="1"
+                            ToolTip="{Binding Description}"
+                            ToolTipService.InitialShowDelay="1000"
+                            ToolTipService.ShowDuration="3000">
+                            <i:Interaction.Behaviors>
+                                <behaviors:ElementsLibraryBehavior />
+                            </i:Interaction.Behaviors>
+                        </Rectangle>
+                        <ContentControl
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding}"
+                            ContentTemplateSelector="{StaticResource LibrarySelector}"
+                            IsHitTestVisible="False" />
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            FontFamily="Calibri"
+                            FontSize="14"
+                            Foreground="Black"
+                            IsHitTestVisible="False"
+                            Text="{Binding ElementName}" />
                     </Grid>
+                    <DataTemplate.Triggers>
+                        <Trigger SourceName="Border" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Stroke" Value="Black" />
+                        </Trigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -96,8 +149,9 @@
                             Grid.Column="1"
                             BorderBrush="{StaticResource AccentColorBrush2}"
                             BorderThickness="1">
-                            <!--<ContentControl Content="{Binding ElementLibrary}" />-->
-                            <ListView ItemsSource="{Binding ElementCollection}" Style="{StaticResource LogicItemsListStyle}" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding ElementCollection}" Style="{StaticResource LogicItemsListStyle}" />
+                            </ScrollViewer>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>

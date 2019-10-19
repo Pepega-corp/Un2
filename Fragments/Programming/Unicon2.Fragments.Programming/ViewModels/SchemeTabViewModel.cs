@@ -39,7 +39,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public SchemeTabViewModel()
         {
-            this.ElementList = new ObservableCollection<ILogicElementViewModel>();
+            this.ElementCollection = new ObservableCollection<ILogicElementViewModel>();
             this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
             this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
             this.CloseTabCommand = new RelayCommand(this.CloseTab);
@@ -54,7 +54,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// <summary>
         /// Список всех вью моделей эелементов, добавленных на схему
         /// </summary>
-        public ObservableCollection<ILogicElementViewModel> ElementList { get; } //для заглушки
+        public ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
 
         public string SchemeName
         {
@@ -132,7 +132,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public void DeleteSelectedElements()
         {
-            List<ILogicElementViewModel> selectedElements = this.ElementList.Where(e => e.IsSelected).ToList();
+            List<ILogicElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
             //foreach (ILogicElementViewModel element in selectedElements)
             //{
             //    if (element is ConnectionViewModel && this.ElementList.Contains(element))
@@ -161,7 +161,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public bool CanDelete()
         {
-            List<ILogicElementViewModel> selectedElements = this.ElementList.Where(e => e.IsSelected).ToList();
+            List<ILogicElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
             return selectedElements.Count > 0;
         }
         #endregion

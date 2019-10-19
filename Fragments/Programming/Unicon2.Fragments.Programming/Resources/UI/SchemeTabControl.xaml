@@ -39,13 +39,13 @@
                             KeyboardNavigation.DirectionalNavigation="Contained"
                             KeyboardNavigation.TabIndex="2"
                             KeyboardNavigation.TabNavigation="Local">
-                            <Border.Background>
+                            <!--<Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                     <GradientStop Offset="0" Color="{DynamicResource ContentAreaColorLight}" />
                                     <GradientStop Offset="0.8" Color="{DynamicResource ContentAreaColorMedium}" />
                                     <GradientStop Offset="1" Color="{DynamicResource ContentAreaColorDark}" />
                                 </LinearGradientBrush>
-                            </Border.Background>
+                            </Border.Background>-->
                             <Grid Name="PART_ItemsHolder" Margin="4" />
                         </Border>
                     </Grid>
@@ -381,12 +381,12 @@
                         <Image
                             Name="DelImage"
                             Margin="3"
-                            Source="/Unicon2.Fragments.Programming;component/Resources/Delete.png"
+                            Source="../Images/Delete.png"
                             Stretch="Fill" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="DelImage" Property="Source" Value="../DeleteUnavalible.png" />
+                            <Setter TargetName="DelImage" Property="Source" Value="../Images/DeleteUnavalible.png" />
                             <Setter TargetName="BackgroundBorder" Property="Background" Value="LightGray" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
