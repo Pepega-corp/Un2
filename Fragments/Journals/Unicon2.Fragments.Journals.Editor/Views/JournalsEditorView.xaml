@@ -162,6 +162,7 @@
             </GroupBox>
 
         </StackPanel>
+
         <Grid Name="ConfigGrid" Grid.Column="1">
             <Grid
                 Name="dummygrid"
@@ -180,76 +181,71 @@
                 <Border Name="dummywidthFormatting" Grid.Column="3" />
                 <Border Name="dummywidthMeasureUnit" Grid.Column="4" />
             </Grid>
-        </Grid>
-
-        <ListView
+            <ListView
             Name="ConfigListView"
-            Grid.Column="1"
             MaxHeight="600"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
+            AlternationCount="2"
             BorderThickness="0"
             DataContext="{Binding JournalRecordTemplateEditorViewModel}"
             ItemsSource="{Binding Path=AllJournalParameterEditorViewModels}"
             SelectedItem="{Binding Path=SelectedJournalParameterEditorViewModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Width="{Binding ElementName=dummywidthName, Path=ActualWidth}" Header="{lex:Loc Name}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Grid HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Width="{Binding ElementName=dummywidthName, Path=ActualWidth}" Header="{lex:Loc Name}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox
                                             Grid.Column="1"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             Style="{DynamicResource EditableFieldBoxStyle}"
                                             Text="{Binding Header}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                        <GridViewColumn Width="{Binding ElementName=dummywidthAdress, Path=ActualWidth}" Header="{lex:Loc Address}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Style="{DynamicResource EditableFieldBoxStyle}" Text="{Binding Address}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="{Binding ElementName=dummywidthNumberOfPoints, Path=ActualWidth}" Header="{lex:Loc NumberOfPoints}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Style="{DynamicResource EditableNumericFieldStyle}" Text="{Binding NumberOfPoints}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="{Binding ElementName=dummywidthFormatting, Path=ActualWidth}" Header="{lex:Loc Formatting}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel
+                            <GridViewColumn Width="{Binding ElementName=dummywidthAdress, Path=ActualWidth}" Header="{lex:Loc Address}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Style="{DynamicResource EditableFieldBoxStyle}" Text="{Binding Address}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="{Binding ElementName=dummywidthNumberOfPoints, Path=ActualWidth}" Header="{lex:Loc NumberOfPoints}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Style="{DynamicResource EditableNumericFieldStyle}" Text="{Binding NumberOfPoints}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="{Binding ElementName=dummywidthFormatting, Path=ActualWidth}" Header="{lex:Loc Formatting}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel
                                         HorizontalAlignment="Stretch"
                                         controls:VisibilityHelper.IsCollapsed="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IComplexJournalParameterEditorViewModel}"
                                         Orientation="Horizontal">
-                                        <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
-                                        <TextBlock Margin="3" Text="{Binding ElementName=formatterProxy, Path=Result}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                            <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
+                                            <TextBlock Margin="3" Text="{Binding ElementName=formatterProxy, Path=Result}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-            <ListView.Template>
-                <ControlTemplate>
-                    <ItemsPresenter/>
-                </ControlTemplate>
-            </ListView.Template>
-        </ListView>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+        </Grid>
     </Grid>
 </UserControl>

@@ -56,21 +56,13 @@
     <Compile Include="Module\UniconDateTimeModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
-    <Compile Include="Views\DateTimeView.xaml.cs">
-      <DependentUpon>DateTimeView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DateTime\" />
     <Folder Include="Factories\" />
     <Folder Include="Model\" />
     <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Views\DateTimeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicon2.Fragments.DateTime.Editor\Unicon2.Fragments.DateTime.Editor.csproj">
