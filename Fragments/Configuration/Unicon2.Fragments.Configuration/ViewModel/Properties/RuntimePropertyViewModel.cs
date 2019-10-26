@@ -99,7 +99,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 }
                 else
                 {
-                    this.DeviceValue = this._valueViewModelFactory.CreateFormattedValueViewModel(formattedValue);
+                    this.DeviceValue = this._valueViewModelFactory.CreateFormattedValueViewModel(formattedValue, (this._model as IProperty));
                 }
 
             }

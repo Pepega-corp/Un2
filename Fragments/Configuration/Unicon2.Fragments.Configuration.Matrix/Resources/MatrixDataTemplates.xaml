@@ -14,7 +14,8 @@
     <converters1:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
     <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
     <converters1:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
-    <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
+    <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" 
+                                                     />
     <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
 
     <DataTemplate x:Key="MatrixValueViewModelDataTemplate">

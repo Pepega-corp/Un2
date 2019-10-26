@@ -14,6 +14,8 @@
     <converters:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
     <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
     <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
+    <converters:PropertyTooltipConverter x:Key="PropertyTooltipConverter"></converters:PropertyTooltipConverter>
+
     <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
     <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
 
@@ -71,9 +73,33 @@
                                                         <RowDefinition></RowDefinition>
                                                     </Grid.RowDefinitions>
                                                     <TextBlock HorizontalAlignment="Center" Text="{lex:Loc DeviceData}"></TextBlock>
+
+
                                                     <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False">
                                                         <i:Interaction.Behaviors>
-                                                            <behaviors:DynamicPropertiesDataGridBehavior IsDeviceValues="True" RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" />
+                                                            <behaviors1:BubbleScrollBehavior/>
+                                                            <behaviors:DynamicPropertiesDataGridBehavior IsDeviceValues="True" RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
+                                                                <behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
+                                                                    <Style TargetType="ContentControl">
+                                                                        <Style.Setters>
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="ContentControl">
+                                                                                        <Border BorderThickness="2">
+                                                                                            <ContentPresenter
+                                                                                                        Content="{TemplateBinding Content}">
+                                                                                                <ContentPresenter.ContentTemplateSelector>
+                                                                                                    <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
+                                                                                                </ContentPresenter.ContentTemplateSelector>
+                                                                                            </ContentPresenter>
+                                                                                        </Border>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style.Setters>
+                                                                    </Style>
+                                                                </behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
+                                                            </behaviors:DynamicPropertiesDataGridBehavior>
                                                         </i:Interaction.Behaviors>
                                                     </DataGrid>
                                                 </Grid>
@@ -84,9 +110,34 @@
                                                         <RowDefinition></RowDefinition>
                                                     </Grid.RowDefinitions>
                                                     <TextBlock HorizontalAlignment="Center" Text="{lex:Loc LocalData}"></TextBlock>
-                                                    <DataGrid Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" CanUserAddRows="False">
+
+
+                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False">>
                                                         <i:Interaction.Behaviors>
-                                                            <behaviors:DynamicPropertiesDataGridBehavior IsDeviceValues="False" RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" />
+                                                            <behaviors1:BubbleScrollBehavior/>
+                                                            <behaviors:DynamicPropertiesDataGridBehavior IsDeviceValues="False" RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
+                                                                <behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
+                                                                    <Style TargetType="ContentControl">
+                                                                        <Style.Setters>
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="ContentControl">
+                                                                                        <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content,Converter={StaticResource PropertyTooltipConverter} }" 
+                                                                                                        BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}">
+                                                                                            <ContentPresenter
+                                                                                                        Content="{TemplateBinding Content}">
+                                                                                                <ContentPresenter.ContentTemplateSelector>
+                                                                                                    <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
+                                                                                                </ContentPresenter.ContentTemplateSelector>
+                                                                                            </ContentPresenter>
+                                                                                        </Border>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style.Setters>
+                                                                    </Style>
+                                                                </behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
+                                                            </behaviors:DynamicPropertiesDataGridBehavior>
                                                         </i:Interaction.Behaviors>
                                                     </DataGrid>
                                                 </Grid>
@@ -164,7 +215,7 @@
                                                 Tag="{Binding ElementName=ConfigListView, Path=ItemsSource}">
                                                 <ToggleButton.ContextMenu>
                                                     <ContextMenu>
-                                                        <MenuItem Header="{lex:Loc Key=TryTransform}" Command="{Binding TryTransformToTableCommand}">
+                                                        <MenuItem Header="{lex:Loc Key=Transform}" Command="{Binding TryTransformToTableCommand}">
                                                         </MenuItem>
                                                     </ContextMenu>
                                                 </ToggleButton.ContextMenu>

@@ -1326,4 +1326,7 @@
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Вы уверены?</value>
   </data>
+  <data name="Transform" xml:space="preserve">
+    <value>Преобразовать</value>
+  </data>
 </root>

@@ -21,7 +21,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 
         #region Implementation of IValueViewModelFactory
 
-        public IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue)
+        public IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue,IMeasurable measurable=null)
         {
             try
             {
@@ -29,6 +29,15 @@ namespace Unicon2.Fragments.Configuration.Factories
                              this._container.Resolve<IFormattedValueViewModel>(formattedValue.StrongName +
                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
                 formattedValueViewModel.InitFromValue(formattedValue);
+                if (measurable != null)
+                {
+                    formattedValueViewModel.IsMeasureUnitEnabled = measurable.IsMeasureUnitEnabled;
+                    formattedValueViewModel.MeasureUnit = measurable.MeasureUnit;
+                }
+                else
+                {
+                    formattedValueViewModel.IsMeasureUnitEnabled = false;
+                }
                 return formattedValueViewModel;
             }
             catch (Exception)
@@ -83,6 +92,8 @@ namespace Unicon2.Fragments.Configuration.Factories
                 property.LocalUshortsValue = ushortsNew;
                 (property as ISubProperty)?.LocalValueChanged?.Invoke();
             };
+            editableValueViewModel.IsMeasureUnitEnabled = property.IsMeasureUnitEnabled;
+            editableValueViewModel.MeasureUnit = property.MeasureUnit;
             if (property.DeviceUshortsValue != null)
             {
                 editableValueViewModel.SetBaseValueToCompare(property.DeviceUshortsValue);

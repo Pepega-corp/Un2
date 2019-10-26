@@ -65,8 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\DynamicPropertiesDataGridBehavior.cs" />
+    <Compile Include="Behaviors\DynamicPropertiesGridViewBehavior.cs" />
+    <Compile Include="Behaviors\DynamicPropertiesListViewBehavior.cs" />
     <Compile Include="Behaviors\DynamicPropertiesTable.cs" />
+    <Compile Include="Behaviors\GridViewColumnResize.cs" />
     <Compile Include="Behaviors\TreeViewToggleButtonBehavior.cs" />
+    <Compile Include="Converters\PropertyTooltipConverter.cs" />
     <Compile Include="Converters\IsItemsGroupToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToBorderColorConverter.cs" />
     <Compile Include="Factories\ConfigurationItemFactory.cs" />

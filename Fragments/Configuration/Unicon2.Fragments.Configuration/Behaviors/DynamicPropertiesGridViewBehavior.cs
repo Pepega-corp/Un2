@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
+using System.Windows.Markup;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
 using Unicon2.Infrastructure.Common;
@@ -18,11 +20,10 @@ using Unicon2.SharedResources.DataTemplateSelectors;
 
 namespace Unicon2.Fragments.Configuration.Behaviors
 {
-    public class DynamicPropertiesDataGridBehavior : Behavior<DataGrid>
+    public class DynamicPropertiesGridViewBehavior : Behavior<GridView>
     {
 
         private DynamicPropertiesTable _journalDataTable;
-        private ObservableCollection<List<ILocalAndDeviceValueContainingViewModel>> _collection;
 
         #region Overrides of Behavior
 
@@ -37,7 +38,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         #region RowValues dp
 
         public static readonly DependencyProperty IsDeviceValuesProperty =
-            DependencyProperty.Register("IsDeviceValues", typeof(bool), typeof(DynamicPropertiesDataGridBehavior));
+            DependencyProperty.Register("IsDeviceValues", typeof(bool), typeof(DynamicPropertiesGridViewBehavior));
 
         public bool IsDeviceValues
         {
@@ -46,18 +47,18 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         }
 
         public static readonly DependencyProperty RowValuesProperty =
-            DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable), typeof(DynamicPropertiesDataGridBehavior),
+            DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable), typeof(DynamicPropertiesGridViewBehavior),
                 new PropertyMetadata(null, OnRowValuesPropertyChanged));
 
         public DynamicPropertiesTable RowValues
         {
-            get { return (DynamicPropertiesTable)this.GetValue(RowValuesProperty); }
+            get { return (DynamicPropertiesTable) this.GetValue(RowValuesProperty); }
             set { this.SetValue(RowValuesProperty, value); }
         }
 
         private static void OnRowValuesPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            DynamicPropertiesDataGridBehavior beh = sender as DynamicPropertiesDataGridBehavior;
+            DynamicPropertiesGridViewBehavior beh = sender as DynamicPropertiesGridViewBehavior;
             beh.OnRowValuesChanged();
         }
 
@@ -87,29 +88,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                         index++;
                     }
                 }
-
-
-                if (this._journalDataTable.ColumnNamesStrings != null)
-                {
-                    this._collection = new ObservableCollection<List<ILocalAndDeviceValueContainingViewModel>>();
-
-                    int rowIndex = 0;
-                    foreach (string columnNameString in this._journalDataTable.ColumnNamesStrings)
-                    {
-
-                        List<ILocalAndDeviceValueContainingViewModel> localAndDeviceValueContainingViewModels = new List<ILocalAndDeviceValueContainingViewModel>();
-                        this._journalDataTable.Values.ForEach((list =>
-                        {
-                            if (list.Count > rowIndex)
-                                localAndDeviceValueContainingViewModels.Add(list[rowIndex]);
-                        }));
-
-                        rowIndex++;
-                        this.InsertRow(localAndDeviceValueContainingViewModels);
-                    }
-                }
-
-                this.AssociatedObject.ItemsSource = this._collection;
             }
             else
             {
@@ -132,21 +110,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                         index++;
                     }
                 }
-
-                this._collection = new ObservableCollection<List<ILocalAndDeviceValueContainingViewModel>>();
-                try
-                {
-                    AssociatedObject.Items.Clear();
-
-                }
-                catch (Exception e)
-                {
-                }
-                this.AssociatedObject.ItemsSource = this._collection;
-                this._journalDataTable.Values.ForEach((list => { this.InsertRow(list); }));
             }
-
-            this._journalDataTable.FormattedValueViewModelAddedAction = this.InsertRow;
+            
             this._journalDataTable.TableUpdateAction = this.OnRowValuesChanged;
         }
 
@@ -158,19 +123,19 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         #region IsTransponed dp
 
         public static readonly DependencyProperty IsTransponedProperty =
-            DependencyProperty.Register("IsTransponed", typeof(bool), typeof(DynamicPropertiesDataGridBehavior),
+            DependencyProperty.Register("IsTransponed", typeof(bool), typeof(DynamicPropertiesGridViewBehavior),
                 new PropertyMetadata(false, OnIsTransponedPropertyChanged));
 
         public bool IsTransponed
         {
-            get { return (bool)this.GetValue(IsTransponedProperty); }
+            get { return (bool) this.GetValue(IsTransponedProperty); }
             set { this.SetValue(IsTransponedProperty, value); }
         }
 
         private static void OnIsTransponedPropertyChanged(DependencyObject sender,
             DependencyPropertyChangedEventArgs args)
         {
-            DynamicPropertiesDataGridBehavior beh = sender as DynamicPropertiesDataGridBehavior;
+            DynamicPropertiesGridViewBehavior beh = sender as DynamicPropertiesGridViewBehavior;
             beh.OnRowValuesChanged();
         }
 
@@ -180,8 +145,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         #endregion
 
-
-        private DataGridTemplateColumn CreateGridTemplateColumn(int index, string columnName)
+        private GridViewColumn CreateGridTemplateColumn(int index, string columnName)
         {
             // DataTemplate dataTemplate1 = new DataTemplate();
             // dataTemplate1.VisualTree = new FrameworkElementFactory(typeof(ContentPresenter));
@@ -202,13 +166,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             // DataTemplateSelector dataTemplateSelector1 = new ViewModelByStrongNameDataTemplateSelector();
             // dataTemplate1.VisualTree.SetValue(ContentPresenter.ContentTemplateSelectorProperty, dataTemplateSelector1);
 
-            DataTemplate cellDataTemplate = new DataTemplate();
+             DataTemplate cellDataTemplate = new DataTemplate();
 
 
 
 
             var innerVisualTree = new FrameworkElementFactory(typeof(ContentControl));
-            innerVisualTree.SetValue(FrameworkElement.StyleProperty, CellStyle);
+            innerVisualTree.SetValue(FrameworkElement.StyleProperty,CellStyle);
             if (IsDeviceValues)
             {
                 Binding b11 = new Binding(".[" + index + "].DeviceValue");
@@ -228,84 +192,32 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             cellDataTemplate.VisualTree = innerVisualTree;
 
 
-            DataGridTemplateColumn dataGridTemplateColumn = new DataGridTemplateColumn
+            GridViewColumn dataGridTemplateColumn = new GridViewColumn
             {
                 Header = columnName,
-                IsReadOnly = true,
+                //IsReadOnly = true,
                 CellTemplate = cellDataTemplate
-            };
-
+            }; 
+            
             return dataGridTemplateColumn;
         }
 
+        public static readonly DependencyProperty CellStyleProperty =
+            DependencyProperty.Register("CellStyle", typeof(Style), typeof(DynamicPropertiesGridViewBehavior));
 
-
-
-
-        private void InsertRow(IEnumerable<ILocalAndDeviceValueContainingViewModel> formattedValueViewModels)
+        public Style CellStyle
         {
-            List<ILocalAndDeviceValueContainingViewModel> listToInsert = new List<ILocalAndDeviceValueContainingViewModel>(formattedValueViewModels);
-
-            if (this.IsTransponed)
-            {
-                if (this._journalDataTable.ColumnNamesStrings != null)
-                {
-                    IStringValueViewModel stringValueViewModel =
-                        StaticContainer.Container.Resolve<IStringValueViewModel>();
-                    stringValueViewModel.StringValue =
-                        this._journalDataTable.ColumnNamesStrings[this._collection.Count];
-                    IPropertyViewModel propertyViewModel = new RuntimePropertyViewModel(StaticContainer.Container, StaticContainer.Container.Resolve<IValueViewModelFactory>());
-                    (propertyViewModel as ILocalAndDeviceValueContainingViewModel).DeviceValue = stringValueViewModel;
-                    listToInsert.Insert(0, propertyViewModel as ILocalAndDeviceValueContainingViewModel);
-                }
-
-                //if ((this._journalDataTable.IsBaseNumeration) && (this._journalDataTable.RowHeadersStrings != null))
-                //{
-                //    INumericValueViewModel numericValueViewModel =
-                //        StaticContainer.Container.Resolve<INumericValueViewModel>();
-                //    numericValueViewModel.NumValue = (this._collection.Count + 1).ToString();
-                //    listToInsert.Insert(0, numericValueViewModel);
-                //}
-            }
-            else
-            {
-                //if ((this._journalDataTable.IsBaseNumeration) && this._journalDataTable.ColumnNamesStrings != null)
-                //{
-                //    INumericValueViewModel numericValueViewModel =
-                //        StaticContainer.Container.Resolve<INumericValueViewModel>();
-                //    numericValueViewModel.NumValue = (this._collection.Count + 1).ToString();
-                //    listToInsert.Insert(0, numericValueViewModel);
-                //}
-
-                if ((this._journalDataTable.RowHeadersStrings != null))
-                {
-                    IStringValueViewModel stringValueViewModel =
-                        StaticContainer.Container.Resolve<IStringValueViewModel>();
-                    if (this._journalDataTable.RowHeadersStrings.Count > this._collection.Count)
-                    {
-                        stringValueViewModel.StringValue =
-                            this._journalDataTable.RowHeadersStrings[this._collection.Count];
-                    }
-                    else
-                    {
-                        stringValueViewModel.StringValue = string.Empty;
-                    }
-                    IPropertyViewModel propertyViewModel = new RuntimePropertyViewModel(StaticContainer.Container, StaticContainer.Container.Resolve<IValueViewModelFactory>());
-                    (propertyViewModel as ILocalAndDeviceValueContainingViewModel).DeviceValue = stringValueViewModel;
-                    listToInsert.Insert(0, propertyViewModel as ILocalAndDeviceValueContainingViewModel);
-                }
-            }
-
-            Application.Current.Dispatcher.Invoke(() => { this._collection.Add(listToInsert); });
+            get { return (Style)this.GetValue(CellStyleProperty); }
+            set { this.SetValue(CellStyleProperty, value); }
         }
 
         public static readonly DependencyProperty SelectedIndexesProperty =
-            DependencyProperty.Register("SelectedIndexes", typeof(List<int>), typeof(DynamicPropertiesDataGridBehavior),
-                new FrameworkPropertyMetadata(null) { BindsTwoWayByDefault = true });
+            DependencyProperty.Register("SelectedIndexes", typeof(List<int>), typeof(DynamicPropertiesGridViewBehavior),
+                new FrameworkPropertyMetadata(null) {BindsTwoWayByDefault = true});
 
         public List<int> SelectedIndexes
         {
-            get { return (List<int>)this.GetValue(SelectedIndexesProperty); }
+            get { return (List<int>) this.GetValue(SelectedIndexesProperty); }
             set { this.SetValue(SelectedIndexesProperty, value); }
         }
 
@@ -340,25 +252,41 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 }
             }
         }
-        public static readonly DependencyProperty CellStyleProperty =
-            DependencyProperty.Register("CellStyle", typeof(Style), typeof(DynamicPropertiesGridViewBehavior));
 
-        public Style CellStyle
-        {
-            get { return (Style)this.GetValue(CellStyleProperty); }
-            set { this.SetValue(CellStyleProperty, value); }
-        }
 
         #region Overrides of Behavior
 
         protected override void OnAttached()
         {
-            this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
+          //  this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
             //  _dataTableOfRecords = new DataTable();
             this.OnRowValuesChanged();
             base.OnAttached();
         }
 
         #endregion
+    }
+
+    public static class ExtensionMethods
+    {
+        public static T XamlClone<T>(this T original)
+            where T : class
+        {
+            if (original == null)
+                return null;
+
+            object clone;
+            using (var stream = new MemoryStream())
+            {
+                XamlWriter.Save(original, stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                clone = XamlReader.Load(stream);
+            }
+
+            if (clone is T)
+                return (T)clone;
+            else
+                return null;
+        }
     }
 }

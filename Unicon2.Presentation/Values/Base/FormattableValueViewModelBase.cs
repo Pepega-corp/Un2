@@ -9,7 +9,8 @@ namespace Unicon2.Presentation.Values.Base
     public abstract class FormattableValueViewModelBase : ValidatableBindableBase, IFormattedValueViewModel
     {
         private string _header;
-
+        private string _measureUnit;
+        private bool _isMeasureUnitEnabled;
         #region Implementation of IStronglyNamed
 
         public abstract string StrongName { get; }
@@ -40,6 +41,22 @@ namespace Unicon2.Presentation.Values.Base
 
         public bool IsRangeEnabled { get; set; }
         public IRange Range { get; set; }
+
+        #endregion
+
+        #region Implementation of IMeasurable
+
+        public string MeasureUnit
+        {
+            get => _measureUnit;
+            set => SetProperty(ref _measureUnit, value);
+        }
+
+        public bool IsMeasureUnitEnabled
+        {
+            get => _isMeasureUnitEnabled;
+            set => SetProperty(ref _isMeasureUnitEnabled, value);
+        }
 
         #endregion
     }

@@ -11,5 +11,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
         void SetUshortFormatter(IUshortsFormatter ushortsFormatter);
         Action<ushort[]> ValueChangedAction { get; set; }
         bool IsEditEnabled { get; set; }
+        
     }
 }
