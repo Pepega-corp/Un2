@@ -52,16 +52,21 @@ namespace Unicon2.Services
             this.GetWindow(getWindow, dataContext);
         }
 
+        public void ShowWindowModal(Func<Window> getWindow, object dataContext, object _owner)
+        {
+            this.GetWindow(getWindow, dataContext, _owner);
+        }
+
         public void ShowWindowModal(Func<Window> getWindow, object dataContext, bool isTopmost)
         {
             Window windowToShow = this.GetWindow(getWindow, dataContext);
             windowToShow.Topmost = isTopmost;
         }
 
-        private Window GetWindow(Func<Window> getWindow, object dataContext)
+        private Window GetWindow(Func<Window> getWindow, object dataContext, object _owner = null)
         {
             Window windowToShow = getWindow.Invoke();
-            windowToShow.Owner = Application.Current.MainWindow;
+            windowToShow.Owner = _owner==null ? Application.Current.MainWindow : (_owner as Window);
             windowToShow.Topmost = true;
             windowToShow.DataContext = dataContext;
             windowToShow.ShowDialog();
@@ -153,7 +158,7 @@ namespace Unicon2.Services
                 fileName = oscillogramPath;
             }
             System.Diagnostics.Process.Start(
-                Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),"OscApp", "Oscilloscope.exe"),
+                Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "OscApp", "Oscilloscope.exe"),
                 fileName);
         }
 
