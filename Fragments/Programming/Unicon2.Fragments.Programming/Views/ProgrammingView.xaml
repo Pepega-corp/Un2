@@ -9,8 +9,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/UI/SchemeTabControl.xaml" />
-                <ResourceDictionary Source="../Resources/UI/ElementLibraryExpander.xaml" />
+                <ResourceDictionary Source="../UI/SchemeTabControl.xaml" />
+                <ResourceDictionary Source="../UI/ElementLibraryExpander.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

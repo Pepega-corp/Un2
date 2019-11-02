@@ -51,6 +51,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adorners\ConnectionAdorner.cs" />
+    <Compile Include="Adorners\ConnectorAdorner.cs" />
+    <Compile Include="Adorners\DragItemsAdorner.cs" />
+    <Compile Include="Adorners\RubberbandAdorner.cs" />
+    <Compile Include="Behaviors\DesignerCanvasBehavior.cs" />
     <Compile Include="Behaviors\ElementsLibraryBehavior.cs" />
     <Compile Include="CommonHelper.cs" />
     <Compile Include="DesignerCanvasItemsControl.cs" />
@@ -119,23 +124,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\UI\ElementLibraryExpander.xaml">
+    <Page Include="UI\ElementLibraryExpander.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\UI\ProgrammingViewTemplate.xaml">
+    <Page Include="UI\ProgrammingViewTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\UI\SchemeTabControl.xaml">
+    <Page Include="UI\SchemeTabControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\UI\Shared.xaml">
+    <Page Include="UI\Shared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\UI\VerticalExpander.xaml">
+    <Page Include="UI\VerticalExpander.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -150,10 +155,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Resource Include="Resources\Images\Delete.png" />
+    <Resource Include="Resources\Delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\DeleteUnavalible.png" />
+    <Resource Include="Resources\DeleteUnavalible.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

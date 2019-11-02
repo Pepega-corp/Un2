@@ -11,7 +11,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
         string SchemeName { get; set; }
         double SchemeHeight { get; set; }
         double SchemeWidth { get; set; }
-        double Scale { get; set; }
+        string ScaleStr { get; set; }
 
         ICommand ZoomIncrementCommand { get; }
         ICommand ZoomDecrementCommand { get; }

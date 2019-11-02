@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, OutputViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
             container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(ProgrammModel));
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
+            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
 
             ISerializerService serializerService = container.Resolve<ISerializerService>();
             serializerService.AddKnownTypeForSerialization(typeof(ProgrammModel));

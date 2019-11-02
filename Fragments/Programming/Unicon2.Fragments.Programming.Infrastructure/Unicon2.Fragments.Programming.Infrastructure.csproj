@@ -53,6 +53,7 @@
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\ILogicElementEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOutputEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\ILogicElementViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ICanvasPosition.cs" />
     <Compile Include="ViewModels\Scheme\ILogicElementFactory.cs" />
     <Compile Include="ViewModels\Scheme\IProgrammingEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ISchemeTabViewModel.cs" />

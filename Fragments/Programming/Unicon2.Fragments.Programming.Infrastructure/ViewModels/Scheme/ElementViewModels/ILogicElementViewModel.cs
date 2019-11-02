@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels
 {
-    public interface ILogicElementViewModel : ISelectable, IViewModel
+    public interface ILogicElementViewModel : ISelectable, IViewModel, ICanvasPosition
     {
         string ElementName { get; }
         string Caption { get; set; }

@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+﻿using System;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Unity.ViewModels;
 
@@ -20,6 +21,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         private string _caption;
         private bool _validationError;
         private string _description;
+        private double _x;
+        private double _y;
 
         public string ElementName { get; protected set; }
 
@@ -89,6 +92,28 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ret.Caption = this.Caption;
             ret.ValidationError = this.ValidationError;
             return ret;
+        }
+
+        public double X
+        {
+            get { return this._x; }
+            set
+            {
+                if (Math.Abs(this._x - value) < 0.01) return;
+                this._x = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public double Y
+        {
+            get { return this._y; }
+            set
+            {
+                if (Math.Abs(this._y - value) < 0.01) return;
+                this._y = value;
+                RaisePropertyChanged();
+            }
         }
     }
 }

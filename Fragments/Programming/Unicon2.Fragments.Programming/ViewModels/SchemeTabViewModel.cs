@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
@@ -27,7 +28,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private string _schemeName;
         private double _schemeHeight;
         private double _schemeWidth;
-        private double _scale;
+        private string _scaleStr;
         #endregion
 
         public SchemeTabViewModel(string name, Size size): this()
@@ -50,7 +51,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// <summary>
         /// Ссылка на поведение
         /// </summary>
-        //public DesignerCanvasBehavior SelfBehavior { get; set; }
+        public DesignerCanvasBehavior SelfBehavior { get; set; }
         /// <summary>
         /// Список всех вью моделей эелементов, добавленных на схему
         /// </summary>
@@ -63,7 +64,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 if (this._schemeName == value) return;
                 this._schemeName = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -74,7 +75,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 if (Math.Abs(this._schemeHeight - value) < 0.0001) return;
                 this._schemeHeight = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -85,18 +86,19 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 if (Math.Abs(this._schemeWidth - value) < 0.0001) return;
                 this._schemeWidth = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
-        public double Scale
+        public string ScaleStr
         {
-            get { return this._scale; }
+            get { return this._scaleStr; }
             set
             {
-                if (this._scale == value) return;
-                this._scale = value;
-                this.RaisePropertyChanged();
+                if (this._scaleStr == value)
+                    return;
+                this._scaleStr = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -107,14 +109,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void IncrementZoom()
         {
-            //this.SelfBehavior.IncrementZoom();
+            this.SelfBehavior.IncrementZoom();
         }
 
         public ICommand ZoomDecrementCommand { get; }
 
         private void DecrementZoom()
         {
-            //this.SelfBehavior.DecrementZoom();
+            this.SelfBehavior.DecrementZoom();
         }
         #endregion
 
@@ -132,7 +134,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public void DeleteSelectedElements()
         {
-            List<ILogicElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
+            //List<ILogicElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
             //foreach (ILogicElementViewModel element in selectedElements)
             //{
             //    if (element is ConnectionViewModel && this.ElementList.Contains(element))

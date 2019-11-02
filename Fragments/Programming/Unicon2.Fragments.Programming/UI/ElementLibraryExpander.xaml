@@ -8,14 +8,16 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="VerticalExpander.xaml" />
-        <ResourceDictionary Source="Shared.xaml" />
         <!--  Ресурсы, в которых описаны DataTemplate всех элементов, как они будут выглядеть в списках  -->
-        <ResourceDictionary Source="../../ElementsLibraryResources/InputLibraryElement.xaml" />
-        <ResourceDictionary Source="../../ElementsLibraryResources/OutputLibraryElement.xaml" />
+        <ResourceDictionary Source="../ElementsLibraryResources/InputLibraryElement.xaml" />
+        <ResourceDictionary Source="../ElementsLibraryResources/OutputLibraryElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
-    <selectors:ElementLibrarySelector x:Key="LibrarySelector" Input="{StaticResource InputLibraryElement}" />
+    <selectors:ElementLibrarySelector
+        x:Key="LibrarySelector"
+        Input="{StaticResource InputLibraryElement}"
+        Output="{StaticResource OutputLibraryElement}" />
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border
@@ -25,6 +27,7 @@
             BorderThickness="0">
             <Path
                 Name="Arrow"
+                Margin="3,0,3,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Data="M 8 0 L 0 4 L 8 8 Z"
@@ -61,14 +64,8 @@
             <Setter.Value>
                 <DataTemplate DataType="{x:Type elementViewModels:ILogicElementViewModel}">
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
                         <Rectangle
                             Name="Border"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
                             Height="50"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
@@ -84,20 +81,11 @@
                             </i:Interaction.Behaviors>
                         </Rectangle>
                         <ContentControl
-                            Grid.Column="0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{Binding}"
                             ContentTemplateSelector="{StaticResource LibrarySelector}"
                             IsHitTestVisible="False" />
-                        <TextBlock
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            FontFamily="Calibri"
-                            FontSize="14"
-                            Foreground="Black"
-                            IsHitTestVisible="False"
-                            Text="{Binding ElementName}" />
                     </Grid>
                     <DataTemplate.Triggers>
                         <Trigger SourceName="Border" Property="IsMouseOver" Value="True">
