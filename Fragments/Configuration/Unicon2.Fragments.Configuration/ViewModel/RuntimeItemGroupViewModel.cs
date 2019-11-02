@@ -20,35 +20,22 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private readonly IGlobalEventsService _globalEventsService;
         private bool _isTableView;
         private TableConfigurationViewModel _tableConfigurationViewModel;
+        private bool _isTableViewEnabled;
 
         public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
         {
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
             this.IsCheckable = true;
-            TryTransformToTableCommand=new RelayCommand(OnTryTransformToTable);
-
         }
 
         private void OnTryTransformToTable()
         {
-            var numberOfChildItemList = new int[ChildStructItemViewModels.Count];
-            for (int i = 0; i < ChildStructItemViewModels.Count; i++)
-            {
-                numberOfChildItemList[i] = ChildStructItemViewModels[i].ChildStructItemViewModels.Count;
-            }
-            var isAllNumbersEqual=numberOfChildItemList.Distinct().Count()==1;
-            if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel))&&isAllNumbersEqual)
+            Checked.Invoke(false);
+            if (!IsTableView) return;
+            if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel)) &&
+                TableConfigurationViewModel == null) 
             {
                 TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
-                IsTableView = !IsTableView;
-                if (IsTableView)
-                {
-                    Checked.Invoke(false);
-                }
-            }
-            else
-            {
-                IsTableView = false;
             }
         }
 
@@ -79,6 +66,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 this.ChildStructItemViewModels.Add(this._runtimeConfigurationItemViewModelFactory
                     .CreateRuntimeConfigurationItemViewModel(configurationItem));
             }
+
+            _isTableViewEnabled = ChildStructItemViewModels.All((model1 => model1 is RuntimeItemGroupViewModel));
+            RaisePropertyChanged(nameof(IsTableViewEnabled));
             base.SetModel(model);
         }
 
@@ -91,10 +81,15 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         public bool IsTableView
         {
             get => _isTableView;
-            set => SetProperty(ref _isTableView, value);
+            set
+            {
+                SetProperty(ref _isTableView, value);
+                OnTryTransformToTable();
+            }
         }
 
-        public ICommand TryTransformToTableCommand { get; }
+        public bool IsTableViewEnabled => _isTableViewEnabled;
+
         #endregion
     }
 }

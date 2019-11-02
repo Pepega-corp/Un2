@@ -163,11 +163,22 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
         {
             var matrixValue = _matrixValue;
             IBoolValue boolValue = _boolValue();
-            boolValue.BoolValueProperty =
-                bitArrayOfVariable[
-                    matrixValue.MatrixTemplate.ResultBitOptions
-                        .FirstOrDefault((option => option.VariableColumnSignature == signature))
-                        .NumbersOfAssotiatedBits.First()];
+            try
+            {
+                var resultBitOptionsWithSignature = matrixValue.MatrixTemplate.ResultBitOptions
+                    .FirstOrDefault((option => option.VariableColumnSignature == signature));
+                if (resultBitOptionsWithSignature != null)
+                {
+                    boolValue.BoolValueProperty =
+                        bitArrayOfVariable[resultBitOptionsWithSignature.NumbersOfAssotiatedBits.First()];
+                }
+          
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+           
             var viewModel = _formattedValueViewModelFunc();
             viewModel.InitFromValue(boolValue);
             return viewModel;

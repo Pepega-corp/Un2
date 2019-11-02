@@ -18,6 +18,7 @@
 
     <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
     <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
+    <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
 
     <DataTemplate x:Key="RuntimeConfigurationViewModelDataTemplate" DataType="{x:Type struct:IRuntimeConfigurationViewModel}">
         <Grid Name="ConfigGrid">
@@ -75,19 +76,19 @@
                                                     <TextBlock HorizontalAlignment="Center" Text="{lex:Loc DeviceData}"></TextBlock>
 
 
-                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False">
+                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalScrollBarVisibility="Auto">
                                                         <i:Interaction.Behaviors>
                                                             <behaviors1:BubbleScrollBehavior/>
-                                                            <behaviors:DynamicPropertiesDataGridBehavior IsDeviceValues="True" RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
+                                                            <behaviors:DynamicPropertiesDataGridBehavior RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
                                                                 <behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
                                                                     <Style TargetType="ContentControl">
                                                                         <Style.Setters>
                                                                             <Setter Property="Template">
                                                                                 <Setter.Value>
                                                                                     <ControlTemplate TargetType="ContentControl">
-                                                                                        <Border BorderThickness="2">
+                                                                                        <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue,Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay }">
                                                                                             <ContentPresenter
-                                                                                                        Content="{TemplateBinding Content}">
+                                                                                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue}">
                                                                                                 <ContentPresenter.ContentTemplateSelector>
                                                                                                     <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
                                                                                                 </ContentPresenter.ContentTemplateSelector>
@@ -112,20 +113,20 @@
                                                     <TextBlock HorizontalAlignment="Center" Text="{lex:Loc LocalData}"></TextBlock>
 
 
-                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False">>
+                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False"  HorizontalScrollBarVisibility="Auto">
                                                         <i:Interaction.Behaviors>
                                                             <behaviors1:BubbleScrollBehavior/>
-                                                            <behaviors:DynamicPropertiesDataGridBehavior IsDeviceValues="False" RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
+                                                            <behaviors:DynamicPropertiesDataGridBehavior RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
                                                                 <behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
                                                                     <Style TargetType="ContentControl">
                                                                         <Style.Setters>
                                                                             <Setter Property="Template">
                                                                                 <Setter.Value>
                                                                                     <ControlTemplate TargetType="ContentControl">
-                                                                                        <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content,Converter={StaticResource PropertyTooltipConverter} }" 
-                                                                                                        BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}">
+                                                                                        <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue,Converter={StaticResource PropertyTooltipConverter} }" 
+                                                                                                        BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}">
                                                                                             <ContentPresenter
-                                                                                                        Content="{TemplateBinding Content}">
+                                                                                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
                                                                                                 <ContentPresenter.ContentTemplateSelector>
                                                                                                     <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
                                                                                                 </ContentPresenter.ContentTemplateSelector>
@@ -201,8 +202,8 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <ToggleButton
@@ -213,26 +214,16 @@
                                                 Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
                                                 Style="{DynamicResource ConfigurationToggleButtonStyle}"
                                                 Tag="{Binding ElementName=ConfigListView, Path=ItemsSource}">
-                                                <ToggleButton.ContextMenu>
-                                                    <ContextMenu>
-                                                        <MenuItem Header="{lex:Loc Key=Transform}" Command="{Binding TryTransformToTableCommand}">
-                                                        </MenuItem>
-                                                    </ContextMenu>
-                                                </ToggleButton.ContextMenu>
                                                 <i:Interaction.Behaviors>
                                                     <behaviors:TreeViewToggleButtonBehavior />
                                                 </i:Interaction.Behaviors>
                                             </ToggleButton>
-
-                                            <Popup Name="tablePopup" Grid.Column="2" IsOpen="{Binding IsTablePopupOpen,FallbackValue=false}">
-
-                                            </Popup>
                                             <TextBlock
                                                 Name="HeaderTextBlock"
-                                                Grid.Column="2"
+                                                Grid.Column="1"
                                                 Text="{Binding Path=Header}" />
                                             <Button
-                                                Grid.Column="3"
+                                                Grid.Column="2"
                                                 Width="20"
                                                 Style="{DynamicResource UniconButtonStyle}"
                                                 ToolTip="{Binding Path=Description}"
@@ -251,6 +242,17 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
                                             </Button>
+                                            <ToggleButton Margin="0" ToolTip="{lex:Loc Transform}" Style="{DynamicResource UniconToggleButtonStyle}" Grid.Column="3" IsChecked="{Binding IsTableView}" Visibility="{Binding IsTableViewEnabled,Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
+                                                <Rectangle 
+                                                    Margin="-2"
+                                                    Width="15"
+                                                    Height="15"
+                                                    Fill="Black">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_column_three}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </ToggleButton>
                                         </Grid>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

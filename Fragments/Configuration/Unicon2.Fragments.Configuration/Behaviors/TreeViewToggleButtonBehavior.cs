@@ -128,6 +128,10 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         {
             IRuntimeConfigurationItemViewModel oldItem = ((sender as ToggleButton).DataContext as IRuntimeConfigurationItemViewModel);
             if (oldItem == null) return;
+            if (oldItem is IConfigurationAsTableViewModel configurationAsTableViewModel&&configurationAsTableViewModel.IsTableView)
+            {
+                return;
+            }
             oldItem.IsChecked = true;
             ObservableCollection<IRuntimeConfigurationItemViewModel> treeGridItems = ((sender as ToggleButton)?.Tag as ObservableCollection<IRuntimeConfigurationItemViewModel>);
             int index = treeGridItems.IndexOf(oldItem);

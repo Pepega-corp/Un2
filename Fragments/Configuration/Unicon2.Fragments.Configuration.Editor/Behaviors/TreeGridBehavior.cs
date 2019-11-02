@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base;
@@ -14,6 +17,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
             base.OnAttached();
         }
 
+
+     
         private void AssociatedObject_MouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if ((sender as ListView).SelectedItem == null) return;

@@ -9,5 +9,6 @@ namespace Unicon2.Presentation.Infrastructure.TreeGrid
    public interface IConfigurationAsTableViewModel
     {
         bool IsTableView { get; set; }
+        bool IsTableViewEnabled { get; }
     }
 }

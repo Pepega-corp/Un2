@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Behaviors;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.ViewModel.Properties;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Events;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
@@ -19,12 +22,13 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Table
 {
-    public class TableConfigurationViewModel :ViewModelBase
+    public class TableConfigurationViewModel : ViewModelBase
     {
         private readonly ObservableCollection<IRuntimeConfigurationItemViewModel> _itemGroupsToTransform;
         private DynamicPropertiesTable _dynamicPropertiesTable;
 
-        public TableConfigurationViewModel(ObservableCollection<IRuntimeConfigurationItemViewModel> itemGroupsToTransform)
+        public TableConfigurationViewModel(
+            ObservableCollection<IRuntimeConfigurationItemViewModel> itemGroupsToTransform)
         {
             _itemGroupsToTransform = itemGroupsToTransform;
             Initialize();
@@ -34,52 +38,82 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
         public DynamicPropertiesTable DynamicPropertiesTable
         {
             get => _dynamicPropertiesTable;
-            set => SetProperty(ref _dynamicPropertiesTable , value);
+            set => SetProperty(ref _dynamicPropertiesTable, value);
         }
 
         private void Initialize()
         {
-            DynamicPropertiesTable=new DynamicPropertiesTable(GetColumnNames(_itemGroupsToTransform).ToList(), _itemGroupsToTransform.Select((model => model.Header)).ToList(), false);
-            _itemGroupsToTransform.ForEach((group => DynamicPropertiesTable.AddPropertyViewModel(GetRowFromItemGroup(group,true))));
+            var columnNamesWithProperties = new List<Tuple<string, IRuntimeConfigurationItemViewModel>>();
+            FillColumnNames(_itemGroupsToTransform, columnNamesWithProperties);
+            var lookup = columnNamesWithProperties.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);
+            var columnNames = lookup.Select(models => models.Key).ToList();
+            DynamicPropertiesTable = new DynamicPropertiesTable(columnNames,
+                _itemGroupsToTransform.Select((model => model.Header)).ToList(), false);
+            _itemGroupsToTransform.ForEach((group =>
+                DynamicPropertiesTable.AddPropertyViewModel(GetRowFromItemGroup(group, lookup, columnNames)
+                    .Select((tuple => tuple.Value)).ToList())));
         }
 
 
-        private List<string> GetColumnNames(IEnumerable<IRuntimeConfigurationItemViewModel> items)
+
+
+
+
+
+        private void FillColumnNames(IEnumerable<IRuntimeConfigurationItemViewModel> items,
+            List<Tuple<string, IRuntimeConfigurationItemViewModel>> columnNamesWithProperties)
         {
-            var columnNames = new List<string>();
-            var columnNameSource = items.First().ChildStructItemViewModels;
-            foreach (var innerChilditem in columnNameSource)
+            foreach (var item in items)
             {
-                if (innerChilditem is IGroupedConfigurationItemViewModel)
+                if (item.ChildStructItemViewModels.Any())
                 {
-                    columnNames.AddRange(innerChilditem.ChildStructItemViewModels.Select((model =>model.Header )));
+                    FillColumnNames(item.ChildStructItemViewModels, columnNamesWithProperties);
                 }
                 else
                 {
-                    columnNames.Add(innerChilditem.Header);
+                    columnNamesWithProperties.Add(
+                        new Tuple<string, IRuntimeConfigurationItemViewModel>(item.Header, item));
                 }
             }
-
-            return columnNames;
         }
 
-        private List<ILocalAndDeviceValueContainingViewModel> GetRowFromItemGroup(IRuntimeConfigurationItemViewModel group, bool isDeviceValue)
+        private Dictionary<string, ILocalAndDeviceValueContainingViewModel> GetRowFromItemGroup(
+            IRuntimeConfigurationItemViewModel group, ILookup<string, IRuntimeConfigurationItemViewModel> lookup,
+            List<string> columnNames, Dictionary<string, ILocalAndDeviceValueContainingViewModel> initialList = null)
         {
-            var result=new List<ILocalAndDeviceValueContainingViewModel>();
+            if (initialList == null)
+            {
+                initialList = new Dictionary<string, ILocalAndDeviceValueContainingViewModel>();
+                foreach (var columnName in columnNames)
+                {
+                    initialList.Add(columnName, null);
+                }
+            }
 
             group.ChildStructItemViewModels.ForEach((item =>
             {
                 if (item.ChildStructItemViewModels.Any())
                 {
-                    result.AddRange(GetRowFromItemGroup(item, isDeviceValue));
+                    GetRowFromItemGroup(item, lookup, columnNames, initialList);
                 }
                 else
                 {
-                    result.Add(item as ILocalAndDeviceValueContainingViewModel);
+                    InsertProperty(initialList, lookup, item);
                 }
             }));
-            return result;
+            return initialList;
         }
-        
+
+
+        private void InsertProperty(Dictionary<string, ILocalAndDeviceValueContainingViewModel> resultList,
+            ILookup<string, IRuntimeConfigurationItemViewModel> lookup,
+            IRuntimeConfigurationItemViewModel itemToAdd)
+        {
+
+            var columnName = lookup.FirstOrDefault((models => models.Contains(itemToAdd)))?.Key;
+            if (columnName != null)
+                resultList[columnName] = itemToAdd as ILocalAndDeviceValueContainingViewModel;
+        }
+
     }
 }

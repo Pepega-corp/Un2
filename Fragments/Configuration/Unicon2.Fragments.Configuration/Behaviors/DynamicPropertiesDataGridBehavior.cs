@@ -36,14 +36,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         #region RowValues dp
 
-        public static readonly DependencyProperty IsDeviceValuesProperty =
-            DependencyProperty.Register("IsDeviceValues", typeof(bool), typeof(DynamicPropertiesDataGridBehavior));
-
-        public bool IsDeviceValues
-        {
-            get { return (bool)this.GetValue(IsDeviceValuesProperty); }
-            set { this.SetValue(IsDeviceValuesProperty, value); }
-        }
 
         public static readonly DependencyProperty RowValuesProperty =
             DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable), typeof(DynamicPropertiesDataGridBehavior),
@@ -183,44 +175,16 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         private DataGridTemplateColumn CreateGridTemplateColumn(int index, string columnName)
         {
-            // DataTemplate dataTemplate1 = new DataTemplate();
-            // dataTemplate1.VisualTree = new FrameworkElementFactory(typeof(ContentPresenter));
-            //var contentPresenterHigh = new ContentPresenter();
-
-            // if (IsDeviceValues)
-            // {
-            //     Binding b11 = new Binding(".[" + index + "].DeviceValue");
-            //     //dataTemplate1.VisualTree.SetValue(ContentPresenter.HorizontalAlignmentProperty,HorizontalAlignment.Center);
-            //     dataTemplate1.VisualTree.SetValue(ContentPresenter.ContentProperty, b11);
-            // }
-            // else
-            // {
-            //     Binding b11 = new Binding(".[" + index + "].LocalValue");
-            //     //dataTemplate1.VisualTree.SetValue(ContentPresenter.HorizontalAlignmentProperty,HorizontalAlignment.Center);
-            //     dataTemplate1.VisualTree.SetValue(ContentPresenter.ContentProperty, b11);
-            // }
-            // DataTemplateSelector dataTemplateSelector1 = new ViewModelByStrongNameDataTemplateSelector();
-            // dataTemplate1.VisualTree.SetValue(ContentPresenter.ContentTemplateSelectorProperty, dataTemplateSelector1);
 
             DataTemplate cellDataTemplate = new DataTemplate();
 
-
-
-
             var innerVisualTree = new FrameworkElementFactory(typeof(ContentControl));
             innerVisualTree.SetValue(FrameworkElement.StyleProperty, CellStyle);
-            if (IsDeviceValues)
-            {
-                Binding b11 = new Binding(".[" + index + "].DeviceValue");
-                //dataTemplate1.VisualTree.SetValue(ContentPresenter.HorizontalAlignmentProperty,HorizontalAlignment.Center);
-                innerVisualTree.SetValue(ContentControl.ContentProperty, b11);
-            }
-            else
-            {
-                Binding b11 = new Binding(".[" + index + "].LocalValue");
-                //dataTemplate1.VisualTree.SetValue(ContentPresenter.HorizontalAlignmentProperty,HorizontalAlignment.Center);
-                innerVisualTree.SetValue(ContentControl.ContentProperty, b11);
-            }
+
+            Binding b11 = new Binding(".[" + index + "]");
+            //dataTemplate1.VisualTree.SetValue(ContentPresenter.HorizontalAlignmentProperty,HorizontalAlignment.Center);
+            innerVisualTree.SetValue(ContentControl.ContentProperty, b11);
+
             DataTemplateSelector dataTemplateSelector1 = new ViewModelByStrongNameDataTemplateSelector();
             innerVisualTree.SetValue(ContentControl.ContentTemplateSelectorProperty, dataTemplateSelector1);
 
