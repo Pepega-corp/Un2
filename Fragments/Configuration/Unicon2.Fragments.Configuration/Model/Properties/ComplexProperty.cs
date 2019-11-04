@@ -82,7 +82,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
                 }
                 else
                 {
-                    return await base.Write();
+                   return await base.Write();
                 }
             }
             return isToWrite;

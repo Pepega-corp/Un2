@@ -161,7 +161,7 @@
                         Command="{Binding EditDescriptionCommand}"
                         Content="{lex:Loc EditDescription}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <UniformGrid Columns="2">
+                    <UniformGrid Columns="2" Rows="2">
                         <Button
                             Margin="3"
                             Command="{Binding SelectedRow.IncreaseAddressCommand}"
@@ -175,6 +175,17 @@
                             Content="{lex:Loc DecreaseAddress}"
                             IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}"
                             Style="{DynamicResource UniconButtonStyle}" />
+                        <TextBlock
+                            Margin="3"
+                            Text="{lex:Loc AddressIterator}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            />
+                        <TextBox
+                            Margin="3"
+                            Text="{Binding SelectedRow.AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
+                            />
                     </UniformGrid>
                 </StackPanel>
             </GroupBox>
@@ -206,7 +217,7 @@
 
             <ListView
                 Name="ConfigListView"
-                MaxHeight="600"
+                MaxHeight="800"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 AlternationCount="2"

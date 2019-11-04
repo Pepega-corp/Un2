@@ -9,7 +9,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="dependentEditorWindow"
-    Title="{lex:Loc ComplexParameter}"
+    Title="{lex:Loc DependentParameter}"
     Width="850"
     Height="600"
     BorderBrush="{DynamicResource AccentColorBrush}"

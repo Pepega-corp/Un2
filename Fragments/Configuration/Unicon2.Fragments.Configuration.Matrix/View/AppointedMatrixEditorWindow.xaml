@@ -159,8 +159,8 @@
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
                         </Grid.ColumnDefinitions>
                         <Button
                         Grid.Column="0"
@@ -198,7 +198,7 @@
 
                     </Grid>
 
-                    <ListBox Height="500" 
+                    <ListBox Height="500"
                              ItemsSource="{Binding Path=VariableSignatureEditorViewModels,ValidatesOnDataErrors=True}" 
                              Style="{StaticResource ErrorStyle}"
                              KeyboardNavigation.TabNavigation="Continue">
@@ -228,6 +228,13 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
+                    <Button Margin="10"
+                            HorizontalAlignment="Left"
+                            Width="150"
+                            Command="{Binding ClearSignaturesCommand}"
+                            Content="{lex:Loc ClearSignatures}"
+                            Style="{DynamicResource UniconButtonStyle}"
+                            />
                 </StackPanel>
             </controls:MetroTabItem>
             <controls:MetroTabItem Header="{lex:Loc PossibleValues}">

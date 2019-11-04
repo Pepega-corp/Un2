@@ -108,6 +108,7 @@
     <Compile Include="Services\ToolBarService.cs" />
     <Compile Include="Values\Base\EditableValueViewModelBase.cs" />
     <Compile Include="Values\Base\FormattableValueViewModelBase.cs" />
+    <Compile Include="Values\BitMaskValueViewModel.cs" />
     <Compile Include="Values\BoolValueViewModel.cs" />
     <Compile Include="Values\ChosenFromListValueViewModel.cs" />
     <Compile Include="Values\Editable\EditableBoolValueViewModel.cs" />

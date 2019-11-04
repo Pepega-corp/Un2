@@ -38,7 +38,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             this.SetElementRightCommand = new RelayCommand<object>(this.OnSetElementRightExecute, this.CanExecuteSetElementRight);
             this.CheckElementsPositionCommand = new RelayCommand(() =>
             {
-                (this.SetElementLeftCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (this.SetElementLeftCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
                 (this.SetElementRightCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
 
             });

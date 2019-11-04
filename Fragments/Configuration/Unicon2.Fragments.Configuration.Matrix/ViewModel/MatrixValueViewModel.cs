@@ -25,6 +25,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
     {
         private readonly MatrixViewModelTableFactory _matrixViewModelTableFactory;
         private DynamicDataTable _table;
+        private bool _isEditable = false;
 
         #region Overrides of FormattableValueViewModelBase
 
@@ -56,7 +57,28 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             }
         }
 
+        public object Clone()
+        {
+            IMatrixValueViewModel matrixItem = this.OnCloning();
 
+            return matrixItem;
+        }
+
+        private IMatrixValueViewModel OnCloning()
+        {
+            //MatrixValueViewModel cloneModel = new MatrixValueViewModel();
+            return this;
+        }
+
+        public bool IsEditable
+        {
+            get { return _isEditable; }
+            private set
+            {
+                _isEditable = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
 

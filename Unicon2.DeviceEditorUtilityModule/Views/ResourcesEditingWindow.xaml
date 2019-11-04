@@ -23,7 +23,8 @@
     Height="400"
     Name="ResourceEditingWindow"
     Title="{lex:Loc Editing}"
-    ShowSystemMenuOnRightClick="False" Width="700">
+    ShowSystemMenuOnRightClick="False" Width="700"
+    mc:Ignorable="d">
 
     <controls:MetroWindow.Resources>
         <converter:BoolToVisConverter x:Key="BoolToVisConverter"></converter:BoolToVisConverter>

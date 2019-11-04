@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Windows;
 using Oscilloscope.View;
 
 namespace Oscilloscope.ComtradeFormat
@@ -30,13 +29,7 @@ namespace Oscilloscope.ComtradeFormat
 
         public static ComTrade Load(string fileName, int encodding)
         {
-            ComTrade res = new ComTrade();  
-            res.FileName = Path.GetFileNameWithoutExtension(fileName);
-            res._cfgFile = new CfgFile();
-            res._cfgFile.Load(fileName, encodding);
-            res._datFile = DatFile.Load(res._cfgFile, fileName);
-           
-            return res;
+            return new ComTrade(fileName, encodding); //Path.GetFileNameWithoutExtension(fileName)
         }
 
         public void Save(string filename, int encoding)
@@ -46,8 +39,12 @@ namespace Oscilloscope.ComtradeFormat
             this._datFile.Save(cfgPathPath);
         }
 
-        internal ComTrade()
+        internal ComTrade(string fileName, int encodding)
         {
+            this.FileName = fileName;
+            this._cfgFile = new CfgFile();
+            this._cfgFile.Load(fileName, encodding);
+            this._datFile = DatFile.Load(this._cfgFile, fileName);
         }
 
         internal ComTrade(CfgFile cfgFile, DatFile datFile)
