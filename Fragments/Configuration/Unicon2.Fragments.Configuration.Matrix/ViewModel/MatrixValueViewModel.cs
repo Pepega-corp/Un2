@@ -57,6 +57,19 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             }
         }
 
+        public object Clone()
+        {
+            IMatrixValueViewModel matrixItem = this.OnCloning();
+
+            return matrixItem;
+        }
+
+        private IMatrixValueViewModel OnCloning()
+        {
+            //MatrixValueViewModel cloneModel = new MatrixValueViewModel();
+            return this;
+        }
+
         public bool IsEditable
         {
             get { return _isEditable; }

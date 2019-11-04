@@ -367,6 +367,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddressIterator.
+        /// </summary>
+        public static string AddressIterator {
+            get {
+                return ResourceManager.GetString("AddressIterator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @AddressOfOscillogram.
         /// </summary>
         public static string AddressOfOscillogram {
@@ -1186,6 +1195,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @DependentParameter.
+        /// </summary>
+        public static string DependentParameter {
+            get {
+                return ResourceManager.GetString("DependentParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @DependentProperty.
         /// </summary>
         public static string DependentProperty {
@@ -1236,6 +1254,15 @@ namespace Unicon2.Localization.Properties {
         public static string DeviceFile {
             get {
                 return ResourceManager.GetString("DeviceFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @DeviceReadingError.
+        /// </summary>
+        public static string DeviceReadingError {
+            get {
+                return ResourceManager.GetString("DeviceReadingError", resourceCulture);
             }
         }
         

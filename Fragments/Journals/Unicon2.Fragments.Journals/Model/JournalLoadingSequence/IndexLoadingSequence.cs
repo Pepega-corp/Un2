@@ -46,6 +46,7 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
 
         public void ResetSequence()
         {
+            this._currentRecordIndex = 0;
             this._lastQueryErrorCode = 1;
         }
 

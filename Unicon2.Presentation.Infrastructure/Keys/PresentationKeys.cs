@@ -6,6 +6,7 @@
         public static string NUMERIC_VALUE_KEY = "NumericValue";
         public static string BOOL_VALUE_KEY = "BoolValue";
         public static string STRING_VALUE_KEY = "StringValue";
+        public static string BIT_MASK_VALUE = "BitMaskValue";
 
         public static class IconKeys
         {
