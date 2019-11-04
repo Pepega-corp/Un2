@@ -14,8 +14,11 @@
     <converters:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
     <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
     <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
+    <converters:PropertyTooltipConverter x:Key="PropertyTooltipConverter"></converters:PropertyTooltipConverter>
+
     <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
     <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
+    <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
 
     <DataTemplate x:Key="RuntimeConfigurationViewModelDataTemplate" DataType="{x:Type struct:IRuntimeConfigurationViewModel}">
         <Grid Name="ConfigGrid">
@@ -39,9 +42,154 @@
             </Grid>
             <ListView
                 Name="ConfigListView"
-                Width="auto"
+                Width="auto" AlternationCount="0"
                 HorizontalAlignment="Stretch"
                 ItemsSource="{Binding Path=AllRows}">
+                <ListView.ItemContainerStyle>
+
+                    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border x:Name="Border"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                            BorderThickness="0,0,0,1"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                        <StackPanel Orientation="Vertical">
+                                            <GridViewRowPresenter Content="{TemplateBinding Content}"></GridViewRowPresenter>
+                                            <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Collapsed, TargetNullValue=Collapsed,Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2"></ColumnDefinition>
+                                                    <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock HorizontalAlignment="Center" Text="{lex:Loc DeviceData}"></TextBlock>
+
+
+                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalScrollBarVisibility="Auto">
+                                                        <i:Interaction.Behaviors>
+                                                            <behaviors1:BubbleScrollBehavior/>
+                                                            <behaviors:DynamicPropertiesDataGridBehavior RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
+                                                                <behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
+                                                                    <Style TargetType="ContentControl">
+                                                                        <Style.Setters>
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="ContentControl">
+                                                                                        <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue,Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay }">
+                                                                                            <ContentPresenter
+                                                                                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue}">
+                                                                                                <ContentPresenter.ContentTemplateSelector>
+                                                                                                    <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
+                                                                                                </ContentPresenter.ContentTemplateSelector>
+                                                                                            </ContentPresenter>
+                                                                                        </Border>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style.Setters>
+                                                                    </Style>
+                                                                </behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
+                                                            </behaviors:DynamicPropertiesDataGridBehavior>
+                                                        </i:Interaction.Behaviors>
+                                                    </DataGrid>
+                                                </Grid>
+                                                <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"></GridSplitter>
+                                                <Grid Grid.Column="2">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock HorizontalAlignment="Center" Text="{lex:Loc LocalData}"></TextBlock>
+
+
+                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False"  HorizontalScrollBarVisibility="Auto">
+                                                        <i:Interaction.Behaviors>
+                                                            <behaviors1:BubbleScrollBehavior/>
+                                                            <behaviors:DynamicPropertiesDataGridBehavior RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
+                                                                <behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
+                                                                    <Style TargetType="ContentControl">
+                                                                        <Style.Setters>
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="ContentControl">
+                                                                                        <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue,Converter={StaticResource PropertyTooltipConverter} }" 
+                                                                                                        BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}">
+                                                                                            <ContentPresenter
+                                                                                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
+                                                                                                <ContentPresenter.ContentTemplateSelector>
+                                                                                                    <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
+                                                                                                </ContentPresenter.ContentTemplateSelector>
+                                                                                            </ContentPresenter>
+                                                                                        </Border>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style.Setters>
+                                                                    </Style>
+                                                                </behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
+                                                            </behaviors:DynamicPropertiesDataGridBehavior>
+                                                        </i:Interaction.Behaviors>
+                                                    </DataGrid>
+                                                </Grid>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+
+
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush2}" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}" />
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                                        </MultiTrigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                                        </MultiTrigger>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Opacity" Value=".56" />
+                                        </Trigger>
+                                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+
+
+
+                                </ControlTemplate>
+
+                            </Setter.Value>
+
+                        </Setter>
+
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <i:Interaction.Behaviors>
                     <behaviors1:TreeGridBehavior />
                 </i:Interaction.Behaviors>
@@ -54,8 +202,8 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <ToggleButton
@@ -66,36 +214,16 @@
                                                 Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
                                                 Style="{DynamicResource ConfigurationToggleButtonStyle}"
                                                 Tag="{Binding ElementName=ConfigListView, Path=ItemsSource}">
-                                                <ToggleButton.ContextMenu>
-                                                    <ContextMenu>
-                                                        <MenuItem Header="{lex:Loc Key=TryTransform}" Command="{Binding TryTransformToTableCommand}">
-                                                        </MenuItem>
-                                                    </ContextMenu>
-                                                </ToggleButton.ContextMenu>
                                                 <i:Interaction.Behaviors>
                                                     <behaviors:TreeViewToggleButtonBehavior />
                                                 </i:Interaction.Behaviors>
                                             </ToggleButton>
-                                            
-                                            <Popup Name="tablePopup" Grid.Column="2" IsOpen="{Binding IsTablePopupOpen,FallbackValue=false}">
-                                                  <Border Background="Bisque" BorderThickness="1" Width="600" Height="400">
-                                                      <DataGrid
-                                                          HorizontalAlignment="Stretch"
-                                                          VerticalAlignment="Stretch"
-                                                          AutoGenerateColumns="False"
-                                                          CanUserAddRows="False">
-                                                          <i:Interaction.Behaviors>
-                                                            <behaviors1:DynamicColumnsDataGridBehavior RowValues="{Binding TableConfigurationViewModel.ConfigTable}" />
-                                                          </i:Interaction.Behaviors>
-                                                      </DataGrid>
-                                                </Border>
-                                            </Popup>
                                             <TextBlock
                                                 Name="HeaderTextBlock"
-                                                Grid.Column="2"
+                                                Grid.Column="1"
                                                 Text="{Binding Path=Header}" />
                                             <Button
-                                                Grid.Column="3"
+                                                Grid.Column="2"
                                                 Width="20"
                                                 Style="{DynamicResource UniconButtonStyle}"
                                                 ToolTip="{Binding Path=Description}"
@@ -114,6 +242,17 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
                                             </Button>
+                                            <ToggleButton Margin="0" ToolTip="{lex:Loc Transform}" Style="{DynamicResource UniconToggleButtonStyle}" Grid.Column="3" IsChecked="{Binding IsTableView}" Visibility="{Binding IsTableViewEnabled,Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
+                                                <Rectangle 
+                                                    Margin="-2"
+                                                    Width="15"
+                                                    Height="15"
+                                                    Fill="Black">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_column_three}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </ToggleButton>
                                         </Grid>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -220,6 +359,23 @@
                 </Rectangle>
             </Button>
         </Grid>
+    </DataTemplate>
+
+
+    <DataTemplate x:Key="RuntimeConfigTableValueViewModelDataTemplate">
+        <Expander IsExpanded="True">
+            <Border Background="Bisque" BorderThickness="1" Width="Auto" Height="Auto">
+                <DataGrid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False">
+                    <i:Interaction.Behaviors>
+                        <behaviors1:DynamicColumnsDataGridBehavior RowValues="{Binding ConfigTable}" />
+                    </i:Interaction.Behaviors>
+                </DataGrid>
+            </Border>
+        </Expander>
     </DataTemplate>
 
 </ResourceDictionary>

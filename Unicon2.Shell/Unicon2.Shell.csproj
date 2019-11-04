@@ -128,6 +128,7 @@
     <Compile Include="Behaviors\ButtonContextMenuOpenBehavior.cs" />
     <Compile Include="Behaviors\DynamicRibbonTabItemBehavior.cs" />
     <Compile Include="ControlRegionAdapter\FlyoutsControlRegionAdapter.cs" />
+    <Compile Include="EventAggregator\GlobalEventsService.cs" />
     <Compile Include="Models\AccentColor.cs" />
     <Compile Include="Models\ApplicationTheme.cs" />
     <Compile Include="Services\ApplicationSettingsService.cs" />

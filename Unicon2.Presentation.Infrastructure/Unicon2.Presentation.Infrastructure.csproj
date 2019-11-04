@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\PlacementEnum.cs" />
+    <Compile Include="Events\IGlobalEventsService.cs" />
+    <Compile Include="Events\ValueChangedEvent.cs" />
     <Compile Include="Factories\IDeviceViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentPaneViewModelFactory.cs" />

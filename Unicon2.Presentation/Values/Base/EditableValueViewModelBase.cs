@@ -49,6 +49,7 @@ namespace Unicon2.Presentation.Values.Base
 
         private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary = new Dictionary<string, bool>();
         private bool _isEditEnabled;
+  
 
         protected void SetIsChangedProperty(string propertyName, bool isChanged)
         {
@@ -78,5 +79,6 @@ namespace Unicon2.Presentation.Values.Base
         }
 
         #endregion
+
     }
 }

@@ -10,7 +10,7 @@ namespace Unicon2.Fragments.Configuration.Converters
         #region Implementation of IValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+       {
             if (value is bool?)
             {
                 if ((value as bool?).Value)

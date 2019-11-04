@@ -1,46 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 
-namespace Unicon2.SharedResources.Behaviors
+namespace Unicon2.Fragments.Configuration.Behaviors
 {
-    public class DynamicDataTable
+    public class DynamicPropertiesTable
     {
-        public Action TableUpdateAction { get; set; }
-        public Action<List<IFormattedValueViewModel>> FormattedValueViewModelAddedAction { get; set; }
 
-        public DynamicDataTable(List<string> columnNamesStrings, List<string> rowHeadersStrings, bool isBaseNumeration)
+        public Action TableUpdateAction { get; set; }
+        public Action<List<ILocalAndDeviceValueContainingViewModel>> FormattedValueViewModelAddedAction { get; set; }
+
+        public DynamicPropertiesTable(List<string> columnNamesStrings, List<string> rowHeadersStrings,
+            bool isBaseNumeration)
         {
             this.IsBaseNumeration = isBaseNumeration;
             this.ColumnNamesStrings = columnNamesStrings;
             this.RowHeadersStrings = rowHeadersStrings;
-            this.Values = new List<List<IFormattedValueViewModel>>();
+            this.Values = new List<List<ILocalAndDeviceValueContainingViewModel>>();
         }
 
         public List<string> ColumnNamesStrings { get; }
         public List<string> RowHeadersStrings { get; }
         public bool IsBaseNumeration { get; }
-        public List<List<IFormattedValueViewModel>> Values { get; }
-
+        public List<List<ILocalAndDeviceValueContainingViewModel>> Values { get; }
 
         public int GetCurrentValueCount()
         {
             return this.Values.Count;
         }
 
-       public void AddFormattedValueViewModel(List<IFormattedValueViewModel> rowList)
+        public void AddPropertyViewModel(List<ILocalAndDeviceValueContainingViewModel> rowList)
         {
             this.Values.Add(rowList);
             this.FormattedValueViewModelAddedAction?.Invoke(rowList);
         }
+
         public void Reset()
         {
             this.Values.Clear();
             this.ColumnNamesStrings.Clear();
             this.RowHeadersStrings.Clear();
         }
-        
 
 
     }
 }
+
