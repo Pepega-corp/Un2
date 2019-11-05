@@ -1350,7 +1350,7 @@
 
   <data name="Transform" xml:space="preserve">
     <value>Преобразовать</value>
-
+ </data>
   <data name="DependentParameter" xml:space="preserve">
     <value>Зависимый параметр</value>
   </data>
