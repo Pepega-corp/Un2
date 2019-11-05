@@ -35,6 +35,10 @@
             <TextBox Style="{DynamicResource EditableFieldBoxStyle}" Text="{Binding Name}" />
         </DataTemplate>
     </controls:MetroWindow.Resources>
+    <controls:MetroWindow.InputBindings>
+        <KeyBinding Key="Delete"
+                    Command="{Binding DeleteResourceCommand}"/>
+    </controls:MetroWindow.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
