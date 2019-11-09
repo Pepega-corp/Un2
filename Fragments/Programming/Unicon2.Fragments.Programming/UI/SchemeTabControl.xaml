@@ -8,7 +8,11 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Shared.xaml" />
+        <!--  Ресурсы, в которых описаны DataTemplate всех элементов, как они будут отображаться на Canvas  -->
+        <ResourceDictionary Source="../ElementsResources/InputView.xaml" />
+        <ResourceDictionary Source="../ElementsResources/OutputView.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
     <!--  TAB CONTROL STYLE  -->
     <Style x:Key="SchemeTabControlStyle" TargetType="{x:Type local:TabControlEx}">
         <Setter Property="OverridesDefaultStyle" Value="True" />

@@ -55,11 +55,15 @@
     <Compile Include="Adorners\ConnectorAdorner.cs" />
     <Compile Include="Adorners\DragItemsAdorner.cs" />
     <Compile Include="Adorners\RubberbandAdorner.cs" />
+    <Compile Include="Behaviors\ConnectionBehavior.cs" />
+    <Compile Include="Behaviors\ConnectorBehavior.cs" />
     <Compile Include="Behaviors\DesignerCanvasBehavior.cs" />
+    <Compile Include="Behaviors\DesignerItemBehavior.cs" />
     <Compile Include="Behaviors\ElementsLibraryBehavior.cs" />
     <Compile Include="CommonHelper.cs" />
     <Compile Include="DesignerCanvasItemsControl.cs" />
     <Compile Include="DragElement.cs" />
+    <Compile Include="Model\Connector.cs" />
     <Compile Include="Model\Elements\Input.cs" />
     <Compile Include="Model\Elements\Output.cs" />
     <Compile Include="Model\ProgrammModel.cs" />
@@ -72,7 +76,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="TabControlEx.cs" />
-    <Compile Include="TemplateSelectors\ElementLibrarySelector.cs" />
+    <Compile Include="TemplateSelectors\ElementsViewModelSelector.cs" />
+    <Compile Include="ViewModels\ConnectionViewModel.cs" />
+    <Compile Include="ViewModels\ConnectorViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\InputViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\LogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
@@ -121,6 +127,22 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ElementsLibraryResources\OutputLibraryElement.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementsResources\Connection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementsResources\Connector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementsResources\InputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementsResources\OutputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

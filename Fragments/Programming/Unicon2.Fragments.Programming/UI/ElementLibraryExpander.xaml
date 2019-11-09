@@ -14,7 +14,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
-    <selectors:ElementLibrarySelector
+    <selectors:ElementsViewModelSelector
         x:Key="LibrarySelector"
         Input="{StaticResource InputLibraryElement}"
         Output="{StaticResource OutputLibraryElement}" />

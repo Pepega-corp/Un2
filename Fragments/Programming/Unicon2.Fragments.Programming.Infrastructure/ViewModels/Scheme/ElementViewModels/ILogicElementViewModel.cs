@@ -1,4 +1,5 @@
-﻿using Unicon2.Infrastructure.ViewModel;
+﻿using System.Collections.ObjectModel;
+using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels
 {
@@ -10,6 +11,8 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         string Symbol { get; }
         bool ValidationError { get; set; }
         bool DebugMode { get; set; }
+        ObservableCollection<IConnectorViewModel> Connectors { get; }
         object Clone();
+        void OpenPropertyWindow();
     }
 }

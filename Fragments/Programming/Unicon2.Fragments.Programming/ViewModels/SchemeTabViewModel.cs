@@ -8,6 +8,7 @@ using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -134,31 +135,29 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public void DeleteSelectedElements()
         {
-            //List<ILogicElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
-            //foreach (ILogicElementViewModel element in selectedElements)
-            //{
-            //    if (element is ConnectionViewModel && this.ElementList.Contains(element))
-            //    {
-            //        ConnectionViewModel.RemoveConnectionWithNumber(element as ConnectionViewModel);
-            //        continue;
-            //    }
-            //    if (element is BaseElementViewModel)
-            //    {
-            //        List<ConnectionViewModel> removingConnections = new List<ConnectionViewModel>();
-            //        List<ConnectorViewModel> connectedConnectors =
-            //            (element as BaseElementViewModel).ConnectorViewModels
-            //            .Where(c => c.Connected && c.Connections.Count != 0).ToList();
-            //        foreach (ConnectorViewModel connector in connectedConnectors)
-            //        {
-            //            removingConnections.AddRange(connector.Connections);
-            //        }
-            //        foreach (ConnectionViewModel connection in removingConnections)
-            //        {
-            //            ConnectionViewModel.RemoveConnectionWithNumber(connection);
-            //        }
-            //        this.ElementList.Remove(element);
-            //    }
-            //}
+            List<ILogicElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
+            foreach (ILogicElementViewModel element in selectedElements)
+            {
+                if (element is ConnectionViewModel connection && this.ElementCollection.Contains(element))
+                {
+                    ConnectionViewModel.RemoveConnectionWithNumber(connection);
+                    continue;
+                }
+                if (element is LogicElementViewModel && !(element is ConnectionViewModel))
+                {
+                    var removingConnections = new List<IConnectionViewModel>();
+                    var connectedConnectors = element.Connectors.Where(c => c.Connected && c.Connections.Count != 0).ToList();
+                    foreach (var connector in connectedConnectors)
+                    {
+                        removingConnections.AddRange(connector.Connections);
+                    }
+                    foreach (var removingConnection in removingConnections)
+                    {
+                        ConnectionViewModel.RemoveConnectionWithNumber(removingConnection);
+                    }
+                    this.ElementCollection.Remove(element);
+                }
+            }
         }
 
         public bool CanDelete()
@@ -172,13 +171,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// Удаление связи со схемы
         /// </summary>
         /// <param name="connection">Удаляемая связь</param>
-        public void OnDeleteConnection(/*ConnectionViewModel connection*/)
+        public void OnDeleteConnection(IConnectionViewModel connection)
         {
-            //if (this.ElementList.Contains(connection))
-            //{
-            //    this.ElementList.Remove(connection);
-            //    connection.DeleteConnection -= this.OnDeleteConnection;
-            //}
+            if (this.ElementCollection.Contains(connection))
+            {
+                this.ElementCollection.Remove(connection);
+                connection.DeleteConnection -= this.OnDeleteConnection;
+            }
         }
 
         #region IFragmentViewModel

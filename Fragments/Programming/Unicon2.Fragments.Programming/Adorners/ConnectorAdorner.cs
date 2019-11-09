@@ -5,134 +5,135 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Adorners
 {
-    public class ConnectorAdorner //: Adorner
+    public class ConnectorAdorner : Adorner
     {
-    //    private PathGeometry _pathGeometry;
-    //    private Canvas _designerCanvas;
-    //    private SchemeTabViewModel _tabViewModel;
-    //    private ConnectorViewModel _sourceConnector;
-    //    private ConnectorViewModel _hitConnector;
-    //    private Pen _drawingPen;
-        
-    //    public ConnectorAdorner(Canvas designer, ConnectorViewModel sourceConnectorViewModel): base(designer)
-    //    {
-    //        this._designerCanvas = designer;
-    //        this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
-    //        this._sourceConnector = sourceConnectorViewModel;
-    //        this._drawingPen = new Pen(Brushes.LightSlateGray, 1);
-    //        this._drawingPen.LineJoin = PenLineJoin.Round;
-    //        this._drawingPen.DashStyle = new DashStyle(new List<double>{8,3}, 0);//DashStyles.Dash;
+        private PathGeometry _pathGeometry;
+        private Canvas _designerCanvas;
+        private SchemeTabViewModel _tabViewModel;
+        private ConnectorViewModel _sourceConnector;
+        private ConnectorViewModel _hitConnector;
+        private Pen _drawingPen;
 
-    //        Cursor = Cursors.Cross;
-    //    }
+        public ConnectorAdorner(Canvas designer, ConnectorViewModel sourceConnectorViewModel) : base(designer)
+        {
+            this._designerCanvas = designer;
+            this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
+            this._sourceConnector = sourceConnectorViewModel;
+            this._drawingPen = new Pen(Brushes.LightSlateGray, 1);
+            this._drawingPen.LineJoin = PenLineJoin.Round;
+            this._drawingPen.DashStyle = new DashStyle(new List<double> { 8, 3 }, 0);//DashStyles.Dash;
 
-    //    private ConnectorViewModel HitConnector
-    //    {
-    //        set
-    //        {
-    //            if (this._hitConnector != null)
-    //            {
-    //                this._hitConnector.IsDragConnection = false;
-    //            }
-    //            this._hitConnector = value;
-    //            if (this._hitConnector != null)
-    //            {
-    //                this._hitConnector.IsDragConnection = true;
-    //            }
-    //        }
-    //    }
+            Cursor = Cursors.Cross;
+        }
 
-    //    protected override void OnMouseUp(MouseButtonEventArgs e)
-    //    {
-    //        if (this._hitConnector != null)
-    //        {
-    //            ConnectionViewModel connectionViewModel = 
-    //                this._sourceConnector.Connector.Orientation == ConnectorOrientation.RIGHT
-    //                ? new ConnectionViewModel(this._sourceConnector, this._hitConnector, this._pathGeometry)
-    //                : new ConnectionViewModel(this._hitConnector, this._sourceConnector, this._pathGeometry);
-    //            ConnectionViewModel.AddNewConnectionNumber(connectionViewModel);
-    //            // Добавляем вьюмодель в коллекцию ShemeViewModel
-    //            this._tabViewModel.ElementCollection.Add(connectionViewModel);
-    //            connectionViewModel.DeleteConnection += this._tabViewModel.OnDeleteConnection;
-    //            this._hitConnector.IsDragConnection = false;
-    //        }
-            
-    //        if (IsMouseCaptured) ReleaseMouseCapture();
-    //        AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
-    //        adornerLayer?.Remove(this);
-    //    }
+        private ConnectorViewModel HitConnector
+        {
+            set
+            {
+                if (this._hitConnector != null)
+                {
+                    this._hitConnector.IsDragConnection = false;
+                }
+                this._hitConnector = value;
+                if (this._hitConnector != null)
+                {
+                    this._hitConnector.IsDragConnection = true;
+                }
+            }
+        }
 
-    //    protected override void OnMouseMove(MouseEventArgs e)
-    //    {
-    //        if (e.LeftButton == MouseButtonState.Pressed)
-    //        {
-    //            if (!IsMouseCaptured) CaptureMouse();
-    //            this.HitTesting(e.GetPosition(this));
-    //            this.GetPathGeometry(e.GetPosition(this));
-    //            InvalidateVisual();
-    //        }
-    //        else
-    //        {
-    //            if (IsMouseCaptured) ReleaseMouseCapture();
-    //        }
-    //    }
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            if (this._hitConnector != null)
+            {
+                ConnectionViewModel connectionViewModel =
+                    this._sourceConnector.Connector.Orientation == ConnectorOrientation.RIGHT
+                    ? new ConnectionViewModel(this._sourceConnector, this._hitConnector, this._pathGeometry)
+                    : new ConnectionViewModel(this._hitConnector, this._sourceConnector, this._pathGeometry);
+                ConnectionViewModel.AddNewConnectionNumber(connectionViewModel);
+                // Добавляем вьюмодель в коллекцию ShemeViewModel
+                this._tabViewModel.ElementCollection.Add(connectionViewModel);
+                connectionViewModel.DeleteConnection += this._tabViewModel.OnDeleteConnection;
+                this._hitConnector.IsDragConnection = false;
+            }
 
-    //    protected override void OnRender(DrawingContext dc)
-    //    {
-    //        base.OnRender(dc);
-    //        dc.DrawGeometry(null, this._drawingPen, this._pathGeometry);
-    //        dc.DrawRectangle(Brushes.Transparent, null, new Rect(RenderSize));
-    //    }
+            if (IsMouseCaptured) ReleaseMouseCapture();
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
+            adornerLayer?.Remove(this);
+        }
 
-    //    private void GetPathGeometry(Point position)
-    //    {
-    //        this._pathGeometry = this._pathGeometry ?? new PathGeometry();
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (!IsMouseCaptured) CaptureMouse();
+                this.HitTesting(e.GetPosition(this));
+                this.GetPathGeometry(e.GetPosition(this));
+                InvalidateVisual();
+            }
+            else
+            {
+                if (IsMouseCaptured) ReleaseMouseCapture();
+            }
+        }
 
-    //        List<Point> pathPoints = this._hitConnector == null
-    //            ? PathFinder.GetConnectionLine(this._sourceConnector, position, ConnectorOrientation.NONE)
-    //            : PathFinder.GetConnectionLine(this._sourceConnector, this._hitConnector);
+        protected override void OnRender(DrawingContext dc)
+        {
+            base.OnRender(dc);
+            dc.DrawGeometry(null, this._drawingPen, this._pathGeometry);
+            dc.DrawRectangle(Brushes.Transparent, null, new Rect(RenderSize));
+        }
 
-    //        if (pathPoints.Count > 0)
-    //        {
-    //            this._pathGeometry.Figures.Clear();
-    //            PathFigure figure = new PathFigure();
-    //            figure.StartPoint = pathPoints[0];
-    //            pathPoints.Remove(pathPoints[0]);
-    //            figure.Segments.Add(new PolyLineSegment(pathPoints, true));
-    //            this._pathGeometry.Figures.Add(figure);
-    //        }
-    //    }
+        private void GetPathGeometry(Point position)
+        {
+            this._pathGeometry = this._pathGeometry ?? new PathGeometry();
 
-    //    private void HitTesting(Point hitPoint)
-    //    {
-    //        DependencyObject hitObject = this._designerCanvas.InputHitTest(hitPoint) as DependencyObject;
-    //        if (hitObject == null || !(hitObject is Border || hitObject is Ellipse))
-    //        {
-    //            this.HitConnector = null;
-    //            return;
-    //        }
-    //        FrameworkElement fe = (FrameworkElement) hitObject;
-    //        if(fe.Visibility != Visibility.Visible)
-    //        {
-    //            this.HitConnector = null;
-    //            return;
-    //        }
-    //        ConnectorViewModel cvm = fe.DataContext as ConnectorViewModel;
-    //        if (cvm == null || cvm.Connector.Orientation == this._sourceConnector.Connector.Orientation)
-    //        {
-    //            this.HitConnector = null;
-    //            return;
-    //        }
-    //        //нахождение точки присоединения элементу
-    //        Rect itemRect = VisualTreeHelper.GetDescendantBounds(fe);
-    //        Rect itemBounds =
-    //            fe.TransformToAncestor(this._designerCanvas).TransformBounds(itemRect);
-    //        cvm.ConnectorPoint = new Point(itemBounds.X + (itemBounds.Right - itemBounds.X) / 2, itemBounds.Y + (itemBounds.Bottom - itemBounds.Y) / 2);
-    //        this.HitConnector = cvm;
-    //    }
+            List<Point> pathPoints = this._hitConnector == null
+                ? PathFinder.GetConnectionLine(this._sourceConnector, position, ConnectorOrientation.NONE)
+                : PathFinder.GetConnectionLine(this._sourceConnector, this._hitConnector);
+
+            if (pathPoints.Count > 0)
+            {
+                this._pathGeometry.Figures.Clear();
+                PathFigure figure = new PathFigure();
+                figure.StartPoint = pathPoints[0];
+                pathPoints.Remove(pathPoints[0]);
+                figure.Segments.Add(new PolyLineSegment(pathPoints, true));
+                this._pathGeometry.Figures.Add(figure);
+            }
+        }
+
+        private void HitTesting(Point hitPoint)
+        {
+            DependencyObject hitObject = this._designerCanvas.InputHitTest(hitPoint) as DependencyObject;
+            if (hitObject == null || !(hitObject is Border || hitObject is Ellipse))
+            {
+                this.HitConnector = null;
+                return;
+            }
+            FrameworkElement fe = (FrameworkElement)hitObject;
+            if (fe.Visibility != Visibility.Visible)
+            {
+                this.HitConnector = null;
+                return;
+            }
+            ConnectorViewModel cvm = fe.DataContext as ConnectorViewModel;
+            if (cvm == null || cvm.Connector.Orientation == this._sourceConnector.Connector.Orientation)
+            {
+                this.HitConnector = null;
+                return;
+            }
+            //нахождение точки присоединения элементу
+            Rect itemRect = VisualTreeHelper.GetDescendantBounds(fe);
+            Rect itemBounds =
+                fe.TransformToAncestor(this._designerCanvas).TransformBounds(itemRect);
+            cvm.ConnectorPoint = new Point(itemBounds.X + (itemBounds.Right - itemBounds.X) / 2, itemBounds.Y + (itemBounds.Bottom - itemBounds.Y) / 2);
+            this.HitConnector = cvm;
+        }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
+    public abstract class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
     {
         protected LogicElementViewModel(string strongName)
         {
@@ -36,7 +37,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        public string StrongName { get; }
+        public string StrongName { get; protected set; }
 
         public object Model
         {
@@ -83,16 +84,10 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 this.RaisePropertyChanged();
             }
         }
-        public virtual object Clone()
-        {
-            LogicElementViewModel ret = new LogicElementViewModel(this.StrongName);
-            ret.Model = (this.Model as ILogicElement)?.Clone();
-            ret.IsSelected = this.IsSelected;
-            ret.DebugMode = this.DebugMode;
-            ret.Caption = this.Caption;
-            ret.ValidationError = this.ValidationError;
-            return ret;
-        }
+
+        public ObservableCollection<IConnectorViewModel> Connectors { get; protected set; }
+
+        public abstract object Clone();
 
         public double X
         {
@@ -115,5 +110,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public virtual void OpenPropertyWindow() { }
     }
 }

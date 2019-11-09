@@ -4,7 +4,7 @@ using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.TemplateSelectors
 {
-    public class ElementLibrarySelector : DataTemplateSelector
+    public class ElementsViewModelSelector : DataTemplateSelector
     {
         public DataTemplate Input { get; set; }
         public DataTemplate Output { get; set; }
