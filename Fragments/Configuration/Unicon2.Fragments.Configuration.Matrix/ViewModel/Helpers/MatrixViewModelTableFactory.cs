@@ -50,12 +50,14 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
 
                     _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) =>
                     {
+
                         var bitArrayOfVariable = GetBitArrayOfVariable(variable);
                         table.AddFormattedValueViewModel(GetFormattedValueViewModels((signature =>
                             GetListCellViewModel(signature, bitArrayOfVariable))));
                     });
                     return table;
                 }
+
                 case BoolMatrixVariableOptionTemplate _:
                 {
                     DynamicDataTable table = new DynamicDataTable(
@@ -68,12 +70,14 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
                         _formattedValueViewModelFunc = () => new BoolValueViewModel();
                     _matrixValue.MatrixTemplate.MatrixMemoryVariables.ForEach((variable) =>
                     {
+
                         var bitArrayOfVariable = GetBitArrayOfVariable(variable);
                         table.AddFormattedValueViewModel(GetFormattedValueViewModels((signature =>
                             GetBoolCellViewModel(signature, bitArrayOfVariable))));
                     });
                     return table;
                 }
+
 
             }
 

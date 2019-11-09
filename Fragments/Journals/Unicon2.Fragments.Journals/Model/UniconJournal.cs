@@ -89,6 +89,7 @@ namespace Unicon2.Fragments.Journals.Model
             await this.LoadJournalValues();
         }
 
+
         private async Task LoadJournalValues()
         {
             while (await this.JournalLoadingSequence.GetIsNextRecordAvailable())
@@ -96,12 +97,15 @@ namespace Unicon2.Fragments.Journals.Model
                 ushort[] recordUshorts = await this.JournalLoadingSequence.GetNextRecordUshorts();
                 IJournalRecord newRec =
                    await this._journalRecordFactory.CreateJournalRecord(recordUshorts, this.RecordTemplate);
-                this.JournalRecords.Add(newRec);
-                this.JournalRecordsChanged?.Invoke(new RecordChangingEventArgs()
+                if (newRec != null)
                 {
-                    JournalRecord = newRec,
-                    RecordChangingEnum = RecordChangingEnum.RecordAdded
-                });
+                    this.JournalRecords.Add(newRec);
+                    this.JournalRecordsChanged?.Invoke(new RecordChangingEventArgs()
+                    {
+                        JournalRecord = newRec,
+                        RecordChangingEnum = RecordChangingEnum.RecordAdded
+                    });
+                }
             }
             this.JournalRecordsChanged?.Invoke(new RecordChangingEventArgs()
             {

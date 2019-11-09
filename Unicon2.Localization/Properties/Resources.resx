@@ -963,6 +963,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>@AddDiscretSignal</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>@AddDiscretSignalGroup</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>@ElementsCount</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>@StartingBit</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>@AddMeasuringGroup</value>
   </data>
@@ -1037,6 +1046,9 @@
   </data>
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>@OffsetLoadingSequence</value>
+  </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>@IndexLoadingSequence</value>
   </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>@JournalReadingError</value>
@@ -1215,6 +1227,9 @@
   <data name="DecreaseAddress" xml:space="preserve">
     <value>@DecreaseAddress</value>
   </data>
+  <data name="AddressIterator" xml:space="preserve">
+    <value>@AddressIterator</value>
+  </data>
   <data name="StringFormatter1251" xml:space="preserve">
     <value>@StringFormatter1251</value>
   </data>
@@ -1314,11 +1329,25 @@
   <data name="AssignSignalsAutomatically" xml:space="preserve">
     <value>@AssignSignalsAutomatically</value>
   </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>@ClearAssignedSignals</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>@ClearSignatures</value>
+  </data>
   <data name="EnsuringMessage" xml:space="preserve">
     <value>@EnsuringMessage</value>
   </data>
+
   <data name="Transform" xml:space="preserve">
     <value>@Transform</value>
+
+  <data name="DependentParameter" xml:space="preserve">
+    <value>@DependentParameter</value>
+  </data>
+  <data name="DeviceReadingError" xml:space="preserve">
+    <value>@DeviceReadingError</value>
+
   </data>
   <data name="Table" xml:space="preserve">
     <value>@Table</value>

@@ -17,8 +17,9 @@
                 Command="{Binding AddNewOptionPossibleValueCommand}"
                 Content="{lex:Loc AddPossibleValue}"  
                 Style="{DynamicResource UniconButtonStyle}"/>
-         
-            <ListBox
+
+
+                <ListBox
                 x:Name="listMatrixTemplateListBox"
                 Height="300"
                 ItemsSource="{Binding Path=OptionPossibleValueEditorViewModels}">
@@ -34,7 +35,7 @@
                                     <ContextMenu>
                                         <MenuItem 
                                             Header="{lex:Loc Delete}" 
-                                            Command="{Binding Source={x:Reference listMatrixTemplateListBox},Path=DataContext.DeletePossibleValueCommand}" 
+                                            Command="{Binding DataContext.DeletePossibleValueCommand, Source={x:Reference Name=listMatrixTemplateListBox}}" 
                                             CommandParameter="{Binding .}">
                                         </MenuItem>
                                         <MenuItem 

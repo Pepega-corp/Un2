@@ -18,7 +18,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
         }
 
         #region Implementation of IWritingValueContextViewModel
-
         public ushort Address
         {
             get { return this._address; }

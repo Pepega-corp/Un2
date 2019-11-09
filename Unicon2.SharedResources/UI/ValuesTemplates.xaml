@@ -8,6 +8,8 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:values1="clr-namespace:Unicon2.Presentation.Values;assembly=Unicon2.Presentation">
 
+    <converter:BoolToColorBrushConverter x:Key="BoolToColorBrushConverter"/>
+
     <DataTemplate x:Key="ErrorValueViewModelDataTemplate" DataType="{x:Type values1:ErrorValueViewModel}">
         <Border
             BorderBrush="DarkRed"
@@ -26,7 +28,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="NumericValueViewModelDataTemplate" DataType="{x:Type values1:NumericValueViewModel}">
-        <TextBlock Text="{Binding NumValue}" />
+        <TextBlock Text="{Binding NumValue}" Margin="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </DataTemplate>
 
     <DataTemplate x:Key="EditableNumericValueViewModelDataTemplate" DataType="{x:Type values1:NumericValueViewModel}">
@@ -39,13 +41,20 @@
         <TextBlock Text="{Binding StringValue}" />
     </DataTemplate>
 
-    <DataTemplate x:Key="BoolValueViewModelDataTemplate" DataType="{x:Type values1:BoolValueViewModel}">
-        <CheckBox
-            IsChecked="{Binding BoolValueProperty}"
-            IsEnabled="False"
-            IsManipulationEnabled="False" />
-    </DataTemplate>
 
+
+    <DataTemplate x:Key="BoolValueViewModelDataTemplate" DataType="{x:Type values1:BoolValueViewModel}">
+        <Border
+            Background="{Binding BoolValueProperty,Converter={StaticResource BoolToColorBrushConverter}}"
+            Height="15"
+            Width="15"
+            Margin="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            />
+        
+    </DataTemplate>
+    
     <DataTemplate x:Key="EditableBoolValueViewModelDataTemplate" DataType="{x:Type editable:EditableBoolValueViewModel}">
         <CheckBox
             IsChecked="{Binding BoolValueProperty, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
@@ -53,6 +62,19 @@
             IsManipulationEnabled="True" />
     </DataTemplate>
 
+    <DataTemplate x:Key="BitMaskValueViewModelDataTemplate" DataType="{x:Type values1:BitMaskValueViewModel}">
+        <DataTemplate.Resources>
+            <converter:BitArrayToStringConverter x:Key="BitArrayToStringConverter"></converter:BitArrayToStringConverter>
+        </DataTemplate.Resources>
+        <ItemsControl ItemsSource="{Binding BitArray}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding .,Converter={StaticResource BitArrayToStringConverter}}"></TextBlock>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+    
     <DataTemplate x:Key="ChosenFromListValueViewModelDataTemplate" DataType="{x:Type values1:ChosenFromListValueViewModel}">
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <TextBlock Text="{Binding SelectedItem}"  Margin="5"/>
@@ -63,8 +85,10 @@
         <ComboBox
             MinWidth="100"
             ItemsSource="{Binding AvailableItemsList}"
-
-            SelectedItem="{Binding SelectedItem,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" />
+            IsTextSearchEnabled="True"
+            IsEditable="True"
+            StaysOpenOnEdit="True"
+            SelectedItem="{Binding SelectedItem,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True, Mode=TwoWay}" />
 
     </DataTemplate>
 

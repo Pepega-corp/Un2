@@ -4,6 +4,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Prope
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.Keys;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 
@@ -55,9 +56,11 @@ namespace Unicon2.Fragments.Configuration.Factories
             catch (Exception)
             {
                 IFormattedValueViewModel formattedValueViewModel =
+
                     this._container.Resolve<IFormattedValueViewModel>("StringValue" +
                                                                       ApplicationGlobalNames.CommonInjectionStrings
                                                                           .VIEW_MODEL);
+
                 (formattedValueViewModel as IStringValueViewModel).StringValue = formattedValue.AsString();
                 return formattedValueViewModel;
             }

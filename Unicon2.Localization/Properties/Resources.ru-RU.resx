@@ -969,6 +969,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>Добавить дискретный сигнал</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>Добавить группу дискр-х с-в</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>Кол-во элементов</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>Бит</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>Добавить группу измерений</value>
   </data>
@@ -1043,6 +1052,9 @@
   </data>
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>Последовательность загрузки по смещению</value>
+  </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>Последовательность загрузки по счетчику</value>
   </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>Ошибка чтения журнала</value>
@@ -1224,6 +1236,9 @@
   <data name="DecreaseAddress" xml:space="preserve">
     <value>Уменьшить адрес</value>
   </data>
+  <data name="AddressIterator" xml:space="preserve">
+    <value>Увеличить адрес на</value>
+  </data>
   <data name="StringFormatter1251" xml:space="preserve">
     <value>Форматирование в строку (1251)</value>
   </data>
@@ -1323,11 +1338,25 @@
   <data name="AssignSignalsAutomatically" xml:space="preserve">
     <value>Автоматически назначить сигналы</value>
   </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>Очистить назначенные сигналы</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>Очистить подписи</value>
+  </data>
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Вы уверены?</value>
   </data>
+
   <data name="Transform" xml:space="preserve">
     <value>Преобразовать</value>
+
+  <data name="DependentParameter" xml:space="preserve">
+    <value>Зависимый параметр</value>
+  </data>
+  <data name="DeviceReadingError" xml:space="preserve">
+    <value>Ошибка чтения устройства</value>
+
   </data>
   <data name="Table" xml:space="preserve">
     <value>Таблица</value>

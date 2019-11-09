@@ -969,6 +969,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>Add discret signal</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>Add discret signal group</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>Elements Count</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>Starting bit</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>Add measuring group</value>
   </data>
@@ -1043,6 +1052,9 @@
   </data>
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>Offset loading sequence</value>
+  </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>Indexed loading sequence</value>
   </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>Journal reading error</value>
@@ -1224,6 +1236,9 @@
   <data name="DecreaseAddress" xml:space="preserve">
     <value>Decrease Address</value>
   </data>
+  <data name="AddressIterator" xml:space="preserve">
+    <value>Address Iterator</value>
+  </data>
   <data name="StringFormatter1251" xml:space="preserve">
     <value>String formatter (1251)</value>
   </data>
@@ -1320,11 +1335,25 @@
   <data name="AssignSignalsAutomatically" xml:space="preserve">
     <value>Assign signals automatically</value>
   </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>Clear assigned signals</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>Clear signatures</value>
+  </data>
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
+
   <data name="Transform" xml:space="preserve">
     <value>Transform</value>
+
+  <data name="DependentParameter" xml:space="preserve">
+    <value>Dependent parameter</value>
+  </data>
+  <data name="DeviceReadingError" xml:space="preserve">
+    <value>Device reading error</value>
+
   </data>
   <data name="Table" xml:space="preserve">
     <value>Table</value>

@@ -18,43 +18,73 @@
     <i:Interaction.Behaviors>
         <behaviors:BubbleScrollBehavior/>
     </i:Interaction.Behaviors>
+    <UserControl.Resources>
+        <Style x:Key="DataGridRowStyle" TargetType="DataGridRow" BasedOn="{StaticResource MetroDataGridRow}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            
+        </Style>
+        <Style x:Key="DataGridColumnCellsStyle" TargetType="DataGridCell" BasedOn="{StaticResource MetroDataGridCell}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+        </Style>
+    </UserControl.Resources>
     <Expander Header="Матрица" HorizontalAlignment="Stretch"  
                VerticalAlignment="Stretch" ExpandDirection="Down">
-    <Grid
+        <Grid
         Height="Auto"
         HorizontalAlignment="Stretch"  
         VerticalAlignment="Stretch">
-       
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Border BorderBrush="Black" BorderThickness="1">
-            <DataGrid
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1">
+                <DataGrid
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 AutoGenerateColumns="False"
-                CanUserAddRows="False">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TargetUpdated">
-                        <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="SourceUpdated">
-                        <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <i:Interaction.Behaviors>
-                    <behaviors:DynamicColumnsDataGridBehavior IsTransponed="{Binding ElementName=IsTransponedCheckBox, Path=IsChecked}" RowValues="{Binding Table}" />
-                </i:Interaction.Behaviors>
-            </DataGrid>
-        </Border>
-        <CheckBox
-            Name="IsTransponedCheckBox"
-            Grid.Row="1"
-            Margin="5"
-            HorizontalAlignment="Left"
-            IsChecked="True"
-            Content="{lex:Loc Transpone}" />
+                CanUserAddRows="False"
+
+                    RowStyle="{StaticResource DataGridRowStyle}"
+                    CellStyle="{StaticResource DataGridColumnCellsStyle}"
+                    >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TargetUpdated">
+                            <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="SourceUpdated">
+                            <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <i:Interaction.Behaviors>
+                        <behaviors:DynamicColumnsDataGridBehavior 
+                            IsTransponed="{Binding ElementName=IsTransponedCheckBox, Path=IsChecked}" 
+                            RowValues="{Binding Table, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </i:Interaction.Behaviors>
+                </DataGrid>
+            </Border>
+            <StackPanel Grid.Row="1"  Orientation="Horizontal">
+                <CheckBox
+                Name="IsTransponedCheckBox"
+                Margin="5"
+                HorizontalAlignment="Left"
+                IsChecked="True"
+                Content="{lex:Loc Transpone}" 
+                />
+                <Button 
+                Margin="5"
+                HorizontalAlignment="Left"
+                IsEnabled="{Binding IsEditable}"
+                Command="{Binding ClearAssignedSignals}"
+                Content="{lex:Loc ClearAssignedSignals}"
+                />
+            </StackPanel>
         </Grid>
     </Expander>
 </UserControl>

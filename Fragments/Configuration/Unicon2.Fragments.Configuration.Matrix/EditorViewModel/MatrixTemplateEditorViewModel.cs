@@ -79,6 +79,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             this.SubmitCommand = new RelayCommand<object>(this.OnSubmitExecute, CanExecuteSubmit);
             this.CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
             this.AssignSignalsAutomatically = new RelayCommand(this.OnAssignSignalsAutomatically);
+            this.ClearAssignedSignals = new RelayCommand(this.OnClearAssignedSignals);
+            this.ClearSignaturesCommand = new RelayCommand(this.OnClearSignatures);
             this.AddSignatureGroupCommand = new RelayCommand(this.OnAddSignatureGroupExecute);
             this.AvailableMatrixVariableOptionTemplateEditorViewModels =
                 this._matrixVariableOptionTemplateEditorViewModelFactory.CreateAvailableMatrixVariableOptionTemplateEditorViewModel();
@@ -98,7 +100,18 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             }
 
         }
-
+        private void OnClearAssignedSignals()
+        {
+            var minFromAsingableAndOptions = Math.Min(AssignedBitEditorViewModels.Count, _bitOptionEditorViewModels.Count);
+            for (int i = 0; i < minFromAsingableAndOptions; i++)
+            {
+                AssignedBitEditorViewModels[i].SelectedBitOptionEditorViewModel = null;
+            }
+        }
+        private void OnClearSignatures()
+        {
+            VariableSignatureEditorViewModels.Clear();
+        }
         private bool CanExecuteSubmit(object obj)
         {
             return !HasErrors;
@@ -391,7 +404,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         }
 
         public ICommand AssignSignalsAutomatically { get; }
-
+        public ICommand ClearAssignedSignals { get; }
         public ICommand OnSelectionChangedCommand { get; }
         public ICommand AddMatrixVariableCommand { get; }
         public ICommand AddSignatureCommand { get; }
@@ -401,6 +414,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         public ICommand CancelCommand { get; }
 
         public ICommand AddSignatureGroupCommand { get; }
+        public ICommand ClearSignaturesCommand { get; }
 
         public string MatrixName
         {

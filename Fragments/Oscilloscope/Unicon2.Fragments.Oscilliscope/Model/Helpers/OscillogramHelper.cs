@@ -73,9 +73,9 @@ namespace Unicon2.Fragments.Oscilliscope.Model.Helpers
                 hdrFile.WriteLine(
                     $"Alarm = {oscillogramLoadingParameters.GetOscillogramCountingsNumber() - oscillogramLoadingParameters.GetSizeAfter()}");
             }
-
+            //todo encoding oscillogram switched to utf-8 from 1251
             string cgfPath = Path.ChangeExtension(Path.Combine(directoryPath, oscillogramSignature), "cfg");
-            using (StreamWriter cgfFile = new StreamWriter(cgfPath, false, Encoding.GetEncoding(1251)))
+            using (StreamWriter cgfFile = new StreamWriter(cgfPath, false, Encoding.GetEncoding("UTF-8")))
             {
                 cgfFile.WriteLine($"{parentDeviceName}");
 

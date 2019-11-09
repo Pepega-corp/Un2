@@ -16,8 +16,7 @@ namespace Oscilloscope.View.PieChartItem
         private ChannelPieChartOptions[] _allChartOptions;
         private PieChartVisiblyOptions _visiblyOptions = new PieChartVisiblyOptions();
         private List<ICharacteristic> _characteristics = new List<ICharacteristic>();
-
-
+        
         public ChannelPieChartOptions IaChannel { get; set; }
         public ChannelPieChartOptions IbChannel { get; set; }
         public ChannelPieChartOptions IcChannel { get; set; }
@@ -27,9 +26,6 @@ namespace Oscilloscope.View.PieChartItem
         public ChannelPieChartOptions UbChannel { get; set; }
         public ChannelPieChartOptions UcChannel { get; set; }
 
-
-       public PieChartOptions(){}
-
         public ZnOptions Z1 { get; set; }
         public ZnOptions Z2 { get; set; }
         public ZnOptions Z3 { get; set; }
@@ -38,41 +34,59 @@ namespace Oscilloscope.View.PieChartItem
 
         private List<PieChannelInfo> _infos = new List<PieChannelInfo>();
 
+        public bool OldCalculate { get; set; }
+
+        public PieChartOptions() { }
+
         private Point[] PrepareLineKz(Point[] If, Point[] uf, Point[] In, ZnOptions options)
         {
-
-            // COS - X
-            // SIN - Y
             Point[] zf = new Point[If.Length];
-            for (int i = this.StartTime; i < this.EndTime; i++)
+            if (this.OldCalculate)
             {
-
-                double cosf = Math.Cos(0);
-                double sinf = Math.Sin(0);
-
-
-                double a = If[i].X + options.Kr*In[i].X - options.Kx*In[i].Y;
-                double b = If[i].Y + options.Kr*In[i].Y + options.Kx*In[i].X;
-                /*  var c = uf[i].Y * cosf + uf[i].X * sinf;
-                  var d = uf[i].X * cosf + uf[i].Y * sinf;
-                  var r = (d * a + c * b) / (Math.Pow(a, 2) + Math.Pow(b, 2));
-                  var x = (c * a - d * b) / (Math.Pow(a, 2) + Math.Pow(b, 2));*/
-
-                double c = uf[i].Y*a - uf[i].X*b;
-                double d = uf[i].X*a + uf[i].Y*b;
-
-                double r = (d*cosf - c*sinf)/(a*a + b*b);
-                double x = (c*cosf + d*sinf)/(a*a + b*b);
-
-                if (double.IsInfinity(r) || double.IsNaN(r))
+                for (int i = this.StartTime; i < this.EndTime; i++)
                 {
-                    r = 0;
+
+                    double cosf = Math.Cos(0);
+                    double sinf = Math.Sin(0);
+
+                    double a = If[i].X + options.Kr*In[i].X - options.Kx*In[i].Y;
+                    double b = If[i].Y + options.Kr*In[i].Y + options.Kx*In[i].X;
+
+                    double c = uf[i].Y*a - uf[i].X*b;
+                    double d = uf[i].X*a + uf[i].Y*b;
+
+                    double r = (d*cosf - c*sinf)/(a*a + b*b);
+                    double x = (c*cosf + d*sinf)/(a*a + b*b);
+
+                    if (double.IsInfinity(r) || double.IsNaN(r))
+                    {
+                        r = 0;
+                    }
+                    if (double.IsInfinity(x) || double.IsNaN(x))
+                    {
+                        x = 0;
+                    }
+                    zf[i] = new Point(r, x);
                 }
-                if (double.IsInfinity(x) || double.IsNaN(x))
+            }
+            else
+            {
+                for (int i = this.StartTime; i < this.EndTime; i++)
                 {
-                    x = 0;
+                    double ucos = uf[i].X;
+                    double usin = uf[i].Y;
+
+                    double icos = If[i].X;
+                    double isin = If[i].Y;
+
+                    double Re = (ucos*icos + usin*isin)/(icos*icos + isin*isin);
+                    double Im = (usin * icos - ucos * isin) / (icos * icos + isin * isin);
+
+                    double r = Re*3*options.R1/(2*options.R1 + options.R0);
+                    double x = Im*3*options.X1/(2*options.X1 + options.X0);
+
+                    zf[i] = new Point(r, x);
                 }
-                zf[i] = new Point(r, x);
             }
             return zf;
         }
@@ -107,7 +121,7 @@ namespace Oscilloscope.View.PieChartItem
             }
             return zmf;
         }
-    
+
 
         public void Save(string fileName)
         {
@@ -117,17 +131,17 @@ namespace Oscilloscope.View.PieChartItem
                 characteristics.Add(ch.ToXml());
             }
             XElement mainElement = new XElement("PieOptions",
-                                           new XElement("Channels",
-                                                        new XAttribute("Ia", (object) this.IaChannel ?? string.Empty),
-                                                        new XAttribute("Ib", (object) this.IbChannel ?? string.Empty),
-                                                        new XAttribute("Ic", (object) this.IcChannel ?? string.Empty),
-                                                      
-                                                        new XAttribute("Ua", (object) this.UaChannel ?? string.Empty),
-                                                        new XAttribute("Ub", (object) this.UbChannel ?? string.Empty),
-                                                        new XAttribute("Uc", (object) this.UcChannel ?? string.Empty)
-                                               ), this.VisiblyOptions.ToXml()
+                new XElement("Channels",
+                    new XAttribute("Ia", (object) this.IaChannel ?? string.Empty),
+                    new XAttribute("Ib", (object) this.IbChannel ?? string.Empty),
+                    new XAttribute("Ic", (object) this.IcChannel ?? string.Empty),
+
+                    new XAttribute("Ua", (object) this.UaChannel ?? string.Empty),
+                    new XAttribute("Ub", (object) this.UbChannel ?? string.Empty),
+                    new XAttribute("Uc", (object) this.UcChannel ?? string.Empty)
+                    ), this.VisiblyOptions.ToXml()
                 );
-           
+
             if (this.Z1 != null)
             {
                 mainElement.Add(this.Z1.ToXml("Z1"));
@@ -174,134 +188,141 @@ namespace Oscilloscope.View.PieChartItem
             return res;
         }
 
-         public void Load(string fileName)
-         {
-             XDocument doc = XDocument.Load(fileName);
+        public void Load(string fileName, bool oldCalc)
+        {
+            this.OldCalculate = oldCalc;
+            this.Load(fileName);
+        }
 
-             foreach (XElement element in doc.Root.Elements())
-             {
-                 if (element.Name == "Z1")
-                 {
-                     this.Z1 = new ZnOptions();
-                     this.Z1.FromXml(element);
-                 }
-                 if (element.Name == "Z2")
-                 {
-                     this.Z2 = new ZnOptions();
-                     this.Z2.FromXml(element);
-                 }
-                 if (element.Name == "Z3")
-                 {
-                     this.Z3 = new ZnOptions();
-                     this.Z3.FromXml(element);
-                 }
-                 if (element.Name == "Z4")
-                 {
-                     this.Z4 = new ZnOptions();
-                     this.Z4.FromXml(element);
-                 }
-                 if (element.Name == "Z5")
-                 {
-                     this.Z5 = new ZnOptions();
-                     this.Z5.FromXml(element);
-                 }
-                 if (element.Name == "Characteristics")
-                 {
-                     this._characteristics= this.CharacteristicFromXml(element);
-                 }
-                 if (element.Name == "Visibly")
-                 {
-                     this.VisiblyOptions.FromXml(element);
-                 }
-                 if (element.Name == "Channels")
-                 {
-                     IEnumerable<XAttribute> attributes = element.Attributes();
-                     IEnumerable<string> values = attributes.Select(o => o.Value).Where(o => !string.IsNullOrWhiteSpace(o));
-                     if (this._allChartOptions != null)
-                     {
-                         IEnumerable<string> otherChannels = values.Except(this._allChartOptions.Select(o => o.Name));
-                         if (otherChannels.Count() != 0)
-                         {
-                             MessageBox.Show("Неверный файл");
-                             return;
-                         }
-                     }
+        public void Load(string fileName)
+        {
+            XDocument doc = XDocument.Load(fileName);
 
-                     string value = attributes.First(a => a.Name == "Ia").Value;
-                     ChannelPieChartOptions option = this._pieIChartOptions.FirstOrDefault(o => o.Name == value);
-                     if (option == null)
-                     {
-                         this.OnOptionOnAisTrue(null, this._pieIChartOptions);
-                     }
-                     else
-                     {
-                         option.A = true;
-                     }
+            foreach (XElement element in doc.Root.Elements())
+            {
+                if (element.Name == "Z1")
+                {
+                    this.Z1 = new ZnOptions();
+                    this.Z1.FromXml(element);
+                }
+                if (element.Name == "Z2")
+                {
+                    this.Z2 = new ZnOptions();
+                    this.Z2.FromXml(element);
+                }
+                if (element.Name == "Z3")
+                {
+                    this.Z3 = new ZnOptions();
+                    this.Z3.FromXml(element);
+                }
+                if (element.Name == "Z4")
+                {
+                    this.Z4 = new ZnOptions();
+                    this.Z4.FromXml(element);
+                }
+                if (element.Name == "Z5")
+                {
+                    this.Z5 = new ZnOptions();
+                    this.Z5.FromXml(element);
+                }
+                if (element.Name == "Characteristics")
+                {
+                    this._characteristics = this.CharacteristicFromXml(element);
+                }
+                if (element.Name == "Visibly")
+                {
+                    this.VisiblyOptions.FromXml(element);
+                }
+                if (element.Name == "Channels")
+                {
+                    IEnumerable<XAttribute> attributes = element.Attributes();
+                    IEnumerable<string> values =
+                        attributes.Select(o => o.Value).Where(o => !string.IsNullOrWhiteSpace(o));
+                    if (this._allChartOptions != null)
+                    {
+                        IEnumerable<string> otherChannels = values.Except(this._allChartOptions.Select(o => o.Name));
+                        if (otherChannels.Count() != 0)
+                        {
+                            MessageBox.Show("Неверный файл");
+                            return;
+                        }
+                    }
 
-                     value = attributes.First(a => a.Name == "Ib").Value;
-                     option = this._pieIChartOptions.FirstOrDefault(o => o.Name == value);
-                     if (option == null)
-                     {
-                         this.OnOptionOnBisTrue(null, this._pieIChartOptions);
-                     }
-                     else
-                     {
-                         option.B = true;
-                     }
+                    string value = attributes.First(a => a.Name == "Ia").Value;
+                    ChannelPieChartOptions option = this._pieIChartOptions.FirstOrDefault(o => o.Name == value);
+                    if (option == null)
+                    {
+                        this.OnOptionOnAisTrue(null, this._pieIChartOptions);
+                    }
+                    else
+                    {
+                        option.A = true;
+                    }
 
-
-                     value = attributes.First(a => a.Name == "Ic").Value;
-                     option = this._pieIChartOptions.FirstOrDefault(o => o.Name == value);
-                     if (option == null)
-                     {
-                         this.OnOptionOnCisTrue(null, this._pieIChartOptions);
-                     }
-                     else
-                     {
-                         option.C = true;
-                     }
-
-                     value = attributes.First(a => a.Name == "Ua").Value;
-                     option = this._pieUChartOptions.FirstOrDefault(o => o.Name == value);
-                     if (option == null)
-                     {
-                         this.OnOptionOnAisTrue(null, this._pieUChartOptions);
-                     }
-                     else
-                     {
-                         option.A = true;
-                     }
+                    value = attributes.First(a => a.Name == "Ib").Value;
+                    option = this._pieIChartOptions.FirstOrDefault(o => o.Name == value);
+                    if (option == null)
+                    {
+                        this.OnOptionOnBisTrue(null, this._pieIChartOptions);
+                    }
+                    else
+                    {
+                        option.B = true;
+                    }
 
 
-                     value = attributes.First(a => a.Name == "Ub").Value;
-                     option = this._pieUChartOptions.FirstOrDefault(o => o.Name == value);
-                     if (option == null)
-                     {
-                         this.OnOptionOnBisTrue(null, this._pieUChartOptions);
-                     }
-                     else
-                     {
-                         option.B = true;
-                     }
+                    value = attributes.First(a => a.Name == "Ic").Value;
+                    option = this._pieIChartOptions.FirstOrDefault(o => o.Name == value);
+                    if (option == null)
+                    {
+                        this.OnOptionOnCisTrue(null, this._pieIChartOptions);
+                    }
+                    else
+                    {
+                        option.C = true;
+                    }
+
+                    value = attributes.First(a => a.Name == "Ua").Value;
+                    option = this._pieUChartOptions.FirstOrDefault(o => o.Name == value);
+                    if (option == null)
+                    {
+                        this.OnOptionOnAisTrue(null, this._pieUChartOptions);
+                    }
+                    else
+                    {
+                        option.A = true;
+                    }
 
 
-                     value = attributes.First(a => a.Name == "Uc").Value;
-                     option = this._pieUChartOptions.FirstOrDefault(o => o.Name == value);
-                     if (option == null)
-                     {
-                         this.OnOptionOnCisTrue(null, this._pieUChartOptions);
-                     }
-                     else
-                     {
-                         option.C = true;
-                     }
+                    value = attributes.First(a => a.Name == "Ub").Value;
+                    option = this._pieUChartOptions.FirstOrDefault(o => o.Name == value);
+                    if (option == null)
+                    {
+                        this.OnOptionOnBisTrue(null, this._pieUChartOptions);
+                    }
+                    else
+                    {
+                        option.B = true;
+                    }
 
-                     this.ChannelAccept();
-                 }
-             }
-         }
 
-         
+                    value = attributes.First(a => a.Name == "Uc").Value;
+                    option = this._pieUChartOptions.FirstOrDefault(o => o.Name == value);
+                    if (option == null)
+                    {
+                        this.OnOptionOnCisTrue(null, this._pieUChartOptions);
+                    }
+                    else
+                    {
+                        option.C = true;
+                    }
+
+                    this.ChannelAccept();
+                }
+            }
+        }
+
+
         public List<PieChannelInfo> Infos
         {
             get
@@ -309,9 +330,6 @@ namespace Oscilloscope.View.PieChartItem
                 this._infos = new List<PieChannelInfo>();
                 this.AddedChannel = new List<AnalogChannel>();
                
-
- 
-
                 if (this.ZabCorrect)
                 {
                     this.AddNewInfo(this.PrepareLineMf(this.IaChannel.Values, this.UaChannel.Values, this.IbChannel.Values, this.UbChannel.Values), this.VisiblyOptions.Zab);

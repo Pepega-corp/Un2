@@ -59,5 +59,12 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         }
 
         #endregion
+
+        #region ToString Override
+        public override string ToString()
+        {
+            return FullSugnature;
+        }
+        #endregion
     }
 }

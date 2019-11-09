@@ -1,32 +1,14 @@
-﻿<UserControl
-    x:Class="Oscilloscope.View.VectorChartItem.VectorChart"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:View="clr-namespace:Oscilloscope.View"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    MinWidth="50"
-    MinHeight="50"
-    d:DesignHeight="400"
-    d:DesignWidth="405"
-    Background="White"
-    SizeChanged="UserControl_SizeChanged_1"
-    mc:Ignorable="d">
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Sys="clr-namespace:System;assembly=mscorlib" xmlns:View="clr-namespace:Oscilloscope.View" x:Class="Oscilloscope.View.VectorChartItem.VectorChart"
+             d:DesignWidth="405" d:DesignHeight="400" Background="White" SizeChanged="UserControl_SizeChanged_1" MinHeight="50" MinWidth="50" mc:Ignorable="d">
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem x:Name="ChannelMenu" Header="Каналы">
-                <MenuItem Click="MenuItem_Click_1" Header="Показать всё" />
-                <MenuItem Click="MenuItem_Click_2" Header="Скрыть всё" />
-                <Separator />
+                <MenuItem Header="Показать всё" Click="MenuItem_Click_1"/>
+                <MenuItem Header="Скрыть всё" Click="MenuItem_Click_2" />
+                <Separator/>
             </MenuItem>
             <MenuItem x:Name="StartPointMenu" Header="Отсчёт" />
-            <MenuItem
-                x:Name="MarkerMenuItem"
-                Checked="MarkerMenuItem_Checked"
-                Header="Маркер"
-                IsCheckable="True"
-                Unchecked="MarkerMenuItem_Unchecked" />
+            <MenuItem x:Name="MarkerMenuItem" IsCheckable="True" Header="Маркер" Checked="MarkerMenuItem_Checked" Unchecked="MarkerMenuItem_Unchecked" />
 
 
 
@@ -34,98 +16,44 @@
     </UserControl.ContextMenu>
     <Grid x:Name="MainGrid" LayoutUpdated="MainGrid_LayoutUpdated">
         <Grid.Resources>
-            <!--  DataTemplate for Published Date column defined in Grid.Resources.  PublishDate is a property on the ItemsSource of type DateTime  -->
-            <DataTemplate x:Key="DateTemplate">
+            <!--DataTemplate for Published Date column defined in Grid.Resources.  PublishDate is a property on the ItemsSource of type DateTime -->
+            <DataTemplate x:Key="DateTemplate" >
 
-                <TextBlock
-                    Width="10"
-                    Height="10"
-                    Background="{Binding LineColor}" />
+                <TextBlock Width="10" Height="10" Background="{Binding LineColor}"/>
             </DataTemplate>
 
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="ChartColumn" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="MarkerRow" Height="19" />
-            <RowDefinition
-                x:Name="ChartRow"
-                Height="25*"
-                MinHeight="50" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition x:Name="MarkerRow" Height="19"/>
+            <RowDefinition x:Name="ChartRow" MinHeight="50" Height="25*" />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <View:MarkerControlChart
-            x:Name="Marker"
-            Grid.ColumnSpan="2"
-            Lenght="1000"
-            Move="Marker_Move"
-            Visibility="Hidden" />
-        <Image
-            x:Name="image"
-            Grid.Row="1"
-            Grid.Column="0"
-            OpacityMask="#FF701818"
-            Stretch="None" />
-        <DataGrid
-            x:Name="InfoGrid"
-            Grid.Row="2"
-            Grid.Column="0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            AutoGenerateColumns="False"
-            Background="White"
-            BorderBrush="Black"
-            BorderThickness="1,1,0,0"
-            RowHeaderWidth="0"
-            SizeChanged="InfoGrid_SizeChanged">
+        <View:MarkerControlChart x:Name="Marker"  Visibility="Hidden" Lenght="1000" Move="Marker_Move" Grid.ColumnSpan="2" />
+        <Image x:Name="image" Grid.Row="1" Grid.Column="0" Stretch="None"  OpacityMask="#FF701818"  />
+        <DataGrid x:Name="InfoGrid" Grid.Row="2" Grid.Column="0" RowHeaderWidth="0" AutoGenerateColumns="False" SizeChanged="InfoGrid_SizeChanged" Background="White" BorderBrush="Black" BorderThickness="1,1,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center">
             <DataGrid.Resources>
 
                 <Style x:Key="ColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
 
-                    <Setter Property="Background" Value="White" />
-                    <Setter Property="BorderThickness" Value="0,0,1,1" />
-                    <Setter Property="BorderBrush" Value="Black" />
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
 
                 </Style>
 
             </DataGrid.Resources>
 
             <DataGrid.Columns>
-                <DataGridTextColumn
-                    Binding="{Binding ChannelName, UpdateSourceTrigger=Explicit}"
-                    CanUserResize="False"
-                    CanUserSort="False"
-                    ClipboardContentBinding="{x:Null}"
-                    Header="Канал"
-                    HeaderStyle="{StaticResource ColumnHeaderStyle1}"
-                    IsReadOnly="True" />
-                <DataGridTemplateColumn
-                    CanUserResize="False"
-                    CanUserSort="False"
-                    CellTemplate="{StaticResource DateTemplate}"
-                    Header="Цвет"
-                    HeaderStyle="{StaticResource ColumnHeaderStyle1}"
-                    IsReadOnly="True" />
-                <DataGridTextColumn
-                    Binding="{Binding CurrentValue, UpdateSourceTrigger=Explicit}"
-                    CanUserResize="False"
-                    CanUserSort="False"
-                    ClipboardContentBinding="{x:Null}"
-                    Header="Значение"
-                    HeaderStyle="{StaticResource ColumnHeaderStyle1}"
-                    IsReadOnly="True" />
-                <DataGridTextColumn
-                    Binding="{Binding Arc, UpdateSourceTrigger=Explicit}"
-                    CanUserResize="False"
-                    CanUserSort="False"
-                    ClipboardContentBinding="{x:Null}"
-                    Header="Угол"
-                    HeaderStyle="{StaticResource ColumnHeaderStyle1}"
-                    IsReadOnly="True" />
+                <DataGridTextColumn HeaderStyle="{StaticResource ColumnHeaderStyle1}" Binding="{Binding ChannelName, UpdateSourceTrigger=Explicit}" ClipboardContentBinding="{x:Null}" Header="Канал" CanUserSort="False" CanUserResize="False" IsReadOnly="True"/>
+                <DataGridTemplateColumn HeaderStyle="{StaticResource ColumnHeaderStyle1}"  CellTemplate="{StaticResource DateTemplate}"  Header="Цвет" CanUserSort="False" CanUserResize="False" IsReadOnly="True" />
+                <DataGridTextColumn HeaderStyle="{StaticResource ColumnHeaderStyle1}" Binding="{Binding CurrentValue, UpdateSourceTrigger=Explicit}" ClipboardContentBinding="{x:Null}" Header="Значение" CanUserSort="False" CanUserResize="False" IsReadOnly="True"/>
+                <DataGridTextColumn HeaderStyle="{StaticResource ColumnHeaderStyle1}" Binding="{Binding Arc, UpdateSourceTrigger=Explicit}" ClipboardContentBinding="{x:Null}" Header="Угол" CanUserSort="False" CanUserResize="False" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-
+       
     </Grid>
 </UserControl>

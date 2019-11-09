@@ -17,6 +17,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
     {
         private readonly IGeneralViewModelFactory<IOptionPossibleValueEditorViewModel> _generalViewModelFactory;
         private ListMatrixVariableOptionTemplate _model;
+        public ICommand DeletePossibleValueCommand { get; }
+        public ICommand AddNewOptionPossibleValueCommand { get; }
 
         public ListMatrixVariableOptionTemplateEditorViewModel(IGeneralViewModelFactory<IOptionPossibleValueEditorViewModel> generalViewModelFactory)
         {
@@ -38,8 +40,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         {
             this.OptionPossibleValueEditorViewModels.Add(this._generalViewModelFactory.CreateViewModelWithModelByModelType(typeof(IOptionPossibleValue)));
         }
-
-        public ICommand AddNewOptionPossibleValueCommand { get; }
+        
 
         #region Implementation of IStronglyNamed
 
@@ -72,7 +73,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
             }
         }
 
-        private ICommand DeletePossibleValueCommand { get; }
 
         public ObservableCollection<IOptionPossibleValueEditorViewModel> OptionPossibleValueEditorViewModels { get; }
 

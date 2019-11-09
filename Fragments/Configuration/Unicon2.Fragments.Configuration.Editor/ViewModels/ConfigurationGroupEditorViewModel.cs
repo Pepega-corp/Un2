@@ -27,6 +27,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private readonly IConfigurationItemFactory _configurationItemFactory;
         private ObservableCollection<IPropertyViewModel> _properties;
         private bool _isInEditMode;
+        private ushort _addressIteratorValue = 1;
         private bool _isTableViewAllowed;
 
         #endregion
@@ -49,6 +50,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             foreach (IConfigurationItemViewModel childStructItemViewModel in this.ChildStructItemViewModels)
             {
+                (childStructItemViewModel as IAddressIncreaseableDecreaseable).AddressIteratorValue = AddressIteratorValue;
                 (childStructItemViewModel as IAddressIncreaseableDecreaseable)?.DecreaseAddressCommand?.Execute(null);
             }
         }
@@ -57,12 +59,27 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             foreach (IConfigurationItemViewModel childStructItemViewModel in this.ChildStructItemViewModels)
             {
+                (childStructItemViewModel as IAddressIncreaseableDecreaseable).AddressIteratorValue = AddressIteratorValue;
                 (childStructItemViewModel as IAddressIncreaseableDecreaseable)?.IncreaseAddressCommand?.Execute(null);
             }
         }
 
         #endregion
 
+        #region [Prop]
+        public ushort AddressIteratorValue
+        {
+            get
+            {
+                return this._addressIteratorValue;
+            }
+            set
+            {
+                this._addressIteratorValue = value;
+                this.RaisePropertyChanged();
+            }
+        }
+        #endregion
 
         #region ICompositeEditOpeations Members
 
@@ -322,11 +339,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         #endregion
 
         #region Implementation of IItemGroupViewModel
-
-
-        #endregion
-
-        #region Implementation of IItemGroupViewModel
+        
 
         public bool IsTableViewAllowed
         {
