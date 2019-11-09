@@ -19,7 +19,7 @@
     <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
 
     <DataTemplate x:Key="MatrixValueViewModelDataTemplate">
-        <view:MatrixValueView></view:MatrixValueView>
+        <!--<view:MatrixValueView></view:MatrixValueView-->
         <!--<Grid>
             <Button
                 Width="40"
@@ -38,7 +38,7 @@
         </Grid>-->
     </DataTemplate>
     <DataTemplate x:Key="EditableMatrixValueViewModelDataTemplate">
-        <view:MatrixValueView></view:MatrixValueView>
+        <!--<view:MatrixValueView></view:MatrixValueView>-->
         <!--<Grid>
 
             <Button
@@ -56,6 +56,10 @@
                 </Rectangle>
             </Button>
         </Grid>-->
+    </DataTemplate>
+    
+    <DataTemplate x:Key="MatrixTableValueViewDataTemplate">
+        <view:MatrixTableValueView></view:MatrixTableValueView>
     </DataTemplate>
 
 

@@ -133,6 +133,9 @@
     <Compile Include="View\MatrixPossibleValueView.xaml.cs">
       <DependentUpon>MatrixPossibleValueView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MatrixTableValueView.xaml.cs">
+      <DependentUpon>MatrixTableValueView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MatrixTemplateEditorControl.xaml.cs">
       <DependentUpon>MatrixTemplateEditorControl.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,9 @@
     <Page Include="View\MatrixPossibleValueView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MatrixTableValueView.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MatrixTemplateEditorControl.xaml">
       <Generator>MSBuild:Compile</Generator>

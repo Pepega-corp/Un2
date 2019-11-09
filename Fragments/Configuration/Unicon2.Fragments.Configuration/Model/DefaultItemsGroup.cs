@@ -24,7 +24,9 @@ namespace Unicon2.Fragments.Configuration.Model
 
         [DataMember(Name = nameof(ConfigurationItemList), Order = 0)]
         public List<IConfigurationItem> ConfigurationItemList { get; set; }
-        //[DataMember(Name = nameof(ConfigurationItemList), Order = 2)]
+
+        [DataMember(Name = nameof(IsTableViewAllowed), Order = 1)]
+        public bool IsTableViewAllowed { get; set; }
 
 
         #endregion

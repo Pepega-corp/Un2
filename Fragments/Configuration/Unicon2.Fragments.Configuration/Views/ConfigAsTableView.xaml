@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="Unicon2.Fragments.Configuration.Views.ConfigAsTableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Views"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:Unicon2.SharedResources.Behaviors;assembly=Unicon2.SharedResources"
+             xmlns:behaviors1="clr-namespace:Unicon2.Fragments.Configuration.Behaviors"
+             xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors;assembly=Unicon2.SharedResources"
+             xmlns:converters="clr-namespace:Unicon2.Fragments.Configuration.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:PropertyTooltipConverter x:Key="PropertyTooltipConverter"></converters:PropertyTooltipConverter>
+        <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
+
+
+    </UserControl.Resources>
+    <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Collapsed, TargetNullValue=Collapsed,Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
+            <ColumnDefinition Width="2"></ColumnDefinition>
+            <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Center" Text="{lex:Loc DeviceData}"></TextBlock>
+
+
+            <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalScrollBarVisibility="Auto">
+                <i:Interaction.Behaviors>
+                    <behaviors:BubbleScrollBehavior/>
+                    <behaviors1:DynamicPropertiesDataGridBehavior RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
+                        <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
+                            <Style TargetType="ContentControl">
+                                <Style.Setters>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ContentControl">
+                                                <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue,Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay }">
+                                                    <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue}">
+                                                        <ContentPresenter.ContentTemplateSelector>
+                                                            <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
+                                                        </ContentPresenter.ContentTemplateSelector>
+                                                    </ContentPresenter>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style.Setters>
+                            </Style>
+                        </behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
+                    </behaviors1:DynamicPropertiesDataGridBehavior>
+                </i:Interaction.Behaviors>
+            </DataGrid>
+        </Grid>
+        <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"></GridSplitter>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Center" Text="{lex:Loc LocalData}"></TextBlock>
+            <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False"  HorizontalScrollBarVisibility="Auto">
+                <i:Interaction.Behaviors>
+                    <behaviors:BubbleScrollBehavior/>
+                    <behaviors1:DynamicPropertiesDataGridBehavior RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
+                        <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
+                            <Style TargetType="ContentControl">
+                                <Style.Setters>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ContentControl">
+                                                <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue,Converter={StaticResource PropertyTooltipConverter} }" 
+                                                                                                        BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}">
+                                                    <ContentPresenter
+                                                                                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
+                                                        <ContentPresenter.ContentTemplateSelector>
+                                                            <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
+                                                        </ContentPresenter.ContentTemplateSelector>
+                                                    </ContentPresenter>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style.Setters>
+                            </Style>
+                        </behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
+                    </behaviors1:DynamicPropertiesDataGridBehavior>
+                </i:Interaction.Behaviors>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>
+
+
+

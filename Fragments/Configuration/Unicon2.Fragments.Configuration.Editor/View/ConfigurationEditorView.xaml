@@ -193,6 +193,8 @@
                     <ColumnDefinition Width="0.4*" />
                     <ColumnDefinition Width="0.2*" />
                     <ColumnDefinition Width="0.2*" />
+                    <ColumnDefinition Width="0.1*" />
+
                 </Grid.ColumnDefinitions>
 
                 <Border Name="dummywidthName" Grid.Column="0" />
@@ -202,6 +204,8 @@
                 <Border Name="dummywidthFormatting" Grid.Column="4" />
                 <Border Name="dummywidthMeasureUnit" Grid.Column="5" />
                 <Border Name="dummywidthRange" Grid.Column="6" />
+                <Border Name="dummywidthTableViewAllowed" Grid.Column="7" />
+
             </Grid>
 
             <ListView
@@ -372,6 +376,13 @@
                                                     Text="]" />
                                             </Grid>
                                         </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="{Binding ElementName=dummywidthTableViewAllowed, Path=ActualWidth}" Header="{lex:Loc Table}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Visibility="{Binding ., Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}" IsChecked="{Binding IsTableViewAllowed}"></CheckBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

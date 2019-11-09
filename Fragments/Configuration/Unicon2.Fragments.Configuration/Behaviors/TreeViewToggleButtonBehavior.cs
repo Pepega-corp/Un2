@@ -128,7 +128,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         {
             IRuntimeConfigurationItemViewModel oldItem = ((sender as ToggleButton).DataContext as IRuntimeConfigurationItemViewModel);
             if (oldItem == null) return;
-            if (oldItem is IConfigurationAsTableViewModel configurationAsTableViewModel&&configurationAsTableViewModel.IsTableView)
+            if (oldItem is IAsTableViewModel configurationAsTableViewModel&&configurationAsTableViewModel.IsTableView)
             {
                 return;
             }
