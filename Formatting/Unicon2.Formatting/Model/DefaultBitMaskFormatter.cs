@@ -40,7 +40,7 @@ namespace Unicon2.Formatting.Model
                 {
                     bools.Add(o);
                 }
-                bitMaskValue.BitArray.Add(bools.Take(16).ToList());
+                bitMaskValue.BitArray.Add(bools.Take(16).Reverse().ToList());
             }
             bitMaskValue.BitSignatures.AddRange(this.BitSignatures);
             return bitMaskValue;
