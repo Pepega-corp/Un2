@@ -8,17 +8,18 @@
     xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors;assembly=Unicon2.SharedResources"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
-    xmlns:struct="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Configuration.Infrastructure">
+    xmlns:struct="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Configuration.Infrastructure"
+    xmlns:views="clr-namespace:Unicon2.Fragments.Configuration.Views">
 
     <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <converters:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
     <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
     <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
-    <converters:PropertyTooltipConverter x:Key="PropertyTooltipConverter"></converters:PropertyTooltipConverter>
 
     <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
     <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
     <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
+    <converter:IsInterfaceImplementedToVisibilityConverter IsInverted="True" x:Key="IsInterfaceImplementedToInvertVisibilityConverter" />
 
     <DataTemplate x:Key="RuntimeConfigurationViewModelDataTemplate" DataType="{x:Type struct:IRuntimeConfigurationViewModel}">
         <Grid Name="ConfigGrid">
@@ -62,92 +63,13 @@
                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                                         <StackPanel Orientation="Vertical">
                                             <GridViewRowPresenter Content="{TemplateBinding Content}"></GridViewRowPresenter>
-                                            <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Collapsed, TargetNullValue=Collapsed,Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
-                                                    <ColumnDefinition Width="2"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid Grid.Column="0">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition></RowDefinition>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock HorizontalAlignment="Center" Text="{lex:Loc DeviceData}"></TextBlock>
-
-
-                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalScrollBarVisibility="Auto">
-                                                        <i:Interaction.Behaviors>
-                                                            <behaviors1:BubbleScrollBehavior/>
-                                                            <behaviors:DynamicPropertiesDataGridBehavior RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
-                                                                <behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
-                                                                    <Style TargetType="ContentControl">
-                                                                        <Style.Setters>
-                                                                            <Setter Property="Template">
-                                                                                <Setter.Value>
-                                                                                    <ControlTemplate TargetType="ContentControl">
-                                                                                        <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue,Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay }">
-                                                                                            <ContentPresenter
-                                                                                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue}">
-                                                                                                <ContentPresenter.ContentTemplateSelector>
-                                                                                                    <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
-                                                                                                </ContentPresenter.ContentTemplateSelector>
-                                                                                            </ContentPresenter>
-                                                                                        </Border>
-                                                                                    </ControlTemplate>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                        </Style.Setters>
-                                                                    </Style>
-                                                                </behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
-                                                            </behaviors:DynamicPropertiesDataGridBehavior>
-                                                        </i:Interaction.Behaviors>
-                                                    </DataGrid>
-                                                </Grid>
-                                                <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch"></GridSplitter>
-                                                <Grid Grid.Column="2">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition></RowDefinition>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock HorizontalAlignment="Center" Text="{lex:Loc LocalData}"></TextBlock>
-
-
-                                                    <DataGrid Grid.Row="1" BorderThickness="1" AutoGenerateColumns="False" CanUserAddRows="False"  HorizontalScrollBarVisibility="Auto">
-                                                        <i:Interaction.Behaviors>
-                                                            <behaviors1:BubbleScrollBehavior/>
-                                                            <behaviors:DynamicPropertiesDataGridBehavior RowValues="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.TableConfigurationViewModel.DynamicPropertiesTable}" >
-                                                                <behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
-                                                                    <Style TargetType="ContentControl">
-                                                                        <Style.Setters>
-                                                                            <Setter Property="Template">
-                                                                                <Setter.Value>
-                                                                                    <ControlTemplate TargetType="ContentControl">
-                                                                                        <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue,Converter={StaticResource PropertyTooltipConverter} }" 
-                                                                                                        BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}">
-                                                                                            <ContentPresenter
-                                                                                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
-                                                                                                <ContentPresenter.ContentTemplateSelector>
-                                                                                                    <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector></dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector>
-                                                                                                </ContentPresenter.ContentTemplateSelector>
-                                                                                            </ContentPresenter>
-                                                                                        </Border>
-                                                                                    </ControlTemplate>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                        </Style.Setters>
-                                                                    </Style>
-                                                                </behaviors:DynamicPropertiesDataGridBehavior.CellStyle>
-                                                            </behaviors:DynamicPropertiesDataGridBehavior>
-                                                        </i:Interaction.Behaviors>
-                                                    </DataGrid>
-                                                </Grid>
-                                            </Grid>
+                                            <ContentPresenter Visibility="{TemplateBinding Content,Converter={StaticResource IsInterfaceImplementedToVisibilityConverter},ConverterParameter=IAsTableViewModel}">
+                                                <ContentPresenter.ContentTemplateSelector>
+                                                    <dataTemplateSelectors:TableViewByNameDataTemplateSelector></dataTemplateSelectors:TableViewByNameDataTemplateSelector>
+                                                </ContentPresenter.ContentTemplateSelector>
+                                            </ContentPresenter>
                                         </StackPanel>
                                     </Border>
-
-
-
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                                             <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush2}" />
@@ -179,9 +101,6 @@
                                             <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
-
-
-
                                 </ControlTemplate>
 
                             </Setter.Value>
@@ -242,7 +161,7 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
                                             </Button>
-                                            <ToggleButton Margin="0" ToolTip="{lex:Loc Transform}" Style="{DynamicResource UniconToggleButtonStyle}" Grid.Column="3" IsChecked="{Binding IsTableView}" Visibility="{Binding IsTableViewEnabled,Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
+                                            <ToggleButton Margin="0" ToolTip="{lex:Loc Transform}" Style="{DynamicResource UniconToggleButtonStyle}" Grid.Column="3" IsChecked="{Binding IsTableView}" Visibility="{Binding IsTableViewAllowed,Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
                                                 <Rectangle 
                                                     Margin="-2"
                                                     Width="15"
@@ -274,6 +193,7 @@
                                     <DataTemplate>
                                         <Border
                                             HorizontalAlignment="Stretch"
+                                            Visibility="{Binding .,Converter={StaticResource IsInterfaceImplementedToInvertVisibilityConverter},ConverterParameter=IAsTableViewModel}"
                                             BorderBrush="{Binding LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
                                             BorderThickness="1.5">
                                             <Grid Visibility="{Binding ., Converter={StaticResource IsItemsGroupToVisibilityConverter}}">
@@ -377,5 +297,10 @@
             </Border>
         </Expander>
     </DataTemplate>
+
+    <DataTemplate x:Key="ConfigAsTableViewDataTemplate">
+        <views:ConfigAsTableView></views:ConfigAsTableView>
+    </DataTemplate>
+    
 
 </ResourceDictionary>

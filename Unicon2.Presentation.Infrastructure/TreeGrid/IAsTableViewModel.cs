@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Unicon2.Presentation.Infrastructure.TreeGrid
 {
-   public interface IConfigurationAsTableViewModel
+   public interface IAsTableViewModel
     {
         bool IsTableView { get; set; }
-        bool IsTableViewEnabled { get; }
+        string AsossiatedDetailsViewName { get; }
     }
 }

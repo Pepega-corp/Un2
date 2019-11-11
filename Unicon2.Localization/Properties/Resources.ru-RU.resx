@@ -1350,12 +1350,18 @@
 
   <data name="Transform" xml:space="preserve">
     <value>Преобразовать</value>
+
  </data>
+
+
   <data name="DependentParameter" xml:space="preserve">
     <value>Зависимый параметр</value>
   </data>
   <data name="DeviceReadingError" xml:space="preserve">
     <value>Ошибка чтения устройства</value>
 
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Таблица</value>
   </data>
 </root>

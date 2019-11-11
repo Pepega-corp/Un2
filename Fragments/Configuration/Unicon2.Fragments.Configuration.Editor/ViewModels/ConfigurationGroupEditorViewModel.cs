@@ -28,6 +28,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private ObservableCollection<IPropertyViewModel> _properties;
         private bool _isInEditMode;
         private ushort _addressIteratorValue = 1;
+        private bool _isTableViewAllowed;
 
         #endregion
 
@@ -254,6 +255,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 this.ChildStructItemViewModels.Add(this._configurationItemEditorViewModelFactory
                     .ResolveConfigurationItemEditorViewModel(configurationItem, this));
                 this.IsCheckable = true;
+                this.IsTableViewAllowed = (model as IItemsGroup).IsTableViewAllowed;
             };
             base.SetModel(model);
         }
@@ -277,7 +279,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         protected override object GetModel()
         {
-
+            var itemsGroup = (_model as IItemsGroup);
+            itemsGroup.ConfigurationItemList.Clear();
+            foreach (var childStructItemViewModel in ChildStructItemViewModels)
+            {
+                itemsGroup.ConfigurationItemList.Add(childStructItemViewModel.Model as IConfigurationItem);
+            }
+            itemsGroup.IsTableViewAllowed = IsTableViewAllowed;
             return base.GetModel();
         }
 
@@ -331,8 +339,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         #endregion
 
         #region Implementation of IItemGroupViewModel
+        
 
-
+        public bool IsTableViewAllowed
+        {
+            get => _isTableViewAllowed;
+            set => SetProperty(ref _isTableViewAllowed, value);
+        }
         #endregion
     }
 }

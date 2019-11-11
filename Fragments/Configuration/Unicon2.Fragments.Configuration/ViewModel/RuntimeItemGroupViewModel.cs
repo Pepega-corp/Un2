@@ -14,13 +14,13 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel, IConfigurationAsTableViewModel
+    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel, IAsTableViewModel
     {
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
         private readonly IGlobalEventsService _globalEventsService;
         private bool _isTableView;
         private TableConfigurationViewModel _tableConfigurationViewModel;
-        private bool _isTableViewEnabled;
+        private bool _isTableViewAllowed;
 
         public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
         {
@@ -66,9 +66,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 this.ChildStructItemViewModels.Add(this._runtimeConfigurationItemViewModelFactory
                     .CreateRuntimeConfigurationItemViewModel(configurationItem));
             }
-
-            _isTableViewEnabled = ChildStructItemViewModels.All((model1 => model1 is RuntimeItemGroupViewModel));
-            RaisePropertyChanged(nameof(IsTableViewEnabled));
+            IsTableViewAllowed = ((IItemsGroup) model).IsTableViewAllowed;
             base.SetModel(model);
         }
 
@@ -88,7 +86,17 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
         }
 
-        public bool IsTableViewEnabled => _isTableViewEnabled;
+        public string AsossiatedDetailsViewName => "ConfigAsTableView";
+
+        #endregion
+
+        #region Implementation of IItemGroupViewModel
+
+        public bool IsTableViewAllowed
+        {
+            get => _isTableViewAllowed;
+            set => SetProperty(ref _isTableViewAllowed, value);
+        }
 
         #endregion
     }

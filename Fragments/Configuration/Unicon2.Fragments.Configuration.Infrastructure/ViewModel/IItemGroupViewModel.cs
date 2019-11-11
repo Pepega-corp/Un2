@@ -5,5 +5,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
 {
     public interface IItemGroupViewModel : IConfigurationItemViewModel
     {
+        bool IsTableViewAllowed { get; set; }
     }
 }
