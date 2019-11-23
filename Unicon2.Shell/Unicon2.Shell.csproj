@@ -154,6 +154,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\IconsTestView.xaml.cs">
+      <DependentUpon>IconsTestView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Images\drawing.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -172,6 +175,9 @@
     </Page>
     <Page Include="Views\UniconSplashScreen.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\IconsTestView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -236,6 +242,10 @@
     <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration.Editor\Unicon2.Fragments.Configuration.Editor.csproj">
       <Project>{D1A9A1AC-BFAA-4DA5-AB7D-DB7D082EDFA4}</Project>
       <Name>Unicon2.Fragments.Configuration.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration.Exporter\Unicon2.Fragments.Configuration.Exporter.csproj">
+      <Project>{143f5015-42fe-4bd5-b642-76b5c489ebeb}</Project>
+      <Name>Unicon2.Fragments.Configuration.Exporter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration.Matrix\Unicon2.Fragments.Configuration.Matrix.csproj">
       <Project>{091C3FCE-7FB2-4852-9B3F-7B7C967B84B4}</Project>

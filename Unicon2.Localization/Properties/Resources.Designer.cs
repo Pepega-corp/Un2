@@ -1555,6 +1555,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @ExportConfiguration.
+        /// </summary>
+        public static string ExportConfiguration {
+            get {
+                return ResourceManager.GetString("ExportConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @FailedQueries.
         /// </summary>
         public static string FailedQueries {

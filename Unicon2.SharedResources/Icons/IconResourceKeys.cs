@@ -17,6 +17,7 @@
         public static string IconStepOut = "appbar_debug_step_out";
         public static string IconArrowRightLeft = "appbar_arrow_right_left";
         public static string IconAlignJustify = "appbar_align_justify";
+        public static string IconPrintText = "appbar_printer_text";
 
     }
 }

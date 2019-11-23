@@ -1344,20 +1344,19 @@
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
-
   <data name="Transform" xml:space="preserve">
     <value>Transform</value>
-
   </data>
   <data name="DependentParameter" xml:space="preserve">
     <value>Dependent parameter</value>
   </data>
   <data name="DeviceReadingError" xml:space="preserve">
     <value>Device reading error</value>
-</data>
-
+  </data>
   <data name="Table" xml:space="preserve">
     <value>Table</value>
   </data>
-
+  <data name="ExportConfiguration" xml:space="preserve">
+    <value>Export сonfiguration</value>
+  </data>
 </root>

@@ -88,7 +88,7 @@ namespace Unicon2.Fragments.Configuration.Model
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                throw e;
             }
         }
 

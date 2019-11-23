@@ -73,6 +73,12 @@
             "SaveConfiguration";
 
         /// <summary>
+        ///    строка сохранения конфигурации в файл
+        /// </summary>
+        public const string EXPORT_CONFUGURATION_STRING_KEY =
+            "ExportConfiguration";
+
+        /// <summary>
         ///    строка сохранения конфигурации
         /// </summary>
         public const string EDIT_LOCAL_CONFIGURATION_VALUES_STRING_KEY =

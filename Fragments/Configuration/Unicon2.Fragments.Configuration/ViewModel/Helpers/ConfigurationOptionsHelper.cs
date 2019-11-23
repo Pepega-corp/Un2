@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
@@ -88,8 +90,16 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.SAVE_CONFUGURATION_STRING_KEY;
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscDownload;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteSaveConfiguration);
-
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
+            fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.EXPORT_CONFUGURATION_STRING_KEY;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconPrintText;
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteExportConfiguration);
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
+
+
             fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
             // группа дерево
@@ -255,7 +265,20 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                 }
             }
         }
-
+        private void OnExecuteExportConfiguration()
+        {
+  
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = " HTML файл (*html)|*html" + "|Все файлы (*.*)|*.* ";
+            sfd.DefaultExt = ".html";
+            sfd.FileName = this._runtimeConfigurationViewModel.NameForUiKey;
+            if (sfd.ShowDialog() == true)
+            {
+                var htmlString = _container.Resolve<IHtmlRenderer<IDeviceConfiguration>>()
+                    .RenderHtmlString(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration);
+                File.WriteAllText(sfd.FileName, htmlString);
+            }
+        }
         private void OnExecuteSaveConfiguration()
         {
             SaveFileDialog sfd = new SaveFileDialog();

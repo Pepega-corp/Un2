@@ -105,6 +105,7 @@
     <Compile Include="FragmentInterfaces\IFragmentOptions.cs" />
     <Compile Include="GeneralFactories\IGeneralViewModelFactory.cs" />
     <Compile Include="IApplicationGlobalCommands.cs" />
+    <Compile Include="Interfaces\DataOperations\IHtmlRenderer.cs" />
     <Compile Include="Interfaces\DataOperations\ISerializableInFile.cs" />
     <Compile Include="Interfaces\DataOperations\IWriteable.cs" />
     <Compile Include="Interfaces\Dependancy\ConditionresultEnum.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Interfaces\IStronglyNamed.cs" />
     <Compile Include="Progress\ITaskProgressReport.cs" />
     <Compile Include="Services\ApplicationSettingsService\IApplicationSettingsService.cs" />
+    <Compile Include="Services\IHtmlExportService.cs" />
     <Compile Include="Services\ItemChangingContext\ConnectableItemChangingContext.cs" />
     <Compile Include="Services\ItemChangingContext\ItemModifyingTypeEnum.cs" />
     <Compile Include="Services\LogService\IExceptionLoggerService.cs" />
