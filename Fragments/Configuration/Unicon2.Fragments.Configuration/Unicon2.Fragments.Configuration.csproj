@@ -101,6 +101,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Resources\GridViewWithRowDetails.cs" />
+    <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
+    <Compile Include="ViewModel\Helpers\ConfigurationExportHelper.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationOptionsHelper.cs" />
     <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimeDependentPropertyViewModel.cs" />
@@ -112,6 +114,9 @@
     <Compile Include="ViewModel\Table\TableConfigurationViewModel.cs" />
     <Compile Include="Views\ConfigAsTableView.xaml.cs">
       <DependentUpon>ConfigAsTableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExportSelectionWindow.xaml.cs">
+      <DependentUpon>ExportSelectionWindow.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -129,6 +134,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ConfigAsTableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExportSelectionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

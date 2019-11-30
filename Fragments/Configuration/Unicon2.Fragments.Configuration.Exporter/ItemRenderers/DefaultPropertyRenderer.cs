@@ -1,4 +1,6 @@
-﻿using Unicon2.Fragments.Configuration.Exporter.Interfaces;
+﻿using System;
+using System.Web.Mvc;
+using Unicon2.Fragments.Configuration.Exporter.Interfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Model.Properties;
 
@@ -8,10 +10,11 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
     {
         #region Overrides of ConfigurationItemRendererBase
 
-        public string RenderHtmlFromItem(IConfigurationItem configurationItem)
+        public TagBuilder RenderHtmlFromItem(IConfigurationItem configurationItem)
         {
             DefaultProperty defaultProperty = configurationItem as DefaultProperty;
-            return $"{defaultProperty.LocalUshortsValue}";
+            TagBuilder item = new TagBuilder("span") {InnerHtml = defaultProperty.LocalUshortsValue?.ToString()};
+            return item;
         }
 
         #endregion

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
+using System.Web.WebPages.Html;
 using Unicon2.Fragments.Configuration.Exporter.Interfaces;
+using Unicon2.Fragments.Configuration.Exporter.Utils;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
 
@@ -25,17 +28,20 @@ namespace Unicon2.Fragments.Configuration.Exporter
 
         public string RenderHtmlString(IDeviceConfiguration deviceConfiguration)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append("<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\" />\n<title> HTML Document </title>\n</head>\n<body>");
+            string main =
+                "<!DOCTYPE html>\n <html>\n <head>\n <meta charset =\"utf-8\"/>\n<title> HTML Document </title>\n</head>";
+            TagBuilder body = new TagBuilder("body");
             foreach (var rootConfigurationItem in deviceConfiguration.RootConfigurationItemList)
             {
-                stringBuilder.Append(_itemRendererFactory.GetConfigurationItemRenderer(rootConfigurationItem).RenderHtmlFromItem(rootConfigurationItem));
+                body.AddTagToInnerHtml(_itemRendererFactory.GetConfigurationItemRenderer(rootConfigurationItem).RenderHtmlFromItem(rootConfigurationItem));
             }
-            stringBuilder.Append("</body>\n</html>");
+            main += body;
 
-            return stringBuilder.ToString();
+            main += ("\n</html>");
+
+            return main;
         }
-
+       
         #endregion
     }
 }

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+using System.Web.Mvc;
 using Unicon2.Fragments.Configuration.Exporter.Interfaces;
+using Unicon2.Fragments.Configuration.Exporter.Utils;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
 {
-    public class ItemsGroupPropertyRenderer: IConfigurationItemRenderer
+    public class ItemsGroupPropertyRenderer : IConfigurationItemRenderer
     {
         private readonly IItemRendererFactory _itemRendererFactory;
 
@@ -17,19 +14,19 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
         {
             _itemRendererFactory = itemRendererFactory;
         }
+
         #region Overrides of ConfigurationItemRendererBase
 
-        public  string RenderHtmlFromItem(IConfigurationItem configurationItem)
+        public TagBuilder RenderHtmlFromItem(IConfigurationItem configurationItem)
         {
-            StringBuilder stringBuilder=new StringBuilder();
             var group = configurationItem as IItemsGroup;
-            stringBuilder.Append($"<h1> {group.Name} </h1>");
+            TagBuilder groupName = new TagBuilder("h1") {InnerHtml = group.Name};
             group.ConfigurationItemList.ForEach((item =>
-                {
-                    stringBuilder.Append(_itemRendererFactory.GetConfigurationItemRenderer(item)
-                        .RenderHtmlFromItem(item));
-                }));
-            return stringBuilder.ToString();
+            {
+                groupName.AddTagToInnerHtml(_itemRendererFactory.GetConfigurationItemRenderer(item)
+                    .RenderHtmlFromItem(item));
+            }));
+            return groupName;
         }
 
         #endregion

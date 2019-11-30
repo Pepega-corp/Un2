@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web.Mvc;
 using Unicon2.Fragments.Configuration.Exporter.Interfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 
@@ -12,9 +9,9 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
     {
         #region Implementation of IConfigurationItemRenderer
 
-        public string RenderHtmlFromItem(IConfigurationItem configurationItem)
+        public TagBuilder RenderHtmlFromItem(IConfigurationItem configurationItem)
         {
-            return $"<h1> {configurationItem.Name} </h1>";
+            return new TagBuilder("h1") {InnerHtml = configurationItem.Name};
         }
 
         #endregion

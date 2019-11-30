@@ -1,9 +1,10 @@
-﻿using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+﻿using System.Web.Mvc;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 
 namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
 {
     public interface IConfigurationItemRenderer
     {
-        string RenderHtmlFromItem(IConfigurationItem configurationItem);
+        TagBuilder RenderHtmlFromItem(IConfigurationItem configurationItem);
     }
 }

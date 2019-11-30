@@ -274,8 +274,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             sfd.FileName = this._runtimeConfigurationViewModel.NameForUiKey;
             if (sfd.ShowDialog() == true)
             {
-                var htmlString = _container.Resolve<IHtmlRenderer<IDeviceConfiguration>>()
-                    .RenderHtmlString(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration);
+                var htmlString =ConfigurationExportHelper.ExportConfiguration(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration,_container);
                 File.WriteAllText(sfd.FileName, htmlString);
             }
         }
