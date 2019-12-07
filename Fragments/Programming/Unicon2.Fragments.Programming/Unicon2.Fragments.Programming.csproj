@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Adorners\ConnectionAdorner.cs" />
     <Compile Include="Adorners\ConnectorAdorner.cs" />
+    <Compile Include="Adorners\DesignerCanvasAdorner.cs" />
     <Compile Include="Adorners\DragItemsAdorner.cs" />
     <Compile Include="Adorners\RubberbandAdorner.cs" />
     <Compile Include="Behaviors\ConnectionBehavior.cs" />

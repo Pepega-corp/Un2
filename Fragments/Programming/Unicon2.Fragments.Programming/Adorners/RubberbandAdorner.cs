@@ -24,7 +24,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             this._rubberbandPen.DashStyle = new DashStyle(new double[] { 2 }, 1);
         }
 
-        protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {

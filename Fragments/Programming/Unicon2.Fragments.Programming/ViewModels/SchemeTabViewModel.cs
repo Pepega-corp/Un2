@@ -18,6 +18,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
     // Вью модель одной схемы
     public class SchemeTabViewModel : ViewModelBase, ISchemeTabViewModel
     {
+        public const int CELL_SIZE = 5;
         #region Events
         /// <summary>
         /// Событие закрытия вкладки схемы
@@ -29,7 +30,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private string _schemeName;
         private double _schemeHeight;
         private double _schemeWidth;
-        private string _scaleStr;
+        private double _scale;
         #endregion
 
         public SchemeTabViewModel(string name, Size size): this()
@@ -91,17 +92,26 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public string ScaleStr
+        public double Scale
         {
-            get { return this._scaleStr; }
+            get => this._scale;
             set
             {
-                if (this._scaleStr == value)
-                    return;
-                this._scaleStr = value;
+                this._scale = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(this.ScaleStr));
             }
         }
+
+        public string ScaleStr => $"{this._scale * 100}%";
+        
+        public double RectHeight => this.SchemeHeight - 2 * this.RectY;
+
+        public double RectWidth => this.SchemeWidth - 2 * this.RectX;
+        
+        public double RectX => CELL_SIZE;
+        
+        public double RectY => CELL_SIZE;
 
         #endregion Properties
 

@@ -117,16 +117,9 @@
                                     BorderBrush="Black"
                                     BorderThickness="1"
                                     IsHitTestVisible="True">
-                                    <!--<Border IsHitTestVisible="True"
-                                        Margin="20"
-                                        BorderBrush="Black"
-                                        BorderThickness="0.5">-->
-                                    <!--  Для того,чтобы отобращать на схеме все существующие элементы, используется ItemsControl, итемы которого размещены на Canvas  -->
+                                    <!--  Для того,чтобы отображать на схеме все существующие элементы, используется ItemsControl, итемы которого размещены на Canvas  -->
                                     <!--  Это позволяет использовать привязку коллекции из базовых VM элементов к колекции визуально отображаемых элементов на Canvas  -->
-                                    <ItemsControl
-                                        Margin="20"
-                                        IsHitTestVisible="True"
-                                        ItemsSource="{Binding ElementCollection}">
+                                    <ItemsControl IsHitTestVisible="True" ItemsSource="{Binding ElementCollection}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <Canvas
@@ -153,6 +146,15 @@
                                                                                     <LineSegment Point="5,0" />
                                                                                 </PathFigure>
                                                                             </PathGeometry>
+                                                                            <!--<RectangleGeometry>
+                                                                                <RectangleGeometry.Rect>
+                                                                                    <Rect
+                                                                                        Width="{Binding RectWidth}"
+                                                                                        Height="{Binding RectHeight}"
+                                                                                        X="{Binding RectX}"
+                                                                                        Y="{Binding RectY}" />
+                                                                                </RectangleGeometry.Rect>
+                                                                            </RectangleGeometry>-->
                                                                         </GeometryGroup>
                                                                     </GeometryDrawing.Geometry>
                                                                 </GeometryDrawing>

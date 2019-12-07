@@ -32,10 +32,13 @@ namespace Unicon2.Fragments.Programming.Adorners
             this._thumbRects = thumbRects;
             this._dragStartPoint = startPoint;
 
-            this._dragCanvas = new Canvas();
-            this._dragCanvas.Height = this._designerCanvas.Height;
-            this._dragCanvas.Width = this._designerCanvas.Width;
-            this._dragCanvas.Opacity = 0.5;
+            this._dragCanvas = new Canvas
+            {
+                Height = this._designerCanvas.Height,
+                Width = this._designerCanvas.Width,
+                Opacity = 0.5
+            };
+
             foreach (Rect rect in this._thumbRects)
             {
                 Rectangle rectangle = new Rectangle();
@@ -75,8 +78,8 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             GeneralTransformGroup result = new GeneralTransformGroup();
             result.Children.Add(base.GetDesiredTransform(transform));
-            result.Children.Add(new TranslateTransform(this._leftOffset * this._tabViewModel.SelfBehavior.Scale,
-                this._topOffset * this._tabViewModel.SelfBehavior.Scale));
+            result.Children.Add(new TranslateTransform(this._leftOffset * this._tabViewModel.Scale,
+                this._topOffset * this._tabViewModel.Scale));
             return result;
         }
 
@@ -185,11 +188,11 @@ namespace Unicon2.Fragments.Programming.Adorners
                 item.X = item.X + this._leftOffset;
                 item.Y = item.Y + this._topOffset;
                 // Задание новых координат точек выводов
-                //foreach (ConnectorViewModel connector in item.ConnectorViewModels)
-                //{
-                //    Point prevPoint = connector.ConnectorPoint;
-                //    connector.ConnectorPoint = new Point(prevPoint.X + this._leftOffset, prevPoint.Y + this._topOffset);
-                //}
+                foreach (IConnectorViewModel connector in item.Connectors)
+                {
+                    Point prevPoint = connector.ConnectorPoint;
+                    connector.ConnectorPoint = new Point(prevPoint.X + this._leftOffset, prevPoint.Y + this._topOffset);
+                }
             }
 
             if (IsMouseCaptured) ReleaseMouseCapture();

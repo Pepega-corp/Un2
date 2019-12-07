@@ -19,6 +19,10 @@ namespace Unicon2.Fragments.Programming.Behaviors
 
         private ScaleTransform _scaleTransform;
 
+        public Point? RubberbandSelectionStartPoint { get; private set; }
+        public Canvas DesignerCanvas { get; private set; }
+        public SchemeTabViewModel TabViewModel { get; private set; }
+
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -26,7 +30,6 @@ namespace Unicon2.Fragments.Programming.Behaviors
             Border outerBorder = this.GetOuterBorder(this.DesignerCanvas);
             if (outerBorder != null)
             {
-                this.Scale = 1.0;
                 this._scaleTransform = new ScaleTransform(1, 1);
                 outerBorder.LayoutTransform = this._scaleTransform;
             }
@@ -37,7 +40,14 @@ namespace Unicon2.Fragments.Programming.Behaviors
             if (this.TabViewModel != null)
             {
                 this.TabViewModel.SelfBehavior = this;
-                this.UpdateScaleInViewModel();
+                this.TabViewModel.Scale = 1.0;
+
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
+                if (adornerLayer != null)
+                {
+                    var designerCanvasAdorner = new DesignerCanvasAdorner(this.DesignerCanvas, this.TabViewModel) {IsHitTestVisible = false};
+                    adornerLayer.Add(designerCanvasAdorner);
+                }
             }
         }
 
@@ -51,52 +61,51 @@ namespace Unicon2.Fragments.Programming.Behaviors
                 obj = parent;
             }
         }
+        //На случай, если вместо Barder использовать Canvas
+        //private Canvas GetOuterCanvas(DependencyObject obj)
+        //{
+        //    while (true)
+        //    {
+        //        DependencyObject parent = VisualTreeHelper.GetParent(obj);
+        //        if (parent == null) return null;
+        //        if (parent is Canvas canvas && canvas.Name == "OuterBorder") return canvas;
+        //        obj = parent;
+        //    }
+        //}
 
         protected override void OnDetaching()
         {
             base.OnDetaching();
             this.DesignerCanvas.MouseDown -= this.OnMouseDown;
             this.DesignerCanvas.MouseMove -= this.OnMouseMove;
-            this.DesignerCanvas.Drop -= this.OnDrop;
+            this.DesignerCanvas.Drop -= this.OnDrop;                 
         }
-
-        public Point? RubberbandSelectionStartPoint { get; private set; }
-        public Canvas DesignerCanvas { get; private set; }
-        public SchemeTabViewModel TabViewModel { get; private set; }
-
-        public double Scale { get; private set; }
 
         public void IncrementZoom()
         {
-            if (this.Scale >= MAX_SCALE)
+            if (this.TabViewModel.Scale >= MAX_SCALE)
             {
-                this.Scale = MAX_SCALE;
+                this.TabViewModel.Scale = MAX_SCALE;
                 return;
             }
-            this.Scale += SCALE_STEP;
-            this.UpdateScaleInViewModel();
-            this._scaleTransform.ScaleX = this.Scale;
-            this._scaleTransform.ScaleY = this.Scale;
+            this.TabViewModel.Scale += SCALE_STEP;
+            this._scaleTransform.ScaleX = this.TabViewModel.Scale;
+            this._scaleTransform.ScaleY = this.TabViewModel.Scale;
         }
 
         public void DecrementZoom()
         {
-            if (this.Scale <= SCALE_STEP)
+            if (this.TabViewModel.Scale <= SCALE_STEP)
             {
-                this.Scale = SCALE_STEP;
+                this.TabViewModel.Scale = SCALE_STEP;
                 return;
             }
-            this.Scale -= SCALE_STEP;
-            this.UpdateScaleInViewModel();
-            this._scaleTransform.ScaleX = this.Scale;
-            this._scaleTransform.ScaleY = this.Scale;
+            this.TabViewModel.Scale -= SCALE_STEP;
+            this._scaleTransform.ScaleX = this.TabViewModel.Scale;
+            this._scaleTransform.ScaleY = this.TabViewModel.Scale;
         }
 
-        private void UpdateScaleInViewModel()
-        {
-            string scale = $"{this.Scale * 100}%";
-            this.TabViewModel.ScaleStr = scale;
-        }
+
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
