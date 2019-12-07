@@ -66,6 +66,7 @@
     <Compile Include="Factories\IItemRendererFactory.cs" />
     <Compile Include="Interfaces\IConfigurationItemRenderer.cs" />
     <Compile Include="Interfaces\IItemRendererFactory.cs" />
+    <Compile Include="ItemRenderers\ComplexPropertyRenderer.cs" />
     <Compile Include="ItemRenderers\DefaultPropertyRenderer.cs" />
     <Compile Include="ItemRenderers\FallbackItemRenderer.cs" />
     <Compile Include="ItemRenderers\ItemsGroupPropertyRenderer.cs" />

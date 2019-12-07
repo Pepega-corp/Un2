@@ -13,12 +13,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
             {
                 ushort u;
                 return ushort.TryParse(s, out u);
-            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.FORMAT_ERROR));
+            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
             RuleFor(model => model.NumberOfPoints).Must(s =>
             {
                 ushort u;
                 return ushort.TryParse(s, out u);
-            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.FORMAT_ERROR));
+            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
         }
     }
 }

@@ -1362,4 +1362,10 @@
   <data name="ExportConfiguration" xml:space="preserve">
     <value>Сохранить для печати</value>
   </data>
+  <data name="SelectItemsToPrint" xml:space="preserve">
+    <value>Выберите объекты для печати</value>
+  </data>
+  <data name="FileExportSuccessful" xml:space="preserve">
+    <value>Сохранение в файл прошло успешено</value>
+  </data>
 </root>

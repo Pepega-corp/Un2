@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.Win32;
+using Unicon2.Fragments.Configuration.Infrastructure.Export;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Infrastructure.Extensions;
+using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
@@ -12,47 +18,95 @@ namespace Unicon2.Fragments.Configuration.ViewModel
     {
         public ExportSelectionViewModel()
         {
+            SubmitCommand = new RelayCommand(OnSubmitExecute);
         }
 
-        private Action _onSubmit;
-        private IDeviceConfiguration _deviceConfiguration;
-        private IEnumerable<SelectorForItemsGroup> _selectors;
+        private IEnumerable<SelectorForItemsGroup> MapSelectorForItemsGroups(
+            IEnumerable<SelectorForItemsGroupViewModel> selectorViewModels)
+        {
+            return selectorViewModels.Select((model =>
+                new SelectorForItemsGroup(MapSelectorForItemsGroups(model.Selectors), model.RelatedItemsGroup,
+                    model.IsSelected)));
+        }
 
-        public void Initialize(Action onSubmit, IDeviceConfiguration deviceConfiguration)
+        private void OnSubmitExecute()
+        {
+            _onSubmit(MapSelectorForItemsGroups(Selectors).ToList());
+        }
+
+        private Action<List<SelectorForItemsGroup>> _onSubmit;
+        private IEnumerable<SelectorForItemsGroupViewModel> _selectors;
+        private bool _isSavingInProcess;
+
+        public void Initialize(Action<List<SelectorForItemsGroup>> onSubmit, IDeviceConfiguration deviceConfiguration)
         {
             _onSubmit = onSubmit;
-            _deviceConfiguration = deviceConfiguration;
+            List<SelectorForItemsGroupViewModel> selectors = new List<SelectorForItemsGroupViewModel>();
+            MapConfigItemsOnSelector(selectors, ItemsGroupSelectorFunc(deviceConfiguration.RootConfigurationItemList));
+            Selectors = selectors;
         }
 
-        public IEnumerable<SelectorForItemsGroup> Selectors
+        public IEnumerable<SelectorForItemsGroupViewModel> Selectors
         {
             get => _selectors;
             set => SetProperty(ref _selectors, value);
         }
 
-        private void MapConfigItemsOnSelector(List<SelectorForItemsGroup> selectors,IItemsGroup itemsGroup)
+        private IEnumerable<IItemsGroup> ItemsGroupSelectorFunc(IEnumerable<IConfigurationItem> configurationItems)
         {
+            return configurationItems.Where((item => item is IItemsGroup)).Cast<IItemsGroup>();
+        }
 
+        private void MapConfigItemsOnSelector(List<SelectorForItemsGroupViewModel> selectors,
+            IEnumerable<IItemsGroup> itemsGroup)
+        {
+            selectors.AddRange(itemsGroup.Select((group =>
+            {
+                List<SelectorForItemsGroupViewModel> innerSelectors = new List<SelectorForItemsGroupViewModel>();
+                var innerGroups = ItemsGroupSelectorFunc(group.ConfigurationItemList).ToArray();
+                if (innerGroups.Any())
+                {
+                    MapConfigItemsOnSelector(innerSelectors, innerGroups);
+                }
+
+                return new SelectorForItemsGroupViewModel(innerSelectors, group);
+            })));
+        }
+
+        public ICommand SubmitCommand { get; }
+
+        public bool IsSavingInProcess
+        {
+            get => _isSavingInProcess;
+            set => SetProperty(ref _isSavingInProcess, value);
         }
     }
 
-    public class SelectorForItemsGroup : ViewModelBase
+    public class SelectorForItemsGroupViewModel : ViewModelBase
     {
+        public SelectorForItemsGroupViewModel(IEnumerable<SelectorForItemsGroupViewModel> selectors,
+            IItemsGroup relatedItemsGroup)
+        {
+            Selectors = selectors;
+            RelatedItemsGroup = relatedItemsGroup;
+            IsSelected = true;
+        }
+
         private bool _isSelected;
-        private IEnumerable<SelectorForItemsGroup> _selectors;
 
         public bool IsSelected
         {
             get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
-        public IEnumerable<SelectorForItemsGroup> Selectors
-        {
-            get => _selectors;
-            set => SetProperty(ref _selectors, value);
+            set
+            {
+                SetProperty(ref _isSelected, value);
+                Selectors.ForEach((model => model.IsSelected = value));
+            }
         }
 
-    public IItemsGroup RelatedItemsGroup { get; set; }
-        
+        public IEnumerable<SelectorForItemsGroupViewModel> Selectors { get; }
+
+        public IItemsGroup RelatedItemsGroup { get; }
+
     }
 }

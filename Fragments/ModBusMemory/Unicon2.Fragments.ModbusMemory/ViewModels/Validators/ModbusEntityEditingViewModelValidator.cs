@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels.Validators
                 ushort u;
                 return ushort.TryParse(s, out u);
             }).WithMessage(localizerService.GetLocalizedString(
-                                ApplicationGlobalNames.ErrorMessages.VALUE_OUT_OF_RANGE_MESSAGE_KEY) + " (0-65535)");
+                                ApplicationGlobalNames.StatusMessages.VALUE_OUT_OF_RANGE_MESSAGE_KEY) + " (0-65535)");
             RuleFor(model => model.ValueHex).Must(s =>
             {
                 try
@@ -28,7 +28,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels.Validators
                 }
                 return true;
             }).WithMessage(localizerService.GetLocalizedString(
-                                ApplicationGlobalNames.ErrorMessages.VALUE_OUT_OF_RANGE_MESSAGE_KEY) + " (0-65535)");
+                                ApplicationGlobalNames.StatusMessages.VALUE_OUT_OF_RANGE_MESSAGE_KEY) + " (0-65535)");
         }
 
     }

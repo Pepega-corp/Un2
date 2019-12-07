@@ -85,7 +85,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this._formulaFormatter.NumberOfSimbolsAfterComma = this.NumberOfSimbolsAfterComma;
             if (this.ArgumentViewModels.Count > 0)
             {
-                this.TestResult = this._localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.DYNAMIC_VALUES_CHECKING_IMPOSSIBLE);
+                this.TestResult = this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.DYNAMIC_VALUES_CHECKING_IMPOSSIBLE);
                 return;
             }
             try
@@ -94,7 +94,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             }
             catch
             {
-                this.TestResult = this._localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.ERROR);
+                this.TestResult = this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR);
             }
         }
 

@@ -14,12 +14,12 @@ namespace Unicon2.Presentation.Values.Validators
             {
                 double x;
                 return double.TryParse(s, out x);
-            })).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.FORMAT_ERROR));
+            })).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
             RuleFor(model => model.RangeFrom).Must((s =>
             {
                 double x;
                 return double.TryParse(s, out x);
-            })).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.FORMAT_ERROR));
+            })).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
             RuleFor(model => model.RangeTo).Must((fooArgs,rangeTo) =>
             {
                 
@@ -28,7 +28,7 @@ namespace Unicon2.Presentation.Values.Validators
                 if ((!double.TryParse(rangeTo, out rTo)) ||
                     (!double.TryParse(fooArgs.RangeFrom, out rFrom))) return false;
                 return rTo >= rFrom;
-            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.INVALID_RANGE_ERROR));
+            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.INVALID_RANGE_ERROR));
             RuleFor(model => model.RangeFrom).Must((fooArgs, rangeFrom) =>
             {
 
@@ -37,7 +37,7 @@ namespace Unicon2.Presentation.Values.Validators
                 if ((!double.TryParse(fooArgs.RangeTo, out rTo)) ||
                     (!double.TryParse(rangeFrom, out rFrom))) return false;
                 return rTo >= rFrom;
-            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.INVALID_RANGE_ERROR));
+            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.INVALID_RANGE_ERROR));
 
         }
 

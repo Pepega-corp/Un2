@@ -71,7 +71,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
             }
             catch (Exception e)
             {
-                this._applicationGlobalCommands.ShowErrorMessage(ApplicationGlobalNames.ErrorMessages.JOURNAL_READING_ERROR, this);
+                this._applicationGlobalCommands.ShowErrorMessage(ApplicationGlobalNames.StatusMessages.JOURNAL_READING_ERROR, this);
                 this._uniconJournal.JournalRecordsChanged?.Invoke(new RecordChangingEventArgs()
                 {
                     RecordChangingEnum = RecordChangingEnum.RecordsReadingFinished

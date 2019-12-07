@@ -1609,6 +1609,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @FileExportSuccessful.
+        /// </summary>
+        public static string FileExportSuccessful {
+            get {
+                return ResourceManager.GetString("FileExportSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @FormatError.
         /// </summary>
         public static string FormatError {
@@ -3117,6 +3126,15 @@ namespace Unicon2.Localization.Properties {
         public static string SelectFromResources {
             get {
                 return ResourceManager.GetString("SelectFromResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @SelectItemsToPrint.
+        /// </summary>
+        public static string SelectItemsToPrint {
+            get {
+                return ResourceManager.GetString("SelectItemsToPrint", resourceCulture);
             }
         }
         

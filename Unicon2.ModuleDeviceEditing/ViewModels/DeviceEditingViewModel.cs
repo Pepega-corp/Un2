@@ -146,7 +146,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             catch (Exception e)
             {
                 this._dialogCoordinator.ShowModalMessageExternal(this,
-                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.PORT_ERROR_MESSAGE),
+                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.PORT_ERROR_MESSAGE),
                     e.Message);
                 return false;
             }

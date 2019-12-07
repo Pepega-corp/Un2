@@ -1353,4 +1353,10 @@
   <data name="ExportConfiguration" xml:space="preserve">
     <value>@ExportConfiguration</value>
   </data>
+  <data name="SelectItemsToPrint" xml:space="preserve">
+    <value>@SelectItemsToPrint</value>
+  </data>
+  <data name="FileExportSuccessful" xml:space="preserve">
+    <value>@FileExportSuccessful</value>
+  </data>
 </root>

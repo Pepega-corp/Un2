@@ -87,7 +87,7 @@ namespace Unicon2.Services
         public void ShowErrorMessage(string errorKey, object context)
         {
             this._dialogCoordinator.ShowModalMessageExternal(context,
-                this._localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.ERROR),
+                this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR),
                 this._localizerService.GetLocalizedString(errorKey));
         }
 

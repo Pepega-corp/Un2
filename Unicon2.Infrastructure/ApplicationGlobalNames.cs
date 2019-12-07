@@ -139,7 +139,7 @@
         }
 
 
-        public static class ErrorMessages
+        public static class StatusMessages
         {
             /// <summary>
             /// ошибка невозможности проверить динамические значения
@@ -165,7 +165,7 @@
             ///  строка сообщения об ошибке
             /// </summary>
             public const string ERROR = "Error";
-            
+
             /// <summary>
             ///  строка сообщения о повторении в коллекции
             /// </summary>
@@ -180,7 +180,7 @@
             /// сообщение о невыбранном устройстве
             /// </summary>
             public static string SELECTED_DEVICE_NULL_MESSAGE = "SelectedDeviceNullMessage";
-            
+
             /// <summary>
             /// сообщение о невыбранном подключении
             /// </summary> 
@@ -195,12 +195,18 @@
             /// сообщение о несоответствии значению его пределов
             /// </summary> 
             public static string JOURNAL_READING_ERROR = "JournalReadingError";
+
+            /// <summary>
+            /// сообщение об успехе сохранения в файл
+            /// </summary> 
+            public static string FILE_EXPORT_SUCCESSFUL = "FileExportSuccessful";
+
             /// <summary>
             /// сообщение об ошибке чтения устройства
             /// </summary> 
             public static string DEVICE_READING_ERROR = "DeviceReadingError";
         }
-        
+
         public static class QueriesNames
         {
             /// <summary>

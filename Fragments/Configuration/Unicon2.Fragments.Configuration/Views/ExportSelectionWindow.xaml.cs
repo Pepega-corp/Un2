@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Unicon2.Fragments.Configuration.ViewModel;
 
 namespace Unicon2.Fragments.Configuration.Views
 {
@@ -20,8 +21,9 @@ namespace Unicon2.Fragments.Configuration.Views
     /// </summary>
     public partial class ExportSelectionWindow 
     {
-        public ExportSelectionWindow()
+        public ExportSelectionWindow(ExportSelectionViewModel exportSelectionViewModel)
         {
+            DataContext = exportSelectionViewModel;
             InitializeComponent();
         }
     }

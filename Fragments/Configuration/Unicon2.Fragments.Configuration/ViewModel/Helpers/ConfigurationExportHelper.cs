@@ -1,19 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Win32;
+using Unicon2.Fragments.Configuration.Infrastructure.Export;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Views;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
+using Unicon2.Infrastructure.Services.LogService;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 {
     public class ConfigurationExportHelper
     {
-        public static string ExportConfiguration(IDeviceConfiguration deviceConfiguration,ITypesContainer typesContainer)
+        public static async Task ExportConfiguration(IDeviceConfiguration deviceConfiguration, ITypesContainer typesContainer,
+            string fileName)
         {
-           return typesContainer.Resolve<IHtmlRenderer<IDeviceConfiguration>>().RenderHtmlString(deviceConfiguration);
+            var viewModel = typesContainer.Resolve<ExportSelectionViewModel>();
+            var logger = typesContainer.Resolve<ILogService>();
+            ExportSelectionWindow window = new ExportSelectionWindow(viewModel);
+            viewModel.Initialize((async (selectorsForGroup) =>
+            {
+                var sfd = new SaveFileDialog
+                {
+                    Filter = " HTML файл (*html)|*html" + "|Все файлы (*.*)|*.* ",
+                    DefaultExt = ".html",
+                    FileName = fileName
+                };
+                if (sfd.ShowDialog() == true)
+                {
+                    try
+                    {
+                        viewModel.IsSavingInProcess = true;
+                        File.WriteAllText(sfd.FileName,
+                           await typesContainer.Resolve<IHtmlRenderer<IDeviceConfiguration, List<SelectorForItemsGroup>>>()
+                                .RenderHtmlString(deviceConfiguration, selectorsForGroup));
+                        logger.LogMessage(ApplicationGlobalNames.StatusMessages.FILE_EXPORT_SUCCESSFUL);
+                        viewModel.IsSavingInProcess = false;
+                        window.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        logger.LogMessage(e.Message + Environment.NewLine + e.StackTrace, LogMessageTypeEnum.Error);
+                    }
+
+                }
+            }), deviceConfiguration);
+            window.Show();
         }
     }
 }

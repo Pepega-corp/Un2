@@ -1359,4 +1359,10 @@
   <data name="ExportConfiguration" xml:space="preserve">
     <value>Export сonfiguration</value>
   </data>
+  <data name="SelectItemsToPrint" xml:space="preserve">
+    <value>Select items to print</value>
+  </data>
+  <data name="FileExportSuccessful" xml:space="preserve">
+    <value>File export successful</value>
+  </data>
 </root>

@@ -17,7 +17,7 @@ namespace Unicon2.Presentation.Values.Validators
             {
                 double x;
                 return double.TryParse(s, out x);
-            })).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.FORMAT_ERROR));
+            })).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
             RuleFor((model => model.NumValue)).Must((args,o) =>
             {
                 INumericValue numericValue= args.Model as INumericValue;
@@ -36,7 +36,7 @@ namespace Unicon2.Presentation.Values.Validators
                     numericValue.NumValue = prev;
                 }
                 return true;
-            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.FORMAT_ERROR));
+            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
             RuleFor((model => model.NumValue)).Must((args, o) =>
             {
                 if (!args.IsRangeEnabled) return true;
@@ -47,7 +47,7 @@ namespace Unicon2.Presentation.Values.Validators
                   return  args.Range.CheckValue(x);
                 }
                 return false;
-            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.VALUE_OUT_OF_RANGE_MESSAGE_KEY));
+            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.VALUE_OUT_OF_RANGE_MESSAGE_KEY));
 
         }
     }

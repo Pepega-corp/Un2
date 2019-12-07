@@ -147,9 +147,9 @@ namespace Unicon2.Services.UniconProject
                     string message = string.Empty;
                     message += this._localizerService.GetLocalizedString(ServicesKeys.PROJECT_OPENED);
                     message += " " + this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj";
-                    this._logService.RaiseInfoMessage(message);
+                    this._logService.LogMessage(message);
                 }
-                catch (Exception ex) { this._logService.RaiseInfoMessage(ex.Message); }
+                catch (Exception ex) { this._logService.LogMessage(ex.Message); }
             }
         }
 
@@ -186,7 +186,7 @@ namespace Unicon2.Services.UniconProject
             string message = string.Empty;
             message += this._localizerService.GetLocalizedString(ServicesKeys.PROJECT_SAVED);
             message += " " + projectPath;
-            this._logService.RaiseInfoMessage(message);
+            this._logService.LogMessage(message);
         }
 
 

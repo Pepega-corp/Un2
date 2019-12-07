@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Unicon2.Fragments.Configuration.Exporter.Interfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.Export;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Infrastructure.Common;
 
 namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
 {
@@ -9,9 +12,17 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
     {
         #region Implementation of IConfigurationItemRenderer
 
-        public TagBuilder RenderHtmlFromItem(IConfigurationItem configurationItem)
+        public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem,
+            SelectorForItemsGroup selectorForItemsGroup = null, int depthLevel = 0)
         {
-            return new TagBuilder("h1") {InnerHtml = configurationItem.Name};
+            return Maybe<List<TagBuilder>>.FromValue(new List<TagBuilder>()
+            {
+                ConfigTableRowRenderer
+                    .Create()
+                    .SetDepth(depthLevel)
+                    .SetName(configurationItem.Name)
+                    .Render()
+            });
         }
 
         #endregion

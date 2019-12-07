@@ -1,7 +1,9 @@
-﻿namespace Unicon2.Infrastructure.Interfaces.DataOperations
+﻿using System.Threading.Tasks;
+
+namespace Unicon2.Infrastructure.Interfaces.DataOperations
 {
-    public interface IHtmlRenderer<T>
+    public interface IHtmlRenderer<T,TSelector>
     {
-        string RenderHtmlString(T objectToRender);
+        Task<string> RenderHtmlString(T objectToRender, TSelector selector);
     }
 }

@@ -100,7 +100,7 @@ namespace Unicon2.Services.LogService
             return _deviceLoggers;
         }
 
-        public void RaiseInfoMessage(string messageKey)
+        public void LogMessage(string messageKey, LogMessageTypeEnum messageType = LogMessageTypeEnum.Info)
         {
             ILogMessage logMessage = _logMessageGettingFunc();
             logMessage.LogMessageType = LogMessageTypeEnum.Info;

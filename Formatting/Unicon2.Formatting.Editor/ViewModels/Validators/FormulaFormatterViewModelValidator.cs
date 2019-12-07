@@ -13,10 +13,10 @@ namespace Unicon2.Formatting.Editor.ViewModels.Validators
         public FormulaFormatterViewModelValidator(ILocalizerService localizerService)
         {
             RuleFor(model => model.FormulaString).NotEmpty()
-                .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages
+                .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
                     .NULL_OR_EMPTY_MESSAGE));
             RuleFor(model => model.FormulaString).Must(((args,s) => IsFormulaStringValid(s,args)))
-                .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.FORMAT_ERROR));
+                .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
         }
 
         private bool IsFormulaStringValid(string formulaString, IFormulaFormatterViewModel arg)

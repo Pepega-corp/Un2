@@ -267,16 +267,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         }
         private void OnExecuteExportConfiguration()
         {
-  
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = " HTML файл (*html)|*html" + "|Все файлы (*.*)|*.* ";
-            sfd.DefaultExt = ".html";
-            sfd.FileName = this._runtimeConfigurationViewModel.NameForUiKey;
-            if (sfd.ShowDialog() == true)
-            {
-                var htmlString =ConfigurationExportHelper.ExportConfiguration(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration,_container);
-                File.WriteAllText(sfd.FileName, htmlString);
-            }
+            ConfigurationExportHelper.ExportConfiguration(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration,_container,_runtimeConfigurationViewModel.NameForUiKey);
         }
         private void OnExecuteSaveConfiguration()
         {
