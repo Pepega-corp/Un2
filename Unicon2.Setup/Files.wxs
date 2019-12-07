@@ -67,6 +67,8 @@
         <File Id='Unicon2FragmentsFileOperationsdll' DiskId='1' Name='Unicon2.Fragments.FileOperations.dll'/>
         <File Id='Unicon2FragmentsFileOperationsEditordll' DiskId='1' Name='Unicon2.Fragments.FileOperations.Editor.dll'/>
         <File Id='Unicon2FragmentsFileOperationsInfrastructuredll' DiskId='1' Name='Unicon2.Fragments.FileOperations.Infrastructure.dll'/>
+        <File Id='Unicon2FragmentConfigurationExporterdll' DiskId='1' Name='Unicon2.Fragments.Configuration.Exporter.dll'/>
+
       </Component>
     </DirectoryRef>
 
