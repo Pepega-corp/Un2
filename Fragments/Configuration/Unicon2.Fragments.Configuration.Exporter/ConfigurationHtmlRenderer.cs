@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.WebPages.Html;
 using Unicon2.Fragments.Configuration.Exporter.Interfaces;
 using Unicon2.Fragments.Configuration.Exporter.Utils;
 using Unicon2.Fragments.Configuration.Infrastructure.Export;
@@ -21,7 +17,7 @@ namespace Unicon2.Fragments.Configuration.Exporter
         private readonly IItemRendererFactory _itemRendererFactory;
         private readonly ILocalizerService _localizerService;
 
-        public ConfigurationHtmlRenderer(IItemRendererFactory itemRendererFactory,ILocalizerService localizerService)
+        public ConfigurationHtmlRenderer(IItemRendererFactory itemRendererFactory, ILocalizerService localizerService)
         {
             _itemRendererFactory = itemRendererFactory;
             _localizerService = localizerService;
@@ -33,7 +29,12 @@ namespace Unicon2.Fragments.Configuration.Exporter
             List<SelectorForItemsGroup> selectorsForItemsGroup)
         {
             string main =
-                "<!DOCTYPE html>\n <html>\n <head>\n <meta charset =\"utf-8\"/>\n<title> HTML Document </title>\n</head>";
+                "<!DOCTYPE html>\n <html> " +
+                "\n<style type=\"text/css\">  " +
+                "\n.rootItem {border: 0; background-color:#999;}" +
+                "\ntr:nth-of-type(odd) {background-color:#ccc;}" +
+                "\n</style> " +
+                "\n<head>\n <meta charset =\"utf-8\"/>\n<title> HTML Document </title>\n</head>";
             await Task.Run((() =>
             {
                 TagBuilder body = new TagBuilder("body");

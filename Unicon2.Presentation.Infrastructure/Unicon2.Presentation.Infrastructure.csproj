@@ -97,6 +97,7 @@
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionGroupViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentSettings\IFragmentSettingsViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\IDeviceDataProvider.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IFragmentEditorViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionsViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionCommandViewModel.cs" />

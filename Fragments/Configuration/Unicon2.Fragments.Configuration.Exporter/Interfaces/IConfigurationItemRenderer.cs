@@ -25,17 +25,19 @@ namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
             _item = item;
             _isSuccess = isSuccess;
         }
-        public static Result<T> Create(T item,bool isSuccess)
+
+        public static Result<T> Create(T item, bool isSuccess)
         {
-            return new Result<T>(item,isSuccess);
+            return new Result<T>(item, isSuccess);
         }
 
         public T OnSuccess(Action<T> onSuccessFunc)
         {
             if (_isSuccess)
             {
-               onSuccessFunc(_item);
+                onSuccessFunc(_item);
             }
+
             return _item;
         }
 
@@ -53,10 +55,25 @@ namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
         {
             return Result<T>.Create(item, ifSet());
         }
-      
+
+        public static Result<T> SetIf<T>(this T item, Func<T, bool> ifSet)
+        {
+            return Result<T>.Create(item, ifSet(item));
+        }
     }
 
-    
+    public class RenderData
+    {
+        public RenderData(string stringToRender, string cssClassName = null)
+        {
+            StringToRender = stringToRender;
+            CssClassName = cssClassName;
+        }
+
+        public string StringToRender { get; }
+        public string CssClassName { get; }
+
+    }
 
     public class ConfigTableRowRenderer
     {
@@ -65,25 +82,27 @@ namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
             return new ConfigTableRowRenderer();
         }
 
-        private string _name;
+        private RenderData _nameRenderData;
         private int _depthLevel;
         private string _deviceData;
         private string _localData;
         private string _measureUnit;
         private string _range;
+        private bool _shouldRenderEmptyItems = true;
 
-        public ConfigTableRowRenderer SetName(string name)
+        public ConfigTableRowRenderer SetName(RenderData nameRenderData)
         {
-            _name = name;
+            _nameRenderData = nameRenderData;
             return this;
         }
+
         public ConfigTableRowRenderer SetDepth(int depthLevel)
         {
             _depthLevel = depthLevel;
             return this;
         }
 
-      
+
 
         public ConfigTableRowRenderer SetDeviceData(string deviceData)
         {
@@ -93,8 +112,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
 
         public ConfigTableRowRenderer SetMeasureUnit(string measureUnit)
         {
-              _measureUnit = measureUnit;
-            
+            _measureUnit = measureUnit;
 
             return this;
         }
@@ -106,43 +124,65 @@ namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
             return this;
         }
 
+        public ConfigTableRowRenderer SetShouldRenderEmptyItems(bool shouldRenderEmptyItems)
+        {
+            _shouldRenderEmptyItems = shouldRenderEmptyItems;
+
+            return this;
+        }
+
         public ConfigTableRowRenderer SetRange(string range)
         {
-
             _range = range;
 
             return this;
         }
 
+
+        private void RenderDataToTag(TagBuilder tagBuilder, string dataToRender, bool shouldRenderEmptyItems)
+        {
+            dataToRender
+                .SetIf((data) => CheckIfDataNeedsToRender(data, shouldRenderEmptyItems))
+                .OnSuccess((s => { AddDataTag(tagBuilder, s); }));
+        }
+
+        private void AddDataTag(TagBuilder tagBuilder, string data)
+        {
+            TagBuilder tag = new TagBuilder("td");
+            tag.AddToInnerHtml(data);
+            tagBuilder.AddTagToInnerHtml(tag);
+
+        }
+
+        private bool CheckIfDataNeedsToRender(string data, bool shouldRenderEmptyItems)
+        {
+            return !string.IsNullOrEmpty(data) || (string.IsNullOrEmpty(data) && shouldRenderEmptyItems);
+
+        }
+
         public TagBuilder Render()
         {
             TagBuilder tableRowForItems = new TagBuilder("tr");
-            
+
             TagBuilder nameTableItem = new TagBuilder("td");
             string offsetString = "";
             for (int i = 0; i < _depthLevel; i++)
             {
                 offsetString += "  -  ";
             }
-            nameTableItem.AddToInnerHtml(offsetString+_name);
 
-            TagBuilder deviceDataTableItem = new TagBuilder("td");
-            deviceDataTableItem.AddToInnerHtml(_deviceData);
+            if (_nameRenderData.CssClassName != null)
+            {
+                nameTableItem.AddCssClass(_nameRenderData.CssClassName);
+            }
 
-            TagBuilder localDataTableItem = new TagBuilder("td");
-            localDataTableItem.AddToInnerHtml(_localData);
-
-            TagBuilder measureUnitTableItem = new TagBuilder("td");
-            measureUnitTableItem.AddToInnerHtml(_measureUnit);
-
-            TagBuilder rangeTableItem = new TagBuilder("td");
-            rangeTableItem.AddToInnerHtml(_range);
+            nameTableItem.AddToInnerHtml(offsetString + _nameRenderData.StringToRender);
 
             tableRowForItems.AddTagToInnerHtml(nameTableItem);
-            tableRowForItems.AddTagToInnerHtml(deviceDataTableItem);
-            tableRowForItems.AddTagToInnerHtml(localDataTableItem);
-            tableRowForItems.AddTagToInnerHtml(measureUnitTableItem);
-            tableRowForItems.AddTagToInnerHtml(rangeTableItem);
+            RenderDataToTag(tableRowForItems, _deviceData, _shouldRenderEmptyItems);
+            RenderDataToTag(tableRowForItems, _localData, _shouldRenderEmptyItems);
+            RenderDataToTag(tableRowForItems, _measureUnit, _shouldRenderEmptyItems);
+            RenderDataToTag(tableRowForItems, _range, _shouldRenderEmptyItems);
             return tableRowForItems;
         }
     }

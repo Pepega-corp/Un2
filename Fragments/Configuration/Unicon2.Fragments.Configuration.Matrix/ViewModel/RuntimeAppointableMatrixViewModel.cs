@@ -21,11 +21,13 @@ using Unicon2.Unity.Interfaces;
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
 
-    public class RuntimeAppointableMatrixViewModel : RuntimePropertyViewModel,IAsTableViewModel
+    public class RuntimeAppointableMatrixViewModel : RuntimePropertyViewModel, IAsTableViewModel
     {
         private TableConfigurationViewModel _tableConfigurationViewModel;
+        private bool _isTableView;
 
-        public RuntimeAppointableMatrixViewModel(ITypesContainer container, IValueViewModelFactory valueViewModelFactory) : base(container, valueViewModelFactory)
+        public RuntimeAppointableMatrixViewModel(ITypesContainer container,
+            IValueViewModelFactory valueViewModelFactory) : base(container, valueViewModelFactory)
         {
             ShowDetails = new RelayCommand(OnShowDetails);
             TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
@@ -40,16 +42,15 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         public TableConfigurationViewModel TableConfigurationViewModel
         {
             get => _tableConfigurationViewModel;
-            set
-            {
-                SetProperty(ref _tableConfigurationViewModel, value);
-            }
+            set { SetProperty(ref _tableConfigurationViewModel, value); }
         }
 
         #region Overrides of ConfigurationItemViewModelBase
 
         public override string TypeName => ConfigurationKeys.APPOINTABLE_MATRIX;
-        public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
+        public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX +
+                                             ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
 
         public RelayCommand ShowDetails { get; }
@@ -61,13 +62,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         public bool IsTableView
         {
-            get => true;
-            set { }
+            get => _isTableView;
+            set => SetProperty(ref _isTableView, value);
         }
 
+        public bool IsTableViewAllowed => true;
         public string AsossiatedDetailsViewName => "MatrixTableValueView";
 
         #endregion
     }
 }
-

@@ -29,7 +29,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
             List<TagBuilder> tagBuilders = new List<TagBuilder>();
             tagBuilders.Add(ConfigTableRowRenderer
                 .Create()
-                .SetName(complexProperty.Name)
+                .SetName(new RenderData(complexProperty.Name))
                 .SetDepth(depthLevel)
                 .Render());
 

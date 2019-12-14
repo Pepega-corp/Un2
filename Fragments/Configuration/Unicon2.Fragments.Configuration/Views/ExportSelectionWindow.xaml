@@ -16,10 +16,10 @@
     </mah:MetroWindow.Resources>
     <Grid MinWidth="600">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="400"></RowDefinition>
+            <RowDefinition Height="*" MinHeight="400"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TreeView  ItemsSource="{Binding Selectors}">
+        <TreeView ItemsSource="{Binding Selectors}">
             <ItemsControl.ItemTemplate>
                 <HierarchicalDataTemplate DataType="viewModel:SelectorForItemsGroupViewModel" ItemsSource="{Binding Selectors}">
                     <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding RelatedItemsGroup.Name}"></CheckBox>
@@ -27,7 +27,7 @@
             </ItemsControl.ItemTemplate>
         </TreeView>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Margin="5" Grid.Row="1">
-            <Button MinWidth="100" Style="{StaticResource UniconButtonStyle}" Command="{Binding SubmitCommand}" Content="Ok"></Button>
+            <Button IsDefault="True" MinWidth="100" Style="{StaticResource UniconButtonStyle}" Command="{Binding SubmitCommand}" Content="Ok"></Button>
             <mah:ProgressRing Width="25" Height="25" HorizontalAlignment="Right" Visibility="{Binding IsSavingInProcess,Converter={StaticResource booleanToVisibilityConverter}}"></mah:ProgressRing>
         </StackPanel>
     </Grid>

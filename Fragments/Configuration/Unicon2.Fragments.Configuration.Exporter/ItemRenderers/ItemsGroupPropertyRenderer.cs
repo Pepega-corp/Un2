@@ -30,12 +30,15 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
             }
 
             var group = configurationItem as IItemsGroup;
-            List<TagBuilder> tagBuilders = new List<TagBuilder>();
-            tagBuilders.Add(ConfigTableRowRenderer
-                .Create()
-                .SetName(group.Name)
-                .SetDepth(depthLevel)
-                .Render());
+            List<TagBuilder> tagBuilders = new List<TagBuilder>
+            {
+                ConfigTableRowRenderer
+                    .Create()
+                    .SetName(new RenderData(group.Name, depthLevel == 0 ? "rootItem" : null))
+                    .SetDepth(depthLevel)
+                    .SetShouldRenderEmptyItems(depthLevel != 0)
+                    .Render()
+            };
 
             group.ConfigurationItemList.ForEach((item =>
             {

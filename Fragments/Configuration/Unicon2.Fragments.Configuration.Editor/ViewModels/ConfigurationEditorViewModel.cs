@@ -22,6 +22,7 @@ using Unicon2.Infrastructure.Interfaces.EditOperations;
 using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentSettings;
 using Unicon2.Unity.Commands;
@@ -44,6 +45,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private IEditorConfigurationItemViewModel _selectedRow;
         private IConfigurationItem _bufferConfigurationItem;
         private IDeviceSharedResources _deviceSharedResources;
+        private string _deviceName;
 
         #endregion
 
@@ -652,5 +654,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
         #endregion
+
+      
     }
 }

@@ -139,7 +139,7 @@
                                             </ToggleButton>
                                             <TextBlock
                                                 Name="HeaderTextBlock"
-                                                Grid.Column="1"
+                                                Grid.Column="1" VerticalAlignment="Center"
                                                 Text="{Binding Path=Header}" />
                                             <Button
                                                 Grid.Column="2"
@@ -161,7 +161,7 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
                                             </Button>
-                                            <ToggleButton Margin="0" ToolTip="{lex:Loc Transform}" Style="{DynamicResource UniconToggleButtonStyle}" Grid.Column="3" IsChecked="{Binding IsTableView}" Visibility="{Binding IsTableViewAllowed,Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
+                                            <ToggleButton Margin="0" ToolTip="{lex:Loc TableView}" Style="{DynamicResource UniconToggleButtonStyle}" Grid.Column="3" IsChecked="{Binding IsTableView}" Visibility="{Binding IsTableViewAllowed,Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
                                                 <Rectangle 
                                                     Margin="-2"
                                                     Width="15"
