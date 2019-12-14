@@ -41,7 +41,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 
             this.AddElementCommand = new RelayCommand(this.OnAddElement);
             this.RemoveElementCommand = new RelayCommand(this.OnRemoveElement);
-            this.EditElementCommand = new RelayCommand(this.OnEditElement, this.CanEditElement);
+            this.EditElementCommand = new RelayCommand<object>(this.OnEditElement);
         }
         
         public ObservableCollection<ILogicElementEditorViewModel> BooleanElements { get; }
@@ -88,16 +88,15 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             this.LibraryElements.Remove(this.SelectedLibraryElemItem);
         }
 
-        private void OnEditElement()
+        private void OnEditElement(object element)
         {
-            this._globalCommands.ShowWindowModal(() => new EditElementView(), new EditElementViewModel(this.SelectedLibraryElemItem));
+            if (element is ILogicElementEditorViewModel logicElementEditorViewModel)
+            {
+                this._globalCommands.ShowWindowModal(() => new EditElementView(),
+                    new EditElementViewModel(logicElementEditorViewModel));
+            }
         }
-
-        private bool CanEditElement()
-        {
-            return this.SelectedLibraryElemItem != null && this.LibraryElements.Count > 0;
-        }
-
+        
         #region Implementation of IStronglyNamed
 
         public string StrongName => ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
