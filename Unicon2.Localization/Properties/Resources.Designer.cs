@@ -3400,6 +3400,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @TableView.
+        /// </summary>
+        public static string TableView {
+            get {
+                return ResourceManager.GetString("TableView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @TestResult.
         /// </summary>
         public static string TestResult {

@@ -267,7 +267,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         }
         private void OnExecuteExportConfiguration()
         {
-            ConfigurationExportHelper.ExportConfiguration(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration,_container,_runtimeConfigurationViewModel.NameForUiKey);
+            ConfigurationExportHelper.ExportConfiguration(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration,_container,_runtimeConfigurationViewModel.GetDeviceName(), _runtimeConfigurationViewModel.NameForUiKey);
         }
         private void OnExecuteSaveConfiguration()
         {

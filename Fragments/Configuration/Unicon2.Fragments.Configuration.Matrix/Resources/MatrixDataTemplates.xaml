@@ -57,7 +57,7 @@
             </Button>
         </Grid>-->
     </DataTemplate>
-    
+
     <DataTemplate x:Key="MatrixTableValueViewDataTemplate">
         <view:MatrixTableValueView></view:MatrixTableValueView>
     </DataTemplate>

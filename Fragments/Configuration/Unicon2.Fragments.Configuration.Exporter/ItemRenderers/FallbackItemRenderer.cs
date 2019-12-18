@@ -20,7 +20,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                 ConfigTableRowRenderer
                     .Create()
                     .SetDepth(depthLevel)
-                    .SetName(configurationItem.Name)
+                    .SetName(new RenderData(configurationItem.Name))
                     .Render()
             });
         }

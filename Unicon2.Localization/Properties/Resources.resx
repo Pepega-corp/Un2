@@ -1359,4 +1359,7 @@
   <data name="FileExportSuccessful" xml:space="preserve">
     <value>@FileExportSuccessful</value>
   </data>
+  <data name="TableView" xml:space="preserve">
+    <value>@TableView</value>
+  </data>
 </root>

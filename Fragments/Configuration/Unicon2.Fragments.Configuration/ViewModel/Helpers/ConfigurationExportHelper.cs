@@ -10,6 +10,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
+using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Unity.Interfaces;
@@ -18,11 +19,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 {
     public class ConfigurationExportHelper
     {
-        public static async Task ExportConfiguration(IDeviceConfiguration deviceConfiguration, ITypesContainer typesContainer,
-            string fileName)
+        public static async Task ExportConfiguration(IDeviceConfiguration deviceConfiguration, ITypesContainer typesContainer,string deviceName,string nameForUI)
         {
             var viewModel = typesContainer.Resolve<ExportSelectionViewModel>();
             var logger = typesContainer.Resolve<ILogService>();
+            var localizer = typesContainer.Resolve<ILocalizerService>();
+            var nameForUiLocalized = nameForUI;
+            localizer.TryGetLocalizedString(nameForUI, out nameForUiLocalized);
             ExportSelectionWindow window = new ExportSelectionWindow(viewModel);
             viewModel.Initialize((async (selectorsForGroup) =>
             {
@@ -30,7 +33,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                 {
                     Filter = " HTML файл (*html)|*html" + "|Все файлы (*.*)|*.* ",
                     DefaultExt = ".html",
-                    FileName = fileName
+                    FileName = $"{nameForUiLocalized} {deviceName}" 
                 };
                 if (sfd.ShowDialog() == true)
                 {
@@ -51,7 +54,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
                 }
             }), deviceConfiguration);
-            window.Show();
+            window.ShowDialog();
         }
     }
 }

@@ -1368,4 +1368,7 @@
   <data name="FileExportSuccessful" xml:space="preserve">
     <value>Сохранение в файл прошло успешено</value>
   </data>
+  <data name="TableView" xml:space="preserve">
+    <value>Табличный вид</value>
+  </data>
 </root>
