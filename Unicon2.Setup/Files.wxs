@@ -21,6 +21,8 @@
         <File Id='XAMLMarkupExtensions' DiskId='1' Name='XAMLMarkupExtensions.dll'/>
         <File Id='XceedWpfAvalonDock' DiskId='1' Name='Xceed.Wpf.AvalonDock.dll'/>
         <File Id='XceedWpfAvalonDockThemesMetro' DiskId='1' Name='Xceed.Wpf.AvalonDock.Themes.Metro.dll'/>
+        <File Id='SystemWebWebPages' DiskId='1' Name='System.Web.WebPages.dll'/>
+
         <!-- Project files -->
         <File Id='Shell' DiskId='1' Name='Unicon2.Shell.exe'/>
         <File Id='NLogConfig' DiskId='1' Name='NLog.config'/>
