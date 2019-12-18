@@ -10,7 +10,8 @@
              mc:Ignorable="d"
              Title="{lex:Loc SelectItemsToPrint}"
              d:DataContext="{d:DesignInstance viewModel:ExportSelectionViewModel}"
-             d:DesignHeight="450" d:DesignWidth="800" SizeToContent="WidthAndHeight">
+             d:DesignHeight="450" d:DesignWidth="800" SizeToContent="WidthAndHeight"
+                 MaxHeight="700">
     <mah:MetroWindow.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"></BooleanToVisibilityConverter>
     </mah:MetroWindow.Resources>
