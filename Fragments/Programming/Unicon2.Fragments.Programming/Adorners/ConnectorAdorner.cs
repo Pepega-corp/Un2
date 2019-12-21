@@ -56,9 +56,7 @@ namespace Unicon2.Fragments.Programming.Adorners
                     ? new ConnectionViewModel(this._sourceConnector, this._hitConnector, this._pathGeometry)
                     : new ConnectionViewModel(this._hitConnector, this._sourceConnector, this._pathGeometry);
                 ConnectionViewModel.AddNewConnectionNumber(connectionViewModel);
-                // Добавляем вьюмодель в коллекцию ShemeViewModel
-                this._tabViewModel.ElementCollection.Add(connectionViewModel);
-                connectionViewModel.DeleteConnection += this._tabViewModel.OnDeleteConnection;
+                
                 this._hitConnector.IsDragConnection = false;
             }
 

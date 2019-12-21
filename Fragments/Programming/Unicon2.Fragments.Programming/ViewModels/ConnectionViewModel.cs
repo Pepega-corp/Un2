@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
-using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
+using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
-    public class ConnectionViewModel : LogicElementViewModel, IConnectionViewModel
+    public class ConnectionViewModel : ViewModelBase, IConnectionViewModel
     {
-        public event Action<IConnectionViewModel> DeleteConnection;
-
         private static Dictionary<IConnectionViewModel, int> ConnectionNumbers = new Dictionary<IConnectionViewModel, int>();
 
         private const string NAME_PATTERN = "var{0}";
@@ -26,12 +23,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private DoubleCollection _strokeDashArray;
         private ushort _currentValue;
         private bool _gotValue;
-
+        private bool _isSelected;
+        private double _value;
         #endregion
 
         #region Constructors
 
-        public ConnectionViewModel() : base(null)
+        public ConnectionViewModel()
         {
             this._currentValue = 0;
             this._gotValue = false;
@@ -48,6 +46,28 @@ namespace Unicon2.Fragments.Programming.ViewModels
         #endregion
 
         #region Properties
+
+        public string Name { get; private set; }
+
+        public bool IsSelected
+        {
+            get => this._isSelected;
+            set
+            {
+                this._isSelected = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public double Value
+        {
+            get => this._value;
+            set
+            {
+                this._value = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public PathGeometry Path
         {
@@ -78,8 +98,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 {
                     this._source.Connections.Add(this);
                     this.UpdatePathGeometry();
-
-
                 }
 
                 RaisePropertyChanged();
@@ -167,19 +185,19 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         #region Methods
 
-        private void ConnectorPointPropertyChanged(object sender, PropertyChangedEventArgs e)
+        public void UpdateConnector(IConnectorViewModel connector)
         {
-            if (e.PropertyName != "ConnectorPoint") return;
+            if (ReferenceEquals(connector, this.Source))
+            {
+                RaisePropertyChanged(nameof(this.Source));
+                this.UpdatePathGeometry();
+            }
 
-            if (sender.Equals(this.Source)) // если изменился источник, то обновляем точку источника
+            if (ReferenceEquals(connector, this.Sink))
             {
-                RaisePropertyChanged("SourcePoint");
+                RaisePropertyChanged(nameof(this.Sink));
+                this.UpdatePathGeometry();
             }
-            if (sender.Equals(this.Sink)) // если изменился целевой элемент, то обновляем точку источника
-            {
-                RaisePropertyChanged("SinkPoint");
-            }
-            this.UpdatePathGeometry();
         }
 
         private void UpdatePathGeometry()
@@ -199,12 +217,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public void OnDeleteConnection(IConnectionViewModel connection)
-        {
-            this.DeleteConnection?.Invoke(connection);
-        }
-
-        public override object Clone()
+        public object Clone()
         {
             throw new NotImplementedException();
         }
@@ -233,7 +246,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 viewModel.ConnectionNumber = i;
                 viewModel.Source.ConnectionNumber = i;
                 viewModel.Sink.ConnectionNumber = i;
-                viewModel.StrongName = string.Format(NAME_PATTERN, i);
+                viewModel.Name = string.Format(NAME_PATTERN, i);
             }
         }
 
@@ -244,7 +257,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public static void RemoveConnectionWithNumber(IConnectionViewModel viewModel)
         {
             if (ConnectionNumbers.ContainsKey(viewModel))
+            {
                 ConnectionNumbers.Remove(viewModel);
+            }
             //при удалении связи нужно проверять, подключен ли вывод еще с одной связью
             viewModel.Source.Connections.Remove(viewModel);
             viewModel.Source.Connected = viewModel.Source.Connections.Count > 0;
@@ -253,8 +268,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             viewModel.Sink.Connections.Remove(viewModel);
             viewModel.Sink.Connected = viewModel.Sink.Connections.Count > 0;
             viewModel.Sink = null;
-
-            viewModel.OnDeleteConnection(viewModel);
         }
 
         #endregion

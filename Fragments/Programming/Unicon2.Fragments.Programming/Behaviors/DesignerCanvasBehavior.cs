@@ -27,11 +27,11 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             base.OnAttached();
             this.DesignerCanvas = AssociatedObject;
-            Border outerBorder = this.GetOuterBorder(this.DesignerCanvas);
-            if (outerBorder != null)
+            Grid outerGrid = this.GetOuterGrid(this.DesignerCanvas);
+            if (outerGrid != null)
             {
                 this._scaleTransform = new ScaleTransform(1, 1);
-                outerBorder.LayoutTransform = this._scaleTransform;
+                outerGrid.LayoutTransform = this._scaleTransform;
             }
             this.DesignerCanvas.MouseDown += this.OnMouseDown;
             this.DesignerCanvas.MouseMove += this.OnMouseMove;
@@ -51,27 +51,17 @@ namespace Unicon2.Fragments.Programming.Behaviors
             }
         }
 
-        private Border GetOuterBorder(DependencyObject obj)
+        //На случай, если вместо Barder использовать Canvas
+        private Grid GetOuterGrid(DependencyObject obj)
         {
             while (true)
             {
                 DependencyObject parent = VisualTreeHelper.GetParent(obj);
                 if (parent == null) return null;
-                if (parent is Border border && border.Name == "OuterBorder") return border;
+                if (parent is Grid grid && grid.Name == "OuterBorder") return grid;
                 obj = parent;
             }
         }
-        //На случай, если вместо Barder использовать Canvas
-        //private Canvas GetOuterCanvas(DependencyObject obj)
-        //{
-        //    while (true)
-        //    {
-        //        DependencyObject parent = VisualTreeHelper.GetParent(obj);
-        //        if (parent == null) return null;
-        //        if (parent is Canvas canvas && canvas.Name == "OuterBorder") return canvas;
-        //        obj = parent;
-        //    }
-        //}
 
         protected override void OnDetaching()
         {

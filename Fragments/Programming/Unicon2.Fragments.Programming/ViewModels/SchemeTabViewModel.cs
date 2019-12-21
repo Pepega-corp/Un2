@@ -104,11 +104,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
         }
 
         public string ScaleStr => $"{this._scale * 100}%";
-        
-        public double RectHeight => this.SchemeHeight - 2 * this.RectY;
 
-        public double RectWidth => this.SchemeWidth - 2 * this.RectX;
-        
+        public double RectHeight => (int) (this.SchemeHeight / this.RectY) * this.RectY- this.RectY;
+
+        public double RectWidth => (int)(this.SchemeWidth / this.RectX) * this.RectX - this.RectX;
+
         public double RectX => CELL_SIZE;
         
         public double RectY => CELL_SIZE;
@@ -176,19 +176,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             return selectedElements.Count > 0;
         }
         #endregion
-
-        /// <summary>
-        /// Удаление связи со схемы
-        /// </summary>
-        /// <param name="connection">Удаляемая связь</param>
-        public void OnDeleteConnection(IConnectionViewModel connection)
-        {
-            if (this.ElementCollection.Contains(connection))
-            {
-                this.ElementCollection.Remove(connection);
-                connection.DeleteConnection -= this.OnDeleteConnection;
-            }
-        }
 
         #region IFragmentViewModel
         public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;

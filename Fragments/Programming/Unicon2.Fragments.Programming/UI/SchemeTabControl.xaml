@@ -111,12 +111,7 @@
                             BorderBrush="{DynamicResource BorderMediumBrush}"
                             BorderThickness="1">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <Border
-                                    Name="OuterBorder"
-                                    Background="White"
-                                    BorderBrush="Black"
-                                    BorderThickness="1"
-                                    IsHitTestVisible="True">
+                                <Grid Name="OuterBorder" IsHitTestVisible="True">
                                     <!--  Для того,чтобы отображать на схеме все существующие элементы, используется ItemsControl, итемы которого размещены на Canvas  -->
                                     <!--  Это позволяет использовать привязку коллекции из базовых VM элементов к колекции визуально отображаемых элементов на Canvas  -->
                                     <ItemsControl IsHitTestVisible="True" ItemsSource="{Binding ElementCollection}">
@@ -126,41 +121,9 @@
                                                     Width="{Binding SchemeWidth}"
                                                     Height="{Binding SchemeHeight}"
                                                     AllowDrop="True"
-                                                    IsHitTestVisible="True">
-                                                    <Canvas.Background>
-                                                        <DrawingBrush
-                                                            TileMode="Tile"
-                                                            Viewport="0,0,5,5"
-                                                            ViewportUnits="Absolute">
-                                                            <DrawingBrush.Drawing>
-                                                                <GeometryDrawing Brush="White">
-                                                                    <GeometryDrawing.Pen>
-                                                                        <Pen Brush="Black" Thickness="0.1" />
-                                                                    </GeometryDrawing.Pen>
-                                                                    <GeometryDrawing.Geometry>
-                                                                        <GeometryGroup FillRule="EvenOdd">
-                                                                            <PathGeometry>
-                                                                                <PathFigure IsClosed="True" StartPoint="0,0">
-                                                                                    <LineSegment Point="0,5" />
-                                                                                    <LineSegment Point="5,5" />
-                                                                                    <LineSegment Point="5,0" />
-                                                                                </PathFigure>
-                                                                            </PathGeometry>
-                                                                            <!--<RectangleGeometry>
-                                                                                <RectangleGeometry.Rect>
-                                                                                    <Rect
-                                                                                        Width="{Binding RectWidth}"
-                                                                                        Height="{Binding RectHeight}"
-                                                                                        X="{Binding RectX}"
-                                                                                        Y="{Binding RectY}" />
-                                                                                </RectangleGeometry.Rect>
-                                                                            </RectangleGeometry>-->
-                                                                        </GeometryGroup>
-                                                                    </GeometryDrawing.Geometry>
-                                                                </GeometryDrawing>
-                                                            </DrawingBrush.Drawing>
-                                                        </DrawingBrush>
-                                                    </Canvas.Background>
+                                                    Background="White"
+                                                    IsHitTestVisible="True"
+                                                    SnapsToDevicePixels="True">
                                                     <i:Interaction.Behaviors>
                                                         <behaviors:DesignerCanvasBehavior />
                                                     </i:Interaction.Behaviors>
@@ -194,7 +157,10 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                </Border>
+                                    <!--<ItemsControl>
+
+                                    </ItemsControl>-->
+                                </Grid>
                             </ScrollViewer>
                         </Border>
                     </Grid>

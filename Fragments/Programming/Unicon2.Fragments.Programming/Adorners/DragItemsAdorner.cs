@@ -192,6 +192,10 @@ namespace Unicon2.Fragments.Programming.Adorners
                 {
                     Point prevPoint = connector.ConnectorPoint;
                     connector.ConnectorPoint = new Point(prevPoint.X + this._leftOffset, prevPoint.Y + this._topOffset);
+                    foreach (IConnectionViewModel connection in connector.Connections)
+                    {
+                        connection.UpdateConnector(connector);
+                    }
                 }
             }
 
