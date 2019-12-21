@@ -4,20 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Editor.Behaviors"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:interfaces="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure">
-    <Grid>
+    xmlns:interfaces="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure"
+    xmlns:behaviors1="clr-namespace:Unicon2.SharedResources.Behaviors;assembly=Unicon2.SharedResources">
+    <Grid Name="programmingEditorGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="400" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition MinWidth="150" MaxWidth=" 400" />
+            <ColumnDefinition MinWidth="150" />
         </Grid.ColumnDefinitions>
         <GroupBox
             Grid.Row="0"
-            Grid.Column="0"
-            Header="Все элементы свободно программируемой логики">
+            Grid.Column="0" Padding="0"
+            Header="Элементы свободно программируемой логики">
             <StackPanel Orientation="Vertical">
                 <Expander Header="Элементы двоичной логики">
                     <ListView ItemsSource="{Binding BooleanElements}" SelectedItem="{Binding Path=SelectedNewLogicElemItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -81,15 +82,13 @@
             <Button
                 Margin="5"
                 Command="{Binding AddElementCommand}"
-                Content="Добавить элемент" />
+                Content="Добавить элемент"
+                Style="{StaticResource UniconButtonStyle}"/>
             <Button
                 Margin="5,0,5,5"
                 Command="{Binding RemoveElementCommand}"
-                Content="Удалить эелемент" />
-            <Button
-                Margin="5,0,5,5"
-                Command="{Binding EditElementCommand}"
-                Content="Редактировать" />
+                Content="Удалить элемент"
+                Style="{StaticResource UniconButtonStyle}"/>
         </StackPanel>
         <GroupBox
             Grid.Row="0"
@@ -97,15 +96,25 @@
             Grid.Column="1"
             Header="Выбранные элементы">
             <ListView ItemsSource="{Binding LibraryElements}" SelectedItem="{Binding Path=SelectedLibraryElemItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Behaviors>
+                    <behaviors1:ScrollParentWhenAtMax />
+                </i:Interaction.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="interfaces:ILogicElementEditorViewModel">
-                        <TextBlock Text="{Binding ElementName}">
-                            <TextBlock.ToolTip>
-                                <ToolTip HorizontalOffset="5" VerticalOffset="5">
-                                    <TextBlock Text="{Binding Description}" />
-                                </ToolTip>
-                            </TextBlock.ToolTip>
-                        </TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Content="Списки"
+                                Command="{Binding ElementName=programmingEditorGrid, Path=DataContext.EditElementCommand}"
+                                CommandParameter="{Binding .}"
+                                Style="{StaticResource UniconButtonStyle}"/>
+                            <TextBlock Margin="3" Text="{Binding ElementName}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock.ToolTip>
+                                    <ToolTip HorizontalOffset="5" VerticalOffset="5">
+                                        <TextBlock Text="{Binding Description}" />
+                                    </ToolTip>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
