@@ -9,7 +9,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public class OutputViewModel : LogicElementViewModel
     {
-        public OutputViewModel() : base(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL)
+        public OutputViewModel(IApplicationGlobalCommands globalCommands) : base(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL, globalCommands)
         {
             ElementName = "Выход";
             Description = "Елемент выходного дискретного сигнала";
@@ -21,10 +21,20 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             };
         }
 
+        protected override ILogicElement GetModel()
+        {
+            return _model;
+        }
+
+        protected override void SetModel(object modelObj)
+        {
+
+        }
+
         public override object Clone()
         {
             OutputViewModel ret =
-                new OutputViewModel
+                new OutputViewModel(_globalCommands)
                 {
                     Model = (this.Model as ILogicElement)?.Clone(),
                     IsSelected = this.IsSelected,
@@ -40,6 +50,10 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
 
             return ret;
+        }
+
+        public override void Dispose()
+        {
         }
     }
 }

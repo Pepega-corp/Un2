@@ -2,29 +2,34 @@
 using System.Collections.ObjectModel;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.UI.LogicElementSettings;
+using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public abstract class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
     {
-        protected LogicElementViewModel(string strongName)
+        protected readonly IApplicationGlobalCommands _globalCommands;
+        protected bool _isSelected;
+        protected ILogicElement _model;
+        protected bool _debugMode;
+        protected string _caption;
+        protected bool _validationError;
+        protected string _description;
+        protected double _x;
+        protected double _y;
+
+        protected LogicElementViewModel(string strongName, IApplicationGlobalCommands globalCommands)
         {
             this.StrongName = strongName;
             this.DebugMode = false;
             this.IsSelected = false;
             this.ValidationError = false;
+
+            this._globalCommands = globalCommands;
         }
-
-        private bool _isSelected;
-        private ILogicElement _model;
-        private bool _debugMode;
-        private string _caption;
-        private bool _validationError;
-        private string _description;
-        private double _x;
-        private double _y;
-
+        
         public string ElementName { get; protected set; }
 
         public bool IsSelected
@@ -41,8 +46,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public object Model
         {
-            get { return this._model; }
-            set { this._model = value as ILogicElement; }
+            get => this.GetModel();
+            set => this.SetModel(value);
         }
 
         public string Symbol { get; protected set; }
@@ -87,8 +92,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public ObservableCollection<IConnectorViewModel> Connectors { get; protected set; }
 
-        public abstract object Clone();
-
         public double X
         {
             get { return this._x; }
@@ -111,6 +114,15 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        public virtual void OpenPropertyWindow() { }
+        protected abstract ILogicElement GetModel();
+        protected abstract void SetModel(object modelObj);
+
+        public abstract object Clone();
+        public abstract void Dispose();
+
+        public virtual void OpenPropertyWindow()
+        {
+            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(), new LogicElementSettingsViewModel(this));
+        }
     }
 }

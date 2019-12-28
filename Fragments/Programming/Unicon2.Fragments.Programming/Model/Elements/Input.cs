@@ -22,6 +22,8 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         [DataMember]
         public int ConnectionNumber { get; set; }
 
+        public string Name { get; set; }
+
         public Input()
         {
             this.Functional = Functional.BOOLEAN;
@@ -53,6 +55,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 throw new ArgumentException("Copied source is not " + typeof(Input));
             }
 
+            this.Name = inputSource.Name;
             this.Functional = inputSource.Functional;
             this.Group = inputSource.Group;
             this.InputSignalNum = inputSource.InputSignalNum;

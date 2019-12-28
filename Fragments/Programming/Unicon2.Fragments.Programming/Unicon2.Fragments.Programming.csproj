@@ -78,11 +78,15 @@
     </Compile>
     <Compile Include="TabControlEx.cs" />
     <Compile Include="TemplateSelectors\ElementsViewModelSelector.cs" />
+    <Compile Include="UI\LogicElementSettings\LogicElementSettings.xaml.cs">
+      <DependentUpon>LogicElementSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ConnectorViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\InputViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\LogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
+    <Compile Include="ViewModels\LogicElementSettingsViewModel.cs" />
     <Compile Include="ViewModels\NewSchemeViewModel.cs" />
     <Compile Include="ViewModels\ProgrammingViewModel.cs" />
     <Compile Include="ViewModels\SchemeTabViewModel.cs" />
@@ -150,6 +154,14 @@
     <Page Include="UI\ElementLibraryExpander.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\LogicElementSettings\LogicElements.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\LogicElementSettings\LogicElementSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\ProgrammingViewTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>

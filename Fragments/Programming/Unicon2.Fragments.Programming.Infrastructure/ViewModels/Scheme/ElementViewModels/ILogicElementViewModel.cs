@@ -1,9 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels
 {
-    public interface ILogicElementViewModel : ISelectable, IViewModel, ICanvasPosition
+    public interface ILogicElementViewModel : ISelectable, IViewModel, ICanvasPosition, IDisposable
     {
         string ElementName { get; }
         string Caption { get; set; }
