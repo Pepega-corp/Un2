@@ -21,6 +21,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                     .Create()
                     .SetDepth(depthLevel)
                     .SetName(new RenderData(configurationItem.Name))
+                    .SetSelectors(selectorForItemsGroup.IsPrintDeviceValuesAllowed,selectorForItemsGroup.IsPrintLocalValuesAllowed)
                     .Render()
             });
         }

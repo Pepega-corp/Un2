@@ -26,24 +26,28 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         {
             return selectorViewModels.Select((model =>
                 new SelectorForItemsGroup(MapSelectorForItemsGroups(model.Selectors), model.RelatedItemsGroup,
-                    model.IsSelected)));
+                    model.IsSelected,IsDeviceDataPrinting,IsLocalDataPrinting)));
         }
 
         private void OnSubmitExecute()
         {
-            _onSubmit(MapSelectorForItemsGroups(Selectors).ToList());
+            _onSubmit(new ConfigurationExportSelector(IsDeviceDataPrinting, IsLocalDataPrinting, MapSelectorForItemsGroups(Selectors).ToList()));
         }
 
-        private Action<List<SelectorForItemsGroup>> _onSubmit;
+        private Action<ConfigurationExportSelector> _onSubmit;
         private IEnumerable<SelectorForItemsGroupViewModel> _selectors;
         private bool _isSavingInProcess;
+        private bool _isDeviceDataPrinting;
+        private bool _isLocalDataPrinting;
 
-        public void Initialize(Action<List<SelectorForItemsGroup>> onSubmit, IDeviceConfiguration deviceConfiguration)
+        public void Initialize(Action<ConfigurationExportSelector> onSubmit, IDeviceConfiguration deviceConfiguration)
         {
             _onSubmit = onSubmit;
             List<SelectorForItemsGroupViewModel> selectors = new List<SelectorForItemsGroupViewModel>();
             MapConfigItemsOnSelector(selectors, ItemsGroupSelectorFunc(deviceConfiguration.RootConfigurationItemList));
             Selectors = selectors;
+            IsDeviceDataPrinting = true;
+            IsLocalDataPrinting = true;
         }
 
         public IEnumerable<SelectorForItemsGroupViewModel> Selectors
@@ -79,6 +83,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         {
             get => _isSavingInProcess;
             set => SetProperty(ref _isSavingInProcess, value);
+        }
+
+        public bool IsDeviceDataPrinting
+        {
+            get => _isDeviceDataPrinting;
+            set => SetProperty(ref _isDeviceDataPrinting, value);
+        }
+
+        public bool IsLocalDataPrinting
+        {
+            get => _isLocalDataPrinting;
+            set => SetProperty(ref _isLocalDataPrinting, value);
         }
     }
 

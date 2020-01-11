@@ -18,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="400"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TreeView ItemsSource="{Binding Selectors}">
             <ItemsControl.ItemTemplate>
@@ -27,6 +28,10 @@
             </ItemsControl.ItemTemplate>
         </TreeView>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Margin="5" Grid.Row="1">
+            <CheckBox IsChecked="{Binding IsDeviceDataPrinting}" Margin="1" Content="{lex:Loc DeviceData}"></CheckBox>
+            <CheckBox IsChecked="{Binding IsLocalDataPrinting}" Margin="1" Content="{lex:Loc LocalData}"></CheckBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Margin="5" Grid.Row="2">
             <Button IsDefault="True" MinWidth="100" Style="{StaticResource UniconButtonStyle}" Command="{Binding SubmitCommand}" Content="Ok"></Button>
             <mah:ProgressRing Width="25" Height="25" HorizontalAlignment="Right" Visibility="{Binding IsSavingInProcess,Converter={StaticResource booleanToVisibilityConverter}}"></mah:ProgressRing>
         </StackPanel>

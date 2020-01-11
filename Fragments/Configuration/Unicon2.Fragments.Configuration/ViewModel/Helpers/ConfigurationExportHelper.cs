@@ -27,7 +27,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             var nameForUiLocalized = nameForUI;
             localizer.TryGetLocalizedString(nameForUI, out nameForUiLocalized);
             ExportSelectionWindow window = new ExportSelectionWindow(viewModel);
-            viewModel.Initialize((async (selectorsForGroup) =>
+            viewModel.Initialize((async (exportSelector) =>
             {
                 var sfd = new SaveFileDialog
                 {
@@ -41,8 +41,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                     {
                         viewModel.IsSavingInProcess = true;
                         File.WriteAllText(sfd.FileName,
-                           await typesContainer.Resolve<IHtmlRenderer<IDeviceConfiguration, List<SelectorForItemsGroup>>>()
-                                .RenderHtmlString(deviceConfiguration, selectorsForGroup));
+                           await typesContainer.Resolve<IHtmlRenderer<IDeviceConfiguration, ConfigurationExportSelector>>()
+                                .RenderHtmlString(deviceConfiguration, exportSelector));
                         logger.LogMessage(ApplicationGlobalNames.StatusMessages.FILE_EXPORT_SUCCESSFUL);
                         viewModel.IsSavingInProcess = false;
                         window.Close();

@@ -22,7 +22,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
         #region Overrides of ConfigurationItemRendererBase
 
         public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem,
-            SelectorForItemsGroup selectorForItemsGroup = null, int depthLevel = 0)
+            SelectorForItemsGroup selectorForItemsGroup, int depthLevel = 0)
         {
             if (selectorForItemsGroup == null || !selectorForItemsGroup.IsSelected)
             {
@@ -37,6 +37,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                     .SetName(new RenderData(group.Name, depthLevel == 0 ? "rootItem" : null))
                     .SetDepth(depthLevel)
                     .SetShouldRenderEmptyItems(depthLevel != 0)
+                    .SetSelectors(selectorForItemsGroup.IsPrintDeviceValuesAllowed,selectorForItemsGroup.IsPrintLocalValuesAllowed)
                     .Render()
             };
 
@@ -46,7 +47,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                     .GetConfigurationItemRenderer(item)
                     .RenderHtmlFromItem(item,
                         selectorForItemsGroup.Selectors.FirstOrDefault((itemsGroup =>
-                            itemsGroup.RelatedItemsGroup == item)), depthLevel + 1)
+                            itemsGroup.RelatedItemsGroup == item))??selectorForItemsGroup, depthLevel + 1)
                     .OnNotEmpty(result => tagBuilders.AddRange(result));
             }));
             return Maybe<List<TagBuilder>>.FromValue(tagBuilders);

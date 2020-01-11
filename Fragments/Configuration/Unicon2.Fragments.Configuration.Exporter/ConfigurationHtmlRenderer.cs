@@ -12,7 +12,7 @@ using Unicon2.Infrastructure.Services;
 
 namespace Unicon2.Fragments.Configuration.Exporter
 {
-    public class ConfigurationHtmlRenderer : IHtmlRenderer<IDeviceConfiguration, List<SelectorForItemsGroup>>
+    public class ConfigurationHtmlRenderer : IHtmlRenderer<IDeviceConfiguration, ConfigurationExportSelector>
     {
         private readonly IItemRendererFactory _itemRendererFactory;
         private readonly ILocalizerService _localizerService;
@@ -26,13 +26,19 @@ namespace Unicon2.Fragments.Configuration.Exporter
         #region Implementation of IHtmlRenderer<IDeviceConfiguration>
 
         public async Task<string> RenderHtmlString(IDeviceConfiguration deviceConfiguration,
-            List<SelectorForItemsGroup> selectorsForItemsGroup)
+            ConfigurationExportSelector configurationExportSelector)
         {
             string main =
                 "<!DOCTYPE html>\n <html> " +
-                "\n<style type=\"text/css\">  " +
-                "\n.rootItem {border: 0; background-color:#999;}" +
-                "\ntr:nth-of-type(odd) {background-color:#ccc;}" +
+                "\n<style type=\"text/css\" media=\"all\" >" +
+                "\nbody { font-size: small }" +
+                "\n.rootItem {border: 0; background-color:#999 !important;" +
+                "\n-webkit-print-color-adjust: exact;" +
+                "\ncolor-adjust: exact;}" +
+                "\ntr:nth-of-type(odd) {background-color:#ccc;" +
+                "\n-webkit-print-color-adjust: exact;" +
+                "\ncolor-adjust: exact;}" +
+                "\ntd {border: 0}" +
                 "\n</style> " +
                 "\n<head>\n <meta charset =\"utf-8\"/>\n<title> HTML Document </title>\n</head>";
             await Task.Run((() =>
@@ -41,15 +47,18 @@ namespace Unicon2.Fragments.Configuration.Exporter
 
                 TagBuilder table = new TagBuilder("table");
                 table.MergeAttribute("border", "1");
-                table.AddTagToInnerHtml(CreateHeaderRows());
+                table.AddTagToInnerHtml(CreateHeaderRows(configurationExportSelector.IsPrintDeviceValuesAllowed,
+                    configurationExportSelector.IsPrintLocalValuesAllowed));
 
 
                 foreach (var rootConfigurationItem in deviceConfiguration.RootConfigurationItemList)
                 {
+                    var selector = configurationExportSelector.SelectorForItemsGroup.FirstOrDefault(
+                                       group => group.RelatedItemsGroup == rootConfigurationItem) ??
+                                   configurationExportSelector.SelectorForItemsGroup.First();
                     _itemRendererFactory.GetConfigurationItemRenderer(rootConfigurationItem)
-                        .RenderHtmlFromItem(rootConfigurationItem,
-                            selectorsForItemsGroup.FirstOrDefault(
-                                group => group.RelatedItemsGroup == rootConfigurationItem))
+                        .RenderHtmlFromItem(rootConfigurationItem, selector
+                            )
                         .OnNotEmpty(list => list
                             .ForEach(builder => table
                                 .AddTagToInnerHtml(builder)));
@@ -66,18 +75,27 @@ namespace Unicon2.Fragments.Configuration.Exporter
             return main;
         }
 
-        private TagBuilder CreateHeaderRows()
+        private TagBuilder CreateHeaderRows(bool isDeviceDataPrinting, bool isLocalDataPrinting)
         {
             TagBuilder tableRowForHeaders = new TagBuilder("tr");
 
             TagBuilder nameTableHeader = new TagBuilder("th");
             nameTableHeader.AddToInnerHtml(_localizerService.GetLocalizedString("Name"));
+            tableRowForHeaders.AddTagToInnerHtml(nameTableHeader);
 
-            TagBuilder deviceDataTableHeader = new TagBuilder("th");
-            deviceDataTableHeader.AddToInnerHtml(_localizerService.GetLocalizedString("DeviceData"));
+            if (isDeviceDataPrinting)
+            {
+                TagBuilder deviceDataTableHeader = new TagBuilder("th");
+                deviceDataTableHeader.AddToInnerHtml(_localizerService.GetLocalizedString("DeviceData"));
+                tableRowForHeaders.AddTagToInnerHtml(deviceDataTableHeader);
+            }
 
-            TagBuilder localDataTableHeader = new TagBuilder("th");
-            localDataTableHeader.AddToInnerHtml(_localizerService.GetLocalizedString("LocalData"));
+            if (isLocalDataPrinting)
+            {
+                TagBuilder localDataTableHeader = new TagBuilder("th");
+                localDataTableHeader.AddToInnerHtml(_localizerService.GetLocalizedString("LocalData"));
+                tableRowForHeaders.AddTagToInnerHtml(localDataTableHeader);
+            }
 
             TagBuilder measureUnitTableHeader = new TagBuilder("th");
             measureUnitTableHeader.AddToInnerHtml(_localizerService.GetLocalizedString("MeasureUnit"));
@@ -85,9 +103,6 @@ namespace Unicon2.Fragments.Configuration.Exporter
             TagBuilder rangeTableHeader = new TagBuilder("th");
             rangeTableHeader.AddToInnerHtml(_localizerService.GetLocalizedString("Range"));
 
-            tableRowForHeaders.AddTagToInnerHtml(nameTableHeader);
-            tableRowForHeaders.AddTagToInnerHtml(deviceDataTableHeader);
-            tableRowForHeaders.AddTagToInnerHtml(localDataTableHeader);
             tableRowForHeaders.AddTagToInnerHtml(measureUnitTableHeader);
             tableRowForHeaders.AddTagToInnerHtml(rangeTableHeader);
             return tableRowForHeaders;

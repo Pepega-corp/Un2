@@ -31,13 +31,14 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                 .Create()
                 .SetName(new RenderData(complexProperty.Name))
                 .SetDepth(depthLevel)
+                .SetSelectors(selectorForItemsGroup.IsPrintDeviceValuesAllowed,selectorForItemsGroup.IsPrintLocalValuesAllowed)
                 .Render());
 
             complexProperty.SubProperties.ForEach((item =>
             {
                 _rendererFactory
                     .GetConfigurationItemRenderer(item)
-                    .RenderHtmlFromItem(item,null, depthLevel + 1)
+                    .RenderHtmlFromItem(item,selectorForItemsGroup, depthLevel + 1)
                     .OnNotEmpty(result => tagBuilders.AddRange(result));
             }));
             return Maybe<List<TagBuilder>>.FromValue(tagBuilders);

@@ -20,7 +20,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.Module
 
         public void Initialize(ITypesContainer container)
         {
-            container.Register<IHtmlRenderer<IDeviceConfiguration, List<SelectorForItemsGroup>>,ConfigurationHtmlRenderer>();
+            container.Register<IHtmlRenderer<IDeviceConfiguration, ConfigurationExportSelector>,ConfigurationHtmlRenderer>();
             container.Register<IConfigurationItemRenderer,DefaultPropertyRenderer>(ConfigurationKeys.DEFAULT_PROPERTY);
             container.Register<IConfigurationItemRenderer, ComplexPropertyRenderer>(ConfigurationKeys.COMPLEX_PROPERTY);
             container.Register<IConfigurationItemRenderer, DefaultPropertyRenderer>(ConfigurationKeys.SUB_PROPERTY);
