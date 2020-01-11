@@ -30,6 +30,17 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             base.OnAttached();
         }
 
+        #region Overrides of Behavior
+
+        protected override void OnDetaching()
+        {
+            (this._assToggleButton.DataContext as IRuntimeConfigurationItemViewModel).Checked -= this.TreeGridItemCheched;
+
+            base.OnDetaching();
+        }
+
+        #endregion
+
         private void AssToggleButton_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             this._assToggleButton.Checked += this.TreeViewToggleButtonBehavior_Checked;

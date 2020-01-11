@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
@@ -25,16 +28,39 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             this._container = container;
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
             this.AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
+            this.MainRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
             this.FragmentOptionsViewModel =
                 (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, this._container);
             this.RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
+            MainItemSelectedCommand=new RelayCommand<object>(OnMainItemSelected);
+        }
+
+        private void OnMainItemSelected(object obj)
+        {
+            ExpandOrCollapseRows(AllRows,false);
+            AllRows.Clear();
+            ExpandOrCollapseRows((obj as IRuntimeConfigurationItemViewModel).ChildStructItemViewModels, true);
+            AllRows.AddCollection((obj as IRuntimeConfigurationItemViewModel).ChildStructItemViewModels);
+        }
+
+        private void ExpandOrCollapseRows(
+            ObservableCollection<IRuntimeConfigurationItemViewModel> runtimeConfigurationItemViewModels,bool isExpand)
+        {
+            if(runtimeConfigurationItemViewModels.Count==0)return;
+            runtimeConfigurationItemViewModels.ForEach((model =>
+            {
+                model.IsChecked=isExpand;
+                ExpandOrCollapseRows(model.ChildStructItemViewModels,isExpand);
+            }));
         }
 
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
         private IFragmentOptionsViewModel _fragmentOptionsViewModel;
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _rootConfigurationItemViewModels;
         private string _deviceName;
+        private ObservableCollection<IRuntimeConfigurationItemViewModel> _mainRows;
 
+        public ICommand MainItemSelectedCommand { get; }
 
         public ObservableCollection<IRuntimeConfigurationItemViewModel> RootConfigurationItemViewModels
         {
@@ -44,6 +70,16 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 this._rootConfigurationItemViewModels = value;
                 this.RaisePropertyChanged();
 
+            }
+        }
+
+        public ObservableCollection<IRuntimeConfigurationItemViewModel> MainRows
+        {
+            get { return this._mainRows; }
+            set
+            {
+                this._mainRows = value;
+                this.RaisePropertyChanged();
             }
         }
 
@@ -108,6 +144,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
 
             this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
+            this.MainRows.AddCollection(this.RootConfigurationItemViewModels);
+
         }
 
         public void SetDeviceData(string deviceName)
