@@ -9,8 +9,6 @@ namespace Unicon2.Presentation.ViewModels.Device
         private IDeviceLogger _model;
 
 
-        #region Implementation of IDeviceLoggerViewModel
-
         public bool IsInfoMessagesLoggingEnabled
         {
             get { return this._model.IsInfoMessagesLoggingEnabled; }
@@ -54,16 +52,8 @@ namespace Unicon2.Presentation.ViewModels.Device
             }
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(DeviceLoggerViewModel);
 
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -77,7 +67,5 @@ namespace Unicon2.Presentation.ViewModels.Device
                 this.RaisePropertyChanged(nameof(this.IsInfoMessagesLoggingEnabled));
             }
         }
-
-        #endregion
     }
 }

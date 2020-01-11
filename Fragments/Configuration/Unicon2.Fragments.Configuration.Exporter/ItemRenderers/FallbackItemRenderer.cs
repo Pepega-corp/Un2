@@ -10,8 +10,6 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
 {
     public class FallbackItemRenderer : IConfigurationItemRenderer
     {
-        #region Implementation of IConfigurationItemRenderer
-
         public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem,
             SelectorForItemsGroup selectorForItemsGroup = null, int depthLevel = 0)
         {
@@ -25,7 +23,5 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                     .Render()
             });
         }
-
-        #endregion
     }
 }

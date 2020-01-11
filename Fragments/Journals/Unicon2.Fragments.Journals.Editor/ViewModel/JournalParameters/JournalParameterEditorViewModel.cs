@@ -19,8 +19,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
         {
             this._journalParameter = journalParameter;
         }
-        
-        #region Implementation of IEditable
 
         public bool IsInEditMode
         {
@@ -44,16 +42,8 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this.IsInEditMode = false;
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.JOURNAL_PARAMETER +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -89,16 +79,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this._journalParameter.MeasureUnit = this.MeasureUnit;
         }
 
-
-        #endregion
-
-        #region Implementation of IJournalParameterViewModel
-
-
-        #endregion
-
-        #region Implementation of IMeasurable
-
         public string MeasureUnit { get; set; }
 
         public bool IsMeasureUnitEnabled
@@ -110,10 +90,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
-
-        #region Implementation of IJournalParameterViewModel
 
         public string Header
         {
@@ -152,7 +128,5 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
         {
             get => this._journalParameter?.UshortsFormatter?.StrongName;
         }
-
-        #endregion
     }
 }

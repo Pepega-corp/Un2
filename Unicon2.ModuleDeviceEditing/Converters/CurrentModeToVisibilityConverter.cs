@@ -8,8 +8,6 @@ namespace Unicon2.ModuleDeviceEditing.Converters
 {
    public class CurrentModeToVisibilityConverter:IValueConverter
     {
-        #region Implementation of IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((value as ModesEnum?) == null) return Visibility.Visible;
@@ -21,7 +19,5 @@ namespace Unicon2.ModuleDeviceEditing.Converters
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

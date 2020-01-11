@@ -15,19 +15,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
     // Вью модель одной схемы
     public class SchemeTabViewModel : ViewModelBase, ISchemeTabViewModel
     {
-        #region Events
         /// <summary>
         /// Событие закрытия вкладки схемы
         /// </summary>
         public event Action CloseTabEvent;
-        #endregion
 
-        #region Fields
         private string _schemeName;
         private double _schemeHeight;
         private double _schemeWidth;
         private double _scale;
-        #endregion
 
         //public SchemeTabViewModel(string name, Size size)
         //{
@@ -49,7 +45,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
         }
 
-        #region Properties
         /// <summary>
         /// Ссылка на поведение
         /// </summary>
@@ -103,9 +98,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        #endregion Properties
-
-        #region ZoomCommands
         public ICommand ZoomIncrementCommand { get; }
 
         private void IncrementZoom()
@@ -119,18 +111,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             //this.SelfBehavior.DecrementZoom();
         }
-        #endregion
 
-        #region CloseTabCommand
         public ICommand CloseTabCommand { get; }
 
         private void CloseTab()
         {
             this.CloseTabEvent?.Invoke();
         }
-        #endregion
 
-        #region DeleteCommand
         public ICommand DeleteCommand { get; }
 
         public void DeleteSelectedElements()
@@ -167,7 +155,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             List<ILogicElementViewModel> selectedElements = this.ElementList.Where(e => e.IsSelected).ToList();
             return selectedElements.Count > 0;
         }
-        #endregion
 
         /// <summary>
         /// Удаление связи со схемы
@@ -182,9 +169,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             //}
         }
 
-        #region IFragmentViewModel
         public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         public object Model { get; set; }
-        #endregion IFragmentViewModel
     }
 }

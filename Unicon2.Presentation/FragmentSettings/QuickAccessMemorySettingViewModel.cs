@@ -45,14 +45,8 @@ namespace Unicon2.Presentation.FragmentSettings
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -89,10 +83,6 @@ namespace Unicon2.Presentation.FragmentSettings
             return this._quickMemoryAccessSetting;
         }
 
-        #endregion
-
-        #region Implementation of IConfigurationSettingViewModel
-
         public bool IsSettingEnabled
         {
             get { return this._isSettingEnabled; }
@@ -102,10 +92,6 @@ namespace Unicon2.Presentation.FragmentSettings
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
-
-        #region Implementation of IQuickAccessMemorySettingViewModel
 
         public ObservableCollection<IRangeViewModel> RangeViewModels { get; set; }
 
@@ -122,7 +108,5 @@ namespace Unicon2.Presentation.FragmentSettings
 
         public ICommand AddRangeCommand { get; set; }
         public ICommand DeleteRangeCommand { get; set; }
-
-        #endregion
     }
 }

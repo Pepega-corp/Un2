@@ -14,14 +14,9 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
         {
             this.ChildJournalParameters = new List<ISubJournalParameter>();
         }
-        
-        #region Implementation of IComplexJournalParameter
+
         [DataMember]
         public List<ISubJournalParameter> ChildJournalParameters { get; set; }
-
-        #endregion
-
-        #region Overrides of JournalParameter
 
         public override void InitializeFromContainer(ITypesContainer container)
         {
@@ -31,8 +26,6 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
             }
             base.InitializeFromContainer(container);
         }
-        
-        #region Overrides of JournalParameter
 
         public override async Task<List<IFormattedValue>> GetFormattedValues(ushort[] recordUshorts)
         {
@@ -44,10 +37,6 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
             return formattedValues;
         }
 
-        #endregion
-
-        #endregion
-        
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)
         {

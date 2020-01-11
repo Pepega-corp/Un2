@@ -22,8 +22,6 @@ namespace Unicon2.Services.LogService
             _localizerService = localizerService;
         }
 
-        #region Implementation of ILogService
-
         public bool IsLoggingToFileEnabled { get; set; }
 
         public string FilePath
@@ -114,7 +112,5 @@ namespace Unicon2.Services.LogService
             logMessage.MessageDateTime = DateTime.Now;
             NewMessageAction?.Invoke(logMessage);
         }
-
-        #endregion
     }
 }

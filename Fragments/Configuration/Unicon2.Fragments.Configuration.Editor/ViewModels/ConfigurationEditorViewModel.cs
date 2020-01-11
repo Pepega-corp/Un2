@@ -33,8 +33,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public class ConfigurationEditorViewModel : ViewModelBase, IConfigurationEditorViewModel, IChildPositionChangeable
     {
-        #region Private Fields
-
         private IDeviceConfiguration _deviceConfiguration;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
@@ -46,10 +44,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private IConfigurationItem _bufferConfigurationItem;
         private IDeviceSharedResources _deviceSharedResources;
         private string _deviceName;
-
-        #endregion
-
-        #region Ctor
 
         public ConfigurationEditorViewModel(ITypesContainer container,
             IConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory,
@@ -305,10 +299,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-        #endregion
-
-        #region Properties
-
         public IEditorConfigurationItemViewModel SelectedRow
         {
             get { return this._selectedRow; }
@@ -347,10 +337,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
-
-        #region Commands
 
         public ICommand AddRootGroupElementCommand { get; set; }
         public ICommand AddRootElementCommand { get; set; }
@@ -485,10 +471,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-        #endregion
-
-        #region Helpers
-
         private void Save()
         {
             if (this.SelectedRow is IEditable)
@@ -542,17 +524,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-        #endregion
-
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -586,18 +559,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             }
         }
 
-        #endregion
-
-        #region Implementation of IFragmentViewModel
-
         public string NameForUiKey => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
 
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
-        #endregion
-
-        #region Implementation of IChildItemRemovable
 
         public void RemoveChildItem(IConfigurationItem configurationItemToRemove)
         {
@@ -606,19 +571,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemToRemove);
         }
 
-        #endregion
-
-
-        #region Implementation of IResourceContaining
 
         public void SetResources(IDeviceSharedResources deviceSharedResources)
         {
             this._deviceSharedResources = deviceSharedResources;
         }
-
-        #endregion
-
-        #region Implementation of IChildPositionChangeable
 
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)
         {
@@ -652,9 +609,5 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             this.AllRows.Move(this.AllRows.IndexOf(replaceableElement), this.AllRows.IndexOf(element));
             return true;
         }
-
-        #endregion
-
-      
     }
 }

@@ -15,17 +15,12 @@ namespace Unicon2.Model.Values
         }
 
 
-        #region Overrides of FormattedValueBase
-
         public override string StrongName => nameof(BitMaskValue);
         public override string AsString()
         {
            return nameof(BitMaskValue);
         }
 
-        #endregion
-
-        #region Implementation of IBitMaskValue
         [DataMember]
         public List<List<bool>> BitArray { get; set; }
         [DataMember]
@@ -37,7 +32,5 @@ namespace Unicon2.Model.Values
             this.BitArray.ForEach((list =>allBools.AddRange(list) ));
             return allBools;
         }
-
-        #endregion
     }
 }

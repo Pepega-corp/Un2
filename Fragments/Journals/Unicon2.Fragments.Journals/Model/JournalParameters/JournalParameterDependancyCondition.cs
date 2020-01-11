@@ -10,7 +10,6 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
     [DataContract(Namespace = "JournalParameterDependancyConditionNS")]
     public class JournalParameterDependancyCondition : IJournalCondition
     {
-        #region Implementation of IJournalParameterDependancyCondition
         [DataMember]
         public ConditionsEnum ConditionsEnum { get; set; }
         [DataMember]
@@ -52,18 +51,9 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
             return false;
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(JournalParameterDependancyCondition);
 
-        #endregion
-
-        #region Implementation of INameable
         [DataMember]
         public string Name { get; set; }
-
-        #endregion
     }
 }

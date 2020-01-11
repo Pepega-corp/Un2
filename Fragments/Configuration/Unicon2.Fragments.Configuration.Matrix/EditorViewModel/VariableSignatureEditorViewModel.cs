@@ -10,13 +10,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         private string _signature;
         private bool _isMultipleAssgnmentAllowed;
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(VariableSignatureEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -34,10 +28,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 this.IsMultipleAssgnmentAllowed = this._model.IsMultipleAssignmentAllowed;
             }
         }
-
-        #endregion
-
-        #region Implementation of IVariableSignatureEditorViewModel
 
         public string Signature
         {
@@ -58,7 +48,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

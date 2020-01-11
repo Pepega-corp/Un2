@@ -25,17 +25,11 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         private DynamicPropertiesTable _journalDataTable;
 
-        #region Overrides of Behavior
-
         protected override void OnDetaching()
         {
             if (_journalDataTable != null) _journalDataTable.TableUpdateAction = null;
             base.OnDetaching();
         }
-
-        #endregion
-
-        #region RowValues dp
 
         public static readonly DependencyProperty IsDeviceValuesProperty =
             DependencyProperty.Register("IsDeviceValues", typeof(bool), typeof(DynamicPropertiesGridViewBehavior));
@@ -116,12 +110,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         }
 
 
-
-        #endregion
-
-
-        #region IsTransponed dp
-
         public static readonly DependencyProperty IsTransponedProperty =
             DependencyProperty.Register("IsTransponed", typeof(bool), typeof(DynamicPropertiesGridViewBehavior),
                 new PropertyMetadata(false, OnIsTransponedPropertyChanged));
@@ -139,11 +127,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             beh.OnRowValuesChanged();
         }
 
-
-
-
-
-        #endregion
 
         private GridViewColumn CreateGridTemplateColumn(int index, string columnName)
         {
@@ -254,8 +237,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         }
 
 
-        #region Overrides of Behavior
-
         protected override void OnAttached()
         {
           //  this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
@@ -263,8 +244,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             this.OnRowValuesChanged();
             base.OnAttached();
         }
-
-        #endregion
     }
 
     public static class ExtensionMethods

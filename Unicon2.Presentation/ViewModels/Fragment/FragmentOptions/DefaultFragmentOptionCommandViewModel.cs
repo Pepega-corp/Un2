@@ -7,8 +7,6 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
 {
    public class DefaultFragmentOptionCommandViewModel: IFragmentOptionCommandViewModel
     {
-        #region Implementation of IFragmentOptionCommandViewModel
-
         public string TitleKey { get; set; }
 
         public ICommand OptionCommand { get; set; }
@@ -16,7 +14,5 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
         public string Title => StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(TitleKey);
 
         public string IconKey { get ; set; }
-
-        #endregion
     }
 }

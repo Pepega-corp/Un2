@@ -8,8 +8,6 @@ namespace Unicon2.Presentation.Values
     {
         private string _errorMessage;
 
-        #region Overrides of FormattableValueViewModelBase
-
         public override string StrongName => nameof(ErrorValueViewModel);
 
         public override void InitFromValue(IFormattedValue value)
@@ -17,10 +15,6 @@ namespace Unicon2.Presentation.Values
             Header = value.Header;
             ErrorMessage = (value as IErrorValue).ErrorMessage;
         }
-
-        #endregion
-
-        #region Implementation of IErrorValueViewModel
 
         public string ErrorMessage
         {
@@ -31,7 +25,5 @@ namespace Unicon2.Presentation.Values
                 RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

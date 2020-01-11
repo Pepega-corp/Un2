@@ -27,8 +27,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         private DynamicDataTable _table;
         private bool _isEditable = true;
 
-        #region Overrides of EditableValueViewModelBase
-
         public EditableMatrixValueViewModel(MatrixViewModelTableFactory matrixViewModelTableFactory)
         {
             _matrixViewModelTableFactory = matrixViewModelTableFactory;
@@ -139,8 +137,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             //return cloneModel as IMatrixValueViewModel;
             return this;
         }
-
-
-        #endregion
     }
 }

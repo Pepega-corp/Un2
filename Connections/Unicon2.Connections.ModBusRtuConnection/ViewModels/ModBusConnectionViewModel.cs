@@ -123,15 +123,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             }
         }
 
-        #region Implementation of IDeviceConnectionViewModel
-
         public string ConnectionName => this._modbusRtuConnection.ConnectionName;
 
-
-
-        #endregion
-
-        #region Overrides of ValidatableBindableBase
 
         protected override void OnValidate()
         {
@@ -139,16 +132,10 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             this.SetValidationErrors(result);
         }
 
-        #endregion
-
-        #region Implementation of IViewModel
-
         object IViewModel.Model
         {
             get { return this.Model; }
             set { this.Model = value as IDeviceConnection; }
         }
-
-        #endregion
     }
 }

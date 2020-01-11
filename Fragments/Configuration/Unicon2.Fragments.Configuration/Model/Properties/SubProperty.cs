@@ -23,8 +23,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         }
 
 
-        #region Implementation of ISubProperty
-
         public void SetParent(IComplexProperty complexProperty)
         {
             this._complexProperty = complexProperty;
@@ -65,10 +63,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         public Action LocalValueChanged { get; set; }
 
-        #endregion
-
-
-        #region Overrides of DefaultProperty
 
         public override string StrongName => ConfigurationKeys.SUB_PROPERTY;
 
@@ -87,8 +81,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         }
 
 
-        #region Overrides of DefaultProperty
-
         protected override IConfigurationItem OnCloning()
         {
             SubProperty subProperty = new SubProperty(this._rangeGetFunc);
@@ -102,9 +94,5 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             this.BitNumbersInWord.ForEach((i => subProperty.BitNumbersInWord.Add(i)));
             return subProperty;
         }
-
-        #endregion
-
-        #endregion
     }
 }

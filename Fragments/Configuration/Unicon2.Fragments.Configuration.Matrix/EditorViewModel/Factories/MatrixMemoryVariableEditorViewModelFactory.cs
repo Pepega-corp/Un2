@@ -15,8 +15,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
         }
 
 
-        #region Implementation of IMatrixMemoryVariableEditorViewModelFactory
-
         public IMatrixMemoryVariableEditorViewModel CreateMatrixMemoryVariableEditorViewModel(IMatrixMemoryVariable model)
         {
             IMatrixMemoryVariableEditorViewModel matrixMemoryVariableEditorViewModel =
@@ -32,7 +30,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
             matrixMemoryVariableEditorViewModel.Model = this._container.Resolve<IMatrixMemoryVariable>();
             return matrixMemoryVariableEditorViewModel;
         }
-
-        #endregion
     }
 }

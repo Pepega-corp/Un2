@@ -12,13 +12,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         private ushort _startAddressWord;
         private ushort _startAddressBit;
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(MatrixMemoryVariableEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -38,10 +32,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 this.StartAddressWord = this._model.StartAddressWord;
             }
         }
-
-        #endregion
-
-        #region Implementation of IMatrixMemoryVariableEditorViewModel
 
         public string Name
         {
@@ -82,7 +72,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

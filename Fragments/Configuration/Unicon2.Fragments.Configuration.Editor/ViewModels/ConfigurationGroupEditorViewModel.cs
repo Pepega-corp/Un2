@@ -20,8 +20,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public class ConfigurationGroupEditorViewModel : EditorConfigurationItemViewModelBase, IConfigurationGroupEditorViewModel
     {
-        #region Private Field
-
         private readonly ITypesContainer _container;
         private readonly IConfigurationItemEditorViewModelFactory _configurationItemEditorViewModelFactory;
         private readonly IConfigurationItemFactory _configurationItemFactory;
@@ -29,10 +27,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private bool _isInEditMode;
         private ushort _addressIteratorValue = 1;
         private bool _isTableViewAllowed;
-
-        #endregion
-
-        #region Ctor
 
         public ConfigurationGroupEditorViewModel(ITypesContainer container,
             IConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory,
@@ -64,9 +58,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             }
         }
 
-        #endregion
-
-        #region [Prop]
         public ushort AddressIteratorValue
         {
             get
@@ -79,9 +70,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 this.RaisePropertyChanged();
             }
         }
-        #endregion
-
-        #region ICompositeEditOpeations Members
 
         public bool IsInEditMode
         {
@@ -171,8 +159,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             return newConfigurationItemViewModel;
         }
 
-        #endregion
-
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)
         {
             if (this.ChildStructItemViewModels.Contains(element))
@@ -237,15 +223,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-        #region Overrides of ConfigurationItemViewModelBase
-
         public override string TypeName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
 
         public override string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-
-        #region Overrides of ConfigurationItemViewModelBase
 
         protected override void SetModel(object model)
         {
@@ -261,8 +243,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-        #region Overrides of ConfigurationItemViewModelBase
-
         protected override void SaveModel()
         {
             (this._model as IItemsGroup).ConfigurationItemList.Clear();
@@ -273,8 +253,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
             base.SaveModel();
         }
-
-        #endregion
 
 
         protected override object GetModel()
@@ -290,24 +268,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-        #endregion
-
-
-
-        #endregion
-
-        #region Implementation of IChildItemRemovable
-
         public void RemoveChildItem(IConfigurationItem configurationItemToRemove)
         {
             this.ChildStructItemViewModels.Remove(
                 this.ChildStructItemViewModels.First((model => model.Model == configurationItemToRemove)));
             (this._model as IItemsGroup).ConfigurationItemList.Remove(configurationItemToRemove);
         }
-
-        #endregion
-
-        #region Implementation of IAsChildPasteable
 
         public void PasteAsChild(object itemToPaste)
         {
@@ -317,10 +283,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             }
         }
 
-        #endregion
-
-        #region Overrides of EditorConfigurationItemViewModelBase
-
         public override object Clone()
         {
             ConfigurationGroupEditorViewModel cloneEditorViewModel = new ConfigurationGroupEditorViewModel(this._container, this._configurationItemEditorViewModelFactory, this._configurationItemFactory);
@@ -329,23 +291,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             return cloneEditorViewModel;
         }
 
-        #endregion
-
-        #region Implementation of IConfigurationGroupEditorViewModel
-
         public ICommand IncreaseAddressCommand { get; }
         public ICommand DecreaseAddressCommand { get; }
 
-        #endregion
-
-        #region Implementation of IItemGroupViewModel
-        
 
         public bool IsTableViewAllowed
         {
             get => _isTableViewAllowed;
             set => SetProperty(ref _isTableViewAllowed, value);
         }
-        #endregion
     }
 }

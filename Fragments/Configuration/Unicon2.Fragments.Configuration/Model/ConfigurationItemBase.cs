@@ -57,23 +57,13 @@ namespace Unicon2.Fragments.Configuration.Model
             set { this._extensionData = value; }
         }
 
-        #region Implementation of IStronglyNamed
-
         public abstract string StrongName { get; }
-
-        #endregion
-
-        #region Overrides of Disposable
 
         protected override void OnDisposing()
         {
             this.ConfigurationItemChangedAction = null;
             base.OnDisposing();
         }
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public virtual void SetDataProvider(IDataProvider dataProvider)
         {
@@ -99,10 +89,6 @@ namespace Unicon2.Fragments.Configuration.Model
             this.ConfigurationItemChangedAction?.Invoke();
         }
 
-        #endregion
-
-
-        #region Implementation of ICloneable
 
         public object Clone()
         {
@@ -115,10 +101,6 @@ namespace Unicon2.Fragments.Configuration.Model
 
         protected abstract IConfigurationItem OnCloning();
 
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
-
         public bool IsInitialized { get; private set; }
 
         public virtual void InitializeFromContainer(ITypesContainer container)
@@ -126,8 +108,6 @@ namespace Unicon2.Fragments.Configuration.Model
             this.IsInitialized = true;
             this._rangeGetFunc = container.Resolve<Func<IRange>>();
         }
-
-        #endregion
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)

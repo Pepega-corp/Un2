@@ -8,8 +8,6 @@ namespace Unicon2.SharedResources.LayoutHelpers
     {
         public DataTemplate FragmentPaneTemplate { get; set; }
 
-        #region Overrides of DataTemplateSelector
-
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is IFragmentPaneViewModel)
@@ -18,7 +16,5 @@ namespace Unicon2.SharedResources.LayoutHelpers
             }
             return base.SelectTemplate(item,container);
         }
-
-        #endregion
     }
 }

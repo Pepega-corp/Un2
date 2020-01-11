@@ -17,13 +17,7 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
         private bool _isLoadingInProcess;
         private Action _stopReadingAction;
 
-        #region Overrides of MeasuringElementBase
-
         public override string StrongName => MeasuringKeys.DISCRET_MEASURING_ELEMENT;
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
@@ -66,24 +60,13 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
         }
 
 
-
-        #endregion
-
-        #region Implementation of IDiscretMeasuringElement
-
         [DataMember]
         public IAddressOfBit AddressOfBit { get; set; }
 
         public bool DeviceValue { get; set; }
 
-        #endregion
-
-        #region Implementation of IAddressableItem
-
         public ushort Address => this.AddressOfBit.Address;
 
         public ushort NumberOfPoints => 1;
-
-        #endregion
     }
 }

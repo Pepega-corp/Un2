@@ -24,9 +24,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         private ushort _discretGroupStartAddress;
         private ushort _discretGroupStartingBit;
 
-        #region [CONST]
         private static int FUNCTION_CODE = 3;
-        #endregion
 
         public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory)
         {
@@ -96,12 +94,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MeasuringKeys.MEASURING_GROUP;
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -132,11 +125,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             return this._measuringGroup;
         }
 
-
-
-        #endregion
-
-        #region Implementation of IMeasuringGroupEditorViewModel
 
         public string Header
         {
@@ -195,10 +183,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
         public ICommand DeleteMeasuringElementCommand { get; }
 
-        #endregion
-
-
-        #region Implementation of IDropTarget
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -213,7 +197,5 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         {
 
         }
-
-        #endregion
     }
 }

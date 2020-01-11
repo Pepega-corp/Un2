@@ -18,7 +18,6 @@ namespace Unicon2.Fragments.Configuration.Exporter.Factories
         {
             _typesContainer = typesContainer;
         }
-        #region Implementation of IItemRendererFactory
 
         public IConfigurationItemRenderer GetConfigurationItemRenderer(IConfigurationItem configurationItem)
         {
@@ -31,7 +30,5 @@ namespace Unicon2.Fragments.Configuration.Exporter.Factories
                 return new FallbackItemRenderer();
             }
         }
-
-        #endregion
     }
 }

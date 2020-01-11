@@ -14,8 +14,6 @@ namespace Unicon2.Fragments.Measuring.Factories
             this._container = container;
         }
 
-        #region Implementation of IMeasuringElementFactory
-
         public IMeasuringElement CreateAnalogMeasuringElement()
         {
             return this._container.Resolve<IMeasuringElement>(MeasuringKeys.ANALOG_MEASURING_ELEMENT);
@@ -30,7 +28,5 @@ namespace Unicon2.Fragments.Measuring.Factories
         {
             return this._container.Resolve<IMeasuringElement>(MeasuringKeys.CONTROL_SIGNAL);
         }
-
-        #endregion
     }
 }

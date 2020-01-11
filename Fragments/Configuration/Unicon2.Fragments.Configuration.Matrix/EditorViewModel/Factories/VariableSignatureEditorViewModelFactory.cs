@@ -14,8 +14,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
             this._container = container;
         }
 
-        #region Implementation of IVariableSignatureEditorViewModelFactory
-
         public IVariableSignatureEditorViewModel CreateVariableSignatureEditorViewModel(IVariableColumnSignature variableColumnSignature)
         {
             IVariableSignatureEditorViewModel variableSignatureEditorViewModel =
@@ -31,7 +29,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
             variableSignatureEditorViewModel.Model = this._container.Resolve<IVariableColumnSignature>();
             return variableSignatureEditorViewModel;
         }
-
-        #endregion
     }
 }

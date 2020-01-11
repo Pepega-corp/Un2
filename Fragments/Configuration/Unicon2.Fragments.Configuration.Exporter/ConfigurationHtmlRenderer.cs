@@ -23,8 +23,6 @@ namespace Unicon2.Fragments.Configuration.Exporter
             _localizerService = localizerService;
         }
 
-        #region Implementation of IHtmlRenderer<IDeviceConfiguration>
-
         public async Task<string> RenderHtmlString(IDeviceConfiguration deviceConfiguration,
             ConfigurationExportSelector configurationExportSelector)
         {
@@ -107,7 +105,5 @@ namespace Unicon2.Fragments.Configuration.Exporter
             tableRowForHeaders.AddTagToInnerHtml(rangeTableHeader);
             return tableRowForHeaders;
         }
-
-        #endregion
     }
 }

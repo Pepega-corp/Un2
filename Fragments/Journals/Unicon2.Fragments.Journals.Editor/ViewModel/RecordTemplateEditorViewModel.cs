@@ -239,20 +239,12 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
         public ICommand ShowFormatterParametersCommand { get; }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.RECORD_TEMPLATE;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
             get { return this.GetModel(); }
             set { this.SetModel(value); }
         }
-
-        #endregion
     }
 }

@@ -9,13 +9,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         protected IMeasuringElement _measuringElement;
         private string _header;
 
-        #region Implementation of IStronglyNamed
-
         public abstract string StrongName { get; }
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -37,10 +31,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         }
 
 
-        #endregion
-
-        #region Implementation of IMeasuringElementViewModel
-
         public string Header
         {
             get { return this._header; }
@@ -53,7 +43,5 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         }
 
         public abstract string NameForUiKey { get; }
-
-        #endregion
     }
 }

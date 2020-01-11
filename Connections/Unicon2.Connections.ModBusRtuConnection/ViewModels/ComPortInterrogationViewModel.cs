@@ -183,8 +183,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 
         }
 
-        #region Implementation of IComPortInterrogationViewModel
-
         public ObservableCollection<IDeviceDefinitionViewModel> DeviceDefinitionViewModels { get; }
 
         public ICommand InterrogateCommand { get; }
@@ -316,7 +314,5 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         public bool IsInterrogationNotInProcess { get; private set; }
 
         public bool IsDevicesNotFound { get; private set; }
-
-        #endregion
     }
 }

@@ -7,16 +7,10 @@ namespace Unicon2.Services.LogService
 {
     public class LogMessage : ILogMessage
     {
-        #region Implementation of ILogMessage
-
         public string MessageSubject { get; set; }
         public DateTime MessageDateTime { get; set; }
         public string Description { get; set; }
         public LogMessageTypeEnum LogMessageType { get; set; }
-
-        #endregion
-
-        #region Overrides of Object
 
         public override string ToString()
         {
@@ -25,7 +19,5 @@ namespace Unicon2.Services.LogService
             sb.Append(Description);
             return sb.ToString();
         }
-
-        #endregion
     }
 }

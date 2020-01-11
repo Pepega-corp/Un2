@@ -7,7 +7,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
     [DataContract(Namespace = "ComPortConfigurationNS")]
    public class ComPortConfiguration: IComPortConfiguration
     {
-        #region Implementation of IComPortConfiguration
         [DataMember]
         public int BaudRate { get; set; }
         [DataMember]
@@ -25,10 +24,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
         [DataMember]
         public int OffTramsmission { get; set; }
 
-        #endregion
-
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             return new ComPortConfiguration()
@@ -43,7 +38,5 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
                 WaitByte = WaitByte
             };
         }
-
-        #endregion
     }
 }

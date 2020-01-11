@@ -14,10 +14,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
        public abstract object Model { get; set; }
 
 
-       #region Implementation of ICloneable
-
        public abstract object Clone();
-
-       #endregion
    }
 }

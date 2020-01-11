@@ -19,15 +19,8 @@ namespace Unicon2.Fragments.FileOperations.Editor.ViewModel
         }
 
 
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => FileOperationsKeys.FILE_BROWSER +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -35,12 +28,6 @@ namespace Unicon2.Fragments.FileOperations.Editor.ViewModel
             set { _model = value; }
         }
 
-        #endregion
-
-        #region Implementation of IFragmentEditorViewModel
-
         public string NameForUiKey => FileOperationsKeys.FILE_BROWSER;
-
-        #endregion
     }
 }

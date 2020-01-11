@@ -32,8 +32,6 @@ namespace Unicon2.Services.UniconProject
         }
 
 
-        #region Implementation of ISerializableInFile
-
         public void SerializeInFile(string elementName, bool isDefaultSaving)
         {
             try
@@ -70,18 +68,11 @@ namespace Unicon2.Services.UniconProject
             }
         }
 
-        #endregion
-
-        #region Implementation of IDisposable
-
         public void Dispose()
         {
             this.ConnectableItems?.Clear();
         }
 
-        #endregion
-
-        #region Implementation of IUniconProject
         [DataMember]
         public List<IConnectable> ConnectableItems { get; set; }
 
@@ -141,7 +132,5 @@ namespace Unicon2.Services.UniconProject
         public string ProjectPath { get; set; }
 
         public string LayoutString { get; set; }
-
-        #endregion
     }
 }

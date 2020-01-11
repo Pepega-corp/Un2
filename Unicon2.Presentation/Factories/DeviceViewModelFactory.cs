@@ -20,8 +20,6 @@ namespace Unicon2.Presentation.Factories
             this._container = container;
         }
 
-        #region Implementation of IDeviceViewModelFactory
-
         public IDeviceViewModel CreateDeviceViewModel(IDevice device)
         {
             IDeviceViewModel deviceViewModel = this._deviceViewModelGettingFunc();
@@ -45,7 +43,5 @@ namespace Unicon2.Presentation.Factories
             deviceViewModel.Model = device;
             return deviceViewModel;
         }
-
-        #endregion
     }
 }

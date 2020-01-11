@@ -18,7 +18,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Factories
         {
             this._container = container;
         }
-        #region Implementation of IConfigurationItemEditorViewModelFactory
 
         public IEditorConfigurationItemViewModel ResolveConfigurationItemEditorViewModel(IConfigurationItem configurationItem, IEditorConfigurationItemViewModel parent = null)
         {
@@ -51,7 +50,5 @@ namespace Unicon2.Fragments.Configuration.Editor.Factories
 
             return configurationItemViewModel;
         }
-
-        #endregion
     }
 }

@@ -15,18 +15,12 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         {
             this._bitAddressEditorViewModel = bitAddressEditorViewModel;
         }
-        
-        #region Overrides of MeasuringElementEditorViewModelBase
+
         public override string NameForUiKey => MeasuringKeys.DISCRET_MEASURING_ELEMENT;
 
 
         public override string StrongName => MeasuringKeys.DISCRET_MEASURING_ELEMENT +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IDiscretMeasuringElementEditorViewModel
-
 
 
         public IBitAddressEditorViewModel BitAddressEditorViewModel
@@ -38,10 +32,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
                 this.RaisePropertyChanged();
             }
         }
-
-
-
-        #region Overrides of MeasuringElementEditorViewModelBase
 
 
         protected override void SetModel(object value)
@@ -58,9 +48,5 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
             (this._measuringElement as IDiscretMeasuringElement).AddressOfBit = this.BitAddressEditorViewModel.Model as IAddressOfBit;
             return base.GetModel();
         }
-
-        #endregion
-
-        #endregion
     }
 }

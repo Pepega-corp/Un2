@@ -36,8 +36,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         }
 
 
-        #region Implementation of IResourcesAddingViewModel
-
         public bool IsResourceAdded { get; private set; }
 
         public string NameKey
@@ -59,21 +57,12 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             this._deviceSharedResources = deviceSharedResources;
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(ResourcesAddingViewModel);
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
             get { return this._resource; }
             set { this._resource = value as INameable; }
         }
-
-        #endregion
     }
 }

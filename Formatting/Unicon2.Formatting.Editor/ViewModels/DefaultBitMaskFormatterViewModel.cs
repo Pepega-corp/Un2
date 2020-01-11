@@ -34,8 +34,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             }, () => this.SelectedBitSignature != null);
         }
 
-        #region Overrides of UshortsFormatterViewModelBase
-
         public override IUshortsFormatter GetFormatter()
         {
             this._bitMaskFormatter.BitSignatures = this.BitSignatures.Select(wrapper => wrapper.StringValue).ToList();
@@ -71,10 +69,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             return clone;
         }
 
-        #endregion
-
-        #region Implementation of IBitMaskFormatterViewModel
-
         public ObservableCollection<StringWrapper> BitSignatures
         {
             get { return this._bitSignatures; }
@@ -98,7 +92,5 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public ICommand AddSignatureCommand { get; }
         public ICommand DeleteSignatureCommand { get; }
-
-        #endregion
     }
 }

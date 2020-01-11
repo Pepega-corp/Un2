@@ -16,11 +16,5 @@ namespace Unicon2.Connections.OfflineConnection
         {
            return new OfflineConnectionViewModel();
         }
-
-        #region Implementation of IDeviceConnectionFactory
-
-    
-
-        #endregion
     }
 }

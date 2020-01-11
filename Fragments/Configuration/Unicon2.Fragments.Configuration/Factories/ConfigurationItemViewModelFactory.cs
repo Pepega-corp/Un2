@@ -12,8 +12,6 @@ namespace Unicon2.Fragments.Configuration.Factories
     {
         private readonly ITypesContainer _container;
 
-        #region Implementation of IConfigurationItemViewModelFactory
-
         public RuntimeConfigurationItemViewModelFactory(ITypesContainer container)
         {
             this._container = container;
@@ -27,9 +25,5 @@ namespace Unicon2.Fragments.Configuration.Factories
             configurationItemViewModel.Model = configurationItem;
             return configurationItemViewModel;
         }
-
-        #endregion
-
-
     }
 }

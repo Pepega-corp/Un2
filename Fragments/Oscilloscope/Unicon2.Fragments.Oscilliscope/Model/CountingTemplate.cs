@@ -13,7 +13,6 @@ namespace Unicon2.Fragments.Oscilliscope.Model
     [DataContract(Namespace = "CountingTemplateNS")]
     public class CountingTemplate : ICountingTemplate
     {
-        #region Implementation of ICountingTemplate
         [DataMember]
         public IRecordTemplate RecordTemplate { get; set; }
 
@@ -115,10 +114,6 @@ namespace Unicon2.Fragments.Oscilliscope.Model
             return numOfChannels;
         }
 
-        #endregion
-
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this.RecordTemplate.JournalParameters.ForEach((parameter =>
@@ -126,10 +121,6 @@ namespace Unicon2.Fragments.Oscilliscope.Model
                (parameter.UshortsFormatter as IDataProviderContaining)?.SetDataProvider(dataProvider);
            }));
         }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; }
 
@@ -140,7 +131,5 @@ namespace Unicon2.Fragments.Oscilliscope.Model
                 (parameter.UshortsFormatter as IInitializableFromContainer)?.InitializeFromContainer(container);
             }));
         }
-
-        #endregion
     }
 }

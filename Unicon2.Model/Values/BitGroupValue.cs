@@ -8,12 +8,9 @@ namespace Unicon2.Model.Values
 
     public class BitGroupValue:IBitGroupValue
     {
-        #region Implementation of IBitGroupValue
         [DataMember]
         public IFormattedValue FormattedValue { get; set; }
         [DataMember]
         public IUshortsFormatter UshortsFormatter { get; set; }
-
-        #endregion
     }
 }

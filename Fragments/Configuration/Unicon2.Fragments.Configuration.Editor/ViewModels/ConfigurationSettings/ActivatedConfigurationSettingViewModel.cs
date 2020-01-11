@@ -20,14 +20,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSetting
             this.ActivationAddress = "0";
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -52,10 +46,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSetting
             return this._activatedSettingItem;
         }
 
-        #endregion
-
-        #region Implementation of IActivatedConfigurationSettingViewModel
-
         public string ActivationAddress
         {
             get { return this._activationAddress; }
@@ -75,7 +65,5 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSetting
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

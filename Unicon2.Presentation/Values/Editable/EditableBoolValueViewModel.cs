@@ -20,8 +20,6 @@ namespace Unicon2.Presentation.Values.Editable
         }
 
 
-        #region Overrides of EditableValueViewModelBase
-
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.BOOL_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
@@ -55,9 +53,6 @@ namespace Unicon2.Presentation.Values.Editable
                 this.BoolValueProperty = (value as IBoolValue).BoolValueProperty;
             }
         }
-        #endregion
-
-        #region Implementation of IBoolValueViewModel
 
         public bool BoolValueProperty
         {
@@ -76,7 +71,5 @@ namespace Unicon2.Presentation.Values.Editable
                 this.FormattedValueChanged?.Invoke(this, value);
             }
         }
-
-        #endregion
     }
 }

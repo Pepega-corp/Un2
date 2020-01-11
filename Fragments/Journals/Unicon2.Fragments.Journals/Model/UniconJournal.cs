@@ -30,8 +30,6 @@ namespace Unicon2.Fragments.Journals.Model
             this.JournalRecords = new List<IJournalRecord>();
         }
 
-        #region Implementation of IUniconJournal
-
         [DataMember]
         public IRecordTemplate RecordTemplate { get; set; }
 
@@ -43,10 +41,6 @@ namespace Unicon2.Fragments.Journals.Model
 
         public Action<RecordChangingEventArgs> JournalRecordsChanged { get; set; }
 
-        #endregion
-
-        #region Implementation of ISerializableInFile
-
         public void SerializeInFile(string elementName, bool isDefaultSaving)
         {
             throw new NotImplementedException();
@@ -56,10 +50,6 @@ namespace Unicon2.Fragments.Journals.Model
         {
             throw new NotImplementedException();
         }
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
@@ -113,28 +103,12 @@ namespace Unicon2.Fragments.Journals.Model
             });
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.UNICON_JOURNAL;
-
-        #endregion
-
-        #region Implementation of IDeviceFragment
 
         public IFragmentSettings FragmentSettings { get; set; }
 
-        #endregion
-
-        #region Implementation of INameable
-
         [DataMember]
         public string Name { get; set; }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -147,9 +121,5 @@ namespace Unicon2.Fragments.Journals.Model
             (this.FragmentSettings as IInitializableFromContainer)?.InitializeFromContainer(container);
 
         }
-
-        #endregion
-
-
     }
 }

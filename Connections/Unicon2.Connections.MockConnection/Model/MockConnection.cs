@@ -34,8 +34,6 @@ namespace Unicon2.Connections.MockConnection.Model
         [DataMember]
         public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             var o = _typesContainer.Resolve<MockConnection>();
@@ -43,18 +41,10 @@ namespace Unicon2.Connections.MockConnection.Model
             return o;
         }
 
-        #endregion
-
-        #region Implementation of IDisposable
-
         public void Dispose()
         {
             
         }
-
-        #endregion
-
-        #region Implementation of IDeviceConnection
 
         public string ConnectionName => StringKeys.MOCK_CONNECTION;
         public Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
@@ -68,13 +58,9 @@ namespace Unicon2.Connections.MockConnection.Model
         {
         }
 
-        #endregion
-
-        #region Implementation of IDataProvider
-
         public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints, string dataTitle)
         {
-            await Task.Delay(1000);
+            await Task.Delay(50);
             PopulateMemoryIfNeeded(startAddress, numberOfPoints);
             return new DefaultQueryResult<ushort[]>() { IsSuccessful = true, Result = MemorySlotDictionary.Where((pair) => startAddress <= pair.Key && pair.Key <= (startAddress + numberOfPoints - 1)).Select((pair) => pair.Value).ToArray() };
         }
@@ -91,7 +77,7 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle)
         {
-            await Task.Delay(1000);
+            await Task.Delay(50);
             PopulateMemoryIfNeeded(startAddress, (ushort)dataToWrite.Count());
             for (ushort i = startAddress; i < startAddress + (ushort)dataToWrite.Count(); i++)
             {
@@ -112,10 +98,6 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public bool LastQuerySucceed { get; } = true;
 
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
-
         public bool IsInitialized { get; }
         public void InitializeFromContainer(ITypesContainer container)
         {
@@ -132,6 +114,5 @@ namespace Unicon2.Connections.MockConnection.Model
                 }
             }
         }
-        #endregion
     }
 }

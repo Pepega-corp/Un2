@@ -41,8 +41,6 @@ namespace Unicon2.Connections.DataProvider.Model
         }
 
 
-        #region Implementation of IDataProvider
-
         public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints, string dataTitle)
         {
             await _semaphoreSlim.WaitAsync();
@@ -216,10 +214,6 @@ namespace Unicon2.Connections.DataProvider.Model
         }
 
 
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
-
         public bool IsInitialized
         {
             get { return this._isInitialized; }
@@ -230,7 +224,5 @@ namespace Unicon2.Connections.DataProvider.Model
             this._queryResultFactory = container.Resolve<IQueryResultFactory>();
             this._isInitialized = true;
         }
-
-        #endregion
     }
 }

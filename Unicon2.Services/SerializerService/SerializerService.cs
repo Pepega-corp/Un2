@@ -16,8 +16,6 @@ namespace Unicon2.Services.SerializerService
             this._attributesNamespacesDictionary = new Dictionary<string, string>();
         }
 
-        #region Implementation of ISerializerService
-
         public void AddKnownTypeForSerializationRange(IEnumerable<Type> types)
         {
             foreach (Type type in types)
@@ -58,8 +56,5 @@ namespace Unicon2.Services.SerializerService
             if (this._allTypes.Contains(type)) return;
             this._allTypes.Add(type);
         }
-
-
-        #endregion
     }
 }

@@ -21,8 +21,6 @@ namespace Unicon2.Presentation.Factories
         }
 
 
-        #region Implementation of IFragmentPaneViewModelFactory
-
         public IFragmentPaneViewModel GetFragmentPaneViewModel(IFragmentViewModel fragmentViewModel,
             IEnumerable<IDeviceViewModel> deviceViewModels)
         {
@@ -58,10 +56,6 @@ namespace Unicon2.Presentation.Factories
             return fragmentPaneViewModel;
         }
 
-
-
-
-        #endregion
 
         private void SetPaneTitle(IFragmentPaneViewModel fragmentPaneViewModel, IFragmentViewModel fragmentViewModel, IDeviceViewModel deviceViewModel)
         {

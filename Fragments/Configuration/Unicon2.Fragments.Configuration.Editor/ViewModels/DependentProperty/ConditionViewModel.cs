@@ -47,8 +47,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
         }
 
 
-        #region Implementation of IConditionViewModel
-
         public ICommand SelectPropertyFromResourceCommand { get; }
         public string ReferencedResorcePropertyName
         {
@@ -92,16 +90,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
         public string UshortFormatterString => this._dependancyCondition?.UshortsFormatter?.StrongName;
         public ICommand ShowFormatterParameters { get; }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ConfigurationKeys.DEPENDANCY_CONDITION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -130,8 +120,5 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
             this._dependancyCondition.ConditionResult = condRes;
             return this._dependancyCondition;
         }
-
-
-        #endregion
     }
 }

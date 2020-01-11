@@ -17,51 +17,47 @@ namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
 
     public class Result<T>
     {
-        private readonly bool _isSuccess;
-        private readonly T _item;
-
-        public Result(T item, bool isSuccess)
+        private Result(T item, bool isSuccess)
         {
-            _item = item;
-            _isSuccess = isSuccess;
+            Item = item;
+            IsSuccess = isSuccess;
         }
-
+        private Result(bool isSuccess)
+        {
+            IsSuccess = isSuccess;
+        }
         public static Result<T> Create(T item, bool isSuccess)
         {
             return new Result<T>(item, isSuccess);
         }
-
+        public static Result<T> Create(bool isSuccess)
+        {
+            return new Result<T>(isSuccess);
+        }
+        public static Result<T> Create(Func<T> creator,bool isSuccess)
+        {
+            return isSuccess ? new Result<T>(creator(), true) : new Result<T>(false);
+        }
+        public static Result<T> Create(Func<T> creator, Func<bool> isSuccess)
+        {
+            return isSuccess() ? new Result<T>(creator(), true) : new Result<T>(false);
+        }
         public T OnSuccess(Action<T> onSuccessFunc)
         {
-            if (_isSuccess)
+            if (IsSuccess)
             {
-                onSuccessFunc(_item);
+                onSuccessFunc(Item);
             }
 
-            return _item;
+            return Item;
         }
 
-        public T Item => _item;
+        public T Item { get; }
 
-        public bool IsSuccess
-        {
-            get { return _isSuccess; }
-        }
+        public bool IsSuccess { get; }
     }
 
-    public static class ResultExtensions
-    {
-        public static Result<T> SetIf<T>(this T item, Func<bool> ifSet)
-        {
-            return Result<T>.Create(item, ifSet());
-        }
-
-        public static Result<T> SetIf<T>(this T item, Func<T, bool> ifSet)
-        {
-            return Result<T>.Create(item, ifSet(item));
-        }
-    }
-
+ 
     public class RenderData
     {
         public RenderData(string stringToRender, string cssClassName = null)
@@ -103,38 +99,32 @@ namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
             return this;
         }
 
-
-        public ConfigTableRowRenderer SetDeviceData(string deviceData)
+        public ConfigTableRowRenderer SetDeviceData(Result<string> deviceData)
         {
-            _deviceData = deviceData;
+            deviceData.OnSuccess((s => _deviceData = s));
+            return this;
+        }
+        public ConfigTableRowRenderer SetLocalData(Result<string> localData)
+        {
+            localData.OnSuccess((s => _localData = s));
             return this;
         }
 
-        public ConfigTableRowRenderer SetMeasureUnit(string measureUnit)
+        public ConfigTableRowRenderer SetMeasureUnit(Result<string> measureUnit)
         {
-            _measureUnit = measureUnit;
-
-            return this;
-        }
-
-        public ConfigTableRowRenderer SetLocalData(string localData)
-        {
-            _localData = localData;
-
+            measureUnit.OnSuccess((s => _measureUnit = s));
             return this;
         }
 
         public ConfigTableRowRenderer SetShouldRenderEmptyItems(bool shouldRenderEmptyItems)
         {
             _shouldRenderEmptyItems = shouldRenderEmptyItems;
-
             return this;
         }
 
-        public ConfigTableRowRenderer SetRange(string range)
+        public ConfigTableRowRenderer SetRange(Result<string> range)
         {
-            _range = range;
-
+            range.OnSuccess((s => _range = s));
             return this;
         }
 
@@ -142,9 +132,9 @@ namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
         private void RenderDataToTag(TagBuilder tagBuilder, string dataToRender, bool shouldRenderEmptyItems,
             bool isRenderingAllowed = true)
         {
-            dataToRender
-                .SetIf((data) =>isRenderingAllowed && CheckIfDataNeedsToRender(data, shouldRenderEmptyItems))
-                .OnSuccess((s => { AddDataTag(tagBuilder, s); }));
+            Result<string>.Create(dataToRender,
+                    isRenderingAllowed && CheckIfDataNeedsToRender(dataToRender, shouldRenderEmptyItems))
+                .OnSuccess(s => AddDataTag(tagBuilder, s));
         }
 
         private void AddDataTag(TagBuilder tagBuilder, string data)

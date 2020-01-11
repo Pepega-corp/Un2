@@ -11,14 +11,8 @@ namespace Unicon2.Infrastructure.BaseItems
     {
         private object _lockObject;
 
-        #region [Constants]
-
         private const string DISPOSED_MESSAGE = "Object is no longer usable as long it was disposed";
 
-        #endregion [Constants]
-
-
-        #region [Ctor's]
 
         /// <summary>
         /// Initializes an instance of YP.ToolKit.Common.Patterns.Disposable.Disposable class
@@ -36,10 +30,6 @@ namespace Unicon2.Infrastructure.BaseItems
             LockObject = lockObject ?? throw new ObjectDisposedException(DISPOSED_MESSAGE);
         }
 
-        #endregion [Ctor's]
-
-
-        #region [Properties]
 
         /// <summary>
         /// Gets a value which specifies whether the object has already disposed or not
@@ -63,10 +53,6 @@ namespace Unicon2.Infrastructure.BaseItems
             set { _lockObject = value; }
         }
 
-        #endregion [Properties]
-
-
-        #region [Templated members]
 
         /// <summary>
         /// Provides basic implementation of Disposable pattern
@@ -91,10 +77,6 @@ namespace Unicon2.Infrastructure.BaseItems
             /*None*/
         }
 
-        #endregion [Templated members]
-
-
-        #region [Protected members]
 
         /// <summary>
         /// Throws <see cref="ObjectDisposedException"/> exception in case the object has already been disposed
@@ -105,10 +87,6 @@ namespace Unicon2.Infrastructure.BaseItems
                 throw new ObjectDisposedException(DISPOSED_MESSAGE);
         }
 
-        #endregion [Protected members]
-
-
-        #region [IDisposable members]
 
         /// <summary>
         ///  Performs application-defined tasks associated with freeing, releasing, or
@@ -119,13 +97,5 @@ namespace Unicon2.Infrastructure.BaseItems
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
-
-        #endregion [IDisposable members]
-
-
-
-
     }
 }

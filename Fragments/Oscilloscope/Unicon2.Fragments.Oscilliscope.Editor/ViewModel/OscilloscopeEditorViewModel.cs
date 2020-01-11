@@ -35,8 +35,6 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel
         }
 
 
-        #region Implementation of IOscilloscopeEditorViewModel
-
         public IUniconJournalEditorViewModel OscilloscopeJournalEditorViewModel { get; set; }
 
         public IOscillogramLoadingParametersEditorViewModel OscillogramLoadingParametersEditorViewModel
@@ -72,16 +70,8 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel
             }
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => OscilloscopeKeys.OSCILLOSCOPE +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -111,12 +101,6 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel
         }
 
 
-        #endregion
-
-        #region Implementation of IFragmentEditorViewModel
-
         public string NameForUiKey => OscilloscopeKeys.OSCILLOSCOPE;
-
-        #endregion
     }
 }

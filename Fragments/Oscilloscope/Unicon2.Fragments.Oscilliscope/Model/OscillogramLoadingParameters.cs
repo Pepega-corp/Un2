@@ -30,8 +30,6 @@ namespace Unicon2.Fragments.Oscilliscope.Model
         }
 
 
-
-        #region Implementation of IOscillogramLoadingParameters
         [DataMember]
         public List<IOscilloscopeTag> OscilloscopeTags { get; set; }
         [DataMember]
@@ -144,7 +142,5 @@ namespace Unicon2.Fragments.Oscilliscope.Model
             return val.NumberOfPoints;
 
         }
-
-        #endregion
     }
 }

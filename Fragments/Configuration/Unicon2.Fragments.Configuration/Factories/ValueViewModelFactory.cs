@@ -20,8 +20,6 @@ namespace Unicon2.Fragments.Configuration.Factories
             this._container = container;
         }
 
-        #region Implementation of IValueViewModelFactory
-
         public IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue,
             IMeasurable measurable = null, IRangeable rangeable = null)
         {
@@ -181,7 +179,5 @@ namespace Unicon2.Fragments.Configuration.Factories
         //    }
         //    return formattedValueViewModel;
         //}
-
-        #endregion
     }
 }

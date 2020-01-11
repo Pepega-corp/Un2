@@ -11,18 +11,12 @@ namespace Unicon2.SharedResources.Markups
     /// </summary>
     public class ViewResolverExtension : MarkupExtension
     {
-        #region [Properties]
-
         /// <summary>
         ///     Gets or sets the name of the view to resolve
         ///     Свойство с именем вьюшки
         /// </summary>
         [ConstructorArgument("viewName")]
         public string ViewName { get; set; }
-
-        #endregion [Properties]
-
-        #region [Ctor's]
 
         /// <summary>
         ///     Creates an instance of <see cref="ViewResolverExtension" />
@@ -40,10 +34,6 @@ namespace Unicon2.SharedResources.Markups
             this.ViewName = viewName;
         }
 
-        #endregion [Ctor's]
-
-        #region [Override members]
-
         /// <summary>
         ///     When implemented in a derived class, returns an object that is provided as the value of the target property for
         ///     this markup extension.
@@ -59,7 +49,5 @@ namespace Unicon2.SharedResources.Markups
             var resolvedView = StaticContainer.Container.Resolve(typeof(UserControl), this.ViewName);
             return resolvedView;
         }
-
-        #endregion [Override members]
     }
 }

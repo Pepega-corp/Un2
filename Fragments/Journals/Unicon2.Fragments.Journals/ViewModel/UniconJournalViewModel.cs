@@ -81,13 +81,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.UNICON_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -142,10 +136,6 @@ namespace Unicon2.Fragments.Journals.ViewModel
             }
         }
 
-        #endregion
-
-        #region Implementation of IUniconJournalViewModel
-
         public List<string> JournalParametersNameList
         {
             get { return this._journalParametersNameList; }
@@ -178,13 +168,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
             }
         }
 
-        #endregion
-
-        #region Implementation of IFragmentViewModel
-
         public string NameForUiKey => this._localizerService.GetLocalizedString(JournalKeys.UNICON_JOURNAL) + "(" + this._uniconJournal.Name + ")";
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
-        #endregion
     }
 }

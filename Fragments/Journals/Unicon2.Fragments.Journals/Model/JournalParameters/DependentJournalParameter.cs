@@ -18,12 +18,8 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
             this.JournalParameterDependancyConditions = new List<IJournalCondition>();
         }
 
-        #region Implementation of IDependentJournalParameter
         [DataMember]
         public List<IJournalCondition> JournalParameterDependancyConditions { get; set; }
-        #endregion
-
-        #region Overrides of JournalParameter
 
         public override async Task<List<IFormattedValue>> GetFormattedValues(ushort[] recordUshorts)
         {
@@ -45,8 +41,6 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
             return formattedValues;
         }
 
-        #region Overrides of JournalParameter
-
         public override void InitializeFromContainer(ITypesContainer container)
         {
             foreach (IJournalCondition journalParameterDependancyCondition in this.JournalParameterDependancyConditions)
@@ -56,9 +50,5 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
             }
             base.InitializeFromContainer(container);
         }
-
-        #endregion
-
-        #endregion
     }
 }

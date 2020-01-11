@@ -11,12 +11,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private bool _isInEditMode;
         private string _resourceStrongName;
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(ResourceViewModel);
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -43,10 +38,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             return this._resource;
         }
 
-        #endregion
-
-        #region Implementation of INameable
-
         public string Name
         {
             get { return this._name; }
@@ -56,10 +47,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-
-        #endregion
-
-        #region Implementation of IEditable
 
         public bool IsInEditMode
         {
@@ -82,10 +69,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             this.IsInEditMode = false;
         }
 
-        #endregion
-
-        #region Implementation of IResourceViewModel
-
         public string ResourceStrongName
         {
             get { return this._resourceStrongName; }
@@ -95,7 +78,5 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

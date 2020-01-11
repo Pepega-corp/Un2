@@ -15,8 +15,6 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
     {
         private IDataProvider _dataProvider;
 
-        #region Implementation of IActivatedSetting
-
         [DataMember(Name = nameof(ActivationAddress), Order = 0)]
 
         public ushort ActivationAddress { get; set; }
@@ -24,10 +22,6 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
         [DataMember(Name = nameof(IsSettingEnabled), Order = 1)]
 
         public bool IsSettingEnabled { get; set; }
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
@@ -44,10 +38,6 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
             return false;
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING;
        
 
@@ -55,7 +45,5 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
         {
          return  await Write();
         }
-
-        #endregion
     }
 }

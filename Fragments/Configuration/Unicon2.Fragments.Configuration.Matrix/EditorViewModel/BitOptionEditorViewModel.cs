@@ -10,8 +10,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         private IBitOption _model;
         private List<int> _numbersOfAssotiatedBits;
 
-        #region Implementation of IBitOptionEditorViewModel
-
         public string FullSugnature { get; private set; }
 
         public List<int> NumbersOfAssotiatedBits
@@ -31,15 +29,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             this.RaisePropertyChanged(nameof(this.IsEnabled));
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(BitOptionEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -58,13 +48,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             }
         }
 
-        #endregion
-
-        #region ToString Override
         public override string ToString()
         {
             return FullSugnature;
         }
-        #endregion
     }
 }

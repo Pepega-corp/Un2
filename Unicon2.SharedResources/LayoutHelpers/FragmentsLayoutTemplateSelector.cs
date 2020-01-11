@@ -7,8 +7,6 @@ namespace Unicon2.SharedResources.LayoutHelpers
 {
   public  class FragmentsLayoutTemplateSelector: DataTemplateSelector
     {
-        #region Overrides of DataTemplateSelector
-
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
 
@@ -29,7 +27,5 @@ namespace Unicon2.SharedResources.LayoutHelpers
             }
             return null;
         }
-
-        #endregion
     }
 }

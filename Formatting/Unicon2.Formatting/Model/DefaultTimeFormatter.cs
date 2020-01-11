@@ -17,8 +17,6 @@ namespace Unicon2.Formatting.Model
             this._timeValueGettingFunc = timeValueGettingFunc;
         }
 
-        #region Overrides of DeviceResourceBase
-
         public override object Clone()
         {
             DefaultTimeFormatter cloneFormatter = new DefaultTimeFormatter(this._timeValueGettingFunc);
@@ -36,10 +34,6 @@ namespace Unicon2.Formatting.Model
         }
 
         public override string StrongName => nameof(DefaultTimeFormatter);
-
-        #endregion
-
-        #region Overrides of UshortsFormatterBase
 
         public override ushort[] FormatBack(IFormattedValue formattedValue)
         {
@@ -86,9 +80,6 @@ namespace Unicon2.Formatting.Model
             return value;
         }
 
-        #endregion
-
-        #region Implementation of IDefaultTimeFormatter
         [DataMember]
         public int MillisecondsDecimalsPlaces { get; set; }
         [DataMember]
@@ -108,17 +99,10 @@ namespace Unicon2.Formatting.Model
         [DataMember]
         public int MillisecondsPointNumber { get; set; }
 
-        #endregion
-
-        #region Overrides of UshortsFormatterBase
-
         public override void InitializeFromContainer(ITypesContainer container)
         {
             this._timeValueGettingFunc = container.Resolve<Func<ITimeValue>>();
             base.InitializeFromContainer(container);
         }
-
-        #endregion
-
     }
 }

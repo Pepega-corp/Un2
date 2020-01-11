@@ -28,7 +28,6 @@ namespace Unicon2.Shell.ViewModels
         public ILogServiceViewModel LogServiceViewModel { get; }
         public IProjectBrowserViewModel ProjectBrowserViewModel { get; }
 
-        #region Private Fields
         private readonly IDialogCoordinator _dialogCoordinator;
 
         private bool _isMenuFlyOutOpen;
@@ -43,10 +42,6 @@ namespace Unicon2.Shell.ViewModels
         private ObservableCollection<IFragmentPaneViewModel> _fragmentsOpenedCollection;
         private IFragmentPaneViewModel _activeFragmentViewModel;
 
-        #endregion
-
-
-        #region Ctor
 
         public ShellViewModel
             (ILogService logService,
@@ -100,10 +95,6 @@ namespace Unicon2.Shell.ViewModels
             this._applicationGlobalCommands.OpenOscillogram();
         }
 
-        #endregion
-
-        #region Properties
-
         public IFragmentPaneViewModel ActiveFragmentViewModel
         {
             get { return this._activeFragmentViewModel; }
@@ -143,11 +134,6 @@ namespace Unicon2.Shell.ViewModels
 
         public ObservableCollection<IAnchorableWindow> AnchorableWindows { get; set; }
 
-
-        #endregion
-
-
-        #region Commands
 
         public RelayCommand<IDeviceViewModel> ChangeSelectedDevice { get; set; }
         public RelayCommand NavigateToDeviceEditorCommand { get; set; }
@@ -355,6 +341,5 @@ namespace Unicon2.Shell.ViewModels
 
             if (cancelEventArgs != null) cancelEventArgs.Cancel = true;
         }
-        #endregion
     }
 }

@@ -22,19 +22,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         }
 
-        #region Implementation of ISubPropertyEditorViewModel
-
         public ObservableCollection<ISharedBitViewModel> BitNumbersInWord { get; set; }
 
         public void SetMainBitNumbersInWord(ObservableCollection<ISharedBitViewModel> mainBitViewModels)
         {
             throw new NotImplementedException();
         }
-        
-        #endregion
 
-
-        #region Overrides of PropertyEditorEditorViewModel
 
         protected override void SetModel(object model)
         {
@@ -93,8 +87,5 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             get { return (this.Parent as PropertyEditorEditorViewModel)?.NumberOfPoints; }
             set => this.RaisePropertyChanged();
         }
-
-        #endregion
-
     }
 }

@@ -17,8 +17,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
             this._container = container;
         }
 
-        #region Implementation of IResultBitOptionSeedingStrategy
-
         public void UpdateBitOptions(IMatrixTemplate matrixTemplate)
         {
             List<IBitOption> resultBitOptions = new List<IBitOption>();
@@ -54,8 +52,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
             matrixTemplate.ResultBitOptions = resultBitOptions;
 
         }
-
-        #endregion
     }
 
 }

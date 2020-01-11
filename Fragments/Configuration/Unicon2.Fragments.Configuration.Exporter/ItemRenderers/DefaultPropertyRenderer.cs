@@ -14,9 +14,8 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
     {
         public DefaultPropertyRenderer()
         {
-            
+
         }
-        #region Overrides of ConfigurationItemRendererBase
 
         public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem,
             SelectorForItemsGroup selectorForItemsGroup, int depthLevel = 0)
@@ -28,19 +27,22 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                     .Create()
                     .SetDepth(depthLevel)
                     .SetName(new RenderData(defaultProperty.Name))
-                    .SetIf(() => defaultProperty.DeviceUshortsValue?.Length > 0 )
-                    .OnSuccess(item => item.SetDeviceData(defaultProperty.UshortsFormatter.Format(defaultProperty.DeviceUshortsValue).AsString()))
-                    .SetIf(() => defaultProperty.LocalUshortsValue?.Length > 0)
-                    .OnSuccess(item1 => item1.SetLocalData(defaultProperty.UshortsFormatter.Format(defaultProperty.LocalUshortsValue).AsString()))
-                    .SetIf(() => defaultProperty.IsRangeEnabled)
-                    .OnSuccess((item2 =>item2.SetRange($"[{defaultProperty.Range.RangeFrom} : {defaultProperty.Range.RangeTo}]")))
-                    .SetIf(() => defaultProperty.IsMeasureUnitEnabled)
-                    .OnSuccess((renderer =>renderer.SetMeasureUnit(defaultProperty.MeasureUnit)))
-                    .SetSelectors(selectorForItemsGroup.IsPrintDeviceValuesAllowed,selectorForItemsGroup.IsPrintLocalValuesAllowed)
+                    .SetDeviceData(Result<string>.Create(() => defaultProperty.UshortsFormatter
+                            .Format(defaultProperty.DeviceUshortsValue).AsString(),
+                        defaultProperty.DeviceUshortsValue?.Length > 0 && defaultProperty.UshortsFormatter != null))
+                    .SetLocalData(Result<string>.Create(() => defaultProperty.UshortsFormatter
+                            .Format(defaultProperty.LocalUshortsValue)
+                            .AsString(),
+                        defaultProperty.LocalUshortsValue?.Length > 0 && defaultProperty.UshortsFormatter != null))
+                    .SetRange(Result<string>.Create(
+                        $"[{defaultProperty.Range.RangeFrom} : {defaultProperty.Range.RangeTo}]",
+                        defaultProperty.IsRangeEnabled))
+                    .SetMeasureUnit(Result<string>.Create(defaultProperty.MeasureUnit,
+                        defaultProperty.IsMeasureUnitEnabled))
+                    .SetSelectors(selectorForItemsGroup.IsPrintDeviceValuesAllowed,
+                        selectorForItemsGroup.IsPrintLocalValuesAllowed)
                     .Render()
             });
         }
-
-        #endregion
     }
 }

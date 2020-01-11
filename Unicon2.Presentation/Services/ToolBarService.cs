@@ -20,14 +20,9 @@ namespace Unicon2.Presentation.Services
         }
 
 
-
-        #region Implementation of IToolBarService
-
         public void SetCurrentFragmentToolbar(IFragmentOptionsViewModel fragmentOptionsViewModel)
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

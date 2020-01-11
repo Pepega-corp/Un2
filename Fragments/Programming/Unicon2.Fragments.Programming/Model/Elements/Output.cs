@@ -61,9 +61,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public Dictionary<string, object> Property { get; private set; }
 
-        #region IStronglyName
         public string StrongName => ProgrammingKeys.OUTPUT;
-        #endregion
 
         public object Clone()
         {

@@ -18,19 +18,10 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
             this.WritingValueContext = writingValueContext;
         }
 
-        #region Overrides of MeasuringElementBase
-
         public override string StrongName => MeasuringKeys.CONTROL_SIGNAL;
 
-        #endregion
-
-        #region Implementation of IControlSignal
         [DataMember]
         public IWritingValueContext WritingValueContext { get; set; }
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
@@ -58,7 +49,5 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
             }
             return false;
         }
-
-        #endregion
     }
 }

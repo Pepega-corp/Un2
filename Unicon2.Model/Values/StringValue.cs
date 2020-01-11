@@ -8,20 +8,13 @@ namespace Unicon2.Model.Values
 
     public class StringValue:FormattedValueBase, IStringValue
     {
-        #region Overrides of FormattedValueBase
-
         public override string StrongName => nameof(StringValue);
         public override string AsString()
         {
             return this.StrValue;
         }
 
-        #endregion
-
-        #region Implementation of IStringValue
         [DataMember]
         public string StrValue { get; set; }
-
-        #endregion
     }
 }

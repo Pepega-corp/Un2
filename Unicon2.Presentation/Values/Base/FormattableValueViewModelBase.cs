@@ -11,13 +11,8 @@ namespace Unicon2.Presentation.Values.Base
         private string _header;
         private string _measureUnit;
         private bool _isMeasureUnitEnabled;
-        #region Implementation of IStronglyNamed
 
         public abstract string StrongName { get; }
-
-        #endregion
-
-        #region Implementation of IFormattedValueViewModel
 
 
         public string Header
@@ -34,17 +29,9 @@ namespace Unicon2.Presentation.Values.Base
 
         public Action<object, object> FormattedValueChanged { get; set; }
 
-        #endregion
-
-
-        #region Implementation of IRangeable
 
         public bool IsRangeEnabled { get; set; }
         public IRange Range { get; set; }
-
-        #endregion
-
-        #region Implementation of IMeasurable
 
         public string MeasureUnit
         {
@@ -57,7 +44,5 @@ namespace Unicon2.Presentation.Values.Base
             get => _isMeasureUnitEnabled;
             set => SetProperty(ref _isMeasureUnitEnabled, value);
         }
-
-        #endregion
     }
 }

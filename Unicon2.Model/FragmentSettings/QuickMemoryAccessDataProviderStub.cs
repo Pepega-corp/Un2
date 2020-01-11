@@ -22,17 +22,11 @@ namespace Unicon2.Model.FragmentSettings
         }
 
 
-        #region Implementation of IDisposable
-
         public void Dispose()
         {
             throw new NotImplementedException();
         }
 
-        #endregion
-
-
-        #region Implementation of IQuickMemoryAccessDataProviderStub
 
         public List<IMemoryValuesSet> MemoryValuesSets { get; set; }
 
@@ -59,10 +53,6 @@ namespace Unicon2.Model.FragmentSettings
             queryResult.IsSuccessful = true;
             return queryResult;
         }
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
@@ -98,11 +88,6 @@ namespace Unicon2.Model.FragmentSettings
             }
         }
 
-
-
-        #endregion
-
-        #region Implementation of IDataProvider
 
         public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints, string dataTitle)
         {
@@ -170,7 +155,5 @@ namespace Unicon2.Model.FragmentSettings
 
             }
         }
-
-        #endregion
     }
 }

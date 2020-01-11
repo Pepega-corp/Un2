@@ -10,20 +10,9 @@ namespace Unicon2.Presentation.Values.Base
     {
         internal IUshortsFormatter _ushortsFormatter;
 
-        #region Overrides of FormattableValueViewModelBase
-
         public abstract override string StrongName { get; }
 
         public abstract override void InitFromValue(IFormattedValue value);
-        #endregion
-
-        #region Implementation of IEditable
-
-
-
-        #endregion
-
-        #region Implementation of IEditableValueViewModel
 
         public bool IsFormattedValueChanged => this._signaturedIsChangedPropertyDictionary.ContainsValue(true);
         public abstract void SetBaseValueToCompare(ushort[] ushortsToCompare);
@@ -45,8 +34,6 @@ namespace Unicon2.Presentation.Values.Base
             }
         }
 
-        #endregion
-
         private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary = new Dictionary<string, bool>();
         private bool _isEditEnabled;
   
@@ -64,21 +51,12 @@ namespace Unicon2.Presentation.Values.Base
             RaisePropertyChanged(nameof(this.IsFormattedValueChanged));
         }
 
-        #region Implementation of IViewModel
-
         public abstract object Model { get; set; }
-
-        #endregion
-
-        #region Overrides of DisposableBindableBase
 
         protected override void OnDisposing()
         {
             this.ValueChangedAction = null;
             base.OnDisposing();
         }
-
-        #endregion
-
     }
 }

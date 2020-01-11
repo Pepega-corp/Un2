@@ -9,8 +9,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding
         private string _name;
         private bool _isSelected;
 
-        #region Implementation of INameable
-
         public string Name
         {
             get { return _name; }
@@ -20,10 +18,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding
                 RaisePropertyChanged();
             }
         }
-
-        #endregion
-
-        #region Implementation of IElementAddingCommand
 
         public ICommand AddingCommand { get; set; }
 
@@ -36,7 +30,5 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding
                 RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

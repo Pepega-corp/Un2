@@ -40,8 +40,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
         }
 
 
-        #region Implementation of IJournalConditionEditorViewModel
-
         public void SetAvailablePatameters(List<IJournalParameter> availableJournalParameters)
         {
             this._availableJournalParameters = availableJournalParameters;
@@ -123,15 +121,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
 
         public ICommand ShowFormatterParameters { get; }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(JournalConditionEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -150,10 +140,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
                 this.RaisePropertyChanged(nameof(this.UshortFormatterString));
             }
         }
-
-        #endregion
-
-        #region Implementation of IEditable
 
         public bool IsInEditMode
         {
@@ -188,6 +174,5 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this._journalCondition.UshortsFormatter = this._journalCondition.UshortsFormatter;
             this._journalCondition.UshortValueToCompare = this.UshortValueToCompare;
         }
-        #endregion
     }
 }

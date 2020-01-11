@@ -12,11 +12,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
     public static class GridViewColumnResize
 
     {
-
-        #region DependencyProperties
-
-
-
         public static readonly DependencyProperty WidthProperty =
 
             DependencyProperty.RegisterAttached("Width", typeof(string), typeof(GridViewColumnResize),
@@ -48,11 +43,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             DependencyProperty.RegisterAttached("ListViewResizeBehaviorProperty",
 
                                                 typeof(ListViewResizeBehavior), typeof(GridViewColumnResize), null);
-
-
-
-        #endregion
-
 
 
         public static string GetWidth(DependencyObject obj)
@@ -92,11 +82,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             obj.SetValue(EnabledProperty, value);
 
         }
-
-
-
-        #region CallBack
-
 
 
         private static void OnSetWidthCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -204,15 +189,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             return behavior;
 
         }
-
-
-
-        #endregion
-
-
-
-        #region Nested type: GridViewColumnResizeBehavior
-
 
 
         /// <summary>
@@ -354,15 +330,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             }
 
         }
-
-
-
-        #endregion
-
-
-
-        #region Nested type: ListViewResizeBehavior
-
 
 
         /// <summary>
@@ -564,11 +531,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             }
 
         }
-
-
-
-        #endregion
-
     }
 
 }

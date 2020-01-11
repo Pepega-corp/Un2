@@ -19,8 +19,6 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
             this._container = container;
         }
 
-        #region Implementation of ISharedResourcesEditorFactory
-
         public void OpenResourceForEdit(INameable resource, object _owner)
         {
             IStronglyNamed stronglyNamed = resource as IStronglyNamed;
@@ -48,7 +46,5 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
                 applicationGlobalCommands.ShowWindowModal(() => new ResourcesEditingWindow(), resourceEditingViewModel, _owner);
             }
         }
-
-        #endregion
     }
 }

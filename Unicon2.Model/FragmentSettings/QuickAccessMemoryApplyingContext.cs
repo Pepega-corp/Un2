@@ -12,12 +12,8 @@ namespace Unicon2.Model.FragmentSettings
         }
 
 
-        #region Implementation of IQuickAccessMemoryApplyingContext
-
         public QuickAccessModeEnum QuickAccessMode { get; set; }
         public string QueryNameKey { get; set; }
         public List<IAddressRangeableWithDataProvider> DataProviderContainingObjectList { get; set; }
-
-        #endregion
     }
 }

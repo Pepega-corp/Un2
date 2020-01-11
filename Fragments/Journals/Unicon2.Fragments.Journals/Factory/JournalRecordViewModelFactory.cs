@@ -13,7 +13,6 @@ namespace Unicon2.Fragments.Journals.Factory
         {
             this._container = container;
         }
-        #region Implementation of IJournalRecordViewModelFactory
 
         public IJournalRecordViewModel CreateJournalRecordViewModel(IJournalRecord journalRecord)
         {
@@ -21,7 +20,5 @@ namespace Unicon2.Fragments.Journals.Factory
             journalRecordViewModel.Model = journalRecord;
             return journalRecordViewModel;
         }
-
-        #endregion
     }
 }

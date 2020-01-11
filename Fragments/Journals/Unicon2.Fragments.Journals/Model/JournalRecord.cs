@@ -15,7 +15,6 @@ namespace Unicon2.Fragments.Journals.Model
             FormattedValues = new List<IFormattedValue>();
         }
 
-        #region Implementation of IJournalRecord
         [DataMember]
         public int NumberOfRecord { get; set; }
         [DataMember]
@@ -27,7 +26,5 @@ namespace Unicon2.Fragments.Journals.Model
         //TODO: посмотреть сериализацию записей журнала, пишет какую-то херню,когда записывает этот лист
         //[DataMember(Name = nameof(FormattedValues))]
         public List<IFormattedValue> FormattedValues { get; set; }
-
-        #endregion
     }
 }

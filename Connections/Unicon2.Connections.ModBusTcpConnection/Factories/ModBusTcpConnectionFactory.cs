@@ -18,8 +18,6 @@ namespace Unicon2.Connections.ModBusTcpConnection.Factories
         }
 
 
-        #region Implementation of IDeviceConnectionFactory
-
         public IDeviceConnection CreateDeviceConnection()
         {
             return this._container.Resolve<IModbusTcpConnection>();
@@ -32,7 +30,5 @@ namespace Unicon2.Connections.ModBusTcpConnection.Factories
             deviceConnectionViewModel.Model = this._container.Resolve<IDeviceConnection>(ModBusTcpKeys.MODBUS_TCP_CONNECTION);
             return deviceConnectionViewModel;
         }
-
-        #endregion
     }
 }

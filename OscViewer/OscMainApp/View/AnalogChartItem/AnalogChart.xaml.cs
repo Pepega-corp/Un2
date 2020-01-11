@@ -73,8 +73,7 @@ namespace Oscilloscope.View.AnalogChartItem
         private bool _changed;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
-        #region [Properties]
+
         static AnalogChannel.GrafType _valueType = AnalogChannel.GrafType.ACTIV;
         
         private bool _visibilityMin;
@@ -140,7 +139,6 @@ namespace Oscilloscope.View.AnalogChartItem
                 return this._channel.Options;
             }
         }
-        #endregion [Static fields]
 
         private void RaisePropertyChanged(string name)
         {

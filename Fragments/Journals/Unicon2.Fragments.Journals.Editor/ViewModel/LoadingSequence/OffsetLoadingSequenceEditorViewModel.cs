@@ -16,13 +16,8 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
         private bool _isWordFormatNotForTheWholeRecord;
         private IOffsetLoadingSequence _offsetLoadingSequence;
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.OFFSET_LOADING_SEQUENCE +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -47,10 +42,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
                 this.WordFormatFrom = this._offsetLoadingSequence.WordFormatFrom;
             }
         }
-
-        #endregion
-
-        #region Implementation of IOffsetLoadingSequenceEditorViewModel
 
         public int NumberOfRecords
         {
@@ -112,12 +103,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
             }
         }
 
-        #endregion
-
-        #region Implementation of IJournalLoadingSequenceEditorViewModel
-
         public string NameForUiKey => this._offsetLoadingSequence.StrongName;
-
-        #endregion
     }
 }

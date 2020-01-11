@@ -11,15 +11,12 @@ namespace Unicon2.Model.Values
     {
         private List<string> _availableItemsList;
         private bool _isDefaultValueInAvailable;
-        #region Implementation of IStronglyNamed
 
         public override string StrongName => nameof(ChosenFromListValue);
         public override string AsString()
         {
             return this.SelectedItem;
         }
-
-        #endregion
 
         [DataMember]
         public List<string> AvailableItemsList

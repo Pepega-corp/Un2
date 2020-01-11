@@ -21,8 +21,6 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
             this._container = container;
         }
 
-        #region Implementation of ISharedResourcesViewModelFactory
-
         public void InitializeFromResources(IDeviceSharedResources deviceSharedResources)
         {
             this._deviceSharedResources = deviceSharedResources;
@@ -64,9 +62,5 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
             resourcesAddingViewModel.Initialize(this._deviceSharedResources);
             this._applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
         }
-
-
-
-        #endregion
     }
 }

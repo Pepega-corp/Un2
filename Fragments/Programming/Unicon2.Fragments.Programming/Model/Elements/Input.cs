@@ -110,9 +110,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             set { this._connectionNumber = value; }
         }
 
-        #region IStronglyName
         public string StrongName => ProgrammingKeys.INPUT;
-        #endregion
 
         public object Clone()
         {

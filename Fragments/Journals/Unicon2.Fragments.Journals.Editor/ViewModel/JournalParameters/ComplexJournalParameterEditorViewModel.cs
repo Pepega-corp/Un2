@@ -71,8 +71,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this.SubJournalParameterEditorViewModels.Add(this._journalParametersEditorViewModelFactory.CreateJournalSubParameterEditorViewModel(this.MainBitNumbersInWordCollection));
         }
 
-        #region Implementation of IComplexJournalParameterEditorViewModel
-
         public ISubJournalParameterEditorViewModel AddSubJournalParameterEditorViewModel()
         {
             ISubJournalParameterEditorViewModel subParameterEditorViewModel = this._journalParametersEditorViewModelFactory.CreateJournalSubParameterEditorViewModel(this.MainBitNumbersInWordCollection);
@@ -99,10 +97,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
         public ICommand SubmitCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        #endregion
-        
-        #region Overrides of JournalParameterEditorViewModel
-
         protected override void SetModel(object value)
         {
             if (value is IComplexJournalParameter)
@@ -118,8 +112,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             base.SetModel(value);
         }
 
-        #region Overrides of JournalParameterEditorViewModel
-
         protected override void SaveModel()
         {
             (this._journalParameter as IComplexJournalParameter).ChildJournalParameters.Clear();
@@ -130,18 +122,10 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             base.SaveModel();
         }
 
-        #endregion
-
-        #region Overrides of JournalParameterEditorViewModel
-
         public override void StartEditElement()
         {
             //base.StartEditElement();
             this._applicationGlobalCommands.ShowWindowModal(() => new ComplexParameterEditorWindow(), this);
         }
-
-        #endregion
-
-        #endregion
     }
 }

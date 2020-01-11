@@ -20,8 +20,6 @@ namespace Unicon2.Fragments.Configuration.Model
             this.ConfigurationItemList = new List<IConfigurationItem>();
         }
 
-        #region Implementation of IItemsGroup
-
         [DataMember(Name = nameof(ConfigurationItemList), Order = 0)]
         public List<IConfigurationItem> ConfigurationItemList { get; set; }
 
@@ -29,12 +27,7 @@ namespace Unicon2.Fragments.Configuration.Model
         public bool IsTableViewAllowed { get; set; }
 
 
-        #endregion
-
-
         public override string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
-
-        #region Overrides of ConfigurationItemBase
 
         public override async Task Load()
         {
@@ -146,7 +139,5 @@ namespace Unicon2.Fragments.Configuration.Model
             }
             base.InitializeFromContainer(container);
         }
-
-        #endregion
     }
 }

@@ -52,16 +52,10 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
         }
 
-        #region Overrides of ValidatableBindableBase
-
         protected override void OnValidate()
         {
             throw new NotImplementedException();
         }
-
-        #endregion
-
-        #region Implementation of IModbusMemorySettingsViewModel
 
         public ICommand AddressStepDownCommand { get; set; }
 
@@ -125,8 +119,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
         public Action<IModbusMemorySettings> ModbusMemorySettingsChanged { get; set; }
 
-        #endregion
-        
         public IModbusMemorySettings GetModbusMemorySettings()
         {
             this._modbusMemorySettings.BaseAdress = this._baseAdress;

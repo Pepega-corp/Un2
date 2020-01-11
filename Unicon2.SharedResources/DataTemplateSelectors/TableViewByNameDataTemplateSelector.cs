@@ -13,8 +13,6 @@ namespace Unicon2.SharedResources.DataTemplateSelectors
 {
   public  class TableViewByNameDataTemplateSelector:DataTemplateSelector
     {
-        #region Overrides of DataTemplateSelector
-
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is IAsTableViewModel)
@@ -26,8 +24,5 @@ namespace Unicon2.SharedResources.DataTemplateSelectors
             }
             return null;
         }
-
-
-        #endregion
     }
 }

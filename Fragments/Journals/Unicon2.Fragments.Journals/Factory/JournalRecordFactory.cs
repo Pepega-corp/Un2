@@ -15,8 +15,6 @@ namespace Unicon2.Fragments.Journals.Factory
             this._container = container;
         }
 
-        #region Implementation of IJournalRecordFactory
-
         public async Task<IJournalRecord> CreateJournalRecord(ushort[] values, IRecordTemplate recordTemplate)
         {
             if (values.All(o => o == 0))
@@ -28,7 +26,5 @@ namespace Unicon2.Fragments.Journals.Factory
             }
             return journalRecord;
         }
-
-        #endregion
     }
 }

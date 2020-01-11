@@ -14,8 +14,6 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.Factories
             this._container = container;
         }
 
-        #region Implementation of IOscilloscopeTagEditorViewModelFactory
-
         public IOscilloscopeTagEditorViewModel CreateOscilloscopeTagEditorViewModel(IOscilloscopeTag oscilloscopeTag)
         {
             IOscilloscopeTagEditorViewModel oscilloscopeTagEditorViewModel = this._container.Resolve<IOscilloscopeTagEditorViewModel>();
@@ -30,7 +28,5 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.Factories
             oscilloscopeTagEditorViewModel.Model = oscilloscopeTag;
             return oscilloscopeTagEditorViewModel;
         }
-
-        #endregion
     }
 }

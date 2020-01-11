@@ -17,8 +17,6 @@ namespace Unicon2.Formatting.Model
             this._numValueGettingFunc = numValueGettingFunc;
         }
 
-        #region Overrides of UshortsFormatterBase
-
         public override ushort[] FormatBack(IFormattedValue formattedValue)
         {
             throw new System.NotImplementedException();
@@ -38,17 +36,11 @@ namespace Unicon2.Formatting.Model
             throw new System.NotImplementedException();
         }
 
-        #endregion
-
-
-        #region Overrides of UshortsFormatterBase
 
         public override void InitializeFromContainer(ITypesContainer container)
         {
             this._numValueGettingFunc = container.Resolve<Func<INumericValue>>();
             base.InitializeFromContainer(container);
         }
-
-        #endregion
     }
 }

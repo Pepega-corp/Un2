@@ -15,8 +15,6 @@ namespace Unicon2.Presentation.DataTemplateSelectors
         public DataTemplate DefaultButtonDataTemplate { get; set; }
 
 
-        #region Overrides of DataTemplateSelector
-
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is FragmentOptionToggleCommandViewModel)
@@ -29,7 +27,5 @@ namespace Unicon2.Presentation.DataTemplateSelectors
             }
             return base.SelectTemplate(item, container);
         }
-
-        #endregion
     }
 }

@@ -43,10 +43,6 @@ namespace Unicon2.Services.UniconProject
         }
 
 
-
-        #region Implementation of IUniconProjectService
-
-
         public void CreateNewProject()
         {
             if (this.CheckIfProjectSaved(this) != ProjectSaveCheckingResultEnum.CancelledByUser)
@@ -188,8 +184,5 @@ namespace Unicon2.Services.UniconProject
             message += " " + projectPath;
             this._logService.LogMessage(message);
         }
-
-
-        #endregion
     }
 }

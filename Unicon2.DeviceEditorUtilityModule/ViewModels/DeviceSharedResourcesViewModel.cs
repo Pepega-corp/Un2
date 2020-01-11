@@ -61,8 +61,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
-        #region Save/Load resources
-
         public ICommand SaveCommand { get; }
         public ICommand LoadCommand { get; }
 
@@ -99,8 +97,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 this._lastFileName = Path.GetFileNameWithoutExtension(dialog.FileName);
             }
         }
-
-        #endregion
 
         private bool CanExecuteRenameResource()
         {
@@ -148,13 +144,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             (obj as Window)?.Close();
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(DeviceSharedResourcesViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -181,10 +171,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         {
             throw new NotImplementedException();
         }
-
-        #endregion
-
-        #region Implementation of IDeviceSharedResourcesViewModel
 
         public ObservableCollection<IResourceViewModel> ResourcesCollection { get; }
 
@@ -229,7 +215,5 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         {
             this._typeNeeded = typeNeeded;
         }
-
-        #endregion
     }
 }

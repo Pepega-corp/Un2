@@ -9,20 +9,11 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
 {
     public class ControlSignalViewModel : MeasuringElementViewModelBase, IControlSignalViewModel
     {
-        #region Overrides of MeasuringElementViewModelBase
-
         public override string StrongName => MeasuringKeys.CONTROL_SIGNAL +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-        #endregion
-
-        #region Implementation of IControlSignalViewModel
 
         public ICommand WriteValueCommand { get; set; }
 
-        #endregion
-
-
-        #region Overrides of MeasuringElementViewModelBase
 
         protected override void SetModel(object model)
         {
@@ -32,7 +23,5 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
              }));
             base.SetModel(model);
         }
-
-        #endregion
     }
 }

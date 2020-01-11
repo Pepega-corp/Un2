@@ -8,8 +8,6 @@ namespace Unicon2.Fragments.Configuration.Converters
 {
     public class PropertyTooltipConverter : IValueConverter
     {
-        #region Implementation of IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is IFormattedValueViewModel formattedValueViewModel)
@@ -40,7 +38,5 @@ namespace Unicon2.Fragments.Configuration.Converters
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

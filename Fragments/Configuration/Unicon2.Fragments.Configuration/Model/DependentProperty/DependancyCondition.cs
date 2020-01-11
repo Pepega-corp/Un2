@@ -17,8 +17,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         //private ushort[] _previousDeviceUshorts;
         //private ushort[] _previousLocalUshorts;
 
-        #region Implementation of IResourceContaining
-
         private void CheckReferencedProperty(bool isLocal)
         {
             if (this.ConditionsEnum == ConditionsEnum.HaveTrueBitAt && this.LocalAndDeviceValuesContaining.DeviceUshortsValue != null)
@@ -48,10 +46,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
             }
         }
 
-        #endregion
-
-
-        #region Implementation of IDependancyCondition
 
         public ILocalAndDeviceValuesContaining LocalAndDeviceValuesContaining { get; set; }
         [DataMember(Order = 3)]
@@ -63,29 +57,14 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
 
         public Action<ConditionResultChangingEventArgs> ConditionResultChangedAction { get; set; }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ConfigurationKeys.DEPENDANCY_CONDITION;
 
-        #endregion
-
-        #region Implementation of INameable
         [DataMember(Order = 6)]
         public string Name { get; set; }
 
-        #endregion
-
-        #region Implementation of IUshortFormattable
         [DataMember(Order = 7)]
         public IUshortsFormatter UshortsFormatter { get; set; }
 
-        #endregion
-
-
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -100,8 +79,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
             }
             this.IsInitialized = true;
         }
-
-        #endregion
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)

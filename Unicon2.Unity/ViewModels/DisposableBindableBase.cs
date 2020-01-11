@@ -4,15 +4,8 @@ namespace Unicon2.Unity.ViewModels
 {
     public abstract class DisposableBindableBase : ViewModelBase, IDisposable
     {
-        #region [Constants]
-
         private const string DISPOSED_MESSAGE = "Object is no longer usable as long it was disposed";
 
-        #endregion [Constants]
-
-
-
-        #region [Ctor's]
 
         /// <summary>
         /// Initializes an instance 
@@ -30,10 +23,6 @@ namespace Unicon2.Unity.ViewModels
             this.LockObject = lockObject ?? throw new ObjectDisposedException(DISPOSED_MESSAGE);
         }
 
-        #endregion [Ctor's]
-
-
-        #region [Properties]
 
         /// <summary>
         /// Gets a value which specifies whether the object has already disposed or not
@@ -45,10 +34,6 @@ namespace Unicon2.Unity.ViewModels
         /// </summary>
         protected object LockObject { get; set; }
 
-        #endregion [Properties]
-
-
-        #region [Templated members]
 
         /// <summary>
         /// Provides basic implementation of Disposable pattern
@@ -73,10 +58,6 @@ namespace Unicon2.Unity.ViewModels
             /*None*/
         }
 
-        #endregion [Templated members]
-
-
-        #region [Protected members]
 
         /// <summary>
         /// Throws <see cref="ObjectDisposedException"/> exception in case the object has already been disposed
@@ -87,10 +68,6 @@ namespace Unicon2.Unity.ViewModels
                 throw new ObjectDisposedException(DISPOSED_MESSAGE);
         }
 
-        #endregion [Protected members]
-
-
-        #region [IDisposable members]
 
         /// <summary>
         ///  Performs application-defined tasks associated with freeing, releasing, or
@@ -101,10 +78,5 @@ namespace Unicon2.Unity.ViewModels
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        #endregion [IDisposable members]
-
-
-
     }
 }

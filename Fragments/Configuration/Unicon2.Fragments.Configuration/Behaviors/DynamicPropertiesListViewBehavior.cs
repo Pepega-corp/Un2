@@ -22,16 +22,11 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         private DynamicPropertiesTable _journalDataTable;
         private ObservableCollection<List<ILocalAndDeviceValueContainingViewModel>> _collection;
 
-        #region Overrides of Behavior
-
         protected override void OnDetaching()
         {
             if (_journalDataTable != null) _journalDataTable.TableUpdateAction = null;
             base.OnDetaching();
         }
-
-        #endregion
-        #region IsTransponed dp
 
         public static readonly DependencyProperty IsTransponedProperty =
             DependencyProperty.Register("IsTransponed", typeof(bool), typeof(DynamicPropertiesListViewBehavior),
@@ -50,9 +45,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             beh.OnRowValuesChanged();
         }
 
-
-        #endregion
-        #region RowValues dp
 
         public static readonly DependencyProperty IsDeviceValuesProperty =
             DependencyProperty.Register("IsDeviceValues", typeof(bool), typeof(DynamicPropertiesListViewBehavior));
@@ -78,7 +70,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             DynamicPropertiesListViewBehavior beh = sender as DynamicPropertiesListViewBehavior;
             beh.OnRowValuesChanged();
         }
-        #endregion
+
         private void OnRowValuesChanged()
         {
             if (this.AssociatedObject == null) return;
@@ -180,8 +172,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             Application.Current.Dispatcher.Invoke(() => { this._collection.Add(listToInsert); });
         }
 
-        #region Overrides of Behavior
-
         protected override void OnAttached()
         {
             //  this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
@@ -189,7 +179,5 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             this.OnRowValuesChanged();
             base.OnAttached();
         }
-
-        #endregion
     }
 }

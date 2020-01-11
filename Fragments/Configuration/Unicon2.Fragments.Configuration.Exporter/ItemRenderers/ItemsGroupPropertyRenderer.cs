@@ -19,8 +19,6 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
             _itemRendererFactory = itemRendererFactory;
         }
 
-        #region Overrides of ConfigurationItemRendererBase
-
         public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem,
             SelectorForItemsGroup selectorForItemsGroup, int depthLevel = 0)
         {
@@ -52,7 +50,5 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
             }));
             return Maybe<List<TagBuilder>>.FromValue(tagBuilders);
         }
-
-        #endregion
     }
 }

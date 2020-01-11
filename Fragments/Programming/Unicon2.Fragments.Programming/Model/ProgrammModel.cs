@@ -16,17 +16,9 @@ namespace Unicon2.Fragments.Programming.Model
             
         //}
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ProgrammingKeys.PROGRAMMING;
 
-        #endregion
-
-        #region Implementation of IDeviceFragment
-        
         public IFragmentSettings FragmentSettings { get; set; }
-
-        #endregion
 
         public void SetDataProvider(IDataProvider dataProvider)
         {

@@ -18,8 +18,6 @@ namespace Unicon2.Fragments.FileOperations.Model.Loaders
             this._fileDriver = fileDriver;
         }
 
-        #region Implementation of IDataProviderContaining
-
         public async Task<List<IDeviceBrowserElement>> LoadDeviceDirectory(string directoryPath, IDeviceDirectory parentDeviceDirectory)
         {
             List<IDeviceBrowserElement> deviceBrowserElements = new List<IDeviceBrowserElement>();
@@ -55,7 +53,5 @@ namespace Unicon2.Fragments.FileOperations.Model.Loaders
         {
             this._browserElementFactory.SetConnectionProvider(dataProvider);
         }
-
-        #endregion
     }
 }

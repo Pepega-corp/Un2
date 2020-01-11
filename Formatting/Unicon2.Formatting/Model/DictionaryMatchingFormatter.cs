@@ -91,8 +91,6 @@ namespace Unicon2.Formatting.Model
         [DataMember]
         public bool IsKeysAreNumbersOfBits { get; set; }
 
-        #region Implementation of IInitializableFromContainer
-        
         public override void InitializeFromContainer(ITypesContainer container)
         {
             this._container = container;
@@ -100,7 +98,5 @@ namespace Unicon2.Formatting.Model
                 this._container.Resolve(typeof(Func<IChosenFromListValue>)) as Func<IChosenFromListValue>;
             base.InitializeFromContainer(container);
         }
-
-        #endregion
     }
 }

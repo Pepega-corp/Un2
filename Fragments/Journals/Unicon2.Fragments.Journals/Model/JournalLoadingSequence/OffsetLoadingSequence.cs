@@ -13,16 +13,10 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
         private IDataProvider _dataProvider;
         private int _currentRecordIndex = 0;
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._dataProvider = dataProvider;
         }
-
-        #endregion
-
-        #region Implementation of IJournalLoadingSequence
 
         public void Initialize(IJournalSequenceInitializingParameters journalSequenceInitializingParameters)
         {
@@ -53,10 +47,6 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
             this._currentRecordIndex = 0;
         }
 
-        #endregion
-
-        #region Implementation of IOffsetLoadingSequence
-
         [DataMember]
         public int NumberOfRecords { get; set; }
 
@@ -75,12 +65,6 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
         [DataMember]
         public bool IsWordFormatNotForTheWholeRecord { get; set; }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.OFFSET_LOADING_SEQUENCE;
-
-        #endregion
     }
 }

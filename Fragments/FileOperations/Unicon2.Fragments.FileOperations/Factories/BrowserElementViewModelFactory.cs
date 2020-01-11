@@ -15,8 +15,6 @@ namespace Unicon2.Fragments.FileOperations.Factories
             this._container = container;
         }
 
-        #region Implementation of IBrowserElementViewModelFactory
-
         public IBrowserElementViewModel CreateBrowserElementViewModelBase(IDeviceBrowserElement deviceBrowserElement, IDeviceDirectoryViewModel parentDeviceDirectoryViewModel)
         {
             IBrowserElementViewModel browserElementViewModel =
@@ -26,7 +24,5 @@ namespace Unicon2.Fragments.FileOperations.Factories
             browserElementViewModel.ParentDeviceDirectoryViewModel = parentDeviceDirectoryViewModel;
             return browserElementViewModel;
         }
-
-        #endregion
     }
 }

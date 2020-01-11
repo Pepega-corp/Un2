@@ -8,8 +8,6 @@ namespace Unicon2.Fragments.ModbusMemory.Model
         private IMemoryConversionParameters _memoryConversionParameters;
 
 
-        #region Implementation of IModbusMemoryEntity
-
         public void SetUshortValue(ushort value)
         {
             this._value = value;
@@ -29,11 +27,6 @@ namespace Unicon2.Fragments.ModbusMemory.Model
             .ToString("N" + this._memoryConversionParameters.NumberOfSigns);
 
 
-
-        #endregion
-
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             IModbusMemoryEntity clone = new ModbusMemoryEntity();
@@ -42,7 +35,5 @@ namespace Unicon2.Fragments.ModbusMemory.Model
             clone.SetConversion(this._memoryConversionParameters);
             return clone;
         }
-
-        #endregion
     }
 }

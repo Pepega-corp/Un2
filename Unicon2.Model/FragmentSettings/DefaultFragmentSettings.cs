@@ -20,8 +20,6 @@ namespace Unicon2.Model.FragmentSettings
         }
 
 
-        #region Implementation of IConfigurationSettings
-
         [DataMember]
         public List<IFragmentSetting> FragmentSettings { get; set; }
 
@@ -32,10 +30,6 @@ namespace Unicon2.Model.FragmentSettings
             if (settingToApply == null) return false;
             return await settingToApply.ApplySetting(settingApplyingContext);
         }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized
         {
@@ -50,7 +44,5 @@ namespace Unicon2.Model.FragmentSettings
                 (fragmentSetting as IInitializableFromContainer)?.InitializeFromContainer(container);
             }
         }
-
-        #endregion
     }
 }

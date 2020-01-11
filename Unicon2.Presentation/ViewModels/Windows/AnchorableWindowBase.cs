@@ -13,8 +13,6 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         private bool _isVisible;
 
-        #region Implementation of IAnchorableWindow
-
         public string WindowNameKey { get; internal set; }
 
         public bool IsVisible
@@ -28,7 +26,5 @@ namespace Unicon2.Presentation.ViewModels.Windows
         }
 
         public PlacementEnum AnchorableDefaultPlacementEnum { get; internal set; }
-
-        #endregion
     }
 }

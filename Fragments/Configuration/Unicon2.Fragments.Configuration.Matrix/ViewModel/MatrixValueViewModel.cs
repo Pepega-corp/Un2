@@ -27,8 +27,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         private DynamicDataTable _table;
         private bool _isEditable = false;
 
-        #region Overrides of FormattableValueViewModelBase
-
         public MatrixValueViewModel(MatrixViewModelTableFactory matrixViewModelTableFactory)
         {
             _matrixViewModelTableFactory = matrixViewModelTableFactory;
@@ -94,12 +92,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             }
         }
 
-        #endregion
-
-        #region Implementation of IViewModel
-
         public object Model { get; set; }
-
-        #endregion
     }
 }

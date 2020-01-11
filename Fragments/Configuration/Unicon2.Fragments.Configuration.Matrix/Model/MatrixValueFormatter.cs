@@ -20,8 +20,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
             _appointableMatrix = appointableMatrix;
         }
 
-        #region Overrides of UshortsFormatterBase
-
         public override ushort[] FormatBack(IFormattedValue formattedValue)
         {
             throw new NotImplementedException();
@@ -37,7 +35,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

@@ -25,8 +25,6 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
         }
 
 
-        #region Implementation of IViewModel<IDeviceBrowserElement>
-
         public override object Model
         {
             get { return this._model; }
@@ -52,18 +50,8 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
             get { return this._name; }
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public override string StrongName => FileOperationsKeys.DEVICE_FILE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        #endregion
-
-        #region Implementation of IDeviceFileViewModel
-
         public ICommand DownloadElementCommand { get; }
-
-        #endregion
     }
 }

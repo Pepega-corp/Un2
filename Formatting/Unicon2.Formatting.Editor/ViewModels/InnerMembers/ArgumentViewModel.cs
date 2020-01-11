@@ -11,13 +11,7 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
         private string _resourceNameString;
         private double _testValue;
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(ArgumentViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -30,10 +24,6 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
             this._resource = value as INameable;
             this.ResourceNameString = this._resource.Name;
         }
-
-        #endregion
-
-        #region Implementation of IArgumentViewModel
 
         public string ArgumentName
         {
@@ -64,7 +54,5 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

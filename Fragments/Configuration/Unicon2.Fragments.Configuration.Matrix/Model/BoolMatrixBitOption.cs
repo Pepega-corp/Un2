@@ -9,8 +9,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
     public class BoolMatrixBitOption : IBitOption
     {
-        #region Implementation of IBitOption
-
         public BoolMatrixBitOption()
         {
             this.NumbersOfAssotiatedBits = new List<int>();
@@ -27,12 +25,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
             return comparingBitOption.VariableColumnSignature == this.VariableColumnSignature && (comparingBitOption.StrongName == this.StrongName);
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MatrixKeys.BOOL_MATRIX_BIT_OPTION;
-
-        #endregion
     }
 }

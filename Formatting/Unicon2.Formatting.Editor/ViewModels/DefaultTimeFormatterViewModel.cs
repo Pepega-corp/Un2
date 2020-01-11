@@ -37,8 +37,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
         }
 
 
-        #region Overrides of UshortsFormatterViewModelBase
-
         public override IUshortsFormatter GetFormatter()
         {
             this._defaultTimeFormatter.NumberOfPointsInUse = int.Parse(this.NumberOfPointsInUse);
@@ -91,10 +89,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             throw new NotImplementedException();
         }
-
-        #endregion
-
-        #region Implementation of IDefaultTimeFormatterViewModel
 
         public string MillisecondsDecimalsPlaces
         {
@@ -193,7 +187,5 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             }
         }
-
-        #endregion
     }
 }

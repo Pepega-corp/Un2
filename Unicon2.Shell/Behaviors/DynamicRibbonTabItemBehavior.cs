@@ -78,13 +78,9 @@ namespace Unicon2.Shell.Behaviors
         }
 
 
-        #region Overrides of Behavior 
-
         protected override void OnAttached()
         {
             base.OnAttached();
         }
-
-        #endregion
     }
 }

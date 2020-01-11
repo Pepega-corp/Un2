@@ -18,10 +18,6 @@ namespace Unicon2.Model.FragmentSettings
             }
         }
 
-        #region Implementation of IMemoryValuesSet
-
         public Dictionary<ushort, ushort> AddressesValuesDictionary { get; set; }
-
-        #endregion
     }
 }

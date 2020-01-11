@@ -22,19 +22,7 @@ namespace Unicon2.Presentation.Values
             _localizerService = localizerService;
         }
 
-
-        #region Implementation of IRangeViewModel
-
-       
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ApplicationGlobalNames.ViewModelNames.RANGE_VIEW_MODEL_NAME;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -74,19 +62,11 @@ namespace Unicon2.Presentation.Values
             RangeTo = range.RangeTo.ToString();
         }
 
-        #endregion
-
-        #region Overrides of ValidatableBindableBase
-
         protected override void OnValidate()
         {
             var res = new RangeViewModelValidator(_localizerService).Validate(this);
             SetValidationErrors(res);
         }
-
-        #endregion
-
-        #region Implementation of IRangeViewModel
 
         public string RangeFrom
         {
@@ -115,15 +95,9 @@ namespace Unicon2.Presentation.Values
             }
         }
 
-        #endregion
-
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             return new RangeViewModel(_range.Clone() as IRange,_localizerService);
         }
-
-        #endregion
     }
 }

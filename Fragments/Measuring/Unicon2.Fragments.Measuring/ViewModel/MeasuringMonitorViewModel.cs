@@ -136,16 +136,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel
         }
 
 
-
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MeasuringKeys.MEASURING_MONITOR +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -185,16 +177,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             return this._measuringMonitor;
         }
 
-        #endregion
-
-        #region Implementation of IFragmentViewModel
-
         public string NameForUiKey => MeasuringKeys.MEASURING_MONITOR;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
-        #endregion
-
-        #region Implementation of IMeasuringMonitorViewModel
 
         public ObservableCollection<IMeasuringGroupViewModel> MeasuringGroupViewModels { get; set; }
 
@@ -241,16 +225,10 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             }
         }
 
-        #region Overrides of DisposableBindableBase
-
         protected override void OnDisposing()
         {
             this.StopCycleLoading();
             base.OnDisposing();
         }
-
-        #endregion
-
-        #endregion
     }
 }

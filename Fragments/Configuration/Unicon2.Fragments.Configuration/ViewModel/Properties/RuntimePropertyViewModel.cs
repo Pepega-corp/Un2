@@ -114,8 +114,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         }
 
 
-        #region Overrides of ConfigurationItemViewModelBase
-
         public override string TypeName => this.GetTypeName();
 
 
@@ -173,10 +171,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 
         }
 
-        #endregion
-
-        #region Implementation of IMeasurable
-
         public string MeasureUnit
         {
             get { return this._measureUnit; }
@@ -197,10 +191,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             }
         }
 
-        #endregion
-
-        #region Implementation of IRangeableViewModel
-
         public bool IsRangeEnabled
         {
             get { return this._isRangeEnabled; }
@@ -220,9 +210,5 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this.RaisePropertyChanged();
             }
         }
-
-
-
-        #endregion
     }
 }

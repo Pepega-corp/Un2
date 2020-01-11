@@ -27,8 +27,6 @@ namespace Unicon2.SharedResources.Behaviors
             
         }
 
-        #region Overrides of Behavior
-
         protected override void OnAttached()
         {
             this.FucusableTextBlock.MouseEnter += (ea, se) =>
@@ -41,7 +39,5 @@ namespace Unicon2.SharedResources.Behaviors
             };
             base.OnAttached();
         }
-
-        #endregion
     }
 }

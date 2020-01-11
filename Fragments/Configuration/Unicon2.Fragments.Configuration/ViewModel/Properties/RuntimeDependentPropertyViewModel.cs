@@ -15,13 +15,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         {
         }
 
-        #region Overrides of RuntimePropertyViewModel
-
         public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.DEPENDENT_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-
-        #region Overrides of RuntimePropertyViewModel
 
 
         protected override string GetTypeName()
@@ -36,10 +31,5 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                     ? ((IDependentProperty) this._model).LocalValueUshortsFormatter
                     : ((IDependentProperty) this._model).DeviceValueUshortsFormatter);
         }
-
-
-        #endregion
-
-        #endregion
     }
 }

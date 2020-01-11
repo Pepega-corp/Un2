@@ -9,13 +9,7 @@ namespace Unicon2.Presentation.Values
      
         private string _stringValue;
 
-        #region Implementation of IStronglyNamed
-
         public override string StrongName => nameof(StringValueViewModel);
-
-        #endregion
-
-        #region Implementation of IFormattedValueViewModel
 
         //public object Value
         //{
@@ -43,10 +37,6 @@ namespace Unicon2.Presentation.Values
             StringValue = (value as IStringValue).StrValue;
         }
 
-        #endregion
-
-        #region Implementation of IStringValueViewModel
-
         public string StringValue
         {
             get { return _stringValue; }
@@ -56,7 +46,5 @@ namespace Unicon2.Presentation.Values
                 RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

@@ -20,12 +20,11 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
         {
             _rendererFactory = rendererFactory;
         }
-        #region Implementation of IConfigurationItemRenderer
 
-        public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem, SelectorForItemsGroup selectorForItemsGroup = null,
+        public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem complexProperty, SelectorForItemsGroup selectorForItemsGroup = null,
             int depthLevel = 0)
         {
-            var complexProperty = configurationItem as ComplexProperty;
+
             List<TagBuilder> tagBuilders = new List<TagBuilder>();
             tagBuilders.Add(ConfigTableRowRenderer
                 .Create()
@@ -34,7 +33,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                 .SetSelectors(selectorForItemsGroup.IsPrintDeviceValuesAllowed,selectorForItemsGroup.IsPrintLocalValuesAllowed)
                 .Render());
 
-            complexProperty.SubProperties.ForEach((item =>
+            (complexProperty as ComplexProperty).SubProperties.ForEach((item =>
             {
                 _rendererFactory
                     .GetConfigurationItemRenderer(item)
@@ -43,7 +42,5 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
             }));
             return Maybe<List<TagBuilder>>.FromValue(tagBuilders);
         }
-
-        #endregion
     }
 }

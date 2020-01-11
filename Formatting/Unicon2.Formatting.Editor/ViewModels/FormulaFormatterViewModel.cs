@@ -19,8 +19,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
     public class FormulaFormatterViewModel : UshortsFormatterViewModelBase, IFormulaFormatterViewModel, IInitializableFromContainer
     {
-        #region Private fields
-
         private readonly ILocalizerService _localizerService;
         private readonly ITypesContainer _container;
         private readonly Func<IArgumentViewModel> _argumentViewModelGettingFunc;
@@ -31,9 +29,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private double _testValueOfX;
         private ushort _numberOfSimbolsAfterComma;
         private string _formulaTooltipString;
-        #endregion
-
-        #region Ctor
 
         public FormulaFormatterViewModel(ILocalizerService localizerService, ITypesContainer container,
             Func<IArgumentViewModel> argumentViewModelGettingFunc, ISharedResourcesViewModelFactory sharedResourcesViewModelFactory)
@@ -74,8 +69,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this._formulaFormatter.UshortFormattables.Remove(argumentViewModel.Model as IUshortFormattable);
         }
 
-        #endregion
-
         private void OnCheckCommandExecute()
         {
             this.FireErrorsChanged(nameof(this.TestValueOfX));
@@ -98,8 +91,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             }
         }
 
-
-        #region UshortsFormatterViewModelBase members
 
         protected override void OnValidate()
         {
@@ -149,10 +140,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.NumberOfSimbolsAfterComma = this._formulaFormatter.NumberOfSimbolsAfterComma;
             this.FormulaString = this._formulaFormatter.FormulaString;
         }
-
-        #endregion
-
-        #region Properties
 
         public string FormulaToolTipString
         {
@@ -233,8 +220,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             return cloneFormulaFormatterViewModel;
         }
 
-        #endregion
-
         public bool IsValid
         {
             get
@@ -265,8 +250,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         }
 
-        #region Implementation of IEditable
-
         public bool IsInEditMode { get; set; }
 
         public void StartEditElement()
@@ -280,10 +263,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.IsInEditMode = false;
         }
 
-        #endregion
-
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -292,7 +271,5 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.IsInitialized = true;
             this._formulaFormatter?.InitializeFromContainer(container);
         }
-
-        #endregion
     }
 }

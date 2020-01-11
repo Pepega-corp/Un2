@@ -7,8 +7,6 @@ namespace Unicon2.SharedResources.Converter
 {
     public class IsInterfaceImplementedToVisibilityConverter : IValueConverter
     {
-        #region Implementation of IValueConverter
-
         public bool IsInverted { get; set; }
 
 
@@ -28,7 +26,5 @@ namespace Unicon2.SharedResources.Converter
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

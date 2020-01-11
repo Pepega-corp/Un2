@@ -7,14 +7,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
     public class DefaultMatrixMemoryVariable : IMatrixMemoryVariable
     {
-        #region Implementation of IMatrixMemoryVariable
         [DataMember]
         public string Name { get; set; }
         [DataMember]
         public ushort StartAddressWord { get; set; }
         [DataMember]
         public ushort StartAddressBit { get; set; }
-
-        #endregion
     }
 }

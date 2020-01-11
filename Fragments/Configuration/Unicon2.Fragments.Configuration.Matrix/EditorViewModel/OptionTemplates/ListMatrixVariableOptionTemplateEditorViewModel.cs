@@ -40,15 +40,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         {
             this.OptionPossibleValueEditorViewModels.Add(this._generalViewModelFactory.CreateViewModelWithModelByModelType(typeof(IOptionPossibleValue)));
         }
-        
 
-        #region Implementation of IStronglyNamed
 
         public string StrongName => MatrixKeys.LIST_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -75,7 +69,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
 
 
         public ObservableCollection<IOptionPossibleValueEditorViewModel> OptionPossibleValueEditorViewModels { get; }
-
-        #endregion
     }
 }

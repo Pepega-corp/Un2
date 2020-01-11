@@ -24,8 +24,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         }
 
 
-        #region Implementation of IAssignedBitEditorViewModel
-
         public int NumberOfBit { get; set; }
 
         public IBitOptionEditorViewModel SelectedBitOptionEditorViewModel
@@ -85,18 +83,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         public ICommand ResetCommand { get; }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(AssignedBitEditorViewModel);
 
-        #endregion
-
-        #region Implementation of IViewModel
-
         public object Model { get; set; }
-
-        #endregion
     }
 }

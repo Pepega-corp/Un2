@@ -7,8 +7,6 @@ namespace Unicon2.SharedResources.Converter
 {
    public class ObjectEqualityDescriptionNullToVisibilityConverter : IMultiValueConverter
     {
-        #region Implementation of IMultiValueConverter
-
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if ((values[0] == null) || (values[1] == null)) return Visibility.Collapsed;
@@ -21,7 +19,5 @@ namespace Unicon2.SharedResources.Converter
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

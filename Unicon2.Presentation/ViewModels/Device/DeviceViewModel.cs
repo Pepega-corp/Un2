@@ -94,20 +94,12 @@ namespace Unicon2.Presentation.ViewModels.Device
             }
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(DeviceViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
             get => this._device;
             set => this.SetDeviceModel(value as IDevice);
         }
-
-        #endregion
     }
 }

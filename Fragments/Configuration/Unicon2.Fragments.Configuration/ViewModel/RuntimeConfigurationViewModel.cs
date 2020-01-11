@@ -57,8 +57,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL;
 
         public string NameForUiKey => this._deviceConfiguration.StrongName;
@@ -74,10 +72,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
         }
 
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -116,10 +110,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
         }
 
-        #endregion
-
-        #region Implementation of IDeviceDataProvider
-
         public void SetDeviceData(string deviceName)
         {
             _deviceName = deviceName;
@@ -129,7 +119,5 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         {
             return _deviceName;
         }
-
-        #endregion
     }
 }

@@ -21,16 +21,10 @@ namespace Unicon2.Fragments.FileOperations.Model
             this._browserElementFactory = browserElementFactory;
         }
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._browserElementFactory.SetConnectionProvider(dataProvider);
         }
-
-        #endregion
-
-        #region Implementation of IFileBrowser
 
         public IDeviceDirectory RootDeviceDirectory { get; private set; }
 
@@ -42,21 +36,9 @@ namespace Unicon2.Fragments.FileOperations.Model
             await this.RootDeviceDirectory?.Load();
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => FileOperationsKeys.FILE_BROWSER;
 
-        #endregion
-
-        #region Implementation of IDeviceFragment
-
         public IFragmentSettings FragmentSettings { get; set; }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -65,7 +47,5 @@ namespace Unicon2.Fragments.FileOperations.Model
             this.IsInitialized = true;
             this._browserElementFactory = container.Resolve<IBrowserElementFactory>();
         }
-
-        #endregion
     }
 }

@@ -15,8 +15,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
     /// </summary>
     public class ComPortConfigurationViewModel : ViewModelBase, IComPortConfigurationViewModel
     {
-        #region private fields
-
         private ObservableCollection<int> _baudRates;
         private int _selectedBaudRate;
         private ObservableCollection<int> _dataBitsCollection;
@@ -31,9 +29,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private int _offTramsmission;
         private IComPortConfiguration _comPortConfiguration;
 
-        #endregion
-
-        #region ctor
         public ComPortConfigurationViewModel(IComPortConfiguration comPortConfiguration)
         {
             this._comPortConfiguration = comPortConfiguration;
@@ -70,11 +65,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             this.OffTramsmission = 0;
 
         }
-        #endregion
-
-        #region Presentation Properties
-
-
 
 
         public int SelectedBaudRate
@@ -197,16 +187,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             }
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => StringKeys.COMPORT_CONFIGURATION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -237,7 +219,5 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
                 this.WaitByte = this._comPortConfiguration.WaitByte;
             }
         }
-
-        #endregion
     }
 }

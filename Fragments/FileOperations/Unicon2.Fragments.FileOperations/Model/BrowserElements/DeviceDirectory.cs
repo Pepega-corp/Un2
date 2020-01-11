@@ -20,11 +20,6 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
         }
 
 
-
-        #region Implementation of IDataProviderContaining
-
-
-
         public override async Task Load()
         {
             this.BrowserElementsInDirectory = await this._directoryLoader.LoadDeviceDirectory(ElementPath, this);
@@ -38,10 +33,6 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
         }
 
         public override string StrongName => FileOperationsKeys.DEVICE_DIRECTORY;
-
-        #endregion
-
-        #region Implementation of IDeviceDirectory
 
         public List<IDeviceBrowserElement> BrowserElementsInDirectory { get; private set; }
 
@@ -61,17 +52,11 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
         }
 
 
-        #region Overrides of BrowserElementBase
-
         public override void SetDataProvider(IDataProvider dataProvider)
         {
             this.BrowserElementsInDirectory?.ForEach((element => element.SetDataProvider(dataProvider)));
             this._directoryLoader.SetDataProviderConnection(dataProvider);
             base.SetDataProvider(dataProvider);
         }
-
-        #endregion
-
-        #endregion
     }
 }

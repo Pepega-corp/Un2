@@ -21,7 +21,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         private readonly IFileDataWriter _fileDataWriter;
 
 
-        #region Private Fields
         //private Operator[] _allOperators;
 
         private Dictionary<int, string> _messagesDictionary;
@@ -29,8 +28,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         private byte[] _writeBytes;
 
         private IDataProvider _dataProvider;
-
-        #endregion
 
 
         public FileDriver(IQueryResultFactory queryResultFactory, ICommandSender commandSender,
@@ -118,8 +115,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         }
 
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             if ((this._dataProvider == null) || (this._dataProvider != dataProvider))
@@ -131,10 +126,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 this._fileDataWriter.SetDataProvider(dataProvider);
             }
         }
-
-        #endregion
-
-        #region Implementation of IFileDriver
 
 
         public async Task<List<string>> GetDirectoryByPath(string directoryPath)
@@ -235,7 +226,5 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             return this._messagesDictionary[error];
 
         }
-
-        #endregion
     }
 }

@@ -45,8 +45,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             set { SetProperty(ref _tableConfigurationViewModel, value); }
         }
 
-        #region Overrides of ConfigurationItemViewModelBase
-
         public override string TypeName => ConfigurationKeys.APPOINTABLE_MATRIX;
 
         public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX +
@@ -55,10 +53,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         public RelayCommand ShowDetails { get; }
 
-        #endregion
-
-
-        #region Implementation of IConfigurationAsTableViewModel
 
         public bool IsTableView
         {
@@ -68,7 +62,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         public bool IsTableViewAllowed => true;
         public string AsossiatedDetailsViewName => "MatrixTableValueView";
-
-        #endregion
     }
 }

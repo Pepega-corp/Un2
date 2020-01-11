@@ -27,19 +27,9 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
             }
         }
 
-        #region Implementation of IStronglyNamed
-
         public abstract string StrongName { get; }
 
-        #endregion
-
-        #region Implementation of IViewModel
-
         public abstract object Model { get; set; }
-
-        #endregion
-
-        #region Implementation of IBrowserElementViewModel
 
         public IDeviceDirectoryViewModel ParentDeviceDirectoryViewModel
         {
@@ -55,7 +45,5 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
 
         public abstract string ElementPath { get; }
         public abstract string Name { get; }
-
-        #endregion
     }
 }

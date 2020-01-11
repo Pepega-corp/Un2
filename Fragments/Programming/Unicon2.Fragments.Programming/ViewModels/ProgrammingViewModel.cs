@@ -17,8 +17,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private readonly ITypesContainer _container;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private IProgrammModel _programmModel;
-        
-        #region Constructor
+
         public ProgrammingViewModel(ITypesContainer container, IApplicationGlobalCommands globalCommands, IElementLibraryViewModel library)
         {
             this._container = container;
@@ -33,10 +32,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.ZoomIncrementCommand = new RelayCommand(this.ZoomIncrement, this.CanZooming);
             this.ZoomDecrementCommand = new RelayCommand(this.ZoomDecrement, this.CanZooming);
         }
-
-        #endregion
-
-        #region Properties
 
         public int SelectedTabIndex { get; set; }
 
@@ -53,9 +48,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 RaisePropertyChanged();
             }
         }
-        #endregion
 
-        #region NewSchemeCommand
         public ICommand NewSchemeCommand { get; }
 
         private void CreateNewScheme()
@@ -68,9 +61,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             //    this.SchemesCollection.Add(tabViewModel);
             //}
         }
-        #endregion
 
-        #region CloseTabCommand
         public ICommand CloseTabCommand { get; }
 
         private bool CanCloseTab()
@@ -86,9 +77,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             tab.CloseTabEvent -= this.CloseTab;
             this.SchemesCollection.Remove(tab);
         }
-        #endregion
 
-        #region DeleteCommand
         public ICommand DeleteCommand { get; }
 
         private void DeleteSelectedElements()
@@ -103,9 +92,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             ISchemeTabViewModel selectedTab = this.SchemesCollection[this.SelectedTabIndex];
             return selectedTab.DeleteCommand.CanExecute(null);
         }
-        #endregion
 
-        #region ZoomCommand
         public ICommand ZoomIncrementCommand { get; }
 
         private bool CanZooming()
@@ -124,16 +111,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             this.SchemesCollection[this.SelectedTabIndex].ZoomDecrementCommand.Execute(this.SchemesCollection[this.SelectedTabIndex]);
         }
-        #endregion
-
-        #region Implementation of IStronglyNamed
 
         public string StrongName => ProgrammingKeys.PROGRAMMING +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -141,14 +121,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             set { this._programmModel = value as IProgrammModel; }
         }
 
-        #endregion
-
-        #region Implementation of IFragmentViewModel
-
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-        #endregion
-
-        
     }
 }

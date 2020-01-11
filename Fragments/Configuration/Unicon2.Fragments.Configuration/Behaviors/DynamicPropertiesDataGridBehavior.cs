@@ -24,17 +24,11 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         private DynamicPropertiesTable _journalDataTable;
         private ObservableCollection<List<ILocalAndDeviceValueContainingViewModel>> _collection;
 
-        #region Overrides of Behavior
-
         protected override void OnDetaching()
         {
             if (_journalDataTable != null) _journalDataTable.TableUpdateAction = null;
             base.OnDetaching();
         }
-
-        #endregion
-
-        #region RowValues dp
 
 
         public static readonly DependencyProperty RowValuesProperty =
@@ -143,12 +137,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         }
 
 
-
-        #endregion
-
-
-        #region IsTransponed dp
-
         public static readonly DependencyProperty IsTransponedProperty =
             DependencyProperty.Register("IsTransponed", typeof(bool), typeof(DynamicPropertiesDataGridBehavior),
                 new PropertyMetadata(false, OnIsTransponedPropertyChanged));
@@ -165,12 +153,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             DynamicPropertiesDataGridBehavior beh = sender as DynamicPropertiesDataGridBehavior;
             beh.OnRowValuesChanged();
         }
-
-
-
-
-
-        #endregion
 
 
         private DataGridTemplateColumn CreateGridTemplateColumn(int index, string columnName)
@@ -313,8 +295,6 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             set { this.SetValue(CellStyleProperty, value); }
         }
 
-        #region Overrides of Behavior
-
         protected override void OnAttached()
         {
             this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
@@ -322,7 +302,5 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             this.OnRowValuesChanged();
             base.OnAttached();
         }
-
-        #endregion
     }
 }

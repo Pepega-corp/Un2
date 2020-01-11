@@ -15,13 +15,7 @@ namespace Unicon2.Fragments.ModbusMemory.Editor
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.MODBUSMEMORY + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -29,14 +23,8 @@ namespace Unicon2.Fragments.ModbusMemory.Editor
             set { this._model = value as IModbusMemory; }
         }
 
-        #endregion
-
-        #region Implementation of IFragmentViewModel
-
         public string NameForUiKey => ApplicationGlobalNames.FragmentInjectcionStrings.MODBUSMEMORY;
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
-        #endregion
     }
 }

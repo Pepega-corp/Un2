@@ -54,8 +54,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
                 .CreateJournalConditionEditorViewModel(this._availableJournalParameters));
         }
 
-        #region Implementation of IDependentJournalParameterEditorViewModel
-
         public ICommand AddConditionCommand { get; }
         public ICommand DeleteConditionCommand { get; }
         public ICommand ShowFormatterParameters { get; }
@@ -91,10 +89,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             }
         }
 
-        #endregion
-
-
-        #region Overrides of JournalParameterEditorViewModel
 
         public override void StartEditElement()
         {
@@ -127,14 +121,5 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             }
 
         }
-
-
-        #endregion
-
-
-
-
-
-
     }
 }

@@ -6,10 +6,6 @@ namespace Unicon2.SharedResources.Converter
 {
    public class IsInterfaceImplementedToBoolConverter:IValueConverter
     {
-
-
-        #region Implementation of IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return false;
@@ -27,7 +23,5 @@ namespace Unicon2.SharedResources.Converter
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

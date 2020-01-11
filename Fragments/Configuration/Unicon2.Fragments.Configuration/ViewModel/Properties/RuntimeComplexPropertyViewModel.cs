@@ -20,8 +20,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         }
 
 
-        #region Overrides of RuntimePropertyViewModel
-
         public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.COMPLEX_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
@@ -47,10 +45,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             this.IsGroupedProperty = (this._model as IComplexProperty).IsGroupedProperty;
 
         }
-        
-        #endregion
-
-        #region Implementation of IGroupedConfigurationItemViewModel
 
         public bool IsGroupedProperty
         {
@@ -61,7 +55,5 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

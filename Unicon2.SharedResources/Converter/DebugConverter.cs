@@ -6,8 +6,6 @@ namespace Unicon2.SharedResources.Converter
 {
    public class DebugConverter :IValueConverter
     {
-        #region Implementation of IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value;
@@ -17,7 +15,5 @@ namespace Unicon2.SharedResources.Converter
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

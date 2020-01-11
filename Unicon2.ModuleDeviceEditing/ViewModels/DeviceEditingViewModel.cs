@@ -277,7 +277,6 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         }
 
 
-        #region INavigationAware Members
         /// <summary>
         /// метод, срабатывающий при навигации на представление
         /// </summary>
@@ -313,10 +312,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             }
         }
 
-        #endregion
 
-
-        #region INotifyDataErrorInfo
         private readonly Dictionary<string, List<ValidationFailure>> _errorDictionary = new Dictionary<string, List<ValidationFailure>>();
         public bool HasErrors => this._errorDictionary.Count != 0;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = OnErrorsChanged;
@@ -365,7 +361,5 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         {
             (sender as DeviceEditingViewModel)?.OnValidate();
         }
-
-        #endregion
     }
 }

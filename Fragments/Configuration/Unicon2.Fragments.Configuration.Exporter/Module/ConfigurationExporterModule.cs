@@ -16,8 +16,6 @@ namespace Unicon2.Fragments.Configuration.Exporter.Module
 {
    public class ConfigurationExporterModule: IUnityModule
     {
-        #region Implementation of IUnityModule
-
         public void Initialize(ITypesContainer container)
         {
             container.Register<IHtmlRenderer<IDeviceConfiguration, ConfigurationExportSelector>,ConfigurationHtmlRenderer>();
@@ -25,12 +23,11 @@ namespace Unicon2.Fragments.Configuration.Exporter.Module
             container.Register<IConfigurationItemRenderer, ComplexPropertyRenderer>(ConfigurationKeys.COMPLEX_PROPERTY);
             container.Register<IConfigurationItemRenderer, DefaultPropertyRenderer>(ConfigurationKeys.SUB_PROPERTY);
             container.Register<IConfigurationItemRenderer, DefaultPropertyRenderer>(ConfigurationKeys.DEPENDENT_PROPERTY);
+            container.Register<IConfigurationItemRenderer, MatrixRenderer>(ConfigurationKeys.APPOINTABLE_MATRIX);
 
             container.Register<IConfigurationItemRenderer, ItemsGroupPropertyRenderer>(ConfigurationKeys.DEFAULT_ITEM_GROUP);
             container.Register<IItemRendererFactory, ItemRendererFactory>();
 
         }
-
-        #endregion
     }
 }

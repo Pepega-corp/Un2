@@ -30,8 +30,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         }
 
 
-        #region Implementation of IMeasurable
-
         public string MeasureUnit
         {
             get { return this._measureUnit; }
@@ -51,10 +49,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
-
-        #region Implementation of IAnalogMeasuringElementEditorViewModel
 
         public ICommand ShowFormatterParametersCommand { get; }
 
@@ -83,17 +77,9 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
             get { return (this._measuringElement as IAnalogMeasuringElement)?.UshortsFormatter?.StrongName; }
         }
 
-        #endregion
-
-        #region Overrides of MeasuringElementEditorViewModelBase
-
         public override string StrongName => MeasuringKeys.ANALOG_MEASURING_ELEMENT +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-        #endregion
-
-
-        #region Overrides of MeasuringElementEditorViewModelBase
 
         protected override void SetModel(object value)
         {
@@ -116,7 +102,5 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         }
 
         public override string NameForUiKey => MeasuringKeys.ANALOG_MEASURING_ELEMENT;
-
-        #endregion
     }
 }

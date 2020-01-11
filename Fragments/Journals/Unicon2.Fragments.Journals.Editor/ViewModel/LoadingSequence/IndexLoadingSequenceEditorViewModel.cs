@@ -16,14 +16,9 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
         private IIndexLoadingSequence _indexLoadingSequence;
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.INDEX_LOADING_SEQUENCE +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-        #endregion
 
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -46,10 +41,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
                 this.WordFormatFrom = this._indexLoadingSequence.WordFormatFrom;
             }
         }
-
-        #endregion
-
-        #region Implementation of IIndexLoadingSequenceEditorViewModel
 
         public ushort JournalStartAddress
         {
@@ -101,12 +92,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
             }
         }
 
-        #endregion
-
-        #region Implementation of IJournalLoadingSequenceEditorViewModel
-
         public string NameForUiKey => this._indexLoadingSequence.StrongName;
-
-        #endregion
     }
 }

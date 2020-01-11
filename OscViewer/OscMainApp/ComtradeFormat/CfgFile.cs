@@ -109,13 +109,10 @@ namespace Oscilloscope.ComtradeFormat
     }
     class CfgFile
     {
-        #region [Constants]
         private const char ANALOG_CHANNEL = 'A';
-        private const char DISCRET_CHANNEL = 'D'; 
-        #endregion [Constants]
+        private const char DISCRET_CHANNEL = 'D';
 
 
-        #region [Private fields]
         /// <summary>
         /// Название устройства
         /// </summary>
@@ -285,8 +282,6 @@ namespace Oscilloscope.ComtradeFormat
         {
             get { return this._runOsc; }
         }
-
-        #endregion [Private fields]
 
         public void Load(string fileName, int encoding)
         {

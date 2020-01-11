@@ -22,8 +22,6 @@ namespace Unicon2.Presentation.ViewModels.Fragment
             this.FragmentPaneClosedAction?.Invoke(this);
         }
 
-        #region Implementation of IFragmentPaneViewModel
-
         public IFragmentViewModel FragmentViewModel
         {
             get { return this._fragmentViewModel; }
@@ -49,12 +47,6 @@ namespace Unicon2.Presentation.ViewModels.Fragment
             }
         }
 
-        #endregion
-
-        #region Implementation of IDockingWindow
-
         public string WindowNameKey => this.FragmentTitle;
-
-        #endregion
     }
 }

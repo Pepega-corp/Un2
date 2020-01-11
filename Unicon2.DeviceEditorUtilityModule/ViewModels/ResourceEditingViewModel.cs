@@ -30,8 +30,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         }
 
 
-        #region Implementation of IResourceEditingViewModel
-
         public IViewModel ResourceEditorViewModel
         {
             get { return this._resourceEditorViewModel; }
@@ -43,7 +41,5 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         }
 
         public ICommand CloseCommand { get; }
-
-        #endregion
     }
 }
