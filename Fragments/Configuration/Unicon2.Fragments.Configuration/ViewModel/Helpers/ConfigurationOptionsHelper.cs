@@ -9,6 +9,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
@@ -131,11 +132,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             (this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).Load();
         }
 
-        private bool ExpandLevelByIndex(List<IRuntimeConfigurationItemViewModel> configurationItemViewModels,
+        private bool ExpandLevelByIndex(List<IConfigurationItemViewModel> configurationItemViewModels,
             int requestedLevel, int currentLevel)
         {
             bool isExpanded = false;
-            foreach (IRuntimeConfigurationItemViewModel configurationItemViewModel in configurationItemViewModels)
+            foreach (IConfigurationItemViewModel configurationItemViewModel in configurationItemViewModels)
             {
                 if (currentLevel == requestedLevel)
                 {
@@ -161,11 +162,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             return isExpanded;
         }
 
-        private bool CollapseLevelByIndex(List<IRuntimeConfigurationItemViewModel> configurationItemViewModels,
+        private bool CollapseLevelByIndex(List<IConfigurationItemViewModel> configurationItemViewModels,
             int requestedLevel, int currentLevel)
         {
             bool isCollapsed = false;
-            foreach (IRuntimeConfigurationItemViewModel configurationItemViewModel in configurationItemViewModels)
+            foreach (IConfigurationItemViewModel configurationItemViewModel in configurationItemViewModels)
             {
                 if (this.CollapseLevelByIndex(configurationItemViewModel.ChildStructItemViewModels.ToList(),
                     requestedLevel,
@@ -190,7 +191,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private void OnExecuteExpandLevel()
         {
-            if (this.ExpandLevelByIndex(this._runtimeConfigurationViewModel.RootConfigurationItemViewModels.ToList(), this._levelIndex,
+            if (this.ExpandLevelByIndex(this._runtimeConfigurationViewModel.RootConfigurationItemViewModels.Cast<IConfigurationItemViewModel>().ToList(), this._levelIndex,
                 0))
                 this._levelIndex++;
             //  bool isLevelExpanded = false;
@@ -216,7 +217,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private void OnExecuteCollapseLevel()
         {
-            if (this.CollapseLevelByIndex(this._runtimeConfigurationViewModel.RootConfigurationItemViewModels.ToList(),
+            if (this.CollapseLevelByIndex(this._runtimeConfigurationViewModel.RootConfigurationItemViewModels.Cast<IConfigurationItemViewModel>().ToList(),
                 this._levelIndex, 0))
                 this._levelIndex--;
             //bool isLevelCollapsed = false;

@@ -10,11 +10,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         protected RuntimeConfigurationItemViewModelBase()
         {
-            this.ChildStructItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
         }
 
-
-        public ObservableCollection<IRuntimeConfigurationItemViewModel> ChildStructItemViewModels { get; }
 
         public new IRuntimeConfigurationItemViewModel Parent
         {

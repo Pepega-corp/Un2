@@ -75,7 +75,7 @@
                     Width="auto"
                     HorizontalAlignment="Stretch"
                     AlternationCount="0"
-                    ItemsSource="{Binding Path=AllRows}">
+                    ItemsSource="{Binding Path=CurrentRows}">
                     <ListView.ItemContainerStyle>
 
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
@@ -162,11 +162,7 @@
                                                     Width="20"
                                                     Height="20"
                                                     Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
-                                                    Style="{DynamicResource ConfigurationToggleButtonStyle}"
-                                                    Tag="{Binding ElementName=ConfigListView, Path=ItemsSource}">
-                                                    <i:Interaction.Behaviors>
-                                                        <behaviors:TreeViewToggleButtonBehavior />
-                                                    </i:Interaction.Behaviors>
+                                                    Style="{DynamicResource ConfigurationToggleButtonStyle}">
                                                 </ToggleButton>
                                                 <TextBlock
                                                     Name="HeaderTextBlock"

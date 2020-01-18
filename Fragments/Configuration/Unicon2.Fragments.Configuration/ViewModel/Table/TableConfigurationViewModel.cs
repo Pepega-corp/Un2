@@ -24,11 +24,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 {
     public class TableConfigurationViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<IRuntimeConfigurationItemViewModel> _itemGroupsToTransform;
+        private readonly ObservableCollection<IConfigurationItemViewModel> _itemGroupsToTransform;
         private DynamicPropertiesTable _dynamicPropertiesTable;
 
         public TableConfigurationViewModel(
-            ObservableCollection<IRuntimeConfigurationItemViewModel> itemGroupsToTransform)
+            ObservableCollection<IConfigurationItemViewModel> itemGroupsToTransform)
         {
             _itemGroupsToTransform = itemGroupsToTransform;
             Initialize();
@@ -43,7 +43,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
         private void Initialize()
         {
-            var columnNamesWithProperties = new List<Tuple<string, IRuntimeConfigurationItemViewModel>>();
+            var columnNamesWithProperties = new List<Tuple<string, IConfigurationItemViewModel>>();
             FillColumnNames(_itemGroupsToTransform, columnNamesWithProperties);
             var lookup = columnNamesWithProperties.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);
             var columnNames = lookup.Select(models => models.Key).ToList();
@@ -60,8 +60,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
 
 
-        private void FillColumnNames(IEnumerable<IRuntimeConfigurationItemViewModel> items,
-            List<Tuple<string, IRuntimeConfigurationItemViewModel>> columnNamesWithProperties)
+        private void FillColumnNames(IEnumerable<IConfigurationItemViewModel> items,
+            List<Tuple<string, IConfigurationItemViewModel>> columnNamesWithProperties)
         {
             foreach (var item in items)
             {
@@ -72,13 +72,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                 else
                 {
                     columnNamesWithProperties.Add(
-                        new Tuple<string, IRuntimeConfigurationItemViewModel>(item.Header, item));
+                        new Tuple<string, IConfigurationItemViewModel>(item.Header, item));
                 }
             }
         }
 
         private Dictionary<string, ILocalAndDeviceValueContainingViewModel> GetRowFromItemGroup(
-            IRuntimeConfigurationItemViewModel group, ILookup<string, IRuntimeConfigurationItemViewModel> lookup,
+            IConfigurationItemViewModel group, ILookup<string, IConfigurationItemViewModel> lookup,
             List<string> columnNames, Dictionary<string, ILocalAndDeviceValueContainingViewModel> initialList = null)
         {
             if (initialList == null)
@@ -106,8 +106,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
 
         private void InsertProperty(Dictionary<string, ILocalAndDeviceValueContainingViewModel> resultList,
-            ILookup<string, IRuntimeConfigurationItemViewModel> lookup,
-            IRuntimeConfigurationItemViewModel itemToAdd)
+            ILookup<string, IConfigurationItemViewModel> lookup,
+            IConfigurationItemViewModel itemToAdd)
         {
 
             var columnName = lookup.FirstOrDefault((models => models.Contains(itemToAdd)))?.Key;

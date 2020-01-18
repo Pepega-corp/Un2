@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -8,6 +9,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
@@ -39,23 +41,19 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private void OnMainItemSelected(object obj)
         {
             if(!(obj is MainConfigItemViewModel mainItem))return;
-            ExpandOrCollapseRows(AllRows,false);
-            AllRows.Clear();
-            AllRows.AddCollection((mainItem.RelatedConfigurationItemViewModel as IRuntimeConfigurationItemViewModel)?.ChildStructItemViewModels);
-            mainItem.RelatedConfigurationItemViewModel.IsChecked = true;
-            ExpandOrCollapseRows((mainItem.RelatedConfigurationItemViewModel as IRuntimeConfigurationItemViewModel)?.ChildStructItemViewModels,true);
-
+            var currentRows=new List<IConfigurationItemViewModel>();
+            FillCurrentRows(currentRows, mainItem.RelatedConfigurationItemViewModel,0);
+            CurrentRows = currentRows;
         }
 
-        private void ExpandOrCollapseRows(
-            ObservableCollection<IRuntimeConfigurationItemViewModel> runtimeConfigurationItemViewModels,bool isExpand)
+        private void FillCurrentRows(List<IConfigurationItemViewModel> currentRows, IConfigurationItemViewModel row,int level)
         {
-            if(runtimeConfigurationItemViewModels.Count==0)return;
-            runtimeConfigurationItemViewModels.ForEach((model =>
+            foreach (var child in row.ChildStructItemViewModels)
             {
-                model.IsChecked=isExpand;
-                ExpandOrCollapseRows(model.ChildStructItemViewModels,isExpand);
-            }));
+                child.Level=level;
+                currentRows.Add(child);
+                FillCurrentRows(currentRows,child,level+1);
+            }
         }
 
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
@@ -63,6 +61,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _rootConfigurationItemViewModels;
         private string _deviceName;
         private ObservableCollection<MainConfigItemViewModel> _mainRows;
+        private List<IConfigurationItemViewModel> _currentRows;
 
         public ICommand MainItemSelectedCommand { get; }
 
@@ -74,6 +73,16 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 this._rootConfigurationItemViewModels = value;
                 this.RaisePropertyChanged();
 
+            }
+        }
+
+        public List<IConfigurationItemViewModel> CurrentRows
+        {
+            get => _currentRows;
+            set
+            {
+                _currentRows = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -153,7 +162,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         }
 
         private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
-            ObservableCollection<IRuntimeConfigurationItemViewModel> rootItems)
+            IEnumerable<IConfigurationItemViewModel> rootItems)
         {
             var resultCollection = new ObservableCollection<MainConfigItemViewModel>();
             resultCollection.AddCollection(rootItems.Where(item =>
