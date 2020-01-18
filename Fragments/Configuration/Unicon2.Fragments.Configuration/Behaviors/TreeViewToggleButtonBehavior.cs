@@ -43,6 +43,10 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         private void AssToggleButton_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            if ((this._assToggleButton.DataContext as IRuntimeConfigurationItemViewModel).IsChecked)
+            {
+                TreeViewToggleButtonBehavior_Checked(_assToggleButton,null);
+            }
             this._assToggleButton.Checked += this.TreeViewToggleButtonBehavior_Checked;
             this._assToggleButton.Unchecked += this.TreeViewToggleButtonBehavior_Unchecked;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -28,7 +29,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             this._container = container;
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
             this.AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
-            this.MainRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
+            this.MainRows = new ObservableCollection<MainConfigItemViewModel>();
             this.FragmentOptionsViewModel =
                 (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, this._container);
             this.RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
@@ -37,10 +38,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         private void OnMainItemSelected(object obj)
         {
+            if(!(obj is MainConfigItemViewModel mainItem))return;
             ExpandOrCollapseRows(AllRows,false);
             AllRows.Clear();
-            ExpandOrCollapseRows((obj as IRuntimeConfigurationItemViewModel).ChildStructItemViewModels, true);
-            AllRows.AddCollection((obj as IRuntimeConfigurationItemViewModel).ChildStructItemViewModels);
+            AllRows.AddCollection((mainItem.RelatedConfigurationItemViewModel as IRuntimeConfigurationItemViewModel)?.ChildStructItemViewModels);
+            mainItem.RelatedConfigurationItemViewModel.IsChecked = true;
+            ExpandOrCollapseRows((mainItem.RelatedConfigurationItemViewModel as IRuntimeConfigurationItemViewModel)?.ChildStructItemViewModels,true);
+
         }
 
         private void ExpandOrCollapseRows(
@@ -58,7 +62,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private IFragmentOptionsViewModel _fragmentOptionsViewModel;
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _rootConfigurationItemViewModels;
         private string _deviceName;
-        private ObservableCollection<IRuntimeConfigurationItemViewModel> _mainRows;
+        private ObservableCollection<MainConfigItemViewModel> _mainRows;
 
         public ICommand MainItemSelectedCommand { get; }
 
@@ -73,7 +77,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
         }
 
-        public ObservableCollection<IRuntimeConfigurationItemViewModel> MainRows
+        public ObservableCollection<MainConfigItemViewModel> MainRows
         {
             get { return this._mainRows; }
             set
@@ -144,8 +148,19 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
 
             this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
-            this.MainRows.AddCollection(this.RootConfigurationItemViewModels);
+            this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels));
 
+        }
+
+        private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
+            ObservableCollection<IRuntimeConfigurationItemViewModel> rootItems)
+        {
+            var resultCollection = new ObservableCollection<MainConfigItemViewModel>();
+            resultCollection.AddCollection(rootItems.Where(item =>
+                item is IItemGroupViewModel itemGroupViewModel &&
+                ((itemGroupViewModel.Model as IItemsGroup).IsMain ?? true)).Select(item =>
+                new MainConfigItemViewModel(FilterMainConfigItems(item.ChildStructItemViewModels), item)));
+            return resultCollection;
         }
 
         public void SetDeviceData(string deviceName)

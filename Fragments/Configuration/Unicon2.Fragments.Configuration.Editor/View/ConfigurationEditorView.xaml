@@ -161,7 +161,7 @@
                         Command="{Binding EditDescriptionCommand}"
                         Content="{lex:Loc EditDescription}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <UniformGrid Columns="2" Rows="2">
+                    <UniformGrid Columns="2" Rows="3">
                         <Button
                             Margin="3"
                             Command="{Binding SelectedRow.IncreaseAddressCommand}"
@@ -180,12 +180,25 @@
                             Text="{lex:Loc AddressIterator}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
+                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
                             />
                         <TextBox
                             Margin="3"
                             Text="{Binding SelectedRow.AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
                             />
+                        <TextBlock
+                            Margin="3"
+                            Text="{lex:Loc Main}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
+                        />
+                        <CheckBox
+                            Margin="3"
+                            IsChecked="{Binding SelectedRow.IsMain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
+                        />
                     </UniformGrid>
                 </StackPanel>
             </GroupBox>

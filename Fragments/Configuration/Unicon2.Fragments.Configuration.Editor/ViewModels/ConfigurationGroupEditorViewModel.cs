@@ -27,6 +27,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private bool _isInEditMode;
         private ushort _addressIteratorValue = 1;
         private bool _isTableViewAllowed;
+        private bool _isMain;
 
         public ConfigurationGroupEditorViewModel(ITypesContainer container,
             IConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory,
@@ -236,9 +237,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             {
                 this.ChildStructItemViewModels.Add(this._configurationItemEditorViewModelFactory
                     .ResolveConfigurationItemEditorViewModel(configurationItem, this));
-                this.IsCheckable = true;
-                this.IsTableViewAllowed = (model as IItemsGroup).IsTableViewAllowed;
             };
+            IsCheckable = true;
+            IsTableViewAllowed = (model as IItemsGroup).IsTableViewAllowed;
+            IsMain = (model as IItemsGroup).IsMain ?? true;
             base.SetModel(model);
         }
 
@@ -263,6 +265,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             {
                 itemsGroup.ConfigurationItemList.Add(childStructItemViewModel.Model as IConfigurationItem);
             }
+            itemsGroup.IsMain = IsMain;
             itemsGroup.IsTableViewAllowed = IsTableViewAllowed;
             return base.GetModel();
         }
@@ -300,5 +303,15 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             get => _isTableViewAllowed;
             set => SetProperty(ref _isTableViewAllowed, value);
         }
+
+        #region Implementation of IConfigurationGroupEditorViewModel
+
+        public bool IsMain
+        {
+            get => _isMain;
+            set => SetProperty(ref _isMain, value);
+        }
+
+        #endregion
     }
 }

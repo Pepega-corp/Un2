@@ -104,6 +104,7 @@
     <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationExportHelper.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationOptionsHelper.cs" />
+    <Compile Include="ViewModel\MainConfigItemViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimeDependentPropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimePropertyViewModel.cs" />

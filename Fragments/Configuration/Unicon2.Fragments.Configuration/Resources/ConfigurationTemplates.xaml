@@ -29,22 +29,28 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <TreeView SelectedValuePath="" x:Name="mainItemsTreeView" ItemsSource="{Binding MainRows}">
+                <TreeView
+                    x:Name="mainItemsTreeView"
+                    ItemsSource="{Binding MainRows}"
+                    SelectedValuePath="">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
-                            <i:InvokeCommandAction Command="{Binding MainItemSelectedCommand}"
-                                                   CommandParameter="{Binding ElementName=mainItemsTreeView,Path=SelectedItem}"/>
+                            <i:InvokeCommandAction Command="{Binding MainItemSelectedCommand}" CommandParameter="{Binding ElementName=mainItemsTreeView, Path=SelectedItem}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildStructItemViewModels}">
-                            <TextBlock Text="{Binding Header}" />
+                        <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildConfigItemViewModels}">
+                            <TextBlock Text="{Binding RelatedConfigurationItemViewModel.Header}" />
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
             </Grid>
-            <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
-                          HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+            <GridSplitter
+                Grid.Column="1"
+                Width="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                ShowsPreview="False" />
             <Grid Name="ConfigGrid" Grid.Column="2">
                 <Grid
                     Name="dummygrid"
