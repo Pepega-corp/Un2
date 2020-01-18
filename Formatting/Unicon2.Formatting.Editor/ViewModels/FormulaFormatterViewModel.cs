@@ -30,7 +30,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private string _testResult;
         private double _testValueOfX;
         private ushort _numberOfSimbolsAfterComma;
-
+        private string _formulaTooltipString;
         #endregion
 
         #region Ctor
@@ -52,6 +52,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.DeleteArgumentCommand = new RelayCommand<IArgumentViewModel>(this.OnDeleteArgumentExecute);
             this.AddArgumentCommand = new RelayCommand(this.OnAddArgumentExecute);
             this._formulaFormatter.NumberOfSimbolsAfterComma = 3;
+
+            this.InitializeFormulaTooltip();
         }
 
         private void OnAddArgumentExecute()
@@ -152,6 +154,15 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         #region Properties
 
+        public string FormulaToolTipString
+        {
+            get { return _formulaTooltipString; }
+            set
+            {
+                this._formulaTooltipString = value;
+                this.RaisePropertyChanged();
+            }
+        }
 
         public string FormulaString
         {
@@ -236,6 +247,22 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 }
                 return true;
             }
+        }
+
+        private void InitializeFormulaTooltip()
+        {
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.AppendLine("Some text");
+            sb.AppendLine("Some text");
+            sb.AppendLine("Some text");
+            sb.AppendLine("Some text");
+            sb.AppendLine("Some text");
+            sb.AppendLine("Some text");
+            sb.AppendLine("Some text");
+
+            _formulaTooltipString = sb.ToString();
+
         }
 
         #region Implementation of IEditable

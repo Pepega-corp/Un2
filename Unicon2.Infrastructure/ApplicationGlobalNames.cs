@@ -195,6 +195,10 @@
             /// сообщение о несоответствии значению его пределов
             /// </summary> 
             public static string JOURNAL_READING_ERROR = "JournalReadingError";
+            /// <summary>
+            /// сообщение об ошибке чтения устройства
+            /// </summary> 
+            public static string DEVICE_READING_ERROR = "DeviceReadingError";
         }
         
         public static class QueriesNames

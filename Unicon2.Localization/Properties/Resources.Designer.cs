@@ -205,6 +205,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddDiscretSignalGroup.
+        /// </summary>
+        public static string AddDiscretSignalGroup {
+            get {
+                return ResourceManager.GetString("AddDiscretSignalGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Added.
         /// </summary>
         public static string Added {
@@ -394,6 +403,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddSignatureGroup.
+        /// </summary>
+        public static string AddSignatureGroup {
+            get {
+                return ResourceManager.GetString("AddSignatureGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @AddSubParameter.
         /// </summary>
         public static string AddSubParameter {
@@ -525,6 +543,15 @@ namespace Unicon2.Localization.Properties {
         public static string AsciiStringFormatterDescription {
             get {
                 return ResourceManager.GetString("AsciiStringFormatterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @AssignSignalsAutomatically.
+        /// </summary>
+        public static string AssignSignalsAutomatically {
+            get {
+                return ResourceManager.GetString("AssignSignalsAutomatically", resourceCulture);
             }
         }
         
@@ -741,6 +768,24 @@ namespace Unicon2.Localization.Properties {
         public static string Clean {
             get {
                 return ResourceManager.GetString("Clean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @ClearAssignedSignals.
+        /// </summary>
+        public static string ClearAssignedSignals {
+            get {
+                return ResourceManager.GetString("ClearAssignedSignals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @ClearSignatures.
+        /// </summary>
+        public static string ClearSignatures {
+            get {
+                return ResourceManager.GetString("ClearSignatures", resourceCulture);
             }
         }
         
@@ -1141,6 +1186,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @DependentParameter.
+        /// </summary>
+        public static string DependentParameter {
+            get {
+                return ResourceManager.GetString("DependentParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @DependentProperty.
         /// </summary>
         public static string DependentProperty {
@@ -1191,6 +1245,15 @@ namespace Unicon2.Localization.Properties {
         public static string DeviceFile {
             get {
                 return ResourceManager.GetString("DeviceFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @DeviceReadingError.
+        /// </summary>
+        public static string DeviceReadingError {
+            get {
+                return ResourceManager.GetString("DeviceReadingError", resourceCulture);
             }
         }
         
@@ -1348,6 +1411,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @ElementsCount.
+        /// </summary>
+        public static string ElementsCount {
+            get {
+                return ResourceManager.GetString("ElementsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @ElementsPlacement.
         /// </summary>
         public static string ElementsPlacement {
@@ -1380,6 +1452,15 @@ namespace Unicon2.Localization.Properties {
         public static string EndAddress {
             get {
                 return ResourceManager.GetString("EndAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @EnsuringMessage.
+        /// </summary>
+        public static string EnsuringMessage {
+            get {
+                return ResourceManager.GetString("EnsuringMessage", resourceCulture);
             }
         }
         
@@ -1699,6 +1780,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @IndexLoadingSequence.
+        /// </summary>
+        public static string IndexLoadingSequence {
+            get {
+                return ResourceManager.GetString("IndexLoadingSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Info.
         /// </summary>
         public static string Info {
@@ -1776,6 +1866,15 @@ namespace Unicon2.Localization.Properties {
         public static string IsGroupedProperty {
             get {
                 return ResourceManager.GetString("IsGroupedProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @IsInversion.
+        /// </summary>
+        public static string IsInversion {
+            get {
+                return ResourceManager.GetString("IsInversion", resourceCulture);
             }
         }
         
@@ -2037,6 +2136,15 @@ namespace Unicon2.Localization.Properties {
         public static string Main {
             get {
                 return ResourceManager.GetString("Main", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @Mask.
+        /// </summary>
+        public static string Mask {
+            get {
+                return ResourceManager.GetString("Mask", resourceCulture);
             }
         }
         
@@ -3067,6 +3175,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @SignatureNumberOfPoints.
+        /// </summary>
+        public static string SignatureNumberOfPoints {
+            get {
+                return ResourceManager.GetString("SignatureNumberOfPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @SlaveDeviceBusy.
         /// </summary>
         public static string SlaveDeviceBusy {
@@ -3126,6 +3243,15 @@ namespace Unicon2.Localization.Properties {
         public static string StartAddress {
             get {
                 return ResourceManager.GetString("StartAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @StartingBit.
+        /// </summary>
+        public static string StartingBit {
+            get {
+                return ResourceManager.GetString("StartingBit", resourceCulture);
             }
         }
         

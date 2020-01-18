@@ -74,7 +74,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <!--<command:EventToCommand  PassEventArgsToCommand="True" Command="{Binding OnSelectionChangedCommand}" />-->
-                    <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=SingleTabControl}" />
+                    <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=SingleTabControl}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -157,14 +157,51 @@
 
             <controls:MetroTabItem Header="{lex:Loc ValueSignatures}">
                 <StackPanel>
-
-                    <Button
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button
+                        Grid.Column="0"
                         Margin="10"
                         HorizontalAlignment="Left"
                         Command="{Binding AddSignatureCommand}"
                         Content="{lex:Loc AddSignature}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <ListBox Height="500" ItemsSource="{Binding Path=VariableSignatureEditorViewModels,ValidatesOnDataErrors=True}" Style="{StaticResource ErrorStyle}">
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{lex:Loc Mask}" 
+                                       Margin="5" 
+                                       VerticalAlignment="Center"/>
+                            <TextBox Margin="5" 
+                                     Width="100"
+                                     Height="20"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding ValueSignatureMask,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{lex:Loc SignatureNumberOfPoints}"
+                                       Margin="5"
+                                       VerticalAlignment="Center"/>
+                            <TextBox Margin="5"
+                                     Width="50"
+                                     Height="20"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding ValueSignatureNumberOfPoints}"/>
+                            <CheckBox Content="{lex:Loc IsInversion}"
+                                      Margin="5"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding IsInversion}"/>
+                            <Button Margin="10"
+                                    Command="{Binding AddSignatureGroupCommand}"
+                                    Content="{lex:Loc AddSignatureGroup}"
+                                    Style="{DynamicResource UniconButtonStyle}"/>
+                        </StackPanel>
+
+                    </Grid>
+
+                    <ListBox Height="500"
+                             ItemsSource="{Binding Path=VariableSignatureEditorViewModels,ValidatesOnDataErrors=True}" 
+                             Style="{StaticResource ErrorStyle}"
+                             KeyboardNavigation.TabNavigation="Continue">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="editorViewModel:IVariableSignatureEditorViewModel">
                                 <UniformGrid Columns="2">
@@ -185,7 +222,19 @@
                                 </UniformGrid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="IsTabStop" Value="False"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                     </ListBox>
+                    <Button Margin="10"
+                            HorizontalAlignment="Left"
+                            Width="150"
+                            Command="{Binding ClearSignaturesCommand}"
+                            Content="{lex:Loc ClearSignatures}"
+                            Style="{DynamicResource UniconButtonStyle}"
+                            />
                 </StackPanel>
             </controls:MetroTabItem>
             <controls:MetroTabItem Header="{lex:Loc PossibleValues}">

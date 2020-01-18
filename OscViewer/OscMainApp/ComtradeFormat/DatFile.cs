@@ -28,8 +28,8 @@ namespace Oscilloscope.ComtradeFormat
         public static DatFile Load(CfgFile cfgFile, string cfgFileName)
         {
             DatFile res = new DatFile();
-            var fileName = Path.ChangeExtension(cfgFileName, "dat");
-            var strings = File.ReadAllLines(fileName);
+            string fileName = Path.ChangeExtension(cfgFileName, "dat");
+            string[] strings = File.ReadAllLines(fileName);
             res.Load(cfgFile, strings);
             return res;
         }

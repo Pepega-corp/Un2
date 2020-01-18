@@ -969,6 +969,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>Add discret signal</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>Add discret signal group</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>Elements Count</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>Starting bit</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>Add measuring group</value>
   </data>
@@ -1044,6 +1053,9 @@
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>Offset loading sequence</value>
   </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>Indexed loading sequence</value>
+  </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>Journal reading error</value>
   </data>
@@ -1118,6 +1130,18 @@
   </data>
   <data name="DeleteSignature" xml:space="preserve">
     <value>Delete signature</value>
+  </data>
+  <data name="Mask" xml:space="preserve">
+    <value>Signature</value>
+  </data>
+  <data name="SignatureNumberOfPoints" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="IsInversion" xml:space="preserve">
+    <value>Inversion</value>
+  </data>
+  <data name="AddSignatureGroup" xml:space="preserve">
+    <value>Add Group</value>
   </data>
   <data name="IsLoaded" xml:space="preserve">
     <value>Is loaded</value>
@@ -1304,5 +1328,23 @@
   </data>
   <data name="VersionStringExample" xml:space="preserve">
     <value>Example: MR 5 N\d* VERSION 70.\d</value>
+  </data>
+  <data name="AssignSignalsAutomatically" xml:space="preserve">
+    <value>Assign signals automatically</value>
+  </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>Clear assigned signals</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>Clear signatures</value>
+  </data>
+  <data name="EnsuringMessage" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="DependentParameter" xml:space="preserve">
+    <value>Dependent parameter</value>
+  </data>
+  <data name="DeviceReadingError" xml:space="preserve">
+    <value>Device reading error</value>
   </data>
 </root>

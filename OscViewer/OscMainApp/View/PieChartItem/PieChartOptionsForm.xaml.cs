@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using Oscilloscope.View.PieChartItem.Characteristics;
-using DataGridCell = System.Windows.Controls.DataGridCell;
-using Label = System.Windows.Controls.Label;
-using MessageBox = System.Windows.MessageBox;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
-using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace Oscilloscope.View.PieChartItem
 {
@@ -25,21 +20,36 @@ namespace Oscilloscope.View.PieChartItem
 
         public int Marker1 { get; set; }
         public int Marker2 { get; set; }
+
+        private bool OldCalculateKoef
+        {
+            get { return this.k0RadioBtn.IsChecked.HasValue ? this.k0RadioBtn.IsChecked.Value : false; }
+            set
+            {
+                this.k0RadioBtn.IsChecked = value;
+                this.rxRadioBtn.IsChecked = !value;
+                if (this._chartOptions != null)
+                {
+                    this._chartOptions.OldCalculate = value;
+                }
+            }
+        }
+
         private PieChartOptions _chartOptions;
 
         public PieChartOptions ChartOptions
         {
-            get { return _chartOptions; }
+            get { return this._chartOptions; }
             set
             {
-                if (_chartOptions != null)
+                if (this._chartOptions != null)
                 {
-                    ChartOptions.ChannelChanged -= ChannelsChanged;
+                    this.ChartOptions.ChannelChanged -= this.ChannelsChanged;
                 }
-           
-                _chartOptions = value;
-                Characteristics = _chartOptions.Characteristics;
-                Open();
+
+                this._chartOptions = value;
+                this.Characteristics = this._chartOptions.Characteristics;
+                this.Open();
                 this.Prepare();
             }
         }
@@ -63,92 +73,84 @@ namespace Oscilloscope.View.PieChartItem
 
         public PieChartOptionsForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-        
-            PolyGrid.DataContext = _polyCharacteristicOption;
-            RoundGrid.DataContext = _roundCharacteristicOption;
-            DirectionGrid.DataContext = _directionCharacteristicOption;
-            ChargeGrid.DataContext = _chargeCharacteristicOption;
+
+            this.PolyGrid.DataContext = this._polyCharacteristicOption;
+            this.RoundGrid.DataContext = this._roundCharacteristicOption;
+            this.DirectionGrid.DataContext = this._directionCharacteristicOption;
+            this.ChargeGrid.DataContext = this._chargeCharacteristicOption;
+
+            this.OldCalculateKoef = true;
         }
 
         private void Prepare()
         {
-            IOptions.ItemsSource = ChartOptions.PieIChartOptions;
-            UOptions.ItemsSource = ChartOptions.PieUChartOptions;
+            this.IOptions.ItemsSource = this.ChartOptions.PieIChartOptions;
+            this.UOptions.ItemsSource = this.ChartOptions.PieUChartOptions;
 
-            ChartOptions.ChannelChanged += ChannelsChanged;
+            this.ChartOptions.ChannelChanged += this.ChannelsChanged;
 
-            StartTimeTb.Text = ChartOptions.StartTime.ToString(CultureInfo.CurrentCulture);
-            EndTimeTb.Text = ChartOptions.EndTime.ToString(CultureInfo.CurrentCulture);
-            ChannelsChanged();
+            this.StartTimeTb.Text = this.ChartOptions.StartTime.ToString(CultureInfo.CurrentCulture);
+            this.EndTimeTb.Text = this.ChartOptions.EndTime.ToString(CultureInfo.CurrentCulture);
+            this.ChannelsChanged();
         }
-
-  
-
-
-
+        
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (this.ReadData())
             {
-               this.DialogResult = true; 
+               DialogResult = true; 
             }
         }
-
 
         private bool ReadData()
         {
             int startTime;
             try
             {
-                startTime = int.Parse(StartTimeTb.Text);
-                if ((startTime < MIN_START_TIME) || (startTime > ChartOptions.Lenght-1))
+                startTime = int.Parse(this.StartTimeTb.Text);
+                if ((startTime < MIN_START_TIME) || (startTime > this._chartOptions.Lenght - 1))
                 {
                     throw new ArgumentException();
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show(string.Format("Значение начального времени должно быть целым числом от {0} до {1}",
-                                              MIN_START_TIME, ChartOptions.Lenght-1));
+                MessageBox.Show(string.Format("Значение начального времени должно быть целым числом от {0} до {1}", MIN_START_TIME, this._chartOptions.Lenght - 1));
                 return false;
             }
 
             int endTime;
             try
             {
-                endTime = int.Parse(EndTimeTb.Text);
-                if ((endTime <= startTime) || (endTime > ChartOptions.Lenght-1))
+                endTime = int.Parse(this.EndTimeTb.Text);
+                if ((endTime <= startTime) || (endTime > this._chartOptions.Lenght - 1))
                 {
                     throw new ArgumentException();
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show(
-                    string.Format(
-                        "Значение конечного времени должно быть целым числом большим чем начальное время и меньшим {0}",
-                        ChartOptions.Lenght-1));
+                MessageBox.Show( string.Format("Значение конечного времени должно быть целым числом большим чем начальное время и меньшим {0}", this._chartOptions.Lenght - 1));
                 return false;
             }
 
             ZnOptions z1;
             try
             {
-                z1 = Z1Editor.Zn;
+                z1 = this.Z1Editor.Zn;
             }
             catch (Exception)
             {
                 MessageBox.Show("Ошибка ввода коэффициентов компенсации по контуру Ф-N1");
                 return false;
             }
-
-
+            
             ZnOptions z2;
             try
             {
-                z2 = Z2Editor.Zn;
+                z2 = this.Z2Editor.Zn;
 
             }
             catch (Exception)
@@ -161,7 +163,7 @@ namespace Oscilloscope.View.PieChartItem
             ZnOptions z3;
             try
             {
-                z3 = Z3Editor.Zn;
+                z3 = this.Z3Editor.Zn;
             }
             catch (Exception)
             {
@@ -173,7 +175,7 @@ namespace Oscilloscope.View.PieChartItem
             ZnOptions z4;
             try
             {
-                z4 = Z4Editor.Zn;
+                z4 = this.Z4Editor.Zn;
             }
             catch (Exception)
             {
@@ -185,7 +187,7 @@ namespace Oscilloscope.View.PieChartItem
             ZnOptions z5;
             try
             {
-                z5 = Z5Editor.Zn;
+                z5 = this.Z5Editor.Zn;
             }
             catch (Exception)
             {
@@ -193,75 +195,76 @@ namespace Oscilloscope.View.PieChartItem
                 return false;
             }
 
-            ChartOptions.Z1 = z1;
-            ChartOptions.Z2 = z2;
-            ChartOptions.Z3 = z3;
-            ChartOptions.Z4 = z4;
-            ChartOptions.Z5 = z5;
-            ChartOptions.StartTime = startTime;
-            ChartOptions.EndTime = endTime;
-            ChartOptions.Characteristics = Characteristics;
-            ChartOptions.ChannelAccept();
+            this._chartOptions.Z1 = z1;
+            this._chartOptions.Z2 = z2;
+            this._chartOptions.Z3 = z3;
+            this._chartOptions.Z4 = z4;
+            this._chartOptions.Z5 = z5;
+            this._chartOptions.StartTime = startTime;
+            this._chartOptions.EndTime = endTime;
+            this._chartOptions.Characteristics = this.Characteristics;
+            this._chartOptions.ChannelAccept();
+            this._chartOptions.OldCalculate = this.OldCalculateKoef;
             return true;
         }
 
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
+            DialogResult = false;
         }
 
 
         private void ChannelsChanged()
         {
-            if (ChartOptions == null)
+            if (this.ChartOptions == null)
             {
                 return;
             }
 
-            bool ia = ChartOptions.PieIChartOptions.Any(o => o.A);
-            bool ib = ChartOptions.PieIChartOptions.Any(o => o.B);
-            bool ic = ChartOptions.PieIChartOptions.Any(o => o.C);
+            bool ia = this.ChartOptions.PieIChartOptions.Any(o => o.A);
+            bool ib = this.ChartOptions.PieIChartOptions.Any(o => o.B);
+            bool ic = this.ChartOptions.PieIChartOptions.Any(o => o.C);
             bool i0 = ia & ib & ic;
 
 
-            bool ua = ChartOptions.PieUChartOptions.Any(o => o.A);
-            bool ub = ChartOptions.PieUChartOptions.Any(o => o.B);
-            bool uc = ChartOptions.PieUChartOptions.Any(o => o.C);
+            bool ua = this.ChartOptions.PieUChartOptions.Any(o => o.A);
+            bool ub = this.ChartOptions.PieUChartOptions.Any(o => o.B);
+            bool uc = this.ChartOptions.PieUChartOptions.Any(o => o.C);
 
-            bool z1 = Z1Editor.Stage1Cb.IsChecked.GetValueOrDefault();
-            bool z2 =Z2Editor.Stage1Cb.IsChecked.GetValueOrDefault();
-            bool z3 = Z3Editor.Stage1Cb.IsChecked.GetValueOrDefault();
-            bool z4 = Z4Editor.Stage1Cb.IsChecked.GetValueOrDefault();
-            bool z5 = Z5Editor.Stage1Cb.IsChecked.GetValueOrDefault();
+            bool z1 = this.Z1Editor.Stage1Cb.IsChecked.GetValueOrDefault();
+            bool z2 = this.Z2Editor.Stage1Cb.IsChecked.GetValueOrDefault();
+            bool z3 = this.Z3Editor.Stage1Cb.IsChecked.GetValueOrDefault();
+            bool z4 = this.Z4Editor.Stage1Cb.IsChecked.GetValueOrDefault();
+            bool z5 = this.Z5Editor.Stage1Cb.IsChecked.GetValueOrDefault();
 
             List<VisibilityItem> res = new List<VisibilityItem>();
 
 
-            if (ia & ib & ua & ub) res.Add(ChartOptions.VisiblyOptions.Zab);
-            if (ic & ib & uc & ub) res.Add(ChartOptions.VisiblyOptions.Zbc);
-            if (ic & ia & uc & ua) res.Add(ChartOptions.VisiblyOptions.Zca);
+            if (ia & ib & ua & ub) res.Add(this.ChartOptions.VisiblyOptions.Zab);
+            if (ic & ib & uc & ub) res.Add(this.ChartOptions.VisiblyOptions.Zbc);
+            if (ic & ia & uc & ua) res.Add(this.ChartOptions.VisiblyOptions.Zca);
 
-            if (ia & i0 & ua & z1) res.Add(ChartOptions.VisiblyOptions.Z1A);
-            if (ib & i0 & ub & z1) res.Add(ChartOptions.VisiblyOptions.Z1B);
-            if (ic & i0 & uc & z1) res.Add(ChartOptions.VisiblyOptions.Z1C);
+            if (ia & i0 & ua & z1) res.Add(this.ChartOptions.VisiblyOptions.Z1A);
+            if (ib & i0 & ub & z1) res.Add(this.ChartOptions.VisiblyOptions.Z1B);
+            if (ic & i0 & uc & z1) res.Add(this.ChartOptions.VisiblyOptions.Z1C);
 
-            if (ia & i0 & ua & z2) res.Add(ChartOptions.VisiblyOptions.Z2A);
-            if (ib & i0 & ub & z2) res.Add(ChartOptions.VisiblyOptions.Z2B);
-            if (ic & i0 & uc & z2) res.Add(ChartOptions.VisiblyOptions.Z2C);
+            if (ia & i0 & ua & z2) res.Add(this.ChartOptions.VisiblyOptions.Z2A);
+            if (ib & i0 & ub & z2) res.Add(this.ChartOptions.VisiblyOptions.Z2B);
+            if (ic & i0 & uc & z2) res.Add(this.ChartOptions.VisiblyOptions.Z2C);
 
-            if (ia & i0 & ua & z3) res.Add(ChartOptions.VisiblyOptions.Z3A);
-            if (ib & i0 & ub & z3) res.Add(ChartOptions.VisiblyOptions.Z3B);
-            if (ic & i0 & uc & z3) res.Add(ChartOptions.VisiblyOptions.Z3C);
+            if (ia & i0 & ua & z3) res.Add(this.ChartOptions.VisiblyOptions.Z3A);
+            if (ib & i0 & ub & z3) res.Add(this.ChartOptions.VisiblyOptions.Z3B);
+            if (ic & i0 & uc & z3) res.Add(this.ChartOptions.VisiblyOptions.Z3C);
 
-            if (ia & i0 & ua & z4) res.Add(ChartOptions.VisiblyOptions.Z4A);
-            if (ib & i0 & ub & z4) res.Add(ChartOptions.VisiblyOptions.Z4B);
-            if (ic & i0 & uc & z4) res.Add(ChartOptions.VisiblyOptions.Z4C);
+            if (ia & i0 & ua & z4) res.Add(this.ChartOptions.VisiblyOptions.Z4A);
+            if (ib & i0 & ub & z4) res.Add(this.ChartOptions.VisiblyOptions.Z4B);
+            if (ic & i0 & uc & z4) res.Add(this.ChartOptions.VisiblyOptions.Z4C);
 
-            if (ia & i0 & ua & z5) res.Add(ChartOptions.VisiblyOptions.Z5A);
-            if (ib & i0 & ub & z5) res.Add(ChartOptions.VisiblyOptions.Z5B);
-            if (ic & i0 & uc & z5) res.Add(ChartOptions.VisiblyOptions.Z5C);
-            VisiblyOptionsGrid.ItemsSource = res;
+            if (ia & i0 & ua & z5) res.Add(this.ChartOptions.VisiblyOptions.Z5A);
+            if (ib & i0 & ub & z5) res.Add(this.ChartOptions.VisiblyOptions.Z5B);
+            if (ic & i0 & uc & z5) res.Add(this.ChartOptions.VisiblyOptions.Z5C);
+            this.VisiblyOptionsGrid.ItemsSource = res;
         }
 
         List<ICharacteristic> _allCharacteristic = new List<ICharacteristic>();
@@ -272,102 +275,101 @@ namespace Oscilloscope.View.PieChartItem
         private PieChartDirectionCharacteristicOption _directionCharacteristicOption = new PieChartDirectionCharacteristicOption();
         private List<ICharacteristic> Characteristics
         {
-            get { return _allCharacteristic; }
+            get { return this._allCharacteristic; }
             set
             {
-                listBox.Items.Clear();
+                this.listBox.Items.Clear();
                 if (value != null)
                 {
-                    _allCharacteristic = value;
-                    foreach (var characteristic in _allCharacteristic)
+                    this._allCharacteristic = value;
+                    foreach (var characteristic in this._allCharacteristic)
                     {
-                        listBox.Items.Add(characteristic);
+                        this.listBox.Items.Add(characteristic);
                     }
                 }
             }
-
         }
-
-  
 
         private void PolyAddButton_Click(object sender, RoutedEventArgs e)
         {
-             _polyCharacteristicOption = new PieChartPolyCharacteristicOption();
-             _polyCharacteristicOption.F = double.Parse(PolyFTb.Text, CultureInfo.CurrentCulture);
-             _polyCharacteristicOption.R = double.Parse(PolyRTb.Text, CultureInfo.CurrentCulture);
-             _polyCharacteristicOption.X = double.Parse(PolyXTb.Text, CultureInfo.CurrentCulture);
-            _polyCharacteristicOption.Enabled = true;
-            _allCharacteristic.Add(_polyCharacteristicOption);
-            listBox.Items.Add(_polyCharacteristicOption);
+            this._polyCharacteristicOption = new PieChartPolyCharacteristicOption();
+            this._polyCharacteristicOption.F = double.Parse(this.PolyFTb.Text, CultureInfo.CurrentCulture);
+            this._polyCharacteristicOption.R = double.Parse(this.PolyRTb.Text, CultureInfo.CurrentCulture);
+            this._polyCharacteristicOption.X = double.Parse(this.PolyXTb.Text, CultureInfo.CurrentCulture);
+            this._polyCharacteristicOption.Enabled = true;
+            this._allCharacteristic.Add(this._polyCharacteristicOption);
+            this.listBox.Items.Add(this._polyCharacteristicOption);
         }
 
         private void RoundAddButton_Click(object sender, RoutedEventArgs e)
         {
-             _roundCharacteristicOption = new PieChartRoundCharacteristicOption();
-             _roundCharacteristicOption.Radius = double.Parse(RoundRadiusTb.Text, CultureInfo.CurrentCulture);
-             _roundCharacteristicOption.R = double.Parse(RoundRTb.Text, CultureInfo.CurrentCulture);
-             _roundCharacteristicOption.X = double.Parse(RoundXTb.Text, CultureInfo.CurrentCulture);
-            _roundCharacteristicOption.Enabled = true;
-            _allCharacteristic.Add(_roundCharacteristicOption);
-            listBox.Items.Add(_roundCharacteristicOption);
+            this._roundCharacteristicOption = new PieChartRoundCharacteristicOption();
+            this._roundCharacteristicOption.Radius = double.Parse(this.RoundRadiusTb.Text, CultureInfo.CurrentCulture);
+            this._roundCharacteristicOption.R = double.Parse(this.RoundRTb.Text, CultureInfo.CurrentCulture);
+            this._roundCharacteristicOption.X = double.Parse(this.RoundXTb.Text, CultureInfo.CurrentCulture);
+            this._roundCharacteristicOption.Enabled = true;
+            this._allCharacteristic.Add(this._roundCharacteristicOption);
+            this.listBox.Items.Add(this._roundCharacteristicOption);
         }
 
         private void ChargeAddButton_Click(object sender, RoutedEventArgs e)
         {
-             _chargeCharacteristicOption = new PieChartChargeCharacteristicOption();
-             _chargeCharacteristicOption.R1 = double.Parse(ChargeR1Tb.Text, CultureInfo.CurrentCulture);
-             _chargeCharacteristicOption.R2 = double.Parse(ChargeR2Tb.Text, CultureInfo.CurrentCulture);
-             _chargeCharacteristicOption.F = double.Parse(ChargeFTb.Text, CultureInfo.CurrentCulture);
-            _chargeCharacteristicOption.Enabled = true;
-            _allCharacteristic.Add(_chargeCharacteristicOption);
-            listBox.Items.Add(_chargeCharacteristicOption);
+            this._chargeCharacteristicOption = new PieChartChargeCharacteristicOption();
+            this._chargeCharacteristicOption.R1 = double.Parse(this.ChargeR1Tb.Text, CultureInfo.CurrentCulture);
+            this._chargeCharacteristicOption.R2 = double.Parse(this.ChargeR2Tb.Text, CultureInfo.CurrentCulture);
+            this._chargeCharacteristicOption.F = double.Parse(this.ChargeFTb.Text, CultureInfo.CurrentCulture);
+            this._chargeCharacteristicOption.Enabled = true;
+            this._allCharacteristic.Add(this._chargeCharacteristicOption);
+            this.listBox.Items.Add(this._chargeCharacteristicOption);
         }
 
         private void DirectionAddButton_Click(object sender, RoutedEventArgs e)
         {
-             _directionCharacteristicOption = new PieChartDirectionCharacteristicOption();
-             _directionCharacteristicOption.F1 = double.Parse(DirectionF1Tb.Text, CultureInfo.CurrentCulture);
-             _directionCharacteristicOption.F2 = double.Parse(DirectionF2Tb.Text, CultureInfo.CurrentCulture);
+            this._directionCharacteristicOption = new PieChartDirectionCharacteristicOption();
+            this._directionCharacteristicOption.F1 = double.Parse(this.DirectionF1Tb.Text, CultureInfo.CurrentCulture);
+            this._directionCharacteristicOption.F2 = double.Parse(this.DirectionF2Tb.Text, CultureInfo.CurrentCulture);
 
-            _directionCharacteristicOption.Enabled = true;
-            _allCharacteristic.Add(_directionCharacteristicOption);
-            listBox.Items.Add(_directionCharacteristicOption);
+            this._directionCharacteristicOption.Enabled = true;
+            this._allCharacteristic.Add(this._directionCharacteristicOption);
+            this.listBox.Items.Add(this._directionCharacteristicOption);
         }
 
       
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (listBox.SelectedItem != null)
+            if (this.listBox.SelectedItem != null)
             {
-                _allCharacteristic.Remove((ICharacteristic)listBox.SelectedItem);
-                listBox.Items.Remove(listBox.SelectedItem);
+                this._allCharacteristic.Remove((ICharacteristic) this.listBox.SelectedItem);
+                this.listBox.Items.Remove(this.listBox.SelectedItem);
             }
 
         }
 
+        SaveFileDialog saveDialog;
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.ReadData())
             {
-                SaveFileDialog saveDialog = new SaveFileDialog();
-                saveDialog.Filter = "Файл параметров круговой диаграммы|*.pco";
-                if (saveDialog.ShowDialog().GetValueOrDefault())
+                this.saveDialog = this.saveDialog ?? new SaveFileDialog();
+                this.saveDialog.Filter = "Файл параметров круговой диаграммы|*.pco";
+                if (this.saveDialog.ShowDialog().GetValueOrDefault())
                 {
-                    this._chartOptions.Save(saveDialog.FileName);
+                    this._chartOptions.Save(this.saveDialog.FileName);
                 }
             }
         }
 
+        OpenFileDialog openFileDialog;
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Файл параметров круговой диаграммы|*.pco";
-            if (openFileDialog.ShowDialog().GetValueOrDefault())
+            this.openFileDialog = this.openFileDialog ?? new OpenFileDialog();
+            this.openFileDialog.Filter = "Файл параметров круговой диаграммы|*.pco";
+            if (this.openFileDialog.ShowDialog().GetValueOrDefault())
             {
                 try
                 {
-                    this._chartOptions.Load(openFileDialog.FileName);
+                    this._chartOptions.Load(this.openFileDialog.FileName, this.OldCalculateKoef);
                 }
                 catch (Exception)
                 {
@@ -383,17 +385,17 @@ namespace Oscilloscope.View.PieChartItem
 
         private void Open()
         {
-            Z1Editor.Zn = this._chartOptions.Z1;
-            Z2Editor.Zn = this._chartOptions.Z2;
-            Z3Editor.Zn = this._chartOptions.Z3;
-            Z4Editor.Zn = this._chartOptions.Z4;
-            Z5Editor.Zn = this._chartOptions.Z5;
+            this.Z1Editor.Zn = this._chartOptions.Z1;
+            this.Z2Editor.Zn = this._chartOptions.Z2;
+            this.Z3Editor.Zn = this._chartOptions.Z3;
+            this.Z4Editor.Zn = this._chartOptions.Z4;
+            this.Z5Editor.Zn = this._chartOptions.Z5;
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            StartTimeTb.Text = Math.Min(Marker1, Marker2).ToString(CultureInfo.CurrentCulture);
-            EndTimeTb.Text = Math.Max(Marker1, Marker2).ToString(CultureInfo.CurrentCulture);
+            this.StartTimeTb.Text = Math.Min(this.Marker1, this.Marker2).ToString(CultureInfo.CurrentCulture);
+            this.EndTimeTb.Text = Math.Max(this.Marker1, this.Marker2).ToString(CultureInfo.CurrentCulture);
         }
 
 
@@ -402,22 +404,14 @@ namespace Oscilloscope.View.PieChartItem
             var label = (Label) sender;
             var oldColor =  ((SolidColorBrush)label.Background).Color;
       
-            ColorDialog dialog = new ColorDialog();
-
-
+            System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
+            
             dialog.Color = System.Drawing.Color.FromArgb(oldColor.A, oldColor.R, oldColor.G, oldColor.B);
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                var visibilityItem = (VisibilityItem) VisiblyOptionsGrid.SelectedItem;
-                  visibilityItem.LineColor = new SolidColorBrush(  Color.FromArgb(dialog.Color.A, dialog.Color.R, dialog.Color.G, dialog.Color.B));
-              
-             // label.GetBindingExpression(Label.BackgroundProperty).UpdateTarget();
+                var visibilityItem = (VisibilityItem) this.VisiblyOptionsGrid.SelectedItem;
+                visibilityItem.LineColor = new SolidColorBrush(Color.FromArgb(dialog.Color.A, dialog.Color.R, dialog.Color.G, dialog.Color.B));
             }
         }
-
-      
     }
-
-
-
 }

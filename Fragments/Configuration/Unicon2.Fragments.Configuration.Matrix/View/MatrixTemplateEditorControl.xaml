@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:customControls="clr-namespace:Unicon2.Fragments.Configuration.Editor.CustomControls;assembly=Unicon2.Fragments.Configuration.Editor"
              xmlns:editorViewModel="clr-namespace:Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -40,44 +41,76 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ItemsControl MaxHeight="470" Style="{DynamicResource ErrorStyle}" Name="BitsToAssignItemsControl" ItemsSource="{Binding AssignedBitEditorViewModels}">
-            <ItemsControl.ItemsPanel>
-               <ItemsPanelTemplate>
-                    <customControls:WrapPanelWithRowsOrColumnsCount
-                       Orientation="Vertical"
-                       RowsOrColumnsCount="16" MaxHeight="470">
-                    </customControls:WrapPanelWithRowsOrColumnsCount>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="editorViewModel:IAssignedBitEditorViewModel">
-                    <StackPanel Orientation="Horizontal" Margin="1">
-                        <TextBlock Width="25" Margin="5" Text="{Binding NumberOfBit }"></TextBlock>
-                        <ComboBox 
-                            Width="150" 
-                            SelectedItem="{Binding SelectedBitOptionEditorViewModel}"
-                            DisplayMemberPath="FullSugnature"
-                            ItemsSource="{Binding BitOptionEditorViewModels}">
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="{x:Type ComboBoxItem}">
-                                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
-                        <Button Margin="2" Visibility="{Binding IsBitAssigned,Converter={StaticResource booleanToVisibilityConverter}}" Command="{Binding ResetCommand}" Width="25" Height="25" Style="{DynamicResource UniconButtonStyle}">
-                            <Rectangle
-                                Width="10"
-                                Height="10"
-                                Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <ItemsControl Style="{DynamicResource ErrorStyle}" 
+                      Name="BitsToAssignItemsControl" 
+                      ItemsSource="{Binding GroupedAssignedBitEditorViewModels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl Style="{DynamicResource ErrorStyle}" 
+                                  Name="BitsToAssignItemsInnerControl" 
+                                  ItemsSource="{Binding .}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"></StackPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type editorViewModel:IAssignedBitEditorViewModel}">
+                                    <StackPanel Orientation="Horizontal" Margin="1">
+                                        <TextBlock Width="25" Margin="5" Text="{Binding NumberOfBit}"/>
+                                        <ComboBox
+                                           Width="150" 
+                                           SelectedItem="{Binding SelectedBitOptionEditorViewModel}"
+                                            DisplayMemberPath="FullSugnature"
+                                            IsTextSearchEnabled="True"
+                                            IsEditable="True"
+                                            StaysOpenOnEdit="True"
+                                            TextSearch.TextPath="FullSugnature"
+                                           ItemsSource="{Binding BitOptionEditorViewModels}">
+                                            <ComboBox.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ComboBoxItem}">
+                                                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                                                </Style>
+                                            </ComboBox.ItemContainerStyle>
+                                        </ComboBox>
+                                        <Button Margin="0" Visibility="{Binding IsBitAssigned,Converter={StaticResource booleanToVisibilityConverter}}" Command="{Binding ResetCommand}" Width="25" Height="25" Style="{DynamicResource UniconButtonStyle}">
+                                            <Rectangle
+                                                Width="10"
+                                                Height="10"
+                                                Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal">
+                        </StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" >
+            <Button Margin="2"  Style="{DynamicResource UniconButtonStyle}" 
+                HorizontalAlignment="Left" 
+                Content="{lex:Loc AssignSignalsAutomatically}" 
+                Command="{Binding AssignSignalsAutomatically}"/>
+            <Button Margin="2" Style="{DynamicResource UniconButtonStyle}" 
+                HorizontalAlignment="Left" 
+                Content="{lex:Loc ClearAssignedSignals}" 
+                Command="{Binding ClearAssignedSignals}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

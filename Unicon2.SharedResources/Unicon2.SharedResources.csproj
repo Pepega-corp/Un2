@@ -100,6 +100,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\BubbleScrollBehavior.cs" />
     <Compile Include="Behaviors\CollapseableColumnBehavior.cs" />
     <Compile Include="Behaviors\DynamicColumnsDataGridBehavior.cs" />
     <Compile Include="Behaviors\FocusableInformationBehavior.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Behaviors\ScrollParentWhenAtMax.cs" />
     <Compile Include="Behaviors\TreeGridBehavior.cs" />
     <Compile Include="Behaviors\TreeViewToggleButtonBehavior.cs" />
+    <Compile Include="Converter\BitArrayToStringConverter.cs" />
     <Compile Include="Converter\BooleanToWidthConverter.cs" />
     <Compile Include="Converter\DebugConverter.cs" />
     <Compile Include="Converter\DeviceWithFragmentMultibindingConverter.cs" />

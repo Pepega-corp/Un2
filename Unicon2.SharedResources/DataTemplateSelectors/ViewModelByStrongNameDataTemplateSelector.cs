@@ -15,6 +15,7 @@ namespace Unicon2.SharedResources.DataTemplateSelectors
             if (item is IStronglyNamed)
             {
                 FrameworkElement element = container as FrameworkElement;
+                //var x =  element?.TryFindResource(((IStronglyNamed)item).StrongName + ApplicationGlobalNames.CommonInjectionStrings.DATATEMPLATE) as DataTemplate;
 
                 return element?.TryFindResource(((IStronglyNamed) item).StrongName + ApplicationGlobalNames.CommonInjectionStrings.DATATEMPLATE) as DataTemplate;
             }

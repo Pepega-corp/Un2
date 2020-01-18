@@ -13,6 +13,7 @@
     <converters:IsFormattableToVisibilityConverter x:Key="IsFormattableToVisibilityConverter" />
     <converter:InvertConverter x:Key="InvertConverter" />
     <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
+    <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter"/>
 
     <DataTemplate x:Key="ConfigurationEditorViewModelDataTemplate" DataType="{x:Type tree:IConfigurationEditorViewModel}">
         <view:ConfigurationEditorView />

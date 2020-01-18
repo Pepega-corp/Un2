@@ -50,7 +50,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
 
             fragmentOptionCommandViewModel.TitleKey = ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY;
-            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxOut;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteReadConfiguration);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
@@ -62,7 +62,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.WRITE_LOCAL_VALUES_TO_DEVICE_STRING_KEY;
-            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxOut;
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(this.OnExecuteWriteLocalValuesToDevice);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 

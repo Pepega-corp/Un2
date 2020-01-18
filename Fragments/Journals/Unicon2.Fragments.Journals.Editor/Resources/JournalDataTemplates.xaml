@@ -54,5 +54,42 @@
 
     </DataTemplate>
 
+    <DataTemplate x:Key="IndexLoadingSequenceEditorViewModelDataTemplate" DataType="{x:Type loadingSequence:IIndexLoadingSequenceEditorViewModel}">
+
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <UniformGrid Columns="2">
+
+                <TextBlock Margin="5" Text="{lex:Loc StartAddress}" />
+                <TextBox
+                    MinWidth="150"
+                    Margin="5"
+                    Text="{Binding JournalStartAddress}" />
+                <TextBlock Margin="5" Text="{lex:Loc RecordsNumberOfPoints}" />
+                <TextBox
+                    MinWidth="150"
+                    Margin="5"
+                    Text="{Binding NumberOfPointsInRecord}" />
+            </UniformGrid>
+            <CheckBox
+                Margin="5"
+                Content="{lex:Loc WordFormatNotForTheWholeRecord}"
+                IsChecked="{Binding IsWordFormatNotForTheWholeRecord}" />
+            <StackPanel IsEnabled="{Binding IsWordFormatNotForTheWholeRecord}" Orientation="Horizontal">
+                <TextBlock Margin="5" Text="{lex:Loc WordFormatFrom}" />
+                <TextBox
+                    MinWidth="50"
+                    Margin="5"
+                    Text="{Binding WordFormatFrom}" />
+                <TextBlock Margin="5" Text="{lex:Loc To}" />
+                <TextBox
+                    MinWidth="50"
+                    Margin="5"
+                    Text="{Binding WordFormatTo}" />
+            </StackPanel>
+
+        </StackPanel>
+
+
+    </DataTemplate>
 
 </ResourceDictionary>

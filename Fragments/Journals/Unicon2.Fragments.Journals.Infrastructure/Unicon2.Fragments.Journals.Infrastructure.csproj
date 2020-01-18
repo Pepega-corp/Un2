@@ -46,6 +46,7 @@
     <Compile Include="Keys\JournalKeys.cs" />
     <Compile Include="Model\EvenrArgs\RecordChangingEnum.cs" />
     <Compile Include="Model\EvenrArgs\RecordChangingEventArgs.cs" />
+    <Compile Include="Model\IIndexLoadingSequence.cs" />
     <Compile Include="Model\JournalParameters\IComplexJournalParameter.cs" />
     <Compile Include="Model\JournalParameters\IDependentJournalParameter.cs" />
     <Compile Include="Model\IJournalParameter.cs" />

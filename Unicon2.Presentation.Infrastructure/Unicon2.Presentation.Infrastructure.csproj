@@ -84,6 +84,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\IToolBarService.cs" />
+    <Compile Include="TreeGrid\IConfigurationAsTableViewModel.cs" />
     <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />
     <Compile Include="TreeGrid\IGroupedConfigurationItemViewModel.cs" />
     <Compile Include="ViewModels\Connection\IConnectionStateViewModel.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="ViewModels\ILocalAndDeviceValueContainingViewModel.cs" />
     <Compile Include="ViewModels\IUshortFormattableEditorViewModel.cs" />
     <Compile Include="ViewModels\Resources\IResourceViewModel.cs" />
+    <Compile Include="ViewModels\Values\IBitMaskValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IBoolValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IEditableValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IErrorValueViewModel.cs" />

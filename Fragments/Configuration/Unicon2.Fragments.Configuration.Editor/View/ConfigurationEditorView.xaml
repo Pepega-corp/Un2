@@ -206,7 +206,7 @@
 
             <ListView
                 Name="ConfigListView"
-                MaxHeight="600"
+                MaxHeight="800"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 AlternationCount="2"
@@ -214,9 +214,17 @@
                 ItemsSource="{Binding Path=AllRows}"
                 SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ListView.Resources>
-                    <ContextMenu x:Key="ItemContextMenu" IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}">
-                        <MenuItem Command="{Binding IncreaseAddressCommand}" Header="{lex:Loc IncreaseAddress}" />
-                        <MenuItem Command="{Binding DecreaseAddressCommand}" Header="{lex:Loc DecreaseAddress}" />
+                    <ContextMenu x:Key="ItemContextMenu"
+                                 >
+                        <!-- свойство ниже ломает контекстное меню, пока убрал условие, надо уточнить, как оно должно работать -->
+                        <!--IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}">-->
+
+                        <MenuItem Command="{Binding IncreaseAddressCommand}"
+                                  IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}"
+                                  Header="{lex:Loc IncreaseAddress}" />
+                        <MenuItem Command="{Binding DecreaseAddressCommand}"
+                                  IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}" 
+                                  Header="{lex:Loc DecreaseAddress}" />
                     </ContextMenu>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Style.Triggers>

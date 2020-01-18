@@ -969,6 +969,15 @@
   <data name="AddDiscretSignal" xml:space="preserve">
     <value>Добавить дискретный сигнал</value>
   </data>
+  <data name="AddDiscretSignalGroup" xml:space="preserve">
+    <value>Добавить группу дискр-х с-в</value>
+  </data>
+  <data name="ElementsCount" xml:space="preserve">
+    <value>Кол-во элементов</value>
+  </data>
+  <data name="StartingBit" xml:space="preserve">
+    <value>Бит</value>
+  </data>
   <data name="AddMeasuringGroup" xml:space="preserve">
     <value>Добавить группу измерений</value>
   </data>
@@ -1044,6 +1053,9 @@
   <data name="OffsetLoadingSequence" xml:space="preserve">
     <value>Последовательность загрузки по смещению</value>
   </data>
+  <data name="IndexLoadingSequence" xml:space="preserve">
+    <value>Последовательность загрузки по счетчику</value>
+  </data>
   <data name="JournalReadingError" xml:space="preserve">
     <value>Ошибка чтения журнала</value>
   </data>
@@ -1063,7 +1075,7 @@
     <value>Если значение слова будет 0, возвращаемое значение будет "правда", иначе "ложь"</value>
   </data>
   <data name="CountingStructure" xml:space="preserve">
-    <value>Страктура отсчета</value>
+    <value>Структура отсчета</value>
   </data>
   <data name="FullPageLoading" xml:space="preserve">
     <value>Загрузка всей страницы</value>
@@ -1114,10 +1126,22 @@
     <value>Параметр</value>
   </data>
   <data name="AddSignature" xml:space="preserve">
-    <value>Добавить подпись</value>
+    <value>Добавить пустую строку</value>
   </data>
   <data name="DeleteSignature" xml:space="preserve">
     <value>Удалить подпись</value>
+  </data>
+  <data name="Mask" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="SignatureNumberOfPoints" xml:space="preserve">
+    <value>Кол-во</value>
+  </data>
+  <data name="IsInversion" xml:space="preserve">
+    <value>Инверсия</value>
+  </data>
+  <data name="AddSignatureGroup" xml:space="preserve">
+    <value>Добавить группу</value>
   </data>
   <data name="IsLoaded" xml:space="preserve">
     <value>Загружено</value>
@@ -1307,5 +1331,23 @@
   </data>
   <data name="VersionStringExample" xml:space="preserve">
     <value>Пример: MR 5 N\d* VERSION 70.\d</value>
+  </data>
+  <data name="AssignSignalsAutomatically" xml:space="preserve">
+    <value>Автоматически назначить сигналы</value>
+  </data>
+  <data name="ClearAssignedSignals" xml:space="preserve">
+    <value>Очистить назначенные сигналы</value>
+  </data>
+  <data name="ClearSignatures" xml:space="preserve">
+    <value>Очистить подписи</value>
+  </data>
+  <data name="EnsuringMessage" xml:space="preserve">
+    <value>Вы уверены?</value>
+  </data>
+  <data name="DependentParameter" xml:space="preserve">
+    <value>Зависимый параметр</value>
+  </data>
+  <data name="DeviceReadingError" xml:space="preserve">
+    <value>Ошибка чтения устройства</value>
   </data>
 </root>

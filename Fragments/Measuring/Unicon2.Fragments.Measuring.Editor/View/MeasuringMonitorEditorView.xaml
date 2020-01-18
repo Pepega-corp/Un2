@@ -42,10 +42,204 @@
                         Command="{Binding OpenConfigurationSettingsCommand}"
                         Content="{lex:Loc Settings}"
                         Style="{DynamicResource UniconButtonStyle}" />
+
+                    <!--<Separator/>-->
+                    
+                    
+                    <!--<Button
+                                Margin="5"
+                                Command="{Binding AddAnalogMeasuringElementCommand}"
+                                Content="{lex:Loc AddAnalogSignal}"
+                                Style="{DynamicResource UniconButtonStyle}" />
+                    <Button
+                                Margin="5"
+                                Command="{Binding AddDiscretMeasuringElementCommand}"
+                                Content="{lex:Loc AddDiscretSignal}"
+                                Style="{DynamicResource UniconButtonStyle}" />
+                    <Button
+                                Margin="5"
+                                Command="{Binding AddControlSignalCommand}"
+                                Content="{lex:Loc AddControlSignal}"
+                                Style="{DynamicResource UniconButtonStyle}" />-->
+                    
+                    <!--<Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            Margin="5" 
+                            Width="100"
+                            Text="{lex:Loc Name}" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            />
+                        <TextBox
+                                    Margin="5"
+                                    Height="25"
+                                    Width="100"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Text="{Binding DiscretGroupName}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                    <Style.Resources>
+                                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                            <VisualBrush.Visual>
+                                                <Label Content="{lex:Loc Name}" Foreground="LightGray" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Style.Resources>
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsKeyboardFocused" Value="True">
+                                            <Setter Property="Background" Value="White" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            Margin="5" 
+                            Width="100"
+                            Text="{lex:Loc StartAddress}" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            />
+                        <TextBox
+                                    Margin="5"
+                                    Height="25"
+                                    Width="100"
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Text="{Binding DiscretGroupStartAddress}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                    <Style.Resources>
+                                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                            <VisualBrush.Visual>
+                                                <Label Content="{lex:Loc StartAddress}" Foreground="LightGray" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Style.Resources>
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsKeyboardFocused" Value="True">
+                                            <Setter Property="Background" Value="White" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                    <TextBlock 
+                            Margin="5" 
+                            Width="100"
+                            Text="{lex:Loc StartingBit}" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            />
+                    <TextBox
+                                    Margin="5"
+                                    Height="25"
+                                    Width="100"
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Text="{Binding DiscretGroupStartingBit}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                <Style.Resources>
+                                    <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                        <VisualBrush.Visual>
+                                            <Label Content="{lex:Loc StartingBit}" Foreground="LightGray" />
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Style.Resources>
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="{x:Null}">
+                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                        <Setter Property="Background" Value="White" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            Margin="5" 
+                            Width="100"
+                            Text="{lex:Loc ElementsCount}" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            />
+                        <TextBox
+                                    Margin="5"
+                                    Height="25"
+                                    Width="100"
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Text="{Binding DiscretGroupElementsCount}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                    <Style.Resources>
+                                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                            <VisualBrush.Visual>
+                                                <Label Content="{lex:Loc ElementsCount}" Foreground="LightGray" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Style.Resources>
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsKeyboardFocused" Value="True">
+                                            <Setter Property="Background" Value="White" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </StackPanel>
+                    <Button
+                                        Margin="5"
+                                        Command="{Binding AddDiscretMeasuringElementGroupCommand}"
+                                        Content="{lex:Loc AddDiscretSignalGroup}"
+                                        Style="{DynamicResource UniconButtonStyle}" />-->
+
+
                 </StackPanel>
+
+
+
+
             </GroupBox>
         </StackPanel>
 
+        <Grid Grid.Column="1">
         <controls:MetroAnimatedSingleRowTabControl
             Name="groupsTabControl"
             Grid.Column="1"
@@ -54,30 +248,166 @@
                 <DataTemplate DataType="viewModel:IMeasuringGroupEditorViewModel">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <UniformGrid
-                            Grid.Row="0"
-                            Width="auto"
-                            HorizontalAlignment="Left"
-                            Columns="3">
-                            <Button
+
+                            <StackPanel Grid.Row="0"
+                                        Orientation="Horizontal" 
+                                        HorizontalAlignment="Left">
+
+                                <Button
                                 Margin="5"
                                 Command="{Binding AddAnalogMeasuringElementCommand}"
                                 Content="{lex:Loc AddAnalogSignal}"
                                 Style="{DynamicResource UniconButtonStyle}" />
-                            <Button
+                                <Button
                                 Margin="5"
                                 Command="{Binding AddDiscretMeasuringElementCommand}"
                                 Content="{lex:Loc AddDiscretSignal}"
-                                Style="{DynamicResource UniconButtonStyle}" />
-                            <Button
+                                Style="{DynamicResource UniconButtonStyle}"/>
+                                <Button
                                 Margin="5"
                                 Command="{Binding AddControlSignalCommand}"
                                 Content="{lex:Loc AddControlSignal}"
-                                Style="{DynamicResource UniconButtonStyle}" />
-                        </UniformGrid>
+                                Style="{DynamicResource UniconButtonStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0"
+                                        Orientation="Horizontal" 
+                                        HorizontalAlignment="Right">
+                                    <TextBox
+                                    Margin="5"
+                                    Height="25"
+                                    Width="75"
+                                    HorizontalAlignment="Right"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Text="{Binding DiscretGroupName}">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                                <Style.Resources>
+                                                    <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                        <VisualBrush.Visual>
+                                                            <Label Content="{lex:Loc Name}" Foreground="LightGray" />
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Style.Resources>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="Text" Value="{x:Null}">
+                                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                                        <Setter Property="Background" Value="White" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                    <TextBox
+                                    Margin="5"
+                                    Height="25"
+                                    Width="50"
+                                    HorizontalAlignment="Right"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Text="{Binding DiscretGroupStartAddress}">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                                <Style.Resources>
+                                                    <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                        <VisualBrush.Visual>
+                                                            <Label Content="{lex:Loc StartAddress}" Foreground="LightGray" />
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Style.Resources>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="Text" Value="{x:Null}">
+                                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                                        <Setter Property="Background" Value="White" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                    <TextBox
+                                    Margin="5"
+                                    Height="25"
+                                    Width="50"
+                                    HorizontalAlignment="Right"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Text="{Binding DiscretGroupStartingBit}">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                                <Style.Resources>
+                                                    <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                        <VisualBrush.Visual>
+                                                            <Label Content="{lex:Loc StartingBit}" Foreground="LightGray" />
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Style.Resources>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="Text" Value="{x:Null}">
+                                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                                        <Setter Property="Background" Value="White" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                    <TextBox
+                                    Margin="5"
+                                    Height="25"
+                                    Width="50"
+                                    HorizontalAlignment="Right"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Text="{Binding DiscretGroupElementsCount}">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                                <Style.Resources>
+                                                    <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                        <VisualBrush.Visual>
+                                                            <Label Content="{lex:Loc ElementsCount}" Foreground="LightGray" />
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Style.Resources>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="Text" Value="{x:Null}">
+                                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                                        <Setter Property="Background" Value="White" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                    <Button
+                                        Margin="5"
+                                        HorizontalAlignment="Right"
+                                        Command="{Binding AddDiscretMeasuringElementGroupCommand}"
+                                        Content="{lex:Loc AddDiscretSignalGroup}"
+                                        Style="{DynamicResource UniconButtonStyle}" />
+                            </StackPanel>
+
+
                         <ListBox
                             Name="elementsListBox"
                             Grid.Row="1"
@@ -136,6 +466,11 @@
                                     </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter/>
+                                </ControlTemplate>
+                            </ListBox.Template>
                         </ListBox>
                     </Grid>
                 </DataTemplate>
@@ -203,6 +538,7 @@
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </controls:MetroAnimatedSingleRowTabControl>
+        </Grid>
     </Grid>
 </UserControl>
 

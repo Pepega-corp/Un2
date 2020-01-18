@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Fragments.Configuration.Matrix.Interfaces.ViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
+using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Values;
@@ -17,29 +19,51 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
-    public class EditableMatrixValueViewModel : EditableValueViewModelBase
+    public class EditableMatrixValueViewModel : EditableValueViewModelBase, IMatrixValueViewModel
     {
+        private readonly MatrixViewModelTableFactory _matrixViewModelTableFactory;
         private ushort[] _initialUshortsToCompare;
         private DynamicDataTable _table;
-        private Func<IBoolValue> _boolValue;
+        private bool _isEditable = true;
 
         #region Overrides of EditableValueViewModelBase
 
-        public EditableMatrixValueViewModel(Func<IBoolValue> boolValue)
+        public EditableMatrixValueViewModel(MatrixViewModelTableFactory matrixViewModelTableFactory)
         {
-            _boolValue = boolValue;
-            MatrixUpdatedCommand=new RelayCommand(OnMatrixEdited);
+            _matrixViewModelTableFactory = matrixViewModelTableFactory;
+            MatrixUpdatedCommand = new RelayCommand(OnMatrixEdited);
+            ClearAssignedSignals = new RelayCommand(OnClearAssignedSignals);
         }
 
         private void OnMatrixEdited()
         {
-            var newUshorts =(new  MatrixViewModelTableParser()).GetUshortsFromTable(Table, Model as IMatrixValue);
+            var newUshorts = (new MatrixViewModelTableParser()).GetUshortsFromTable(Table, Model as IMatrixValue);
             if (!newUshorts.SequenceEqual(_initialUshortsToCompare))
             {
                 ValueChangedAction?.Invoke(newUshorts);
-                SetIsChangedProperty(nameof(_initialUshortsToCompare), _initialUshortsToCompare != newUshorts );
+                SetIsChangedProperty(nameof(_initialUshortsToCompare), _initialUshortsToCompare != newUshorts);
 
             }
+        }
+        private void OnClearAssignedSignals()
+        {
+            if (!(Model is IMatrixValue matrixValue)) return;
+            try
+            {
+                for (int i = 0; i < matrixValue.UshortsValue.Count(); i++)
+                {
+                    matrixValue.UshortsValue[i] = 0;
+                }
+                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+
+
         }
 
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE + MatrixKeys.MATRIX_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
@@ -60,15 +84,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         private void FillTable()
         {
-            IMatrixValue matrixValue = Model as IMatrixValue;
-            if (matrixValue == null) return;
+            if (!(Model is IMatrixValue matrixValue)) return;
             try
             {
-                Table = new DynamicDataTable(matrixValue.MatrixTemplate.ResultBitOptions.Select((option => option.FullSignature)).ToList(),
-                    matrixValue.MatrixTemplate.MatrixMemoryVariables.Select((variable => variable.Name)).ToList(), true);
-                
-                new MatrixViewModelTableFactory(matrixValue, _boolValue).FillMatrixDataTable(Table, () => new EditableBoolValueViewModel());
-
+                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, true);
             }
             catch (Exception e)
             {
@@ -77,7 +96,16 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             }
         }
         public ICommand MatrixUpdatedCommand { get; }
-
+        public ICommand ClearAssignedSignals { get; }
+        public bool IsEditable
+        {
+            get { return _isEditable; }
+            private set
+            {
+                _isEditable = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public override void SetBaseValueToCompare(ushort[] ushortsToCompare)
         {

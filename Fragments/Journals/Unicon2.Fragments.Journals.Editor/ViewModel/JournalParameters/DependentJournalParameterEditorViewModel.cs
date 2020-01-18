@@ -30,14 +30,14 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this._formatterEditorFactory = formatterEditorFactory;
             this.CancelCommand = new RelayCommand<object>(this.OnCancel);
             this.SubmitCommand = new RelayCommand<object>(this.OnSubmit);
-            this.AddConditionCommand = new RelayCommand<object>(this.OnAddConditionExecute);
+            this.AddConditionCommand = new RelayCommand(this.OnAddConditionExecute);
             this.JournalConditionEditorViewModels = new ObservableCollection<IJournalConditionEditorViewModel>();
             this.DeleteConditionCommand = new RelayCommand<object>(this.OnDeleteConditionExecute);
-            this.ShowFormatterParameters = new RelayCommand<object>(this.OnShowFormatterParameters);
+            this.ShowFormatterParameters = new RelayCommand(this.OnShowFormatterParameters);
 
         }
 
-        private void OnShowFormatterParameters(object obj)
+        private void OnShowFormatterParameters()
         {
             this._formatterEditorFactory.EditFormatterByUser(this._journalParameter);
             this.RaisePropertyChanged(nameof(this.FormatterString));
@@ -48,7 +48,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this.JournalConditionEditorViewModels.Remove(obj as IJournalConditionEditorViewModel);
         }
 
-        private void OnAddConditionExecute(object obj)
+        private void OnAddConditionExecute()
         {
             this.JournalConditionEditorViewModels.Add(this._journalConditionEditorViewModelFactory
                 .CreateJournalConditionEditorViewModel(this._availableJournalParameters));

@@ -65,12 +65,14 @@
     <Compile Include="Interfaces\IJournalParametersEditorViewModelFactory.cs" />
     <Compile Include="Interfaces\JournalParameters\ISubJournalParameterEditorViewModel.cs" />
     <Compile Include="Interfaces\IUniconJournalEditorViewModel.cs" />
+    <Compile Include="Interfaces\LoadingSequence\IIndexLoadingSequenceEditorViewModel.cs" />
     <Compile Include="Interfaces\LoadingSequence\IOffsetLoadingSequenceEditorViewModel.cs" />
     <Compile Include="Module\JournaEditorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\JournalParameters\ComplexJournalParameterEditorViewModel.cs" />
     <Compile Include="ViewModel\JournalParameters\DependentJournalParameterEditorViewModel.cs" />
     <Compile Include="ViewModel\JournalParameters\JournalConditionEditorViewModel.cs" />
+    <Compile Include="ViewModel\LoadingSequence\IndexLoadingSequenceEditorViewModel.cs" />
     <Compile Include="ViewModel\RecordTemplateEditorViewModel.cs" />
     <Compile Include="ViewModel\LoadingSequence\OffsetLoadingSequenceEditorViewModel.cs" />
     <Compile Include="ViewModel\JournalParameters\SubJournalParameterEditorViewModel.cs" />

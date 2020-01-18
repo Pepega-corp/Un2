@@ -22,16 +22,15 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             (this._assToggleButton.DataContext as IRuntimeConfigurationItemViewModel).Checked += this.TreeGridItemCheched;
             if (this._assToggleButton.IsLoaded)
             {
-                this._assToggleButton.Checked += this.TreeViewToggleButtonBehavior_Checked;
-                this._assToggleButton.Unchecked += this.TreeViewToggleButtonBehavior_Unchecked;
+                AssToggleButton_Loaded(null, null);
             }
 
             this._assToggleButton.Unloaded += this._assToggleButton_Unloaded;
-            this._assToggleButton.Loaded += this._assToggleButton_Loaded;
+            this._assToggleButton.Loaded += this.AssToggleButton_Loaded;
             base.OnAttached();
         }
 
-        private void _assToggleButton_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void AssToggleButton_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             this._assToggleButton.Checked += this.TreeViewToggleButtonBehavior_Checked;
             this._assToggleButton.Unchecked += this.TreeViewToggleButtonBehavior_Unchecked;
@@ -150,7 +149,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                             isAdded = true;
                         }
                     }
-
+                    if(newItem is IConfigurationAsTableViewModel configurationAsTableViewModel)
+                    {
+                        if (configurationAsTableViewModel.IsTableView)
+                        {
+                            
+                        }
+                    }
                     if (!isAdded)
                     {
                         index++;

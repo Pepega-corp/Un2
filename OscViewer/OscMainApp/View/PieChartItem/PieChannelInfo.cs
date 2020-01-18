@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace Oscilloscope.View.PieChartItem
 {
-    public class PieChannelInfo : INotifyPropertyChanged
+   public class PieChannelInfo : INotifyPropertyChanged
     {
         private string _channelName = string.Empty;
         private MenuItem _menuItem;
@@ -17,97 +17,112 @@ namespace Oscilloscope.View.PieChartItem
         {
 
         }
-        public PieChannelInfo(Point[] values, VisibilityItem visibleItem)
+        public PieChannelInfo(Point[] values ,VisibilityItem visibleItem)
         {
-            this._visibleItem = visibleItem;
-            this._channelName = visibleItem.Channel;
+            _visibleItem = visibleItem;
+            _channelName = visibleItem.Channel;
+       
+            Values = values;
 
-            this.Values = values;
-
-            this.ChannelPen = new Pen(visibleItem.LineColor, 1);
-            this.ChannelPen.Freeze();
+            _channelPen = new Pen(visibleItem.LineColor, 1);
+            _channelPen.Freeze();
         }
 
-        public Pen ChannelPen { get; }
-
+        private Pen _channelPen ;
+        public Pen ChannelPen
+        {
+            get
+            {
+                return _channelPen;
+            }
+        }
         public string ChannelName
         {
-            get { return this._channelName; }
+            get { return _channelName; }
             set
             {
-                this._channelName = value;
-                this.RaisePropertyChanged("ChannelName");
+                _channelName = value;
+                RaisePropertyChanged("ChannelName");
             }
         }
 
         public Brush LineColor
         {
-            get { return this._visibleItem.LineColor; }
+            get { return _visibleItem.LineColor; }
             set
             {
-                this._visibleItem.LineColor = value;
-                this.RaisePropertyChanged("LineColor");
+                _visibleItem.LineColor = value;
+                RaisePropertyChanged("LineColor");
             }
         }
 
         public string X
         {
-            get { return AnalogChannel.Normalize(this.Values[this._index].Y, "Îì"); }
+            get { return AnalogChannel.Normalize(this.Values[_index].Y, "Îì"); }
             set
             {
-                this.RaisePropertyChanged("X");
+                RaisePropertyChanged("X");
             }
         }
 
         public string R
         {
-            get { return AnalogChannel.Normalize(this.Values[this._index].X, "Îì"); }
+            get { return AnalogChannel.Normalize(this.Values[_index].X, "Îì"); }
             set
             {
-                this.RaisePropertyChanged("R");
+                RaisePropertyChanged("R");
             }
         }
 
         private int _index = 0;
         public void SetIndex(int index)
         {
-            this._index = index;
+            _index = index;
             this.X = "";
             this.R = "";
         }
         public Point[] Values { get; private set; }
-
         private void RaisePropertyChanged(string propertyName)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
 
         private VisibilityItem _visibleItem;
 
 
+
+
         public bool IsVisibly
         {
-            get { return this._visibleItem.Visible; }
-            set { this._visibleItem.Visible = value; }
+            get
+            {
+                return _visibleItem.Visible;
+            }
+            set
+            {
+                _visibleItem.Visible = value;
+            }
         }
 
         public MenuItem ChannelMenuItem
         {
-            get
-            {
-                if (this._menuItem == null)
+          get
+          {
+              if (_menuItem == null)
                 {
-                    this._menuItem = new MenuItem();
-                    this._menuItem.IsCheckable = true;
-                    this._menuItem.Header = this._channelName;
-                    Binding binding = new Binding();
-                    binding.Source = this._visibleItem;
+                    _menuItem = new MenuItem();
+                    _menuItem.IsCheckable = true;
+                    _menuItem.Header = _channelName;
+                    var binding = new Binding();
+                    binding.Source = _visibleItem;
                     binding.Path = new PropertyPath("Visible");
-                    this._menuItem.SetBinding(MenuItem.IsCheckedProperty, binding);
+                    _menuItem.SetBinding(MenuItem.IsCheckedProperty, binding);
 
                 }
-                return this._menuItem;
-            }
+                return _menuItem;
+          } 
         }
     }
 }
