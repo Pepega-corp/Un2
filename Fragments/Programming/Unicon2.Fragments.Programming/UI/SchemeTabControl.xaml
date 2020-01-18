@@ -9,8 +9,10 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Shared.xaml" />
         <!--  Ресурсы, в которых описаны DataTemplate всех элементов, как они будут отображаться на Canvas  -->
-        <ResourceDictionary Source="../ElementsResources/InputView.xaml" />
-        <ResourceDictionary Source="../ElementsResources/OutputView.xaml" />
+        <ResourceDictionary Source="ElementsResources/Connection.xaml" />
+        <ResourceDictionary Source="ElementsResources/Connector.xaml" />
+        <ResourceDictionary Source="ElementsResources/InputView.xaml" />
+        <ResourceDictionary Source="ElementsResources/OutputView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  TAB CONTROL STYLE  -->
@@ -140,14 +142,7 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid Name="Place">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="Auto" />
-                                                    </Grid.RowDefinitions>
-                                                    <ContentPresenter
-                                                        x:Name="Presenter"
-                                                        Grid.Row="1"
-                                                        Content="{Binding}" />
+                                                    <ContentPresenter x:Name="Presenter" Content="{Binding}" />
                                                 </Grid>
                                                 <DataTemplate.Triggers>
                                                     <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
@@ -157,9 +152,7 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                    <!--<ItemsControl>
 
-                                    </ItemsControl>-->
                                 </Grid>
                             </ScrollViewer>
                         </Border>

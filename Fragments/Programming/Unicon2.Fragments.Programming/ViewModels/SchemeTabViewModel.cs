@@ -8,7 +8,6 @@ using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
-using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -42,7 +41,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public SchemeTabViewModel()
         {
-            this.ElementCollection = new ObservableCollection<ILogicElementViewModel>();
+            this.ElementCollection = new ObservableCollection<ISchemeElement>();
+
             this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
             this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
             this.CloseTabCommand = new RelayCommand(this.CloseTab);
@@ -57,7 +57,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// <summary>
         /// Список всех вью моделей эелементов, добавленных на схему
         /// </summary>
-        public ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
+        public ObservableCollection<ISchemeElement> ElementCollection { get; }
 
         public string SchemeName
         {
@@ -145,34 +145,37 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public void DeleteSelectedElements()
         {
-            List<ILogicElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
+            var selectedConnections = this.ElementCollection.Where(e => e is IConnectionViewModel && e.IsSelected).Cast<IConnectionViewModel>().ToList();
+            foreach (IConnectionViewModel connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
+            {
+                ConnectionViewModel.RemoveConnectionWithNumber(connectionViewModel);
+                this.ElementCollection.Remove(connectionViewModel);
+            }
+
+            var selectedElements = this.ElementCollection.Where(e =>e is ILogicElementViewModel && e.IsSelected).Cast<ILogicElementViewModel>().ToList();
             foreach (ILogicElementViewModel element in selectedElements)
             {
-                if (element is ConnectionViewModel connection && this.ElementCollection.Contains(element))
+                var removingConnections = new List<IConnectionViewModel>();
+                var connectedConnectors = element.Connectors.Where(c => c.Connected && c.Connections.Count != 0).ToList();
+                foreach (var connector in connectedConnectors)
                 {
-                    ConnectionViewModel.RemoveConnectionWithNumber(connection);
-                    continue;
+                    removingConnections.AddRange(connector.Connections);
                 }
-                if (element is LogicElementViewModel && !(element is ConnectionViewModel))
+                foreach (var removingConnection in removingConnections)
                 {
-                    var removingConnections = new List<IConnectionViewModel>();
-                    var connectedConnectors = element.Connectors.Where(c => c.Connected && c.Connections.Count != 0).ToList();
-                    foreach (var connector in connectedConnectors)
+                    ConnectionViewModel.RemoveConnectionWithNumber(removingConnection);
+                    if (this.ElementCollection.Contains(removingConnection))
                     {
-                        removingConnections.AddRange(connector.Connections);
+                        this.ElementCollection.Remove(removingConnection);
                     }
-                    foreach (var removingConnection in removingConnections)
-                    {
-                        ConnectionViewModel.RemoveConnectionWithNumber(removingConnection);
-                    }
-                    this.ElementCollection.Remove(element);
                 }
+                this.ElementCollection.Remove(element);
             }
         }
 
         public bool CanDelete()
         {
-            List<ILogicElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
+            List<ISchemeElement> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
             return selectedElements.Count > 0;
         }
         #endregion

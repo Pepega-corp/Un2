@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels
 {
-    public interface IConnectionViewModel
+    public interface IConnectionViewModel : ISchemeElement
     {
         void UpdateConnector(IConnectorViewModel connector);
         string Name { get; }
@@ -16,7 +16,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         bool GotValue { get; set; }
         Point LabelPosition { get; set; }
         DoubleCollection StrokeDashArray { get; set; }
-        bool IsSelected { get; set; }
         double Value { get; }
     }
 }

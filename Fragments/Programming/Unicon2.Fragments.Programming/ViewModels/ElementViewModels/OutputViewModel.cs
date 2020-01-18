@@ -4,11 +4,14 @@ using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Infrastructure;
+using Unicon2.Unity.Common;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public class OutputViewModel : LogicElementViewModel
     {
+        private string _selectedSignal;
+
         public OutputViewModel(IApplicationGlobalCommands globalCommands) : base(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL, globalCommands)
         {
             ElementName = "Выход";
@@ -19,16 +22,51 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             {
                 new ConnectorViewModel(this, ConnectorOrientation.LEFT, ConnectorType.DIRECT)
             };
+
+            this.OutputSignals = new ObservableCollection<string>();
+        }
+
+        public ObservableCollection<string> OutputSignals { get; }
+
+        public string SelectedSignal
+        {
+            get { return this._selectedSignal; }
+            set
+            {
+                this._selectedSignal = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Name
+        {
+            get => _model.Name;
+            set
+            {
+                _model.Name = value;
+                RaisePropertyChanged();
+            }
         }
 
         protected override ILogicElement GetModel()
         {
-            return _model;
+            var output = (IOutput) _model;
+            output.OutputSignalNum = this.OutputSignals.IndexOf(this.SelectedSignal);
+            output.ConnectionNumber = Connectors[0].ConnectionNumber;
+
+            return output;
         }
 
         protected override void SetModel(object modelObj)
         {
+            if (!(modelObj is IOutput output))
+                return;
 
+            _model = output;
+
+            this.OutputSignals.AddCollection(output.OutputSignals);
+            this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
+            Connectors[0].ConnectionNumber = output.ConnectionNumber;
         }
 
         public override object Clone()
@@ -37,10 +75,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 new OutputViewModel(_globalCommands)
                 {
                     Model = (this.Model as ILogicElement)?.Clone(),
-                    IsSelected = this.IsSelected,
-                    DebugMode = this.DebugMode,
-                    Caption = this.Caption,
-                    ValidationError = this.ValidationError
+                    Caption = this.Caption
                 };
 
             for (int i = 0; i < Connectors.Count; i++)
@@ -50,10 +85,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
 
             return ret;
-        }
-
-        public override void Dispose()
-        {
         }
     }
 }

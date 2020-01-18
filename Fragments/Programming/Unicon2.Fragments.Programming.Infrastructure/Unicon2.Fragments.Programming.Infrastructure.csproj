@@ -57,9 +57,9 @@
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectionViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\ILogicElementViewModel.cs" />
-    <Compile Include="ViewModels\Scheme\ICanvasPosition.cs" />
     <Compile Include="ViewModels\Scheme\ILogicElementFactory.cs" />
     <Compile Include="ViewModels\Scheme\IProgrammingEditorViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ISchemeElement.cs" />
     <Compile Include="ViewModels\Scheme\ISchemeTabViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ISelectable.cs" />
   </ItemGroup>

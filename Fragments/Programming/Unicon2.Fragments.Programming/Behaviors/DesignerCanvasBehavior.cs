@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Adorners;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.ViewModels;
 
@@ -104,7 +105,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             if (e.ChangedButton == MouseButton.Right || e.ChangedButton == MouseButton.Left)
             {
                 // если нажата была клавиша мыши, то сбрасываем выделение
-                foreach (ILogicElementViewModel item in this.TabViewModel.ElementCollection)
+                foreach (ISchemeElement item in this.TabViewModel.ElementCollection)
                     item.IsSelected = false;
             }
             if (e.ChangedButton == MouseButton.Left)
@@ -168,7 +169,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
                 .First(cp => cp.Content.Equals(dragItem));
             contentPresenter.Loaded += this.ContentPresenterOnLoaded;
 
-            foreach (ILogicElementViewModel element in this.TabViewModel.ElementCollection)
+            foreach (var element in this.TabViewModel.ElementCollection)
             {
                 element.IsSelected = false;
             }

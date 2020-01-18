@@ -13,15 +13,14 @@ namespace Unicon2.Fragments.Programming.Adorners
     {
         private Point? _startPoint;
         private Point? _endPoint;
-        private Pen _rubberbandPen;
+        private readonly Pen _rubberbandPen;
         private DesignerCanvasBehavior _designerCanvasBehavior;
 
         public RubberbandAdorner(DesignerCanvasBehavior dcb): base(dcb.DesignerCanvas)
         {
             this._designerCanvasBehavior = dcb;
             this._startPoint = dcb.RubberbandSelectionStartPoint;
-            this._rubberbandPen = new Pen(Brushes.LightSlateGray, 1);
-            this._rubberbandPen.DashStyle = new DashStyle(new double[] { 2 }, 1);
+            this._rubberbandPen = new Pen(Brushes.LightSlateGray, 1) {DashStyle = new DashStyle(new double[] {2}, 1)};
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -49,8 +48,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             if (IsMouseCaptured) ReleaseMouseCapture();
             // remove this adorner from adorner layer
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvasBehavior.DesignerCanvas);
-            if (adornerLayer != null)
-                adornerLayer.Remove(this);
+            adornerLayer?.Remove(this);
             e.Handled = true;
         }
 
@@ -65,9 +63,13 @@ namespace Unicon2.Fragments.Programming.Adorners
 
         private void UpdateSelection()
         {
-            foreach (ISelectable item in this._designerCanvasBehavior.TabViewModel.ElementCollection)
+            foreach (var item in this._designerCanvasBehavior.TabViewModel.ElementCollection)
+            {
                 item.IsSelected = false;
-            if(!this._startPoint.HasValue || !this._endPoint.HasValue) return;
+            }
+
+            if(!this._startPoint.HasValue || !this._endPoint.HasValue)
+                return;
             
             Rect rubberBand = new Rect(this._startPoint.Value, this._endPoint.Value);
             foreach (ContentPresenter item in this._designerCanvasBehavior.DesignerCanvas.Children.OfType<ContentPresenter>().Where(cp=>cp.Content is ISelectable))

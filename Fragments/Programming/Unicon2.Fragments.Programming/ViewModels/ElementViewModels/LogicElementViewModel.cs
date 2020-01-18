@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
-using Unicon2.Fragments.Programming.UI.LogicElementSettings;
+using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;
 
@@ -23,10 +23,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         protected LogicElementViewModel(string strongName, IApplicationGlobalCommands globalCommands)
         {
             this.StrongName = strongName;
-            this.DebugMode = false;
-            this.IsSelected = false;
-            this.ValidationError = false;
-
             this._globalCommands = globalCommands;
         }
         
@@ -71,24 +67,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 this.RaisePropertyChanged();
             }
         }
-        public bool ValidationError
-        {
-            get { return this._validationError; }
-            set
-            {
-                this._validationError = value;
-                this.RaisePropertyChanged();
-            }
-        }
-        public bool DebugMode
-        {
-            get { return this._debugMode; }
-            set
-            {
-                this._debugMode = value;
-                this.RaisePropertyChanged();
-            }
-        }
 
         public ObservableCollection<IConnectorViewModel> Connectors { get; protected set; }
 
@@ -118,7 +96,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         protected abstract void SetModel(object modelObj);
 
         public abstract object Clone();
-        public abstract void Dispose();
 
         public virtual void OpenPropertyWindow()
         {

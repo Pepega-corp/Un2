@@ -12,7 +12,7 @@ using Unicon2.Unity.Common;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class InputViewModel : LogicElementViewModel
+    public class InputViewModel : LogicElementViewModel, IDisposable
     {
         private List<Dictionary<int, string>> _allInputSignals;
         private string _selectedBase;
@@ -77,8 +77,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
             var baseIndex =  this.Bases.IndexOf(this.SelectedBase);
             inputModel.BaseNum = baseIndex;
-
             inputModel.InputSignalNum = this._allInputSignals[baseIndex].First(s => s.Value == this.SelectedSignal).Key;
+            inputModel.ConnectionNumber = Connectors[0].ConnectionNumber;
 
             return inputModel;
         }
@@ -95,6 +95,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.SelectedBase = this.Bases[model.BaseNum];
             this.SetSignalsCollection(model.BaseNum);
             this.SelectedSignal = this.Signals[model.InputSignalNum];
+
+            Connectors[0].ConnectionNumber = model.ConnectionNumber;
         }
 
         private void SetSignalsCollection(int index)
@@ -120,10 +122,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 new InputViewModel(this._globalCommands)
                 {
                     Model = (this.Model as ILogicElement)?.Clone(),
-                    IsSelected = this.IsSelected,
-                    DebugMode = this.DebugMode,
-                    Caption = this.Caption,
-                    ValidationError = this.ValidationError
+                    Caption = this.Caption
                 };
 
             ret.Connectors.Clear();
@@ -136,7 +135,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             return ret;
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             this.Bases.CollectionChanged -= this.OnBaseChanged;
 

@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace Unicon2.Fragments.Programming.UI.LogicElementSettings
+﻿namespace Unicon2.Fragments.Programming.Views
 {
     /// <summary>
     /// Логика взаимодействия для LogicElementSettings.xaml

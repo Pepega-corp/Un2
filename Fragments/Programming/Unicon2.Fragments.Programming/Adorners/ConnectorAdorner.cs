@@ -12,21 +12,23 @@ namespace Unicon2.Fragments.Programming.Adorners
 {
     public class ConnectorAdorner : Adorner
     {
+        private SchemeTabViewModel _schemeTabViewModel;
         private PathGeometry _pathGeometry;
-        private Canvas _designerCanvas;
-        private SchemeTabViewModel _tabViewModel;
-        private ConnectorViewModel _sourceConnector;
+        private readonly Canvas _designerCanvas;
+        private readonly ConnectorViewModel _sourceConnector;
         private ConnectorViewModel _hitConnector;
-        private Pen _drawingPen;
+        private readonly Pen _drawingPen;
 
         public ConnectorAdorner(Canvas designer, ConnectorViewModel sourceConnectorViewModel) : base(designer)
         {
             this._designerCanvas = designer;
-            this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
+            this._schemeTabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
             this._sourceConnector = sourceConnectorViewModel;
-            this._drawingPen = new Pen(Brushes.LightSlateGray, 1);
-            this._drawingPen.LineJoin = PenLineJoin.Round;
-            this._drawingPen.DashStyle = new DashStyle(new List<double> { 8, 3 }, 0);//DashStyles.Dash;
+            this._drawingPen = new Pen(Brushes.LightSlateGray, 1)
+            {
+                LineJoin = PenLineJoin.Round,
+                DashStyle = new DashStyle(new List<double> {8, 3}, 0)
+            };
 
             Cursor = Cursors.Cross;
         }
@@ -56,11 +58,15 @@ namespace Unicon2.Fragments.Programming.Adorners
                     ? new ConnectionViewModel(this._sourceConnector, this._hitConnector, this._pathGeometry)
                     : new ConnectionViewModel(this._hitConnector, this._sourceConnector, this._pathGeometry);
                 ConnectionViewModel.AddNewConnectionNumber(connectionViewModel);
-                
+
+                this._schemeTabViewModel.ElementCollection.Add(connectionViewModel);
+
                 this._hitConnector.IsDragConnection = false;
             }
 
-            if (IsMouseCaptured) ReleaseMouseCapture();
+            if (IsMouseCaptured)
+                ReleaseMouseCapture();
+
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             adornerLayer?.Remove(this);
         }

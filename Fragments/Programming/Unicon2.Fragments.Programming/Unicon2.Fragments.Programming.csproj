@@ -78,7 +78,7 @@
     </Compile>
     <Compile Include="TabControlEx.cs" />
     <Compile Include="TemplateSelectors\ElementsViewModelSelector.cs" />
-    <Compile Include="UI\LogicElementSettings\LogicElementSettings.xaml.cs">
+    <Compile Include="Views\LogicElementSettings.xaml.cs">
       <DependentUpon>LogicElementSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
@@ -127,27 +127,27 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ElementsLibraryResources\InputLibraryElement.xaml">
+    <Page Include="UI\ElementsLibraryResources\InputLibraryElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ElementsLibraryResources\OutputLibraryElement.xaml">
+    <Page Include="UI\ElementsLibraryResources\OutputLibraryElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ElementsResources\Connection.xaml">
+    <Page Include="UI\ElementsResources\Connection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ElementsResources\Connector.xaml">
+    <Page Include="UI\ElementsResources\Connector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ElementsResources\InputView.xaml">
+    <Page Include="UI\ElementsResources\InputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ElementsResources\OutputView.xaml">
+    <Page Include="UI\ElementsResources\OutputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -159,7 +159,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\LogicElementSettings\LogicElementSettings.xaml">
+    <Page Include="Views\LogicElementSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

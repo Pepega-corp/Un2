@@ -25,6 +25,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private bool _gotValue;
         private bool _isSelected;
         private double _value;
+        private double _x;
+        private double _y;
+
         #endregion
 
         #region Constructors
@@ -180,7 +183,27 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 RaisePropertyChanged();
             }
         }
+        public double X
+        {
+            get { return this._x; }
+            set
+            {
+                if (Math.Abs(this._x - value) < 0.01) return;
+                this._x = value;
+                RaisePropertyChanged();
+            }
+        }
 
+        public double Y
+        {
+            get { return this._y; }
+            set
+            {
+                if (Math.Abs(this._y - value) < 0.01) return;
+                this._y = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion Properties
 
         #region Methods
@@ -217,23 +240,20 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         #region Static methods
 
-        public static void AddNewConnectionNumber(ConnectionViewModel viewModel)
+        public static void AddNewConnectionNumber(ConnectionViewModel connection)
         {
-            if (ConnectionNumbers.ContainsKey(viewModel)) return;
-            if (viewModel.Source.Connected && viewModel.Source.Connections.Count != 0)
+            if (ConnectionNumbers.ContainsKey(connection))
+                return;
+
+            if (connection.Source.ConnectionNumber != -1)
             {
-                ConnectionNumbers.Add(viewModel, viewModel.Source.ConnectionNumber);
-                viewModel.ConnectionNumber = viewModel.Source.ConnectionNumber;
-                viewModel.Sink.ConnectionNumber = viewModel.Source.ConnectionNumber;
+                ConnectionNumbers.Add(connection, connection.Source.ConnectionNumber);
+                connection.ConnectionNumber = connection.Source.ConnectionNumber;
+                connection.Sink.ConnectionNumber = connection.Source.ConnectionNumber;
             }
             else
             {
@@ -242,11 +262,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 {
                     i++;
                 }
-                ConnectionNumbers.Add(viewModel, i);
-                viewModel.ConnectionNumber = i;
-                viewModel.Source.ConnectionNumber = i;
-                viewModel.Sink.ConnectionNumber = i;
-                viewModel.Name = string.Format(NAME_PATTERN, i);
+                ConnectionNumbers.Add(connection, i);
+                connection.ConnectionNumber = i;
+                connection.Source.ConnectionNumber = i;
+                connection.Sink.ConnectionNumber = i;
+                connection.Name = string.Format(NAME_PATTERN, i);
             }
         }
 
@@ -271,6 +291,5 @@ namespace Unicon2.Fragments.Programming.ViewModels
         }
 
         #endregion
-       
     }
 }

@@ -9,8 +9,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="VerticalExpander.xaml" />
         <!--  Ресурсы, в которых описаны DataTemplate всех элементов, как они будут выглядеть в списках  -->
-        <ResourceDictionary Source="../ElementsLibraryResources/InputLibraryElement.xaml" />
-        <ResourceDictionary Source="../ElementsLibraryResources/OutputLibraryElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/InputLibraryElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/OutputLibraryElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
