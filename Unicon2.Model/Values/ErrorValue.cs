@@ -8,20 +8,13 @@ namespace Unicon2.Model.Values
 
     public class ErrorValue:FormattedValueBase,IErrorValue
     {
-        #region Overrides of FormattedValueBase
-
         public override string StrongName => nameof(ErrorValue);
         public override string AsString()
         {
             return this.ErrorMessage;
         }
 
-        #endregion
-
-        #region Implementation of IErrorValue
         [DataMember]
         public string ErrorMessage { get; set; }
-
-        #endregion
     }
 }

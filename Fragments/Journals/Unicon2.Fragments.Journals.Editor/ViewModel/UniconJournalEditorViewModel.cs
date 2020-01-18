@@ -63,14 +63,8 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
             }
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.UNICON_JOURNAL +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -105,15 +99,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
             return this._uniconJournal;
         }
 
-        #endregion
-
-        #region Implementation of IFragmentEditorViewModel
-
         public string NameForUiKey => JournalKeys.UNICON_JOURNAL;
-
-        #endregion
-
-        #region Implementation of INameable
 
         public string Name
         {
@@ -124,7 +110,5 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

@@ -8,8 +8,6 @@ namespace Unicon2.Presentation.Values
     {
         private string _numValue;
 
-        #region Implementation of IStronglyNamed
-
         public override string StrongName => nameof(NumericValueViewModel);
 
         //public object Value
@@ -39,10 +37,6 @@ namespace Unicon2.Presentation.Values
             Header = value.Header;
         }
 
-        #endregion
-
-        #region Implementation of INumericValueViewModel
-
         public string NumValue
         {
             get { return _numValue; }
@@ -52,7 +46,5 @@ namespace Unicon2.Presentation.Values
                 RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

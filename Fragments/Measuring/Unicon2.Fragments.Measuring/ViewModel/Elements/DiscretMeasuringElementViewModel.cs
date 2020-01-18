@@ -20,18 +20,9 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
             this.FormattedValueViewModel = valueViewModelFactory.CreateFormattedValueViewModel(boolValue);
         }
 
-        #region Overrides of MeasuringElementViewModelBase
-
         public override string StrongName => MeasuringKeys.DISCRET_MEASURING_ELEMENT +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        #endregion
-
-        #region Implementation of IDiscretMeasuringElementViewModel
-
-
-
-        #region Overrides of MeasuringElementViewModelBase
 
         protected override void SetModel(object model)
         {
@@ -42,10 +33,5 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
             };
 
         }
-
-        #endregion
-
-        #endregion
-
     }
 }

@@ -7,8 +7,6 @@ namespace Unicon2.SharedResources.Converter
 {
     class IsConnectedToIconConverter : IValueConverter
     {
-        #region Implementation of IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             //var r=new BitmapImage(new Uri("/Error.png", UriKind.Relative));
@@ -29,7 +27,5 @@ namespace Unicon2.SharedResources.Converter
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

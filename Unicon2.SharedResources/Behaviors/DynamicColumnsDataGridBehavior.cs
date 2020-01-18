@@ -15,17 +15,11 @@ namespace Unicon2.SharedResources.Behaviors
         private DynamicDataTable _journalDataTable;
         private ObservableCollection<List<IFormattedValueViewModel>> _collection;
 
-        #region Overrides of Behavior
-
         protected override void OnDetaching()
         {
             if (_journalDataTable != null) _journalDataTable.TableUpdateAction = null;
             base.OnDetaching();
         }
-
-        #endregion
-        #region RowValues dp
-
 
 
         public static readonly DependencyProperty RowValuesProperty =
@@ -122,12 +116,6 @@ namespace Unicon2.SharedResources.Behaviors
         }
 
 
-
-        #endregion
-
-
-        #region IsTransponed dp
-
         public static readonly DependencyProperty IsTransponedProperty =
             DependencyProperty.Register("IsTransponed", typeof(bool), typeof(DynamicColumnsDataGridBehavior),
                 new PropertyMetadata(false, OnIsTransponedPropertyChanged));
@@ -144,11 +132,6 @@ namespace Unicon2.SharedResources.Behaviors
             beh.OnRowValuesChanged();
         }
 
-
-
-
-
-        #endregion
 
         private DataGridTemplateColumn CreateGridTemplateColumn(int index, string columnName)
         {
@@ -265,8 +248,6 @@ namespace Unicon2.SharedResources.Behaviors
         }
 
 
-        #region Overrides of Behavior
-
         protected override void OnAttached()
         {
             this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
@@ -274,7 +255,5 @@ namespace Unicon2.SharedResources.Behaviors
             this.OnRowValuesChanged();
             base.OnAttached();
         }
-
-        #endregion
     }
 }

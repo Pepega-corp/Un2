@@ -12,8 +12,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         }
 
 
-        #region Overrides of RuntimePropertyViewModel
-
         public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.SUB_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
@@ -22,7 +20,5 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         {
             return ConfigurationKeys.SUB_PROPERTY;
         }
-
-        #endregion
     }
 }

@@ -80,13 +80,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(ConnectionStateViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -115,10 +109,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
-        #endregion
-
-        #region Implementation of IConnectionStateViewModel
-
         public ObservableCollection<StringWrapper> ExpectedValues { get; }
 
         public IComPortConfigurationViewModel DefaultComPortConfigurationViewModel { get; }
@@ -129,7 +119,5 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         public ICommand CancelCommand { get; }
         public ICommand DeleteExpectedValueCommand { get; }
         public ICommand AddExpectedValueCommand { get; }
-
-        #endregion
     }
 }

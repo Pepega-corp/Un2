@@ -8,8 +8,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Converters
 {
    public class IsDependentResultFormattableToVisConverter:IValueConverter
     {
-        #region Implementation of IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return Visibility.Collapsed;
@@ -21,7 +19,5 @@ namespace Unicon2.Fragments.Configuration.Editor.Converters
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

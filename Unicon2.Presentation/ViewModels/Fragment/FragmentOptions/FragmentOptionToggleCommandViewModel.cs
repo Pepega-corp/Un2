@@ -11,8 +11,6 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
         public string Title => StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(TitleKey);
         public string IconKey { get; set; }
 
-        #region Implementation of IFragmentOptionToggleCommandViewModel
-
         public bool IsChecked
         {
             get { return _isChecked; }
@@ -23,7 +21,5 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
                 _isChecked = value;
             }
         }
-
-        #endregion
     }
 }

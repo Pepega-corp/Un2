@@ -69,8 +69,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
         }
 
 
-        #region Implementation of IModbusEntityEditingViewModel
-
         public void SetEntity(IModbusMemoryEntityViewModel modbusMemoryEntityViewModelToEdit)
         {
             this.ModbusMemoryEntityViewModelToEdit = modbusMemoryEntityViewModelToEdit;
@@ -146,24 +144,10 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             }
         }
 
-        #endregion
-
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._dataProvider = dataProvider;
         }
-
-        #endregion
-
-        #region Implementation of ICloneable
-
-
-
-        #endregion
-
-        #region Overrides of ValidatableBindableBase
 
         protected override void OnValidate()
         {
@@ -171,7 +155,5 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             this.SetValidationErrors(res);
 
         }
-
-        #endregion
     }
 }

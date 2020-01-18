@@ -7,12 +7,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates
 
     public class PossibleValueCondition : IPossibleValueCondition
     {
-        #region Implementation of IPossibleValueCondition
         [DataMember]
         public bool BoolConditionRule { get; set; }
         [DataMember]
         public IOptionPossibleValue RelatedOptionPossibleValue { get; set; }
-
-        #endregion
     }
 }

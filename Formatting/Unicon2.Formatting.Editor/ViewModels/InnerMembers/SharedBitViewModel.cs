@@ -32,8 +32,6 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
             this.RaisePropertyChanged(nameof(this.Owner));
         }
 
-        #region Implementation of ISharedBitViewModel
-
         public int NumberOfBit
         {
             get { return this._numberOfBit; }
@@ -56,7 +54,5 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
             this.RaisePropertyChanged(nameof(this.Value));
             this.RaisePropertyChanged(nameof(this.Owner));
         }
-
-        #endregion
     }
 }

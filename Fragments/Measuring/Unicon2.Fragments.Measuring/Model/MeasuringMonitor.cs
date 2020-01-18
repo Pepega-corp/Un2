@@ -27,8 +27,6 @@ namespace Unicon2.Fragments.Measuring.Model
             this.MeasuringGroups = new List<IMeasuringGroup>();
         }
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._dataProvider = dataProvider;
@@ -50,10 +48,6 @@ namespace Unicon2.Fragments.Measuring.Model
                 }
             }
         }
-
-        #endregion
-
-        #region Implementation of ILoadable
 
         public async Task Load()
         {
@@ -85,10 +79,6 @@ namespace Unicon2.Fragments.Measuring.Model
                 await applySettingByKeyTask;
         }
 
-        #endregion
-
-        #region Implementation of ILoadableCycle
-
         public async void StartLoadingCycle()
         {
             if (this._dataProvider == null) return;
@@ -102,7 +92,7 @@ namespace Unicon2.Fragments.Measuring.Model
 
         private async Task LoadingCycle()
         {
-            while (true)
+            while (_dataProvider.LastQuerySucceed != false)
             {
                 if (this.IsLoadingCycleInProcess)
                 {
@@ -122,21 +112,11 @@ namespace Unicon2.Fragments.Measuring.Model
 
         public bool IsLoadingCycleInProcess { get; private set; }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MeasuringKeys.MEASURING_MONITOR;
 
-        #endregion
-
-        #region Implementation of IDeviceFragment
         [DataMember]
         public IFragmentSettings FragmentSettings { get; set; }
 
-        #endregion
-
-        #region Implementation of IMeasuringMonitor
         [DataMember]
         public List<IMeasuringGroup> MeasuringGroups { get; set; }
 
@@ -144,10 +124,6 @@ namespace Unicon2.Fragments.Measuring.Model
         {
             this._selectedMeasuringGroups = measuringGroups;
         }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -163,10 +139,5 @@ namespace Unicon2.Fragments.Measuring.Model
 
             this.IsInitialized = true;
         }
-
-        #endregion
-
-
-
     }
 }

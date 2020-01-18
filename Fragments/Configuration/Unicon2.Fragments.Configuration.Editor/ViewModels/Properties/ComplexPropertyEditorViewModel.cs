@@ -62,8 +62,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             (obj as Window)?.Close();
         }
 
-        #region Implementation of IComplexPropertyEditorViewModel
-
         public ObservableCollection<ISubPropertyEditorViewModel> SubPropertyEditorViewModels { get; set; }
         public ObservableCollection<ISharedBitViewModel> MainBitNumbersInWordCollection { get; set; }
 
@@ -80,10 +78,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         public ICommand SubmitCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        #endregion
-
-
-        #region Overrides of PropertyEditorEditorViewModel
 
         protected override void SetModel(object model)
         {
@@ -126,18 +120,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             this._applicationGlobalCommands.ShowWindowModal(() => new ComplexPropertyEditorWindow(), this);
         }
 
-        #region Overrides of PropertyEditorEditorViewModel
-
         protected override string GetTypeName()
         {
             return ConfigurationKeys.COMPLEX_PROPERTY;
         }
-
-        #endregion
-
-        #endregion
-        
-        #region Implementation of IChildPositionChangeable
 
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)
         {
@@ -189,10 +175,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
 
 
-        #endregion
-
-        #region Implementation of ISubPropertyAddable
-
         public IConfigurationItemViewModel AddSubProperty()
         {
             IConfigurationItem subProperty = this._configurationItemFactory.ResolveSubPropertyItem();
@@ -205,10 +187,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
 
 
-        #endregion
-
-        #region Implementation of IChildItemRemovable
-
         public void RemoveChildItem(IConfigurationItem configurationItemToRemove)
         {
             ISubProperty subPropertyToRemove = configurationItemToRemove as ISubProperty;
@@ -217,7 +195,5 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             this.SubPropertyEditorViewModels.Remove(subPropertyEditorViewModelToRemove);
             this.ChildStructItemViewModels.Remove(subPropertyEditorViewModelToRemove);
         }
-
-        #endregion
     }
 }

@@ -35,8 +35,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
         }
 
-        #region Implementation of IModbusMemoryEntityViewModel
-
         public void SetAddress(int address)
         {
             this._address = address;
@@ -192,10 +190,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
         public bool IsError { get; private set; }
 
-        #endregion
-
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             IModbusMemoryEntityViewModel memoryEntityViewModel = new ModbusMemoryEntityViewModel(this._memoryBitGettingFunc, this._modbusMemoryEntityGettingFunc, this._modbusConversionParametersViewModel);
@@ -207,7 +201,5 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             return memoryEntityViewModel;
 
         }
-
-        #endregion
     }
 }

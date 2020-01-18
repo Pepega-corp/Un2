@@ -18,8 +18,6 @@ namespace Unicon2.Fragments.FileOperations.Factories
             this._fileDriver = fileDriver;
         }
 
-        #region Implementation of IBrowserElementFactory
-
         public IDeviceDirectory CreateRootDeviceDirectoryBrowserElement()
         {
             return this.CreateDeviceDirectoryBrowserElement("0:", null);
@@ -68,7 +66,5 @@ namespace Unicon2.Fragments.FileOperations.Factories
         {
             this._dataProvider = dataProvider as IDataProvider;
         }
-
-        #endregion
     }
 }

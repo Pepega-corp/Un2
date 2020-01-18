@@ -13,8 +13,6 @@ namespace Unicon2.Presentation.Values
         private ObservableCollection<string> _availableItemsList;
         private string _selectedItem;
 
-        #region Implementation of IStronglyNamed
-
         public override string StrongName =>PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY+ ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
      
@@ -26,10 +24,6 @@ namespace Unicon2.Presentation.Values
             SelectedItem = curValue.SelectedItem;
         }
 
-        #endregion
-        
-
-        #region Implementation of IChosenFromListValueViewModel
 
         public ObservableCollection<string> AvailableItemsList => _availableItemsList;
 
@@ -47,7 +41,5 @@ namespace Unicon2.Presentation.Values
         {
             _availableItemsList=new ObservableCollection<string>(stringEnumerable);
         }
-
-        #endregion
     }
 }

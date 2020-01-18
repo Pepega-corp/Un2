@@ -7,9 +7,6 @@ namespace Unicon2.SharedResources.DataTemplateSelectors
 {
     public class ViewModelByStrongNameDataTemplateSelector : DataTemplateSelector
     {
-
-        #region Overrides of DataTemplateSelector
-
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is IStronglyNamed)
@@ -21,7 +18,5 @@ namespace Unicon2.SharedResources.DataTemplateSelectors
             }
             return null;
         }
-
-        #endregion
     }
 }

@@ -11,15 +11,9 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.LoadingSequence
         private IOscilloscopeJournalLoadingSequence _oscilloscopeJournalLoadingSequence;
         private ushort _addressOfRecord;
         private ushort _numberOfPointsInRecord;
-        
-        #region Implementation of IStronglyNamed
 
         public string StrongName => OscilloscopeKeys.OSCILLOSCOPE_JOURNAL_LOADING_SEQUENCE +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -41,15 +35,7 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.LoadingSequence
             return this._oscilloscopeJournalLoadingSequence;
         }
 
-        #endregion
-
-        #region Implementation of IJournalLoadingSequenceEditorViewModel
-
         public string NameForUiKey => OscilloscopeKeys.OSCILLOSCOPE_JOURNAL_LOADING_SEQUENCE;
-
-        #endregion
-
-        #region Implementation of IOscilloscopeJournalLoadingSequenceEditorViewModel
 
         public ushort AddressOfRecord
         {
@@ -70,7 +56,5 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.LoadingSequence
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

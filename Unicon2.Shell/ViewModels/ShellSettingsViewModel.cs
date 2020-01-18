@@ -43,16 +43,10 @@ namespace Unicon2.Shell.ViewModels
                 this.SelectedAccentColor = this.AccentColors.FirstOrDefault(c => c.Name.Equals("Cyan"));
         }
 
-        #region CTOR
-
         public ShellSettingsViewModel(ITypesContainer containerProvider)
         {
             this._containerProvider = containerProvider;
         }
-
-        #endregion CTOR
-
-        #region Properties
 
         private ILocalizerService LocalizerService
         {
@@ -152,9 +146,6 @@ namespace Unicon2.Shell.ViewModels
                 }
             }
         }
-
-        #endregion Properties
-
     }
 
 }

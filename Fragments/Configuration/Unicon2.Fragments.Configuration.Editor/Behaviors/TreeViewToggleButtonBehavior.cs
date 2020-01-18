@@ -24,8 +24,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
             base.OnAttached();
         }
 
-        #region Overrides of Behavior
-
         protected override void OnDetaching()
         {
             this._assToggleButton = this.AssociatedObject;
@@ -35,8 +33,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
             this._assToggleButton.Unchecked -= this.TreeViewToggleButtonBehavior_Unchecked;
             base.OnDetaching();
         }
-
-        #endregion
 
 
         private void TreeGridItemCheched(bool? isToExpand)

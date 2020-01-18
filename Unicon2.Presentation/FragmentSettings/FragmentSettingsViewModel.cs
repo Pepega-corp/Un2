@@ -53,13 +53,7 @@ namespace Unicon2.Presentation.FragmentSettings
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(FragmentSettingsViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -111,14 +105,10 @@ namespace Unicon2.Presentation.FragmentSettings
             }
         }
 
-        #endregion
-
 
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
 
-
-        #region Implementation of IConfigurationSettingsViewModel
 
         public ObservableCollection<IFragmentSettingViewModel> ConfigurationSettingViewModelCollection { get; } = new ObservableCollection<IFragmentSettingViewModel>();
 
@@ -134,7 +124,5 @@ namespace Unicon2.Presentation.FragmentSettings
         }
 
         public ICommand AddSelectedSettingCommand { get; }
-
-        #endregion
     }
 }

@@ -6,7 +6,6 @@ namespace Unicon2.Model.Values.Range
     [DataContract(Namespace = "DefaultRangeNS")]
     public class DefaultRange : IRange
     {
-        #region Implementation of IRange
         [DataMember(Name = nameof(RangeFrom))]
         public double RangeFrom { get; set; }
         [DataMember(Name = nameof(RangeTo))]
@@ -24,10 +23,6 @@ namespace Unicon2.Model.Values.Range
             return (this.RangeFrom <= range.RangeFrom) && (this.RangeTo >= range.RangeTo);
         }
 
-        #endregion
-
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             return new DefaultRange()
@@ -36,7 +31,5 @@ namespace Unicon2.Model.Values.Range
                 RangeTo = this.RangeTo
             };
         }
-
-        #endregion
     }
 }

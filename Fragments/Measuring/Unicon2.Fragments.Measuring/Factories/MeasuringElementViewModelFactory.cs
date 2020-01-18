@@ -14,7 +14,6 @@ namespace Unicon2.Fragments.Measuring.Factories
         {
             this._container = container;
         }
-        #region Implementation of IMeasuringElementViewModelFactory
 
         public IMeasuringElementViewModel CreateMeasuringElementViewModel(IMeasuringElement measuringElement, string gruopName)
         {
@@ -26,8 +25,5 @@ namespace Unicon2.Fragments.Measuring.Factories
             measuringElementViewModel.GroupName = gruopName;
             return measuringElementViewModel;
         }
-
-
-        #endregion
     }
 }

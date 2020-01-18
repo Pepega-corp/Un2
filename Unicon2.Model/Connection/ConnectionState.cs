@@ -25,8 +25,6 @@ namespace Unicon2.Model.Connection
             this.ExpectedValues = new List<string>();
         }
 
-        #region Implementation of IConnectionState
-
         public bool IsConnected { get; private set; }
         public IDataProvider DataProvider { get { return (_deviceConnection as IDataProvider); } }
 
@@ -116,10 +114,6 @@ namespace Unicon2.Model.Connection
             }
         }
 
-        #endregion
-
-
-        #region Implementation of ICloneable
 
         public object Clone()
         {
@@ -133,7 +127,5 @@ namespace Unicon2.Model.Connection
             connectionState.DefaultComPortConfiguration = this.DefaultComPortConfiguration?.Clone() as IComPortConfiguration;
             return connectionState;
         }
-
-        #endregion
     }
 }

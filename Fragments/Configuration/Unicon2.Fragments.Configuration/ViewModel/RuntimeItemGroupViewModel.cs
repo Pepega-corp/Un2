@@ -8,38 +8,34 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Table;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel, IConfigurationAsTableViewModel
+    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel, IAsTableViewModel
     {
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
+        private readonly IGlobalEventsService _globalEventsService;
         private bool _isTableView;
         private TableConfigurationViewModel _tableConfigurationViewModel;
+        private bool _isTableViewAllowed;
 
         public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
         {
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
             this.IsCheckable = true;
-            TryTransformToTableCommand=new RelayCommand(OnTryTransformToTable);
-
         }
 
         private void OnTryTransformToTable()
         {
-            var numberOfChildItemList = new int[ChildStructItemViewModels.Count];
-            for (int i = 0; i < ChildStructItemViewModels.Count; i++)
-            {
-                numberOfChildItemList[i] = ChildStructItemViewModels[i].ChildStructItemViewModels.Count;
-            }
-
-            var isAllNumbersEqual=numberOfChildItemList.Distinct().Count()==1;
-            if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel))&&isAllNumbersEqual)
+            Checked.Invoke(false);
+            if (!IsTableView) return;
+            if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel)) &&
+                TableConfigurationViewModel == null) 
             {
                 TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
-                IsTableView = !IsTableView;
             }
         }
 
@@ -52,15 +48,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
         }
 
-        #region Overrides of ConfigurationItemViewModelBase
-
         public override string TypeName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
 
         public override string StrongName => ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-
-        #region Overrides of ConfigurationItemViewModelBase
 
         protected override void SetModel(object model)
         {
@@ -70,22 +62,26 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 this.ChildStructItemViewModels.Add(this._runtimeConfigurationItemViewModelFactory
                     .CreateRuntimeConfigurationItemViewModel(configurationItem));
             }
+            IsTableViewAllowed = ((IItemsGroup) model).IsTableViewAllowed;
             base.SetModel(model);
         }
-
-        #endregion
-
-        #endregion
-
-        #region Implementation of IItemGroupViewModel
 
         public bool IsTableView
         {
             get => _isTableView;
-            set => SetProperty(ref _isTableView, value);
+            set
+            {
+                SetProperty(ref _isTableView, value);
+                OnTryTransformToTable();
+            }
         }
 
-        public ICommand TryTransformToTableCommand { get; }
-        #endregion
+        public string AsossiatedDetailsViewName => "ConfigAsTableView";
+
+        public bool IsTableViewAllowed
+        {
+            get => _isTableViewAllowed;
+            set => SetProperty(ref _isTableViewAllowed, value);
+        }
     }
 }

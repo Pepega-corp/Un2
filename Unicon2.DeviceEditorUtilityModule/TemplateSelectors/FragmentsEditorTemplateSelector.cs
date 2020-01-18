@@ -7,8 +7,6 @@ namespace Unicon2.DeviceEditorUtilityModule.TemplateSelectors
 {
     public class FragmentsEditorTemplateSelector : DataTemplateSelector
     {
-        #region Overrides of DataTemplateSelector
-
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             //получаем вызывающий контейнер
@@ -21,7 +19,5 @@ namespace Unicon2.DeviceEditorUtilityModule.TemplateSelectors
             }
             return null;
         }
-
-        #endregion
     }
 }

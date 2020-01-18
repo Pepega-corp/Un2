@@ -15,13 +15,7 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
     {
         private IDataProvider _dataProvider;
 
-        #region Overrides of MeasuringElementBase
-
         public override string StrongName => MeasuringKeys.ANALOG_MEASURING_ELEMENT;
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
@@ -43,34 +37,19 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
             }
         }
 
-        #endregion
-
-        #region Implementation of IAnalogMeasuringElement
-
         public ushort[] DeviceUshortsValue { get; set; }
         [DataMember]
         public ushort Address { get; set; }
         [DataMember]
         public ushort NumberOfPoints { get; set; }
 
-        #endregion
-
-        #region Implementation of IUshortFormattable
-
         [DataMember]
         public IUshortsFormatter UshortsFormatter { get; set; }
 
-        #endregion
-
-        #region Implementation of IMeasurable
         [DataMember]
         public string MeasureUnit { get; set; }
         [DataMember]
         public bool IsMeasureUnitEnabled { get; set; }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -80,7 +59,5 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
             (this.UshortsFormatter as IInitializableFromContainer)?.InitializeFromContainer(container);
             this.IsInitialized = true;
         }
-
-        #endregion
     }
 }

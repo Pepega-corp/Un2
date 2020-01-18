@@ -15,8 +15,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         {
             this.MatrixTemplateEditorViewModel = matrixTemplateEditorViewModel;
         }
-        
-        #region Overrides of ConfigurationItemViewModelBase
 
         public override string TypeName => this.StrongName;
         public override object Clone()
@@ -25,10 +23,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         }
 
         public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
-
-        #endregion
-
-        #region Implementation of IEditable
 
         public bool IsInEditMode { get; set; }
         public void StartEditElement()
@@ -45,10 +39,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         }
 
-        #endregion
-
-        #region Implementation of IDeletable
-
         public void DeleteElement()
         {
             if (this.Parent != null)
@@ -60,15 +50,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             }
         }
 
-        #endregion
-
-        #region Implementation of IAppointableMatrixEditorViewModel
-
         public IMatrixTemplateEditorViewModel MatrixTemplateEditorViewModel { get; }
-
-        #endregion
-        
-        #region Overrides of ConfigurationItemViewModelBase
 
         protected override void SetModel(object model)
         {
@@ -77,7 +59,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             this.MatrixTemplateEditorViewModel.MatrixName = matrix.Name;
             base.SetModel(model);
         }
-
-        #endregion
     }
 }

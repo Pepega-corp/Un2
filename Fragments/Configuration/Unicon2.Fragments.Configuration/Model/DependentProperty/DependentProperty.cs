@@ -22,7 +22,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
             this.DependancyConditions = new List<IDependancyCondition>();
         }
 
-        #region Implementation of IDependentProperty
         [DataMember]
 
         public List<IDependancyCondition> DependancyConditions { get; set; }
@@ -33,10 +32,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         public IUshortsFormatter DeviceValueUshortsFormatter { get; set; }
         public IUshortsFormatter LocalValueUshortsFormatter { get; set; }
 
-        #endregion
-
-
-        #region Overrides of DefaultProperty
 
         public override string StrongName => ConfigurationKeys.DEPENDENT_PROPERTY;
 
@@ -77,8 +72,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         }
 
 
-        #region Overrides of DefaultProperty
-
         public override void InitializeFromContainer(ITypesContainer container)
         {
             foreach (IDependancyCondition condition in this.DependancyConditions)
@@ -87,10 +80,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
             }
             base.InitializeFromContainer(container);
         }
-
-        #endregion
-
-        #endregion
 
 
         [OnDeserialized]

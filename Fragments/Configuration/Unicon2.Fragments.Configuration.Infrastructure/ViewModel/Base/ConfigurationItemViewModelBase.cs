@@ -102,8 +102,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base
 
         public abstract string StrongName { get; }
 
-        #region Implementation of IViewModel
-
         public object Model
         {
             get { return this.GetModel(); }
@@ -131,15 +129,5 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base
             this._model.Description = this.Description;
             this._model.Name = this.Header;
         }
-
-
-        #endregion
-
-        #region Implementation of ICloneable
-
-
-
-
-        #endregion
     }
 }

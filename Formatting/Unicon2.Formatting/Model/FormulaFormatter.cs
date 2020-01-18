@@ -185,19 +185,12 @@ namespace Unicon2.Formatting.Model
         }
 
 
-        #region Implementation of IInitializableFromContainer
-
-
         public override void InitializeFromContainer(ITypesContainer container)
         {
             this._numericValueGettingFunc = container.Resolve(typeof(Func<INumericValue>)) as Func<INumericValue>;
             base.InitializeFromContainer(container);
         }
 
-        #endregion
-
-
-        #region Implementation of IDataProviderContaining
 
         private IDataProvider _dataProvider; //
         public void SetDataProvider(IDataProvider dataProvider)
@@ -216,7 +209,5 @@ namespace Unicon2.Formatting.Model
                 }
             }
         }
-
-        #endregion
     }
 }

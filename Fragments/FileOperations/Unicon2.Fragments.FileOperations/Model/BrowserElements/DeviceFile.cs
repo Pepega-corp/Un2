@@ -18,8 +18,6 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
             _fileLoader = fileLoader;
         }
 
-        #region Implementation of IDeviceFile
-
         public byte[] FileData { get; private set; }
 
         public void Download()
@@ -32,16 +30,11 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
             sw.Close();
         }
 
-        #endregion
-
-        #region Implementation of IDataProviderContaining
         public override string StrongName => FileOperationsKeys.DEVICE_FILE;
 
         public override async Task Load()
         {
             
         }
-
-        #endregion
     }
 }

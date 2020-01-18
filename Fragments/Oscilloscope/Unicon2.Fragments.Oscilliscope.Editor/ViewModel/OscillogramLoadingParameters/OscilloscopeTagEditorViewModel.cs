@@ -22,13 +22,7 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
             this.AvailableTags = new ObservableCollection<string>();
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(OscilloscopeTagEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -48,10 +42,6 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
                 }
             }
         }
-
-        #endregion
-
-        #region Implementation of IOscilloscopeTagEditorViewModel
 
         public void SetAvailableOptions(List<IJournalParameter> journalParameters, List<string> tags)
         {
@@ -109,7 +99,5 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
 
             }
         }
-
-        #endregion
     }
 }

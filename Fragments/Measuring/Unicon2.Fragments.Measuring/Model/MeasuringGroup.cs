@@ -24,8 +24,6 @@ namespace Unicon2.Fragments.Measuring.Model
             this.MeasuringElements = new List<IMeasuringElement>();
         }
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             foreach (IMeasuringElement measuringElement in this.MeasuringElements)
@@ -71,21 +69,11 @@ namespace Unicon2.Fragments.Measuring.Model
 
         }
 
-        #endregion
-
-        #region Implementation of INameable
         [DataMember]
         public string Name { get; set; }
 
-        #endregion
-
-        #region Implementation of IMeasuringGroup
         [DataMember]
         public List<IMeasuringElement> MeasuringElements { get; set; }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -99,7 +87,5 @@ namespace Unicon2.Fragments.Measuring.Model
             this._rangesGettingFunc = container.Resolve<Func<IRange>>();
             this.IsInitialized = true;
         }
-
-        #endregion
     }
 }

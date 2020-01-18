@@ -9,8 +9,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
     {
         private IDataProvider _dataProvider;
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._dataProvider = dataProvider;
@@ -34,7 +32,5 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             }
             await this._dataProvider.WriteMultipleRegistersAsync(0x5000, Extensions.ByteArrayToUshortArray(bCmd), "SetCmdFileDriver");
         }
-
-        #endregion
     }
 }

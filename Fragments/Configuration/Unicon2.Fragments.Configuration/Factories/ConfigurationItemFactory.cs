@@ -15,8 +15,6 @@ namespace Unicon2.Fragments.Configuration.Factories
             this._container = container;
         }
 
-        #region Implementation of IConfigurationItemFactory
-
         public IConfigurationItem ResolveConfigurationItem()
         {
             IProperty prop = this._container.Resolve(typeof(IProperty)) as IProperty;
@@ -55,9 +53,5 @@ namespace Unicon2.Fragments.Configuration.Factories
 
             return appointableMatrix;
         }
-
-        #endregion
-
-
     }
 }

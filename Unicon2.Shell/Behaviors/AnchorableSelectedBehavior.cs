@@ -8,8 +8,6 @@ namespace Unicon2.Shell.Behaviors
 {
     public class AnchorableSelectedBehavior : Behavior<LayoutAnchorable>
     {
-        #region Overrides of Behavior
-
         protected override void OnAttached()
         {
             AssociatedObject.IsSelectedChanged += AssociatedObject_IsSelectedChanged;
@@ -27,7 +25,5 @@ namespace Unicon2.Shell.Behaviors
                 }
             }
         }
-
-        #endregion
     }
 }

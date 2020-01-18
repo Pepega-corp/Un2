@@ -17,8 +17,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 {
     public class PropertyEditorEditorViewModel : EditorConfigurationItemViewModelBase, IPropertyEditorEditorViewModel
     {
-        #region Private Fields
-
         private readonly ITypesContainer _container;
         private readonly ILocalizerService _localizerService;
         protected bool _isInEditMode;
@@ -28,10 +26,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         private IRangeViewModel _rangeViewModel;
         private bool _isRangeEnabled;
         private bool _isMeasureUnitEnabled;
-
-        #endregion
-
-        #region Ctor
+        private ushort _addressIteratorValue;
 
         public PropertyEditorEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel, ILocalizerService localizerService)
         {
@@ -41,20 +36,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             this.RangeViewModel = rangeViewModel;
             this.IncreaseAddressCommand = new RelayCommand(() =>
              {
-                 ((IProperty)this._model).Address++;
+                 ((IProperty)this._model).Address += AddressIteratorValue;
                  this.Address = ((IProperty)this._model).Address.ToString();
              });
             this.DecreaseAddressCommand = new RelayCommand(() =>
             {
-                ((IProperty)this._model).Address--;
+                ((IProperty)this._model).Address -= AddressIteratorValue;
                 this.Address = ((IProperty)this._model).Address.ToString();
             });
         }
 
-        #endregion
-
-
-        #region Commands
 
         private void OnShowFormatterParametersExecute()
         {
@@ -63,10 +54,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
         
         public ICommand ShowFormatterParameters { get; set; }
-
-        #endregion
-        
-        #region Properties
 
         public string SelectedUshortFormatterName => (this._model as IProperty)?.UshortsFormatter?.StrongName;
 
@@ -94,9 +81,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             }
         }
 
-        #endregion
-        
-        #region ICompositeEditOperations Members
+        public  ushort AddressIteratorValue
+        {
+            get { return this._addressIteratorValue; }
+            set
+            {
+                this._addressIteratorValue = value;
+                this.RaisePropertyChanged();
+                this.FireErrorsChanged();
+            }
+        }
 
         public bool IsInEditMode
         {
@@ -150,10 +144,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             this._model = null;
         }
 
-        #endregion
-
-        #region Overrides of ConfigurationItemViewModelBase
-
         public override string TypeName => this.GetTypeName();
 
 
@@ -167,14 +157,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 
-        #region Overrides of ConfigurationItemViewModelBase
-
         protected override object GetModel()
         {
             return base.GetModel();
         }
-
-        #endregion
 
         protected override void SetModel(object model)
         {
@@ -189,11 +175,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         }
 
-
-
-        #endregion
-
-        #region Implementation of IMeasurable
 
         public string MeasureUnit
         {
@@ -215,10 +196,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
-
-        #region Implementation of IRangeableViewModel
 
         public bool IsRangeEnabled
         {
@@ -242,19 +219,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             }
         }
 
-        #endregion
-        
-        #region Overrides of ValidatableBindableBase
-
         protected override void OnValidate()
         {
             FluentValidation.Results.ValidationResult res = (new PropertyEditorEditorViewModelValidator(this._localizerService)).Validate(this);
             this.SetValidationErrors(res);
         }
-
-        #endregion
-
-        #region Overrides of EditorConfigurationItemViewModelBase
 
         public override object Clone()
         {
@@ -265,13 +234,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             return cloneEditorViewModel;
         }
 
-        #endregion
-
-        #region Implementation of IAddressIncreaseableDecreaseable
-
         public ICommand IncreaseAddressCommand { get; }
         public ICommand DecreaseAddressCommand { get; }
-
-        #endregion
     }
 }

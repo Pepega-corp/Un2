@@ -115,9 +115,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.ConnectionNumber = bin[2];
         }
 
-        #region IStronglyName
         public string StrongName => ProgrammingKeys.INPUT;
-        #endregion
 
         public object Clone()
         {

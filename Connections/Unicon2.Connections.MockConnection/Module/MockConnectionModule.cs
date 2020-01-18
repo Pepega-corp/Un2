@@ -12,8 +12,6 @@ namespace Unicon2.Connections.MockConnection.Module
 {
     public class MockConnectionModule : IUnityModule
     {
-        #region Implementation of IUnityModule
-
         public void Initialize(ITypesContainer container)
         {
             container.Register<IDeviceConnection, Model.MockConnection>(StringKeys.MOCK_CONNECTION);
@@ -30,7 +28,5 @@ namespace Unicon2.Connections.MockConnection.Module
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();
             xamlResourcesService.AddResourceAsGlobal("Resources/MockConnectionResources.xaml", this.GetType().Assembly);
         }
-
-        #endregion
     }
 }

@@ -65,7 +65,6 @@ namespace Oscilloscope.View.MainItem
     /// </summary>
     public partial class MainWindow
     {
-        #region Win32 API declarations to set and get window placement
         [DllImport("user32.dll")]
         static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
 
@@ -75,7 +74,6 @@ namespace Oscilloscope.View.MainItem
         const int SW_SHOWNORMAL = 1;
         const int SW_SHOWMINIMIZED = 2;
         private int _encodding;
-        #endregion
 
         static MainWindow()
         {

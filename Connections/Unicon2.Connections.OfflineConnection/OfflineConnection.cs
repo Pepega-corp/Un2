@@ -45,13 +45,9 @@ namespace Unicon2.Connections.OfflineConnection
         }
 
 
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             return new OfflineConnection();
         }
-
-        #endregion
     }
 }

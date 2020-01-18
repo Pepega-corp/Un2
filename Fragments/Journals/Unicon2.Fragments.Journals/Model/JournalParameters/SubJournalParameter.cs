@@ -14,7 +14,7 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
         {
             BitNumbersInWord = new List<int>();
         }
-        #region Implementation of ISubJournalParameter
+
         [DataMember(Name = nameof(BitNumbersInWord), Order = 0)]
         public List<int> BitNumbersInWord { get; set; }
 
@@ -40,7 +40,5 @@ namespace Unicon2.Fragments.Journals.Model.JournalParameters
             ushort res = (ushort)(new BitArray(subParameterBools).GetIntFromBitArray());
             return res;
         }
-
-        #endregion
     }
 }

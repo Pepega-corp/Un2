@@ -43,8 +43,6 @@ namespace Unicon2.Fragments.Oscilliscope.Model
         }
 
 
-        #region Implementation of IOscilloscopeModel
-
         [DataMember]
         public IUniconJournal OscilloscopeJournal { get; set; }
 
@@ -247,22 +245,10 @@ namespace Unicon2.Fragments.Oscilliscope.Model
         }
 
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => OscilloscopeKeys.OSCILLOSCOPE;
-
-        #endregion
-
-        #region Implementation of IDeviceFragment
 
         [DataMember]
         public IFragmentSettings FragmentSettings { get; set; }
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
@@ -270,10 +256,6 @@ namespace Unicon2.Fragments.Oscilliscope.Model
             this.CountingTemplate.SetDataProvider(dataProvider);
             this.OscilloscopeJournal?.SetDataProvider(dataProvider);
         }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized
         {
@@ -289,15 +271,9 @@ namespace Unicon2.Fragments.Oscilliscope.Model
             this._isInitialized = true;
         }
 
-        #endregion
-
-        #region Implementation of IParentDeviceNameRequirable
-
         public void SetParentDeviceName(string parentDeviceName)
         {
             this._parentDeviceName = parentDeviceName;
         }
-
-        #endregion
     }
 }

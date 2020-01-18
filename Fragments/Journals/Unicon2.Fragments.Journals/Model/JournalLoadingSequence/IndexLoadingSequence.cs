@@ -14,14 +14,10 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
         private ushort _currentRecordIndex = 0;
         private int _lastQueryErrorCode = 1;// code "0" means last record
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._dataProvider = dataProvider;
         }
-
-        #endregion
 
         public void Initialize(IJournalSequenceInitializingParameters journalSequenceInitializingParameters)
         {
@@ -46,10 +42,9 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
 
         public void ResetSequence()
         {
+            this._currentRecordIndex = 0;
             this._lastQueryErrorCode = 1;
         }
-
-        #region Implementation of IOffsetLoadingSequence
 
 
         [DataMember]
@@ -67,13 +62,6 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
         [DataMember]
         public bool IsWordFormatNotForTheWholeRecord { get; set; }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.INDEX_LOADING_SEQUENCE;
-
-        #endregion
-
     }
 }

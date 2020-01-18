@@ -16,8 +16,6 @@ namespace Unicon2.Presentation.Values.Editable
         private IChosenFromListValue _chosenFromListValue;
         private object _model;
 
-        #region Overrides of EditableValueViewModelBase
-
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
@@ -49,10 +47,6 @@ namespace Unicon2.Presentation.Values.Editable
             get { return _chosenFromListValue; }
             set { _chosenFromListValue = value as IChosenFromListValue; }
         }
-        
-        #endregion
-
-        #region Implementation of IChosenFromListValueViewModel
 
         public ObservableCollection<string> AvailableItemsList
         {
@@ -76,7 +70,5 @@ namespace Unicon2.Presentation.Values.Editable
         {
             _availableItemsList=new ObservableCollection<string>(stringEnumerable);
         }
-
-        #endregion
     }
 }

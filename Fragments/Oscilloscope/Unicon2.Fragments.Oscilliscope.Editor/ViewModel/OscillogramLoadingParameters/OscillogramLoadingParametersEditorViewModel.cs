@@ -63,8 +63,6 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
         }
 
 
-        #region Implementation of IOscillogramLoadingParametersEditorViewModel
-
         public ObservableCollection<IOscilloscopeTagEditorViewModel> OscilloscopeTagEditorViewModels { get; }
 
         public ushort AddressOfOscillogram
@@ -108,15 +106,7 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
             }
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(OscillogramLoadingParametersEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -150,7 +140,5 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel.OscillogramLoadingPara
                 this.MaxSizeOfRewritableOscillogramInMs = this._oscillogramLoadingParameters.MaxSizeOfRewritableOscillogramInMs;
             }
         }
-
-        #endregion
     }
 }

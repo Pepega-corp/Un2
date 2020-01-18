@@ -11,7 +11,8 @@ namespace Unicon2.Infrastructure
         void ShutdownApplication();
         void ExecuteByDispacther(Action action);
         void ShowWindowModal(Func<Window> getWindow, object dataContext);
-        void ShowWindowModalTopmost(Func<Window> getWindow, object dataContext);
+        void ShowWindowModal(Func<Window> getWindow, object dataContext, object _owner);
+        void ShowWindowModal(Func<Window> getWindow, object dataContext, bool isTopmost);
         bool AskUserToDeleteSelectedGlobal(object context);
         void ShowErrorMessage(string errorKey, object context);
         void SetToBuffer(object bufferObject);

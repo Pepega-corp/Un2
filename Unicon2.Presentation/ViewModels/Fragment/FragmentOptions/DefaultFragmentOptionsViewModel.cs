@@ -13,10 +13,6 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
         }
 
 
-        #region Implementation of IFragmentOptionsViewModel
-
         public ObservableCollection<IFragmentOptionGroupViewModel> FragmentOptionGroupViewModels { get; set; }
-
-        #endregion
     }
 }

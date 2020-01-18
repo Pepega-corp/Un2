@@ -19,8 +19,6 @@ namespace Unicon2.Formatting.Model
         }
 
 
-        #region Overrides of UshortsFormatterBase
-
         protected override IFormattedValue OnFormatting(ushort[] ushorts)
         {
             IBoolValue val = this._container.Resolve<IBoolValue>();
@@ -56,8 +54,5 @@ namespace Unicon2.Formatting.Model
         }
 
         public override string StrongName => StringKeys.BOOL_FORMATTER;
-
-
-        #endregion
     }
 }

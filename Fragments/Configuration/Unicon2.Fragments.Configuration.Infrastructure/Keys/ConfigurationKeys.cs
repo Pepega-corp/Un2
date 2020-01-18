@@ -30,6 +30,7 @@
 
         public const string DEFAULT_ITEM_GROUP = "DefaultItemGroup";
         public const string CONFIG_TABLE_VIEW = "ConfigTableView";
+        public const string CONFIG_TABLE_VALUE = "ConfigTableValue";
 
 
         public const string DEFAULT_PROPERTY = "DefaultProperty";
@@ -70,6 +71,12 @@
         /// </summary>
         public const string SAVE_CONFUGURATION_STRING_KEY =
             "SaveConfiguration";
+
+        /// <summary>
+        ///    строка сохранения конфигурации в файл
+        /// </summary>
+        public const string EXPORT_CONFUGURATION_STRING_KEY =
+            "ExportConfiguration";
 
         /// <summary>
         ///    строка сохранения конфигурации

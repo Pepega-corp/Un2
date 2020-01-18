@@ -16,15 +16,9 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public override string StrongName => MeasuringKeys.CONTROL_SIGNAL +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-        #endregion
-
-
-        #region Overrides of MeasuringElementEditorViewModelBase
 
         protected override IMeasuringElement GetModel()
         {
@@ -39,16 +33,8 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
             this._writingValueContextViewModel.Model = (this._measuringElement as IControlSignal).WritingValueContext;
         }
 
-        #endregion
-
-
-        #region Implementation of IMeasuringElementEditorViewModel
 
         public override string NameForUiKey => MeasuringKeys.CONTROL_SIGNAL;
-
-        #endregion
-
-        #region Implementation of IControlSignalEditorViewModel
 
         public IWritingValueContextViewModel WritingValueContextViewModel
         {
@@ -59,7 +45,5 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

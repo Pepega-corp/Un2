@@ -22,8 +22,6 @@ namespace Unicon2.Services.LogService
             _localizerService = localizerService;
         }
 
-        #region Implementation of ILogService
-
         public bool IsLoggingToFileEnabled { get; set; }
 
         public string FilePath
@@ -100,7 +98,7 @@ namespace Unicon2.Services.LogService
             return _deviceLoggers;
         }
 
-        public void RaiseInfoMessage(string messageKey)
+        public void LogMessage(string messageKey, LogMessageTypeEnum messageType = LogMessageTypeEnum.Info)
         {
             ILogMessage logMessage = _logMessageGettingFunc();
             logMessage.LogMessageType = LogMessageTypeEnum.Info;
@@ -114,7 +112,5 @@ namespace Unicon2.Services.LogService
             logMessage.MessageDateTime = DateTime.Now;
             NewMessageAction?.Invoke(logMessage);
         }
-
-        #endregion
     }
 }

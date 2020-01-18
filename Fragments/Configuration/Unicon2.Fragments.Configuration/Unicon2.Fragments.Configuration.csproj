@@ -64,7 +64,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\DynamicPropertiesDataGridBehavior.cs" />
+    <Compile Include="Behaviors\DynamicPropertiesGridViewBehavior.cs" />
+    <Compile Include="Behaviors\DynamicPropertiesListViewBehavior.cs" />
+    <Compile Include="Behaviors\DynamicPropertiesTable.cs" />
+    <Compile Include="Behaviors\GridViewColumnResize.cs" />
     <Compile Include="Behaviors\TreeViewToggleButtonBehavior.cs" />
+    <Compile Include="Converters\PropertyTooltipConverter.cs" />
     <Compile Include="Converters\IsItemsGroupToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToBorderColorConverter.cs" />
     <Compile Include="Factories\ConfigurationItemFactory.cs" />
@@ -94,6 +100,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Resources\GridViewWithRowDetails.cs" />
+    <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
+    <Compile Include="ViewModel\Helpers\ConfigurationExportHelper.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationOptionsHelper.cs" />
     <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimeDependentPropertyViewModel.cs" />
@@ -103,6 +112,12 @@
     <Compile Include="ViewModel\RuntimeConfigurationViewModel.cs" />
     <Compile Include="ViewModel\RuntimeConfigurationItemViewModelBase.cs" />
     <Compile Include="ViewModel\Table\TableConfigurationViewModel.cs" />
+    <Compile Include="Views\ConfigAsTableView.xaml.cs">
+      <DependentUpon>ConfigAsTableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExportSelectionWindow.xaml.cs">
+      <DependentUpon>ExportSelectionWindow.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -116,6 +131,12 @@
   <ItemGroup>
     <Page Include="Resources\ConfigurationTemplates.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigAsTableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExportSelectionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

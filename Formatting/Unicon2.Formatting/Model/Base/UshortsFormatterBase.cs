@@ -32,8 +32,6 @@ namespace Unicon2.Formatting.Model.Base
 
         protected abstract IFormattedValue OnFormatting(ushort[] ushorts);
 
-        #region Implementation of IInitializableFromContainer
-
         public bool IsInitialized
         {
             get { return this._isInitialized; }
@@ -46,26 +44,12 @@ namespace Unicon2.Formatting.Model.Base
         }
 
 
-
-        #endregion
-
-
-        #region Implementation of IStronglyNamed
-
         public abstract string StrongName { get; }
-        #endregion
-
-        #region Implementation of ICloneable
 
         public abstract object Clone();
 
-        #endregion
-
-        #region Implementation of INameable
         [DataMember]
         public string Name { get; set; }
-
-        #endregion
     }
 
 }

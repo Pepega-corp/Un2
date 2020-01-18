@@ -75,12 +75,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
 
 
-        #region Overrides of PropertyEditorEditorViewModel
-
         public override string StrongName => ConfigurationKeys.DEPENDENT_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #region Overrides of PropertyEditorEditorViewModel
 
         protected override void SetModel(object model)
         {
@@ -105,18 +101,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
 
 
-        #endregion
-
         public override void StartEditElement()
         {
             this._isInEditMode = true;
             this._applicationGlobalCommands.ShowWindowModal((() => new DependentPropertyEditorWindow()), this);
         }
 
-
-        #endregion
-
-        #region Implementation of IDependentPropertyEditorViewModel
 
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
@@ -135,7 +125,5 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
 
         public ObservableCollection<IConditionViewModel> ConditionViewModels { get; set; }
-
-        #endregion
     }
 }

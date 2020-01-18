@@ -98,9 +98,9 @@ namespace Unicon2.Services
                 catch
                 {
                     var message =
-                        this._localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages
+                        this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
                             .DEVICE_READING_ERROR);
-                    this._logService.RaiseInfoMessage(message +" "+ name);
+                    this._logService.LogMessage(message +" "+ name);
                 }
             }
         }

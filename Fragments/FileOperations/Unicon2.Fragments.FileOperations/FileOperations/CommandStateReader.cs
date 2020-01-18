@@ -13,8 +13,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         private IDataProvider _dataProvider;
         private int _lastCommandStatus;
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
@@ -83,12 +81,5 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             }
             return new string(listChar.ToArray()).Split(new[] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries);
         }
-
-
-
-
-
-
-        #endregion
     }
 }

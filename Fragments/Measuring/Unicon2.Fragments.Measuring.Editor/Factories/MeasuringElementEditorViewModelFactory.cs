@@ -21,8 +21,6 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
         }
 
 
-        #region Implementation of IMeasuringElementEditorViewModelFactory
-
         public IMeasuringElementEditorViewModel CreateMeasuringElementEditorViewModel(
             IMeasuringElement measuringElement)
         {
@@ -71,7 +69,5 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
             controlSignalEditorViewModel.Model = measuringElement;
             return controlSignalEditorViewModel;
         }
-
-        #endregion
     }
 }

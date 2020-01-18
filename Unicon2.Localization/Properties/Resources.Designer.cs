@@ -367,6 +367,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddressIterator.
+        /// </summary>
+        public static string AddressIterator {
+            get {
+                return ResourceManager.GetString("AddressIterator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @AddressOfOscillogram.
         /// </summary>
         public static string AddressOfOscillogram {
@@ -1546,6 +1555,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @ExportConfiguration.
+        /// </summary>
+        public static string ExportConfiguration {
+            get {
+                return ResourceManager.GetString("ExportConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @FailedQueries.
         /// </summary>
         public static string FailedQueries {
@@ -1587,6 +1605,15 @@ namespace Unicon2.Localization.Properties {
         public static string FileBrowserDescription {
             get {
                 return ResourceManager.GetString("FileBrowserDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @FileExportSuccessful.
+        /// </summary>
+        public static string FileExportSuccessful {
+            get {
+                return ResourceManager.GetString("FileExportSuccessful", resourceCulture);
             }
         }
         
@@ -3103,6 +3130,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @SelectItemsToPrint.
+        /// </summary>
+        public static string SelectItemsToPrint {
+            get {
+                return ResourceManager.GetString("SelectItemsToPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @SetFalseBit.
         /// </summary>
         public static string SetFalseBit {
@@ -3355,6 +3391,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @Table.
+        /// </summary>
+        public static string Table {
+            get {
+                return ResourceManager.GetString("Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @TableView.
+        /// </summary>
+        public static string TableView {
+            get {
+                return ResourceManager.GetString("TableView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @TestResult.
         /// </summary>
         public static string TestResult {
@@ -3396,6 +3450,15 @@ namespace Unicon2.Localization.Properties {
         public static string TransferFromDeviceToLocal {
             get {
                 return ResourceManager.GetString("TransferFromDeviceToLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @Transform.
+        /// </summary>
+        public static string Transform {
+            get {
+                return ResourceManager.GetString("Transform", resourceCulture);
             }
         }
         

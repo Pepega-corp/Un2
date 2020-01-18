@@ -11,14 +11,10 @@ namespace Unicon2.Fragments.ModbusMemory.Model
             this.LimitOfValue = 100;
         }
 
-        #region Implementation of IMemoryConversion
-
         public int LimitOfValue { get; set; }
 
         public int MaximumOfUshortValue { get; set; }
 
         public int NumberOfSigns { get; set; }
-
-        #endregion
     }
 }

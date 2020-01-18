@@ -13,8 +13,6 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
         {
             this._container = container;
         }
-        
-        #region Implementation of IMeasuringGroupEditorViewModelFactory
 
         public IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel(IMeasuringGroup measuringGroup)
         {
@@ -33,7 +31,5 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
             measuringGroupEditorViewModel.Header = "Group";
             return measuringGroupEditorViewModel;
         }
-
-        #endregion
     }
 }

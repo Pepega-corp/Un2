@@ -6,6 +6,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
@@ -23,12 +24,14 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         private IRange _range;
         private IRangeViewModel _rangeViewModel;
         private bool _isRangeEnabled;
+        private IGlobalEventsService _globalEventsService;
 
         public RuntimePropertyViewModel(ITypesContainer container, IValueViewModelFactory valueViewModelFactory)
         {
             this._container = container;
             this._valueViewModelFactory = valueViewModelFactory;
             this.IsCheckable = false;
+            _globalEventsService = container.Resolve<IGlobalEventsService>();
         }
 
         public IFormattedValueViewModel DeviceValue
@@ -38,6 +41,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             {
                 this._value = value;
                 this.RaisePropertyChanged();
+                
             }
         }
 
@@ -95,7 +99,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 }
                 else
                 {
-                    this.DeviceValue = this._valueViewModelFactory.CreateFormattedValueViewModel(formattedValue);
+                    this.DeviceValue = this._valueViewModelFactory.CreateFormattedValueViewModel(formattedValue, (this._model as IProperty), (this._model as IProperty));
                 }
 
             }
@@ -109,8 +113,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             this.LocalValue = (this._valueViewModelFactory as IPropertyValueViewModelFactory)?.CreateEditableFormattedValueViewModel(formattedValue, (this._model as IProperty), ushortsFormatter);
         }
 
-
-        #region Overrides of ConfigurationItemViewModelBase
 
         public override string TypeName => this.GetTypeName();
 
@@ -155,6 +157,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                     settingProperty.UshortsFormatter);
                 if (settingProperty.DeviceUshortsValue != null)
                     this.LocalValue?.SetBaseValueToCompare(settingProperty.DeviceUshortsValue);
+
             };
             base.SetModel(model);
 
@@ -167,10 +170,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             settingProperty.ConfigurationItemChangedAction?.Invoke();
 
         }
-
-        #endregion
-
-        #region Implementation of IMeasurable
 
         public string MeasureUnit
         {
@@ -192,10 +191,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             }
         }
 
-        #endregion
-
-        #region Implementation of IRangeableViewModel
-
         public bool IsRangeEnabled
         {
             get { return this._isRangeEnabled; }
@@ -215,9 +210,5 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this.RaisePropertyChanged();
             }
         }
-
-
-
-        #endregion
     }
 }

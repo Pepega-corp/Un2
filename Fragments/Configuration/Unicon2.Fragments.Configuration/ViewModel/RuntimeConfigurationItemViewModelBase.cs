@@ -14,8 +14,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         }
 
 
-        #region Implementation of IRuntimeConfigurationItemViewModel
-
         public ObservableCollection<IRuntimeConfigurationItemViewModel> ChildStructItemViewModels { get; }
 
         public new IRuntimeConfigurationItemViewModel Parent
@@ -27,8 +25,5 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 this.RaisePropertyChanged();
             }
         }
-
-
-        #endregion
     }
 }

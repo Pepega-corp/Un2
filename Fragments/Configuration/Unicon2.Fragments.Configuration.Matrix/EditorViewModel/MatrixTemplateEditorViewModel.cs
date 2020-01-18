@@ -49,9 +49,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         private int _valueSignatureNumberOfPoints;
         private bool _isInversion;
 
-        #region [CONST]
         private const string _inversionString = " Инв";
-        #endregion
+
         public MatrixTemplateEditorViewModel(
             IMatrixMemoryVariableEditorViewModelFactory matrixMemoryVariableEditorViewModelFactory,
             IVariableSignatureEditorViewModelFactory variableSignatureEditorViewModelFactory,
@@ -244,13 +243,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(MatrixTemplateEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -303,10 +296,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 this.SelectedMatrixVariableOptionTemplateEditorViewModel.Model as IMatrixVariableOptionTemplate;
             this._model.ResultBitOptions = this.BitOptionEditorViewModels.Select((model => model.Model as IBitOption)).ToList();
         }
-
-        #endregion
-
-        #region Implementation of IMatrixTemplateEditorViewModel
 
         public int NumberOfBitsOnEachVariable
         {
@@ -431,9 +420,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             FluentValidation.Results.ValidationResult res = (new MatrixTemplateEditorViewModelValidator(this._localizerService)).Validate(this);
             this.SetValidationErrors(res);
         }
-
-
-        #endregion
     }
 }
 

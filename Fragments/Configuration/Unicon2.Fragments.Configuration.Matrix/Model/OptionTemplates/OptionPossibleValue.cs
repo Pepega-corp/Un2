@@ -13,12 +13,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates
             this.PossibleValueConditions = new List<IPossibleValueCondition>();
         }
 
-        #region Implementation of IOptionPossibleValue
         [DataMember]
         public string PossibleValueName { get; set; }
         [DataMember]
         public List<IPossibleValueCondition> PossibleValueConditions { get; set; }
-
-        #endregion
     }
 }

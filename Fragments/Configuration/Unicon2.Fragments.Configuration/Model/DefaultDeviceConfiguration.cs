@@ -29,13 +29,7 @@ namespace Unicon2.Fragments.Configuration.Model
             this.RootConfigurationItemList = new List<IConfigurationItem>();
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
-
-        #endregion
-        
-        #region Implementation of IDeviceConfiguration
 
         [DataMember(Name = nameof(RootConfigurationItemList), Order = 1)]
 
@@ -70,10 +64,6 @@ namespace Unicon2.Fragments.Configuration.Model
         [DataMember(Name = nameof(ConfigurationSettings), Order = 2)]
         public IFragmentSettings FragmentSettings { get; set; }
 
-        #endregion
-
-        #region Implementation of ISerializableInFile
-
         public void SerializeInFile(string elementName, bool isDefaultSaving)
         {
             try
@@ -88,7 +78,7 @@ namespace Unicon2.Fragments.Configuration.Model
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                throw e;
             }
         }
 
@@ -110,10 +100,6 @@ namespace Unicon2.Fragments.Configuration.Model
             }
         }
 
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
-
         public bool IsInitialized { get; private set; }
 
         public void InitializeFromContainer(ITypesContainer container)
@@ -128,10 +114,6 @@ namespace Unicon2.Fragments.Configuration.Model
             this._serializerService = container.Resolve<ISerializerService>();
             this.IsInitialized = true;
         }
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
@@ -212,8 +194,6 @@ namespace Unicon2.Fragments.Configuration.Model
         }
 
 
-        #region Overrides of Disposable
-
         protected override void OnDisposing()
         {
             foreach (IConfigurationItem configurationItem in this.RootConfigurationItemList)
@@ -223,12 +203,6 @@ namespace Unicon2.Fragments.Configuration.Model
             base.OnDisposing();
         }
 
-        #endregion
-
-        #endregion
-
-
-        #region Helpers
 
         private bool CheckItemRecursive(IConfigurationItem configurationItem,
             IConfigurationItem configurationItemToCheck)
@@ -259,10 +233,5 @@ namespace Unicon2.Fragments.Configuration.Model
             }
             return true;
         }
-
-
-        #endregion
-
-
     }
 }

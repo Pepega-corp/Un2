@@ -22,17 +22,12 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             this.SubProperties = new List<ISubProperty>();
         }
 
-        #region Implementation of IComplexProperty
         [DataMember]
         public List<ISubProperty> SubProperties { get; set; }
 
         [DataMember]
         public bool IsGroupedProperty { get; set; }
 
-        #endregion
-
-
-        #region Overrides of DefaultProperty
 
         public override string StrongName => ConfigurationKeys.COMPLEX_PROPERTY;
 
@@ -82,7 +77,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
                 }
                 else
                 {
-                    return await base.Write();
+                   return await base.Write();
                 }
             }
             return isToWrite;
@@ -131,8 +126,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             complexProperty.IsRangeEnabled = this.IsRangeEnabled;
             return complexProperty;
         }
-
-        #endregion
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)

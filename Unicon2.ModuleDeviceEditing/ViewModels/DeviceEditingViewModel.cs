@@ -42,6 +42,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         private string _deviceSignature;
         private IDeviceConnection _previousDeviceConnection;
         private IDevice _editingDevice;
+        private bool _canSubmitCommandExecute = true;
 
         public DeviceEditingViewModel(Func<IDeviceDefinitionViewModel> deviceDefinitionCreator,
             IDevicesContainerService devicesContainerService, ITypesContainer container,
@@ -57,7 +58,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             this._dialogCoordinator = dialogCoordinator;
             this._localizerService = localizerService;
 
-            this.SubmitCommand = new RelayCommand(this.OnSubmitCommand);
+            this.SubmitCommand = new RelayCommand(this.OnSubmitCommand, () => _canSubmitCommandExecute);
             this.OpenDeviceFromFileCommand = new RelayCommand(this.OnOpenDeviceFromFileExecute);
 
             //подгрузка всех зарегистрированных фабрик разных видов подключений
@@ -144,7 +145,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             catch (Exception e)
             {
                 this._dialogCoordinator.ShowModalMessageExternal(this,
-                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.ErrorMessages.PORT_ERROR_MESSAGE),
+                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.PORT_ERROR_MESSAGE),
                     e.Message);
                 return false;
             }
@@ -157,36 +158,48 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         /// </summary>
         private async void OnSubmitCommand()
         {
-            if (this.HasErrors) return;
-            if (this.SelectedDeviceConnection == null) return;
-            IDevice connectingDevice = null;
-
-            //в режиме редактирования предыдущее подключение нужно удалить
-            if (this.CurrentMode == ModesEnum.EditingMode)
+            _canSubmitCommandExecute = false;
+            SubmitCommand.RaiseCanExecuteChanged();
+            try
             {
-                connectingDevice = this._editingDevice;
-                this._previousDeviceConnection?.Dispose();
+                if (this.HasErrors) return;
+                if (this.SelectedDeviceConnection == null) return;
+                IDevice connectingDevice = null;
+
+                //в режиме редактирования предыдущее подключение нужно удалить
+                if (this.CurrentMode == ModesEnum.EditingMode)
+                {
+                    connectingDevice = this._editingDevice;
+                    this._previousDeviceConnection?.Dispose();
+                }
+
+                //В режиме добавления выбранное устройство инициализиреутся
+                if (this.CurrentMode == ModesEnum.AddingMode)
+                {
+                    this.FireErrorsChanged(nameof(this.SelectedDevice));
+                    if (this.SelectedDevice == null) return;
+                    connectingDevice = (this.SelectedDevice.Model as IDeviceCreator).Create();
+                }
+
+                if (connectingDevice == null) return;
+
+                //модель выбранного подключения клонируется, что не создавать устройства с ссылкой на одно и то же подключкение
+                //попытка подключения, при неудаче вывод сообщения и прекращение создания устройства
+                if (!await this.ConnectDevice(connectingDevice,
+                    (this.SelectedDeviceConnection.Model as IDeviceConnection)?.Clone() as IDeviceConnection)) return;
+
+
+                connectingDevice.DeviceSignature = this.DeviceSignature;
+
+                //закрытие представления
+                this.IsFlyOutOpen = false;
+            }
+            finally
+            {
+                _canSubmitCommandExecute = true;
+                SubmitCommand.RaiseCanExecuteChanged();
             }
 
-            //В режиме добавления выбранное устройство инициализиреутся
-            if (this.CurrentMode == ModesEnum.AddingMode)
-            {
-                this.FireErrorsChanged(nameof(this.SelectedDevice));
-                if (this.SelectedDevice == null) return;
-                connectingDevice = (this.SelectedDevice.Model as IDeviceCreator).Create();
-            }
-            if (connectingDevice == null) return;
-
-            //модель выбранного подключения клонируется, что не создавать устройства с ссылкой на одно и то же подключкение
-            //попытка подключения, при неудаче вывод сообщения и прекращение создания устройства
-            if (!await this.ConnectDevice(connectingDevice,
-                (this.SelectedDeviceConnection.Model as IDeviceConnection)?.Clone() as IDeviceConnection)) return;
-
-
-            connectingDevice.DeviceSignature = this.DeviceSignature;
-
-            //закрытие представления
-            this.IsFlyOutOpen = false;
         }
 
         /// <summary>
@@ -263,7 +276,6 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         }
 
 
-        #region INavigationAware Members
         /// <summary>
         /// метод, срабатывающий при навигации на представление
         /// </summary>
@@ -299,10 +311,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             }
         }
 
-        #endregion
 
-
-        #region INotifyDataErrorInfo
         private readonly Dictionary<string, List<ValidationFailure>> _errorDictionary = new Dictionary<string, List<ValidationFailure>>();
         public bool HasErrors => this._errorDictionary.Count != 0;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = OnErrorsChanged;
@@ -346,12 +355,10 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             //ValidationResult result = new DeviceEditingViewModelValidator(this._container.Resolve<ILocalizerService>()).Validate(this);
             //this.SetValidationErrors(result);
         }
-        
+
         private static void OnErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
             (sender as DeviceEditingViewModel)?.OnValidate();
         }
-       
-        #endregion
     }
 }

@@ -1236,6 +1236,9 @@
   <data name="DecreaseAddress" xml:space="preserve">
     <value>Decrease Address</value>
   </data>
+  <data name="AddressIterator" xml:space="preserve">
+    <value>Address Iterator</value>
+  </data>
   <data name="StringFormatter1251" xml:space="preserve">
     <value>String formatter (1251)</value>
   </data>
@@ -1341,10 +1344,28 @@
   <data name="EnsuringMessage" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
+  <data name="Transform" xml:space="preserve">
+    <value>Transform</value>
+  </data>
   <data name="DependentParameter" xml:space="preserve">
     <value>Dependent parameter</value>
   </data>
   <data name="DeviceReadingError" xml:space="preserve">
     <value>Device reading error</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
+  </data>
+  <data name="ExportConfiguration" xml:space="preserve">
+    <value>Export сonfiguration</value>
+  </data>
+  <data name="SelectItemsToPrint" xml:space="preserve">
+    <value>Select items to print</value>
+  </data>
+  <data name="FileExportSuccessful" xml:space="preserve">
+    <value>File export successful</value>
+  </data>
+  <data name="TableView" xml:space="preserve">
+    <value>Table view</value>
   </data>
 </root>

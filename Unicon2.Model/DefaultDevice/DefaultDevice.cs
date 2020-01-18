@@ -122,9 +122,6 @@ namespace Unicon2.Model.DefaultDevice
         }
 
 
-
-        #region Overrides of Disposable
-
         protected override void OnDisposing()
         {
             this._logService?.DeleteLogger(this.DeviceLogger);
@@ -132,12 +129,6 @@ namespace Unicon2.Model.DefaultDevice
             base.OnDisposing();
         }
 
-        #endregion
-
-
-
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -171,8 +162,6 @@ namespace Unicon2.Model.DefaultDevice
                 (deviceFragment as IParentDeviceNameRequirable)?.SetParentDeviceName(this.Name);
             }
         }
-        #endregion
-
     }
 
 

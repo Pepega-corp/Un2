@@ -17,7 +17,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
             this._writingValueContext = writingValueContext;
         }
 
-        #region Implementation of IWritingValueContextViewModel
         public ushort Address
         {
             get { return this._address; }
@@ -48,15 +47,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
             }
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MeasuringKeys.WRITING_VALUE_CONTEXT;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -76,7 +67,5 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
                 this.Address = this._writingValueContext.Address;
             }
         }
-
-        #endregion
     }
 }

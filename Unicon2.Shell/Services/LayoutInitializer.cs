@@ -8,8 +8,6 @@ namespace Unicon2.Shell.Services
 {
     public class LayoutInitializer : ILayoutUpdateStrategy
     {
-        #region Implementation of ILayoutUpdateStrategy
-
         public bool BeforeInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableToShow,
             ILayoutContainer destinationContainer)
         {
@@ -63,7 +61,5 @@ namespace Unicon2.Shell.Services
         {
 
         }
-
-        #endregion
     }
 }

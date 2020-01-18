@@ -26,24 +26,14 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         [DataMember(Order =2)]
         public ushort NumberOfPoints { get; set; }
 
-        #region Implementation of IStronglyNamed
-
         public override string StrongName => nameof(DefaultProperty);
 
-        #endregion
-
-
-        #region Implementation of IMeasurable
 
         [DataMember(Order = 3)]
         public string MeasureUnit { get; set; }
 
         [DataMember(Order = 4)]
         public bool IsMeasureUnitEnabled { get; set; }
-
-        #endregion
-
-        #region Implementation of IRangeable
 
         [DataMember(Order = 5)]
 
@@ -52,10 +42,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         [DataMember(Order =6)]
         public IRange Range { get; set; }
 
-        #endregion
-
-
-        #region Overrides of ConfigurationItemBase
 
         public override async Task Load()
         {
@@ -122,8 +108,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             base.InitializeValue(localConfigurationItem);
         }
 
-        #endregion
-
 
         protected override IConfigurationItem OnCloning()
         {
@@ -139,17 +123,12 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         }
 
 
-        #region Overrides of ConfigurationItemBase
-
         public override void InitializeFromContainer(ITypesContainer container)
         {
             (this.UshortsFormatter as IInitializableFromContainer)?.InitializeFromContainer(container);
             base.InitializeFromContainer(container);
         }
-        
 
-        #endregion
-        
 
         public DefaultProperty(Func<IRange> rangeGetFunc) : base(rangeGetFunc)
         {

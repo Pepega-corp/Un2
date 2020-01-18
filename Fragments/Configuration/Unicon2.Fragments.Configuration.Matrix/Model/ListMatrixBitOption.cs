@@ -14,16 +14,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         {
             this.NumbersOfAssotiatedBits = new List<int>();
         }
-        
-        #region Implementation of IStronglyNamed
-
 
 
         public string StrongName => MatrixKeys.LIST_MATRIX_BIT_OPTION;
-
-        #endregion
-
-        #region Implementation of IBitOption
 
         public string FullSignature => this.VariableColumnSignature.Signature + " " + this.OptionPossibleValue.PossibleValueName;
 
@@ -44,7 +37,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
         [DataMember]
         public IOptionPossibleValue OptionPossibleValue { get; set; }
-
-        #endregion
     }
 }

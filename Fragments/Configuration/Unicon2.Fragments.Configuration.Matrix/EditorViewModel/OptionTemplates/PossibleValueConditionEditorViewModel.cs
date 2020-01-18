@@ -12,13 +12,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         private bool _boolConditionRule;
         private IOptionPossibleValueEditorViewModel _relatedOptionPossibleValueEditorViewModel;
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(PossibleValueConditionEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -35,10 +29,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
                 this.BoolConditionRule = this._model.BoolConditionRule;
             }
         }
-
-        #endregion
-
-        #region Implementation of IPossibleValueConditionEditorViewModel
 
         public bool BoolConditionRule
         {
@@ -66,7 +56,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
                 availableOptionPossibleValueEditorViewModels.First((model =>
                     model.Model.Equals(this._model.RelatedOptionPossibleValue)));
         }
-
-        #endregion
     }
 }

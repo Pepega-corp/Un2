@@ -37,13 +37,7 @@ namespace Unicon2.Presentation.Connection
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName { get; }
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -74,10 +68,6 @@ namespace Unicon2.Presentation.Connection
                 this._connectionState.ConnectionStateChangedAction?.Invoke();
             }
         }
-
-        #endregion
-
-        #region Implementation of IConnectionStateViewModel
 
         public bool IsDeviceConnected { get; private set; }
 
@@ -112,7 +102,5 @@ namespace Unicon2.Presentation.Connection
 
         public IFormattedValueViewModel TestValueViewModel { get; set; }
         public ICommand CheckConnectionCommand { get; }
-
-        #endregion
     }
 }

@@ -8,15 +8,10 @@ namespace Unicon2.Model.Values
 
     public class NumericValue:FormattedValueBase,INumericValue
     {
-        #region Implementation of IMeasurable
         [DataMember]
         public string MeasureUnit { get; set; }
         [DataMember]
         public bool IsMeasureUnitEnabled { get; set; }
-
-        #endregion
-
-        #region Implementation of IStronglyNamed
 
         public override string StrongName => nameof(NumericValue);
         public override string AsString()
@@ -24,21 +19,12 @@ namespace Unicon2.Model.Values
             return this.ToString();
         }
 
-        #endregion
-
-        #region Implementation of INumericValue
         [DataMember]
         public double NumValue { get; set; }
-
-        #endregion
-
-        #region Overrides of Object
 
         public override string ToString()
         {
             return this.NumValue.ToString();
         }
-
-        #endregion
     }
 }

@@ -35,13 +35,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(OptionPossibleValueEditorViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -68,10 +62,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
             }
         }
 
-        #endregion
-
-        #region Implementation of IOptionPossibleValueEditorViewModel
-
         public string PossibleValueName
         {
             get { return this._possibleValueName; }
@@ -96,7 +86,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
                 possibleValueConditionEditorViewModel.SetAvailableOptionPossibleValueEditorViewModel(optionPossibleValueEditorViewModels);
             }
         }
-
-        #endregion
     }
 }

@@ -30,12 +30,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
         private bool _isConnectionLost;
         private IDeviceLogger _deviceLogger;
 
-        #region Overrides of ModbusDataProvider
-
-
-
-        #endregion
-
         public ModBusRtuConnection(IComConnectionManager connectionManager, ITypesContainer container, ILocalizerService localizerService,
             IComPortConfigurationFactory comPortConfigurationFactory, IQueryResultFactory queryResultFactory) : base(queryResultFactory)
         {
@@ -123,8 +117,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
             base.OnDisposing();
         }
 
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             IModbusRtuConnection modbusRtuConnection = this._container.Resolve<IModbusRtuConnection>();
@@ -134,10 +126,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
             return modbusRtuConnection;
         }
 
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public override void InitializeFromContainer(ITypesContainer container)
         {
@@ -150,10 +138,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
             this._isInitialized = true;
             base.InitializeFromContainer(container);
         }
-
-        #endregion
-
-        #region Implementation of IDataProvider
 
 
         protected override void LogQuery(bool isSuccessful, string dataTitle, string queryDescription, string queryResult = "", Exception exception = null)
@@ -191,10 +175,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
                 this._deviceLogger?.LogFailedQuery($"[{queryDescription}] {localizedDataTitle}  {queryResult}");
             }
         }
-
-
-
-        #endregion
     }
 
 }

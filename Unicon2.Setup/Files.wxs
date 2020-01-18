@@ -21,6 +21,8 @@
         <File Id='XAMLMarkupExtensions' DiskId='1' Name='XAMLMarkupExtensions.dll'/>
         <File Id='XceedWpfAvalonDock' DiskId='1' Name='Xceed.Wpf.AvalonDock.dll'/>
         <File Id='XceedWpfAvalonDockThemesMetro' DiskId='1' Name='Xceed.Wpf.AvalonDock.Themes.Metro.dll'/>
+        <File Id='SystemWebWebPages' DiskId='1' Name='System.Web.WebPages.dll'/>
+
         <!-- Project files -->
         <File Id='Shell' DiskId='1' Name='Unicon2.Shell.exe'/>
         <File Id='NLogConfig' DiskId='1' Name='NLog.config'/>
@@ -67,6 +69,8 @@
         <File Id='Unicon2FragmentsFileOperationsdll' DiskId='1' Name='Unicon2.Fragments.FileOperations.dll'/>
         <File Id='Unicon2FragmentsFileOperationsEditordll' DiskId='1' Name='Unicon2.Fragments.FileOperations.Editor.dll'/>
         <File Id='Unicon2FragmentsFileOperationsInfrastructuredll' DiskId='1' Name='Unicon2.Fragments.FileOperations.Infrastructure.dll'/>
+        <File Id='Unicon2FragmentConfigurationExporterdll' DiskId='1' Name='Unicon2.Fragments.Configuration.Exporter.dll'/>
+
       </Component>
     </DirectoryRef>
 

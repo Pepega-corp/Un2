@@ -18,8 +18,6 @@ namespace Unicon2.Services.GeneralFactories
         }
 
 
-        #region Implementation of IGeneralViewModelFactory<out T>
-
         public T CreateEditorViewModelByStrongName(IStronglyNamed modelStronglyNamed)
         {
             T viewModel = this._container.Resolve<T>(modelStronglyNamed.StrongName + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
@@ -47,7 +45,5 @@ namespace Unicon2.Services.GeneralFactories
             T viewModel = this._container.Resolve<T>();
             return viewModel;
         }
-
-        #endregion
     }
 }

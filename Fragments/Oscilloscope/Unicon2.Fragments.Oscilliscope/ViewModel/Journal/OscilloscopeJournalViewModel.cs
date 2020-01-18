@@ -50,8 +50,6 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel.Journal
         private IOscilloscopeModel _oscilloscopeModel;
         private bool _canExecuteJournalLoading;
 
-        #region Implementation of IUniconJournalViewModel
-
         public List<string> JournalParametersNameList { get; set; }
         public DynamicDataTable Table { get; set; }
 
@@ -67,17 +65,9 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel.Journal
             }
         }
 
-        #endregion
-
-
-        #region Implementation of IStronglyNamed
 
         public string StrongName => OscilloscopeKeys.OSCILLOSCOPE_JOURNAL +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -143,10 +133,6 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel.Journal
             }
         }
 
-        #endregion
-
-        #region Implementation of IOscilloscopeJournalViewModel
-
         public List<int> SelectedRows
         {
             get { return this._selectedRows; }
@@ -161,7 +147,5 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel.Journal
         {
             this._oscilloscopeModel = oscilloscopeModel;
         }
-
-        #endregion
     }
 }

@@ -17,6 +17,9 @@ using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;
 using Unicon2.Fragments.Configuration.Matrix.Module;
 using Unicon2.Fragments.Configuration.Module;
+//using Unicon2.Fragments.DateTime.Module;
+//using Unicon2.Fragments.DateTime.Editor.Module;
+using Unicon2.Fragments.Configuration.Exporter.Module;
 using Unicon2.Fragments.FileOperations.Editor.Module;
 using Unicon2.Fragments.FileOperations.Module;
 using Unicon2.Fragments.Journals.Editor.Module;
@@ -33,11 +36,13 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Model.Module;
 using Unicon2.ModuleDeviceEditing;
+using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Module;
 using Unicon2.Presentation.ViewModels;
 using Unicon2.Services.Module;
 using Unicon2.Shell.ControlRegionAdapter;
+using Unicon2.Shell.EventAggregator;
 using Unicon2.Shell.Services;
 using Unicon2.Shell.ViewModels;
 using Unicon2.Shell.Views;
@@ -112,7 +117,7 @@ namespace Unicon2.Shell
             //Register TypesContainer that represent IUnityContainer
             containerRegistry.RegisterSingleton<ITypesContainer, TypesContainer>();
             StaticContainer.SetContainer(Container.Resolve<ITypesContainer>());
-
+            containerRegistry.RegisterSingleton<IGlobalEventsService,GlobalEventsService>();
             containerRegistry.RegisterInstance(DialogCoordinator.Instance);
             containerRegistry.Register<IDeviceDefinitionViewModel, DeviceDefinitionViewModel>();
             containerRegistry.RegisterInstance<IApplicationSettingsService>(new ApplicationSettingsService());
@@ -158,7 +163,10 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, FormattingModule>(nameof(FormattingModule));
             container.Register<IUnityModule, FormattingEditorModule>(nameof(FormattingEditorModule));
             container.Register<IUnityModule, ConfigurationModule>(nameof(ConfigurationModule));
+            container.Register<IUnityModule, ConfigurationExporterModule>(nameof(ConfigurationExporterModule));
             container.Register<IUnityModule, ConfigurationEditorModule>(nameof(ConfigurationEditorModule));
+            //container.Register<IUnityModule, UniconDateTimeModule>(nameof(UniconDateTimeModule));
+            //container.Register<IUnityModule, UniconDateTimeEditorModule>(nameof(UniconDateTimeEditorModule));
             container.Register<IUnityModule, ModbusMemoryModule>(nameof(ModbusMemoryModule));
             container.Register<IUnityModule, JournaEditorModule>(nameof(JournaEditorModule));
             container.Register<IUnityModule, UniconJournalModule>(nameof(UniconJournalModule));

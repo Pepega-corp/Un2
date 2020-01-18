@@ -12,8 +12,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
     {
         private IDataProvider _dataProvider;
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._dataProvider = dataProvider;
@@ -43,7 +41,5 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 return ushorts.ToArray().UshortArrayToByteArray(false).Take(dataLenght).ToArray();
             }
         }
-
-        #endregion
     }
 }

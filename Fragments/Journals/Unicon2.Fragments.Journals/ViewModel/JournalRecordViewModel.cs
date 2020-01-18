@@ -22,8 +22,6 @@ namespace Unicon2.Fragments.Journals.ViewModel
             this._valueViewModelFactory = valueViewModelFactory;
             this.FormattedValueViewModels = new List<IFormattedValueViewModel>();
         }
-        
-        #region Implementation of IJournalRecordViewModel
 
         public int NumberOfRecord
         {
@@ -45,16 +43,8 @@ namespace Unicon2.Fragments.Journals.ViewModel
             }
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => JournalKeys.JOURNAL_RECORD + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -78,7 +68,5 @@ namespace Unicon2.Fragments.Journals.ViewModel
 
             }
         }
-
-        #endregion
     }
 }

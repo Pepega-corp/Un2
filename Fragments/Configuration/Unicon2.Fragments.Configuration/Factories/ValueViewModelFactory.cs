@@ -20,24 +20,45 @@ namespace Unicon2.Fragments.Configuration.Factories
             this._container = container;
         }
 
-        #region Implementation of IValueViewModelFactory
-
-        public IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue)
+        public IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue,
+            IMeasurable measurable = null, IRangeable rangeable = null)
         {
             try
             {
                 IFormattedValueViewModel formattedValueViewModel =
-                             this._container.Resolve<IFormattedValueViewModel>(formattedValue.StrongName +
-                             ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                    this._container.Resolve<IFormattedValueViewModel>(formattedValue.StrongName +
+                                                                      ApplicationGlobalNames.CommonInjectionStrings
+                                                                          .VIEW_MODEL);
                 formattedValueViewModel.InitFromValue(formattedValue);
+                if (measurable != null)
+                {
+                    formattedValueViewModel.IsMeasureUnitEnabled = measurable.IsMeasureUnitEnabled;
+                    formattedValueViewModel.MeasureUnit = measurable.MeasureUnit;
+                }
+                else
+                {
+                    formattedValueViewModel.IsMeasureUnitEnabled = false;
+                }
+                if (rangeable != null)
+                {
+                    formattedValueViewModel.IsRangeEnabled = rangeable.IsRangeEnabled;
+                    formattedValueViewModel.Range = rangeable.Range;
+                }
+                else
+                {
+                    formattedValueViewModel.IsRangeEnabled = false;
+                }
+
                 return formattedValueViewModel;
             }
             catch (Exception)
             {
                 IFormattedValueViewModel formattedValueViewModel =
-                    this._container.Resolve<IFormattedValueViewModel>(PresentationKeys.STRING_VALUE_KEY +
-                                                                 ApplicationGlobalNames.CommonInjectionStrings
-                                                                     .VIEW_MODEL);
+
+                    this._container.Resolve<IFormattedValueViewModel>("StringValue" +
+                                                                      ApplicationGlobalNames.CommonInjectionStrings
+                                                                          .VIEW_MODEL);
+
                 (formattedValueViewModel as IStringValueViewModel).StringValue = formattedValue.AsString();
                 return formattedValueViewModel;
             }
@@ -84,6 +105,8 @@ namespace Unicon2.Fragments.Configuration.Factories
                 property.LocalUshortsValue = ushortsNew;
                 (property as ISubProperty)?.LocalValueChanged?.Invoke();
             };
+            editableValueViewModel.IsMeasureUnitEnabled = property.IsMeasureUnitEnabled;
+            editableValueViewModel.MeasureUnit = property.MeasureUnit;
             if (property.DeviceUshortsValue != null)
             {
                 editableValueViewModel.SetBaseValueToCompare(property.DeviceUshortsValue);
@@ -156,7 +179,5 @@ namespace Unicon2.Fragments.Configuration.Factories
         //    }
         //    return formattedValueViewModel;
         //}
-
-        #endregion
     }
 }

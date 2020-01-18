@@ -34,14 +34,10 @@ namespace Unicon2.Formatting.Model
             return new DirectUshortFormatter();
         }
 
-        #region Implementation of IInitializableFromContainer
-
         public override void InitializeFromContainer(ITypesContainer container)
         {
             this._numericValueGettingFunc = container.Resolve(typeof(Func<INumericValue>)) as Func<INumericValue>;
             base.InitializeFromContainer(container);
         }
-
-        #endregion
     }
 }

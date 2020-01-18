@@ -25,14 +25,8 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this.RaisePropertyChanged(nameof(this.FormatterString));
         }
 
-        #region Implementation of ISubJournalParameterEditorViewModel
-
         public ObservableCollection<ISharedBitViewModel> BitNumbersInWord { get; set; }
         public ICommand ShowFormatterParametersCommand { get; }
-
-        #endregion
-
-        #region Overrides of JournalParameterEditorViewModel
 
         protected override void SetModel(object value)
         {
@@ -63,7 +57,5 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             }
             base.SaveModel();
         }
-
-        #endregion
     }
 }

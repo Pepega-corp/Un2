@@ -18,8 +18,6 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         private ObservableCollection<IDeviceViewModel> _deviceViewModels;
 
-        #region Implementation of IProjectBrowserViewModel
-
         public ObservableCollection<IDeviceViewModel> DeviceViewModels
         {
             get => _deviceViewModels;
@@ -29,13 +27,5 @@ namespace Unicon2.Presentation.ViewModels.Windows
                 RaisePropertyChanged();
             }
         }
-
-        #endregion
-
-
-
-
-     
-
     }
 }

@@ -36,15 +36,9 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public override string StrongName =>
             FileOperationsKeys.DEVICE_DIRECTORY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public override object Model
         {
@@ -70,10 +64,6 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
             }
         }
 
-        #endregion
-
-        #region Implementation of IBrowserElementViewModel
-
         public override string ElementPath
         {
             get { return this._elementPath; }
@@ -84,10 +74,6 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
             get { return this._name; }
         }
 
-        #endregion
-
-        #region Implementation of IDeviceDirectoryViewModel
-
         public ObservableCollection<IBrowserElementViewModel> ChildBrowserElementViewModels { get; }
 
         public ICommand LoadDirectoryCommand { get; }
@@ -95,7 +81,5 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
         public ICommand CreateChildDirectoryCommand { get; }
 
         public ICommand UploadFileInDirectoryCommand { get; }
-
-        #endregion
     }
 }

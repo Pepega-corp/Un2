@@ -20,17 +20,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public class ConfigurationGroupEditorViewModel : EditorConfigurationItemViewModelBase, IConfigurationGroupEditorViewModel
     {
-        #region Private Field
-
         private readonly ITypesContainer _container;
         private readonly IConfigurationItemEditorViewModelFactory _configurationItemEditorViewModelFactory;
         private readonly IConfigurationItemFactory _configurationItemFactory;
         private ObservableCollection<IPropertyViewModel> _properties;
         private bool _isInEditMode;
-
-        #endregion
-
-        #region Ctor
+        private ushort _addressIteratorValue = 1;
+        private bool _isTableViewAllowed;
 
         public ConfigurationGroupEditorViewModel(ITypesContainer container,
             IConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory,
@@ -48,6 +44,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             foreach (IConfigurationItemViewModel childStructItemViewModel in this.ChildStructItemViewModels)
             {
+                (childStructItemViewModel as IAddressIncreaseableDecreaseable).AddressIteratorValue = AddressIteratorValue;
                 (childStructItemViewModel as IAddressIncreaseableDecreaseable)?.DecreaseAddressCommand?.Execute(null);
             }
         }
@@ -56,14 +53,23 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             foreach (IConfigurationItemViewModel childStructItemViewModel in this.ChildStructItemViewModels)
             {
+                (childStructItemViewModel as IAddressIncreaseableDecreaseable).AddressIteratorValue = AddressIteratorValue;
                 (childStructItemViewModel as IAddressIncreaseableDecreaseable)?.IncreaseAddressCommand?.Execute(null);
             }
         }
 
-        #endregion
-
-
-        #region ICompositeEditOpeations Members
+        public ushort AddressIteratorValue
+        {
+            get
+            {
+                return this._addressIteratorValue;
+            }
+            set
+            {
+                this._addressIteratorValue = value;
+                this.RaisePropertyChanged();
+            }
+        }
 
         public bool IsInEditMode
         {
@@ -153,8 +159,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             return newConfigurationItemViewModel;
         }
 
-        #endregion
-
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)
         {
             if (this.ChildStructItemViewModels.Contains(element))
@@ -219,15 +223,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-        #region Overrides of ConfigurationItemViewModelBase
-
         public override string TypeName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
 
         public override string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-
-        #region Overrides of ConfigurationItemViewModelBase
 
         protected override void SetModel(object model)
         {
@@ -237,12 +237,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 this.ChildStructItemViewModels.Add(this._configurationItemEditorViewModelFactory
                     .ResolveConfigurationItemEditorViewModel(configurationItem, this));
                 this.IsCheckable = true;
+                this.IsTableViewAllowed = (model as IItemsGroup).IsTableViewAllowed;
             };
             base.SetModel(model);
         }
 
-
-        #region Overrides of ConfigurationItemViewModelBase
 
         protected override void SaveModel()
         {
@@ -255,23 +254,19 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             base.SaveModel();
         }
 
-        #endregion
-
 
         protected override object GetModel()
         {
-
+            var itemsGroup = (_model as IItemsGroup);
+            itemsGroup.ConfigurationItemList.Clear();
+            foreach (var childStructItemViewModel in ChildStructItemViewModels)
+            {
+                itemsGroup.ConfigurationItemList.Add(childStructItemViewModel.Model as IConfigurationItem);
+            }
+            itemsGroup.IsTableViewAllowed = IsTableViewAllowed;
             return base.GetModel();
         }
 
-
-        #endregion
-
-
-
-        #endregion
-
-        #region Implementation of IChildItemRemovable
 
         public void RemoveChildItem(IConfigurationItem configurationItemToRemove)
         {
@@ -279,10 +274,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 this.ChildStructItemViewModels.First((model => model.Model == configurationItemToRemove)));
             (this._model as IItemsGroup).ConfigurationItemList.Remove(configurationItemToRemove);
         }
-
-        #endregion
-
-        #region Implementation of IAsChildPasteable
 
         public void PasteAsChild(object itemToPaste)
         {
@@ -292,10 +283,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             }
         }
 
-        #endregion
-
-        #region Overrides of EditorConfigurationItemViewModelBase
-
         public override object Clone()
         {
             ConfigurationGroupEditorViewModel cloneEditorViewModel = new ConfigurationGroupEditorViewModel(this._container, this._configurationItemEditorViewModelFactory, this._configurationItemFactory);
@@ -304,18 +291,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             return cloneEditorViewModel;
         }
 
-        #endregion
-
-        #region Implementation of IConfigurationGroupEditorViewModel
-
         public ICommand IncreaseAddressCommand { get; }
         public ICommand DecreaseAddressCommand { get; }
 
-        #endregion
 
-        #region Implementation of IItemGroupViewModel
-        
-
-        #endregion
+        public bool IsTableViewAllowed
+        {
+            get => _isTableViewAllowed;
+            set => SetProperty(ref _isTableViewAllowed, value);
+        }
     }
 }

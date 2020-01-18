@@ -17,14 +17,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
             this._valueViewModelFactory = valueViewModelFactory;
         }
 
-        #region Overrides of MeasuringElementViewModelBase
-
         public override string StrongName => MeasuringKeys.ANALOG_MEASURING_ELEMENT +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IMeasurable
 
         public string MeasureUnit
         {
@@ -46,10 +40,6 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
             }
         }
 
-        #endregion
-
-        #region Overrides of MeasuringElementViewModelBase
-
         protected override void SetModel(object model)
         {
             base.SetModel(model);
@@ -63,8 +53,6 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
                             (this._measuringElement as IAnalogMeasuringElement).DeviceUshortsValue));
             };
         }
-
-        #endregion
     }
 
 }

@@ -17,8 +17,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
         }
 
 
-        #region Overrides of UshortsFormatterViewModelBase
-
         public override IUshortsFormatter GetFormatter()
         {
             return this._boolUshortsFormatter;
@@ -41,7 +39,5 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             return new BoolFormatterViewModel(this._container);
         }
-
-        #endregion
     }
 }

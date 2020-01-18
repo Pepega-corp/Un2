@@ -26,9 +26,6 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
         }
 
 
-
-        #region Implementation of IModbusTcpConnectionViewModel
-
         public int Port
         {
             get { return this._port; }
@@ -87,16 +84,8 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
         }
         public string ConnectionName => this._model.ConnectionName;
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ModBusTcpKeys.MODBUS_TCP_CONNECTION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -113,7 +102,5 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
                 this.IpAddress = this._model.IpAddress;
             }
         }
-
-        #endregion
     }
 }

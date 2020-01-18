@@ -18,8 +18,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
         {
             this._model = addressOfBit;
         }
-        
-        #region Implementation of IBitAddressEditorViewModel
 
         public int FunctionNumber
         {
@@ -71,16 +69,8 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
             }
         }
 
-        #endregion
-        
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MeasuringKeys.BIT_ADDRESS +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -100,7 +90,5 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
                 this.FunctionNumber = this._model.NumberOfFunction;
             }
         }
-
-        #endregion
     }
 }

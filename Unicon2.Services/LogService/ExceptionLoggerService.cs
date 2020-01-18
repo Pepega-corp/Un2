@@ -6,8 +6,6 @@ namespace Unicon2.Services.LogService
 {
     public class ExceptionLoggerService : IExceptionLoggerService
     {
-        #region Implementation of IExceptionLoggerService
-
         public void LogExceptionInFile(Exception exception)
         {
             try
@@ -28,7 +26,5 @@ namespace Unicon2.Services.LogService
             }
 
         }
-
-        #endregion
     }
 }

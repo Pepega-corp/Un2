@@ -18,22 +18,12 @@ namespace Unicon2.Fragments.Oscilliscope.Model
         private ushort[] _currentRecordValues;
         private IOscilloscopeLoadingSequenceInitializingParameters _oscilloscopeLoadingSequenceInitializingParameters;
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => OscilloscopeKeys.OSCILLOSCOPE_JOURNAL_LOADING_SEQUENCE;
-
-        #endregion
-
-        #region Implementation of IJournalLoadingSequence
 
         public void Initialize(IJournalSequenceInitializingParameters journalSequenceInitializingParameters)
         {
@@ -72,15 +62,9 @@ namespace Unicon2.Fragments.Oscilliscope.Model
             _currentRecordNumber = 0;
         }
 
-        #endregion
-
-        #region Implementation of IOscilloscopeJournalLoadingSequence
-
         [DataMember]
         public ushort AddressOfRecord { get; set; }
         [DataMember]
         public ushort NumberOfPointsInRecord { get; set; }
-
-        #endregion
     }
 }

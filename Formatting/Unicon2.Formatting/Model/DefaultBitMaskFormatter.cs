@@ -22,8 +22,6 @@ namespace Unicon2.Formatting.Model
             this._bitMaskValueGettingFunc = bitMaskValueGettingFunc;
         }
 
-        #region Overrides of UshortsFormatterBase
-
         public override ushort[] FormatBack(IFormattedValue formattedValue)
         {
             throw new NotImplementedException();
@@ -40,7 +38,7 @@ namespace Unicon2.Formatting.Model
                 {
                     bools.Add(o);
                 }
-                bitMaskValue.BitArray.Add(bools.Take(16).ToList());
+                bitMaskValue.BitArray.Add(bools.Take(16).Reverse().ToList());
             }
             bitMaskValue.BitSignatures.AddRange(this.BitSignatures);
             return bitMaskValue;
@@ -54,26 +52,17 @@ namespace Unicon2.Formatting.Model
             return clone;
         }
 
-        #endregion
-
-        #region Implementation of IBitMaskFormatter
         [DataMember]
         public string BitSignaturesInOneLine { get; set; }
 
         public List<string> BitSignatures { get; set; }
 
-        #endregion
-
-
-        #region Overrides of UshortsFormatterBase
 
         public override void InitializeFromContainer(ITypesContainer container)
         {
             this._bitMaskValueGettingFunc = container.Resolve<Func<IBitMaskValue>>();
             base.InitializeFromContainer(container);
         }
-
-        #endregion
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)

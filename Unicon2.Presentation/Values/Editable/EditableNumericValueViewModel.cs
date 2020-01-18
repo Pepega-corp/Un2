@@ -17,8 +17,6 @@ namespace Unicon2.Presentation.Values.Editable
         private string _numValueString;
         private double _baseDoubleToCompare;
 
-        #region Overrides of EditableValueViewModelBase
-
         public EditableNumericValueViewModel(IDialogCoordinator dialogCoordinator, ILocalizerService localizerService)
         {
             this._localizerService = localizerService;
@@ -50,10 +48,6 @@ namespace Unicon2.Presentation.Values.Editable
             }
         }
 
-        #endregion
-
-        #region Implementation of INumericValueViewModel
-
         public string NumValue
         {
             get { return this._numValueString; }
@@ -76,17 +70,11 @@ namespace Unicon2.Presentation.Values.Editable
             }
         }
 
-        #endregion
-
-        #region Overrides of ValidatableBindableBase
-
         protected override void OnValidate()
         {
             FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator(this._localizerService, this._ushortsFormatter).Validate(this);
             this.SetValidationErrors(res);
         }
-
-        #endregion
     }
 
 

@@ -12,12 +12,8 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
         }
 
 
-        #region Implementation of IFragmentOptionGroupViewModel
-
         public string NameKey { get; set; }
 
         public List<IFragmentOptionCommandViewModel> FragmentOptionCommandViewModels { get; set; }
-
-        #endregion
     }
 }

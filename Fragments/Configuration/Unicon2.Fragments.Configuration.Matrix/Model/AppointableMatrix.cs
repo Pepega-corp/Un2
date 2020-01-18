@@ -23,47 +23,27 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
             this.MatrixTemplate = matrixTemplate;
         }
 
-        #region Overrides of DefaultProperty
-
         public override Task<bool> Write()
         {
           return MatrixUshortLoadingHelper.WriteMatrixUshorts(this, _dataProvider,LocalUshortsValue);
         }
 
-        #endregion
-
-        #region Overrides of ConfigurationItemBase
-
         public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
-
-        #region Overrides of DefaultProperty
 
         public override async Task Load()
         {
             await MatrixUshortLoadingHelper.FillMatrixUshorts(this, _dataProvider);
             this.ConfigurationItemChangedAction?.Invoke();
         }
-        
-        #endregion
 
-        #endregion
-
-
-        #region Implementation of IAppointableMatrix
 
         [DataMember]
         public IMatrixTemplate MatrixTemplate { get; set; }
-
-        #region Overrides of DefaultProperty
 
         public override void InitializeFromContainer(ITypesContainer container)
         {
             UshortsFormatter=new MatrixValueFormatter(this);
             base.InitializeFromContainer(container);
         }
-
-        #endregion
-
-        #endregion
     }
 }

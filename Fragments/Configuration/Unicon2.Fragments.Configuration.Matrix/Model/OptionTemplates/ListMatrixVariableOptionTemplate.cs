@@ -9,8 +9,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates
 
     public class ListMatrixVariableOptionTemplate : IMatrixVariableOptionTemplate
     {
-        #region Implementation of IStronglyNamed
-
         public ListMatrixVariableOptionTemplate()
         {
             this.OptionPossibleValues = new List<IOptionPossibleValue>();
@@ -20,7 +18,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates
 
         public string StrongName => MatrixKeys.LIST_MATRIX_TEMPLATE;
 
-        #endregion
         [DataMember]
         public List<IOptionPossibleValue> OptionPossibleValues { get; set; }
 

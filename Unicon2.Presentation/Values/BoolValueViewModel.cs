@@ -9,8 +9,6 @@ namespace Unicon2.Presentation.Values
         private string _strongName;
         private bool _boolValueProperty;
 
-        #region Overrides of FormattableValueViewModelBase
-
         public override string StrongName => nameof(BoolValueViewModel);
 
         public override void InitFromValue(IFormattedValue value)
@@ -22,10 +20,6 @@ namespace Unicon2.Presentation.Values
             }
         }
 
-        #endregion
-
-        #region Implementation of IBoolValueViewModel
-
         public bool BoolValueProperty
         {
             get { return _boolValueProperty; }
@@ -36,7 +30,5 @@ namespace Unicon2.Presentation.Values
                 
             }
         }
-
-        #endregion
     }
 }

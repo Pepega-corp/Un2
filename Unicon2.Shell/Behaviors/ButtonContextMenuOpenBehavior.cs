@@ -5,8 +5,6 @@ namespace Unicon2.Shell.Behaviors
 {
     public class ButtonContextMenuOpenBehavior : Behavior<Button>
     {
-        #region Overrides of Behavior 
-
         protected override void OnAttached()
         {
             AssociatedObject.Click += AssociatedObject_Click;
@@ -23,7 +21,5 @@ namespace Unicon2.Shell.Behaviors
         {
             if (AssociatedObject.ContextMenu != null) AssociatedObject.ContextMenu.IsOpen = true;
         }
-
-        #endregion
     }
 }

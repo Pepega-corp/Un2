@@ -38,7 +38,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             this.SetElementRightCommand = new RelayCommand<object>(this.OnSetElementRightExecute, this.CanExecuteSetElementRight);
             this.CheckElementsPositionCommand = new RelayCommand(() =>
             {
-                (this.SetElementLeftCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (this.SetElementLeftCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
                 (this.SetElementRightCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
 
             });
@@ -110,14 +110,8 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         }
 
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MeasuringKeys.MEASURING_MONITOR +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -148,15 +142,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         }
 
 
-        #endregion
-
-        #region Implementation of IFragmentEditorViewModel
-
         public string NameForUiKey => MeasuringKeys.MEASURING_MONITOR;
-
-        #endregion
-
-        #region Implementation of IMeasuringMonitorEditorViewModel
 
         public ICommand OpenConfigurationSettingsCommand { get; }
         public ICommand AddMeasuringGroupCommand { get; }
@@ -167,8 +153,5 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
 
         public ObservableCollection<IMeasuringGroupEditorViewModel> MeasuringGroupEditorViewModels { get; set; }
-
-
-        #endregion
     }
 }

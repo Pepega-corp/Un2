@@ -6,8 +6,6 @@ namespace Unicon2.SharedResources.Converter
 {
   public  class ObjectsEqualityToBoolConverter:IMultiValueConverter
     {
-        #region Implementation of IMultiValueConverter
-
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if ((values[0] == null) || (values[1] == null)) return true;
@@ -19,7 +17,5 @@ namespace Unicon2.SharedResources.Converter
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

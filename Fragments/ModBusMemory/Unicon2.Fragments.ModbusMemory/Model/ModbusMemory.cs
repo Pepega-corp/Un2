@@ -16,8 +16,6 @@ namespace Unicon2.Fragments.ModbusMemory.Model
     {
         private IDataProvider _dataProvider;
 
-        #region Implementation of IModbusMemory
-
         public List<IModbusMemoryEntity> CurrentValues { get; set; }
 
         public Action<IDataProvider> DataProviderChanged { get; set; }
@@ -25,10 +23,6 @@ namespace Unicon2.Fragments.ModbusMemory.Model
         {
             return this._dataProvider;
         }
-
-        #endregion
-
-        #region Implementation of IStronglyNamed
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.MODBUSMEMORY;
 
@@ -38,25 +32,13 @@ namespace Unicon2.Fragments.ModbusMemory.Model
             this.DataProviderChanged?.Invoke(dataProvider);
         }
 
-        #endregion
-
-        #region Overrides of Disposable
-
         protected override void OnDisposing()
         {
             this.DataProviderChanged = null;
             base.OnDisposing();
         }
 
-        #endregion
-
-        #region Implementation of IDeviceFragment
-
         public IFragmentSettings FragmentSettings { get; set; }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -65,7 +47,5 @@ namespace Unicon2.Fragments.ModbusMemory.Model
             this.IsInitialized = true;
             (this.FragmentSettings as IInitializableFromContainer)?.InitializeFromContainer(container);
         }
-
-        #endregion
     }
 }

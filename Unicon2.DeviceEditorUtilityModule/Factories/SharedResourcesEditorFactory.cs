@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
 using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
@@ -18,9 +19,7 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
             this._container = container;
         }
 
-        #region Implementation of ISharedResourcesEditorFactory
-
-        public void OpenResourceForEdit(INameable resource)
+        public void OpenResourceForEdit(INameable resource, object _owner)
         {
             IStronglyNamed stronglyNamed = resource as IStronglyNamed;
 
@@ -44,10 +43,8 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
                 resViewModel.Model = resource;
                 (resource as IInitializableFromContainer)?.InitializeFromContainer(this._container);
                 resourceEditingViewModel.ResourceEditorViewModel = resViewModel;
-                applicationGlobalCommands.ShowWindowModal(() => new ResourcesEditingWindow(), resourceEditingViewModel);
+                applicationGlobalCommands.ShowWindowModal(() => new ResourcesEditingWindow(), resourceEditingViewModel, _owner);
             }
         }
-
-        #endregion
     }
 }

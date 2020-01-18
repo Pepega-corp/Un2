@@ -11,13 +11,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
         private IFormattedValueViewModel _formattedValueViewModel;
         private string _groupName;
 
-        #region Implementation of IStronglyNamed
-
         public abstract string StrongName { get; }
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -38,10 +32,6 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
         {
             return this._measuringElement;
         }
-
-        #endregion
-
-        #region Implementation of IMeasuringElementViewModel
 
         public string Header { get; private set; }
 
@@ -64,7 +54,5 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
                 this.RaisePropertyChanged();
             }
         }
-
-        #endregion
     }
 }

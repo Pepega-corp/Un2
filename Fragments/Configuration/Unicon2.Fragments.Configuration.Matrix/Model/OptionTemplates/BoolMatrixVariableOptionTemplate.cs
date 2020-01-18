@@ -8,10 +8,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates
 
     public class BoolMatrixVariableOptionTemplate : IMatrixVariableOptionTemplate
     {
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MatrixKeys.BOOL_MATRIX_TEMPLATE;
-
-        #endregion
     }
 }

@@ -5,6 +5,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
@@ -12,23 +13,27 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-    public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel
+    public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel, IDeviceDataProvider
     {
         private IDeviceConfiguration _deviceConfiguration;
         private readonly ITypesContainer _container;
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
-        public RuntimeConfigurationViewModel(ITypesContainer container, IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
+
+        public RuntimeConfigurationViewModel(ITypesContainer container,
+            IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
         {
             this._container = container;
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
             this.AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
-            this.FragmentOptionsViewModel = (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, this._container);
+            this.FragmentOptionsViewModel =
+                (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, this._container);
             this.RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
         }
 
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
         private IFragmentOptionsViewModel _fragmentOptionsViewModel;
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _rootConfigurationItemViewModels;
+        private string _deviceName;
 
 
         public ObservableCollection<IRuntimeConfigurationItemViewModel> RootConfigurationItemViewModels
@@ -38,10 +43,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             {
                 this._rootConfigurationItemViewModels = value;
                 this.RaisePropertyChanged();
-               
+
             }
         }
-        
+
         public ObservableCollection<IRuntimeConfigurationItemViewModel> AllRows
         {
             get { return this._allRows; }
@@ -51,8 +56,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 this.RaisePropertyChanged();
             }
         }
-
-        #region Implementation of IStronglyNamed
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL;
 
@@ -69,10 +72,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
         }
 
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -97,6 +96,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             {
                 this._deviceConfiguration.InitializeFromContainer(this._container);
             }
+
             if (this._deviceConfiguration.RootConfigurationItemList != null)
             {
                 foreach (IConfigurationItem configurationItem in this._deviceConfiguration.RootConfigurationItemList)
@@ -106,8 +106,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
                 }
             }
+
             this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
         }
-        #endregion
+
+        public void SetDeviceData(string deviceName)
+        {
+            _deviceName = deviceName;
+        }
+
+        public string GetDeviceName()
+        {
+            return _deviceName;
+        }
     }
 }

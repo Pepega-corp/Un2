@@ -15,8 +15,6 @@ namespace Unicon2.Presentation.Factories
             this._container = container;
         }
 
-        #region Implementation of IFragmentEditorViewModelFactory
-
         public IFragmentEditorViewModel CreateFragmentEditorViewModel(IDeviceFragment deviceFragment)
         {
             IFragmentEditorViewModel fragmentEditorViewModel = this._container.Resolve<IFragmentEditorViewModel>(deviceFragment.StrongName +
@@ -24,7 +22,5 @@ namespace Unicon2.Presentation.Factories
             fragmentEditorViewModel.Model = deviceFragment;
             return fragmentEditorViewModel;
         }
-
-        #endregion
     }
 }

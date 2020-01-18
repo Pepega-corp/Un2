@@ -21,14 +21,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             this.MeasuringElementViewModels = new ObservableCollection<IMeasuringElementViewModel>();
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => MeasuringKeys.MEASURING_GROUP +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -57,14 +51,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             return this._measuringGroup;
         }
 
-        #endregion
-
-        #region Implementation of IMeasuringGroupViewModel
-
         public ObservableCollection<IMeasuringElementViewModel> MeasuringElementViewModels { get; set; }
 
         public string Header { get; private set; }
-
-        #endregion
     }
 }

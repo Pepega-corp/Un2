@@ -27,19 +27,9 @@ namespace Unicon2.Connections.OfflineConnection.ViewModels
             }
         }
 
-        #region Implementation of IDeviceConnectionViewModel
-
         public string ConnectionName
         {
             get { return this.DeviceConnection.ConnectionName; }
         }
-
-        #endregion
-
-        #region Implementation of IViewModel<IDeviceConnection>
-
-
-
-        #endregion
     }
 }

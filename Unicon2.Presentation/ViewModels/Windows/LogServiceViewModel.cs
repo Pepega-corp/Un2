@@ -58,8 +58,6 @@ namespace Unicon2.Presentation.ViewModels.Windows
             this.RaisePropertyChanged(nameof(this.FilteringMessageSourceCollection));
         }
 
-        #region Implementation of ILogServiceViewModel
-
         public string HeaderString
         {
             get { return this._headerString; }
@@ -193,10 +191,6 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         public ObservableCollection<string> FilteringMessageSourceCollection { get; private set; }
 
-        #endregion
-
-
-        #region Helpers
 
         private void OnExecuteClearLogger()
         {
@@ -319,7 +313,5 @@ namespace Unicon2.Presentation.ViewModels.Windows
             }
 
         }
-
-        #endregion
     }
 }

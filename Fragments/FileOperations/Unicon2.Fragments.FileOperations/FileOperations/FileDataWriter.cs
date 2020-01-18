@@ -19,8 +19,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             this._commandStateReader = commandStateReader;
         }
 
-        #region Implementation of IDataProviderContaining
-
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._commandSender.SetDataProvider(dataProvider);
@@ -95,7 +93,5 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
 
             return true;
         }
-
-        #endregion
     }
 }

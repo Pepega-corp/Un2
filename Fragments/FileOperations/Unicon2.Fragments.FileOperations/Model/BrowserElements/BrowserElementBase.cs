@@ -17,8 +17,6 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
             this.ParentDirectory = parentDirectory;
         }
 
-        #region Implementation of IDeviceBrowserElement
-
         public IDeviceDirectory ParentDirectory { get; }
 
         public async Task<bool> DeleteElementAsync()
@@ -30,10 +28,6 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
 
         public string Name { get; }
 
-        #endregion
-
-        #region Implementation of IDataProviderContaining
-
         public virtual void SetDataProvider(IDataProvider dataProvider)
         {
             this._dataProvider = dataProvider;
@@ -42,12 +36,6 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
 
         public abstract Task Load();
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public abstract string StrongName { get; }
-
-        #endregion
     }
 }

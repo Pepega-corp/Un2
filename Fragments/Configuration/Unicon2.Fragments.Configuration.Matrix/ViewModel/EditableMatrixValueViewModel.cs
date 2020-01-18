@@ -10,6 +10,7 @@ using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Base;
@@ -25,8 +26,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         private ushort[] _initialUshortsToCompare;
         private DynamicDataTable _table;
         private bool _isEditable = true;
-
-        #region Overrides of EditableValueViewModelBase
 
         public EditableMatrixValueViewModel(MatrixViewModelTableFactory matrixViewModelTableFactory)
         {
@@ -120,6 +119,23 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             base.OnDisposing();
         }
 
-        #endregion
+        public object Clone()
+        {
+            IMatrixValueViewModel matrixItem = this.OnCloning();
+
+            return matrixItem;
+        }
+
+        private IMatrixValueViewModel OnCloning()
+        {
+            //EditableMatrixValueViewModel cloneModel = new EditableMatrixValueViewModel();
+            //cloneModel.Model = this.Model;
+            //cloneModel.IsEditEnabled = this.IsEditEnabled;
+            //cloneModel.Header = this.Header;
+            //cloneModel.Range = Range.Clone() as IRange;
+            //cloneModel.IsRangeEnabled = this.IsRangeEnabled;
+            //return cloneModel as IMatrixValueViewModel;
+            return this;
+        }
     }
 }

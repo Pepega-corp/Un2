@@ -27,6 +27,7 @@ namespace Unicon2.Fragments.Configuration.Module
     {
         public void Initialize(ITypesContainer container)
         {
+            container.Register<ExportSelectionViewModel>();
             container.Register(typeof(IFragmentViewModel), typeof(RuntimeConfigurationViewModel),
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION_VIEWMODEL);
 

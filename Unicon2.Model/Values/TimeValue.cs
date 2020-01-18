@@ -9,9 +9,6 @@ namespace Unicon2.Model.Values
 
     public class TimeValue : FormattedValueBase, ITimeValue
     {
-
-        #region Overrides of FormattedValueBase
-
         public override string StrongName => nameof(TimeValue);
 
         public override string AsString()
@@ -56,9 +53,6 @@ namespace Unicon2.Model.Values
             return resultTimeString;
         }
 
-        #endregion
-
-        #region Implementation of ITimeValue
         [DataMember]
         public int MillisecondsDecimalsPlaces { get; set; }
         [DataMember]
@@ -89,7 +83,5 @@ namespace Unicon2.Model.Values
             return new DateTime(this.YearValue<2000? this.YearValue+2000: this.YearValue, this.MonthValue, this.DayInMonthValue, this.HoursValue, this.MinutesValue, this.SecondsValue,
                 this.MillisecondsValue < 100 ? this.MillisecondsValue * 10 : this.MillisecondsValue);
         }
-
-        #endregion
     }
 }

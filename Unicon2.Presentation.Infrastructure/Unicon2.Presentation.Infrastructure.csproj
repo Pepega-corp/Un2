@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\PlacementEnum.cs" />
+    <Compile Include="Events\IGlobalEventsService.cs" />
+    <Compile Include="Events\ValueChangedEvent.cs" />
     <Compile Include="Factories\IDeviceViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentPaneViewModelFactory.cs" />
@@ -84,7 +86,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\IToolBarService.cs" />
-    <Compile Include="TreeGrid\IConfigurationAsTableViewModel.cs" />
+    <Compile Include="TreeGrid\IAsTableViewModel.cs" />
     <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />
     <Compile Include="TreeGrid\IGroupedConfigurationItemViewModel.cs" />
     <Compile Include="ViewModels\Connection\IConnectionStateViewModel.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionGroupViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentSettings\IFragmentSettingsViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\IDeviceDataProvider.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IFragmentEditorViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionsViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionCommandViewModel.cs" />

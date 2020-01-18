@@ -20,8 +20,6 @@ namespace Unicon2.Presentation.Factories
             this._container = container;
         }
 
-        #region Implementation of IDeviceViewModelFactory
-
         public IDeviceViewModel CreateDeviceViewModel(IDevice device)
         {
             IDeviceViewModel deviceViewModel = this._deviceViewModelGettingFunc();
@@ -31,15 +29,19 @@ namespace Unicon2.Presentation.Factories
                 {
                     IFragmentViewModel fragmentViewModel =
                         this._container.Resolve<IFragmentViewModel>(deviceFragment.StrongName +
-                                                               ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                                                                    ApplicationGlobalNames.CommonInjectionStrings
+                                                                        .VIEW_MODEL);
                     fragmentViewModel.Model = deviceFragment;
+                    if (fragmentViewModel is IDeviceDataProvider deviceDataProvider)
+                    {
+                        deviceDataProvider.SetDeviceData(device.Name);
+                    }
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }
             }
+
             deviceViewModel.Model = device;
             return deviceViewModel;
         }
-
-        #endregion
     }
 }

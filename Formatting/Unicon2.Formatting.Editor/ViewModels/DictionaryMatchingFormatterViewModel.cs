@@ -181,8 +181,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.SetValidationErrors(result);
         }
 
-        #region Implementation of IEditable
-
         public bool IsInEditMode { get; set; }
 
         public void StartEditElement()
@@ -195,7 +193,5 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.SaveChanges();
             this.IsInEditMode = false;
         }
-
-        #endregion
     }
 }

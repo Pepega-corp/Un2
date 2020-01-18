@@ -6,8 +6,6 @@ namespace Unicon2.SharedResources.Converter
 {
    public class DeviceWithFragmentMultibindingConverter:IMultiValueConverter
     {
-        #region Implementation of IMultiValueConverter
-
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             return values;
@@ -17,7 +15,5 @@ namespace Unicon2.SharedResources.Converter
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

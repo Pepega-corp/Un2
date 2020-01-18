@@ -25,13 +25,7 @@ namespace Unicon2.Presentation.ViewModels
             return this.Name;
         }
 
-        #region Implementation of IStronglyNamed
-
         public string StrongName => nameof(DeviceDefinitionViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -42,7 +36,5 @@ namespace Unicon2.Presentation.ViewModels
                 this.Name = this._model.DeviceName;
             }
         }
-
-        #endregion
     }
 }

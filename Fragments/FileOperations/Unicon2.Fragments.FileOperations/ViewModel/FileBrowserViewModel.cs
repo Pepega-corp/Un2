@@ -66,17 +66,11 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
         }
 
 
-        #region Implementation of IViewModel<IFileBrowser>
-
         public object Model
         {
             get { return this._fileBrowser; }
             set { this._fileBrowser = value as IFileBrowser; }
         }
-
-        #endregion
-
-        #region Implementation of IFileBrowserViewModel
 
         public IDeviceDirectoryViewModel RootDeviceDirectoryViewModel { get; private set; }
 
@@ -95,19 +89,9 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
         public ICommand LoadRootCommand { get; }
 
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => FileOperationsKeys.FILE_BROWSER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IFragmentViewModel
 
         public string NameForUiKey => FileOperationsKeys.FILE_BROWSER;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
-        #endregion
     }
 }

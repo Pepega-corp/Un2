@@ -18,8 +18,6 @@ namespace Unicon2.Fragments.Journals.Editor.Factories
             this._container = container;
         }
 
-        #region Implementation of IJournalParametersEditorViewModelFactory
-
         public IJournalParameterEditorViewModel CreateJournalParameterEditorViewModel(IJournalParameter journalParameter)
         {
             IJournalParameterEditorViewModel journalParameterEditorViewModel = this._container.Resolve<IJournalParameterEditorViewModel>();
@@ -91,7 +89,5 @@ namespace Unicon2.Fragments.Journals.Editor.Factories
 
             return dependentJournalParameterEditorViewModel;
         }
-
-        #endregion
     }
 }

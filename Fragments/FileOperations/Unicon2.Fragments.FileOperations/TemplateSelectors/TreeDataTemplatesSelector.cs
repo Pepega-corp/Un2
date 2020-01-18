@@ -10,8 +10,6 @@ namespace Unicon2.Fragments.FileOperations.TemplateSelectors
         public DataTemplate FileTreeDataTemplate { get; set; }
 
 
-        #region Overrides of DataTemplateSelector
-
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is IDeviceFileViewModel)
@@ -24,7 +22,5 @@ namespace Unicon2.Fragments.FileOperations.TemplateSelectors
             }
             return base.SelectTemplate(item, container);
         }
-
-        #endregion
     }
 }

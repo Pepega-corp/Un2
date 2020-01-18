@@ -107,8 +107,6 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel
         }
 
 
-        #region Implementation of IOscilloscopeViewModel
-
         public IOscilloscopeJournalViewModel OscilloscopeJournalViewModel { get; set; }
         public ICommand LoadSelectedOscillogramsCommand { get; }
 
@@ -136,17 +134,9 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel
         public ICommand ShowOscillogramCommand { get; }
         public ICommand StopLoadingCommand { get; }
 
-        #endregion
-
-
-        #region Implementation of IStronglyNamed
 
         public string StrongName => OscilloscopeKeys.OSCILLOSCOPE +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -159,13 +149,7 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel
             }
         }
 
-        #endregion
-
-        #region Implementation of IFragmentViewModel
-
         public string NameForUiKey => OscilloscopeKeys.OSCILLOSCOPE;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
-        #endregion
     }
 }

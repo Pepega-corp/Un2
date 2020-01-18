@@ -7,10 +7,8 @@ namespace Unicon2.Fragments.Configuration.Converters
 {
     public class BoolToBorderColorConverter : IValueConverter
     {
-        #region Implementation of IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+       {
             if (value is bool?)
             {
                 if ((value as bool?).Value)
@@ -29,7 +27,5 @@ namespace Unicon2.Fragments.Configuration.Converters
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

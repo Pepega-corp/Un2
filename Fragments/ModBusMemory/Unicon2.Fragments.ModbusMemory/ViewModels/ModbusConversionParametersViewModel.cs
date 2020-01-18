@@ -20,8 +20,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             this._limitOfValue = this._memoryConversionParameters.LimitOfValue;
         }
 
-        #region Implementation of IModbusConversionParametersViewModel
-
         public int LimitOfValue
         {
             get { return this._limitOfValue; }
@@ -59,8 +57,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
 
         public Action<IMemoryConversionParameters> MemoryConversionParametersChanged { get; set; }
-
-        #endregion
 
         public IMemoryConversionParameters GetConversionParameters()
         {

@@ -12,6 +12,6 @@ namespace Unicon2.Infrastructure.Services.LogService
         Action<ILogMessage> NewMessageAction { get; set; }
         Action LoggersChangedAction { get; set; }
         IEnumerable<IDeviceLogger> GetLoggersEnumerable();
-        void RaiseInfoMessage(string messageKey);
+        void LogMessage(string messageKey, LogMessageTypeEnum messageType = LogMessageTypeEnum.Info);
     }
 }

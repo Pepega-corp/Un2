@@ -18,8 +18,6 @@ namespace Unicon2.Fragments.Journals.Editor.Factories
         }
 
 
-        #region Implementation of IJournalConditionEditorViewModelFactory
-
         public IJournalConditionEditorViewModel CreateJournalConditionEditorViewModel(List<IJournalParameter> availableJournalParameters)
         {
             IJournalConditionEditorViewModel journalConditionEditorViewModel =
@@ -38,7 +36,5 @@ namespace Unicon2.Fragments.Journals.Editor.Factories
             journalConditionEditorViewModel.Model = journalCondition;
             return journalConditionEditorViewModel;
         }
-
-        #endregion
     }
 }

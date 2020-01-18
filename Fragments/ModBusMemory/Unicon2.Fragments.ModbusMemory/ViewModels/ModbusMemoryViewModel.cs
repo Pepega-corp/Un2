@@ -21,8 +21,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 {
     public class ModbusMemoryViewModel : DisposableBindableBase, IModbusMemoryViewModel
     {
-        #region Private fields
-
         private ObservableCollection<IModbusMemoryEntityViewModel> _modbusMemoryEntityViewModels;
         private IModbusMemorySettingsViewModel _modbusMemorySettingsViewModel;
         private readonly ITypesContainer _container;
@@ -37,10 +35,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
         private IModbusMemory _modbusMemory;
         private IFragmentOptionsViewModel _fragmentOptionsViewModel;
 
-        #endregion
-
-
-        #region C-tor 
 
         public ModbusMemoryViewModel(IModbusMemorySettingsViewModel modbusMemorySettingsViewModel,
             ITypesContainer container, Func<IMemoryBitViewModel> memoryBitViewModelGettingFunc,
@@ -91,10 +85,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             if (!this.IsQueriesStarted) this.OnExecuteOneQuery();
         }
 
-        #endregion
-
-
-        #region Implementation of IModbusMemoryViewModel
 
         public ObservableCollection<IModbusMemoryEntityViewModel> ModbusMemoryEntityViewModels
         {
@@ -314,16 +304,8 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             }
         }
 
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.MODBUSMEMORY +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -338,17 +320,11 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             }
         }
 
-        #endregion
-
-
-        #region Overrides of DisposableBindableBase
 
         protected override void OnDisposing()
         {
             this.IsQueriesStarted = false;
             base.OnDisposing();
         }
-
-        #endregion
     }
 }

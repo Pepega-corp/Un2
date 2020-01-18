@@ -32,14 +32,14 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private const string DEFAULT_FOLDER = "SharedResources";
         private const string EXTENSION = ".sr";
 
-        public DeviceSharedResourcesViewModel(Func<IResourceViewModel> resourceViewModelGettingFunc, 
+        public DeviceSharedResourcesViewModel(Func<IResourceViewModel> resourceViewModelGettingFunc,
             ISharedResourcesEditorFactory sharedResourcesEditorFactory, ISerializerService serializerService)
         {
             this.ResourcesCollection = new ObservableCollection<IResourceViewModel>();
             this._resourceViewModelGettingFunc = resourceViewModelGettingFunc;
             this._sharedResourcesEditorFactory = sharedResourcesEditorFactory;
             this.CloseCommand = new RelayCommand<object>(this.OnCloseExecute);
-            this.OpenResourceForEditingCommand = new RelayCommand(this.OnOpenResourceForEditingExecute, this.CanExecuteOpenResourceForEditing);
+            this.OpenResourceForEditingCommand = new RelayCommand<object>(this.OnOpenResourceForEditingExecute);
             this.SelectResourceCommand = new RelayCommand<object>(this.OnSelectExecute, this.CanExecuteSelectResource);
             this.DeleteResourceCommand = new RelayCommand(this.OnDeleteExecute, this.CanExecuteDeleteResource);
             this.RenameResourceCommand = new RelayCommand(this.OnRenameResourceExecute, this.CanExecuteRenameResource);
@@ -60,8 +60,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 //Load resources
             }
         }
-
-        #region Save/Load resources
 
         public ICommand SaveCommand { get; }
         public ICommand LoadCommand { get; }
@@ -100,8 +98,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
-        #endregion
-
         private bool CanExecuteRenameResource()
         {
             return this.SelectedResourceViewModel != null;
@@ -133,28 +129,22 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             return this.SelectedResourceViewModel != null && this.SelectedResourceViewModel.Model.GetType().GetInterfaces().Contains(this._typeNeeded);
         }
 
-        private bool CanExecuteOpenResourceForEditing()
+        private bool CanExecuteOpenResourceForEditing(object _owner)
         {
             return this.SelectedResourceViewModel != null;
         }
 
-        private void OnOpenResourceForEditingExecute()
+        private void OnOpenResourceForEditingExecute(object _owner)
         {
-            this._sharedResourcesEditorFactory.OpenResourceForEdit(this.SelectedResourceViewModel.Model as INameable);
+            this._sharedResourcesEditorFactory.OpenResourceForEdit(this.SelectedResourceViewModel.Model as INameable, _owner);
         }
 
         private void OnCloseExecute(object obj)
         {
             (obj as Window)?.Close();
         }
-        
-        #region Implementation of IStronglyNamed
 
         public string StrongName => nameof(DeviceSharedResourcesViewModel);
-
-        #endregion
-
-        #region Implementation of IViewModel
 
         public object Model
         {
@@ -166,7 +156,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         {
             if (value is IDeviceSharedResources)
             {
-                this._deviceSharedResources = (IDeviceSharedResources) value;
+                this._deviceSharedResources = (IDeviceSharedResources)value;
                 this.ResourcesCollection.Clear();
                 foreach (INameable sharedResource in this._deviceSharedResources.SharedResources)
                 {
@@ -181,10 +171,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         {
             throw new NotImplementedException();
         }
-
-        #endregion
-
-        #region Implementation of IDeviceSharedResourcesViewModel
 
         public ObservableCollection<IResourceViewModel> ResourcesCollection { get; }
 
@@ -229,7 +215,5 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         {
             this._typeNeeded = typeNeeded;
         }
-
-        #endregion
     }
 }

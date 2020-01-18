@@ -20,7 +20,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
             this.MatrixVariableOptionTemplate = new BoolMatrixVariableOptionTemplate();
         }
 
-        #region Implementation of IMatrixTemplate
         [DataMember]
         public int NumberOfBitsOnEachVariable { get; set; }
         [DataMember]
@@ -33,16 +32,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         [DataMember]
         public List<IBitOption> ResultBitOptions { get; set; }
 
-        #endregion
-
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             return new DefaultMatrixTemplate();
         }
-
-        #endregion
-
     }
 }

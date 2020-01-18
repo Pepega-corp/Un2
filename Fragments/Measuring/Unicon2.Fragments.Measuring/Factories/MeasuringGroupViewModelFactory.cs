@@ -15,15 +15,11 @@ namespace Unicon2.Fragments.Measuring.Factories
         }
 
 
-        #region Implementation of IMeasuringGroupViewModelFactory
-
         public IMeasuringGroupViewModel CreateMeasuringGroupViewModel(IMeasuringGroup measuringGroup)
         {
             IMeasuringGroupViewModel measuringGroupViewModel = this._container.Resolve<IMeasuringGroupViewModel>();
             measuringGroupViewModel.Model = measuringGroup;
             return measuringGroupViewModel;
         }
-
-        #endregion
     }
 }

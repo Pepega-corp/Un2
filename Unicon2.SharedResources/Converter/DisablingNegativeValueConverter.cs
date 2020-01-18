@@ -9,8 +9,6 @@ namespace Unicon2.SharedResources.Converter
 {
   public  class DisablingNegativeValueConverter:IValueConverter
     {
-        #region Implementation of IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int val;
@@ -25,7 +23,5 @@ namespace Unicon2.SharedResources.Converter
         {
             return value;
         }
-
-        #endregion
     }
 }

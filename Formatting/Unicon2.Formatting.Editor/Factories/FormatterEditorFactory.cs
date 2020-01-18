@@ -16,14 +16,10 @@ namespace Unicon2.Formatting.Editor.Factories
             this._container = container;
         }
 
-        #region Implementation of IFormatterEditorFactory
-
         public void EditFormatterByUser(IUshortFormattable model)
         {
             IApplicationGlobalCommands applicationGlobalCommands = this._container.Resolve<IApplicationGlobalCommands>();
             applicationGlobalCommands?.ShowWindowModal(() => new FormatterView(), new FormatterSelectionViewModel(this._container, model));
         }
-
-        #endregion
     }
 }

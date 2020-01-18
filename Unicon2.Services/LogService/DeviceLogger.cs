@@ -19,8 +19,6 @@ namespace Unicon2.Services.LogService
         }
 
 
-        #region Implementation of IDeviceLogger
-
         public void LogInfoMessage(string description)
         {
             if (!this.IsInfoMessagesLoggingEnabled) return;
@@ -89,20 +87,12 @@ namespace Unicon2.Services.LogService
         [DataMember]
         public string SourceName { get; set; }
 
-        #endregion
-
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             IDeviceLogger deviceLogger=new DeviceLogger(this._logMessageGettingFunc);
            deviceLogger.SetLoggerSubject(this.SourceName);
             return deviceLogger;
         }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized { get; private set; }
 
@@ -113,7 +103,5 @@ namespace Unicon2.Services.LogService
             this._logMessageGettingFunc = container.Resolve<Func<ILogMessage>>();
             this.IsInitialized = true;
         }
-
-        #endregion
     }
 }

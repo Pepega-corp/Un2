@@ -33,8 +33,6 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
             this.IpAddress = IP_DEFAULT;
         }
 
-        #region Overrides of ModbusDataProvider
-
         protected override void LogQuery(bool isSuccessful, string dataTitle, string queryDescription, string queryResult = "",
             Exception exception = null)
         {
@@ -73,18 +71,10 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
             }
         }
 
-        #endregion
-
-        #region Implementation of ICloneable
-
         public object Clone()
         {
             return new ModbusTcpConnection(this._queryResultFactory, this._localizerService) { Port = this.Port, IpAddress = this.IpAddress };
         }
-
-        #endregion
-
-        #region Implementation of IDeviceConnection
 
         public string ConnectionName => "ModBus TCP";
         public async Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
@@ -121,25 +111,16 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
             this._currentModbusMaster.Dispose();
         }
 
-        #endregion
-
-        #region Implementation of IModbusTcpConnection
         [DataMember]
         public int Port { get; set; }
         [DataMember]
         public string IpAddress { get; set; }
 
-        #endregion
-
-
-        #region Overrides of ModbusDataProvider
 
         public override void InitializeFromContainer(ITypesContainer container)
         {
             this._localizerService = container.Resolve<ILocalizerService>();
             base.InitializeFromContainer(container);
         }
-
-        #endregion
     }
 }

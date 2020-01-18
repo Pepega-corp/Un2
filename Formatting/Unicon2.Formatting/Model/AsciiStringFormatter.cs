@@ -41,15 +41,10 @@ namespace Unicon2.Formatting.Model
         }
 
 
-        #region Implementation of IInitializableFromContainer
-
-
         public override void InitializeFromContainer(ITypesContainer container)
         {
             this._stringValueGettingFunc = container.Resolve(typeof(Func<IStringValue>)) as Func<IStringValue>;
             base.InitializeFromContainer(container);
         }
-
-        #endregion
     }
 }

@@ -27,15 +27,8 @@ namespace Unicon2.Model.FragmentSettings
         }
 
 
-
-
-        #region Implementation of IStronglyNamed
-
         public string StrongName => ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING;
 
-        #endregion
-
-        #region Implementation of IFragmentSetting
         [DataMember]
         public bool IsSettingEnabled { get; set; }
         public async Task<bool> ApplySetting(ISettingApplyingContext settingApplyingContext)
@@ -86,25 +79,14 @@ namespace Unicon2.Model.FragmentSettings
             return this.IsSettingEnabled;
         }
 
-        #endregion
-
-        #region Implementation of IQuickMemoryAccessSetting
         [DataMember]
         public List<IRange> QuickAccessAddressRanges { get; set; }
         public IQuickMemoryAccessDataProviderStub QuickMemoryAccessDataProviderStub { get; set; }
-
-        #endregion
-
-        #region Implementation of IDataProviderContaining
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._dataProvider = dataProvider;
         }
-
-        #endregion
-
-        #region Implementation of IInitializableFromContainer
 
         public bool IsInitialized
         {
@@ -116,7 +98,5 @@ namespace Unicon2.Model.FragmentSettings
             this._isInitialized = true;
             this._queryResultFactory = container.Resolve<IQueryResultFactory>();
         }
-
-        #endregion
     }
 }
