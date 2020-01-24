@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels
 {
-    public interface IConnectionViewModel : ISchemeElement
+    public interface IConnectionViewModel : ISchemeElementViewModel
     {
         void UpdateConnector(IConnectorViewModel connector);
         string Name { get; }

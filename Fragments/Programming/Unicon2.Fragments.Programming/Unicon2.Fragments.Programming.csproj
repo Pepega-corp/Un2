@@ -68,6 +68,7 @@
     <Compile Include="Model\Elements\Input.cs" />
     <Compile Include="Model\Elements\Output.cs" />
     <Compile Include="Model\ProgrammModel.cs" />
+    <Compile Include="Model\SchemeModel.cs" />
     <Compile Include="Module\ProgrammingModule.cs" />
     <Compile Include="PathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,6 +196,8 @@
   <ItemGroup>
     <Resource Include="Resources\DeleteUnavalible.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\compileanddownload.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

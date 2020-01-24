@@ -30,13 +30,14 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, InputViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ILogicElement, Output>(ProgrammingKeys.OUTPUT);
             container.Register<ILogicElementViewModel, OutputViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-
-            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(ProgrammModel));
+            
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
 
             ISerializerService serializerService = container.Resolve<ISerializerService>();
             serializerService.AddKnownTypeForSerialization(typeof(ProgrammModel));
             serializerService.AddNamespaceAttribute("programmModel", "ProgrammModelNS");
+            serializerService.AddKnownTypeForSerialization(typeof(SchemeModel));
+            serializerService.AddNamespaceAttribute("schemeModel", "SchemeModelNS");
             serializerService.AddKnownTypeForSerialization(typeof(Input));
             serializerService.AddNamespaceAttribute("input", "InputNS");
             serializerService.AddKnownTypeForSerialization(typeof(Output));

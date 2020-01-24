@@ -1,16 +1,15 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -28,7 +27,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._factory = factory;
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
-            this.ElementCollection = new ObservableCollection<ILogicElementViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
             this.CloseTabCommand = new RelayCommand(this.CloseTab, this.CanCloseTab);
@@ -40,14 +38,24 @@ namespace Unicon2.Fragments.Programming.ViewModels
         #endregion
 
         #region Properties
+        public string ProjectName
+        {
+            get => _programmModel.ProjectName;
+            set
+            {
+                if (string.Equals(_programmModel.ProjectName, value, System.StringComparison.InvariantCultureIgnoreCase))
+                    return;
+                _programmModel.ProjectName = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public int SelectedTabIndex { get; set; }
 
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
-        
-        public ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
 
         #endregion
+
 
         #region NewSchemeCommand
         public ICommand NewSchemeCommand { get; }
@@ -141,13 +149,18 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if (value is IProgrammModel model)
             {
                 this._programmModel = model;
-                var elementsViewModels = this._factory.GetAllElementsViewModels(this._programmModel.Elements);
-                this.ElementCollection.AddCollection(elementsViewModels);
+
+                foreach(var sceme in _programmModel.Schemes)
+                {
+                    SchemesCollection.Add(new SchemeTabViewModel(sceme));
+                }
             }
         }
 
         private IProgrammModel GetModel()
         {
+            _programmModel.Schemes = SchemesCollection.Select(sc => sc.Model).ToArray();
+
             return this._programmModel;
         }
 

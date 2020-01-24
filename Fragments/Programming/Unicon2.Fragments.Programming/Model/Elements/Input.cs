@@ -21,6 +21,10 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public int BaseNum { get; set; }
         [DataMember]
         public int ConnectionNumber { get; set; }
+        [DataMember]
+        public double X { get; set; }
+        [DataMember]
+        public double Y { get; set; }
 
         public string Name { get; set; }
 

@@ -114,8 +114,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         private IProgrammModel GetModel()
         {
             var elementModels = this.LibraryElements.Select(l => l.Model).Cast<ILogicElement>();
-            this._model.Elements.Clear();
-            this._model.Elements.AddRange(elementModels);
+            //this._model.Elements.Clear();
+            //this._model.Elements.AddRange(elementModels);
             return this._model;
         }
 
@@ -125,7 +125,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 
             this._model = (IProgrammModel) model;
             this.LibraryElements.Clear();
-            this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
+            //this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
         }
 
         #endregion

@@ -17,8 +17,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         protected string _caption;
         protected bool _validationError;
         protected string _description;
-        protected double _x;
-        protected double _y;
 
         protected LogicElementViewModel(string strongName, IApplicationGlobalCommands globalCommands)
         {
@@ -40,7 +38,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public string StrongName { get; protected set; }
 
-        public object Model
+        public ILogicElement Model
         {
             get => this.GetModel();
             set => this.SetModel(value);
@@ -72,22 +70,22 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public double X
         {
-            get { return this._x; }
+            get { return _model.X; }
             set
             {
-                if (Math.Abs(this._x - value) < 0.01) return;
-                this._x = value;
+                if (Math.Abs(_model.X - value) < 0.01) return;
+                _model.X = value;
                 RaisePropertyChanged();
             }
         }
 
         public double Y
         {
-            get { return this._y; }
+            get { return _model.Y; }
             set
             {
-                if (Math.Abs(this._y - value) < 0.01) return;
-                this._y = value;
+                if (Math.Abs(_model.Y - value) < 0.01) return;
+                _model.Y = value;
                 RaisePropertyChanged();
             }
         }

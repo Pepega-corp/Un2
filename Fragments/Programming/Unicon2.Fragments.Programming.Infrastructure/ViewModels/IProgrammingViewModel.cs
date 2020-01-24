@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels
@@ -9,7 +8,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels
     public interface IProgrammingViewModel: IFragmentViewModel
     {
         ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
-        ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
 
         int SelectedTabIndex { get; set; }
 

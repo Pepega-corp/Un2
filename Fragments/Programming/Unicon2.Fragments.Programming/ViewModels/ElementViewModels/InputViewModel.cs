@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
@@ -12,7 +10,7 @@ using Unicon2.Unity.Common;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class InputViewModel : LogicElementViewModel, IDisposable
+    public class InputViewModel : LogicElementViewModel
     {
         private List<Dictionary<int, string>> _allInputSignals;
         private string _selectedBase;
@@ -30,7 +28,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             };
 
             this.Bases = new ObservableCollection<string>();
-            this.Bases.CollectionChanged += this.OnBaseChanged;
             this.Signals = new ObservableCollection<string>();
         }
 
@@ -45,6 +42,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 if(string.Equals(this._selectedBase, value))
                     return;
                 this._selectedBase = value;
+                SetSignalsCollection(Bases.IndexOf(_selectedBase));
+                this.SelectedSignal = this.Signals[0];
                 RaisePropertyChanged();
             }
         }
@@ -109,12 +108,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             var selectedSignals = this._allInputSignals[index].Select(s => s.Value).ToArray();
             this.Signals.AddCollection(selectedSignals);
         }
-
-        private void OnBaseChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var index = e.NewStartingIndex;
-            this.SetSignalsCollection(index);
-        }
+       
 
         public override object Clone()
         {
@@ -133,13 +127,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
 
             return ret;
-        }
-
-        public void Dispose()
-        {
-            this.Bases.CollectionChanged -= this.OnBaseChanged;
-
-            GC.SuppressFinalize(this);
         }
     }
 }

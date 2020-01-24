@@ -7,8 +7,8 @@ namespace Unicon2.Infrastructure.ViewModel
         object Model { get; set; }
     }
 
-    public interface IViewModel<T> :IViewModel
+    public interface IViewModel<T>:IStronglyNamed
     {
-        new T Model { get; set; }
+        T Model { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private bool _connected;
         private Point _connPoint;
         private string _symbol;
+        private IConnector _modelConnector;
 
         public ConnectorViewModel(ILogicElementViewModel parent, ConnectorOrientation orientation, ConnectorType type)
         {
@@ -63,14 +64,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public ObservableCollection<IConnectionViewModel> Connections { get; }
 
-        private IConnector _connector;
+        
         public IConnector Connector
         {
-            get { return this._connector; }
+            get { return this._modelConnector; }
             set
             {
-                if (value == null || this._connector != null && this._connector.Equals(value)) return;
-                this._connector = value;
+                if (value == null || this._modelConnector != null && this._modelConnector.Equals(value)) return;
+                this._modelConnector = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(this.ConnectorType));
             }

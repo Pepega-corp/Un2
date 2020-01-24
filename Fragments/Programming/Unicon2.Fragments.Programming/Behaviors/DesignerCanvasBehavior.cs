@@ -41,7 +41,6 @@ namespace Unicon2.Fragments.Programming.Behaviors
             if (this.TabViewModel != null)
             {
                 this.TabViewModel.SelfBehavior = this;
-                this.TabViewModel.Scale = 1.0;
 
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
                 if (adornerLayer != null)
@@ -105,7 +104,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             if (e.ChangedButton == MouseButton.Right || e.ChangedButton == MouseButton.Left)
             {
                 // если нажата была клавиша мыши, то сбрасываем выделение
-                foreach (ISchemeElement item in this.TabViewModel.ElementCollection)
+                foreach (ISchemeElementViewModel item in this.TabViewModel.ElementCollection)
                     item.IsSelected = false;
             }
             if (e.ChangedButton == MouseButton.Left)

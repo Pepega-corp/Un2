@@ -48,6 +48,7 @@
     <Compile Include="Model\Elements\ILogicElement.cs" />
     <Compile Include="Model\Elements\IOutput.cs" />
     <Compile Include="Model\IProgrammModel.cs" />
+    <Compile Include="Model\ISchemeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\EditableListItem.cs" />
     <Compile Include="ViewModels\IProgrammingViewModel.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="ViewModels\Scheme\ElementViewModels\ILogicElementViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ILogicElementFactory.cs" />
     <Compile Include="ViewModels\Scheme\IProgrammingEditorViewModel.cs" />
-    <Compile Include="ViewModels\Scheme\ISchemeElement.cs" />
+    <Compile Include="ViewModels\Scheme\ISchemeElementViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ISchemeTabViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ISelectable.cs" />
   </ItemGroup>

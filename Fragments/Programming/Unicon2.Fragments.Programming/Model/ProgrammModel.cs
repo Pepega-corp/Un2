@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 
@@ -15,11 +13,15 @@ namespace Unicon2.Fragments.Programming.Model
 
         public ProgrammModel()
         {
-            this.Elements = new List<ILogicElement>();
+            this.Schemes = new ISchemeModel[0];
+            ProjectName = string.Empty;
         }
 
         [DataMember]
-        public List<ILogicElement> Elements { get; set; }
+        public string ProjectName { get; set; }
+
+        [DataMember]
+        public ISchemeModel[] Schemes { get; set; }
 
         #region Implementation of IStronglyNamed
 
