@@ -96,9 +96,9 @@
             Grid.Column="1"
             Header="Выбранные элементы">
             <ListView ItemsSource="{Binding LibraryElements}" SelectedItem="{Binding Path=SelectedLibraryElemItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <i:Interaction.Behaviors>
+                <!--<i:Interaction.Behaviors>
                     <behaviors1:ScrollParentWhenAtMax />
-                </i:Interaction.Behaviors>
+                </i:Interaction.Behaviors>-->
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="interfaces:ILogicElementEditorViewModel">
                         <StackPanel Orientation="Horizontal">
