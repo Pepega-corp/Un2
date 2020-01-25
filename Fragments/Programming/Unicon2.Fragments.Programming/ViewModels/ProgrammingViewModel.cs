@@ -1,30 +1,34 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Interfaces;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
     public class ProgrammingViewModel : ViewModelBase, IProgrammingViewModel
     {
-        private readonly ITypesContainer _container;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
+        private readonly ILogicElementFactory _factory;
         private IProgrammModel _programmModel;
-
-        public ProgrammingViewModel(ITypesContainer container, IApplicationGlobalCommands globalCommands, IElementLibraryViewModel library)
+        
+        #region Constructor
+        public ProgrammingViewModel(IApplicationGlobalCommands globalCommands, ILogicElementFactory factory)
         {
-            this._container = container;
             this._applicationGlobalCommands = globalCommands;
+            this._factory = factory;
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
-            this.ElementLibraryModel = library;
+            this.ElementCollection = new ObservableCollection<ILogicElementViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
             this.CloseTabCommand = new RelayCommand(this.CloseTab, this.CanCloseTab);
@@ -33,35 +37,35 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.ZoomDecrementCommand = new RelayCommand(this.ZoomDecrement, this.CanZooming);
         }
 
+        #endregion
+
+        #region Properties
+
         public int SelectedTabIndex { get; set; }
 
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
+        
+        public ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
 
-        private IElementLibraryViewModel _libraryViewModel;
-        public IElementLibraryViewModel ElementLibraryModel
-        {
-            get { return this._libraryViewModel; }
-            set
-            {
-                if (this._libraryViewModel != null) return;
-                this._libraryViewModel = value;
-                RaisePropertyChanged();
-            }
-        }
+        #endregion
 
+        #region NewSchemeCommand
         public ICommand NewSchemeCommand { get; }
 
         private void CreateNewScheme()
         {
-            //TODO сделать открытие модального окна с зарегистрированной вьюмоделью
-            //if (info.DialogResult == DialogResultButtons.OK)
-            //{
-            //    SchemeTabViewModel tabViewModel = new SchemeTabViewModel(info.SchemeName, info.SchemeSize);
-            //    tabViewModel.CloseTabEvent += this.CloseTab;
-            //    this.SchemesCollection.Add(tabViewModel);
-            //}
+            var schemeViewModel = new NewSchemeViewModel();
+            this._applicationGlobalCommands.ShowWindowModal(()=>new NewSchemeView(), schemeViewModel);
+            if (schemeViewModel.DialogResult == MessageDialogResult.Affirmative)
+            {
+                SchemeTabViewModel tabViewModel = new SchemeTabViewModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
+                tabViewModel.CloseTabEvent += this.CloseTab;
+                this.SchemesCollection.Add(tabViewModel);
+            }
         }
+        #endregion
 
+        #region CloseTabCommand
         public ICommand CloseTabCommand { get; }
 
         private bool CanCloseTab()
@@ -77,7 +81,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
             tab.CloseTabEvent -= this.CloseTab;
             this.SchemesCollection.Remove(tab);
         }
+        #endregion
 
+        #region DeleteCommand
         public ICommand DeleteCommand { get; }
 
         private void DeleteSelectedElements()
@@ -92,7 +98,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
             ISchemeTabViewModel selectedTab = this.SchemesCollection[this.SelectedTabIndex];
             return selectedTab.DeleteCommand.CanExecute(null);
         }
+        #endregion
 
+        #region ZoomCommand
         public ICommand ZoomIncrementCommand { get; }
 
         private bool CanZooming()
@@ -111,17 +119,46 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             this.SchemesCollection[this.SelectedTabIndex].ZoomDecrementCommand.Execute(this.SchemesCollection[this.SelectedTabIndex]);
         }
+        #endregion
+
+        #region Implementation of IStronglyNamed
 
         public string StrongName => ProgrammingKeys.PROGRAMMING +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
+        #endregion
+
+        #region Implementation of IViewModel
+
         public object Model
         {
-            get { return this._programmModel; }
-            set { this._programmModel = value as IProgrammModel; }
+            get { return this.GetModel(); }
+            set { this.SetModel(value); }
         }
+
+        private void SetModel(object value)
+        {
+            if (value is IProgrammModel model)
+            {
+                this._programmModel = model;
+                var elementsViewModels = this._factory.GetAllElementsViewModels(this._programmModel.Elements);
+                this.ElementCollection.AddCollection(elementsViewModels);
+            }
+        }
+
+        private IProgrammModel GetModel()
+        {
+            return this._programmModel;
+        }
+
+        #endregion
+
+        #region Implementation of IFragmentViewModel
 
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
+        #endregion
+
+        
     }
 }

@@ -1,11 +1,13 @@
-﻿namespace Unicon2.Fragments.Programming
+﻿using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+
+namespace Unicon2.Fragments.Programming
 {
     public class DragElement
     {
-        //public BaseElementViewModel Item { get; set; }
-        //public DragElement(BaseElementViewModel item)
-        //{
-        //    this.Item = item;
-        //}
+        public ILogicElementViewModel Item { get; set; }
+        public DragElement(ILogicElementViewModel item)
+        {
+            this.Item = item;
+        }
     }
 }

@@ -6,8 +6,9 @@
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Programming.Editor.ViewModel">
 
     <DataTemplate x:Key="ProgrammingEditorViewModelDataTemplate" DataType="{x:Type viewModel:ProgrammingEditorViewModel}">
-        <GroupBox Header="{lex:Loc ProgrammingEditorDescription}">
+        <StackPanel>
+            <TextBlock Margin="5" Text="{lex:Loc ProgrammingEditorDescription}" />
             <view:ProgrammingEditorView />
-        </GroupBox>
+         </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

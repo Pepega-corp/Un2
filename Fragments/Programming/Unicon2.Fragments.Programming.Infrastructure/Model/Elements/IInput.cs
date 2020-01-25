@@ -4,8 +4,10 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
 {
     public interface IInput : ILogicElement
     {
-        Dictionary<int, Dictionary<int, string>> AllInputSignals { get; }
-        List<string> Bases { get; }
+        List<Dictionary<int, string>> AllInputSignals { get; set; }
+        List<string> Bases { get; set; }
+        int BaseNum { get; set; }
+        int InputSignalNum { get; set; }
         int ConnectionNumber { get; set; }
     }
 }

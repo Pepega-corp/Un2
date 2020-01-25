@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Editor.Interfaces;
@@ -7,6 +6,7 @@ using Unicon2.Fragments.Programming.Editor.View;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Commands;
@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 {
     public class ProgrammingEditorViewModel : ViewModelBase, IProgrammingEditorViewModel
     {
-        private IElementLibraryModel _model;
+        private IProgrammModel _model;
         private ILogicElementFactory _logicElementFactory;
         private IApplicationGlobalCommands _globalCommands;
 
@@ -28,18 +28,20 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         public ICommand RemoveElementCommand { get; }
         public ICommand EditElementCommand { get; }
 
-        public ProgrammingEditorViewModel(IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
+        public ProgrammingEditorViewModel(IProgrammModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
         {
             this._globalCommands = globalCommands;
             this._logicElementFactory = logicElementFactory;
 
-            this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsViewModels());
-            this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetAnalogElementsViewModels());
+            this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsEditorViewModels());
+            this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetAnalogElementsEditorViewModels());
             this.LibraryElements = new ObservableCollection<ILogicElementEditorViewModel>();
+
+            this.Model = model;
 
             this.AddElementCommand = new RelayCommand(this.OnAddElement);
             this.RemoveElementCommand = new RelayCommand(this.OnRemoveElement);
-            this.EditElementCommand = new RelayCommand(this.OnEditElement, this.CanEditElement);
+            this.EditElementCommand = new RelayCommand<object>(this.OnEditElement);
         }
         
         public ObservableCollection<ILogicElementEditorViewModel> BooleanElements { get; }
@@ -86,17 +88,22 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             this.LibraryElements.Remove(this.SelectedLibraryElemItem);
         }
 
-        private void OnEditElement()
+        private void OnEditElement(object element)
         {
-            this._globalCommands.ShowWindowModal(() => new EditElementView(), new EditElementViewModel(this.SelectedLibraryElemItem));
+            if (element is ILogicElementEditorViewModel logicElementEditorViewModel)
+            {
+                this._globalCommands.ShowWindowModal(() => new EditElementView(),
+                    new EditElementViewModel(logicElementEditorViewModel));
+            }
         }
-
-        private bool CanEditElement()
-        {
-            return this.SelectedLibraryElemItem != null && this.LibraryElements.Count > 0;
-        }
+        
+        #region Implementation of IStronglyNamed
 
         public string StrongName => ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
+
+        #endregion
+
+        #region Implementation of IViewModel
 
         public object Model
         {
@@ -104,21 +111,29 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             set { this.SetModel(value); }
         }
 
-        private IElementLibraryModel GetModel()
+        private IProgrammModel GetModel()
         {
-            IEnumerable<ILogicElement> elementModels = this.LibraryElements.Select(l => l.Model as ILogicElement);
+            var elementModels = this.LibraryElements.Select(l => l.Model).Cast<ILogicElement>();
+            this._model.Elements.Clear();
             this._model.Elements.AddRange(elementModels);
             return this._model;
         }
 
         private void SetModel(object model)
         {
-            if (!(model is IElementLibraryModel)) return;
+            if (!(model is IProgrammModel)) return;
 
-            this._model = (IElementLibraryModel) model;
-            this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsViewModels(this._model.Elements));
+            this._model = (IProgrammModel) model;
+            this.LibraryElements.Clear();
+            this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
         }
 
+        #endregion
+
+        #region Implementation of IFragmentEditorViewModel
+
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
+
+        #endregion
     }
 }

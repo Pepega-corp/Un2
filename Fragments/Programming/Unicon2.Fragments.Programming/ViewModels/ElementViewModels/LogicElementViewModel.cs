@@ -1,26 +1,31 @@
-﻿using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+﻿using System;
+using System.Collections.ObjectModel;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Views;
+using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
+    public abstract class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
     {
-        protected LogicElementViewModel(string strongName)
+        protected readonly IApplicationGlobalCommands _globalCommands;
+        protected bool _isSelected;
+        protected ILogicElement _model;
+        protected bool _debugMode;
+        protected string _caption;
+        protected bool _validationError;
+        protected string _description;
+        protected double _x;
+        protected double _y;
+
+        protected LogicElementViewModel(string strongName, IApplicationGlobalCommands globalCommands)
         {
             this.StrongName = strongName;
-            this.DebugMode = false;
-            this.IsSelected = false;
-            this.ValidationError = false;
+            this._globalCommands = globalCommands;
         }
-
-        private bool _isSelected;
-        private ILogicElement _model;
-        private bool _debugMode;
-        private string _caption;
-        private bool _validationError;
-        private string _description;
-
+        
         public string ElementName { get; protected set; }
 
         public bool IsSelected
@@ -33,12 +38,12 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        public string StrongName { get; }
+        public string StrongName { get; protected set; }
 
         public object Model
         {
-            get { return this._model; }
-            set { this._model = value as ILogicElement; }
+            get => this.GetModel();
+            set => this.SetModel(value);
         }
 
         public string Symbol { get; protected set; }
@@ -62,33 +67,39 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 this.RaisePropertyChanged();
             }
         }
-        public bool ValidationError
+
+        public ObservableCollection<IConnectorViewModel> Connectors { get; protected set; }
+
+        public double X
         {
-            get { return this._validationError; }
+            get { return this._x; }
             set
             {
-                this._validationError = value;
-                this.RaisePropertyChanged();
+                if (Math.Abs(this._x - value) < 0.01) return;
+                this._x = value;
+                RaisePropertyChanged();
             }
         }
-        public bool DebugMode
+
+        public double Y
         {
-            get { return this._debugMode; }
+            get { return this._y; }
             set
             {
-                this._debugMode = value;
-                this.RaisePropertyChanged();
+                if (Math.Abs(this._y - value) < 0.01) return;
+                this._y = value;
+                RaisePropertyChanged();
             }
         }
-        public virtual object Clone()
+
+        protected abstract ILogicElement GetModel();
+        protected abstract void SetModel(object modelObj);
+
+        public abstract object Clone();
+
+        public virtual void OpenPropertyWindow()
         {
-            LogicElementViewModel ret = new LogicElementViewModel(this.StrongName);
-            ret.Model = (this.Model as ILogicElement)?.Clone();
-            ret.IsSelected = this.IsSelected;
-            ret.DebugMode = this.DebugMode;
-            ret.Caption = this.Caption;
-            ret.ValidationError = this.ValidationError;
-            return ret;
+            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(), new LogicElementSettingsViewModel(this));
         }
     }
 }

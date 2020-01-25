@@ -1,37 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
+    [DataContract(Namespace = "InputNS")]
     public class Input : IInput
     {
         private const int BIN_SIZE = 3;
 
-        private ushort _inputSignal;
-        private ushort _base;
-        private int _connectionNumber;
+        [DataMember]
+        public List<Dictionary<int, string>> AllInputSignals { get; set; }
+        [DataMember]
+        public int InputSignalNum { get; set; }
+        [DataMember]
+        public List<string> Bases { get; set; }
+        [DataMember]
+        public int BaseNum { get; set; }
+        [DataMember]
+        public int ConnectionNumber { get; set; }
 
-        public Dictionary<int, Dictionary<int, string>> AllInputSignals { get; private set; }
-        public List<string> Bases { get; private set; }
+        public string Name { get; set; }
 
         public Input()
         {
             this.Functional = Functional.BOOLEAN;
             this.Group = Group.INPUT_OUTPUT;
 
-            this.Bases = new List<string> {"Base1"};
+            this.Bases = new List<string> {"Base0"};
 
             this.AllInputSignals =
-                new Dictionary<int, Dictionary<int, string>>
+                new List<Dictionary<int, string>>
                 {
-                    {this.Bases.Count - 1, new Dictionary<int, string> {{0, string.Empty}}}
+                    new Dictionary<int, string> {{0, string.Empty}}
                 };
         }
 
         private Input(Input cloneable)
         {
+            this.Bases = new List<string>();
             this.CopyValues(cloneable);
         }
 
@@ -46,14 +55,16 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 throw new ArgumentException("Copied source is not " + typeof(Input));
             }
 
+            this.Name = inputSource.Name;
             this.Functional = inputSource.Functional;
             this.Group = inputSource.Group;
-            this._inputSignal = inputSource._inputSignal;
-            this._base = inputSource._base;
-            this._connectionNumber = inputSource._connectionNumber;
-            this.Bases = new List<string>(inputSource.Bases);
+            this.InputSignalNum = inputSource.InputSignalNum;
+            this.BaseNum = inputSource.BaseNum;
+            this.ConnectionNumber = inputSource.ConnectionNumber;
+            this.Bases.Clear();
+            this.Bases.AddRange(inputSource.Bases);
+            this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
 
-            this.AllInputSignals = new Dictionary<int, Dictionary<int, string>>(inputSource.AllInputSignals);
             for (int i = 0; i < this.Bases.Count; i++)
             {
                 var copiedDictionary = inputSource.AllInputSignals[i];
@@ -64,7 +75,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
-            switch (this._base)
+            switch (this.BaseNum)
             {
                 case 0:
                 {
@@ -92,22 +103,16 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                     break;
                 }
             }
-            bindata[1] = this._inputSignal;
-            bindata[2] = (ushort)this._connectionNumber;
+            bindata[1] = (ushort)this.InputSignalNum;
+            bindata[2] = (ushort)this.ConnectionNumber;
             return bindata;
         }
 
         public void BinProgrammToProperty(ushort[] bin)
         {
-            this._base = bin[0];
-            this._inputSignal = bin[1];
-            this._connectionNumber = bin[2];
-        }
-
-        public int ConnectionNumber
-        {
-            get { return this._connectionNumber; }
-            set { this._connectionNumber = value; }
+            this.BaseNum = bin[0];
+            this.InputSignalNum = bin[1];
+            this.ConnectionNumber = bin[2];
         }
 
         public string StrongName => ProgrammingKeys.INPUT;
