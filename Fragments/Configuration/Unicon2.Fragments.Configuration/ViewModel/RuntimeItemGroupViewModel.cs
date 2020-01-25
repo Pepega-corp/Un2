@@ -30,7 +30,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         private void OnTryTransformToTable()
         {
-            Checked.Invoke(false);
             if (!IsTableView) return;
             if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel)) &&
                 TableConfigurationViewModel == null) 

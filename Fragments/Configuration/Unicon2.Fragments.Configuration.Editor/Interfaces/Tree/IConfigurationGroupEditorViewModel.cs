@@ -7,6 +7,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
     public interface IConfigurationGroupEditorViewModel:IItemGroupViewModel, IAddressIncreaseableDecreaseable, ICompositeEditOperations,IChildPositionChangeable, IChildItemRemovable, IAsChildPasteable
     {
         bool IsMain { get; set; }
+        bool IsGroupWithReiteration { get; set; }
 
     }
 

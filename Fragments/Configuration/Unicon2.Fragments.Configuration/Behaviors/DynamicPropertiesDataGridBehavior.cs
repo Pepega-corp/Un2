@@ -238,6 +238,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     }
                     IPropertyViewModel propertyViewModel = new RuntimePropertyViewModel(StaticContainer.Container, StaticContainer.Container.Resolve<IValueViewModelFactory>());
                     (propertyViewModel as ILocalAndDeviceValueContainingViewModel).DeviceValue = stringValueViewModel;
+                    (propertyViewModel as ILocalAndDeviceValueContainingViewModel).LocalValue = stringValueViewModel;
+
                     listToInsert.Insert(0, propertyViewModel as ILocalAndDeviceValueContainingViewModel);
                 }
             }

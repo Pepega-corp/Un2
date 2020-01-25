@@ -29,15 +29,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         public RuntimeAppointableMatrixViewModel(ITypesContainer container,
             IValueViewModelFactory valueViewModelFactory) : base(container, valueViewModelFactory)
         {
-            ShowDetails = new RelayCommand(OnShowDetails);
             TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
-
         }
-
-        private void OnShowDetails()
-        {
-
-        }
+        
 
         public TableConfigurationViewModel TableConfigurationViewModel
         {
@@ -49,10 +43,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-
-        public RelayCommand ShowDetails { get; }
-
 
         public bool IsTableView
         {

@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
     </UserControl.Resources>
-    <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Collapsed, TargetNullValue=Collapsed,Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+    <Grid Visibility="{Binding IsTableView, FallbackValue=Collapsed, TargetNullValue=Collapsed,Converter={StaticResource BoolToVisConverter}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="150"></ColumnDefinition>
             <ColumnDefinition Width="2"></ColumnDefinition>
@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1">
             <Grid 
-            DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext}"
+            DataContext="{Binding .}"
             Height="Auto"
             HorizontalAlignment="Stretch"  
             VerticalAlignment="Stretch">
@@ -68,7 +68,7 @@
 
         <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1">
             <Grid 
-                DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext}"
+                DataContext="{Binding .}"
                 Height="Auto"
                 HorizontalAlignment="Stretch"  
                 VerticalAlignment="Stretch">

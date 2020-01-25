@@ -1,5 +1,8 @@
-﻿using MahApps.Metro.Controls;
+﻿using System;
+using MahApps.Metro.Controls;
 using System.Windows;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Presentation.Infrastructure.Events;
 
 namespace Unicon2.Shell.Views
 {
@@ -29,5 +32,6 @@ namespace Unicon2.Shell.Views
             oscOpenButton.DataContext = DataContext;
             dynamicContentButton.DataContext = DataContext;
         }
+
     }
 }

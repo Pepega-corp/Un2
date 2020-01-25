@@ -18,7 +18,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         private readonly ITypesContainer _container;
         private readonly IValueViewModelFactory _valueViewModelFactory;
         private IFormattedValueViewModel _value;
-        private IEditableValueViewModel _localValue;
+        private IFormattedValueViewModel _localValue;
         private string _measureUnit;
         private bool _isMeasureUnitEnabled;
         private IRange _range;
@@ -45,7 +45,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             }
         }
 
-        public IEditableValueViewModel LocalValue
+        public IFormattedValueViewModel LocalValue
         {
             get { return this._localValue; }
             set
@@ -147,7 +147,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this.InitializeValueViewModelLocal(settingProperty.UshortsFormatter);
                 //this.InitializeValueViewModelLocal(settingProperty.UshortsFormatter);
                 if (settingProperty.DeviceUshortsValue != null)
-                    this.LocalValue?.SetBaseValueToCompare(settingProperty.DeviceUshortsValue);
+                    (this.LocalValue as IEditableValueViewModel)?.SetBaseValueToCompare(settingProperty.DeviceUshortsValue);
             };
 
             settingProperty.ConfigurationItemChangedAction += () =>
@@ -156,7 +156,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this.InitializeValueViewModel(settingProperty.DeviceUshortsValue, false,
                     settingProperty.UshortsFormatter);
                 if (settingProperty.DeviceUshortsValue != null)
-                    this.LocalValue?.SetBaseValueToCompare(settingProperty.DeviceUshortsValue);
+                    (this.LocalValue as IEditableValueViewModel)?.SetBaseValueToCompare(settingProperty.DeviceUshortsValue);
 
             };
             base.SetModel(model);

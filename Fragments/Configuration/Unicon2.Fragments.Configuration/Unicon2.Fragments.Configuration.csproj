@@ -73,6 +73,7 @@
     <Compile Include="Converters\PropertyTooltipConverter.cs" />
     <Compile Include="Converters\IsItemsGroupToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToBorderColorConverter.cs" />
+    <Compile Include="DataTemplateSelectors\SelectedConfigDetailsSelector.cs" />
     <Compile Include="Factories\ConfigurationItemFactory.cs" />
     <Compile Include="Factories\ConfigurationItemViewModelFactory.cs" />
     <Compile Include="Factories\ValueViewModelFactory.cs" />
@@ -116,6 +117,9 @@
     <Compile Include="Views\ConfigAsTableView.xaml.cs">
       <DependentUpon>ConfigAsTableView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ConfigView.xaml.cs">
+      <DependentUpon>ConfigView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExportSelectionWindow.xaml.cs">
       <DependentUpon>ExportSelectionWindow.xaml</DependentUpon>
     </Compile>
@@ -135,6 +139,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ConfigAsTableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExportSelectionWindow.xaml">

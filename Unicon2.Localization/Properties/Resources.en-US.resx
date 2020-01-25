@@ -1368,4 +1368,7 @@
   <data name="TableView" xml:space="preserve">
     <value>Table view</value>
   </data>
+  <data name="GroupWithReiteration" xml:space="preserve">
+    <value>Group with reiteration</value>
+  </data>
 </root>

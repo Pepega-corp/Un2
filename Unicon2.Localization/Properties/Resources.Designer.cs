@@ -1735,6 +1735,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @GroupWithReiteration.
+        /// </summary>
+        public static string GroupWithReiteration {
+            get {
+                return ResourceManager.GetString("GroupWithReiteration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @HaveFalseBitAt.
         /// </summary>
         public static string HaveFalseBitAt {

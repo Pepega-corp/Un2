@@ -1,0 +1,189 @@
+﻿<UserControl
+    x:Class="Unicon2.Fragments.Configuration.Views.ConfigView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:converters="clr-namespace:Unicon2.Fragments.Configuration.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors;assembly=Unicon2.SharedResources"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
+    d:DataContext="{d:DesignInstance viewModel:MainConfigItemViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
+        <converters:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
+        <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
+        <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
+        <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
+        <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
+        <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToInvertVisibilityConverter" IsInverted="True" />
+    </UserControl.Resources>
+    <Grid Name="ConfigGrid">
+        <Grid
+            Name="dummygrid"
+            HorizontalAlignment="Stretch"
+            Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.5*" />
+
+            </Grid.ColumnDefinitions>
+            <Border Name="dummywidth1" Grid.Column="0" />
+            <Border Name="dummywidth2" Grid.Column="1" />
+            <Border Name="dummywidth3" Grid.Column="2" />
+            <Border Name="dummywidth4" Grid.Column="3" />
+            <Border Name="dummywidth5" Grid.Column="4" />
+        </Grid>
+        <DataGrid
+            Name="ConfigListView"
+            Width="auto"
+            HorizontalAlignment="Stretch"
+            AutoGenerateColumns="False"
+            EnableColumnVirtualization="True"
+            EnableRowVirtualization="True"
+            GridLinesVisibility="All"
+            RowDetailsVisibilityMode="Visible"
+            ItemsSource="{Binding Path=RelatedRows}">
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding .}" Visibility="{Binding IsTableView,Converter={StaticResource BoolToVisConverter},FallbackValue=Collapsed,TargetNullValue=Collapsed}">
+                        <ContentControl.ContentTemplateSelector>
+                            <dataTemplateSelectors:TableViewByNameDataTemplateSelector />
+                        </ContentControl.ContentTemplateSelector>
+                    </ContentControl>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="{Binding Source={x:Reference dummywidth1}, Path=ActualWidth}" Header="{lex:Loc Name}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Name="HeaderTextBlock"
+                                    Grid.Column="1"
+                                    Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Path=Header}" />
+                                <Button
+                                    Grid.Column="2"
+                                    Width="20"
+                                    Style="{DynamicResource UniconButtonStyle}"
+                                    ToolTip="{Binding Path=Description}"
+                                    ToolTipService.InitialShowDelay="100"
+                                    ToolTipService.ShowDuration="60000">
+                                    <Button.Visibility>
+                                        <MultiBinding Converter="{StaticResource ObjectEqualityDescriptionNullToVisibilityConverter}">
+                                            <Binding ElementName="ConfigListView" Path="SelectedItem" />
+                                            <Binding Path="." />
+                                            <Binding Path="Description" />
+                                        </MultiBinding>
+                                    </Button.Visibility>
+                                    <Rectangle Width="8" Height="12">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Visual="{DynamicResource appbar_information}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                                <ToggleButton
+                                    Grid.Column="3"
+                                    Margin="0"
+                                    IsThreeState="False"
+                                    IsChecked="{Binding IsTableView, UpdateSourceTrigger=PropertyChanged}"
+                                    Style="{DynamicResource UniconToggleButtonStyle}"
+                                    ToolTip="{lex:Loc TableView}"
+                                    Visibility="{Binding IsTableViewAllowed, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
+                                    <Rectangle
+                                        Width="15"
+                                        Height="15"
+                                        Margin="-2"
+                                        Fill="Black">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_column_three}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="{Binding Source={x:Reference dummywidth2}, Path=ActualWidth}" Header="{lex:Loc DeviceData}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentControl HorizontalAlignment="Center" Content="{Binding DeviceValue}">
+                                <ContentControl.ContentTemplateSelector>
+                                    <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
+                                </ContentControl.ContentTemplateSelector>
+                            </ContentControl>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="{Binding Source={x:Reference dummywidth3}, Path=ActualWidth}" Header="{lex:Loc LocalData}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border
+                                HorizontalAlignment="Stretch"
+                                BorderBrush="{Binding LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
+                                BorderThickness="1.5"
+                                Visibility="{Binding ., Converter={StaticResource IsInterfaceImplementedToInvertVisibilityConverter}, ConverterParameter=IAsTableViewModel}">
+                                <Grid Visibility="{Binding ., Converter={StaticResource IsItemsGroupToVisibilityConverter}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentControl Grid.Column="0" Content="{Binding LocalValue}">
+                                        <ContentControl.ContentTemplateSelector>
+                                            <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
+                                        </ContentControl.ContentTemplateSelector>
+                                    </ContentControl>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="Auto" Header="{lex:Loc MeasureUnit}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentControl
+                                HorizontalAlignment="Center"
+                                Content="{Binding MeasureUnit}"
+                                Visibility="{Binding IsMeasureUnitEnabled, Converter={StaticResource BoolToVisConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="Auto" Header="{lex:Loc Range}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Visibility="{Binding ., Converter={StaticResource IsItemsGroupToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsRangeEnabled, Converter={StaticResource BoolToVisConverter}}">
+                                    <TextBlock Text="[" />
+                                    <TextBlock Text="{Binding RangeViewModel.RangeFrom}" />
+                                    <TextBlock Text=";" />
+                                    <TextBlock Text="{Binding RangeViewModel.RangeTo}" />
+                                    <TextBlock Text="]" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
+

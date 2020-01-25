@@ -28,6 +28,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private ushort _addressIteratorValue = 1;
         private bool _isTableViewAllowed;
         private bool _isMain;
+        private bool _isGroupWithReiteration;
 
         public ConfigurationGroupEditorViewModel(ITypesContainer container,
             IConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory,
@@ -310,6 +311,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             get => _isMain;
             set => SetProperty(ref _isMain, value);
+        }
+
+        public bool IsGroupWithReiteration
+        {
+            get => _isGroupWithReiteration;
+            set => SetProperty(ref _isGroupWithReiteration, value);
         }
 
         #endregion

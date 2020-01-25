@@ -1371,4 +1371,7 @@
   <data name="TableView" xml:space="preserve">
     <value>Табличный вид</value>
   </data>
+  <data name="GroupWithReiteration" xml:space="preserve">
+    <value>Группа с повторением</value>
+  </data>
 </root>

@@ -161,7 +161,7 @@
                         Command="{Binding EditDescriptionCommand}"
                         Content="{lex:Loc EditDescription}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <UniformGrid Columns="2" Rows="3">
+                    <UniformGrid Columns="2" Rows="2">
                         <Button
                             Margin="3"
                             Command="{Binding SelectedRow.IncreaseAddressCommand}"
@@ -177,28 +177,28 @@
                             Style="{DynamicResource UniconButtonStyle}" />
                         <TextBlock
                             Margin="3"
-                            Text="{lex:Loc AddressIterator}"
-                            VerticalAlignment="Center"
                             HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
                             IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
-                            />
+                            Text="{lex:Loc AddressIterator}" />
                         <TextBox
                             Margin="3"
-                            Text="{Binding SelectedRow.AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
-                            />
+                            Text="{Binding SelectedRow.AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </UniformGrid>
+                    <UniformGrid Columns="2" Rows="2">
                         <TextBlock
                             Margin="3"
-                            Text="{lex:Loc Main}"
-                            VerticalAlignment="Center"
                             HorizontalAlignment="Center"
-                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
-                        />
-                        <CheckBox
+                            VerticalAlignment="Center"
+                            Text="{lex:Loc Main}" />
+                        <CheckBox Margin="3" IsChecked="{Binding SelectedRow.IsMain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock
                             Margin="3"
-                            IsChecked="{Binding SelectedRow.IsMain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
-                        />
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{lex:Loc GroupWithReiteration}" />
+                        <CheckBox Margin="3" IsChecked="{Binding SelectedRow.IsGroupWithReiteration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
                 </StackPanel>
             </GroupBox>
@@ -242,17 +242,17 @@
                 ItemsSource="{Binding Path=AllRows}"
                 SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ListView.Resources>
-                    <ContextMenu x:Key="ItemContextMenu"
-                                 >
-                        <!-- свойство ниже ломает контекстное меню, пока убрал условие, надо уточнить, как оно должно работать -->
-                        <!--IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}">-->
-
-                        <MenuItem Command="{Binding IncreaseAddressCommand}"
-                                  IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}"
-                                  Header="{lex:Loc IncreaseAddress}" />
-                        <MenuItem Command="{Binding DecreaseAddressCommand}"
-                                  IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}" 
-                                  Header="{lex:Loc DecreaseAddress}" />
+                    <ContextMenu x:Key="ItemContextMenu">
+                        <!--  свойство ниже ломает контекстное меню, пока убрал условие, надо уточнить, как оно должно работать  -->
+                        <!--  IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}">  -->
+                        <MenuItem
+                            Command="{Binding IncreaseAddressCommand}"
+                            Header="{lex:Loc IncreaseAddress}"
+                            IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}" />
+                        <MenuItem
+                            Command="{Binding DecreaseAddressCommand}"
+                            Header="{lex:Loc DecreaseAddress}"
+                            IsEnabled="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}" />
                     </ContextMenu>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Style.Triggers>
@@ -406,7 +406,7 @@
                             <GridViewColumn Width="{Binding ElementName=dummywidthTableViewAllowed, Path=ActualWidth}" Header="{lex:Loc Table}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox Visibility="{Binding ., Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}" IsChecked="{Binding IsTableViewAllowed}"></CheckBox>
+                                        <CheckBox IsChecked="{Binding IsTableViewAllowed}" Visibility="{Binding ., Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

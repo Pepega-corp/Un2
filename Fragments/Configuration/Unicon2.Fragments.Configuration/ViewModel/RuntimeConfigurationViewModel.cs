@@ -8,7 +8,6 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
@@ -35,33 +34,68 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             this.FragmentOptionsViewModel =
                 (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, this._container);
             this.RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
-            MainItemSelectedCommand=new RelayCommand<object>(OnMainItemSelected);
+            MainItemSelectedCommand = new RelayCommand<object>(OnMainItemSelected);
+            ShowTableCommand = new RelayCommand<object>(OnShowTable);
+        }
+
+     
+
+        private void OnShowTable(object obj)
+        {
+            if (!(obj is MainConfigItemViewModel mainItem)) return;
+            if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails)
+            {
+                selectedConfigDetails.IsSelected = false;
+                selectedConfigDetails.IsTableSelected = false;
+            }
+
+            mainItem.IsTableSelected = true;
+            if(mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
+            {
+                tableViewModel.IsTableView = true;
+            }
+            mainItem.IsSelected = true;
+            SelectedConfigDetails = mainItem;
+
+        }
+
+        public RelayCommand<object> ShowTableCommand { get; }
+        
+
+        public object SelectedConfigDetails
+        {
+            get => _selectedConfigDetails;
+            set
+            {
+                _selectedConfigDetails = value;
+                RaisePropertyChanged();
+            }
         }
 
         private void OnMainItemSelected(object obj)
         {
-            if(!(obj is MainConfigItemViewModel mainItem))return;
-            var currentRows=new List<IConfigurationItemViewModel>();
-            FillCurrentRows(currentRows, mainItem.RelatedConfigurationItemViewModel,0);
-            CurrentRows = currentRows;
+            if (!(obj is MainConfigItemViewModel mainItem)) return;
+            if (mainItem.ChildConfigItemViewModels.Any()) return;
+            if (mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
+            {
+                tableViewModel.IsTableView = false;
+            }
+            if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails)
+            {
+                selectedConfigDetails.IsSelected = false;
+                selectedConfigDetails.IsTableSelected = false;
+            }
+            mainItem.IsSelected = true;
+            SelectedConfigDetails = mainItem;
         }
 
-        private void FillCurrentRows(List<IConfigurationItemViewModel> currentRows, IConfigurationItemViewModel row,int level)
-        {
-            foreach (var child in row.ChildStructItemViewModels)
-            {
-                child.Level=level;
-                currentRows.Add(child);
-                FillCurrentRows(currentRows,child,level+1);
-            }
-        }
 
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
         private IFragmentOptionsViewModel _fragmentOptionsViewModel;
         private ObservableCollection<IRuntimeConfigurationItemViewModel> _rootConfigurationItemViewModels;
         private string _deviceName;
         private ObservableCollection<MainConfigItemViewModel> _mainRows;
-        private List<IConfigurationItemViewModel> _currentRows;
+        private object _selectedConfigDetails;
 
         public ICommand MainItemSelectedCommand { get; }
 
@@ -73,16 +107,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 this._rootConfigurationItemViewModels = value;
                 this.RaisePropertyChanged();
 
-            }
-        }
-
-        public List<IConfigurationItemViewModel> CurrentRows
-        {
-            get => _currentRows;
-            set
-            {
-                _currentRows = value;
-                RaisePropertyChanged();
             }
         }
 
