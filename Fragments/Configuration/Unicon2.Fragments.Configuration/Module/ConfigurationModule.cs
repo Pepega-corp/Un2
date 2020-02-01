@@ -31,8 +31,10 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register(typeof(IFragmentViewModel), typeof(RuntimeConfigurationViewModel),
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION_VIEWMODEL);
 
-            container.RegisterInstance<IConfigurationItemFactory>(new ConfigurationItemFactory(container.Resolve<ITypesContainer>()));
-            container.Register(typeof(IRuntimeConfigurationItemViewModelFactory), typeof(RuntimeConfigurationItemViewModelFactory));
+            container.RegisterInstance<IConfigurationItemFactory>(
+                new ConfigurationItemFactory(container.Resolve<ITypesContainer>()));
+            container.Register(typeof(IRuntimeConfigurationItemViewModelFactory),
+                typeof(RuntimeConfigurationItemViewModelFactory));
             container.Register(typeof(IDependentProperty), typeof(DependentProperty));
             container.Register(typeof(IDependancyCondition), typeof(DependancyCondition));
 
@@ -41,6 +43,8 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register(typeof(IDeviceConfiguration), typeof(DefaultDeviceConfiguration));
             container.Register(typeof(IItemsGroup), typeof(DefaultItemsGroup));
             container.Register(typeof(IProperty), typeof(DefaultProperty));
+            container.Register(typeof(IGroupWithReiterationInfo), typeof(GroupWithReiterationInfo));
+            container.Register(typeof(IReiterationSubGroupInfo), typeof(ReiterationSubGroupInfo));
 
             container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeItemGroupViewModel),
                 ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
@@ -61,7 +65,8 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register(typeof(IRuntimeConfigurationViewModel), typeof(RuntimeConfigurationViewModel));
             container.Register(typeof(IValueViewModelFactory), typeof(ValueViewModelFactory));
 
-            container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting), ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
+            container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting),
+                ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
 
             ISerializerService serializerService = container.Resolve<ISerializerService>();
             serializerService.AddNamespaceAttribute("defaultDeviceConfiguration", "DefaultDeviceConfigurationNS");
@@ -73,17 +78,21 @@ namespace Unicon2.Fragments.Configuration.Module
             serializerService.AddNamespaceAttribute("dependancyCondition", "DependancyConditionNS");
             serializerService.AddNamespaceAttribute("complexProperty", "ComplexPropertyNS");
             serializerService.AddNamespaceAttribute("subProperty", "SubPropertyNS");
-            serializerService.AddNamespaceAttribute("localDeviceValuesConfigurationItemBase", "LocalDeviceValuesConfigurationItemBaseNS");
+            serializerService.AddNamespaceAttribute("localDeviceValuesConfigurationItemBase",
+                "LocalDeviceValuesConfigurationItemBaseNS");
 
             serializerService.AddKnownTypeForSerializationRange(new[]
             {
-                typeof(LocalDeviceValuesConfigurationItemBase),typeof(DefaultDeviceConfiguration), typeof(DefaultItemsGroup), typeof(DefaultProperty),
+                typeof(LocalDeviceValuesConfigurationItemBase), typeof(DefaultDeviceConfiguration),
+                typeof(DefaultItemsGroup), typeof(DefaultProperty),
                 typeof(List<DefaultItemsGroup>), typeof(List<DefaultProperty>), typeof(ActivatedConfigurationSetting),
-                typeof(DependentProperty), typeof(DependancyCondition), typeof(ComplexProperty), typeof(SubProperty)
+                typeof(DependentProperty), typeof(DependancyCondition), typeof(ComplexProperty), typeof(SubProperty),
+                typeof(GroupWithReiterationInfo), typeof(ReiterationSubGroupInfo), typeof(List<ReiterationSubGroupInfo>),
             });
 
             //регистрация ресурсов
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ConfigurationTemplates.xaml", this.GetType().Assembly);
+            container.Resolve<IXamlResourcesService>()
+                .AddResourceAsGlobal("Resources/ConfigurationTemplates.xaml", this.GetType().Assembly);
         }
     }
 }

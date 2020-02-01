@@ -11,6 +11,8 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.Factories
         IConfigurationItem ResolveSubPropertyItem();
         IConfigurationItem ResolveComplexPropertyItem();
         IConfigurationItem ResolveAppointableMatrix();
+        IGroupWithReiterationInfo ResolveGroupWithReiterationInfo();
+        IReiterationSubGroupInfo ResolveReiterationSubGroupInfo();
 
     }
 }

@@ -7,6 +7,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces
         List<IConfigurationItem> ConfigurationItemList { get; set; }
         bool IsTableViewAllowed { get; set; }
         bool? IsMain { get; set; }
-
+        IGroupInfo GroupInfo { get; set; }
     }
 }

@@ -75,6 +75,7 @@
     <Compile Include="Converters\IsFormattableToVisibilityConverter.cs" />
     <Compile Include="CustomControls\WrapPanelWithRowsOrColumnsCount.cs" />
     <Compile Include="Factories\ConfigurationItemEditorViewModelFactory.cs" />
+    <Compile Include="Factories\GroupWithReiterationEditorWindowFactory.cs" />
     <Compile Include="Interfaces\ConfigurationSettings\IActivatedConfigurationSettingViewModel.cs" />
     <Compile Include="Interfaces\DependentProperty\IConditionViewModel.cs" />
     <Compile Include="Interfaces\EditOperations\IChildAddable.cs" />
@@ -105,6 +106,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\ConfigurationSettings\ActivatedConfigurationSettingViewModel.cs" />
+    <Compile Include="ViewModels\GroupWithReiterationEditorViewModel.cs" />
     <Compile Include="ViewModels\Properties\ComplexPropertyEditorViewModel.cs" />
     <Compile Include="ViewModels\Properties\DependentPropertyEditorViewModel.cs" />
     <Compile Include="ViewModels\DependentProperty\ConditionViewModel.cs" />
@@ -130,6 +132,9 @@
     </Compile>
     <Compile Include="View\DescriptionEditingWindow.xaml.cs">
       <DependentUpon>DescriptionEditingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GroupWithReiterationInfoEditorView.xaml.cs">
+      <DependentUpon>GroupWithReiterationInfoEditorView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -165,6 +170,9 @@
     </Page>
     <Page Include="View\DescriptionEditingWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GroupWithReiterationInfoEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

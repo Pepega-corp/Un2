@@ -1371,4 +1371,7 @@
   <data name="GroupWithReiteration" xml:space="preserve">
     <value>Group with reiteration</value>
   </data>
+  <data name="Step" xml:space="preserve">
+    <value>Step</value>
+  </data>
 </root>

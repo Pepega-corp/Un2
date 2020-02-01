@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
@@ -86,6 +87,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public void StartEditElement()
         {
             this.IsInEditMode = true;
+            if (IsGroupWithReiteration)
+            {
+                GroupWithReiterationEditorWindowFactory.StartEditingGroupWithReiteration(this, _configurationItemFactory);
+            }
         }
 
         public void StopEditElement()
@@ -225,7 +230,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-        public override string TypeName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
+        public override string TypeName => IsGroupWithReiteration ? ConfigurationKeys.GROUP_WITH_REITERATION : ConfigurationKeys.DEFAULT_ITEM_GROUP;
 
         public override string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
@@ -316,7 +321,15 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public bool IsGroupWithReiteration
         {
             get => _isGroupWithReiteration;
-            set => SetProperty(ref _isGroupWithReiteration, value);
+            set
+            {
+                SetProperty(ref _isGroupWithReiteration, value);
+                RaisePropertyChanged(nameof(TypeName));
+                if (value)
+                {
+                    StartEditElement();
+                }
+            }
         }
 
         #endregion

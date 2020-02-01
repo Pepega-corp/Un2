@@ -6,7 +6,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public abstract class EditorConfigurationItemViewModelBase : ConfigurationItemViewModelBase, IEditorConfigurationItemViewModel
     {
-        private IConfigurationItemViewModel _parent;
 
         public abstract override string TypeName { get; }
 

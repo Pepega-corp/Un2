@@ -29,6 +29,9 @@ namespace Unicon2.Fragments.Configuration.Model
         [DataMember(Name = nameof(IsMain), Order = 2)]
         public bool? IsMain { get; set; }
 
+        [DataMember(Name = nameof(GroupInfo), Order = 3)]
+        public IGroupInfo GroupInfo { get; set; }
+
 
         public override string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
 

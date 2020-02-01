@@ -186,7 +186,10 @@
                             IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
                             Text="{Binding SelectedRow.AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
-                    <UniformGrid Columns="2" Rows="2">
+                    <UniformGrid
+                        Columns="2"
+                        IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
+                        Rows="2">
                         <TextBlock
                             Margin="3"
                             HorizontalAlignment="Center"

@@ -80,6 +80,7 @@
     <Compile Include="Model\Base\LocalDeviceValuesConfigurationItemBase.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
     <Compile Include="Model\DefaultDeviceConfiguration.cs" />
+    <Compile Include="Model\GroupWithReiterationInfo.cs" />
     <Compile Include="Model\Properties\ComplexProperty.cs" />
     <Compile Include="Model\Properties\DefaultProperty.cs" />
     <Compile Include="Model\DefaultItemsGroup.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Model\DependentProperty\DependentProperty.cs" />
     <Compile Include="Model\DependentProperty\DependancyCondition.cs" />
     <Compile Include="Model\Properties\SubProperty.cs" />
+    <Compile Include="Model\ReiterationSubGroupInfo.cs" />
     <Compile Include="Module\ConfigurationModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

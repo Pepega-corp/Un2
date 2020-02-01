@@ -27,10 +27,11 @@
         public const string READING_CONFIGURATION_QUERY = "ReadingConfigurationQuery";
         public const string ACTIVATION_CONFIGURATION_QUERY = "ActivationConfigurationQuery";
 
-
+        public const string GROUP_WITH_REITERATION = "GroupWithReiteration";
         public const string DEFAULT_ITEM_GROUP = "DefaultItemGroup";
         public const string CONFIG_TABLE_VIEW = "ConfigTableView";
         public const string CONFIG_TABLE_VALUE = "ConfigTableValue";
+        public const string GROUP_WITH_REITERATION_INFO = "GroupWithReiterationInfo";
 
 
         public const string DEFAULT_PROPERTY = "DefaultProperty";

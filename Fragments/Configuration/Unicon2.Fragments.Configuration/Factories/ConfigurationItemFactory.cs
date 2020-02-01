@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Configuration.Infrastructure.Factories;
+﻿using System.Collections.Generic;
+using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -52,6 +53,19 @@ namespace Unicon2.Fragments.Configuration.Factories
             IConfigurationItem appointableMatrix = this._container.Resolve<IConfigurationItem>(ConfigurationKeys.APPOINTABLE_MATRIX);
 
             return appointableMatrix;
+        }
+
+        public IGroupWithReiterationInfo ResolveGroupWithReiterationInfo()
+        {
+            IGroupWithReiterationInfo groupWithReiterationInfo = this._container.Resolve<IGroupWithReiterationInfo>();
+            groupWithReiterationInfo.SubGroups=new List<IReiterationSubGroupInfo>();
+            return groupWithReiterationInfo;
+        }
+
+        public IReiterationSubGroupInfo ResolveReiterationSubGroupInfo()
+        {
+            IReiterationSubGroupInfo reiterationSubGroupInfo = this._container.Resolve<IReiterationSubGroupInfo>();
+            return reiterationSubGroupInfo;
         }
     }
 }

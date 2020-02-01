@@ -106,7 +106,6 @@
     <Compile Include="Behaviors\FocusableInformationBehavior.cs" />
     <Compile Include="Behaviors\DynamicDataTable.cs" />
     <Compile Include="Behaviors\ScrollParentWhenAtMax.cs" />
-    <Compile Include="Behaviors\TreeGridBehavior.cs" />
     <Compile Include="Behaviors\TreeViewToggleButtonBehavior.cs" />
     <Compile Include="Converter\BitArrayToStringConverter.cs" />
     <Compile Include="Converter\BooleanToWidthConverter.cs" />
