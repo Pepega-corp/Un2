@@ -75,7 +75,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private void OnMainItemSelected(object obj)
         {
             if (!(obj is MainConfigItemViewModel mainItem)) return;
-            if (mainItem.ChildConfigItemViewModels.Any()) return;
+            if (mainItem.ChildConfigItemViewModels.Any()&&!mainItem.IsGroupWithReiteration) return;
             if (mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
             {
                 tableViewModel.IsTableView = false;
@@ -181,18 +181,33 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
 
             this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
-            this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels));
+            this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels,false));
 
         }
 
         private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
-            IEnumerable<IConfigurationItemViewModel> rootItems)
+            IEnumerable<IConfigurationItemViewModel> rootItems,bool isParentReiterable, IGroupWithReiterationInfo groupWithReiterationInfo=null)
         {
             var resultCollection = new ObservableCollection<MainConfigItemViewModel>();
             resultCollection.AddCollection(rootItems.Where(item =>
                 item is IItemGroupViewModel itemGroupViewModel &&
                 ((itemGroupViewModel.Model as IItemsGroup).IsMain ?? true)).Select(item =>
-                new MainConfigItemViewModel(FilterMainConfigItems(item.ChildStructItemViewModels), item)));
+            {
+                //if (item is IItemGroupViewModel groupViewModelWithreit &&
+                //    groupViewModelWithreit.Model is IItemsGroup itemsGroup &&
+                //    itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiteration &&
+                //    groupWithReiteration.IsReiterationEnabled)
+                //{
+                //    return new MainConfigItemViewModel(
+                //        FilterMainConfigItems(item.ChildStructItemViewModels, true,groupWithReiterationInfo.SubGroups), item);
+                //}
+                //else
+                //{
+                    return new MainConfigItemViewModel(
+                        FilterMainConfigItems(item.ChildStructItemViewModels, isParentReiterable), item);
+                
+
+            }));
             return resultCollection;
         }
 

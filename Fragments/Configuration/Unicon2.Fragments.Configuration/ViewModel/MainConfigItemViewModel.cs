@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Unicon2.Fragments.Configuration.Infrastructure.Factories;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Presentation.Infrastructure.Events;
@@ -19,28 +21,64 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private List<IConfigurationItemViewModel> _relatedRows;
         private bool _isTableSelected;
 
-        public MainConfigItemViewModel(IEnumerable<MainConfigItemViewModel> childConfigItemViewModels, IConfigurationItemViewModel relatedConfigurationItemViewModel)
+        public MainConfigItemViewModel(IEnumerable<MainConfigItemViewModel> childConfigItemViewModels,
+            IConfigurationItemViewModel relatedConfigurationItemViewModel)
         {
             ChildConfigItemViewModels = childConfigItemViewModels;
             RelatedConfigurationItemViewModel = relatedConfigurationItemViewModel;
-            IsTableEnabled = (relatedConfigurationItemViewModel is IItemGroupViewModel groupViewModel) && groupViewModel.IsTableViewAllowed;
-            if (!childConfigItemViewModels.Any())
+
+
+            IsTableEnabled =
+                (relatedConfigurationItemViewModel is IItemGroupViewModel groupViewModel) &&
+                groupViewModel.IsTableViewAllowed;
+            
+            IGroupWithReiterationInfo groupWithReiterationInfo = null;
+
+            if (RelatedConfigurationItemViewModel is IItemGroupViewModel groupViewModelWithreit &&
+                groupViewModelWithreit.Model is IItemsGroup itemsGroup &&
+                itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiteration)
+            {
+                IsGroupWithReiteration = groupWithReiteration.IsReiterationEnabled;
+                groupWithReiterationInfo = groupWithReiteration;
+            }
+
+            if (!childConfigItemViewModels.Any()|| IsGroupWithReiteration)
             {
                 var relatedRows = new List<IConfigurationItemViewModel>();
-                FillRelatedRows(relatedRows, relatedConfigurationItemViewModel, 0);
+                if (IsGroupWithReiteration)
+                {
+                    var factory = StaticContainer.Container.Resolve<IRuntimeConfigurationItemViewModelFactory>();
+                    var children = groupWithReiterationInfo.SubGroups.Select(
+                        (info => factory.CreateGroupWithReiterationViewModel(info))).ToList();
+
+                    FillRelatedRows(relatedRows, children, 0);
+
+                }
+                else
+                {
+                    FillRelatedRows(relatedRows, relatedConfigurationItemViewModel.ChildStructItemViewModels, 0);
+                }
+
                 RelatedRows = relatedRows;
             }
 
         }
 
- 
-        private void FillRelatedRows(List<IConfigurationItemViewModel> currentRows, IConfigurationItemViewModel row, int level)
+        public MainConfigItemViewModel(IEnumerable<MainConfigItemViewModel> childConfigItemViewModels)
         {
-            foreach (var child in row.ChildStructItemViewModels)
+            
+        }
+
+        public bool IsGroupWithReiteration { get; set; }
+
+
+        private void FillRelatedRows(List<IConfigurationItemViewModel> currentRows, IEnumerable<IConfigurationItemViewModel> children, int level)
+        {
+            foreach (var child in children)
             {
                 child.Level = level;
                 currentRows.Add(child);
-                FillRelatedRows(currentRows, child, level + 1);
+                FillRelatedRows(currentRows, child.ChildStructItemViewModels, level + 1);
             }
         }
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Behaviors;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
 using Unicon2.Infrastructure;
@@ -32,7 +33,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
         {
             _itemGroupsToTransform = itemGroupsToTransform;
             Initialize();
-
         }
 
         public DynamicPropertiesTable DynamicPropertiesTable

@@ -37,9 +37,17 @@ namespace Unicon2.Fragments.Configuration.Model
 
         public override async Task Load()
         {
-            foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+            if (GroupInfo is IGroupWithReiterationInfo groupWithReiteration && groupWithReiteration.IsReiterationEnabled)
             {
-                await configurationItem.Load();
+                groupWithReiteration.SetGroupItems(ConfigurationItemList);
+                await groupWithReiteration.Load();
+            }
+            else
+            {
+                foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+                {
+                    await configurationItem.Load();
+                }
             }
             await base.Load();
         }
@@ -56,9 +64,16 @@ namespace Unicon2.Fragments.Configuration.Model
         public override async Task<bool> Write()
         {
             bool isWritten = false;
-            foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+            if (GroupInfo is IGroupWithReiterationInfo groupWithReiteration&&groupWithReiteration.IsReiterationEnabled)
             {
-                if (await configurationItem.Write()) isWritten = true;
+                if (await groupWithReiteration.Write()) isWritten = true;
+            }
+            else
+            {
+                foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+                {
+                    if (await configurationItem.Write()) isWritten = true;
+                }
             }
             await base.Write();
             return isWritten;
@@ -70,6 +85,11 @@ namespace Unicon2.Fragments.Configuration.Model
             foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
             {
                 configurationItem.SetDataProvider(dataProvider);
+            }
+            (GroupInfo as IGroupWithReiterationInfo)?.SetDataProvider(dataProvider);
+            if (GroupInfo is IGroupWithReiterationInfo groupWithReiteration && groupWithReiteration.IsReiterationEnabled)
+            {
+                groupWithReiteration.SetGroupItems(ConfigurationItemList);
             }
             base.SetDataProvider(dataProvider);
         }
@@ -87,19 +107,27 @@ namespace Unicon2.Fragments.Configuration.Model
 
         public override void TransferDeviceLocalData(bool isFromDeviceToLocal)
         {
-            foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+            if (GroupInfo is IGroupWithReiterationInfo groupWithReiteration && groupWithReiteration.IsReiterationEnabled)
             {
-                try
-                {
-                    configurationItem.TransferDeviceLocalData(isFromDeviceToLocal);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-
+                groupWithReiteration.SubGroups.ForEach((info =>info.ConfigurationItems?.ForEach((item => item.TransferDeviceLocalData(isFromDeviceToLocal))) ));
             }
+            else
+            {
+                foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+                {
+                    try
+                    {
+                        configurationItem.TransferDeviceLocalData(isFromDeviceToLocal);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+
+                }
+            }
+
             base.TransferDeviceLocalData(isFromDeviceToLocal);
         }
 
@@ -107,13 +135,19 @@ namespace Unicon2.Fragments.Configuration.Model
 
         public override void InitializeLocalValue(IConfigurationItem localConfigurationItem)
         {
+
             if (!(localConfigurationItem is DefaultItemsGroup)) return;
             foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
             {
-                configurationItem.InitializeLocalValue((localConfigurationItem as DefaultItemsGroup).ConfigurationItemList[this.ConfigurationItemList.IndexOf(configurationItem)]);
+                configurationItem.InitializeLocalValue(
+                    (localConfigurationItem as DefaultItemsGroup).ConfigurationItemList[
+                        this.ConfigurationItemList.IndexOf(configurationItem)]);
             }
+
+
             base.InitializeLocalValue(localConfigurationItem);
         }
+
         public override void InitializeValue(IConfigurationItem localConfigurationItem)
         {
             if (!(localConfigurationItem is DefaultItemsGroup)) return;

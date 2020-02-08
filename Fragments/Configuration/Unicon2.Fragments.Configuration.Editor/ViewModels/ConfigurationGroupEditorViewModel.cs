@@ -239,14 +239,19 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         protected override void SetModel(object model)
         {
             this.ChildStructItemViewModels.Clear();
-            foreach (IConfigurationItem configurationItem in (model as IItemsGroup).ConfigurationItemList)
+            var itemGroup = (model as IItemsGroup);
+            foreach (IConfigurationItem configurationItem in itemGroup.ConfigurationItemList)
             {
                 this.ChildStructItemViewModels.Add(this._configurationItemEditorViewModelFactory
                     .ResolveConfigurationItemEditorViewModel(configurationItem, this));
             };
             IsCheckable = true;
-            IsTableViewAllowed = (model as IItemsGroup).IsTableViewAllowed;
-            IsMain = (model as IItemsGroup).IsMain ?? true;
+            IsTableViewAllowed = itemGroup.IsTableViewAllowed;
+            IsMain = itemGroup.IsMain ?? true;
+            if (itemGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo)
+            {
+                _isGroupWithReiteration= groupWithReiterationInfo.IsReiterationEnabled;
+            }
             base.SetModel(model);
         }
 
@@ -329,6 +334,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 {
                     StartEditElement();
                 }
+                if ((_model as IItemsGroup)?.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo)
+                {
+                    groupWithReiterationInfo.IsReiterationEnabled = value;
+                }
+
             }
         }
 
