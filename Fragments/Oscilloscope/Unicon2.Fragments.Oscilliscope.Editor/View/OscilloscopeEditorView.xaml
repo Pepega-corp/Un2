@@ -23,7 +23,7 @@
                     <views:JournalsEditorView DataContext="{Binding OscilloscopeJournalEditorViewModel}" />
                 </TabItem>
                 <TabItem DataContext="{Binding OscillogramLoadingParametersEditorViewModel}" Header="{lex:Loc LoadingParameters}">
-                    <StackPanel Width="500" HorizontalAlignment="Left">
+                    <VirtualizingStackPanel Width="500" HorizontalAlignment="Left">
                         <UniformGrid Columns="2">
                             <TextBlock Margin="5" Text="{lex:Loc AddressOfOscillogram}" />
                             <TextBox Margin="5" Text="{Binding AddressOfOscillogram}" />
@@ -57,25 +57,25 @@
                                                     Header="{lex:Loc Delete}" />
                                             </ContextMenu>
                                         </Grid.ContextMenu>
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                        <VirtualizingStackPanel Grid.Column="0" Orientation="Horizontal">
                                             <TextBlock Margin="5" Text="{lex:Loc SourceParameter}" />
                                             <ComboBox
                                                 Margin="5"
                                                 ItemsSource="{Binding AvailableJournalParameters}"
                                                 SelectedItem="{Binding SelectedJournalParameter}" />
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        </VirtualizingStackPanel>
+                                        <VirtualizingStackPanel Grid.Column="1" Orientation="Horizontal">
                                             <TextBlock Margin="5" Text="{lex:Loc Name}" />
                                             <ComboBox
                                                 Margin="5"
                                                 ItemsSource="{Binding AvailableTags}"
                                                 SelectedItem="{Binding SelectedTag}" />
-                                        </StackPanel>
+                                        </VirtualizingStackPanel>
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                 </TabItem>
 
                 <TabItem DataContext="{Binding CountingTemplateEditorViewModel}" Header="{lex:Loc CountingStructure}">
@@ -84,10 +84,10 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <StackPanel>
+                        <VirtualizingStackPanel>
 
                             <GroupBox Margin="0" Header="{lex:Loc General}">
-                                <StackPanel>
+                                <VirtualizingStackPanel>
                                     <Button
                                         Margin="3"
                                         Command="{Binding AddRecordParameterCommand}"
@@ -103,13 +103,13 @@
                                         Command="{Binding AddDependentParameterCommand}"
                                         Content="{lex:Loc AddDependentParameter}"
                                         Style="{DynamicResource UniconButtonStyle}" />
-                                </StackPanel>
+                                </VirtualizingStackPanel>
                             </GroupBox>
                             <GroupBox
                                 Margin="0"
                                 VerticalAlignment="Top"
                                 Header="{lex:Loc CurrentItem}">
-                                <StackPanel Margin="0">
+                                <VirtualizingStackPanel Margin="0">
                                     <Grid HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -195,9 +195,9 @@
                                         IsChecked="{Binding SelectedJournalParameterEditorViewModel.IsMeasureUnitEnabled}"
                                         IsEnabled="{Binding SelectedJournalParameterEditorViewModel, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IMeasurable}"
                                         Style="{DynamicResource UniconToggleButtonStyle}" />
-                                </StackPanel>
+                                </VirtualizingStackPanel>
                             </GroupBox>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
 
 
                         <Grid Name="ConfigGrid" Grid.Column="1">
@@ -271,13 +271,13 @@
                                         <GridViewColumn Width="{Binding ElementName=dummywidthFormatting, Path=ActualWidth}" Header="{lex:Loc Formatting}">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <StackPanel
+                                                    <VirtualizingStackPanel
                                                         HorizontalAlignment="Stretch"
                                                         controls:VisibilityHelper.IsCollapsed="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IComplexJournalParameterEditorViewModel}"
                                                         Orientation="Horizontal">
                                                         <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
                                                         <TextBlock Margin="3" Text="{Binding ElementName=formatterProxy, Path=Result}" />
-                                                    </StackPanel>
+                                                    </VirtualizingStackPanel>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>

@@ -37,7 +37,7 @@ namespace Unicon2.Shell.Behaviors
                      .GetLocalizedObject(fragmentOptionGroupViewModel.NameKey, null,
                      LocalizeDictionary.Instance.Culture).ToString();
              //   menuItems.Add(new TextBlock() { Text = headerGroup });
-                var visTree = new FrameworkElementFactory(typeof(StackPanel));
+                var visTree = new FrameworkElementFactory(typeof(VirtualizingStackPanel));
                 var textBlockVisTree = new FrameworkElementFactory(typeof(TextBlock));
                 textBlockVisTree.SetValue(TextBlock.TextProperty, headerGroup);
                 visTree.AppendChild(textBlockVisTree);

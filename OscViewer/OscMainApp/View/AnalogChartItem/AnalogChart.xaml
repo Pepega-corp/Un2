@@ -66,7 +66,7 @@
                     </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
-            <StackPanel>
+            <VirtualizingStackPanel>
                 <Label
                     x:Name="ChannelNameTb"
                     HorizontalAlignment="Left"
@@ -116,7 +116,7 @@
                     Content="Label"
                     FontSize="10"
                     Foreground="#FF00005a" />
-            </StackPanel>
+            </VirtualizingStackPanel>
         </Grid>
 
         <Grid

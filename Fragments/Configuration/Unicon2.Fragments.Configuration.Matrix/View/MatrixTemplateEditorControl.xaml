@@ -55,13 +55,13 @@
                                   ItemsSource="{Binding .}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical"></StackPanel>
+                                    <VirtualizingStackPanel Orientation="Vertical"></VirtualizingStackPanel>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type editorViewModel:IAssignedBitEditorViewModel}">
-                                    <StackPanel Orientation="Horizontal" Margin="1">
+                                    <VirtualizingStackPanel Orientation="Horizontal" Margin="1">
                                         <TextBlock Width="25" Margin="5" Text="{Binding NumberOfBit}"/>
                                         <ComboBox
                                            Width="150" 
@@ -88,7 +88,7 @@
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
                                         </Button>
-                                    </StackPanel>
+                                    </VirtualizingStackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -96,13 +96,13 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal">
-                        </StackPanel>
+                        <VirtualizingStackPanel Orientation="Horizontal">
+                        </VirtualizingStackPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" >
+        <VirtualizingStackPanel Orientation="Horizontal" Grid.Row="1" >
             <Button Margin="2"  Style="{DynamicResource UniconButtonStyle}" 
                 HorizontalAlignment="Left" 
                 Content="{lex:Loc AssignSignalsAutomatically}" 
@@ -111,6 +111,6 @@
                 HorizontalAlignment="Left" 
                 Content="{lex:Loc ClearAssignedSignals}" 
                 Command="{Binding ClearAssignedSignals}"/>
-        </StackPanel>
+        </VirtualizingStackPanel>
     </Grid>
 </UserControl>

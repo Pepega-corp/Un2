@@ -23,7 +23,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <StackPanel>
+                <VirtualizingStackPanel>
                     <Button
                         Width="100"
                         Margin="0"
@@ -31,7 +31,7 @@
                         Command="{Binding LoadRootCommand}"
                         Content="{lex:Loc Load}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                </StackPanel>
+                </VirtualizingStackPanel>
                 <TreeView x:Name="TreeView" Grid.Row="1">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
@@ -68,27 +68,27 @@
                             <ListBox ItemsSource="{Binding ChildBrowserElementViewModels}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <ListBox.Resources>
                                     <DataTemplate DataType="{x:Type viewModel:DeviceDirectoryViewModel}">
-                                        <StackPanel Margin="5">
-                                            <StackPanel.ContextMenu>
+                                        <VirtualizingStackPanel Margin="5">
+                                            <VirtualizingStackPanel.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Command="{Binding DeleteElementCommand}" Header="{lex:Loc Delete}" />
                                                 </ContextMenu>
-                                            </StackPanel.ContextMenu>
+                                            </VirtualizingStackPanel.ContextMenu>
                                             <TextBlock Text="Folder" />
                                             <TextBlock Text="{Binding Name}" />
-                                        </StackPanel>
+                                        </VirtualizingStackPanel>
                                     </DataTemplate>
                                     <DataTemplate DataType="{x:Type viewModel:DeviceFileViewModel}">
-                                        <StackPanel Margin="5" ToolTip="{Binding Name}">
-                                            <StackPanel.ContextMenu>
+                                        <VirtualizingStackPanel Margin="5" ToolTip="{Binding Name}">
+                                            <VirtualizingStackPanel.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Command="{Binding DownloadElementCommand}" Header="{lex:Loc Download}" />
                                                     <MenuItem Command="{Binding DeleteElementCommand}" Header="{lex:Loc Delete}" />
                                                 </ContextMenu>
-                                            </StackPanel.ContextMenu>
+                                            </VirtualizingStackPanel.ContextMenu>
                                             <TextBlock Margin="2" Text="File" />
                                             <TextBlock Text="{Binding Name}" />
-                                        </StackPanel>
+                                        </VirtualizingStackPanel>
                                     </DataTemplate>
                                 </ListBox.Resources>
                                 <ListBox.ItemsPanel>

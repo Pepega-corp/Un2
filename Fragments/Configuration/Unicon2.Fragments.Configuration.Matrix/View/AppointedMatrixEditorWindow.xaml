@@ -25,7 +25,7 @@
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <VirtualizingStackPanel Orientation="Horizontal">
                             <Border
                                 VerticalAlignment="Top"
                                 BorderBrush="#FFdc000c"
@@ -34,7 +34,7 @@
                                     <AdornedElementPlaceholder x:Name="adorner" Margin="-1" />
                                 </Grid>
                             </Border>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -117,15 +117,15 @@
                         ItemsSource="{Binding MatrixMemoryVariableEditorViewModels}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel.ContextMenu>
+                                <VirtualizingStackPanel Orientation="Horizontal">
+                                    <VirtualizingStackPanel.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem
                                                 Command="{Binding Source={x:Reference matrixVariablesListBox}, Path=DataContext.DeleteMatrixVariableCommand}"
                                                 CommandParameter="{Binding .}"
                                                 Header="{lex:Loc Delete}" />
                                         </ContextMenu>
-                                    </StackPanel.ContextMenu>
+                                    </VirtualizingStackPanel.ContextMenu>
                                     <TextBlock Margin="10,25,0,10" Text="{lex:Loc Name}" />
                                     <TextBox
                                         Width="100"
@@ -133,21 +133,21 @@
                                         Margin="10"
                                         Text="{Binding Name}" />
                                     <TextBlock Margin="20,25,10,20" Text="{lex:Loc StartAddress}" />
-                                    <StackPanel Margin="2">
+                                    <VirtualizingStackPanel Margin="2">
                                         <TextBlock Margin="2" Text="{lex:Loc Word}" />
                                         <TextBox
                                             Width="50"
                                             Margin="5"
                                             Text="{Binding StartAddressWord}" />
-                                    </StackPanel>
-                                    <StackPanel Margin="2">
+                                    </VirtualizingStackPanel>
+                                    <VirtualizingStackPanel Margin="2">
                                         <TextBlock Margin="2" Text="{lex:Loc Bit}" />
                                         <TextBox
                                             Width="50"
                                             Margin="5"
                                             Text="{Binding StartAddressBit}" />
-                                    </StackPanel>
-                                </StackPanel>
+                                    </VirtualizingStackPanel>
+                                </VirtualizingStackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -156,7 +156,7 @@
 
 
             <controls:MetroTabItem Header="{lex:Loc ValueSignatures}">
-                <StackPanel>
+                <VirtualizingStackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
@@ -169,7 +169,7 @@
                         Command="{Binding AddSignatureCommand}"
                         Content="{lex:Loc AddSignature}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <VirtualizingStackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock Text="{lex:Loc Mask}" 
                                        Margin="5" 
                                        VerticalAlignment="Center"/>
@@ -194,7 +194,7 @@
                                     Command="{Binding AddSignatureGroupCommand}"
                                     Content="{lex:Loc AddSignatureGroup}"
                                     Style="{DynamicResource UniconButtonStyle}"/>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
 
                     </Grid>
 
@@ -235,7 +235,7 @@
                             Content="{lex:Loc ClearSignatures}"
                             Style="{DynamicResource UniconButtonStyle}"
                             />
-                </StackPanel>
+                </VirtualizingStackPanel>
             </controls:MetroTabItem>
             <controls:MetroTabItem Header="{lex:Loc PossibleValues}">
                 <Grid>
@@ -243,7 +243,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel
+                    <VirtualizingStackPanel
                         Grid.Row="0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -274,7 +274,7 @@
                                 </MultiBinding>
                             </RadioButton.IsChecked>
                         </RadioButton>
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                     <ContentControl Grid.Row="1" Content="{Binding SelectedMatrixVariableOptionTemplateEditorViewModel}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type optionTemplates:BoolMatrixVariableOptionTemplateEditorViewModel}">
@@ -304,7 +304,7 @@
                 <view:MatrixTemplateEditorControl />
             </controls:MetroTabItem>
         </controls:MetroAnimatedSingleRowTabControl>
-        <StackPanel
+        <VirtualizingStackPanel
             Grid.Row="2"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
@@ -316,7 +316,7 @@
                 Content="{lex:Loc Ok}"
                 Style="{DynamicResource UniconButtonStyle}" />
             <!--<Button Margin="5" Width="100" Content="{lex:Loc Cancel}" Command="{Binding CancelCommand}" Style="{DynamicResource UniconButtonStyle}" CommandParameter="{Binding ElementName=appointableMatrixEditorWindow}"></Button>-->
-        </StackPanel>
+        </VirtualizingStackPanel>
     </Grid>
 </controls:MetroWindow>
 

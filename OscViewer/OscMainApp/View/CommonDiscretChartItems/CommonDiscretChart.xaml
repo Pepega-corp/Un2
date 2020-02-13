@@ -14,11 +14,11 @@
             </Grid.ColumnDefinitions>
 
             <Grid x:Name="InfoCanvas" Grid.Column="0" Margin="0,0,0,0"  Width="150" HorizontalAlignment="Left" Panel.ZIndex="1"   >
-                <StackPanel x:Name="InfoStack" />
+                <VirtualizingStackPanel x:Name="InfoStack" />
             </Grid>
 
             <Grid x:Name="ImageGrid" Grid.Column="1"  SizeChanged="Grid_SizeChanged_1" Margin="0,0,0,0">
-                <StackPanel x:Name="ImageStack"  Orientation="Vertical" MouseDown="DrowCanvas_MouseDown"/>
+                <VirtualizingStackPanel x:Name="ImageStack"  Orientation="Vertical" MouseDown="DrowCanvas_MouseDown"/>
             </Grid>
 
 

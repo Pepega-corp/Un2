@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>   <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <StackPanel>
+            <VirtualizingStackPanel>
             
             <TextBlock Margin="5" TextWrapping="WrapWithOverflow" Text="{lex:Loc ListMatrixTemplateDescription}"></TextBlock>
             <Button
@@ -52,7 +52,7 @@
                                 <ItemsControl Grid.Column="1" Name="possibleValueConditionsItemsControl"  ItemsSource="{Binding PossibleValueConditionEditorViewModels}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate >
-                                        <StackPanel Orientation="Horizontal">
+                                            <VirtualizingStackPanel Orientation="Horizontal">
                                                 <ComboBox 
                                                     Margin="5" 
                                                     Height="20" 
@@ -62,12 +62,12 @@
                                                 </ComboBox>
                                                 <controls:ToggleSwitch ContentDirection="LeftToRight"  FontWeight="Regular" Margin="5" FontSize="15" Header="{lex:Loc MustBe}"  OnLabel="{lex:Loc True}" OffLabel="{lex:Loc False}" IsChecked="{Binding BoolConditionRule}"/>
                                            
-                                        </StackPanel>
+                                        </VirtualizingStackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical"></StackPanel>
+                                            <VirtualizingStackPanel Orientation="Vertical"></VirtualizingStackPanel>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
@@ -77,6 +77,6 @@
                 </ListBox.ItemTemplate>
                 </ListBox>
           
-        </StackPanel>  </ScrollViewer>
+        </VirtualizingStackPanel>  </ScrollViewer>
     </Grid>
 </UserControl>

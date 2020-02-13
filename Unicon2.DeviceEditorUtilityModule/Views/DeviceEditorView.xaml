@@ -34,7 +34,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <VirtualizingStackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBlock Margin="10" Text="{lex:Loc Device}" />
             <TextBox
                 MinWidth="250"
@@ -46,13 +46,13 @@
                 Command="{Binding LoadExistingDevice}"
                 Content="{lex:Loc LoadExisting}"
                 Style="{DynamicResource UniconButtonStyle}" />
-        </StackPanel>
+        </VirtualizingStackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal">
+            <VirtualizingStackPanel Grid.Column="0" Orientation="Horizontal">
                 <TextBlock Margin="10" Text="{lex:Loc AddBlock}" />
                 <ComboBox
                     Name="AvailableFragmentsComboBox"
@@ -76,7 +76,7 @@
                     CommandParameter="{Binding ElementName=AvailableFragmentsComboBox, Path=SelectedItem}"
                     Content="{lex:Loc Add}"
                     Style="{DynamicResource UniconButtonStyle}" />
-            </StackPanel>
+            </VirtualizingStackPanel>
             <UniformGrid Grid.Column="1" Columns="2">
                 <Button
                     Margin="3"
@@ -144,7 +144,7 @@
 
             </Expander>-->
 
-        <StackPanel
+        <VirtualizingStackPanel
             Grid.Row="3"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
@@ -162,6 +162,6 @@
 
             <!--<Button Margin="5" Content="{lex:Loc CreateAndAddInProject}" Style="{DynamicResource UniconButtonStyle}" />-->
 
-        </StackPanel>
+        </VirtualizingStackPanel>
     </Grid>
 </controls:Flyout>

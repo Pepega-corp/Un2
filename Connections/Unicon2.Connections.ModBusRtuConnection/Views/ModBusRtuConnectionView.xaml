@@ -24,7 +24,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                    <StackPanel
+                        <VirtualizingStackPanel
                         HorizontalAlignment="Center"
                         Grid.Row="0"
                         Height="auto"
@@ -38,7 +38,7 @@
                             SelectedItem="{Binding SelectedPort, Mode=TwoWay,ValidatesOnNotifyDataErrors=True}">
                         </ComboBox>
                         <Button Command="{Binding RefreshAvailablePorts}" Content="{lex:Loc Update}" Style="{DynamicResource UniconButtonStyle}" />
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                     <UniformGrid Margin="10" Grid.Row="1" Columns="2" >
                         <Label
                             Margin="10"
@@ -78,13 +78,13 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"  Margin="2" Text="{lex:Loc Speed}"></TextBlock>
-                            <StackPanel VerticalAlignment="Bottom">
+                            <VirtualizingStackPanel VerticalAlignment="Bottom">
                                 <Button  IsEnabled="{Binding ComPortInterrogationViewModel.IsInterrogationNotInProcess}" Margin="5" VerticalAlignment="Bottom" Content="{lex:Loc Interrogate}" Command="{Binding ComPortInterrogationViewModel.InterrogateCommand}" Style="{DynamicResource UniconButtonStyle}"></Button>
                                 <Button  Visibility="{Binding ComPortInterrogationViewModel.IsInterrogationNotInProcess,Converter={StaticResource boolToInVisConverter}}" Margin="5" VerticalAlignment="Bottom" Content="{lex:Loc Stop}" Command="{Binding ComPortInterrogationViewModel.StopInterrogationCommand}" Style="{DynamicResource UniconButtonStyle}"></Button>
 
-                            </StackPanel>
+                            </VirtualizingStackPanel>
 
-                            <StackPanel Grid.Column="1" Orientation="Vertical">
+                            <VirtualizingStackPanel Grid.Column="1" Orientation="Vertical">
                                 <CheckBox  IsEnabled="{Binding ComPortInterrogationViewModel.IsInterrogationNotInProcess}" Margin="2" Content="1200" IsChecked="{Binding ComPortInterrogationViewModel.Is1200Checked}"></CheckBox>
                                 <CheckBox  IsEnabled="{Binding ComPortInterrogationViewModel.IsInterrogationNotInProcess}" Margin="2" Content="2400" IsChecked="{Binding ComPortInterrogationViewModel.Is2400Checked}"></CheckBox>
                                 <CheckBox  IsEnabled="{Binding ComPortInterrogationViewModel.IsInterrogationNotInProcess}" Margin="2" Content="4800" IsChecked="{Binding ComPortInterrogationViewModel.Is4800Checked}"></CheckBox>
@@ -96,7 +96,7 @@
                                 <CheckBox  IsEnabled="{Binding ComPortInterrogationViewModel.IsInterrogationNotInProcess}" Margin="2" Content="230400" IsChecked="{Binding ComPortInterrogationViewModel.Is230400Checked}"></CheckBox>
                                 <CheckBox  IsEnabled="{Binding ComPortInterrogationViewModel.IsInterrogationNotInProcess}" Margin="2" Content="460800" IsChecked="{Binding ComPortInterrogationViewModel.Is460800Checked}"></CheckBox>
                                 <CheckBox  IsEnabled="{Binding ComPortInterrogationViewModel.IsInterrogationNotInProcess}" Margin="2" Content="921600" IsChecked="{Binding ComPortInterrogationViewModel.Is921600Checked}"></CheckBox>
-                            </StackPanel>
+                            </VirtualizingStackPanel>
                         </Grid>
 
                         <ItemsControl HorizontalAlignment="Left" Grid.Row="2"  Name="deviceDefinitionItemsControl"  ItemsSource="{Binding ComPortInterrogationViewModel.DeviceDefinitionViewModels}">
@@ -105,10 +105,10 @@
                                     <Button IsEnabled="{Binding ElementName=deviceDefinitionItemsControl,Path=DataContext.IsInterrogationNotInProcess}" Width="150" Style="{DynamicResource UniconButtonStyle}"
                                         Command="{Binding ElementName=deviceDefinitionItemsControl,Path=DataContext.ComPortInterrogationViewModel.AddDeviceCommand}" CommandParameter="{Binding .}">
                                         <Button.Content>
-                                            <StackPanel Orientation="Horizontal">
+                                            <VirtualizingStackPanel Orientation="Horizontal">
                                                 <TextBlock Margin="2" Text="{Binding Name}"></TextBlock>
                                                 <TextBlock Margin="2" Text="{Binding ConnectionDescription}"></TextBlock>
-                                            </StackPanel>
+                                            </VirtualizingStackPanel>
                                         </Button.Content>
                                     </Button>
                                 </DataTemplate>

@@ -78,7 +78,7 @@
                                         <ItemsControl Margin="7,3,3,3" ItemsSource="{Binding Bits}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal" />
+                                                    <VirtualizingStackPanel Orientation="Horizontal" />
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
@@ -153,7 +153,7 @@
                                         <ItemsControl Margin="7,3,3,3" ItemsSource="{Binding Bits}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal" />
+                                                    <VirtualizingStackPanel Orientation="Horizontal" />
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
@@ -171,7 +171,7 @@
                                                                     CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}"
                                                                     IsEnabled="{Binding DataContext.IsError, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource InvertConverter}}">
                                                                     <MenuItem.Header>
-                                                                        <StackPanel Orientation="Horizontal">
+                                                                        <VirtualizingStackPanel Orientation="Horizontal">
                                                                             <TextBlock Margin="3" Text="{lex:Loc AddressDec}" />
 
                                                                             <TextBlock Margin="3" Text="{Binding DataContext.AddressAsDec, RelativeSource={RelativeSource Mode=Self}}" />
@@ -180,7 +180,7 @@
                                                                             <TextBlock Margin="3" Text="{Binding DataContext.AddressAsHex, RelativeSource={RelativeSource Mode=Self}}" />
 
                                                                             <TextBlock Margin="3" Text="{lex:Loc SetTrueBit}" />
-                                                                        </StackPanel>
+                                                                        </VirtualizingStackPanel>
                                                                     </MenuItem.Header>
                                                                 </MenuItem>
                                                                 <MenuItem
@@ -188,7 +188,7 @@
                                                                     CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}"
                                                                     IsEnabled="{Binding DataContext.IsError, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource InvertConverter}}">
                                                                     <MenuItem.Header>
-                                                                        <StackPanel Orientation="Horizontal">
+                                                                        <VirtualizingStackPanel Orientation="Horizontal">
                                                                             <TextBlock Margin="3" Text="{lex:Loc AddressDec}" />
 
                                                                             <TextBlock Margin="3" Text="{Binding DataContext.AddressAsDec, RelativeSource={RelativeSource Mode=Self}}" />
@@ -197,7 +197,7 @@
                                                                             <TextBlock Margin="3" Text="{Binding DataContext.AddressAsHex, RelativeSource={RelativeSource Mode=Self}}" />
 
                                                                             <TextBlock Margin="3" Text="{lex:Loc SetFalseBit}" />
-                                                                        </StackPanel>
+                                                                        </VirtualizingStackPanel>
                                                                     </MenuItem.Header>
                                                                 </MenuItem>
                                                             </ContextMenu>
@@ -235,7 +235,7 @@
             </TabControl.Items>
         </TabControl>
 
-        <StackPanel Grid.Column="1">
+        <VirtualizingStackPanel Grid.Column="1">
             <Border
                 Height="Auto"
                 Margin="15"
@@ -262,7 +262,7 @@
                 Margin="5"
                 Command="{Binding ExecuteOneQueryCommand}"
                 Content="{lex:Loc ExecuteQuery}" />
-        </StackPanel>
+        </VirtualizingStackPanel>
 
     </Grid>
 </UserControl>

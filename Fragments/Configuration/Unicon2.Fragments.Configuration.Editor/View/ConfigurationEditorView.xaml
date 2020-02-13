@@ -27,9 +27,9 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Margin="0">
+        <VirtualizingStackPanel Margin="0">
             <GroupBox Margin="0" Header="{lex:Loc General}">
-                <StackPanel Orientation="Vertical">
+                <VirtualizingStackPanel Orientation="Vertical">
                     <Button
                         Margin="3"
                         Command="{Binding AddRootGroupElementCommand}"
@@ -45,11 +45,11 @@
                         Command="{Binding OpenConfigurationSettingsCommand}"
                         Content="{lex:Loc Settings}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                </StackPanel>
+                </VirtualizingStackPanel>
             </GroupBox>
 
             <GroupBox Margin="0" Header="{lex:Loc CurrentItem}">
-                <StackPanel Margin="0">
+                <VirtualizingStackPanel Margin="0">
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -203,9 +203,9 @@
                             Text="{lex:Loc GroupWithReiteration}" />
                         <CheckBox Margin="3" IsChecked="{Binding SelectedRow.IsGroupWithReiteration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
-                </StackPanel>
+                </VirtualizingStackPanel>
             </GroupBox>
-        </StackPanel>
+        </VirtualizingStackPanel>
 
         <Grid Name="ConfigGrid" Grid.Column="1">
             <Grid
@@ -336,13 +336,13 @@
                             <GridViewColumn Width="{Binding ElementName=dummywidthFormatting, Path=ActualWidth}" Header="{lex:Loc Formatting}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel
+                                        <VirtualizingStackPanel
                                             HorizontalAlignment="Stretch"
                                             Orientation="Horizontal"
                                             Visibility="{Binding ., Converter={StaticResource IsFormattableToVisibilityConverter}}">
                                             <lex:LocProxy Name="formatterProxy" Source="{Binding SelectedUshortFormatterName, TargetNullValue=NotSet}" />
                                             <TextBlock Margin="3" Text="{Binding ElementName=formatterProxy, Path=Result}" />
-                                        </StackPanel>
+                                        </VirtualizingStackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

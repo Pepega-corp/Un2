@@ -49,10 +49,10 @@
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Margin="10" Grid.Column="0">
+                            <VirtualizingStackPanel Margin="10" Grid.Column="0">
 
                                 <TextBlock MinWidth="150" Margin="5" Text="{Binding Header}" />
-                                <StackPanel Orientation="Horizontal">
+                                <VirtualizingStackPanel Orientation="Horizontal">
                                     <Label Margin="5" Content="{lex:Loc Bits}" />
                                     <ItemsControl
                                         Name="BitsListBox"
@@ -60,12 +60,12 @@
                                         ItemsSource="{Binding BitNumbersInWord}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal" />
+                                                <VirtualizingStackPanel Orientation="Horizontal" />
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Orientation="Vertical">
+                                                <VirtualizingStackPanel Orientation="Vertical">
                                                     <TextBlock Text="{Binding NumberOfBit}" />
                                                     <CheckBox
                                                         Background="White"
@@ -74,12 +74,12 @@
                                                         IsChecked="{Binding Value, Mode=OneWay}"
                                                         IsManipulationEnabled="False"
                                                         Style="{DynamicResource BitCheckBoxStyle}" />
-                                                </StackPanel>
+                                                </VirtualizingStackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                </StackPanel>
-                            </StackPanel>
+                                </VirtualizingStackPanel>
+                            </VirtualizingStackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

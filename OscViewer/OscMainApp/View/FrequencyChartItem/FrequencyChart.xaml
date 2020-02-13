@@ -9,10 +9,10 @@
     <Grid x:Name="MainGrid">
           <Line X1="10" X2="10" Y1="28" Y2="130" Stroke="Black" StrokeThickness="0.5"></Line>
         <Line X1="560" X2="10" Y1="130" Y2="130" Stroke="Black" StrokeThickness="0.5"></Line>
-        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+        <VirtualizingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
             <Canvas x:Name="ColorPanel" Width="10" Height="10"></Canvas>
             <Label x:Name="InfoLabel"/>
-        </StackPanel>
+        </VirtualizingStackPanel>
 
     </Grid>
 </UserControl>

@@ -17,7 +17,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements:AnalogMeasuringElementViewModel}">
-        <StackPanel Orientation="Horizontal">
+        <VirtualizingStackPanel Orientation="Horizontal">
             <ContentPresenter
                 Margin="10"
                 Content="{Binding FormattedValueViewModel}"
@@ -28,7 +28,7 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Visibility="{Binding IsMeasureUnitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        </StackPanel>
+        </VirtualizingStackPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements:DiscretMeasuringElementViewModel}">

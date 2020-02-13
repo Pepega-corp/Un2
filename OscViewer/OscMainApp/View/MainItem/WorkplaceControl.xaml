@@ -14,10 +14,10 @@
         <view:MarkerControlMain x:Name="MarkersBar" VerticalAlignment="Top" BorderThickness="0,0,0,0" Margin="0,0,0,0" Panel.ZIndex="2" Height="20" Width="{Binding ActualWidth, ElementName=ChartsPanel, Mode=OneWay}" HorizontalAlignment="Left"/>
       
         <ScrollViewer x:Name="viewer"   HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"  ScrollChanged="ScrollViewer_ScrollChanged_1" Grid.Row="0">
-    
-         
-  
-            <StackPanel StackPanel.CanVerticallyScroll="True" x:Name="ChartsPanel" VerticalAlignment="Top" Margin="0,20,0,0" />
+
+
+
+            <VirtualizingStackPanel VirtualizingStackPanel.CanVerticallyScroll="True" x:Name="ChartsPanel" VerticalAlignment="Top" Margin="0,20,0,0" />
        </ScrollViewer>
         <ScrollBar x:Name="HorizontalScroll"  Grid.Row="1" Width="Auto" SmallChange="1" Orientation="Horizontal" Height="Auto" Maximum="20" ValueChanged="ScrollBar_ValueChanged_1" ViewportSize="1" />
 

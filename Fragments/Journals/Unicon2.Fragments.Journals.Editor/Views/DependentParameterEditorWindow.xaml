@@ -48,7 +48,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
+            <VirtualizingStackPanel Orientation="Horizontal">
                 <TextBlock Margin="5" Text="{lex:Loc DefaultFormatter}" />
                 <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
                 <TextBlock
@@ -60,7 +60,7 @@
                     Command="{Binding ShowFormatterParameters}"
                     Content="{lex:Loc FormatterParameters}"
                     Style="{DynamicResource UniconButtonStyle}" />
-            </StackPanel>
+            </VirtualizingStackPanel>
         </Grid>
         <Grid
             Grid.Row="1"
@@ -70,7 +70,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <VirtualizingStackPanel Grid.Row="0" Orientation="Horizontal">
                 <Button
                     MinWidth="150"
                     Command="{Binding AddConditionCommand}"
@@ -83,7 +83,7 @@
                     Content="{lex:Loc DeleteCondition}"
                     Style="{DynamicResource UniconButtonStyle}" />
 
-            </StackPanel>
+            </VirtualizingStackPanel>
             <ListBox
                 Name="conditionsListBox"
                 Grid.Row="1"
@@ -96,18 +96,18 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Margin="10">
+                            <VirtualizingStackPanel Grid.Column="0" Margin="10">
                                 <TextBlock Margin="5" Text="{lex:Loc Parameter}" />
                                 <ComboBox
                                     MinWidth="150"
                                     Margin="5"
                                     ItemsSource="{Binding AvailableJournalParameters}"
                                     SelectedItem="{Binding SelectedJournalParameter}" />
-                            </StackPanel>
+                            </VirtualizingStackPanel>
 
-                            <StackPanel Grid.Column="1" Margin="10">
+                            <VirtualizingStackPanel Grid.Column="1" Margin="10">
                                 <TextBlock Margin="5" Text="{lex:Loc Condition}" />
-                                <StackPanel Margin="5" Orientation="Horizontal">
+                                <VirtualizingStackPanel Margin="5" Orientation="Horizontal">
                                     <ComboBox ItemsSource="{Binding ConditionsList}" SelectedItem="{Binding SelectedCondition}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -119,12 +119,12 @@
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
                                     <TextBox MinWidth="100" Text="{Binding UshortValueToCompare}" />
-                                </StackPanel>
-                            </StackPanel>
+                                </VirtualizingStackPanel>
+                            </VirtualizingStackPanel>
 
-                            <StackPanel Grid.Column="2" Margin="10">
+                            <VirtualizingStackPanel Grid.Column="2" Margin="10">
                                 <TextBlock Margin="5" Text="{lex:Loc ConditionFormatter}" />
-                                <StackPanel Orientation="Horizontal">
+                                <VirtualizingStackPanel Orientation="Horizontal">
 
                                     <lex:LocProxy Name="formatterCondProxy" Source="{Binding UshortFormatterString, TargetNullValue=NotSet}" />
                                     <TextBlock
@@ -136,8 +136,8 @@
                                         Command="{Binding ShowFormatterParameters}"
                                         Content="{lex:Loc FormatterParameters}"
                                         Style="{DynamicResource UniconButtonStyle}" />
-                                </StackPanel>
-                            </StackPanel>
+                                </VirtualizingStackPanel>
+                            </VirtualizingStackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

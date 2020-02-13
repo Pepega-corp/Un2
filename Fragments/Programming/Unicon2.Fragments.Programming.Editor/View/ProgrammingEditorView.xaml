@@ -19,7 +19,7 @@
             Grid.Row="0"
             Grid.Column="0" Padding="0"
             Header="Элементы свободно программируемой логики">
-            <StackPanel Orientation="Vertical">
+            <VirtualizingStackPanel Orientation="Vertical">
                 <Expander Header="Элементы двоичной логики">
                     <ListView ItemsSource="{Binding BooleanElements}" SelectedItem="{Binding Path=SelectedNewLogicElemItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <ListView.ItemTemplate>
@@ -73,9 +73,9 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </Expander>
-            </StackPanel>
+            </VirtualizingStackPanel>
         </GroupBox>
-        <StackPanel
+        <VirtualizingStackPanel
             Grid.Row="1"
             Grid.Column="0"
             VerticalAlignment="Bottom">
@@ -89,7 +89,7 @@
                 Command="{Binding RemoveElementCommand}"
                 Content="Удалить элемент"
                 Style="{StaticResource UniconButtonStyle}"/>
-        </StackPanel>
+        </VirtualizingStackPanel>
         <GroupBox
             Grid.Row="0"
             Grid.RowSpan="2"
@@ -101,7 +101,7 @@
                 </i:Interaction.Behaviors>-->
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="interfaces:ILogicElementEditorViewModel">
-                        <StackPanel Orientation="Horizontal">
+                        <VirtualizingStackPanel Orientation="Horizontal">
                             <Button
                                 Content="Списки"
                                 Command="{Binding ElementName=programmingEditorGrid, Path=DataContext.EditElementCommand}"
@@ -114,7 +114,7 @@
                                     </ToolTip>
                                 </TextBlock.ToolTip>
                             </TextBlock>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Template>

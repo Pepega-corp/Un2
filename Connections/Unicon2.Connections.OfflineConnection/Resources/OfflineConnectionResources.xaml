@@ -7,8 +7,8 @@
 
 
     <DataTemplate DataType="{x:Type viewModels:OfflineConnectionViewModel}">
-        <StackPanel>
+        <VirtualizingStackPanel>
             <TextBlock Text="{Binding Path=DeviceConnection.ConnectionName}" />
-        </StackPanel>
+        </VirtualizingStackPanel>
     </DataTemplate>
 </ResourceDictionary>

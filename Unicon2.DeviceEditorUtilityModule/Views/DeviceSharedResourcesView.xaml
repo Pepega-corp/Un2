@@ -56,7 +56,7 @@
             ItemTemplate="{StaticResource ResourceViewModelDataTemplate}"
             ItemsSource="{Binding ResourcesCollection}"
             SelectedItem="{Binding SelectedResourceViewModel}" />
-        <StackPanel
+        <VirtualizingStackPanel
             Grid.Row="0"
             Grid.Column="1"
             Orientation="Vertical">
@@ -93,8 +93,8 @@
                 Margin="5"
                 Text="{Binding ElementName=ResourceTypeProxy, Path=Result}" />
             <lex:LocProxy Name="ResourceTypeProxy" Source="{Binding SelectedResourceViewModel.ResourceStrongName}" />
-        </StackPanel>
-        <StackPanel
+        </VirtualizingStackPanel>
+        <VirtualizingStackPanel
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -113,7 +113,7 @@
                 CommandParameter="{Binding ElementName=SharedResourceWindow}"
                 Content="{lex:Loc Close}"
                 Style="{DynamicResource UniconButtonStyle}" />
-        </StackPanel>
+        </VirtualizingStackPanel>
 
     </Grid>
 </controls:MetroWindow>

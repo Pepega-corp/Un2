@@ -72,9 +72,9 @@
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <Expander IsExpanded="True">
                                             <Expander.Header>
-                                                <StackPanel Orientation="Horizontal">
+                                                <VirtualizingStackPanel Orientation="Horizontal">
                                                     <TextBlock VerticalAlignment="Bottom" Text="{Binding Name}" />
-                                                </StackPanel>
+                                                </VirtualizingStackPanel>
                                             </Expander.Header>
                                             <ItemsPresenter />
                                         </Expander>

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Name="comPortConfigurationView" Height="300" Width="300">
     <Grid>
-        <StackPanel Orientation="Vertical">
+        <VirtualizingStackPanel Orientation="Vertical">
             <TextBlock
                 Margin="8"
                 Style="{DynamicResource DialogFormHeadingStyle}"
@@ -127,6 +127,6 @@
             </Grid>
 
 
-        </StackPanel>
+        </VirtualizingStackPanel>
     </Grid>
 </UserControl>

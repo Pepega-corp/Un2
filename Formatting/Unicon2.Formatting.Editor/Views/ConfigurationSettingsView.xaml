@@ -11,13 +11,13 @@
     <Grid>
         <GroupBox Header="{lex:Loc Activation}">
 
-            <StackPanel>
+            <VirtualizingStackPanel>
                 <CheckBox Content="{lex:Loc Activation}" IsChecked="{Binding IsConfigurationActivationEnabled}"></CheckBox>
                 <UniformGrid Columns="2">
                     <TextBlock Text="{lex:Loc Address}"></TextBlock>
                     <TextBox Text="{Binding ActivationAddress}"></TextBox>
                 </UniformGrid>
-            </StackPanel>
+            </VirtualizingStackPanel>
         </GroupBox>
     </Grid>
 </controls:MetroWindow>

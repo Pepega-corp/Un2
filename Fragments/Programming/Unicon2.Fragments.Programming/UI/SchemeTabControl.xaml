@@ -163,13 +163,13 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type viewModels:SchemeTabViewModel}">
-                    <StackPanel Orientation="Horizontal">
+                    <VirtualizingStackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding SchemeName}" />
                         <Button
                             Margin="5,0,0,0"
                             Command="{Binding CloseTabCommand}"
                             Style="{DynamicResource CloseButtonStyle}" />
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

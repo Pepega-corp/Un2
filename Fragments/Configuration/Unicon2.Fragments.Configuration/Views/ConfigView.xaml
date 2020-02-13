@@ -180,13 +180,13 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid Visibility="{Binding ., Converter={StaticResource IsItemsGroupToVisibilityConverter}}">
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsRangeEnabled, Converter={StaticResource BoolToVisConverter}}">
+                                    <VirtualizingStackPanel Orientation="Horizontal" Visibility="{Binding IsRangeEnabled, Converter={StaticResource BoolToVisConverter}}">
                                     <TextBlock Text="[" />
                                     <TextBlock Text="{Binding RangeViewModel.RangeFrom}" />
                                     <TextBlock Text=";" />
                                     <TextBlock Text="{Binding RangeViewModel.RangeTo}" />
                                     <TextBlock Text="]" />
-                                </StackPanel>
+                                </VirtualizingStackPanel>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

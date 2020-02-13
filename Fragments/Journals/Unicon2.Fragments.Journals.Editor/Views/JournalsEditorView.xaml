@@ -26,9 +26,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel>
+        <VirtualizingStackPanel>
             <GroupBox Margin="0" Header="{lex:Loc General}">
-                <StackPanel Orientation="Vertical">
+                <VirtualizingStackPanel Orientation="Vertical">
                     <UniformGrid Columns="2">
                         <TextBlock Margin="5" Text="{lex:Loc Name}" />
                         <TextBox
@@ -53,7 +53,7 @@
                     </UniformGrid>
 
                     <ContentPresenter Content="{Binding SelectedJournalLoadingSequenceEditorViewModel}" ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" />
-                    <StackPanel DataContext="{Binding JournalRecordTemplateEditorViewModel}">
+                    <VirtualizingStackPanel DataContext="{Binding JournalRecordTemplateEditorViewModel}">
                         <Button
                             Margin="3"
                             Command="{Binding AddRecordParameterCommand}"
@@ -69,14 +69,14 @@
                             Command="{Binding AddDependentParameterCommand}"
                             Content="{lex:Loc AddDependentParameter}"
                             Style="{DynamicResource UniconButtonStyle}" />
-                    </StackPanel>
-                </StackPanel>
+                    </VirtualizingStackPanel>
+                </VirtualizingStackPanel>
             </GroupBox>
             <GroupBox
                 Margin="0"
                 DataContext="{Binding JournalRecordTemplateEditorViewModel}"
                 Header="{lex:Loc CurrentItem}">
-                <StackPanel Margin="0">
+                <VirtualizingStackPanel Margin="0">
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -158,10 +158,10 @@
                         IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IRangeableViewModel}"
                         Style="{DynamicResource UniconToggleButtonStyle}"
                         Visibility="Collapsed" />
-                </StackPanel>
+                </VirtualizingStackPanel>
             </GroupBox>
 
-        </StackPanel>
+        </VirtualizingStackPanel>
 
         <Grid Name="ConfigGrid" Grid.Column="1">
             <Grid
@@ -230,13 +230,13 @@
                             <GridViewColumn Width="{Binding ElementName=dummywidthFormatting, Path=ActualWidth}" Header="{lex:Loc Formatting}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel
+                                        <VirtualizingStackPanel
                                         HorizontalAlignment="Stretch"
                                         controls:VisibilityHelper.IsCollapsed="{Binding ., Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IComplexJournalParameterEditorViewModel}"
                                         Orientation="Horizontal">
                                             <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
                                             <TextBlock Margin="3" Text="{Binding ElementName=formatterProxy, Path=Result}" />
-                                        </StackPanel>
+                                        </VirtualizingStackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

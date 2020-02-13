@@ -45,7 +45,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Width="auto" Orientation="Horizontal">
+        <VirtualizingStackPanel Width="auto" Orientation="Horizontal">
             <ComboBox
                 Width="auto"
                 MinWidth="150"
@@ -75,7 +75,7 @@
                 Margin="5,5,35,5"
                 Command="{Binding GetFromBufferCommand}"
                 Content="{lex:Loc GetFromBuffer}" />-->
-            <StackPanel>
+            <VirtualizingStackPanel>
                 <Button
                     Margin="3"
                     Command="{Binding AddAsResourceCommand}"
@@ -86,11 +86,11 @@
                     Command="{Binding SelectFromResourcesCommand}"
                     Content="{lex:Loc SelectFromResources}"
                     Style="{DynamicResource UniconButtonStyle}" />
-            </StackPanel>
+            </VirtualizingStackPanel>
             <TextBlock Margin="7" Text="{lex:Loc CurrentResource}" />
             <TextBlock Margin="7" Text="{Binding CurrentResourceString, TargetNullValue={lex:Loc NotSet}}" />
 
-        </StackPanel>
+        </VirtualizingStackPanel>
 
         <ContentControl Grid.Row="1" Content="{Binding SelectedUshortsFormatterViewModel}" />
         <!--<StackPanel

@@ -34,20 +34,20 @@
                     </Grid.RowDefinitions>
 
                     <Canvas Height="76" HorizontalAlignment="Left" VerticalAlignment="Top" Width="0">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Canvas.Top="10">
+                        <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Left" Canvas.Top="10">
                             <Label Content="Начальное время" Width="110" HorizontalAlignment="Left" />
                             <TextBox x:Name="StartTimeTb" Width="100"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Canvas.Top="41">
+                        </VirtualizingStackPanel>
+                        <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Left" Canvas.Top="41">
                             <Label Content="Конечное время" Width="110"/>
                             <TextBox x:Name="EndTimeTb" Width="100"/>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                         <Button Content="Между маркерами" HorizontalAlignment="Left" Height="57" Width="122" Click="Button_Click_3" Canvas.Left="215" Canvas.Top="10"/>
                         <GroupBox Canvas.Left="342" Height="77" Width="155" Canvas.Top="-4">
-                            <StackPanel Margin="0,5,0,0">
+                            <VirtualizingStackPanel Margin="0,5,0,0">
                                 <RadioButton x:Name="k0RadioBtn" Content="К0 = Ze/Z1"/>
                                 <RadioButton x:Name="rxRadioBtn" Content="Re/R1 и Xe/X1"/>
-                            </StackPanel>
+                            </VirtualizingStackPanel>
                             <GroupBox.Header>
                                 <TextBlock TextWrapping="Wrap" Width="124">
                                     Компенсация нулевой последовательности
@@ -56,7 +56,7 @@
                         </GroupBox>
                     </Canvas>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0">
+                    <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0">
                         <DataGrid  x:Name="IOptions" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" PreviewMouseLeftButtonDown="DataGridCell_PreviewMouseLeftButtonDown">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Канал I" CanUserSort="False" CanUserResize="False" IsReadOnly="True"/>
@@ -116,7 +116,7 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                    </StackPanel>
+                    </VirtualizingStackPanel>
 
                     <DataGrid x:Name="VisiblyOptionsGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" VerticalAlignment="Top" PreviewMouseLeftButtonDown="DataGridCell_PreviewMouseLeftButtonDown" Grid.Column="1" Grid.Row="1" CanUserAddRows="False">
                         <DataGrid.Columns>
@@ -160,14 +160,14 @@
                     </DataGrid>
                     <GroupBox Header="Коэффициенты компенсации" Margin="0,5,0,0" Grid.Row="2" Grid.Column="0"
                               HorizontalAlignment="Left" Width="272">
-                        <StackPanel>
+                        <VirtualizingStackPanel>
 
                             <c:ZEditControl x:Name="Z1Editor" Index="1" ChannelsChanged="ChannelsChanged"/>
                             <c:ZEditControl x:Name="Z2Editor" Index="2" ChannelsChanged="ChannelsChanged"/>
                             <c:ZEditControl x:Name="Z3Editor" Index="3" ChannelsChanged="ChannelsChanged"/>
                             <c:ZEditControl x:Name="Z4Editor" Index="4" ChannelsChanged="ChannelsChanged"/>
                             <c:ZEditControl x:Name="Z5Editor" Index="5" ChannelsChanged="ChannelsChanged"/>
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                     </GroupBox>
                 </Grid>
             </TabItem>

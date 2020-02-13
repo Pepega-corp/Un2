@@ -55,11 +55,11 @@
             </dataTemplateSelectors:ToolbarButtonDataTemplateSelector.DefaultButtonDataTemplate>
         </dataTemplateSelectors:ToolbarButtonDataTemplateSelector>
     </UserControl.Resources>
-    <StackPanel Orientation="Horizontal" Margin="5">
+    <VirtualizingStackPanel Orientation="Horizontal" Margin="5">
         <ItemsControl ItemsSource="{Binding StaticOptionsGroup.FragmentOptionCommandViewModels}" ItemTemplateSelector="{StaticResource toolbarButtonDataTemplateSelector}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"></StackPanel>
+                    <VirtualizingStackPanel Orientation="Horizontal"></VirtualizingStackPanel>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
@@ -73,7 +73,7 @@
                     <ItemsControl ItemsSource="{Binding FragmentOptionCommandViewModels}"  ItemTemplateSelector="{StaticResource toolbarButtonDataTemplateSelector}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"></StackPanel>
+                                <VirtualizingStackPanel Orientation="Horizontal"></VirtualizingStackPanel>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
@@ -82,13 +82,13 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"></StackPanel>
+                    <VirtualizingStackPanel Orientation="Horizontal"></VirtualizingStackPanel>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <StackPanel Orientation="Horizontal">
+        <VirtualizingStackPanel Orientation="Horizontal">
 
 
-        </StackPanel>
-    </StackPanel>
+        </VirtualizingStackPanel>
+    </VirtualizingStackPanel>
 </UserControl>

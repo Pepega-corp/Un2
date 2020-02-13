@@ -16,7 +16,7 @@
 
     <DataTemplate DataType="{x:Type elements1:AnalogMeasuringElementEditorViewModel}">
         <Grid>
-            <StackPanel Orientation="Horizontal">
+            <VirtualizingStackPanel Orientation="Horizontal">
                 <UniformGrid Columns="2">
                     <CheckBox
                         Margin="2"
@@ -38,7 +38,7 @@
                         Margin="2"
                         Text="{Binding NumberOfPoints}" />
                 </UniformGrid>
-                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+                <VirtualizingStackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
                     <TextBlock Margin="5" Text="{lex:Loc Formatting}" />
                     <TextBlock Margin="5" Text=":" />
                     <TextBlock Margin="20,5,5,5" Text="{Binding ElementName=formatterCondProxy, Path=Result}" />
@@ -49,8 +49,8 @@
                         Command="{Binding ShowFormatterParametersCommand}"
                         Content="{lex:Loc FormatterParameters}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                </StackPanel>
-            </StackPanel>
+                </VirtualizingStackPanel>
+            </VirtualizingStackPanel>
         </Grid>
     </DataTemplate>
 

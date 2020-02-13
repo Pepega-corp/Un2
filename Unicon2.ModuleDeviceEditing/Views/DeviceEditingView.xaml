@@ -96,7 +96,7 @@
             SelectedItem="{Binding SelectedDeviceConnection, Mode=TwoWay}">
             <controls:MetroAnimatedSingleRowTabControl.ContentTemplate>
                 <DataTemplate>
-                    <StackPanel>
+                    <VirtualizingStackPanel>
                         <!--<Button
                             HorizontalAlignment="Left"
                             Margin="5"
@@ -106,7 +106,7 @@
                             IsDefault="True"
                             Style="{DynamicResource UniconButtonStyle}" />-->
                         <ContentPresenter Content="{Binding .}" />
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                 </DataTemplate>
             </controls:MetroAnimatedSingleRowTabControl.ContentTemplate>
             <controls:MetroAnimatedSingleRowTabControl.ItemTemplate>

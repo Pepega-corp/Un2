@@ -15,12 +15,12 @@
     <DataTemplate x:Key="DeviceTreeTemplate" DataType="{x:Type device:DeviceViewModel}">
         <TreeViewItem ItemsSource="{Binding FragmentViewModels}">
             <TreeViewItem.Header>
-                <StackPanel Orientation="Horizontal">
+                <VirtualizingStackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Text="{Binding DeviceSignature}">
                         <TextBlock.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="{lex:Loc Logging}">
-                                    <StackPanel Orientation="Vertical">
+                                    <VirtualizingStackPanel Orientation="Vertical">
                                         <CheckBox
                                             Margin="3"
                                             Content="{lex:Loc Errors}"
@@ -37,7 +37,7 @@
                                             Margin="3"
                                             Content="{lex:Loc FailedQueries}"
                                             IsChecked="{Binding DeviceLoggerViewModel.IsFailedQueriesLoggingEnabled}" />
-                                    </StackPanel>
+                                    </VirtualizingStackPanel>
                                 </MenuItem>
 
                                 <MenuItem Header="{lex:Loc DeviceSignature}">
@@ -67,7 +67,7 @@
                                 Visibility="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource BoolToVisConverter}}" />
                         </Image.ToolTip>
                     </Image>
-                </StackPanel>
+                </VirtualizingStackPanel>
             </TreeViewItem.Header>
             <TreeViewItem.ItemTemplate>
                 <DataTemplate>

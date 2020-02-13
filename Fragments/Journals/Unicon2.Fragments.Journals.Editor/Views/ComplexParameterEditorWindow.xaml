@@ -24,7 +24,7 @@
 
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel
+        <VirtualizingStackPanel
             Grid.Row="0"
             Width="400"
             HorizontalAlignment="Left">
@@ -45,7 +45,7 @@
                     Content="{lex:Loc Delete}" />
             </UniformGrid>
 
-        </StackPanel>
+        </VirtualizingStackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -64,7 +64,7 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <StackPanel
+                            <VirtualizingStackPanel
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
                                 Orientation="Horizontal">
@@ -76,12 +76,12 @@
                                 <TextBlock Margin="5" Text=":" />
                                 <TextBlock Margin="20,5,5,5" Text="{Binding ElementName=formatterCondProxy, Path=Result}" />
                                 <lex:LocProxy Name="formatterCondProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
-                            </StackPanel>
-                            <StackPanel
+                            </VirtualizingStackPanel>
+                            <VirtualizingStackPanel
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Margin="10">
-                                <StackPanel Orientation="Horizontal">
+                                <VirtualizingStackPanel Orientation="Horizontal">
                                     <Label Margin="5" Content="{lex:Loc Bits}" />
                                     <ItemsControl
                                         Name="BitsListBox"
@@ -89,12 +89,12 @@
                                         ItemsSource="{Binding BitNumbersInWord}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal" />
+                                                <VirtualizingStackPanel Orientation="Horizontal" />
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Orientation="Vertical">
+                                                <VirtualizingStackPanel Orientation="Vertical">
                                                     <TextBlock Text="{Binding NumberOfBit}" />
                                                     <CheckBox
                                                         Background="White"
@@ -103,7 +103,7 @@
                                                         IsChecked="{Binding Value, Mode=OneWay}"
                                                         IsManipulationEnabled="False"
                                                         Style="{DynamicResource BitCheckBoxStyle}" />
-                                                </StackPanel>
+                                                </VirtualizingStackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
 
@@ -113,8 +113,8 @@
                                         Command="{Binding ShowFormatterParametersCommand}"
                                         Content="{lex:Loc FormatterParameters}" />
 
-                                </StackPanel>
-                            </StackPanel>
+                                </VirtualizingStackPanel>
+                            </VirtualizingStackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

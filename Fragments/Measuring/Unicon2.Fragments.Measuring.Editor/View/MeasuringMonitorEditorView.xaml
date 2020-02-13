@@ -29,9 +29,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel>
+        <VirtualizingStackPanel>
             <GroupBox Margin="0" Header="{lex:Loc General}">
-                <StackPanel Orientation="Vertical">
+                <VirtualizingStackPanel Orientation="Vertical">
                     <Button
                         Margin="3"
                         Command="{Binding AddMeasuringGroupCommand}"
@@ -231,13 +231,13 @@
                                         Style="{DynamicResource UniconButtonStyle}" />-->
 
 
-                </StackPanel>
+                </VirtualizingStackPanel>
 
 
 
 
             </GroupBox>
-        </StackPanel>
+        </VirtualizingStackPanel>
 
         <Grid Grid.Column="1">
         <controls:MetroAnimatedSingleRowTabControl
@@ -252,7 +252,7 @@
                                 <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                            <StackPanel Grid.Row="0"
+                            <VirtualizingStackPanel Grid.Row="0"
                                         Orientation="Horizontal" 
                                         HorizontalAlignment="Left">
 
@@ -271,8 +271,8 @@
                                 Command="{Binding AddControlSignalCommand}"
                                 Content="{lex:Loc AddControlSignal}"
                                 Style="{DynamicResource UniconButtonStyle}"/>
-                            </StackPanel>
-                            <StackPanel Grid.Row="0"
+                            </VirtualizingStackPanel>
+                            <VirtualizingStackPanel Grid.Row="0"
                                         Orientation="Horizontal" 
                                         HorizontalAlignment="Right">
                                     <TextBox
@@ -405,7 +405,7 @@
                                         Command="{Binding AddDiscretMeasuringElementGroupCommand}"
                                         Content="{lex:Loc AddDiscretSignalGroup}"
                                         Style="{DynamicResource UniconButtonStyle}" />
-                            </StackPanel>
+                            </VirtualizingStackPanel>
 
 
                         <ListBox
@@ -448,7 +448,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0">
+                                                <VirtualizingStackPanel Grid.Column="0">
                                                 <lex:LocProxy Name="NameForUiKeyProxy" Source="{Binding NameForUiKey}" />
                                                 <TextBlock Text="{Binding Result, ElementName=NameForUiKeyProxy}" />
                                                 <UniformGrid Columns="2">
@@ -460,7 +460,7 @@
                                                         VerticalAlignment="Top"
                                                         Text="{Binding Header}" />
                                                 </UniformGrid>
-                                            </StackPanel>
+                                            </VirtualizingStackPanel>
                                             <ContentPresenter Grid.Column="1" Content="{Binding}" />
                                         </Grid>
                                     </Border>
@@ -493,7 +493,7 @@
                                     CommandParameter="{Binding .}"
                                     Header="{lex:Loc Delete}" />
                                 <MenuItem Header="{lex:Loc Placement}">
-                                    <StackPanel Margin="0">
+                                        <VirtualizingStackPanel Margin="0">
                                         <Grid HorizontalAlignment="Stretch">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
@@ -530,7 +530,7 @@
                                                 </Rectangle>
                                             </Button>
                                         </Grid>
-                                    </StackPanel>
+                                    </VirtualizingStackPanel>
                                 </MenuItem>
                             </ContextMenu>
                         </TextBlock.ContextMenu>

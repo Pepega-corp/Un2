@@ -30,7 +30,7 @@
                     <ColumnDefinition Width="Auto" />
 
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <VirtualizingStackPanel Grid.Column="0" Orientation="Horizontal">
                     <ComboBox
                         MinWidth="150"
                         ItemsSource="{Binding FilteringMessageSourceCollection}"
@@ -38,7 +38,7 @@
                     <UniformGrid Columns="4">
                         <ToggleButton IsChecked="{Binding Path=IsInfoMessagesShowing}" Template="{DynamicResource UniconToggleButtonTemplate}">
                             <ToggleButton.Content>
-                                <StackPanel Orientation="Horizontal">
+                                <VirtualizingStackPanel Orientation="Horizontal">
                                     <Image
                                         Width="18"
                                         Height="18"
@@ -52,13 +52,13 @@
                                         Margin="1"
                                         VerticalAlignment="Center"
                                         Text="{Binding InfoMessagesCount, StringFormat={}({0})}" />
-                                </StackPanel>
+                                </VirtualizingStackPanel>
 
                             </ToggleButton.Content>
                         </ToggleButton>
                         <ToggleButton IsChecked="{Binding Path=IsErrorsShowing}" Template="{DynamicResource UniconToggleButtonTemplate}">
                             <ToggleButton.Content>
-                                <StackPanel Orientation="Horizontal">
+                                <VirtualizingStackPanel Orientation="Horizontal">
                                     <Image
                                         Width="18"
                                         Height="18"
@@ -72,13 +72,13 @@
                                         Margin="1"
                                         VerticalAlignment="Center"
                                         Text="{Binding ErrorMessagesCount, StringFormat={}({0})}" />
-                                </StackPanel>
+                                </VirtualizingStackPanel>
 
                             </ToggleButton.Content>
                         </ToggleButton>
                         <ToggleButton IsChecked="{Binding Path=IsSuccessfulQueryShowing}" Template="{DynamicResource UniconToggleButtonTemplate}">
                             <ToggleButton.Content>
-                                <StackPanel Orientation="Horizontal">
+                                <VirtualizingStackPanel Orientation="Horizontal">
                                     <Image
                                         Width="18"
                                         Height="18"
@@ -92,13 +92,13 @@
                                         Margin="1"
                                         VerticalAlignment="Center"
                                         Text="{Binding SuccessfulQueryMessagesCount, StringFormat={}({0})}" />
-                                </StackPanel>
+                                </VirtualizingStackPanel>
 
                             </ToggleButton.Content>
                         </ToggleButton>
                         <ToggleButton IsChecked="{Binding Path=IsFailedQueryShowing}" Template="{DynamicResource UniconToggleButtonTemplate}">
                             <ToggleButton.Content>
-                                <StackPanel Orientation="Horizontal">
+                                <VirtualizingStackPanel Orientation="Horizontal">
                                     <Image
                                         Width="18"
                                         Height="18"
@@ -112,7 +112,7 @@
                                         Margin="1"
                                         VerticalAlignment="Center"
                                         Text="{Binding FailedQueryMessagesCount, StringFormat={}({0})}" />
-                                </StackPanel>
+                                </VirtualizingStackPanel>
 
                             </ToggleButton.Content>
                         </ToggleButton>
@@ -130,7 +130,7 @@
                         FontSize="11"
                         IsChecked="{Binding Path=IsLoggingToFileEnabled}"
                         Template="{DynamicResource UniconToggleButtonTemplate}" />
-                </StackPanel>
+                </VirtualizingStackPanel>
                 <Button
                     Grid.Column="2"
                     Margin="1"

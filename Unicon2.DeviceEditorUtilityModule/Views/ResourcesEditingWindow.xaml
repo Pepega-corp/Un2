@@ -41,8 +41,8 @@
         </Grid.RowDefinitions>
 
         <ContentControl Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Content="{Binding ResourceEditorViewModel}"></ContentControl>
-        <StackPanel HorizontalAlignment="Right" Grid.Column="0" Width="150" Grid.ColumnSpan="2" Grid.Row="1" >
+        <VirtualizingStackPanel HorizontalAlignment="Right" Grid.Column="0" Width="150" Grid.ColumnSpan="2" Grid.Row="1" >
             <Button Content="{lex:Loc Close}"  Margin="2" Style="{DynamicResource UniconButtonStyle}" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=ResourceEditingWindow}"></Button>
-        </StackPanel>
+        </VirtualizingStackPanel>
     </Grid>
 </controls:MetroWindow>

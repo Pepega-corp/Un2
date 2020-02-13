@@ -6,7 +6,7 @@
     xmlns:values="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.Values;assembly=Unicon2.Presentation.Infrastructure">
 
     <DataTemplate x:Key="QuickAccessMemoryConfigurationSettingViewModelDataTemplate" DataType="{x:Type fragmentSettings:IQuickAccessMemorySettingViewModel}">
-        <StackPanel Orientation="Horizontal">
+        <VirtualizingStackPanel Orientation="Horizontal">
             <CheckBox
                 Margin="10"
                 Content="{lex:Loc QuickAccessMemory}"
@@ -68,7 +68,7 @@
                 Margin="5"
                 Columns="2"
                 IsEnabled="{Binding IsSettingEnabled}" />
-        </StackPanel>
+        </VirtualizingStackPanel>
     </DataTemplate>
 
 </ResourceDictionary>

@@ -20,27 +20,27 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:ModbusMemorySettingsViewModel}">
-        <StackPanel Orientation="Vertical">
+        <VirtualizingStackPanel Orientation="Vertical">
             <!--<StackPanel.Resources>
                 <ResourceDictionary Source="../UI/Icons.xaml" />
             </StackPanel.Resources>-->
-            <StackPanel Orientation="Horizontal">
+            <VirtualizingStackPanel Orientation="Horizontal">
                 <Label Content="{lex:Loc NumberOfPoints}" />
                 <ComboBox
                     MinWidth="100"
                     IsEditable="True"
                     ItemsSource="{Binding NumberOfPointsCollection}"
                     Text="{Binding NumberOfPoints}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            </VirtualizingStackPanel>
+            <VirtualizingStackPanel Orientation="Horizontal">
                 <Label Content="{lex:Loc BaseAdressDec}" />
                 <TextBox MinWidth="100" Text="{Binding BaseAdressDec, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            </VirtualizingStackPanel>
+            <VirtualizingStackPanel Orientation="Horizontal">
                 <Label Content="{lex:Loc BaseAdressHex}" />
                 <TextBox MinWidth="100" Text="{Binding BaseAdressHex, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            </VirtualizingStackPanel>
+            <VirtualizingStackPanel Orientation="Horizontal">
                 <Button Margin="5" Command="{Binding AddressStepUpCommand}">
                     <Rectangle
                         Width="20"
@@ -62,8 +62,8 @@
                     </Rectangle>
                 </Button>
 
-            </StackPanel>
-        </StackPanel>
+            </VirtualizingStackPanel>
+        </VirtualizingStackPanel>
 
     </DataTemplate>
 

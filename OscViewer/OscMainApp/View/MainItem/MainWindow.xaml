@@ -350,7 +350,7 @@
                 </Canvas>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Настройка">
-                <StackPanel>
+                <VirtualizingStackPanel>
                     <Button Click="MenuItem_Click_1" Content="Каналы" />
                     <CheckBox
                         x:Name="RunOscCb"
@@ -365,7 +365,7 @@
                             коэффициент
                         </TextBlock>
                     </Button>
-                    <StackPanel Margin="0,0,-25,0" Orientation="Horizontal">
+                    <VirtualizingStackPanel Margin="0,0,-25,0" Orientation="Horizontal">
                         <RadioButton
                             Width="143"
                             Checked="RadioButton_Checked_1"
@@ -376,11 +376,11 @@
                             Checked="RadioButton_Checked_2"
                             Content="Втор."
                             Visibility="Collapsed" />
-                    </StackPanel>
-                </StackPanel>
+                    </VirtualizingStackPanel>
+                </VirtualizingStackPanel>
             </GroupBox>
             <GroupBox Grid.Column="2" Header="Диаграммы">
-                <StackPanel>
+                <VirtualizingStackPanel>
                     <CheckBox
                         x:Name="VectorCheckBox"
                         Content="Векторная"
@@ -393,7 +393,7 @@
                         x:Name="FreqCharCheckBox"
                         Content="Частотная"
                         IsChecked="True" />
-                </StackPanel>
+                </VirtualizingStackPanel>
             </GroupBox>
             <GroupBox Grid.Column="3" Header="Аналоговые сигналы">
                 <Grid>
@@ -402,7 +402,7 @@
                         <ColumnDefinition Width="121" />
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Представление сигнала">
-                        <StackPanel>
+                        <VirtualizingStackPanel>
                             <TextBlock Text=" в первичных величинах" />
                             <RadioButton
                                 x:Name="ActivValuesButton"
@@ -417,13 +417,13 @@
                                 x:Name="FirstHarmonicValuesButton"
                                 Checked="FirstHarmonicValuesButton_Checked"
                                 Content="1 гармоника" />
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                     </GroupBox>
                     <GroupBox
                         Grid.Column="1"
                         Margin="0,0,-28,0"
                         Header="Отобр. значения">
-                        <StackPanel>
+                        <VirtualizingStackPanel>
                             <CheckBox
                                 x:Name="MinCheckBox"
                                 Checked="MinCheckBox_Checked"
@@ -454,13 +454,13 @@
                                 Content="Мгновенная частота"
                                 IsChecked="False"
                                 Unchecked="FrequencyCheckBox_Checked" />
-                        </StackPanel>
+                        </VirtualizingStackPanel>
                     </GroupBox>
                 </Grid>
             </GroupBox>
 
             <GroupBox Grid.Column="4" Header="Дискретные сигналы">
-                <StackPanel>
+                <VirtualizingStackPanel>
                     <RadioButton
                         x:Name="DiscretAllButton"
                         Checked="DiscretAllButton_Checked"
@@ -474,17 +474,17 @@
                         x:Name="DiscretDisabledButton"
                         Checked="DiscretDisabledButton_Checked"
                         Content="Не отображать" />
-                </StackPanel>
+                </VirtualizingStackPanel>
             </GroupBox>
 
             <GroupBox
                 Grid.Column="6"
                 Header="Res"
                 Visibility="Collapsed">
-                <StackPanel>
+                <VirtualizingStackPanel>
                     <Button Click="RibbonButton_Click_1" Content="Обрезать" />
                     <Button Click="RibbonButton_Click_2" Content="Приклеить" />
-                </StackPanel>
+                </VirtualizingStackPanel>
             </GroupBox>
         </Grid>
 
