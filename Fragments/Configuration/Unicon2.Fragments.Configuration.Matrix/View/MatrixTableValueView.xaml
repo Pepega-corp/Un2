@@ -39,6 +39,10 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="False"
+                    EnableColumnVirtualization="True"
+                    EnableRowVirtualization="True"
+                    VirtualizingPanel.IsVirtualizing="True"
+                    VirtualizingPanel.VirtualizationMode="Recycling"
                     CanUserAddRows="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TargetUpdated">
@@ -83,6 +87,11 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="False"
+                    EnableColumnVirtualization="True"
+                    EnableRowVirtualization="True"
+                    VirtualizingPanel.IsContainerVirtualizable="True"
+                    VirtualizingPanel.IsVirtualizing="True"
+                    VirtualizingPanel.VirtualizationMode="Recycling"
                     CanUserAddRows="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="TargetUpdated">
