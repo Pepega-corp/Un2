@@ -6,7 +6,7 @@ using Unicon2.Infrastructure.Interfaces.DataOperations;
 
 namespace Unicon2.Fragments.Measuring.Infrastructure.Model
 {
-   public interface IMeasuringGroup: INameable,IInitializableFromContainer, IAddressRangeableWithDataProvider,ILoadable
+   public interface IMeasuringGroup: INameable,IInitializableFromContainer, IAddressRangeable,ILoadable
     {
         List<IMeasuringElement> MeasuringElements { get; set; }
     }

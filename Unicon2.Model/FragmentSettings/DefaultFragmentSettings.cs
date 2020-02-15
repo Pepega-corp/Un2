@@ -10,10 +10,8 @@ namespace Unicon2.Model.FragmentSettings
 {
     [DataContract(Name = nameof(DefaultFragmentSettings), Namespace = "DefaultFragmentSettingsNS")]
 
-    public class DefaultFragmentSettings : IFragmentSettings, IInitializableFromContainer
+    public class DefaultFragmentSettings : IFragmentSettings
     {
-        private bool _isInitialized;
-
         public DefaultFragmentSettings()
         {
             this.FragmentSettings = new List<IFragmentSetting>();
@@ -29,20 +27,6 @@ namespace Unicon2.Model.FragmentSettings
             IFragmentSetting settingToApply = this.FragmentSettings.FirstOrDefault((setting => setting.StrongName == key));
             if (settingToApply == null) return false;
             return await settingToApply.ApplySetting(settingApplyingContext);
-        }
-
-        public bool IsInitialized
-        {
-            get { return this._isInitialized; }
-        }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            this._isInitialized = true;
-            foreach (IFragmentSetting fragmentSetting in this.FragmentSettings)
-            {
-                (fragmentSetting as IInitializableFromContainer)?.InitializeFromContainer(container);
-            }
         }
     }
 }

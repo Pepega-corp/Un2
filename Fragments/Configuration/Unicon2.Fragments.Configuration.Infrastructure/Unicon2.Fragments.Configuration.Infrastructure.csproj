@@ -49,6 +49,7 @@
     <Compile Include="Factories\IConfigurationItemFactory.cs" />
     <Compile Include="Factories\IConfigurationItemViewModelFactory.cs" />
     <Compile Include="Factories\IPropertyValueViewModelFactory.cs" />
+    <Compile Include="StructItemsInterfaces\IConfigurationMemory.cs" />
     <Compile Include="StructItemsInterfaces\IGroupWithReiterationInfo.cs" />
     <Compile Include="StructItemsInterfaces\Properties\ISubProperty.cs" />
     <Compile Include="Keys\ConfigurationKeys.cs" />

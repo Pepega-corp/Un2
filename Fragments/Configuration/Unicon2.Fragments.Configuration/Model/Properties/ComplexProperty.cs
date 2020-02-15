@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
     {
 
         private bool[] _baseBools;
-        public ComplexProperty(Func<IRange> range) : base(range)
+        public ComplexProperty()
         {
             this.SubProperties = new List<ISubProperty>();
         }
@@ -31,26 +31,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         public override string StrongName => ConfigurationKeys.COMPLEX_PROPERTY;
 
-
-
-        public override void InitializeLocalValue(IConfigurationItem localConfigurationItem)
-        {
-            foreach (ISubProperty subProperty in this.SubProperties)
-            {
-                subProperty.LocalUshortsValue = subProperty.DeviceUshortsValue;
-                subProperty.ConfigurationItemChangedAction?.Invoke();
-            }
-            base.InitializeLocalValue(localConfigurationItem);
-        }
-        public override void InitializeValue(IConfigurationItem localConfigurationItem)
-        {
-            foreach (ISubProperty subProperty in this.SubProperties)
-            {
-                subProperty.LocalUshortsValue = new ushort[] { 0 };
-                subProperty.InitEditableValueAction?.Invoke();
-            }
-            base.InitializeValue(localConfigurationItem);
-        }
+        
 
 
         public override async Task<bool> Write()
@@ -109,7 +90,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         protected override IConfigurationItem OnCloning()
         {
-            ComplexProperty complexProperty = new ComplexProperty(this._rangeGetFunc);
+            ComplexProperty complexProperty = new ComplexProperty();
             this.SubProperties.ForEach((property =>
             {
                 ISubProperty subProperty = property.Clone() as ISubProperty;

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
@@ -15,14 +16,11 @@ namespace Unicon2.Model.FragmentSettings
     [DataContract(Namespace = "QuickMemoryAccessSettingNS")]
     public class QuickMemoryAccessSetting : IQuickMemoryAccessSetting
     {
-        private IQueryResultFactory _queryResultFactory;
         private IDataProvider _dataProvider;
-        private IQuickAccessMemoryApplyingContext _quickAccessMemoryApplyingContext;
         private bool _isInitialized;
 
-        public QuickMemoryAccessSetting(IQueryResultFactory queryResultFactory)
+        public QuickMemoryAccessSetting()
         {
-            this._queryResultFactory = queryResultFactory;
             this.QuickAccessAddressRanges = new List<IRange>();
         }
 
@@ -50,7 +48,7 @@ namespace Unicon2.Model.FragmentSettings
 
             if (this._quickAccessMemoryApplyingContext.QuickAccessMode == QuickAccessModeEnum.Initialize)
             {
-                this.QuickMemoryAccessDataProviderStub = new QuickMemoryAccessDataProviderStub(this._queryResultFactory);
+                this.QuickMemoryAccessDataProviderStub = new QuickMemoryAccessDataProviderStub(StaticContainer.Container.Resolve<IQueryResultFactory>());
                 this.QuickMemoryAccessDataProviderStub.SetDataProvider(this._dataProvider);
                 foreach (IRange range in this.QuickAccessAddressRanges)
                 {
@@ -82,21 +80,6 @@ namespace Unicon2.Model.FragmentSettings
         [DataMember]
         public List<IRange> QuickAccessAddressRanges { get; set; }
         public IQuickMemoryAccessDataProviderStub QuickMemoryAccessDataProviderStub { get; set; }
-
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._dataProvider = dataProvider;
-        }
-
-        public bool IsInitialized
-        {
-            get { return this._isInitialized; }
-        }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            this._isInitialized = true;
-            this._queryResultFactory = container.Resolve<IQueryResultFactory>();
-        }
+        
     }
 }

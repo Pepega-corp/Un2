@@ -64,3 +64,4 @@ namespace Unicon2.Fragments.Configuration.Helpers
         public bool LastQuerySucceed => _dataProvider.LastQuerySucceed;
     }
 }
+oiupou

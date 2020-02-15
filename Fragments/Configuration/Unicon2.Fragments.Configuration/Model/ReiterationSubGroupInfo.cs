@@ -13,30 +13,13 @@ namespace Unicon2.Fragments.Configuration.Model
 
         [DataMember]
         public string Name { get; set; }
-        [DataMember]
-        public List<IConfigurationItem> ConfigurationItems { get; set; }
-
-        public void SetDataProvider(IDataProvider dataProvider)
+        
+        public object Clone()
         {
-            ConfigurationItems?.ForEach(item=>item.SetDataProvider(dataProvider));
-        }
-
-        public async Task<bool> Write()
-        {
-            var isWritten = false;
-            foreach (var item in ConfigurationItems)
+            return new ReiterationSubGroupInfo()
             {
-                if (await item.Write()) isWritten = true;
-            }
-            return isWritten;
-        }
-
-        public async Task Load()
-        {
-            foreach (var configurationItem in ConfigurationItems)
-            {
-               await configurationItem.Load();
-            }
+                Name = Name,
+            };
         }
     }
 }

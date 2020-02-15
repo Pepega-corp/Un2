@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Xml;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services;
 
 namespace Unicon2.Services.SerializerService
@@ -37,6 +40,7 @@ namespace Unicon2.Services.SerializerService
                     throw new Exception("Попытка добавления простанства имен xml, отличающегося от уже определенного");
                 return;
             }
+
             this._attributesNamespacesDictionary.Add(attributeName, namespaceString);
         }
 
@@ -48,6 +52,41 @@ namespace Unicon2.Services.SerializerService
         public Dictionary<string, string> GetNamespacesAttributes()
         {
             return this._attributesNamespacesDictionary;
+        }
+
+        public void SerializeInFile<T>(T objectToSerialize, string fileName)
+        {
+            try
+            {
+                using (XmlWriter fs = XmlWriter.Create(fileName, new XmlWriterSettings {Indent = true}))
+                {
+                    DataContractSerializer ds = new DataContractSerializer(objectToSerialize.GetType(),
+                        StaticContainer.Container.Resolve<ISerializerService>().GetTypesForSerialiation());
+                    ds.WriteObject(fs, this);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public T DeserializeFromFile<T>(string path)
+        {
+            try
+            {
+                using (XmlReader fs = XmlReader.Create(path))
+                {
+                    DataContractSerializer ds = new DataContractSerializer(typeof(T),
+                        StaticContainer.Container.Resolve<ISerializerService>().GetTypesForSerialiation());
+                    return (T) ds.ReadObject(fs);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new SerializationException();
+            }
         }
 
 

@@ -18,7 +18,6 @@ namespace Unicon2.Model.FragmentSettings
         public QuickMemoryAccessDataProviderStub(IQueryResultFactory queryResultFactory)
         {
             this._queryResultFactory = queryResultFactory;
-            this.MemoryValuesSets = new List<IMemoryValuesSet>();
         }
 
 
@@ -26,9 +25,6 @@ namespace Unicon2.Model.FragmentSettings
         {
             throw new NotImplementedException();
         }
-
-
-        public List<IMemoryValuesSet> MemoryValuesSets { get; set; }
 
         public async Task<IQueryResult> WriteMultipleRegistersByBitNumbersAsync(ushort startAddress,
             ushort[] dataToWrite, string dataTitle,

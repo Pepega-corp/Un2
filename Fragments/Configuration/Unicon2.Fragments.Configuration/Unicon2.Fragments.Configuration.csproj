@@ -78,7 +78,10 @@
     <Compile Include="Factories\ConfigurationItemViewModelFactory.cs" />
     <Compile Include="Factories\ValueViewModelFactory.cs" />
     <Compile Include="Helpers\DataProviderAddressWrapper.cs" />
-    <Compile Include="Model\Base\LocalDeviceValuesConfigurationItemBase.cs" />
+    <Compile Include="Helpers\GroupInfoHelper.cs" />
+    <Compile Include="MemoryAccess\ConfigurationMemoryAccessor.cs" />
+    <Compile Include="MemoryAccess\ConfigurationWriter.cs" />
+    <Compile Include="Model\Memory\ConfigurationMemory.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
     <Compile Include="Model\DefaultDeviceConfiguration.cs" />
     <Compile Include="Model\GroupWithReiterationInfo.cs" />
@@ -174,6 +177,8 @@
       <Name>Unicon2.SharedResources</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\Base\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

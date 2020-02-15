@@ -17,32 +17,19 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
     public class AppointableMatrix : DefaultProperty, IAppointableMatrix
     {
-        public AppointableMatrix(Func<IRange> rangeGetFunc, IMatrixTemplate matrixTemplate) : base(rangeGetFunc)
+        public AppointableMatrix(IMatrixTemplate matrixTemplate) 
         {
             UshortsFormatter = new MatrixValueFormatter(this);
             this.MatrixTemplate = matrixTemplate;
         }
-
-        public override Task<bool> Write()
-        {
-          return MatrixUshortLoadingHelper.WriteMatrixUshorts(this, _dataProvider,LocalUshortsValue);
-        }
-
         public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
 
-        public override async Task Load()
-        {
-            await MatrixUshortLoadingHelper.FillMatrixUshorts(this, _dataProvider);
-            this.ConfigurationItemChangedAction?.Invoke();
-        }
 
-
-        [DataMember]
-        public IMatrixTemplate MatrixTemplate { get; set; }
+        [DataMember] public IMatrixTemplate MatrixTemplate { get; set; }
 
         public override void InitializeFromContainer(ITypesContainer container)
         {
-            UshortsFormatter=new MatrixValueFormatter(this);
+            UshortsFormatter = new MatrixValueFormatter(this);
             base.InitializeFromContainer(container);
         }
     }

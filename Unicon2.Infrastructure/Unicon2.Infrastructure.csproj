@@ -94,8 +94,6 @@
     <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSettings.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\ISettingApplyingContext.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IAddressableItem.cs" />
-    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IAddressRangeableWithDataProvider.cs" />
-    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IMemoryValuesSet.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickAccessMemoryApplyingContext.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessDataProviderStub.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessSetting.cs" />
@@ -120,9 +118,6 @@
     <Compile Include="Interfaces\IDataProviderContaining.cs" />
     <Compile Include="Interfaces\IDeviceConnectionFactory.cs" />
     <Compile Include="Interfaces\IParentDeviceNameRequirable.cs" />
-    <Compile Include="Interfaces\Values\IDeviceValueContaining.cs" />
-    <Compile Include="Interfaces\IInitializableFromContainer.cs" />
-    <Compile Include="Interfaces\Values\ILocalAndDeviceValuesContaining.cs" />
     <Compile Include="Interfaces\IMeasurable.cs" />
     <Compile Include="Interfaces\INameable.cs" />
     <Compile Include="Interfaces\IRange.cs" />

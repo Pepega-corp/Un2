@@ -10,6 +10,7 @@ using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Fragments.Configuration.Model.Base;
 using Unicon2.Fragments.Configuration.Model.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Model.DependentProperty;
+using Unicon2.Fragments.Configuration.Model.Memory;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
@@ -80,14 +81,19 @@ namespace Unicon2.Fragments.Configuration.Module
             serializerService.AddNamespaceAttribute("subProperty", "SubPropertyNS");
             serializerService.AddNamespaceAttribute("localDeviceValuesConfigurationItemBase",
                 "LocalDeviceValuesConfigurationItemBaseNS");
-
+            serializerService.AddNamespaceAttribute("configurationMemory",
+                "ConfigurationMemoryNS");
+            serializerService.AddNamespaceAttribute("addressValue",
+                "AddressValueNS");
             serializerService.AddKnownTypeForSerializationRange(new[]
             {
                 typeof(LocalDeviceValuesConfigurationItemBase), typeof(DefaultDeviceConfiguration),
                 typeof(DefaultItemsGroup), typeof(DefaultProperty),
                 typeof(List<DefaultItemsGroup>), typeof(List<DefaultProperty>), typeof(ActivatedConfigurationSetting),
                 typeof(DependentProperty), typeof(DependancyCondition), typeof(ComplexProperty), typeof(SubProperty),
-                typeof(GroupWithReiterationInfo), typeof(ReiterationSubGroupInfo), typeof(List<ReiterationSubGroupInfo>),
+                typeof(GroupWithReiterationInfo), typeof(ReiterationSubGroupInfo),
+                typeof(List<ReiterationSubGroupInfo>), typeof(List<AddressValue>), typeof(AddressValue),
+                typeof(ConfigurationMemory)
             });
 
             //регистрация ресурсов

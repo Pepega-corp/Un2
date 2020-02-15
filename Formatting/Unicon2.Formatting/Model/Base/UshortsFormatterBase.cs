@@ -8,7 +8,7 @@ using Unicon2.Unity.Interfaces;
 namespace Unicon2.Formatting.Model.Base
 {
     [DataContract(IsReference = true, Namespace = "UshortsFormatterBaseNS")]
-    public abstract class UshortsFormatterBase : Disposable, IUshortsFormatter, IInitializableFromContainer
+    public abstract class UshortsFormatterBase : Disposable, IUshortsFormatter
     {
         protected bool _isInitialized;
         private Func<IErrorValue> _errorValueGettingFunc;

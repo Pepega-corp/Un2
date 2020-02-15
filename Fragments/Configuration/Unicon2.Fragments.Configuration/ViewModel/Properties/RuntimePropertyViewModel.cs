@@ -24,14 +24,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         private IRange _range;
         private IRangeViewModel _rangeViewModel;
         private bool _isRangeEnabled;
-        private IGlobalEventsService _globalEventsService;
 
         public RuntimePropertyViewModel(ITypesContainer container, IValueViewModelFactory valueViewModelFactory)
         {
             this._container = container;
             this._valueViewModelFactory = valueViewModelFactory;
             this.IsCheckable = false;
-            _globalEventsService = container.Resolve<IGlobalEventsService>();
         }
 
         public IFormattedValueViewModel DeviceValue
@@ -55,43 +53,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             }
         }
 
-
-        private void CheckOnInitializableFromContainer(IUshortFormattable ushortFormattable)
-        {
-            if (ushortFormattable.UshortsFormatter is IInitializableFromContainer)
-            {
-                if (!((IInitializableFromContainer)(this.Model as IUshortFormattable).UshortsFormatter)
-                    .IsInitialized)
-                {
-                    ((IInitializableFromContainer)(this.Model as IUshortFormattable).UshortsFormatter)
-                        .InitializeFromContainer(this._container);
-                }
-            }
-        }
-
-
-
         protected virtual void InitializeValueViewModel(ushort[] ushorts, bool isLocal, IUshortsFormatter ushortsFormatter)
         {
 
             if (ushorts == null) return;
             if ((this._model as IProperty).UshortsFormatter == null) return;
             IFormattedValue formattedValue = ushortsFormatter.Format(ushorts);
-            //if (formattedValue is ICollectionValue)
-            //{
-            //    if (isLocal)
-            //    {
-            //        LocalValue = _valueViewModelFactory.CreateEditableCollectionValueItemViewModel(formattedValue as ICollectionValue, ChildStructItemViewModels, (_model as IProperty), ushortsFormatter);
-            //        IsCheckable = true;
-            //    }
-            //    else
-            //    {
-            //        DeviceValue = _valueViewModelFactory.CreateCollectionValueItemViewModel(formattedValue as ICollectionValue,this.ChildStructItemViewModels);
-            //        IsCheckable = true;
-
-            //    }
-            //}
-            //else
             {
                 if (isLocal)
                 {

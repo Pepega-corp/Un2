@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
     {
         private IComplexProperty _complexProperty;
 
-        public SubProperty(Func<IRange> range) : base(range)
+        public SubProperty()
         {
             this.BitNumbersInWord = new List<int>();
         }
@@ -26,22 +26,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         public void SetParent(IComplexProperty complexProperty)
         {
             this._complexProperty = complexProperty;
-            this._complexProperty.ConfigurationItemChangedAction += this.OnParentsPropertyValueChanged;
         }
-
-        private void OnParentsPropertyValueChanged()
-        {
-            if (this._complexProperty.DeviceUshortsValue != null)
-            {
-                this.DeviceUshortsValue = this.GetUshortValueFromParentsValue(this._complexProperty.DeviceUshortsValue);
-            }
-            if (this._complexProperty.LocalUshortsValue != null)
-            {
-                this.LocalUshortsValue = this.GetUshortValueFromParentsValue(this._complexProperty.LocalUshortsValue);
-            }
-            this.ConfigurationItemChangedAction?.Invoke();
-        }
-
 
         private ushort[] GetUshortValueFromParentsValue(ushort[] parentUshorts)
         {
@@ -83,14 +68,16 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         protected override IConfigurationItem OnCloning()
         {
-            SubProperty subProperty = new SubProperty(this._rangeGetFunc);
-            subProperty.UshortsFormatter = this.UshortsFormatter;
-            subProperty.Address = this.Address;
-            subProperty.NumberOfPoints = this.NumberOfPoints;
-            subProperty.MeasureUnit = this.MeasureUnit;
-            subProperty.IsMeasureUnitEnabled = this.IsMeasureUnitEnabled;
-            subProperty.Range = this.Range.Clone() as IRange;
-            subProperty.IsRangeEnabled = this.IsRangeEnabled;
+            SubProperty subProperty = new SubProperty
+            {
+                UshortsFormatter = this.UshortsFormatter,
+                Address = this.Address,
+                NumberOfPoints = this.NumberOfPoints,
+                MeasureUnit = this.MeasureUnit,
+                IsMeasureUnitEnabled = this.IsMeasureUnitEnabled,
+                Range = this.Range.Clone() as IRange,
+                IsRangeEnabled = this.IsRangeEnabled
+            };
             this.BitNumbersInWord.ForEach((i => subProperty.BitNumbersInWord.Add(i)));
             return subProperty;
         }

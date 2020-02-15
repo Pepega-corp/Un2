@@ -11,5 +11,9 @@ namespace Unicon2.Infrastructure.Services
         List<Type> GetTypesForSerialiation();
 
         Dictionary<string, string> GetNamespacesAttributes();
+        void SerializeInFile<T>(T objectToSerialize,string fileName);
+        T DeserializeFromFile<T>(string filePath);
+
     }
+
 }

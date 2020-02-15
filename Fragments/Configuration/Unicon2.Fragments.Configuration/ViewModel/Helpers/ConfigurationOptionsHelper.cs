@@ -9,6 +9,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
+using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Icons;
@@ -27,6 +28,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         {
             this._runtimeConfigurationViewModel = runtimeConfigurationViewModel;
             this._container = container;
+            
             Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelGettingFunc =
                 container.Resolve<Func<IFragmentOptionGroupViewModel>>();
             Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelGettingFunc =
@@ -194,25 +196,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             if (this.ExpandLevelByIndex(this._runtimeConfigurationViewModel.RootConfigurationItemViewModels.Cast<IConfigurationItemViewModel>().ToList(), this._levelIndex,
                 0))
                 this._levelIndex++;
-            //  bool isLevelExpanded = false;
-            //foreach (var rootConfigurationItemViewModel in _runtimeConfigurationViewModel
-            //    .RootConfigurationItemViewModels)
-            //{
-            //    if (_levelIndex >= 0)
-            //    {
-            //        rootConfigurationItemViewModel.Checked?.Invoke(true);
-            //        if (_levelIndex == 0) isLevelExpanded = true;
-            //    }
-            //    if (_levelIndex >= 1)
-            //    {
-            //        foreach (var configurationItemViewModel in rootConfigurationItemViewModel.ChildStructItemViewModels)
-            //        {
-            //            configurationItemViewModel.Checked?.Invoke(true);
-            //            if (_levelIndex == 1) isLevelExpanded = true;
-            //        }
-            //    }
-            //}
-            //if (isLevelExpanded) _levelIndex++;
         }
 
         private void OnExecuteCollapseLevel()
@@ -220,27 +203,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             if (this.CollapseLevelByIndex(this._runtimeConfigurationViewModel.RootConfigurationItemViewModels.Cast<IConfigurationItemViewModel>().ToList(),
                 this._levelIndex, 0))
                 this._levelIndex--;
-            //bool isLevelCollapsed = false;
-            //if (_levelIndex == 0) return;
-            //foreach (var rootConfigurationItemViewModel in _runtimeConfigurationViewModel
-            //    .RootConfigurationItemViewModels)
-            //{
-            //    if (_levelIndex <= 1)
-            //    {
-            //        rootConfigurationItemViewModel.Checked?.Invoke(false);
-            //        if (_levelIndex == 1) isLevelCollapsed = true;
-            //    }
-            //    if (_levelIndex <=2)
-            //    {
-            //        foreach (var configurationItemViewModel in rootConfigurationItemViewModel.ChildStructItemViewModels)
-            //        {
-            //            configurationItemViewModel.Checked?.Invoke(false);
-            //            if (_levelIndex ==2) isLevelCollapsed = true;
-            //        }
-            //    }
-            //}
-
-            //if (isLevelCollapsed) _levelIndex--;
 
         }
 
@@ -252,18 +214,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             ofd.CheckFileExists = true;
             if (ofd.ShowDialog() == true)
             {
-                IDeviceConfiguration loadedConfig = this._container.Resolve<IDeviceConfiguration>();
-
-                loadedConfig.DeserializeFromFile(ofd.FileName);
-                if (!(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).CheckEquality(loadedConfig)) return;
-
-                foreach (IRuntimeConfigurationItemViewModel rootConfigurationItem in this._runtimeConfigurationViewModel.RootConfigurationItemViewModels)
-                {
-                    (rootConfigurationItem.Model as IConfigurationItem).InitializeLocalValue(
-                        loadedConfig.RootConfigurationItemList[
-                            this._runtimeConfigurationViewModel.RootConfigurationItemViewModels
-                                .IndexOf(rootConfigurationItem)]);
-                }
+                IConfigurationMemory loadedConfigMemory = _container.Resolve<ISerializerService>()
+                    .DeserializeFromFile<IConfigurationMemory>(ofd.FileName);
+                (this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).ConfigurationMemory =
+                    loadedConfigMemory;
             }
         }
         private void OnExecuteExportConfiguration()
@@ -278,7 +232,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             sfd.FileName = this._runtimeConfigurationViewModel.NameForUiKey;
             if (sfd.ShowDialog() == true)
             {
-                (this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).SerializeInFile(sfd.FileName, false);
+                _container.Resolve<ISerializerService>().SerializeInFile((this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).ConfigurationMemory,sfd.FileName);
             }
         }
 
@@ -290,54 +244,15 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                     ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING, null);
         }
 
-        private void OnExecuteEditLocalValues()
+        private async void OnExecuteEditLocalValues()
         {
-            //IDeviceConfiguration loadedConfig = this._container.Resolve<IDeviceConfiguration>();
-            //if (!(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).CheckEquality(loadedConfig)) return;
-            //foreach (IRuntimeConfigurationItemViewModel rootConfigurationItem in this._runtimeConfigurationViewModel.RootConfigurationItemViewModels)
-            //{
-            //    (rootConfigurationItem.Model as IConfigurationItem).InitializeLocalValue(
-            //        loadedConfig.RootConfigurationItemList[
-            //            this._runtimeConfigurationViewModel.RootConfigurationItemViewModels
-            //                .IndexOf(rootConfigurationItem)]);
-            //}
-            IDeviceConfiguration loadedConfig = this._container.Resolve<IDeviceConfiguration>();
-            loadedConfig = _runtimeConfigurationViewModel.Model as IDeviceConfiguration;
-            if (!(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).CheckEquality(loadedConfig)) return;
-
-            try
-            {
-                foreach (IRuntimeConfigurationItemViewModel rootConfigurationItem in this._runtimeConfigurationViewModel.RootConfigurationItemViewModels)
-                {
-
-                    //(rootConfigurationItem.Model as IConfigurationItem).InitializeValue(rootConfigurationItem as IConfigurationItem);
-                    (rootConfigurationItem.Model as IConfigurationItem).InitializeValue(
-
-                        loadedConfig.RootConfigurationItemList[
-                            this._runtimeConfigurationViewModel.RootConfigurationItemViewModels
-                                .IndexOf(rootConfigurationItem)]);
-                }
-            }
-            catch (Exception ex)
-            { }
-            //foreach (IRuntimeConfigurationItemViewModel rootConfigurationItem in this._runtimeConfigurationViewModel.RootConfigurationItemViewModels)
-            //{
-
-            //    //(rootConfigurationItem.Model as IConfigurationItem).InitializeValue(rootConfigurationItem as IConfigurationItem);
-            //    (rootConfigurationItem.Model as IConfigurationItem).InitializeLocalValue(
-
-            //        loadedConfig.RootConfigurationItemList[
-            //            this._runtimeConfigurationViewModel.RootConfigurationItemViewModels
-            //                .IndexOf(rootConfigurationItem)]);
-            //}
+            await (this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).InitializeLocalValues();
         }
 
-        private void OnExecuteTransferFromDeviceToLocal()
+        private async void OnExecuteTransferFromDeviceToLocal()
         {
-            foreach (IRuntimeConfigurationItemViewModel rootConfigurationItem in this._runtimeConfigurationViewModel.RootConfigurationItemViewModels)
-            {
-                (rootConfigurationItem.Model as IConfigurationItem).TransferDeviceLocalData(true);
-            }
+            await(this._runtimeConfigurationViewModel.Model as IDeviceConfiguration).TransferLocalToDeviceValues();
+            
         }
     }
 }

@@ -6,7 +6,7 @@ using Unicon2.Infrastructure.Interfaces.Values;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty
 {
-    public interface IDependancyCondition : IUshortFormattable,IInitializableFromContainer
+    public interface IDependancyCondition : IUshortFormattable
     {
 
         /// <summary>

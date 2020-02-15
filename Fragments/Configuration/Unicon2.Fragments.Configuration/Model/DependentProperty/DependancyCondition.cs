@@ -14,8 +14,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
 
     public class DependancyCondition : IDependancyCondition
     {
-        //private ushort[] _previousDeviceUshorts;
-        //private ushort[] _previousLocalUshorts;
 
         private void CheckReferencedProperty(bool isLocal)
         {
@@ -67,19 +65,7 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
 
 
         public bool IsInitialized { get; private set; }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            if (!this.IsInitialized)
-            {
-                if (this.UshortsFormatter is IInitializableFromContainer)
-                {
-                    (this.UshortsFormatter as IInitializableFromContainer).InitializeFromContainer(container);
-                }
-            }
-            this.IsInitialized = true;
-        }
-
+        
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)
         {

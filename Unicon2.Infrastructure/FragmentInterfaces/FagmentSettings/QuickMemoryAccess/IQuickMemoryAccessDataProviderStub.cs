@@ -9,9 +9,6 @@ namespace Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryA
 {
    public interface IQuickMemoryAccessDataProviderStub:IDataProvider,IDataProviderContaining
     {
-        List<IMemoryValuesSet> MemoryValuesSets { get; set; }
         Task<IQueryResult> WriteMultipleRegistersByBitNumbersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle,List<int> bitNumbers);
-        Action TransactionCompleteAction { get; set; }
-
     }
 }

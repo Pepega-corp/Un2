@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess
 {
     public interface IQuickAccessMemoryApplyingContext:ISettingApplyingContext
     {
-        QuickAccessModeEnum QuickAccessMode { get; set; }
-
-        string QueryNameKey { get; set; }
-
-        List<IAddressRangeableWithDataProvider> DataProviderContainingObjectList { get; set; }
-
+        Func<IRange,Task> OnFillAddressRange { get; set; }
     }
 }

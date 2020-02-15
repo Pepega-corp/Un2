@@ -67,7 +67,6 @@
     <Compile Include="DefaultDevice\DefaultDeviceCreator.cs" />
     <Compile Include="DefaultDevice\DeviceSharedResources.cs" />
     <Compile Include="FragmentSettings\DefaultFragmentSettings.cs" />
-    <Compile Include="FragmentSettings\MemoryValueSet.cs" />
     <Compile Include="FragmentSettings\QuickAccessMemoryApplyingContext.cs" />
     <Compile Include="FragmentSettings\QuickMemoryAccessDataProviderStub.cs" />
     <Compile Include="FragmentSettings\QuickMemoryAccessSetting.cs" />
