@@ -108,6 +108,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Resources\GridViewWithRowDetails.cs" />
+    <Compile Include="ViewModelMemoryMapping\ValuesSeedingConfigurationItemsVisitor.cs" />
     <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
     <Compile Include="ViewModel\GroupWithReiterationViewModel.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationExportHelper.cs" />
@@ -178,6 +179,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ConfigItemVisitors" />
     <Folder Include="Model\Base\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

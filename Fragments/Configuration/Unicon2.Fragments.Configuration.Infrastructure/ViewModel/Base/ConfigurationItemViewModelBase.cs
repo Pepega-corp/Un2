@@ -99,7 +99,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base
             }
         }
 
-
         public abstract string StrongName { get; }
 
         public object Model

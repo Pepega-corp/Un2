@@ -27,9 +27,6 @@ namespace Unicon2.Presentation.Values.Base
 
         public abstract void InitFromValue(IFormattedValue value);
 
-        public Action<object, object> FormattedValueChanged { get; set; }
-
-
         public bool IsRangeEnabled { get; set; }
         public IRange Range { get; set; }
 

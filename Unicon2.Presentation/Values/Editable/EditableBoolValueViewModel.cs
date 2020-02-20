@@ -26,12 +26,10 @@ namespace Unicon2.Presentation.Values.Editable
 
         public override void InitFromValue(IFormattedValue value)
         {
-
-            if (value is IBoolValue)
+            if (value is IBoolValue boolValue)
             {
-                this._baseValueBool = (value as IBoolValue).BoolValueProperty;
-                this.Model = value as IBoolValue;
-
+                this._baseValueBool = boolValue.BoolValueProperty;
+                this.Model = boolValue;
             }
         }
 
@@ -40,8 +38,8 @@ namespace Unicon2.Presentation.Values.Editable
             this._baseValueUshorts = ushortsToCompare;
             this._baseValueBool = (this._ushortsFormatter.Format(ushortsToCompare) as IBoolValue).BoolValueProperty;
 
-            this.SetIsChangedProperty(nameof(this.BoolValueProperty), !this._baseValueUshorts.CheckEquality(this._boolValue.UshortsValue));
-
+            this.SetIsChangedProperty(nameof(this.BoolValueProperty),
+                !this._baseValueUshorts.CheckEquality(this._boolValue.UshortsValue));
         }
 
         public override object Model
@@ -65,10 +63,10 @@ namespace Unicon2.Presentation.Values.Editable
                     this._boolValue.BoolValueProperty = value;
                     this._boolValue.UshortsValue = this._ushortsFormatter?.FormatBack(this._boolValue);
                 }
+
                 this.SetIsChangedProperty(nameof(this.BoolValueProperty), this._baseValueBool != value);
                 this.ValueChangedAction?.Invoke(this._boolValue.UshortsValue);
                 this.RaisePropertyChanged();
-                this.FormattedValueChanged?.Invoke(this, value);
             }
         }
     }

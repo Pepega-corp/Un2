@@ -5,6 +5,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel.Table;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
@@ -14,7 +15,7 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel, IAsTableViewModel
+    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IRuntimeItemGroupViewModel, IAsTableViewModel
     {
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
         private readonly IGlobalEventsService _globalEventsService;
@@ -81,6 +82,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         {
             get => _isTableViewAllowed;
             set => SetProperty(ref _isTableViewAllowed, value);
+        }
+
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitItemsGroup(this);
         }
     }
 }

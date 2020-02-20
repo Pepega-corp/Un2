@@ -21,7 +21,7 @@ using Unicon2.Unity.Interfaces;
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
 
-    public class RuntimeAppointableMatrixViewModel : RuntimePropertyViewModel, IAsTableViewModel
+    public class RuntimeAppointableMatrixViewModel : RuntimePropertyViewModel, IAppointableMatrixViewModel
     {
         private TableConfigurationViewModel _tableConfigurationViewModel;
         private bool _isTableView;
@@ -52,5 +52,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         public bool IsTableViewAllowed => true;
         public string AsossiatedDetailsViewName => "MatrixTableValueView";
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitMatrix(this);
+        }
     }
 }

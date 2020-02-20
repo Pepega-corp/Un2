@@ -1,6 +1,7 @@
 ﻿using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
@@ -8,7 +9,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 {
-    public class RuntimeComplexPropertyViewModel : RuntimePropertyViewModel, IGroupedConfigurationItemViewModel
+    public class RuntimeComplexPropertyViewModel : RuntimePropertyViewModel, IComplexPropertyViewModel
     {
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
         private bool _isGroupedProperty;
@@ -54,6 +55,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this._isGroupedProperty = value;
                 this.RaisePropertyChanged();
             }
+        }
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitComplexProperty(this);
         }
     }
 }

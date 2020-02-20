@@ -8,6 +8,7 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 
@@ -16,7 +17,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
     public class RuntimePropertyViewModel : RuntimeConfigurationItemViewModelBase, IRuntimePropertyViewModel
     {
         private readonly ITypesContainer _container;
-        private readonly IValueViewModelFactory _valueViewModelFactory;
         private IFormattedValueViewModel _value;
         private IFormattedValueViewModel _localValue;
         private string _measureUnit;
@@ -25,10 +25,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         private IRangeViewModel _rangeViewModel;
         private bool _isRangeEnabled;
 
-        public RuntimePropertyViewModel(ITypesContainer container, IValueViewModelFactory valueViewModelFactory)
+        public RuntimePropertyViewModel(ITypesContainer container)
         {
             this._container = container;
-            this._valueViewModelFactory = valueViewModelFactory;
             this.IsCheckable = false;
         }
 
@@ -68,7 +67,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 {
                     this.DeviceValue = this._valueViewModelFactory.CreateFormattedValueViewModel(formattedValue, (this._model as IProperty), (this._model as IProperty));
                 }
-
             }
 
         }
@@ -176,6 +174,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this._rangeViewModel = value;
                 this.RaisePropertyChanged();
             }
+        }
+
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitProperty(this);
         }
     }
 }

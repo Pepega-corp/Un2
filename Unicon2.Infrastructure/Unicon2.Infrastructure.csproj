@@ -101,6 +101,7 @@
     <Compile Include="FragmentInterfaces\IDeviceFragment.cs" />
     <Compile Include="DeviceInterfaces\IUshortFormattable.cs" />
     <Compile Include="FragmentInterfaces\IFragmentOptions.cs" />
+    <Compile Include="Functional\Result.cs" />
     <Compile Include="GeneralFactories\IGeneralViewModelFactory.cs" />
     <Compile Include="IApplicationGlobalCommands.cs" />
     <Compile Include="Interfaces\DataOperations\IHtmlRenderer.cs" />

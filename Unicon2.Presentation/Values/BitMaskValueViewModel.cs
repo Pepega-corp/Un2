@@ -11,7 +11,7 @@ using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-    public class BitMaskValueViewModel: FormattableValueViewModelBase, IBitMaskValueViewModel
+    public class BitMaskValueViewModel : FormattableValueViewModelBase, IBitMaskValueViewModel
     {
         private List<List<bool>> _bitArray;
 

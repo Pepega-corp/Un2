@@ -6,5 +6,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
 {
     public interface IRuntimeConfigurationItemViewModel : IConfigurationItemViewModel
     {
+        T Accept<T>(IConfigurationItemVisitor<T> visitor);
     }
 }

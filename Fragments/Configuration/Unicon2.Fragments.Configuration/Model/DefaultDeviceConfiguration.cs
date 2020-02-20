@@ -68,12 +68,14 @@ namespace Unicon2.Fragments.Configuration.Model
 
         public async Task InitializeLocalValues()
         {
-            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory, MemoryAccessEnum.InitializeLocalValues).WriteConfigurationMemory();
+            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory,
+                MemoryAccessEnum.InitializeLocalValues).WriteConfigurationMemory();
         }
 
         public async Task TransferLocalToDeviceValues()
         {
-            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory, MemoryAccessEnum.TransferFromLocalToDevice).WriteConfigurationMemory();
+            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory,
+                MemoryAccessEnum.TransferFromLocalToDevice).WriteConfigurationMemory();
         }
 
         public void SetDataProvider(IDataProvider dataProvider)
@@ -83,13 +85,16 @@ namespace Unicon2.Fragments.Configuration.Model
 
         public async Task<bool> Write()
         {
-            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory, MemoryAccessEnum.Read).WriteConfigurationMemory();
+            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory, MemoryAccessEnum.Read)
+                .WriteConfigurationMemory();
             return true;
         }
 
         public async Task Load()
         {
-            ConfigurationMemory = await new ConfigurationMemoryAccessor(_dataProvider,this,ConfigurationMemory,MemoryAccessEnum.Read).LoadConfigurationMemory();
+            ConfigurationMemory =
+                await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory, MemoryAccessEnum.Read)
+                    .LoadConfigurationMemory();
         }
 
         protected override void OnDisposing()
@@ -98,6 +103,7 @@ namespace Unicon2.Fragments.Configuration.Model
             {
                 configurationItem.Dispose();
             }
+
             base.OnDisposing();
         }
 
