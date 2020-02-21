@@ -38,7 +38,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             ShowTableCommand = new RelayCommand<object>(OnShowTable);
         }
 
-     
+
 
         private void OnShowTable(object obj)
         {
@@ -50,17 +50,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
 
             mainItem.IsTableSelected = true;
-            if(mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
+            if (mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
             {
                 tableViewModel.IsTableView = true;
             }
+
             mainItem.IsSelected = true;
             SelectedConfigDetails = mainItem;
 
         }
 
         public RelayCommand<object> ShowTableCommand { get; }
-        
+
 
         public object SelectedConfigDetails
         {
@@ -75,16 +76,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private void OnMainItemSelected(object obj)
         {
             if (!(obj is MainConfigItemViewModel mainItem)) return;
-            if (mainItem.ChildConfigItemViewModels.Any()&&!mainItem.IsGroupWithReiteration) return;
+            if (mainItem.ChildConfigItemViewModels.Any() && !mainItem.IsGroupWithReiteration) return;
             if (mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
             {
                 tableViewModel.IsTableView = false;
             }
+
             if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails)
             {
                 selectedConfigDetails.IsSelected = false;
                 selectedConfigDetails.IsTableSelected = false;
             }
+
             mainItem.IsSelected = true;
             SelectedConfigDetails = mainItem;
         }
@@ -165,11 +168,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             this.AllRows.Clear();
             this.RootConfigurationItemViewModels.Clear();
             this._deviceConfiguration = deviceConfiguration;
-            if (!this._deviceConfiguration.IsInitialized)
-            {
-                this._deviceConfiguration.InitializeFromContainer(this._container);
-            }
-
             if (this._deviceConfiguration.RootConfigurationItemList != null)
             {
                 foreach (IConfigurationItem configurationItem in this._deviceConfiguration.RootConfigurationItemList)
@@ -181,12 +179,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
 
             this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
-            this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels,false));
+            this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels, false));
 
         }
 
         private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
-            IEnumerable<IConfigurationItemViewModel> rootItems,bool isParentReiterable, IGroupWithReiterationInfo groupWithReiterationInfo=null)
+            IEnumerable<IConfigurationItemViewModel> rootItems, bool isParentReiterable,
+            IGroupWithReiterationInfo groupWithReiterationInfo = null)
         {
             var resultCollection = new ObservableCollection<MainConfigItemViewModel>();
             resultCollection.AddCollection(rootItems.Where(item =>
@@ -203,9 +202,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 //}
                 //else
                 //{
-                    return new MainConfigItemViewModel(
-                        FilterMainConfigItems(item.ChildStructItemViewModels, isParentReiterable), item);
-                
+                return new MainConfigItemViewModel(
+                    FilterMainConfigItems(item.ChildStructItemViewModels, isParentReiterable), item);
+
 
             }));
             return resultCollection;

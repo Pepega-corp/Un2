@@ -108,6 +108,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Resources\GridViewWithRowDetails.cs" />
+    <Compile Include="ViewModelMemoryMapping\MemoryAccessor.cs" />
+    <Compile Include="ViewModelMemoryMapping\MemoryBusDispatcher.cs" />
+    <Compile Include="ViewModelMemoryMapping\MemoryBusInitConfigurationItemsVisitor.cs" />
+    <Compile Include="ViewModelMemoryMapping\ValuesPullingConfigurationItemsVisitor.cs" />
     <Compile Include="ViewModelMemoryMapping\ValuesSeedingConfigurationItemsVisitor.cs" />
     <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
     <Compile Include="ViewModel\GroupWithReiterationViewModel.cs" />

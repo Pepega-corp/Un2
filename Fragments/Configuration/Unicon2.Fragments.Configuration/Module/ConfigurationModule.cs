@@ -65,6 +65,7 @@ namespace Unicon2.Fragments.Configuration.Module
 
             container.Register(typeof(IRuntimeConfigurationViewModel), typeof(RuntimeConfigurationViewModel));
             container.Register(typeof(IValueViewModelFactory), typeof(ValueViewModelFactory));
+            container.Register(typeof(IPropertyValueViewModelFactory), typeof(ValueViewModelFactory));
 
             container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting),
                 ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);

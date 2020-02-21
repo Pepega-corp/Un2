@@ -12,9 +12,6 @@ namespace Unicon2.Fragments.Configuration.Model
     public abstract class ConfigurationItemBase : Disposable, IConfigurationItem, IExtensibleDataObject
     {
         private ExtensionDataObject _extensionData;
-        protected IDataProvider _dataProvider;
-        protected IDeviceSharedResources _deviceSharedResources;
-        private List<Guid> _relatedResourceGuidList;
         
         [DataMember]
         public string Name { get; set; }

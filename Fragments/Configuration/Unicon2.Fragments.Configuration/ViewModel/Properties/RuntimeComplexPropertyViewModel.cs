@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         private bool _isGroupedProperty;
 
         public RuntimeComplexPropertyViewModel(ITypesContainer container, IValueViewModelFactory valueViewModelFactory,
-            IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory) : base(container, valueViewModelFactory)
+            IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory) : base(container)
         {
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
         }

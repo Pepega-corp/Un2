@@ -38,7 +38,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             {
                 this._value = value;
                 this.RaisePropertyChanged();
-                
             }
         }
 
@@ -51,33 +50,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this.RaisePropertyChanged();
             }
         }
-
-        protected virtual void InitializeValueViewModel(ushort[] ushorts, bool isLocal, IUshortsFormatter ushortsFormatter)
-        {
-
-            if (ushorts == null) return;
-            if ((this._model as IProperty).UshortsFormatter == null) return;
-            IFormattedValue formattedValue = ushortsFormatter.Format(ushorts);
-            {
-                if (isLocal)
-                {
-                    this.LocalValue = (this._valueViewModelFactory as IPropertyValueViewModelFactory)?.CreateEditableFormattedValueViewModel(formattedValue, (this._model as IProperty), ushortsFormatter);
-                }
-                else
-                {
-                    this.DeviceValue = this._valueViewModelFactory.CreateFormattedValueViewModel(formattedValue, (this._model as IProperty), (this._model as IProperty));
-                }
-            }
-
-        }
-
-        protected virtual void InitializeValueViewModelLocal(IUshortsFormatter ushortsFormatter)
-        {
-            if ((this._model as IProperty).UshortsFormatter == null) return;
-            IFormattedValue formattedValue = ushortsFormatter.Format(new ushort[] { 0 });
-            this.LocalValue = (this._valueViewModelFactory as IPropertyValueViewModelFactory)?.CreateEditableFormattedValueViewModel(formattedValue, (this._model as IProperty), ushortsFormatter);
-        }
-
 
         public override string TypeName => this.GetTypeName();
 
@@ -107,23 +79,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 (this._model as IProperty)?.Dispose();
 
             }
-            settingProperty.InitEditableValueAction += () =>
-            {
-                this.InitializeValueViewModelLocal(settingProperty.UshortsFormatter);
-                //this.InitializeValueViewModelLocal(settingProperty.UshortsFormatter);
-                if (settingProperty.DeviceUshortsValue != null)
-                    (this.LocalValue as IEditableValueViewModel)?.SetBaseValueToCompare(settingProperty.DeviceUshortsValue);
-            };
-
-            settingProperty.ConfigurationItemChangedAction += () =>
-            {
-                this.InitializeValueViewModel(settingProperty.LocalUshortsValue, true, settingProperty.UshortsFormatter);
-                this.InitializeValueViewModel(settingProperty.DeviceUshortsValue, false,
-                    settingProperty.UshortsFormatter);
-                if (settingProperty.DeviceUshortsValue != null)
-                    (this.LocalValue as IEditableValueViewModel)?.SetBaseValueToCompare(settingProperty.DeviceUshortsValue);
-
-            };
             base.SetModel(model);
 
             this.IsMeasureUnitEnabled = settingProperty.IsMeasureUnitEnabled;
@@ -131,9 +86,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             this.RangeViewModel = this._container.Resolve<IRangeViewModel>();
             this.IsRangeEnabled = settingProperty.IsRangeEnabled;
             this.RangeViewModel.Model = settingProperty.Range;
-            this.CheckOnInitializableFromContainer(settingProperty);
-            settingProperty.ConfigurationItemChangedAction?.Invoke();
-
         }
 
         public string MeasureUnit
