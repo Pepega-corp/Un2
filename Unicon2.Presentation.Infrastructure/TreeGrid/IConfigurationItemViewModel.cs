@@ -4,7 +4,7 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Presentation.Infrastructure.TreeGrid
 {
-    public interface IConfigurationItemViewModel : IViewModel
+    public interface IConfigurationItemViewModel
     {
         string Header { get; set; }
 

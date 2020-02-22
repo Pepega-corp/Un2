@@ -18,6 +18,7 @@ namespace Unicon2.Presentation.Values
                 Header = value.Header;
                 BoolValueProperty = (value as IBoolValue).BoolValueProperty;
             }
+            base.InitFromValue(value);
         }
 
         public bool BoolValueProperty

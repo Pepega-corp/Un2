@@ -74,8 +74,9 @@
     <Compile Include="Converters\IsDependentResultFormattableToVisConverter.cs" />
     <Compile Include="Converters\IsFormattableToVisibilityConverter.cs" />
     <Compile Include="CustomControls\WrapPanelWithRowsOrColumnsCount.cs" />
-    <Compile Include="Factories\ConfigurationItemEditorViewModelFactory.cs" />
-    <Compile Include="Factories\GroupWithReiterationEditorWindowFactory.cs" />
+    <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
+    <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />
+    <Compile Include="Visitors\GroupWithReiterationEditorWindowFactory.cs" />
     <Compile Include="Interfaces\ConfigurationSettings\IActivatedConfigurationSettingViewModel.cs" />
     <Compile Include="Interfaces\DependentProperty\IConditionViewModel.cs" />
     <Compile Include="Interfaces\EditOperations\IChildAddable.cs" />

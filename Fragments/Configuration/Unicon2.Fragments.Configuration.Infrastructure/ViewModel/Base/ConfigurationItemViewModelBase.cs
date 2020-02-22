@@ -13,7 +13,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base
         private bool _isChecked;
         private string _description;
         private bool _isChekable;
-        protected IConfigurationItem _model;
         private IConfigurationItemViewModel _parent;
         private ObservableCollection<IConfigurationItemViewModel> _childStructItemViewModels;
 
@@ -41,12 +40,8 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base
                 this.RaisePropertyChanged();
             }
         }
-
         public Action<bool?> Checked { get; set; }
-
-
         public abstract string TypeName { get; }
-
 
         public bool IsChecked
         {
@@ -97,36 +92,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base
                 this._parent = value;
                 this.RaisePropertyChanged();
             }
-        }
-
-        public abstract string StrongName { get; }
-
-        public object Model
-        {
-            get { return this.GetModel(); }
-            set
-            {
-                this.SetModel(value);
-
-            }
-        }
-
-        protected virtual void SetModel(object model)
-        {
-            this._model = model as IConfigurationItem;
-            this.Description = this._model.Description;
-            this.Header = this._model.Name;
-
-        }
-        protected virtual object GetModel()
-        {
-            return this._model;
-        }
-
-        protected virtual void SaveModel()
-        {
-            this._model.Description = this.Description;
-            this._model.Name = this.Header;
         }
     }
 }

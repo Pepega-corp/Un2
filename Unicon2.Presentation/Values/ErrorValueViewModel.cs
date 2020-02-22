@@ -14,6 +14,7 @@ namespace Unicon2.Presentation.Values
         {
             Header = value.Header;
             ErrorMessage = (value as IErrorValue).ErrorMessage;
+            base.InitFromValue(value);
         }
 
         public string ErrorMessage

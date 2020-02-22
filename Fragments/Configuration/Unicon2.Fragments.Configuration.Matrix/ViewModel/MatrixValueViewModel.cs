@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.ViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
@@ -38,6 +38,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         {
             Model = value;
             FillTable();
+            base.InitFromValue(value);
         }
 
         private void FillTable()

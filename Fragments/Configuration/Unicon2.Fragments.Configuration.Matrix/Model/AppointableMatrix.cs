@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Helpers;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
-using Unicon2.Fragments.Configuration.Model.Base;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Unity.Interfaces;
@@ -22,15 +22,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
             UshortsFormatter = new MatrixValueFormatter(this);
             this.MatrixTemplate = matrixTemplate;
         }
-        public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
-
 
         [DataMember] public IMatrixTemplate MatrixTemplate { get; set; }
 
-        public override void InitializeFromContainer(ITypesContainer container)
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
         {
-            UshortsFormatter = new MatrixValueFormatter(this);
-            base.InitializeFromContainer(container);
+            return visitor.VisitMatrix(this);
         }
     }
+
 }

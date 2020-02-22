@@ -22,6 +22,7 @@ namespace Unicon2.Presentation.Values
             InitList(curValue.AvailableItemsList);
             Header = curValue.Header;
             SelectedItem = curValue.SelectedItem;
+            base.InitFromValue(value);
         }
 
 

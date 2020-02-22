@@ -1,10 +1,10 @@
-﻿using Unicon2.Presentation.Infrastructure.TreeGrid;
+﻿using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 
-namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties
+namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime
 {
-    public interface IRuntimePropertyViewModel : IPropertyViewModel, IRuntimeConfigurationItemViewModel, ILocalAndDeviceValueContainingViewModel
+    public interface IRuntimePropertyViewModel : IPropertyViewModel, IRuntimeConfigurationItemViewModel,
+        ILocalAndDeviceValueContainingViewModel
     {
-
     }
 }

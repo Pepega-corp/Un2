@@ -25,7 +25,10 @@ namespace Unicon2.Presentation.Values.Base
             }
         }
 
-        public abstract void InitFromValue(IFormattedValue value);
+        public virtual void InitFromValue(IFormattedValue value)
+        {
+            Model = value;
+        }
 
         public bool IsRangeEnabled { get; set; }
         public IRange Range { get; set; }
@@ -41,5 +44,7 @@ namespace Unicon2.Presentation.Values.Base
             get => _isMeasureUnitEnabled;
             set => SetProperty(ref _isMeasureUnitEnabled, value);
         }
+
+        public object Model { get; set; }
     }
 }

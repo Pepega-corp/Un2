@@ -2,23 +2,22 @@
 using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.Model;
-using Unicon2.Fragments.Configuration.Model.Base;
 using Unicon2.Fragments.Configuration.Model.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Model.DependentProperty;
-using Unicon2.Fragments.Configuration.Model.Memory;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
+using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Unity.Interfaces;
 
@@ -34,8 +33,8 @@ namespace Unicon2.Fragments.Configuration.Module
 
             container.RegisterInstance<IConfigurationItemFactory>(
                 new ConfigurationItemFactory(container.Resolve<ITypesContainer>()));
-            container.Register(typeof(IRuntimeConfigurationItemViewModelFactory),
-                typeof(RuntimeConfigurationItemViewModelFactory));
+            container.Register<IRuntimeConfigurationItemViewModelFactory,
+                RuntimeConfigurationItemViewModelFactory>();
             container.Register(typeof(IDependentProperty), typeof(DependentProperty));
             container.Register(typeof(IDependancyCondition), typeof(DependancyCondition));
 
@@ -46,26 +45,16 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register(typeof(IProperty), typeof(DefaultProperty));
             container.Register(typeof(IGroupWithReiterationInfo), typeof(GroupWithReiterationInfo));
             container.Register(typeof(IReiterationSubGroupInfo), typeof(ReiterationSubGroupInfo));
+            container.Register(typeof(IRuntimeDependentPropertyViewModel), typeof(RuntimeDependentPropertyViewModel));
 
-            container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeItemGroupViewModel),
-                ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
-                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimePropertyViewModel),
-                ConfigurationKeys.RUNTIME_DEFAULT_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeDependentPropertyViewModel),
-                ConfigurationKeys.RUNTIME + ConfigurationKeys.DEPENDENT_PROPERTY +
-                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-
-            container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeComplexPropertyViewModel),
-                ConfigurationKeys.RUNTIME + ConfigurationKeys.COMPLEX_PROPERTY +
-                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeSubPropertyViewModel),
-                ConfigurationKeys.RUNTIME + ConfigurationKeys.SUB_PROPERTY +
-                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-
+            container.Register(typeof(IRuntimeItemGroupViewModel), typeof(RuntimeItemGroupViewModel));
+            container.Register(typeof(IRuntimePropertyViewModel), typeof(RuntimePropertyViewModel));
+            container.Register(typeof(IRuntimeComplexPropertyViewModel), typeof(RuntimeComplexPropertyViewModel));
+            container.Register(typeof(IRuntimeSubPropertyViewModel), typeof(RuntimeSubPropertyViewModel));
             container.Register(typeof(IRuntimeConfigurationViewModel), typeof(RuntimeConfigurationViewModel));
             container.Register(typeof(IValueViewModelFactory), typeof(ValueViewModelFactory));
             container.Register(typeof(IPropertyValueViewModelFactory), typeof(ValueViewModelFactory));
+            container.Register(typeof(IMemoryBusDispatcher), typeof(MemoryBusDispatcher));
 
             container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting),
                 ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
@@ -93,7 +82,7 @@ namespace Unicon2.Fragments.Configuration.Module
                 typeof(List<DefaultItemsGroup>), typeof(List<DefaultProperty>), typeof(ActivatedConfigurationSetting),
                 typeof(DependentProperty), typeof(DependancyCondition), typeof(ComplexProperty), typeof(SubProperty),
                 typeof(GroupWithReiterationInfo), typeof(ReiterationSubGroupInfo),
-                typeof(List<ReiterationSubGroupInfo>), typeof(List<AddressValue>), typeof(AddressValue),
+                typeof(List<ReiterationSubGroupInfo>),
                 typeof(ConfigurationMemory)
             });
 

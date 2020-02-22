@@ -2,7 +2,7 @@
 
 namespace Unicon2.Formatting.Infrastructure.Model
 {
-    public interface IDefaultTimeFormatter:IUshortsFormatter,IInitializableFromContainer
+    public interface IDefaultTimeFormatter:IUshortsFormatter
     {
         int MillisecondsDecimalsPlaces { get; set; }
         int NumberOfPointsInUse { get; set; }

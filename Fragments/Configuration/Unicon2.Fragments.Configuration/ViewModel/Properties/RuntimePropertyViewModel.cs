@@ -2,6 +2,7 @@
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
@@ -16,18 +17,16 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 {
     public class RuntimePropertyViewModel : RuntimeConfigurationItemViewModelBase, IRuntimePropertyViewModel
     {
-        private readonly ITypesContainer _container;
         private IFormattedValueViewModel _value;
-        private IFormattedValueViewModel _localValue;
+        private IEditableValueViewModel _localValue;
         private string _measureUnit;
         private bool _isMeasureUnitEnabled;
         private IRange _range;
         private IRangeViewModel _rangeViewModel;
         private bool _isRangeEnabled;
 
-        public RuntimePropertyViewModel(ITypesContainer container)
+        public RuntimePropertyViewModel()
         {
-            this._container = container;
             this.IsCheckable = false;
         }
 
@@ -41,7 +40,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             }
         }
 
-        public IFormattedValueViewModel LocalValue
+        public IEditableValueViewModel LocalValue
         {
             get { return this._localValue; }
             set
@@ -53,39 +52,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 
         public override string TypeName => this.GetTypeName();
 
-
         protected virtual string GetTypeName()
         {
             return ConfigurationKeys.RUNTIME_DEFAULT_PROPERTY;
-        }
-
-        public override string StrongName => ConfigurationKeys.RUNTIME_DEFAULT_PROPERTY +
-                                             ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-
-
-        protected override void SetModel(object model)
-        {
-            IProperty settingProperty = model as IProperty;
-
-            if (settingProperty == null)
-            {
-                base.SetModel(model);
-                return;
-            }
-
-            if ((this._model != null) && (this._model != model))
-            {
-                (this._model as IProperty)?.Dispose();
-
-            }
-            base.SetModel(model);
-
-            this.IsMeasureUnitEnabled = settingProperty.IsMeasureUnitEnabled;
-            this.MeasureUnit = settingProperty.MeasureUnit;
-            this.RangeViewModel = this._container.Resolve<IRangeViewModel>();
-            this.IsRangeEnabled = settingProperty.IsRangeEnabled;
-            this.RangeViewModel.Model = settingProperty.Range;
         }
 
         public string MeasureUnit
@@ -127,10 +96,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 this.RaisePropertyChanged();
             }
         }
-
-        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
-        {
-            return visitor.VisitProperty(this);
-        }
+        
     }
 }

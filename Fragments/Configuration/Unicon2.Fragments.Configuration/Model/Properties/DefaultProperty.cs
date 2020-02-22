@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Interfaces;
@@ -17,8 +18,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         [DataMember(Name = nameof(Address), Order = 1)]
         public ushort Address { get; set; }
         [DataMember(Order = 2)] public ushort NumberOfPoints { get; set; }
-
-        public override string StrongName => nameof(DefaultProperty);
         [DataMember(Order = 3)] public string MeasureUnit { get; set; }
 
         [DataMember(Order = 4)] public bool IsMeasureUnitEnabled { get; set; }
@@ -40,5 +39,9 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             return cloneProperty;
         }
 
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitProperty(this);
+        }
     }
 }

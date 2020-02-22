@@ -6,10 +6,9 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 
 namespace Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources
 {
-    public interface IDeviceSharedResourcesViewModel : IViewModel
+    public interface IDeviceSharedResourcesViewModel
     {
         ObservableCollection<IResourceViewModel> ResourcesCollection { get; }
-
         IResourceViewModel SelectedResourceViewModel { get; set; }
         ICommand OpenResourceForEditingCommand { get; }
         ICommand SelectResourceCommand { get; }
@@ -17,7 +16,6 @@ namespace Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources
         ICommand SubmitCommand { get; }
         ICommand CloseCommand { get; }
         ICommand RenameResourceCommand { get; }
-
         bool IsSelectingMode { get; set; }
         void Initialize(Type typeNeeded);
        

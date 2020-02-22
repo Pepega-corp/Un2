@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
@@ -142,8 +143,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             var valuesSeedingConfigurationItemsVisitor = new ValuesSeedingConfigurationItemsVisitor(
                 _container.Resolve<IPropertyValueViewModelFactory>(),
                 deviceConfiguration.ConfigurationMemory, false);
-            var memoryDispatcher = new MemoryBusDispatcher<Result>(valuesSeedingConfigurationItemsVisitor);
-            var memoryBusInitConfigurationItemsVisitor = new MemoryBusInitConfigurationItemsVisitor(memoryDispatcher);
+            var memoryBusInitConfigurationItemsVisitor = new MemoryBusInitConfigurationItemsVisitor(_runtimeConfigurationViewModel.MemoryBusDispatcher);
             foreach (var model in _runtimeConfigurationViewModel.RootConfigurationItemViewModels.ToList())
                 model.Accept(valuesSeedingConfigurationItemsVisitor);
             foreach (var model in _runtimeConfigurationViewModel.RootConfigurationItemViewModels.ToList())

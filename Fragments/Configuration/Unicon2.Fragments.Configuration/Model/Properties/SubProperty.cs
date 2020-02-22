@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 
@@ -41,31 +42,11 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             return new[] { (ushort)(new BitArray(bools).GetIntFromBitArray()) };
         }
 
-
-
         [DataMember]
         public List<int> BitNumbersInWord { get; set; }
 
         public Action LocalValueChanged { get; set; }
-
-
-        public override string StrongName => ConfigurationKeys.SUB_PROPERTY;
-
-
-
-        public override async Task Load()
-        {
-            //напрямую не загружать
-        }
-
-
-        public override async Task<bool> Write()
-        {
-            //напрямую не записывать
-            return false;
-        }
-
-
+        
         protected override IConfigurationItem OnCloning()
         {
             SubProperty subProperty = new SubProperty
@@ -80,6 +61,10 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             };
             this.BitNumbersInWord.ForEach((i => subProperty.BitNumbersInWord.Add(i)));
             return subProperty;
+        }
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitSubProperty(this);
         }
     }
 }

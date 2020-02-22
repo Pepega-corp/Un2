@@ -50,21 +50,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public override string TypeName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
 
-        public override string StrongName => ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
+        public virtual string StrongName => ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
 
-        protected override void SetModel(object model)
-        {
-            this.ChildStructItemViewModels.Clear();
-            foreach (IConfigurationItem configurationItem in ((IItemsGroup) model).ConfigurationItemList)
-            {
-                this.ChildStructItemViewModels.Add(this._runtimeConfigurationItemViewModelFactory
-                    .CreateRuntimeConfigurationItemViewModel(configurationItem));
-            }
-            IsTableViewAllowed = ((IItemsGroup) model).IsTableViewAllowed;
-            base.SetModel(model);
-        }
+       
 
         public bool IsTableView
         {
@@ -82,11 +72,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         {
             get => _isTableViewAllowed;
             set => SetProperty(ref _isTableViewAllowed, value);
-        }
-
-        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
-        {
-            return visitor.VisitItemsGroup(this);
         }
     }
 }

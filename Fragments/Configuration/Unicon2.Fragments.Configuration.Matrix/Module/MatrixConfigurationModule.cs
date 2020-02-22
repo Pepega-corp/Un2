@@ -1,14 +1,15 @@
 ﻿using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.Helpers;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.Factories;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.Helpers;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model.Helpers;
@@ -51,9 +52,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
 
 
 
-            container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeAppointableMatrixViewModel),
-                ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX +
-                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register(typeof(IRuntimeAppointableMatrixViewModel), typeof(RuntimeRuntimeAppointableMatrixViewModel));
 
 
             container.Register<IMatrixTemplateEditorViewModel, MatrixTemplateEditorViewModel>();

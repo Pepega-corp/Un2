@@ -18,6 +18,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             
         }
         public override string TypeName => ConfigurationKeys.GROUP_WITH_REITERATION;
-        public override string StrongName => ConfigurationKeys.GROUP_WITH_REITERATION+ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+        public virtual string StrongName => ConfigurationKeys.GROUP_WITH_REITERATION+ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
     }
 }

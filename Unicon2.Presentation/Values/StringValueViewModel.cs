@@ -10,31 +10,12 @@ namespace Unicon2.Presentation.Values
         private string _stringValue;
 
         public override string StrongName => nameof(StringValueViewModel);
-
-        //public object Value
-        //{
-        //    get { return _value; }
-        //    set
-        //    {
-        //        _value = value; 
-        //        RaisePropertyChanged();
-        //    }
-        //}
-
-        //public string Header
-        //{
-        //    get { return _header; }
-        //    set
-        //    {
-        //        _header = value; 
-        //        RaisePropertyChanged();
-        //    }
-        //}
-
+        
         public override void InitFromValue(IFormattedValue value)
         {
             Header = (value as IStringValue).Header;
             StringValue = (value as IStringValue).StrValue;
+            base.InitFromValue(value);
         }
 
         public string StringValue

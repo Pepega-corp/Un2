@@ -232,7 +232,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public override string TypeName => IsGroupWithReiteration ? ConfigurationKeys.GROUP_WITH_REITERATION : ConfigurationKeys.DEFAULT_ITEM_GROUP;
 
-        public override string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP +
+        public virtual string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 
@@ -280,15 +280,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             itemsGroup.IsTableViewAllowed = IsTableViewAllowed;
             return base.GetModel();
         }
-
-
-        public void RemoveChildItem(IConfigurationItem configurationItemToRemove)
-        {
-            this.ChildStructItemViewModels.Remove(
-                this.ChildStructItemViewModels.First((model => model.Model == configurationItemToRemove)));
-            (this._model as IItemsGroup).ConfigurationItemList.Remove(configurationItemToRemove);
-        }
-
+        
         public void PasteAsChild(object itemToPaste)
         {
             if (itemToPaste is IEditorConfigurationItemViewModel)
@@ -343,5 +335,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
         #endregion
+
+        public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
+        {
+            this.ChildStructItemViewModels.Remove(
+                this.ChildStructItemViewModels.First((model => model == configurationItemViewModelToRemove)));
+        }
     }
 }

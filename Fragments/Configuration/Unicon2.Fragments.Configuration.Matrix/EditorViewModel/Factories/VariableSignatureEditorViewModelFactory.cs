@@ -1,6 +1,6 @@
-﻿using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
+﻿using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
+using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.Factories;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories

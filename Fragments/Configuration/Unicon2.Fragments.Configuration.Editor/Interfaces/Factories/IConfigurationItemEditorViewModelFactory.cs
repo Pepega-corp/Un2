@@ -5,11 +5,8 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Factories
 {
-    public interface IConfigurationItemEditorViewModelFactory
+    public interface IConfigurationItemEditorViewModelFactory:IConfigurationItemVisitor<IEditorConfigurationItemViewModel>
     {
-        IEditorConfigurationItemViewModel ResolveConfigurationItemEditorViewModel(IConfigurationItem configurationItem,
-            IEditorConfigurationItemViewModel parent =null);
-        IEditorConfigurationItemViewModel ResolveSubPropertyEditorViewModel(IConfigurationItem configurationItem,ObservableCollection<ISharedBitViewModel> mainBitViewModels,
-            IEditorConfigurationItemViewModel parent = null);
+      
     }
 }

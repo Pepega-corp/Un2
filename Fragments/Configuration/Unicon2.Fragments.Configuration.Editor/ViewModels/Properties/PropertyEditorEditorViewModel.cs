@@ -153,7 +153,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
 
 
-        public override string StrongName => ConfigurationKeys.DEFAULT_PROPERTY +
+        public virtual string StrongName => ConfigurationKeys.DEFAULT_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 

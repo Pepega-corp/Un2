@@ -25,6 +25,7 @@ namespace Unicon2.Presentation.Values.Editable
             _chosenFromListValue = value as IChosenFromListValue;
             InitList(_chosenFromListValue.AvailableItemsList);
             _selectedItemInitialValue = _chosenFromListValue.SelectedItem;
+            base.InitFromValue(value);
         }
 
         public override void SetBaseValueToCompare(ushort[] ushortsToCompare)
@@ -40,12 +41,6 @@ namespace Unicon2.Presentation.Values.Editable
                 _selectedItemInitialValue=String.Empty;
                 SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue != SelectedItem);
             }
-        }
-
-        public override object Model
-        {
-            get { return _chosenFromListValue; }
-            set { _chosenFromListValue = value as IChosenFromListValue; }
         }
 
         public ObservableCollection<string> AvailableItemsList

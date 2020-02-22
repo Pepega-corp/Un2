@@ -7,7 +7,7 @@ using Unicon2.Infrastructure.Services.LogService;
 
 namespace Unicon2.Infrastructure.DeviceInterfaces
 {
-    public interface IDevice : IConnectable, ISerializableInFile, IInitializableFromContainer
+    public interface IDevice : IConnectable, ISerializableInFile
     {
         IEnumerable<IDeviceFragment> DeviceFragments { get; set; }
         IDeviceSharedResources DeviceSharedResources { get; set; }

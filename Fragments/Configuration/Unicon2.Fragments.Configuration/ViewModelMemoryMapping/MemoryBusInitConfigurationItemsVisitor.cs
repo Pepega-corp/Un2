@@ -1,3 +1,4 @@
+using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
@@ -8,9 +9,9 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 {
     public class MemoryBusInitConfigurationItemsVisitor : IConfigurationItemVisitor<Result>
     {
-        private readonly MemoryBusDispatcher<Result> _memoryBusDispatcher;
+        private readonly IMemoryBusDispatcher _memoryBusDispatcher;
 
-        public MemoryBusInitConfigurationItemsVisitor(MemoryBusDispatcher<Result> memoryBusDispatcher)
+        public MemoryBusInitConfigurationItemsVisitor(IMemoryBusDispatcher memoryBusDispatcher)
         {
             _memoryBusDispatcher = memoryBusDispatcher;
         }
@@ -27,16 +28,15 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 
         public Result VisitProperty(IRuntimePropertyViewModel property)
         {
-            _memoryBusDispatcher.AddSubscription(property);
-            return Result.Create(true);
+            return _memoryBusDispatcher.AddSubscription(property);
         }
 
-        public Result VisitComplexProperty(IComplexPropertyViewModel property)
+        public Result VisitComplexProperty(IRuntimeComplexPropertyViewModel property)
         {
             throw new System.NotImplementedException();
         }
 
-        public Result VisitMatrix(IAppointableMatrixViewModel appointableMatrixViewModel)
+        public Result VisitMatrix(IRuntimeAppointableMatrixViewModel appointableMatrixViewModel)
         {
             throw new System.NotImplementedException();
         }

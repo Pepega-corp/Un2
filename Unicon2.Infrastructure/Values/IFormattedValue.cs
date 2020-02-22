@@ -5,8 +5,6 @@ namespace Unicon2.Infrastructure.Values
     public interface IFormattedValue : IStronglyNamed
     {
         string Header { get; set; }
-        ushort[] UshortsValue { get; set; }
-
         string AsString();
     }
 }

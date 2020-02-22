@@ -10,7 +10,7 @@ namespace Unicon2.Infrastructure.DeviceInterfaces.SharedResources
         List<INameable> SharedResources { get; }
         void AddResource(INameable resource);
         void DeleteResource(INameable resource);
-        bool IsItemReferenced(INameable nameable);
+        bool IsItemReferenced(string name);
 
         void SaveInFile(string path, ISerializerService serializerService);
         void LoadFromFile(string path, ISerializerService serializerService);

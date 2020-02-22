@@ -16,6 +16,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.ElementAdding;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
@@ -33,7 +34,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public class ConfigurationEditorViewModel : ViewModelBase, IConfigurationEditorViewModel, IChildPositionChangeable
     {
-        private IDeviceConfiguration _deviceConfiguration;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
         private readonly ITypesContainer _container;
@@ -42,7 +42,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
         private IConfigurationItem _bufferConfigurationItem;
-        private IDeviceSharedResources _deviceSharedResources;
         private string _deviceName;
 
         public ConfigurationEditorViewModel(ITypesContainer container,
@@ -56,7 +55,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             this._configurationItemEditorViewModelFactory = configurationItemEditorViewModelFactory;
             this._configurationItemFactory = configurationItemFactory;
             this._allRows = new ObservableCollection<IConfigurationItemViewModel>();
-            this._deviceConfiguration = deviceConfiguration;
             this._applicationGlobalCommands = applicationGlobalCommands;
             this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
             this.RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
@@ -172,7 +170,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanExecuteAddSelectedElementAsResource()
         {
-            return (this._selectedRow != null) && !this._deviceSharedResources.IsItemReferenced(this._selectedRow.Model as INameable);
+            return (this._selectedRow != null) && !this._deviceSharedResources.IsItemReferenced(this._selectedRow.);
         }
 
         private void OnAddSelectedElementAsResourceExecute()
@@ -484,8 +482,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void DeleteHeirarchicalRow(IEditorConfigurationItemViewModel configurationItemViewModel)
         {
-
-
             if (configurationItemViewModel.ChildStructItemViewModels != null)
             {
                 if (configurationItemViewModel.ChildStructItemViewModels is IEnumerable)
@@ -520,7 +516,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 }
             }
             this.AllRows.Remove(configurationItemViewModel);
-            configurationItemViewModel = null;
         }
 
 
@@ -541,21 +536,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             }
             set
             {
-                if (!(value is IDeviceConfiguration)) throw new ArgumentException();
-                this._deviceConfiguration = value as IDeviceConfiguration;
-
-                if (this._deviceConfiguration.RootConfigurationItemList != null)
-                {
-                    this.RootConfigurationItemViewModels.Clear();
-                    this.AllRows.Clear();
-                    foreach (IConfigurationItem member in this._deviceConfiguration.RootConfigurationItemList)
-                    {
-                        IEditorConfigurationItemViewModel itemEditorViewModel = this._configurationItemEditorViewModelFactory
-                            .ResolveConfigurationItemEditorViewModel(member, null);
-                        this.RootConfigurationItemViewModels.Add(itemEditorViewModel);
-                        this.AllRows.Add(itemEditorViewModel);
-                    }
-                }
+          
             }
         }
 
@@ -563,14 +544,23 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
-        public void RemoveChildItem(IConfigurationItem configurationItemToRemove)
+        public void Initialize(IDeviceFragment deviceFragment)
         {
-            this.RootConfigurationItemViewModels.Remove(
-                this.RootConfigurationItemViewModels.First((model => model.Model == configurationItemToRemove)));
-            this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemToRemove);
-        }
+            this._deviceConfiguration = deviceFragment as IDeviceConfiguration;
 
+            if (this._deviceConfiguration.RootConfigurationItemList != null)
+            {
+                this.RootConfigurationItemViewModels.Clear();
+                this.AllRows.Clear();
+                foreach (IConfigurationItem member in this._deviceConfiguration.RootConfigurationItemList)
+                {
+                    IEditorConfigurationItemViewModel itemEditorViewModel =
+                        member.Accept(_configurationItemEditorViewModelFactory);
+                    this.RootConfigurationItemViewModels.Add(itemEditorViewModel);
+                    this.AllRows.Add(itemEditorViewModel);
+                }
+            }
+        }
 
         public void SetResources(IDeviceSharedResources deviceSharedResources)
         {
@@ -608,6 +598,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             this.RootConfigurationItemViewModels.Move(indexOfElement, newIndexOfElement);
             this.AllRows.Move(this.AllRows.IndexOf(replaceableElement), this.AllRows.IndexOf(element));
             return true;
+        }
+
+        public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
+        {
+            this.RootConfigurationItemViewModels.Remove(
+                this.RootConfigurationItemViewModels.First((model => model == configurationItemViewModelToRemove)));
+            this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModelToRemove);
         }
     }
 }

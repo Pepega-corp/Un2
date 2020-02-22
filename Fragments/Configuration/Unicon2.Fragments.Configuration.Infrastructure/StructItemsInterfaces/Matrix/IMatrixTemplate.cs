@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
 
-namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.Model
+namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix
 {
 
     public interface IMatrixTemplate : ICloneable
-
     {
         int NumberOfBitsOnEachVariable { get; set; }
         List<IMatrixMemoryVariable> MatrixMemoryVariables { get; set; }

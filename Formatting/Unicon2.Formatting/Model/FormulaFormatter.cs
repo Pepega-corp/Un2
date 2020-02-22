@@ -9,7 +9,6 @@ using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
-using Unicon2.Infrastructure.Interfaces.Values;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Unity.Interfaces;
 using Expression = org.mariuszgromada.math.mxparser.Expression;

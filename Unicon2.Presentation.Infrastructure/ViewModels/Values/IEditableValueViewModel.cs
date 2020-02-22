@@ -4,7 +4,7 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {
-    public interface IEditableValueViewModel : IFormattedValueViewModel,IViewModel
+    public interface IEditableValueViewModel : IFormattedValueViewModel
     {
         bool IsFormattedValueChanged { get; }
         void SetBaseValueToCompare(ushort[] ushortsToCompare);

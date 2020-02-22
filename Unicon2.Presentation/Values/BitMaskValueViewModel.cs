@@ -24,6 +24,7 @@ namespace Unicon2.Presentation.Values
             {
                 this.BitArray = bitMaskValue.BitArray;
             }
+            base.InitFromValue(value);
         }
 
         public List<List<bool>> BitArray

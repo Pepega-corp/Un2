@@ -31,6 +31,7 @@ namespace Unicon2.Presentation.Values.Editable
                 this._baseValueBool = boolValue.BoolValueProperty;
                 this.Model = boolValue;
             }
+            base.InitFromValue(value);
         }
 
         public override void SetBaseValueToCompare(ushort[] ushortsToCompare)

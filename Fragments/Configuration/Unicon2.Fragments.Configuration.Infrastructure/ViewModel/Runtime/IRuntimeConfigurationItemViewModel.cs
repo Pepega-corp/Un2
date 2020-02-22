@@ -1,11 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using Unicon2.Presentation.Infrastructure.TreeGrid;
-using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+﻿using Unicon2.Presentation.Infrastructure.TreeGrid;
 
-namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
+namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime
 {
     public interface IRuntimeConfigurationItemViewModel : IConfigurationItemViewModel
     {
-        T Accept<T>(IConfigurationItemVisitor<T> visitor);
     }
 }

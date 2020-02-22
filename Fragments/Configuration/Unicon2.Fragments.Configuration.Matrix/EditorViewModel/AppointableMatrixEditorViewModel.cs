@@ -2,9 +2,9 @@
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
 using Unicon2.Fragments.Configuration.Matrix.View;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
@@ -22,7 +22,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             throw new NotImplementedException();
         }
 
-        public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
+        public virtual string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
 
         public bool IsInEditMode { get; set; }
         public void StartEditElement()

@@ -1,6 +1,7 @@
 ﻿using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty;
@@ -25,22 +26,12 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
                 ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
-            container.Register(typeof(IViewModel), typeof(PropertyEditorEditorViewModel),
-                ConfigurationKeys.DEFAULT_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-
-            container.Register(typeof(IViewModel),
-                typeof(ConfigurationGroupEditorViewModel),
-                ConfigurationKeys.DEFAULT_ITEM_GROUP + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-
-            container.Register(typeof(IViewModel), typeof(DependentPropertyEditorViewModel),
-                ConfigurationKeys.DEPENDENT_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-
-
-            container.Register(typeof(IViewModel), typeof(ComplexPropertyEditorViewModel),
-                ConfigurationKeys.COMPLEX_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-
-            container.Register(typeof(IViewModel), typeof(SubPropertyEditorViewModel),
-                ConfigurationKeys.SUB_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            container.Register<IPropertyEditorEditorViewModel, PropertyEditorEditorViewModel>();
+            container.Register<IConfigurationGroupEditorViewModel, ConfigurationGroupEditorViewModel>();
+            container.Register<IDependentPropertyEditorViewModel, DependentPropertyEditorViewModel>();
+            container.Register<IComplexPropertyEditorViewModel, ComplexPropertyEditorViewModel>();
+            container.Register<ISubPropertyEditorViewModel, SubPropertyEditorViewModel>();
+            
 
             container.Register<IConfigurationItemEditorViewModelFactory, ConfigurationItemEditorViewModelFactory>();
 

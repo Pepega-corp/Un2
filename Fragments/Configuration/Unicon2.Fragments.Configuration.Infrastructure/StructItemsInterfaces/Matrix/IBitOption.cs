@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unicon2.Infrastructure.Interfaces;
 
-namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.Model
+namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix
 {
     public interface IBitOption:IStronglyNamed
     {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Infrastructure.Interfaces;
@@ -27,57 +28,50 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         [DataMember]
         public bool IsGroupedProperty { get; set; }
-
-
-        public override string StrongName => ConfigurationKeys.COMPLEX_PROPERTY;
-
         
 
+        //public override async Task<bool> Write()
+        //{
+        //    bool isToWrite = false;
+        //    if (this.LocalUshortsValue == null) return false;
+        //    foreach (ISubProperty subProperty in SubProperties)
+        //    {
+        //        if (!subProperty.IsValuesEqual)
+        //        {
 
-        public override async Task<bool> Write()
-        {
-            bool isToWrite = false;
-            if (this.LocalUshortsValue == null) return false;
-            foreach (ISubProperty subProperty in SubProperties)
-            {
-                if (!subProperty.IsValuesEqual)
-                {
+        //            isToWrite = true;
+        //        }
+        //    }
+        //    if (isToWrite)
+        //    {
+        //        this.LocalUshortsValue = GetParentLocalUshortsFromChildren(SubProperties);
+        //        if (_dataProvider is IQuickMemoryAccessDataProviderStub)
+        //        {
+        //            List<int> bitNumbers = new List<int>();
+        //            SubProperties.ForEach((property => bitNumbers.AddRange(property.BitNumbersInWord)));
+        //            await (_dataProvider as IQuickMemoryAccessDataProviderStub).WriteMultipleRegistersByBitNumbersAsync(
+        //                Address, this.LocalUshortsValue, "WritingComplexProperty", bitNumbers);
+        //        }
+        //        else
+        //        {
+        //           return await base.Write();
+        //        }
+        //    }
+        //    return isToWrite;
+        //}
 
-                    isToWrite = true;
-                }
-            }
-            if (isToWrite)
-            {
-                this.LocalUshortsValue = GetParentLocalUshortsFromChildren(SubProperties);
-                if (_dataProvider is IQuickMemoryAccessDataProviderStub)
-                {
-                    List<int> bitNumbers = new List<int>();
-                    SubProperties.ForEach((property => bitNumbers.AddRange(property.BitNumbersInWord)));
-                    await (_dataProvider as IQuickMemoryAccessDataProviderStub).WriteMultipleRegistersByBitNumbersAsync(
-                        Address, this.LocalUshortsValue, "WritingComplexProperty", bitNumbers);
-                }
-                else
-                {
-                   return await base.Write();
-                }
-            }
-            return isToWrite;
-        }
-
-
-
-        private ushort[] GetParentLocalUshortsFromChildren(List<ISubProperty> subProperties)
-        {
-            foreach (ISubProperty subProperty in subProperties)
-            {
-                BitArray subPropertyBitArray = new BitArray(new int[] { subProperty.LocalUshortsValue[0] });
-                foreach (int bitNum in subProperty.BitNumbersInWord)
-                {
-                    _baseBools[bitNum] = subPropertyBitArray[subProperty.BitNumbersInWord.IndexOf(bitNum)];
-                }
-            }
-            return new[] { (ushort)(new BitArray(_baseBools).GetIntFromBitArray()) };
-        }
+        //private ushort[] GetParentLocalUshortsFromChildren(List<ISubProperty> subProperties)
+        //{
+        //    foreach (ISubProperty subProperty in subProperties)
+        //    {
+        //        BitArray subPropertyBitArray = new BitArray(new int[] { subProperty.LocalUshortsValue[0] });
+        //        foreach (int bitNum in subProperty.BitNumbersInWord)
+        //        {
+        //            _baseBools[bitNum] = subPropertyBitArray[subProperty.BitNumbersInWord.IndexOf(bitNum)];
+        //        }
+        //    }
+        //    return new[] { (ushort)(new BitArray(_baseBools).GetIntFromBitArray()) };
+        //}
 
 
         protected override IConfigurationItem OnCloning()
@@ -98,6 +92,11 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             complexProperty.Range = Range.Clone() as IRange;
             complexProperty.IsRangeEnabled = IsRangeEnabled;
             return complexProperty;
+        }
+
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitComplexProperty(this);
         }
 
     }

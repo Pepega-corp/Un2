@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.BaseItems;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
@@ -19,13 +20,13 @@ namespace Unicon2.Fragments.Configuration.Model
         [DataMember]
         public string Description { get; set; }
 
+        public abstract T Accept<T>(IConfigurationItemVisitor<T> visitor);
+
         public virtual ExtensionDataObject ExtensionData
         {
             get { return this._extensionData; }
             set { this._extensionData = value; }
         }
-
-        public abstract string StrongName { get; }
         
         public object Clone()
         {

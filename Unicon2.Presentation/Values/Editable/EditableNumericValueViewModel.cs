@@ -17,7 +17,7 @@ namespace Unicon2.Presentation.Values.Editable
         private string _numValueString;
         private double _baseDoubleToCompare;
 
-        public EditableNumericValueViewModel(IDialogCoordinator dialogCoordinator, ILocalizerService localizerService)
+        public EditableNumericValueViewModel(ILocalizerService localizerService)
         {
             this._localizerService = localizerService;
         }
@@ -29,6 +29,9 @@ namespace Unicon2.Presentation.Values.Editable
         {
             this._baseDoubleToCompare = (value as INumericValue).NumValue;
             this.Model = value;
+            this._numericValue = value as INumericValue;
+            this.NumValue = this._numericValue.NumValue.ToString();
+            base.InitFromValue(value);
         }
 
         public override void SetBaseValueToCompare(ushort[] ushortsToCompare)
@@ -36,16 +39,6 @@ namespace Unicon2.Presentation.Values.Editable
             this._baseDoubleToCompare = (this._ushortsFormatter.Format(ushortsToCompare) as INumericValue).NumValue;
             this.SetIsChangedProperty(nameof(this.NumValue), Math.Abs(this._baseDoubleToCompare - this._numericValue.NumValue) > 0.5);
             //  SetIsChangedProperty(nameof(NumValue), !_baseValueToCompare.CheckEquality(_ushortsFormatter.FormatBack(_numericValue)));
-        }
-
-        public override object Model
-        {
-            get { return this._numericValue; }
-            set
-            {
-                this._numericValue = value as INumericValue;
-                this.NumValue = this._numericValue.NumValue.ToString();
-            }
         }
 
         public string NumValue

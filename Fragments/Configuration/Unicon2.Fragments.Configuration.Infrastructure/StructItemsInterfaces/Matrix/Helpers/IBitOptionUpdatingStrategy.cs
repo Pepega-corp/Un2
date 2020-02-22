@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.Helpers
+﻿namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.Helpers
 {
     public interface IBitOptionUpdatingStrategy
     {

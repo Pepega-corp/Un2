@@ -31,7 +31,7 @@ namespace Unicon2.Presentation.Factories
                         this._container.Resolve<IFragmentViewModel>(deviceFragment.StrongName +
                                                                     ApplicationGlobalNames.CommonInjectionStrings
                                                                         .VIEW_MODEL);
-                    fragmentViewModel.Model = deviceFragment;
+                    fragmentViewModel.Initialize(deviceFragment);
                     if (fragmentViewModel is IDeviceDataProvider deviceDataProvider)
                     {
                         deviceDataProvider.SetDeviceData(device.Name);

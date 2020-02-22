@@ -1,16 +1,18 @@
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 
-namespace Unicon2.Presentation.Infrastructure.TreeGrid
+namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
 {
     public interface IConfigurationItemVisitor<T>
     {
-        T VisitItemsGroup(IRuntimeItemGroupViewModel itemsGroup);
-        T VisitProperty(IRuntimePropertyViewModel property);
-        T VisitComplexProperty(IComplexPropertyViewModel property);
-        T VisitMatrix(IAppointableMatrixViewModel appointableMatrixViewModel);
-        T VisitDependentProperty(IDependentPropertyViewModel dependentPropertyViewModel);
-    }
+        T VisitItemsGroup(IItemsGroup itemsGroup);
+        T VisitProperty(IProperty property);
+        T VisitComplexProperty(IComplexProperty property);
+        T VisitMatrix(IAppointableMatrix appointableMatrixViewModel);
+        T VisitDependentProperty(IDependentProperty dependentPropertyViewModel);
+        T VisitSubProperty(ISubProperty dependentPropertyViewModel);
+    }     
+
 }

@@ -88,17 +88,6 @@
     <Compile Include="Interfaces\EditorViewModel\IVariableSignatureEditorViewModel.cs" />
     <Compile Include="Interfaces\EditorViewModel\OptionTemplates\IOptionPossibleValueEditorViewModel.cs" />
     <Compile Include="Interfaces\EditorViewModel\OptionTemplates\IPossibleValueConditionEditorViewModel.cs" />
-    <Compile Include="Interfaces\Model\Helpers\IBitOptionUpdatingStrategy.cs" />
-    <Compile Include="Interfaces\Model\IAppointableMatrix.cs" />
-    <Compile Include="Interfaces\Model\IBitOption.cs" />
-    <Compile Include="Interfaces\Model\IMatrixMemoryVariable.cs" />
-    <Compile Include="Interfaces\Model\IMatrixTemplate.cs" />
-    <Compile Include="Interfaces\Model\IMatrixValue.cs" />
-    <Compile Include="Interfaces\Model\IVariableColumnSignature.cs" />
-    <Compile Include="Interfaces\Model\OptionTemplates\IMatrixVariableOptionTemplate.cs" />
-    <Compile Include="Interfaces\Model\OptionTemplates\IOptionPossibleValue.cs" />
-    <Compile Include="Interfaces\Model\OptionTemplates\IPossibleValueCondition.cs" />
-    <Compile Include="Interfaces\ViewModel\IAppointableMatrixViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\IMatrixValueViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Options\IBitOptionViewModel.cs" />
     <Compile Include="Keys\MatrixKeys.cs" />
@@ -122,7 +111,7 @@
     <Compile Include="ViewModel\Helpers\MatrixViewModelTableParser.cs" />
     <Compile Include="ViewModel\MatrixValueViewModel.cs" />
     <Compile Include="ViewModel\Options\BitOptionViewModel.cs" />
-    <Compile Include="ViewModel\RuntimeAppointableMatrixViewModel.cs" />
+    <Compile Include="ViewModel\RuntimeRuntimeAppointableMatrixViewModel.cs" />
     <Compile Include="View\AppointedMatrixEditorWindow.xaml.cs">
       <DependentUpon>AppointedMatrixEditorWindow.xaml</DependentUpon>
     </Compile>

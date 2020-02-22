@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
@@ -17,7 +18,7 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         private IProperty _relatedProperty;
         private IUshortsFormatter _defaultUshortsFormatter;
 
-        public DependentProperty(Func<IRange> range) : base(range)
+        public DependentProperty()
         {
             this.DependancyConditions = new List<IDependancyCondition>();
         }
@@ -33,69 +34,40 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         public IUshortsFormatter LocalValueUshortsFormatter { get; set; }
 
 
-        public override string StrongName => ConfigurationKeys.DEPENDENT_PROPERTY;
+        //private void CheckCondition(IDependancyCondition dependancyCondition, ConditionResultChangingEventArgs evArgs)
+        //{
 
+        //    if (evArgs.ConditionResult == ConditionResultEnum.ApplyingFormatter)
+        //    {
+        //        if (evArgs.IsConditionTriggered)
+        //        {
 
-        private void CheckCondition(IDependancyCondition dependancyCondition, ConditionResultChangingEventArgs evArgs)
-        {
-
-            if (evArgs.ConditionResult == ConditionResultEnum.ApplyingFormatter)
-            {
-                if (evArgs.IsConditionTriggered)
-                {
-
-                    if (evArgs.IsLocalValueTriggered)
-                    {
-                        this.LocalValueUshortsFormatter = dependancyCondition.UshortsFormatter;
-                    }
-                    else
-                    {
-                        this.DeviceValueUshortsFormatter = dependancyCondition.UshortsFormatter;
-                    }
-                    this.ConfigurationItemChangedAction?.Invoke();
-                }
-                else
-                {
-                    if (evArgs.IsLocalValueTriggered)
-                    {
-                        if (this.LocalValueUshortsFormatter == dependancyCondition.UshortsFormatter)
-                            this.LocalValueUshortsFormatter = this._defaultUshortsFormatter;
-                    }
-                    else
-                    {
-                        if (this.DeviceValueUshortsFormatter == dependancyCondition.UshortsFormatter)
-                            this.DeviceValueUshortsFormatter = this._defaultUshortsFormatter;
-                    }
-                    this.ConfigurationItemChangedAction?.Invoke();
-                }
-            }
-        }
-
-
-        public override void InitializeFromContainer(ITypesContainer container)
-        {
-            foreach (IDependancyCondition condition in this.DependancyConditions)
-            {
-                condition.InitializeFromContainer(container);
-            }
-            base.InitializeFromContainer(container);
-        }
-
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext sc)
-        {
-            if (this.DependancyConditions != null)
-            {
-                foreach (IDependancyCondition dependancyCondition in this.DependancyConditions)
-                {
-                    dependancyCondition.ConditionResultChangedAction += (evArgs) =>
-                    {
-                        this.CheckCondition(dependancyCondition, evArgs);
-                    };
-                }
-            }
-        }
+        //            if (evArgs.IsLocalValueTriggered)
+        //            {
+        //                this.LocalValueUshortsFormatter = dependancyCondition.UshortsFormatter;
+        //            }
+        //            else
+        //            {
+        //                this.DeviceValueUshortsFormatter = dependancyCondition.UshortsFormatter;
+        //            }
+        //            this.ConfigurationItemChangedAction?.Invoke();
+        //        }
+        //        else
+        //        {
+        //            if (evArgs.IsLocalValueTriggered)
+        //            {
+        //                if (this.LocalValueUshortsFormatter == dependancyCondition.UshortsFormatter)
+        //                    this.LocalValueUshortsFormatter = this._defaultUshortsFormatter;
+        //            }
+        //            else
+        //            {
+        //                if (this.DeviceValueUshortsFormatter == dependancyCondition.UshortsFormatter)
+        //                    this.DeviceValueUshortsFormatter = this._defaultUshortsFormatter;
+        //            }
+        //            this.ConfigurationItemChangedAction?.Invoke();
+        //        }
+        //    }
+        //}
     }
 
 

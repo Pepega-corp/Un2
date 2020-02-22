@@ -11,9 +11,7 @@ namespace Unicon2.Presentation.Values.Base
         internal IUshortsFormatter _ushortsFormatter;
 
         public abstract override string StrongName { get; }
-
-        public abstract override void InitFromValue(IFormattedValue value);
-
+        
         public bool IsFormattedValueChanged => this._signaturedIsChangedPropertyDictionary.ContainsValue(true);
         public abstract void SetBaseValueToCompare(ushort[] ushortsToCompare);
 
@@ -50,8 +48,7 @@ namespace Unicon2.Presentation.Values.Base
             }
             RaisePropertyChanged(nameof(this.IsFormattedValueChanged));
         }
-
-        public abstract object Model { get; set; }
+        
 
         protected override void OnDisposing()
         {

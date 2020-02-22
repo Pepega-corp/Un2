@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
@@ -21,18 +22,15 @@ using Unicon2.Unity.Interfaces;
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
 
-    public class RuntimeAppointableMatrixViewModel : RuntimePropertyViewModel, IAppointableMatrixViewModel
+    public class RuntimeRuntimeAppointableMatrixViewModel : RuntimePropertyViewModel, IRuntimeAppointableMatrixViewModel
     {
         private TableConfigurationViewModel _tableConfigurationViewModel;
         private bool _isTableView;
 
-        public RuntimeAppointableMatrixViewModel(ITypesContainer container,
-            IValueViewModelFactory valueViewModelFactory) : base(container, valueViewModelFactory)
+        public RuntimeRuntimeAppointableMatrixViewModel()
         {
             TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
         }
-        
-
         public TableConfigurationViewModel TableConfigurationViewModel
         {
             get => _tableConfigurationViewModel;
@@ -40,10 +38,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         }
 
         public override string TypeName => ConfigurationKeys.APPOINTABLE_MATRIX;
-
-        public override string StrongName => ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX +
-                                             ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
+        
         public bool IsTableView
         {
             get => _isTableView;
@@ -52,9 +47,5 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         public bool IsTableViewAllowed => true;
         public string AsossiatedDetailsViewName => "MatrixTableValueView";
-        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
-        {
-            return visitor.VisitMatrix(this);
-        }
     }
 }

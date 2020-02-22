@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.Helpers;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.Helpers;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Unity.Interfaces;
@@ -24,7 +25,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
             {
                 if (matrixTemplate.MatrixVariableOptionTemplate is ListMatrixVariableOptionTemplate)
                 {
-                    foreach (Interfaces.Model.OptionTemplates.IOptionPossibleValue optionPossibleValue in
+                    foreach (IOptionPossibleValue optionPossibleValue in
                         (matrixTemplate.MatrixVariableOptionTemplate as ListMatrixVariableOptionTemplate)
                         .OptionPossibleValues)
                     {

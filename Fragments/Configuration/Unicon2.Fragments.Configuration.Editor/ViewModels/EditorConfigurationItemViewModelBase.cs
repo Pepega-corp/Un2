@@ -6,9 +6,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public abstract class EditorConfigurationItemViewModelBase : ConfigurationItemViewModelBase, IEditorConfigurationItemViewModel
     {
-
         public abstract override string TypeName { get; }
 
         public abstract object Clone();
+
+        public string Name
+        {
+            get => Header;
+            set => Header = value;
+        }
     }
 }

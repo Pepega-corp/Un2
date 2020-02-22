@@ -65,12 +65,12 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
             }
         }
 
-        public Result VisitComplexProperty(IComplexPropertyViewModel property)
+        public Result VisitComplexProperty(IRuntimeComplexPropertyViewModel property)
         {
             throw new System.NotImplementedException();
         }
 
-        public Result VisitMatrix(IAppointableMatrixViewModel appointableMatrixViewModel)
+        public Result VisitMatrix(IRuntimeAppointableMatrixViewModel runtimeAppointableMatrixViewModel)
         {
             throw new System.NotImplementedException();
         }

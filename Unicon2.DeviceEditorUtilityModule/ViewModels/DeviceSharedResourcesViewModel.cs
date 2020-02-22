@@ -92,7 +92,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             if (dialog.ShowDialog() == true)
             {
                 this._deviceSharedResources.LoadFromFile(dialog.FileName, this._serializerService);
-                this.SetModel(this._deviceSharedResources);
+                this.SetResourcesModel(this._deviceSharedResources);
                 this._lastPath = Path.GetDirectoryName(dialog.FileName);
                 this._lastFileName = Path.GetFileNameWithoutExtension(dialog.FileName);
             }
@@ -121,7 +121,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnDeleteExecute()
         {
             this._deviceSharedResources.DeleteResource(this.SelectedResourceViewModel.Model as INameable);
-            this.SetModel(this._deviceSharedResources);
+            this.SetResourcesModel(this._deviceSharedResources);
         }
 
         private bool CanExecuteSelectResource(object arg)
@@ -146,24 +146,17 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public string StrongName => nameof(DeviceSharedResourcesViewModel);
 
-        public object Model
+      
+        private void SetResourcesModel(IDeviceSharedResources value)
         {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
-        }
-
-        private void SetModel(object value)
-        {
-            if (value is IDeviceSharedResources)
+            if (value == null) return;
+            this._deviceSharedResources = value;
+            this.ResourcesCollection.Clear();
+            foreach (INameable sharedResource in this._deviceSharedResources.SharedResources)
             {
-                this._deviceSharedResources = (IDeviceSharedResources)value;
-                this.ResourcesCollection.Clear();
-                foreach (INameable sharedResource in this._deviceSharedResources.SharedResources)
-                {
-                    IResourceViewModel resourceViewModel = this._resourceViewModelGettingFunc();
-                    resourceViewModel.Model = sharedResource;
-                    this.ResourcesCollection.Add(resourceViewModel);
-                }
+                IResourceViewModel resourceViewModel = this._resourceViewModelGettingFunc();
+                resourceViewModel.Model = sharedResource;
+                this.ResourcesCollection.Add(resourceViewModel);
             }
         }
 

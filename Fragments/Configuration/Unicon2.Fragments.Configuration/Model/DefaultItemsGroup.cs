@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Unity.Interfaces;
@@ -30,8 +31,10 @@ namespace Unicon2.Fragments.Configuration.Model
         [DataMember(Name = nameof(GroupInfo), Order = 3)]
         public IGroupInfo GroupInfo { get; set; }
 
-        public override string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
-        
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitItemsGroup(this);
+        }
         protected override void OnDisposing()
         {
             foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
@@ -40,7 +43,6 @@ namespace Unicon2.Fragments.Configuration.Model
             }
             base.OnDisposing();
         }
-
         protected override IConfigurationItem OnCloning()
         {
             DefaultItemsGroup cloneDefaultItemsGroup = new DefaultItemsGroup();
@@ -48,9 +50,10 @@ namespace Unicon2.Fragments.Configuration.Model
             {
                 cloneDefaultItemsGroup.ConfigurationItemList.Add(configurationItem.Clone() as IConfigurationItem);
             }
-            cloneDefaultItemsGroup.GroupInfo
+            cloneDefaultItemsGroup.GroupInfo=GroupInfo.Clone() as IGroupInfo;
             return cloneDefaultItemsGroup;
         }
-        
+       
+
     }
 }

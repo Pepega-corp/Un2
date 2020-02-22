@@ -11,7 +11,8 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:struct="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Configuration.Infrastructure"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
-    xmlns:views="clr-namespace:Unicon2.Fragments.Configuration.Views">
+    xmlns:views="clr-namespace:Unicon2.Fragments.Configuration.Views"
+    xmlns:runtime="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;assembly=Unicon2.Fragments.Configuration.Infrastructure">
 
     <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <converters:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
@@ -24,7 +25,7 @@
     <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
     <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToInvertVisibilityConverter" IsInverted="True" />
 
-    <DataTemplate x:Key="RuntimeConfigurationViewModelDataTemplate" DataType="{x:Type struct:IRuntimeConfigurationViewModel}">
+    <DataTemplate x:Key="RuntimeConfigurationViewModelDataTemplate" DataType="{x:Type runtime:IRuntimeConfigurationViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
