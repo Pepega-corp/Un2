@@ -29,7 +29,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             foreach (ILibraryElement element in booleanElements)
             {
                 ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
                 viewmodel.Model = element;
                 booleanElementViewModels.Add(viewmodel);
             }

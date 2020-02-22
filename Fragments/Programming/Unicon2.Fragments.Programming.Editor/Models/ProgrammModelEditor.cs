@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
-using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 
 namespace Unicon2.Fragments.Programming.Editor.Models
 {
@@ -10,7 +10,12 @@ namespace Unicon2.Fragments.Programming.Editor.Models
     {
         [DataMember]
         public ILibraryElement[] Elements { get; set; }
+        public string StrongName => ProgrammingKeys.PROGRAMMING;
+        public IFragmentSettings FragmentSettings { get; set; }
 
-        public string StrongName => ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR;
+        public ProgrammModelEditor()
+        {
+            this.Elements = new ILibraryElement[0];
+        }
     }
 }

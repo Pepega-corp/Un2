@@ -101,8 +101,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             this._sharedResourcesViewModelFactory.OpenSharedResourcesForEditing();
         }
 
-
-
         public ObservableCollection<IFragmentEditorViewModel> FragmentEditorViewModels
         {
             get { return this._fragmentEditorViewModels; }
@@ -113,7 +111,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
-
         public void LoadDevice(string path)
         {
             this._device.DeserializeFromFile(path);
@@ -121,11 +118,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             foreach (IDeviceFragment fragment in this._device.DeviceFragments)
             {
                 IFragmentEditorViewModel fragmentEditorViewModel = this._fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
-                fragmentEditorViewModel.Model = fragment;
-                if (fragmentEditorViewModel is IResourceContaining)
-                {
-                    (fragmentEditorViewModel as IResourceContaining).SetResources(this._device.DeviceSharedResources);
-                }
+                //fragmentEditorViewModel.Model = fragment;
+                (fragmentEditorViewModel as IResourceContaining)?.SetResources(this._device.DeviceSharedResources);
                 this.FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
             this._deviceSharedResources = this._device.DeviceSharedResources;
@@ -140,7 +134,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             this._device.DeviceSharedResources = this._deviceSharedResources;
             foreach (IFragmentEditorViewModel fragmentEditorViewModel in this.FragmentEditorViewModels)
             {
-                (this._device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.Model as IDeviceFragment);
+                ((List<IDeviceFragment>) this._device.DeviceFragments).Add(fragmentEditorViewModel.Model as IDeviceFragment);
             }
             this._device.SerializeInFile(path, isDefaultSaving);
         }

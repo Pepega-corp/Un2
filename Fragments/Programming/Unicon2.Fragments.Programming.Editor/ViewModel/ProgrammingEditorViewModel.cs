@@ -26,7 +26,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         public ICommand RemoveElementCommand { get; }
         public ICommand EditElementCommand { get; }
 
-        public ProgrammingEditorViewModel(IProgrammModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
+        public ProgrammingEditorViewModel(IProgrammModelEditor model, IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
         {
             this._globalCommands = globalCommands;
             this._logicElementFactory = logicElementFactory;
@@ -35,7 +35,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetAnalogElementsEditorViewModels());
             this.LibraryElements = new ObservableCollection<ILogicElementEditorViewModel>();
 
-            this.Model = model;
+            this._model = model;
 
             this.AddElementCommand = new RelayCommand(this.OnAddElement);
             this.RemoveElementCommand = new RelayCommand(this.OnRemoveElement);
@@ -68,7 +68,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
                 this._selectedLibraryElemItem = value;
                 this.RaisePropertyChanged();
 
-                ((RelayCommand)this.EditElementCommand).RaiseCanExecuteChanged();
+                ((RelayCommand<object>)this.EditElementCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -119,8 +119,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         private void SetModel(object model)
         {
             if (!(model is IProgrammModelEditor)) return;
-        
-            this._model = (IProgrammModelEditor)model;
+            var progrModel = (IProgrammModelEditor)model;
+            this._model.Elements = progrModel.Elements;
             this.LibraryElements.Clear();
             this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
         }
