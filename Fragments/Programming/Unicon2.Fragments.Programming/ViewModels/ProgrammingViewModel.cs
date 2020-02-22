@@ -40,12 +40,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
         #region Properties
         public string ProjectName
         {
-            get => _programmModel.ProjectName;
+            get => this._programmModel.ProjectName;
             set
             {
-                if (string.Equals(_programmModel.ProjectName, value, System.StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(this._programmModel.ProjectName, value, System.StringComparison.InvariantCultureIgnoreCase))
                     return;
-                _programmModel.ProjectName = value;
+                this._programmModel.ProjectName = value;
                 RaisePropertyChanged();
             }
         }
@@ -66,7 +66,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._applicationGlobalCommands.ShowWindowModal(()=>new NewSchemeView(), schemeViewModel);
             if (schemeViewModel.DialogResult == MessageDialogResult.Affirmative)
             {
-                SchemeTabViewModel tabViewModel = new SchemeTabViewModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
+                SchemeTabViewModel tabViewModel = new SchemeTabViewModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize, this._factory);
                 tabViewModel.CloseTabEvent += this.CloseTab;
                 this.SchemesCollection.Add(tabViewModel);
             }
@@ -150,16 +150,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 this._programmModel = model;
 
-                foreach(var sceme in _programmModel.Schemes)
+                foreach(var sceme in this._programmModel.Schemes)
                 {
-                    SchemesCollection.Add(new SchemeTabViewModel(sceme));
+                    this.SchemesCollection.Add(new SchemeTabViewModel(sceme, this._factory));
                 }
             }
         }
 
         private IProgrammModel GetModel()
         {
-            _programmModel.Schemes = SchemesCollection.Select(sc => sc.Model).ToArray();
+            this._programmModel.Schemes = this.SchemesCollection.Select(sc => sc.Model).ToArray();
 
             return this._programmModel;
         }

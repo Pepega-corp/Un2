@@ -10,6 +10,5 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
         double Scale { get; set; }
 
         ILogicElement[] LogicElements {get;set;}
-       // IConnection[] Connections { get; set; }
     }
 }

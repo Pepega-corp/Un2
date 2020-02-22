@@ -11,7 +11,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         Point ConnectorPoint { get; set; }
         ILogicElementViewModel ParentViewModel { get; }
         ObservableCollection<IConnectionViewModel> Connections { get; }
-        IConnector Connector { get; }
+        IConnector Model { get; set; }
         ConnectorType ConnectorType { get; set; }
         ConnectorOrientation Orientation { get; }
         int ConnectionNumber { get; set; }

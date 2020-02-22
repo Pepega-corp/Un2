@@ -65,10 +65,10 @@ namespace Unicon2.Fragments.Programming
             if (Math.Abs(nearestSinkPoint.Y - sinkRect.Top) < 0.0001)
             {
                 // верхние точки рамки источника
-                Point sourceNeigbor = source.Connector.Orientation == ConnectorOrientation.LEFT
+                Point sourceNeigbor = source.Model.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.TopLeft
                     : sourceRect.TopRight;
-                Point sourceOpposite = source.Connector.Orientation == ConnectorOrientation.LEFT
+                Point sourceOpposite = source.Model.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.TopRight
                     : sourceRect.TopLeft;
                 linePoints.Add(new Point(sourceNeigbor.X, source.ConnectorPoint.Y));
@@ -97,10 +97,10 @@ namespace Unicon2.Fragments.Programming
             else // ближе к низу
             {
                 // Нижние точки рамки источника
-                Point sourceNeigbor = source.Connector.Orientation == ConnectorOrientation.LEFT
+                Point sourceNeigbor = source.Model.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.BottomLeft
                     : sourceRect.BottomRight;
-                Point sourceOpposite = source.Connector.Orientation == ConnectorOrientation.LEFT
+                Point sourceOpposite = source.Model.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.BottomRight
                     : sourceRect.BottomLeft;
                 linePoints.Add(new Point(sourceNeigbor.X, source.ConnectorPoint.Y));
@@ -212,7 +212,7 @@ namespace Unicon2.Fragments.Programming
             if (source.ConnectorPoint.Y > sink.ConnectorPoint.Y)
             {
                 double middleY = sink.ConnectorPoint.Y + (source.ConnectorPoint.Y - sink.ConnectorPoint.Y) / 2;
-                Point rectAngle = source.Connector.Orientation == ConnectorOrientation.LEFT
+                Point rectAngle = source.Model.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.TopLeft
                     : sourceRect.TopRight;
                 linePoints.Add(new Point(rectAngle.X, source.ConnectorPoint.Y));
@@ -221,10 +221,10 @@ namespace Unicon2.Fragments.Programming
             }
             else
             {
-                Point rectAngle = sink.Connector.Orientation == ConnectorOrientation.LEFT
+                Point rectAngle = sink.Model.Orientation == ConnectorOrientation.LEFT
                     ? sinkRect.TopLeft
                     : sinkRect.TopRight;
-                if (sink.Connector.Orientation == ConnectorOrientation.LEFT)
+                if (sink.Model.Orientation == ConnectorOrientation.LEFT)
                 {
                     if (rectAngle.X < source.ConnectorPoint.X)
                     {
@@ -258,7 +258,7 @@ namespace Unicon2.Fragments.Programming
         /// <param name="sourceRect">Рамка источника</param>
         private static bool IsPointVisible(IConnectorViewModel source, Point sinkPoint, Rect sourceRect)
         {
-            return source.Connector.Orientation == ConnectorOrientation.LEFT
+            return source.Model.Orientation == ConnectorOrientation.LEFT
                 ? sourceRect.Left > sinkPoint.X
                 : sourceRect.Right < sinkPoint.X;
         }
@@ -289,7 +289,7 @@ namespace Unicon2.Fragments.Programming
         private static Point GetNearestNeighborSource(IConnectorViewModel source, Point endPoint, Rect rectSource)
         {
             Point n1, n2; // точки углов рамки
-            GetNeighborCorners(source.Connector.Orientation, rectSource, out n1, out n2);
+            GetNeighborCorners(source.Model.Orientation, rectSource, out n1, out n2);
             return Point.Subtract(n1, endPoint).Length <= Point.Subtract(n2, endPoint).Length ? n1 : n2;
         }
 
@@ -302,7 +302,7 @@ namespace Unicon2.Fragments.Programming
         private static Point GetNearestNeighborSink(IConnectorViewModel sink, Rect sinkRect, Point sourcePoint)
         {
             Point n1, n2; // точки углов рамки
-            GetNeighborCorners(sink.Connector.Orientation, sinkRect, out n1, out n2);
+            GetNeighborCorners(sink.Model.Orientation, sinkRect, out n1, out n2);
             return Point.Subtract(n1, sourcePoint).Length <= Point.Subtract(n2, sourcePoint).Length ? n1 : n2;
         }
 
@@ -343,7 +343,7 @@ namespace Unicon2.Fragments.Programming
             }
             else
             {
-                double margin = source.Connector.Orientation == ConnectorOrientation.RIGHT
+                double margin = source.Model.Orientation == ConnectorOrientation.RIGHT
                     ? source.ConnectorPoint.X - rect.Right
                     : rect.Left - source.ConnectorPoint.X;
                 rect.Inflate(margin, margin);

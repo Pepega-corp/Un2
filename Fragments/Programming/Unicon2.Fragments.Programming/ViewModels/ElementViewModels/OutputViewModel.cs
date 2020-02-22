@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Common;
 
@@ -52,7 +54,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             var output = (IOutput) _model;
             output.OutputSignalNum = this.OutputSignals.IndexOf(this.SelectedSignal);
-            output.ConnectionNumber = Connectors[0].ConnectionNumber;
+            output.Connectors[0].ConnectionNumber = Connectors[0].ConnectionNumber;
 
             return output;
         }
@@ -66,17 +68,17 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
             this.OutputSignals.AddCollection(output.OutputSignals);
             this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
-            Connectors[0].ConnectionNumber = output.ConnectionNumber;
+            Connectors[0].Model = output.Connectors.First();
         }
 
         public override object Clone()
         {
             OutputViewModel ret =
-                new OutputViewModel(_globalCommands)
-                {
-                    Model = (this.Model as ILogicElement)?.Clone(),
-                    Caption = this.Caption
-                };
+                new OutputViewModel(_globalCommands);
+            var newModel = new Output();
+            newModel.CopyValues(_model);
+            ret.Model = newModel;
+            ret.Caption = this.Caption;
 
             for (int i = 0; i < Connectors.Count; i++)
             {

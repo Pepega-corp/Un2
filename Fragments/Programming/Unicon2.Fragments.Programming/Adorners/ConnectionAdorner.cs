@@ -114,7 +114,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             }
             FrameworkElement fe = (FrameworkElement)hitObject;
             ConnectorViewModel cvm = fe.DataContext as ConnectorViewModel;
-            if (cvm == null || cvm.Connector.Orientation == this._connection.Source.Connector.Orientation)
+            if (cvm == null || cvm.Model.Orientation == this._connection.Source.Model.Orientation)
             {
                 this.HitConnector = null;
                 return;

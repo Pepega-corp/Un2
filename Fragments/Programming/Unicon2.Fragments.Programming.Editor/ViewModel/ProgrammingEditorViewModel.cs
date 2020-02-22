@@ -5,7 +5,6 @@ using Unicon2.Fragments.Programming.Editor.Interfaces;
 using Unicon2.Fragments.Programming.Editor.View;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
@@ -17,10 +16,9 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 {
     public class ProgrammingEditorViewModel : ViewModelBase, IProgrammingEditorViewModel
     {
-        private IProgrammModel _model;
-        private ILogicElementFactory _logicElementFactory;
-        private IApplicationGlobalCommands _globalCommands;
-
+        private readonly ILogicElementFactory _logicElementFactory;
+        private readonly IApplicationGlobalCommands _globalCommands;
+        private IProgrammModelEditor _model;
         private ILogicElementEditorViewModel _selectedNewLogicElemItem;
         private ILogicElementEditorViewModel _selectedLibraryElemItem;
 
@@ -111,21 +109,20 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             set { this.SetModel(value); }
         }
 
-        private IProgrammModel GetModel()
+        private IProgrammModelEditor GetModel()
         {
-            var elementModels = this.LibraryElements.Select(l => l.Model).Cast<ILogicElement>();
-            //this._model.Elements.Clear();
-            //this._model.Elements.AddRange(elementModels);
+            var elementModels = this.LibraryElements.Select(l => l.Model).Cast<ILibraryElement>().ToArray();
+            this._model.Elements = elementModels;
             return this._model;
         }
 
         private void SetModel(object model)
         {
-            if (!(model is IProgrammModel)) return;
-
-            this._model = (IProgrammModel) model;
+            if (!(model is IProgrammModelEditor)) return;
+        
+            this._model = (IProgrammModelEditor)model;
             this.LibraryElements.Clear();
-            //this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
+            this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
         }
 
         #endregion

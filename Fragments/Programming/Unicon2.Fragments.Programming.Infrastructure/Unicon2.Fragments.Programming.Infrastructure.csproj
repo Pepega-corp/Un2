@@ -40,13 +40,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="Enums\Functional.cs" />
+    <Compile Include="Enums\Group.cs" />
     <Compile Include="Factories\LogicElementFactory.cs" />
     <Compile Include="HelperClasses\DragElement.cs" />
     <Compile Include="Keys\ProgrammingKeys.cs" />
+    <Compile Include="Model\EditorElements\IInputEditor.cs" />
+    <Compile Include="Model\EditorElements\IOutputEditor.cs" />
     <Compile Include="Model\Elements\IConnector.cs" />
     <Compile Include="Model\Elements\IInput.cs" />
     <Compile Include="Model\Elements\ILogicElement.cs" />
     <Compile Include="Model\Elements\IOutput.cs" />
+    <Compile Include="Model\IProgrammModelEditor.cs" />
+    <Compile Include="Model\ILibraryElement.cs" />
     <Compile Include="Model\IProgrammModel.cs" />
     <Compile Include="Model\ISchemeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,5 +84,6 @@
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,6 +5,7 @@ using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Common;
 
@@ -77,7 +78,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             var baseIndex =  this.Bases.IndexOf(this.SelectedBase);
             inputModel.BaseNum = baseIndex;
             inputModel.InputSignalNum = this._allInputSignals[baseIndex].First(s => s.Value == this.SelectedSignal).Key;
-            inputModel.ConnectionNumber = Connectors[0].ConnectionNumber;
+            inputModel.Connectors[0] = Connectors[0].Model;
 
             return inputModel;
         }
@@ -95,7 +96,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.SetSignalsCollection(model.BaseNum);
             this.SelectedSignal = this.Signals[model.InputSignalNum];
 
-            Connectors[0].ConnectionNumber = model.ConnectionNumber;
+            Connectors[0].ConnectionNumber = model.Connectors.First().ConnectionNumber;
         }
 
         private void SetSignalsCollection(int index)
@@ -108,16 +109,15 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             var selectedSignals = this._allInputSignals[index].Select(s => s.Value).ToArray();
             this.Signals.AddCollection(selectedSignals);
         }
-       
 
         public override object Clone()
         {
             InputViewModel ret =
-                new InputViewModel(this._globalCommands)
-                {
-                    Model = (this.Model as ILogicElement)?.Clone(),
-                    Caption = this.Caption
-                };
+                new InputViewModel(this._globalCommands);
+            var newModel = new Input();
+            newModel.CopyValues(_model);
+            ret.Model = newModel;
+            ret.Caption = this.Caption;
 
             ret.Connectors.Clear();
             for (int i = 0; i < this.Connectors.Count; i++)

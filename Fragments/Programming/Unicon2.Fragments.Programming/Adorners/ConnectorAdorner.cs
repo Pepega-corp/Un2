@@ -54,7 +54,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             if (this._hitConnector != null)
             {
                 ConnectionViewModel connectionViewModel =
-                    this._sourceConnector.Connector.Orientation == ConnectorOrientation.RIGHT
+                    this._sourceConnector.Model.Orientation == ConnectorOrientation.RIGHT
                     ? new ConnectionViewModel(this._sourceConnector, this._hitConnector, this._pathGeometry)
                     : new ConnectionViewModel(this._hitConnector, this._sourceConnector, this._pathGeometry);
                 ConnectionViewModel.AddNewConnectionNumber(connectionViewModel);
@@ -127,7 +127,7 @@ namespace Unicon2.Fragments.Programming.Adorners
                 return;
             }
             ConnectorViewModel cvm = fe.DataContext as ConnectorViewModel;
-            if (cvm == null || cvm.Connector.Orientation == this._sourceConnector.Connector.Orientation)
+            if (cvm == null || cvm.Model.Orientation == this._sourceConnector.Model.Orientation)
             {
                 this.HitConnector = null;
                 return;

@@ -22,7 +22,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             this.ParentViewModel = parent;
             this.Connected = false;
-            this.Connector = new Connector(orientation, type);
+            this.Model = new Connector(orientation, type);
             this.IsDragConnection = false;
             this._symbol = string.Empty;
             this.Connections = new ObservableCollection<IConnectionViewModel>();
@@ -65,7 +65,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ObservableCollection<IConnectionViewModel> Connections { get; }
 
         
-        public IConnector Connector
+        public IConnector Model
         {
             get { return this._modelConnector; }
             set
@@ -81,11 +81,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// </summary>
         public ConnectorType ConnectorType
         {
-            get { return this.Connector.Type; }
+            get { return this.Model.Type; }
             set
             {
-                if (this.Connector.Type == value) return;
-                this.Connector.Type = value;
+                if (this.Model.Type == value) return;
+                this.Model.Type = value;
                 RaisePropertyChanged();
             }
         }
@@ -95,19 +95,19 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// </summary>
         public ConnectorOrientation Orientation
         {
-            get { return this.Connector.Orientation; }
+            get { return this.Model.Orientation; }
         }
         /// <summary>
         /// Номер связи
         /// </summary>
         public int ConnectionNumber
         {
-            get { return this.Connector.ConnectionNumber; }
+            get { return this.Model.ConnectionNumber; }
             set
             {
-                if (this.Connector.ConnectionNumber == value) return;
-                this.Connector.ConnectionNumber = value;
-                if (this.Connector.ConnectionNumber == -1 && this.Connections.Count > 0)
+                if (this.Model.ConnectionNumber == value) return;
+                this.Model.ConnectionNumber = value;
+                if (this.Model.ConnectionNumber == -1 && this.Connections.Count > 0)
                 {
                     foreach (var connection in this.Connections)
                     {
@@ -165,7 +165,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                         }
                     }
                     this.Connections.Clear();
-                    this.Connector.ConnectionNumber = -1;
+                    this.Model.ConnectionNumber = -1;
                 }
                 RaisePropertyChanged();
             }
@@ -197,7 +197,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public void CopyWithoutConnection(ILogicElementViewModel parent, IConnectorViewModel cvm)
         {
             this.ParentViewModel = parent;
-            this.Connector = new Connector(cvm.Connector.Orientation, cvm.Connector.Type);
+            this.Model = new Connector(cvm.Model.Orientation, cvm.Model.Type);
             this.IsDragConnection = false;
             this.Symbol = cvm.Symbol;
         }

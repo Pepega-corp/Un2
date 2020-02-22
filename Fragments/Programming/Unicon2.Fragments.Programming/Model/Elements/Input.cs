@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Unicon2.Fragments.Programming.Infrastructure;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
@@ -11,6 +13,8 @@ namespace Unicon2.Fragments.Programming.Model.Elements
     {
         private const int BIN_SIZE = 3;
 
+        [DataMember]
+        public IConnector[] Connectors { get; set; }
         [DataMember]
         public List<Dictionary<int, string>> AllInputSignals { get; set; }
         [DataMember]
@@ -32,7 +36,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         {
             this.Functional = Functional.BOOLEAN;
             this.Group = Group.INPUT_OUTPUT;
-
+            this.Connectors = new IConnector[] { new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT) };
             this.Bases = new List<string> {"Base0"};
 
             this.AllInputSignals =
@@ -68,6 +72,13 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.Bases.Clear();
             this.Bases.AddRange(inputSource.Bases);
             this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
+            this.Connectors = new IConnector[inputSource.Connectors.Length];
+
+            for (int i = 0; i < inputSource.Connectors.Length; i++)
+            {
+                var connector = inputSource.Connectors[i];
+                this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
+            }
 
             for (int i = 0; i < this.Bases.Count; i++)
             {
@@ -120,10 +131,5 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         }
 
         public string StrongName => ProgrammingKeys.INPUT;
-
-        public object Clone()
-        {
-            return new Input(this);
-        }
     }
 }

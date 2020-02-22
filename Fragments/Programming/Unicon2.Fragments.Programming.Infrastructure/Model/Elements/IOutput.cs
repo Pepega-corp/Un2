@@ -6,6 +6,5 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
     {
         List<string> OutputSignals { get; set; }
         int OutputSignalNum { get; set; }
-        int ConnectionNumber { get; set; }
     }
 }

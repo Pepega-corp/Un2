@@ -8,6 +8,5 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         List<string> Bases { get; set; }
         int BaseNum { get; set; }
         int InputSignalNum { get; set; }
-        int ConnectionNumber { get; set; }
     }
 }

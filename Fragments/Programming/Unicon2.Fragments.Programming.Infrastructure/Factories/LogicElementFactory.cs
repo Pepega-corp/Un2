@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
+using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
@@ -12,7 +14,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 {
     public class LogicElementFactory : ILogicElementFactory
     {
-        private ITypesContainer _container;
+        private readonly ITypesContainer _container;
 
         public LogicElementFactory(ITypesContainer container)
         {
@@ -21,10 +23,10 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
         public List<ILogicElementEditorViewModel> GetBooleanElementsEditorViewModels()
         {
-            List<ILogicElement> booleanElements = this._container.ResolveAll<ILogicElement>()
+            List<ILibraryElement> booleanElements = this._container.ResolveAll<ILibraryElement>()
                 .Where(e => e.Functional == Functional.BOOLEAN).ToList();
             List<ILogicElementEditorViewModel> booleanElementViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (ILogicElement element in booleanElements)
+            foreach (ILibraryElement element in booleanElements)
             {
                 ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
                     element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
@@ -37,13 +39,13 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
         public List<ILogicElementEditorViewModel> GetAnalogElementsEditorViewModels()
         {
-            List<ILogicElement> analogElements = this._container.ResolveAll<ILogicElement>()
+            List<ILibraryElement> analogElements = this._container.ResolveAll<ILibraryElement>()
                 .Where(e => e.Functional == Functional.ANALOG).ToList();
             List<ILogicElementEditorViewModel> analogElementViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (ILogicElement element in analogElements)
+            foreach (ILibraryElement element in analogElements)
             {
                 ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
-                    element.StrongName +ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+                    element.StrongName +ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
                 viewmodel.Model = element;
                 analogElementViewModels.Add(viewmodel);
             }
@@ -51,13 +53,13 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             return analogElementViewModels;
         }
 
-        public List<ILogicElementEditorViewModel> GetAllElementsEditorViewModels(List<ILogicElement> elements)
+        public List<ILogicElementEditorViewModel> GetAllElementsEditorViewModels(ILibraryElement[] elements)
         {
             List<ILogicElementEditorViewModel> elementsViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (ILogicElement element in elements)
+            foreach (ILibraryElement element in elements)
             {
                 ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
                 viewmodel.Model = element;
                 elementsViewModels.Add(viewmodel);
             }
@@ -98,7 +100,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             return analogElementViewModels;
         }
 
-        public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILogicElement> elements)
+        public List<ILogicElementViewModel> GetAllElementsViewModels(ILogicElement[] elements)
         {
             List<ILogicElementViewModel> elementsViewModels = new List<ILogicElementViewModel>();
             foreach (ILogicElement element in elements)

@@ -12,6 +12,7 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementView
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -19,15 +20,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
     // Вью модель одной схемы
     public class SchemeTabViewModel : ViewModelBase, ISchemeTabViewModel
     {
-        public const int CELL_SIZE = 5;
-        #region Events
-        /// <summary>
-        /// Событие закрытия вкладки схемы
-        /// </summary>
-        public event Action CloseTabEvent;
-        #endregion
-
         #region Fields
+        private readonly ILogicElementFactory _factory;
+        public const int CELL_SIZE = 5;
         private string _schemeName;
         private double _schemeHeight;
         private double _schemeWidth;
@@ -35,20 +30,27 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private ISchemeModel _model;
         #endregion
 
-        public SchemeTabViewModel(string name, Size size): this()
+        #region Events
+        /// <summary>
+        /// Событие закрытия вкладки схемы
+        /// </summary>
+        public event Action CloseTabEvent;
+        #endregion
+
+        public SchemeTabViewModel(string name, Size size, ILogicElementFactory factory) : this(factory)
         {
-            Model = new SchemeModel(name, size.Height, size.Width);
+            this.Model = new SchemeModel(name, size.Height, size.Width);
         }
 
-        public SchemeTabViewModel(ISchemeModel model) : this()
+        public SchemeTabViewModel(ISchemeModel model, ILogicElementFactory factory) : this(factory)
         {
-            Model = model;
+            this.Model = model;
         }
 
-        private SchemeTabViewModel()
+        private SchemeTabViewModel(ILogicElementFactory factory)
         {
+            this._factory = factory;
             this.ElementCollection = new ObservableCollection<ISchemeElementViewModel>();
-
             this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
             this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
             this.CloseTabCommand = new RelayCommand(this.CloseTab);
@@ -172,19 +174,23 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         public ISchemeModel Model
         {
-            get => GetModel();
-            set => SetModel(value);
+            get => this.GetModel();
+            set => this.SetModel(value);
         }
         
         private ISchemeModel GetModel()
         {
-            var logicElemenViewModels = ElementCollection.Where(ec => ec is ILogicElementViewModel).Cast<ILogicElementViewModel>().ToArray();
-            _model.LogicElements = logicElemenViewModels.Select(lvm => lvm.Model).ToArray();
+            var logicElemenViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel).Cast<ILogicElementViewModel>().ToArray();
+            this._model.LogicElements = logicElemenViewModels.Select(lvm => lvm.Model).ToArray();
+            return this._model;
         }
 
         private void SetModel(ISchemeModel objModel)
         {
-            
+            this._model = objModel;
+            var logicElementsViewModels = this._factory.GetAllElementsViewModels(this._model.LogicElements);
+            this.ElementCollection.AddCollection(logicElementsViewModels);
+            //todo get connection and add to ElementCollection
         }
 
         #endregion IFragmentViewModel

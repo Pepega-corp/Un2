@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Unicon2.Fragments.Programming.Infrastructure;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
@@ -10,8 +12,9 @@ namespace Unicon2.Fragments.Programming.Model.Elements
     public class Output : IOutput
     {
         private const int BIN_SIZE = 3;
-        private const int DEFAULT_SIZE = 32;
 
+        [DataMember]
+        public IConnector[] Connectors { get; set; }
         [DataMember]
         public List<string> OutputSignals { get; set; }
         [DataMember]
@@ -22,19 +25,13 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public double X { get; set; }
         [DataMember]
         public double Y { get; set; }
-
         public string Name { get; set; }
 
         public Output()
         {
             this.Functional = Functional.BOOLEAN;
             this.Group = Group.INPUT_OUTPUT;
-
-            this.OutputSignals = new List<string>();
-            for (int i = 0; i < DEFAULT_SIZE; i++)
-            {
-                this.OutputSignals.Add($"ССЛ{i + 1}");
-            }
+            this.Connectors = new IConnector[] {new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
         }
 
         private Output(Output cloneable)
@@ -53,7 +50,12 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.Name = outputSource.Name;
             this.Functional = outputSource.Functional;
             this.Group = outputSource.Group;
-
+            this.Connectors = new IConnector[outputSource.Connectors.Length];
+            for (int i = 0; i < outputSource.Connectors.Length; i++)
+            {
+                var connector = outputSource.Connectors[i];
+                this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
+            }
             this.OutputSignals.Clear();
             this.OutputSignals.AddRange(outputSource.OutputSignals);
         }
@@ -80,10 +82,5 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         #region IStronglyName
         public string StrongName => ProgrammingKeys.OUTPUT;
         #endregion
-
-        public object Clone()
-        {
-            return new Output(this);
-        }
     }
 }

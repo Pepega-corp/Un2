@@ -35,7 +35,7 @@ namespace Unicon2.Fragments.Programming.Module
 
             ISerializerService serializerService = container.Resolve<ISerializerService>();
             serializerService.AddKnownTypeForSerialization(typeof(ProgrammModel));
-            serializerService.AddNamespaceAttribute("programmModel", "ProgrammModelNS");
+            serializerService.AddNamespaceAttribute("programmModel", "ProgrammModelEditorNS");
             serializerService.AddKnownTypeForSerialization(typeof(SchemeModel));
             serializerService.AddNamespaceAttribute("schemeModel", "SchemeModelNS");
             serializerService.AddKnownTypeForSerialization(typeof(Input));
