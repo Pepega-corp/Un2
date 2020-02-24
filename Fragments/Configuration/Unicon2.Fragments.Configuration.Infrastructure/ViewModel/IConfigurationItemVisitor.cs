@@ -5,14 +5,13 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
 {
-    public interface IConfigurationItemVisitor<T>
+    public interface IConfigurationItemVisitor<TOutPut>
     {
-        T VisitItemsGroup(IItemsGroup itemsGroup);
-        T VisitProperty(IProperty property);
-        T VisitComplexProperty(IComplexProperty property);
-        T VisitMatrix(IAppointableMatrix appointableMatrixViewModel);
-        T VisitDependentProperty(IDependentProperty dependentPropertyViewModel);
-        T VisitSubProperty(ISubProperty dependentPropertyViewModel);
-    }     
-
+        TOutPut VisitItemsGroup(IItemsGroup itemsGroup);
+        TOutPut VisitProperty(IProperty property);
+        TOutPut VisitComplexProperty(IComplexProperty property);
+        TOutPut VisitMatrix(IAppointableMatrix appointableMatrixViewModel);
+        TOutPut VisitDependentProperty(IDependentProperty dependentPropertyViewModel);
+        TOutPut VisitSubProperty(ISubProperty dependentPropertyViewModel);
+    }   
 }

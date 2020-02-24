@@ -10,6 +10,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Fragments.Configuration.Model.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Model.DependentProperty;
+using Unicon2.Fragments.Configuration.Model.Memory;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;

@@ -6,7 +6,8 @@ using Unicon2.Presentation.Infrastructure.TreeGrid;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.Factories
 {
-    public interface IRuntimeConfigurationItemViewModelFactory:IConfigurationItemVisitor<IRuntimeConfigurationItemViewModel>
+    public interface
+        IRuntimeConfigurationItemViewModelFactory : IConfigurationItemVisitor<IRuntimeConfigurationItemViewModel>
     {
         void Initialize(IMemoryBusDispatcher memoryBusDispatcher);
     }

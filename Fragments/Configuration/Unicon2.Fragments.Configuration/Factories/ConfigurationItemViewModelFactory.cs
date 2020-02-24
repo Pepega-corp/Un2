@@ -9,8 +9,11 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Prope
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
+using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions;
 using Unicon2.Fragments.Configuration.ViewModel;
+using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
@@ -21,17 +24,22 @@ namespace Unicon2.Fragments.Configuration.Factories
     {
         private readonly ITypesContainer _container;
         private IMemoryBusDispatcher _memoryBusDispatcher;
+        private readonly IConfigurationMemory _configurationMemory;
 
-        public RuntimeConfigurationItemViewModelFactory(ITypesContainer container)
+        public RuntimeConfigurationItemViewModelFactory(ITypesContainer container, IMemoryBusDispatcher memoryBusDispatcher, IConfigurationMemory configurationMemory)
         {
             this._container = container;
+            _memoryBusDispatcher = memoryBusDispatcher;
+            _configurationMemory = configurationMemory;
         }
 
-        private void InitializeBaseProperties(IConfigurationItemViewModel configurationViewModel, IConfigurationItem configurationItem)
+        private void InitializeBaseProperties(IConfigurationItemViewModel configurationViewModel,
+            IConfigurationItem configurationItem)
         {
             configurationViewModel.Description = configurationItem.Description;
             configurationViewModel.Header = configurationItem.Name;
         }
+
         private void InitializeProperty(IRuntimePropertyViewModel runtimePropertyViewModel, IProperty property)
         {
             runtimePropertyViewModel.IsMeasureUnitEnabled = property.IsMeasureUnitEnabled;
@@ -50,8 +58,9 @@ namespace Unicon2.Fragments.Configuration.Factories
             {
                 res.ChildStructItemViewModels.Add(configurationItem.Accept(this));
             }
+
             res.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
-            InitializeBaseProperties(res,itemsGroup);
+            InitializeBaseProperties(res, itemsGroup);
             return res;
         }
 
@@ -59,6 +68,9 @@ namespace Unicon2.Fragments.Configuration.Factories
         {
             var res = _container.Resolve<IRuntimePropertyViewModel>();
             InitializeProperty(res, property);
+            _memoryBusDispatcher.AddDeviceDataSubscription(property.Address, property.NumberOfPoints,
+                new DeviceDataPropertyMemorySubscription(property, res, _container.Resolve<IValueViewModelFactory>(),
+                    _configurationMemory));
             return res;
         }
 
@@ -71,6 +83,7 @@ namespace Unicon2.Fragments.Configuration.Factories
                 res.ChildStructItemViewModels.Add(subPropertyViewModel);
                 res.IsCheckable = true;
             }
+
             res.IsGroupedProperty = complexProperty.IsGroupedProperty;
             InitializeProperty(res, complexProperty);
             return res;

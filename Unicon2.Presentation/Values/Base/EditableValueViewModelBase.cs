@@ -8,19 +8,11 @@ namespace Unicon2.Presentation.Values.Base
 {
     public abstract class EditableValueViewModelBase : FormattableValueViewModelBase, IEditableValueViewModel
     {
-        internal IUshortsFormatter _ushortsFormatter;
-
         public abstract override string StrongName { get; }
         
         public bool IsFormattedValueChanged => this._signaturedIsChangedPropertyDictionary.ContainsValue(true);
-        public abstract void SetBaseValueToCompare(ushort[] ushortsToCompare);
 
-        public void SetUshortFormatter(IUshortsFormatter ushortsFormatter)
-        {
-            this._ushortsFormatter = ushortsFormatter;
-        }
-
-        public Action<ushort[]> ValueChangedAction { get; set; }
+        public abstract IFormattedValue GetValue();
 
         public bool IsEditEnabled
         {
@@ -48,12 +40,6 @@ namespace Unicon2.Presentation.Values.Base
             }
             RaisePropertyChanged(nameof(this.IsFormattedValueChanged));
         }
-        
 
-        protected override void OnDisposing()
-        {
-            this.ValueChangedAction = null;
-            base.OnDisposing();
-        }
     }
 }

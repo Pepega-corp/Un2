@@ -4,6 +4,6 @@ namespace Unicon2.Infrastructure.Interfaces
 {
     public interface IDataProviderContaining
     {
-        void SetDataProvider(IDataProvider dataProvider);
+        IDataProvider DataProvider { get; set; }
     }
 }

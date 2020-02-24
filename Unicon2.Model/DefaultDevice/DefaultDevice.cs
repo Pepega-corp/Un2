@@ -116,7 +116,10 @@ namespace Unicon2.Model.DefaultDevice
             {
                 foreach (IDeviceFragment fragment in this.DeviceFragments)
                 {
-                    (fragment as IDataProviderContaining)?.SetDataProvider((IDataProvider)deviceConnection);
+                    if (fragment is IDataProviderContaining dataProviderContaining)
+                    {
+                        dataProviderContaining.DataProvider = ((IDataProvider) deviceConnection);
+                    }
                 }
             }
         }

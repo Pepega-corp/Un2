@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Xml;
+using ControlzEx.Standard;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.MemoryAccess;
@@ -22,7 +23,7 @@ namespace Unicon2.Fragments.Configuration.Model
         IsReference = true)]
     public class DefaultDeviceConfiguration : Disposable, IDeviceConfiguration
     {
-        private IDataProvider _dataProvider;
+       
 
         public DefaultDeviceConfiguration()
         {
@@ -65,48 +66,15 @@ namespace Unicon2.Fragments.Configuration.Model
 
         [DataMember(Name = nameof(ConfigurationMemory), Order = 3)]
         public IConfigurationMemory ConfigurationMemory { get; set; }
-
-        public async Task InitializeLocalValues()
-        {
-            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory,
-                MemoryAccessEnum.InitializeLocalValues).WriteConfigurationMemory();
-        }
-
-        public async Task TransferLocalToDeviceValues()
-        {
-            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory,
-                MemoryAccessEnum.TransferFromLocalToDevice).WriteConfigurationMemory();
-        }
-
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._dataProvider = dataProvider;
-        }
-
-        public async Task<bool> Write()
-        {
-            await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory, MemoryAccessEnum.Read)
-                .WriteConfigurationMemory();
-            return true;
-        }
-
-        public async Task Load()
-        {
-            ConfigurationMemory =
-                await new ConfigurationMemoryAccessor(_dataProvider, this, ConfigurationMemory, MemoryAccessEnum.Read)
-                    .LoadConfigurationMemory();
-        }
-
+       
         protected override void OnDisposing()
         {
             foreach (IConfigurationItem configurationItem in this.RootConfigurationItemList)
             {
                 configurationItem.Dispose();
             }
-
             base.OnDisposing();
         }
-
 
         private bool CheckItemRecursive(IConfigurationItem configurationItem,
             IConfigurationItem configurationItemToCheck)
@@ -137,5 +105,7 @@ namespace Unicon2.Fragments.Configuration.Model
 
             return true;
         }
+
+        public IDataProvider DataProvider { get; set; }
     }
 }

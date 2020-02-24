@@ -4,12 +4,12 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Fragment
 
 namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
 {
-   public class DefaultFragmentOptionsViewModel: IFragmentOptionsViewModel
+    public class DefaultFragmentOptionsViewModel : IFragmentOptionsViewModel
     {
 
         public DefaultFragmentOptionsViewModel()
         {
-            FragmentOptionGroupViewModels=new ObservableCollection<IFragmentOptionGroupViewModel>();
+            FragmentOptionGroupViewModels = new ObservableCollection<IFragmentOptionGroupViewModel>();
         }
 
 

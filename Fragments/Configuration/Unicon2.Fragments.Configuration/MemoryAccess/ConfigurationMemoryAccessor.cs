@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using Unicon2.Fragments.Configuration.Helpers;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Model;
+using Unicon2.Fragments.Configuration.Model.Memory;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -19,33 +21,35 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 {
     public class ConfigurationMemoryAccessor
     {
-        private readonly IDataProvider _dataProvider;
         private readonly IConfigurationMemory _memory;
         private readonly IDeviceConfiguration _configuration;
+        private readonly IMemoryBusDispatcher _memoryBusDispatcher;
         private readonly MemoryAccessEnum _memoryAccessEnum;
 
-        public ConfigurationMemoryAccessor(IDataProvider dataProvider, IDeviceConfiguration configuration,
-            IConfigurationMemory memory, MemoryAccessEnum memoryAccessEnum)
+        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration, IMemoryBusDispatcher memoryBusDispatcher, MemoryAccessEnum memoryAccessEnum)
         {
-            _dataProvider = dataProvider;
             _configuration = configuration;
+            _memoryBusDispatcher = memoryBusDispatcher;
             _memoryAccessEnum = memoryAccessEnum;
-            _memory = configuration == null ? new ConfigurationMemory() : memory;
+            if (configuration.ConfigurationMemory == null)
+            {
+                _memory = new ConfigurationMemory();
+                configuration.ConfigurationMemory = _memory;
+            }
+            else
+                _memory = configuration.ConfigurationMemory;
         }
 
-        public async Task<IConfigurationMemory> LoadConfigurationMemory()
+        public async Task Process()
         {
-            var memory = new ConfigurationMemory();
+            if (_memoryAccessEnum == MemoryAccessEnum.Read)
+            {
+                _memory.DeviceMemoryValues.Clear();
+            }
             await ApplyMemorySettings();
             await ProcessProperties();
-            return memory;
         }
 
-        public async Task WriteConfigurationMemory()
-        {
-            await ApplyMemorySettings();
-            await ProcessProperties();
-        }
 
         private async Task ProcessProperties()
         {
@@ -77,7 +81,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                     await ProcessComplexProperty(complexProperty, offset);
                     break;
                 case IProperty property:
-                    await ProcessAddressRange(_dataProvider, property.Address,
+                    await ProcessAddressRange(_configuration.DataProvider, property.Address,
                         (ushort) (property.Address + offset + property.NumberOfPoints + offset), _memory);
                     break;
             }
@@ -117,7 +121,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
-                    return ProcessAddressRange(_dataProvider, rangeFrom, rangeTo, _memory);
+                    return ProcessAddressRange(_configuration.DataProvider, rangeFrom, rangeTo, _memory);
                 };
 
 
@@ -153,6 +157,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                         }
                     }
 
+                    _memoryBusDispatcher.TriggerDeviceDataSubscriptionByAddress(rangeFrom,
+                        (ushort) (rangeTo - rangeFrom));
                     break;
                 }
                 case MemoryAccessEnum.Write:

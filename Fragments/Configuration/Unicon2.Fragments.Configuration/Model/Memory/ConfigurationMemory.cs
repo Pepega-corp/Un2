@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 
-namespace Unicon2.Fragments.Configuration.Model
+namespace Unicon2.Fragments.Configuration.Model.Memory
 {
     [DataContract(Name = nameof(ConfigurationMemory), Namespace = "ConfigurationMemoryNS", IsReference = true)]
     public class ConfigurationMemory : IConfigurationMemory

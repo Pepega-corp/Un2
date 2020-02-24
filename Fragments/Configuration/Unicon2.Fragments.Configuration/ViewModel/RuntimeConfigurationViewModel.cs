@@ -24,7 +24,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 {
     public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel
     {
-        private IDeviceConfiguration _deviceConfiguration;
         private readonly ITypesContainer _container;
         private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
 
@@ -36,14 +35,14 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             this._container = container;
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
             MemoryBusDispatcher = memoryBusDispatcher;
+            _runtimeConfigurationItemViewModelFactory.Initialize(memoryBusDispatcher);
+
             this.AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
             this.MainRows = new ObservableCollection<MainConfigItemViewModel>();
-            this.FragmentOptionsViewModel =
-                (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, this._container);
+
             this.RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
             MainItemSelectedCommand = new RelayCommand<object>(OnMainItemSelected);
             ShowTableCommand = new RelayCommand<object>(OnShowTable);
-            _runtimeConfigurationItemViewModelFactory.Initialize(memoryBusDispatcher);
         }
 
 
@@ -107,6 +106,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private string _deviceName;
         private ObservableCollection<MainConfigItemViewModel> _mainRows;
         private object _selectedConfigDetails;
+        private string _nameForUiKey;
 
         public ICommand MainItemSelectedCommand { get; }
 
@@ -145,7 +145,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL;
 
-        public string NameForUiKey => this._deviceConfiguration.StrongName;
+        public string NameForUiKey => _nameForUiKey;
 
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel
@@ -160,21 +160,26 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public void Initialize(IDeviceFragment deviceFragment)
         {
-            if (this._deviceConfiguration == deviceFragment) return;
-            this._deviceConfiguration?.Dispose();
+
             this.AllRows.Clear();
             this.RootConfigurationItemViewModels.Clear();
-            this._deviceConfiguration = deviceFragment as IDeviceConfiguration;
-            if (this._deviceConfiguration.RootConfigurationItemList != null)
+            if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return;
+
+            _nameForUiKey = deviceConfiguration.StrongName;
+            if (deviceConfiguration.RootConfigurationItemList != null)
             {
-                foreach (IConfigurationItem configurationItem in this._deviceConfiguration.RootConfigurationItemList)
+                foreach (IConfigurationItem configurationItem in deviceConfiguration.RootConfigurationItemList)
                 {
-                    this.RootConfigurationItemViewModels.Add(configurationItem.Accept(_runtimeConfigurationItemViewModelFactory));
+                    this.RootConfigurationItemViewModels.Add(
+                        configurationItem.Accept(_runtimeConfigurationItemViewModelFactory));
                 }
             }
-
+            
             this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
-           // this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels, false));
+            this.FragmentOptionsViewModel =
+                (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, _container,
+                    deviceConfiguration);
+            // this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels, false));
         }
 
 

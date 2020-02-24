@@ -33,7 +33,10 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         public IUshortsFormatter DeviceValueUshortsFormatter { get; set; }
         public IUshortsFormatter LocalValueUshortsFormatter { get; set; }
 
-
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitDependentProperty(this);
+        }
         //private void CheckCondition(IDependancyCondition dependancyCondition, ConditionResultChangingEventArgs evArgs)
         //{
 

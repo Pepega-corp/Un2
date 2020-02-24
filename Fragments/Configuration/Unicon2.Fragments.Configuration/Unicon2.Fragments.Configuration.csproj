@@ -80,7 +80,8 @@
     <Compile Include="Helpers\DataProviderAddressWrapper.cs" />
     <Compile Include="Helpers\GroupInfoHelper.cs" />
     <Compile Include="MemoryAccess\ConfigurationMemoryAccessor.cs" />
-    <Compile Include="MemoryAccess\ConfigurationWriter.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\LocalDataPropertyMemorySubscription.cs" />
     <Compile Include="Model\Memory\ConfigurationMemory.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
     <Compile Include="Model\DefaultDeviceConfiguration.cs" />
@@ -110,9 +111,6 @@
     <Compile Include="Resources\GridViewWithRowDetails.cs" />
     <Compile Include="ViewModelMemoryMapping\MemoryAccessor.cs" />
     <Compile Include="ViewModelMemoryMapping\MemoryBusDispatcher.cs" />
-    <Compile Include="ViewModelMemoryMapping\MemoryBusInitConfigurationItemsVisitor.cs" />
-    <Compile Include="ViewModelMemoryMapping\ValuesPullingConfigurationItemsVisitor.cs" />
-    <Compile Include="ViewModelMemoryMapping\ValuesSeedingConfigurationItemsVisitor.cs" />
     <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
     <Compile Include="ViewModel\GroupWithReiterationViewModel.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationExportHelper.cs" />

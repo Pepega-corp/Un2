@@ -7,7 +7,7 @@ namespace Unicon2.Infrastructure.Interfaces
     public interface IConnectable : IDisposable
     {
         void InitializeConnection(IDeviceConnection deviceConnection);
-        IDeviceConnection DeviceConnection { get;  }
+        IDeviceConnection DeviceConnection { get; }
         string Name { get; set; }
         IConnectionState ConnectionState { get; set; }
     }

@@ -7,105 +7,143 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 {
     public class MemoryBusDispatcher : IMemoryBusDispatcher
     {
-        private readonly Dictionary<ushort, MemorySubscriptionCollection> _observers;
+        private readonly Dictionary<ushort, MemorySubscriptionCollection<IDeviceDataMemorySubscription>>
+            _deviceDataObservers;
+
+        private readonly Dictionary<IEditableValueViewModel, MemorySubscriptionCollection<ILocalDataMemorySubscription>>
+            _localDataObservers;
 
         public MemoryBusDispatcher()
         {
-            _observers = new Dictionary<ushort, MemorySubscriptionCollection>();
+            _deviceDataObservers =
+                new Dictionary<ushort, MemorySubscriptionCollection<IDeviceDataMemorySubscription>>();
+            _localDataObservers =
+                new Dictionary<IEditableValueViewModel, MemorySubscriptionCollection<ILocalDataMemorySubscription>>();
         }
 
-        private static ushort[] GetAddressesRelated(ushort start, ushort lenght)
+        private static ushort[] GetAddressesRelated(ushort start, ushort length)
         {
-            var res = new ushort[lenght];
+            var res = new ushort[length];
             var count = 0;
-            for (var i = start; i < start + lenght; i++)
+            for (var i = start; i < start + length; i++)
             {
                 res[count++] = i;
             }
+
             return res;
         }
 
-        public Result AddSubscription(IRuntimeConfigurationItemViewModel runtimeConfigurationItemViewModel)
+
+        private void AddDeviceSubscriptionToCollection(ushort address,
+            IDeviceDataMemorySubscription deviceDataMemorySubscription)
         {
-            if (runtimeConfigurationItemViewModel.Model is IProperty property)
+            if (!_deviceDataObservers.ContainsKey(address))
             {
-                var addresses = GetAddressesRelated(property.Address, property.NumberOfPoints);
-                if (addresses.All(address =>
-                    _observers.ContainsKey(address) && _observers[address].Collection.Any(subscription =>
-                        subscription.Observer == runtimeConfigurationItemViewModel)))
-                {
-                    return Result.Create(true);
-                }
-
-                foreach (var address in addresses)
-                {
-                    AddPropertyToSubscriptionCollection(address, runtimeConfigurationItemViewModel);
-                }
-
-                return Result.Create(true);
-            }
-
-            return Result.Create(false);
-        }
-
-        private void AddPropertyToSubscriptionCollection(ushort address, IRuntimeConfigurationItemViewModel property)
-        {
-            if (!_observers.ContainsKey(address))
-            {
-                _observers.Add(address, new MemorySubscriptionCollection(property));
+                _deviceDataObservers.Add(address,
+                    new MemorySubscriptionCollection<IDeviceDataMemorySubscription>(deviceDataMemorySubscription));
             }
             else
             {
-                if (_observers[address].Collection.All(subscription => subscription.Observer != property))
-                    _observers[address].Collection.Add(new MemorySubscription(property));
+                if (_deviceDataObservers[address].Collection
+                    .All(subscription => subscription != deviceDataMemorySubscription))
+                    _deviceDataObservers[address].Collection.Add(deviceDataMemorySubscription);
             }
         }
-        public Result TriggerSubscriptionByAddress(ushort triggeredAddress,IConfigurationItemVisitor<Result> visitor)
-        {
-            return _observers[triggeredAddress].Accept(visitor);
-        }
+
 
         public void Dispose()
         {
-            _observers.Clear();
+            _deviceDataObservers.Clear();
+            _localDataObservers.Clear();
+
+        }
+
+        public Result AddDeviceDataSubscription(ushort start, ushort length,
+            IDeviceDataMemorySubscription deviceDataMemorySubscription)
+        {
+
+            var addresses = GetAddressesRelated(start,
+                length);
+            if (addresses.All(address =>
+                _deviceDataObservers.ContainsKey(address) && _deviceDataObservers[address].Collection.Any(
+                    subscription =>
+                        subscription == deviceDataMemorySubscription)))
+            {
+                return Result.Create(true);
+            }
+
+            foreach (var address in addresses)
+            {
+                AddDeviceSubscriptionToCollection(address, deviceDataMemorySubscription);
+            }
+
+            return Result.Create(true);
+        }
+
+        public Result AddLocalDataSubscription(ILocalDataMemorySubscription localDataMemorySubscription)
+        {
+            if (_localDataObservers.ContainsKey(localDataMemorySubscription.EditableValueViewModel))
+            {
+                if (_localDataObservers[localDataMemorySubscription.EditableValueViewModel].Collection
+                    .Any(subscription => subscription == localDataMemorySubscription))
+                {
+                    return Result.Create(true);
+                }
+                else
+                {
+                    _localDataObservers[localDataMemorySubscription.EditableValueViewModel].Collection
+                        .Add(localDataMemorySubscription);
+                    return Result.Create(true);
+
+                }
+            }
+
+            _localDataObservers.Add(localDataMemorySubscription.EditableValueViewModel,
+                new MemorySubscriptionCollection<ILocalDataMemorySubscription>(localDataMemorySubscription));
+            return Result.Create(true);
+        }
+
+        public Result TriggerDeviceDataSubscriptionByAddress(ushort triggeredAddress, ushort numberOfPoints)
+        {
+            List<IDeviceDataMemorySubscription> deviceDataMemorySubscriptions =
+                new List<IDeviceDataMemorySubscription>();
+            for (var i = triggeredAddress; i < triggeredAddress + numberOfPoints; i++)
+            {
+                deviceDataMemorySubscriptions.AddRange(_deviceDataObservers[i].Collection);
+            }
+
+            deviceDataMemorySubscriptions.Distinct().ToList().ForEach(subscription => subscription.Execute(null));
+            return Result.Create(true);
+        }
+
+        public Result TriggerLocalDataSubscriptionByViewModel(IEditableValueViewModel triggeredValueViewModel)
+        {
+            _localDataObservers[triggeredValueViewModel].Collection.ForEach(subscription => subscription.Execute(null));
+            return Result.Create(true);
         }
     }
 
-    public class MemorySubscriptionCollection
+    public class MemorySubscriptionCollection<T>
     {
         public MemorySubscriptionCollection()
         {
-            Collection = new List<MemorySubscription>();
+            Collection = new List<T>();
         }
 
-        public MemorySubscriptionCollection(IRuntimeConfigurationItemViewModel initial)
+        public MemorySubscriptionCollection(T initial)
         {
-            Collection = new List<MemorySubscription>() {new MemorySubscription(initial)};
+            Collection = new List<T>() {initial};
         }
 
-        public List<MemorySubscription> Collection { get; }
+        public List<T> Collection { get; }
 
-        public Result Accept(IConfigurationItemVisitor<Result> configurationItemVisitor)
-        {
-            var res = Result.Create(true);
-            foreach (var subscription in Collection)
-                res = Result.CreateMergeAnd(res, subscription.Observer.Accept(configurationItemVisitor));
-            return res;
-        }
     }
 
-    public class MemorySubscription
-    {
-        public MemorySubscription(IRuntimeConfigurationItemViewModel observer)
-        {
-            Observer = observer;
-        }
 
-        public IRuntimeConfigurationItemViewModel Observer { get; }
-    }
 }
