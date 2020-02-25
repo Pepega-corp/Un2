@@ -8,21 +8,21 @@ using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-   public class ChosenFromListValueViewModel:FormattableValueViewModelBase,IChosenFromListValueViewModel
+    public class ChosenFromListValueViewModel : FormattableValueViewModelBase<IChosenFromListValue>,
+        IChosenFromListValueViewModel
     {
         private ObservableCollection<string> _availableItemsList;
         private string _selectedItem;
 
-        public override string StrongName =>PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY+ ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+        public override string StrongName => PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
+                                             ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-     
-        public override void InitFromValue(IFormattedValue value)
+
+        public override void InitFromValue(IChosenFromListValue value)
         {
-            IChosenFromListValue curValue = value as IChosenFromListValue;
-            InitList(curValue.AvailableItemsList);
-            Header = curValue.Header;
-            SelectedItem = curValue.SelectedItem;
-            base.InitFromValue(value);
+            InitList(value.AvailableItemsList);
+            Header = value.Header;
+            SelectedItem = value.SelectedItem;
         }
 
 
@@ -33,14 +33,14 @@ namespace Unicon2.Presentation.Values
             get { return _selectedItem; }
             set
             {
-                _selectedItem = value; 
+                _selectedItem = value;
                 RaisePropertyChanged();
             }
         }
 
         public void InitList(IEnumerable<string> stringEnumerable)
         {
-            _availableItemsList=new ObservableCollection<string>(stringEnumerable);
+            _availableItemsList = new ObservableCollection<string>(stringEnumerable);
         }
     }
 }

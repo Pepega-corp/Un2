@@ -2,7 +2,7 @@
 
 namespace Unicon2.Infrastructure.Interfaces
 {
-    public interface IRange:ICloneable
+    public interface IRange : ICloneable
     {
         double RangeFrom { get; set; }
         double RangeTo { get; set; }

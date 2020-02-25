@@ -8,7 +8,7 @@ namespace Unicon2.Presentation.ViewModels.Windows
     {
         public AnchorableWindowBase()
         {
-            this.IsVisible = true;
+            IsVisible = true;
         }
 
         private bool _isVisible;
@@ -17,11 +17,11 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         public bool IsVisible
         {
-            get { return this._isVisible; }
+            get { return _isVisible; }
             set
             {
-                this._isVisible = value;
-                this.RaisePropertyChanged();
+                _isVisible = value;
+                RaisePropertyChanged();
             }
         }
 

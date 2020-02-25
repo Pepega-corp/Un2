@@ -132,32 +132,6 @@ namespace Unicon2.Model.DefaultDevice
             base.OnDisposing();
         }
 
-
-        public bool IsInitialized { get; private set; }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            if (this.IsInitialized) return;
-
-            if (this.ConnectionState == null)
-            {
-                container.Resolve<IConnectionState>();
-            }
-            this._logService = container.Resolve<ILogService>();
-            this._serializerService = container.Resolve<ISerializerService>();
-
-            (this._deviceConnection as IInitializableFromContainer)?.InitializeFromContainer(container);
-            this.DeviceLogger?.InitializeFromContainer(container);
-
-            foreach (IDeviceFragment deviceFragment in this.DeviceFragments)
-            {
-                (deviceFragment as IInitializableFromContainer)?.InitializeFromContainer(container);
-            }
-            this.IsInitialized = true;
-        }
-
-
-
         private void InitializeDeviceFragments()
         {
             foreach (IDeviceFragment deviceFragment in this.DeviceFragments)

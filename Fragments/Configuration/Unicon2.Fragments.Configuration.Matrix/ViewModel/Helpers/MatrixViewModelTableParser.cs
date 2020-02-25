@@ -22,7 +22,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             return ushortsFromTable.ToArray();
         }
 
-        public ushort[] GetUshortsFromVariable(IMatrixMemoryVariable variable, IMatrixValue matrixValue, DynamicDataTable dynamicDataTable)
+        private ushort[] GetUshortsFromVariable(IMatrixMemoryVariable variable, IMatrixValue matrixValue, DynamicDataTable dynamicDataTable)
         {
             var indexOfVariable = matrixValue.MatrixTemplate.MatrixMemoryVariables.IndexOf(variable);
             var row = dynamicDataTable.Values[indexOfVariable];

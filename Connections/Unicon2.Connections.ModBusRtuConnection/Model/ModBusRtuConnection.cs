@@ -126,20 +126,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
             return modbusRtuConnection;
         }
 
-
-        public override void InitializeFromContainer(ITypesContainer container)
-        {
-            if (this._isInitialized) return;
-            this._container = container;
-            this._connectionManager = container.Resolve<IComConnectionManager>();
-            this._localizerService = container.Resolve<ILocalizerService>();
-            this._comPortConfigurationFactory = container.Resolve<IComPortConfigurationFactory>();
-            this.ComPortConfiguration = this._comPortConfigurationFactory.CreateComPortConfiguration();
-            this._isInitialized = true;
-            base.InitializeFromContainer(container);
-        }
-
-
         protected override void LogQuery(bool isSuccessful, string dataTitle, string queryDescription, string queryResult = "", Exception exception = null)
         {
             base.LogQuery(isSuccessful, dataTitle, queryDescription, queryResult, exception);

@@ -16,19 +16,19 @@ namespace Unicon2.Presentation.Factories
 
         public DeviceViewModelFactory(Func<IDeviceViewModel> deviceViewModelGettingFunc, ITypesContainer container)
         {
-            this._deviceViewModelGettingFunc = deviceViewModelGettingFunc;
-            this._container = container;
+            _deviceViewModelGettingFunc = deviceViewModelGettingFunc;
+            _container = container;
         }
 
         public IDeviceViewModel CreateDeviceViewModel(IDevice device)
         {
-            IDeviceViewModel deviceViewModel = this._deviceViewModelGettingFunc();
+            IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
             if (device.DeviceFragments != null)
             {
                 foreach (IDeviceFragment deviceFragment in device.DeviceFragments)
                 {
                     IFragmentViewModel fragmentViewModel =
-                        this._container.Resolve<IFragmentViewModel>(deviceFragment.StrongName +
+                        _container.Resolve<IFragmentViewModel>(deviceFragment.StrongName +
                                                                     ApplicationGlobalNames.CommonInjectionStrings
                                                                         .VIEW_MODEL);
                     fragmentViewModel.Initialize(deviceFragment);

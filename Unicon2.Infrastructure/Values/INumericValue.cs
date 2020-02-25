@@ -2,7 +2,7 @@
 
 namespace Unicon2.Infrastructure.Values
 {
-    public interface INumericValue:IMeasurable,IFormattedValue
+    public interface INumericValue : IMeasurable, IFormattedValue
     {
         double NumValue { get; set; }
     }

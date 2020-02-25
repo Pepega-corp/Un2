@@ -4,18 +4,15 @@ using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-   public class StringValueViewModel:FormattableValueViewModelBase,IStringValueViewModel
+    public class StringValueViewModel : FormattableValueViewModelBase<IStringValue>, IStringValueViewModel
     {
-     
         private string _stringValue;
 
         public override string StrongName => nameof(StringValueViewModel);
-        
-        public override void InitFromValue(IFormattedValue value)
+
+        public override void InitFromValue(IStringValue value)
         {
-            Header = (value as IStringValue).Header;
-            StringValue = (value as IStringValue).StrValue;
-            base.InitFromValue(value);
+            StringValue = value.StrValue;
         }
 
         public string StringValue
@@ -23,7 +20,7 @@ namespace Unicon2.Presentation.Values
             get { return _stringValue; }
             set
             {
-                _stringValue = value; 
+                _stringValue = value;
                 RaisePropertyChanged();
             }
         }

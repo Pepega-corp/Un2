@@ -7,8 +7,9 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess
 {
-   public interface IQuickMemoryAccessDataProviderStub:IDataProvider,IDataProviderContaining
+    public interface IQuickMemoryAccessDataProviderStub : IDataProvider, IDataProviderContaining
     {
-        Task<IQueryResult> WriteMultipleRegistersByBitNumbersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle,List<int> bitNumbers);
+        Task<IQueryResult> WriteMultipleRegistersByBitNumbersAsync(ushort startAddress, ushort[] dataToWrite,
+            string dataTitle, List<int> bitNumbers);
     }
 }

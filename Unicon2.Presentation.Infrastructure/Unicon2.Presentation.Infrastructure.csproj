@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="Services\IToolBarService.cs" />
     <Compile Include="SharedResources\IDeviceSharedResourcesViewModelContainer.cs" />
+    <Compile Include="Subscription\IMemorySubscription.cs" />
     <Compile Include="TreeGrid\IAsTableViewModel.cs" />
     <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />
     <Compile Include="TreeGrid\IGroupedConfigurationItemViewModel.cs" />
@@ -138,6 +139,5 @@
       <Name>Unicon2.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

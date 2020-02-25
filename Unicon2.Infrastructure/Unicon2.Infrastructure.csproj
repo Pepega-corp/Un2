@@ -125,6 +125,7 @@
     <Compile Include="Interfaces\IRangeable.cs" />
     <Compile Include="Interfaces\ISharedValueViewModel.cs" />
     <Compile Include="Interfaces\IStronglyNamed.cs" />
+    <Compile Include="Interfaces\IUniqueId.cs" />
     <Compile Include="Progress\ITaskProgressReport.cs" />
     <Compile Include="Services\ApplicationSettingsService\IApplicationSettingsService.cs" />
     <Compile Include="Services\IHtmlExportService.cs" />

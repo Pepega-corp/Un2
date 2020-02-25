@@ -30,7 +30,7 @@ namespace Unicon2.Infrastructure.Services
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns></returns>
-        bool TryGetLocalizedString(string key,out string result);
+        bool TryGetLocalizedString(string key, out string result);
 
 
         /// <summary>

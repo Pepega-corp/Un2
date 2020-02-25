@@ -20,8 +20,6 @@ namespace Unicon2.Formatting.Model
             byte[] bytes = new byte[ushorts.Length * 2];
             Buffer.BlockCopy(ushorts, 0, bytes, 0, ushorts.Length * 2);
             string formattedString = Encoding.Default.GetString(bytes);
-
-            formattedValue.UshortsValue = ushorts;
             formattedValue.StrValue = formattedString;
             return formattedValue;
         }

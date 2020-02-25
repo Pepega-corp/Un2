@@ -2,44 +2,58 @@
 using System.Collections.Generic;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Presentation.Values.Base
 {
-    public abstract class EditableValueViewModelBase : FormattableValueViewModelBase, IEditableValueViewModel
+    public abstract class EditableValueViewModelBase<TFormattedValue> : FormattableValueViewModelBase<TFormattedValue>,
+        IEditableValueViewModel<TFormattedValue>
     {
-        public abstract override string StrongName { get; }
-        
-        public bool IsFormattedValueChanged => this._signaturedIsChangedPropertyDictionary.ContainsValue(true);
 
-        public abstract IFormattedValue GetValue();
+        public bool IsFormattedValueChanged => _signaturedIsChangedPropertyDictionary.ContainsValue(true);
+
+        public abstract TFormattedValue GetValue();
 
         public bool IsEditEnabled
         {
-            get { return this._isEditEnabled; }
+            get => _isEditEnabled;
             set
             {
-                this._isEditEnabled = value;
-                this.RaisePropertyChanged();
+                _isEditEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
-        private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary = new Dictionary<string, bool>();
+        public void InitSubscription(IMemorySubscription memorySubscription)
+        {
+            _memorySubscription = memorySubscription;
+        }
+
+        private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary =
+            new Dictionary<string, bool>();
+
         private bool _isEditEnabled;
-  
+        private IMemorySubscription _memorySubscription;
 
         protected void SetIsChangedProperty(string propertyName, bool isChanged)
         {
-            if (!this._signaturedIsChangedPropertyDictionary.ContainsKey(propertyName))
+            if (!_signaturedIsChangedPropertyDictionary.ContainsKey(propertyName))
             {
-                this._signaturedIsChangedPropertyDictionary.Add(propertyName, isChanged);
+                _signaturedIsChangedPropertyDictionary.Add(propertyName, isChanged);
             }
             else
             {
-                this._signaturedIsChangedPropertyDictionary[propertyName] = isChanged;
+                _signaturedIsChangedPropertyDictionary[propertyName] = isChanged;
             }
-            RaisePropertyChanged(nameof(this.IsFormattedValueChanged));
+
+            if (isChanged)
+            {
+                _memorySubscription?.Execute();
+            }
+            RaisePropertyChanged(nameof(IsFormattedValueChanged));
         }
 
+        public Guid Id => Guid.NewGuid();
     }
 }

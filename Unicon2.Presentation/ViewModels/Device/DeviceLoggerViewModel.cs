@@ -11,43 +11,43 @@ namespace Unicon2.Presentation.ViewModels.Device
 
         public bool IsInfoMessagesLoggingEnabled
         {
-            get { return this._model.IsInfoMessagesLoggingEnabled; }
+            get { return _model.IsInfoMessagesLoggingEnabled; }
             set
             {
-                this._model.IsInfoMessagesLoggingEnabled = value;
-                this.RaisePropertyChanged();
+                _model.IsInfoMessagesLoggingEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsFailedQueriesLoggingEnabled
         {
-            get { return this._model.IsFailedQueriesLoggingEnabled; }
+            get { return _model.IsFailedQueriesLoggingEnabled; }
             set
             {
-                this._model.IsFailedQueriesLoggingEnabled = value;
-                this.RaisePropertyChanged();
+                _model.IsFailedQueriesLoggingEnabled = value;
+                RaisePropertyChanged();
 
             }
         }
 
         public bool IsSuccessfulQueriesLoggingEnabled
         {
-            get { return this._model.IsSuccessfulQueriesLoggingEnabled; }
+            get { return _model.IsSuccessfulQueriesLoggingEnabled; }
             set
             {
-                this._model.IsSuccessfulQueriesLoggingEnabled = value;
-                this.RaisePropertyChanged();
+                _model.IsSuccessfulQueriesLoggingEnabled = value;
+                RaisePropertyChanged();
 
             }
         }
 
         public bool IsErrorsLoggingEnabled
         {
-            get { return this._model.IsErrorsLoggingEnabled; }
+            get { return _model.IsErrorsLoggingEnabled; }
             set
             {
-                this._model.IsErrorsLoggingEnabled = value;
-                this.RaisePropertyChanged();
+                _model.IsErrorsLoggingEnabled = value;
+                RaisePropertyChanged();
 
             }
         }
@@ -57,14 +57,14 @@ namespace Unicon2.Presentation.ViewModels.Device
 
         public object Model
         {
-            get { return this._model; }
+            get { return _model; }
             set
             {
-                this._model = value as IDeviceLogger;
-                this.RaisePropertyChanged(nameof(this.IsErrorsLoggingEnabled));
-                this.RaisePropertyChanged(nameof(this.IsSuccessfulQueriesLoggingEnabled));
-                this.RaisePropertyChanged(nameof(this.IsFailedQueriesLoggingEnabled));
-                this.RaisePropertyChanged(nameof(this.IsInfoMessagesLoggingEnabled));
+                _model = value as IDeviceLogger;
+                RaisePropertyChanged(nameof(IsErrorsLoggingEnabled));
+                RaisePropertyChanged(nameof(IsSuccessfulQueriesLoggingEnabled));
+                RaisePropertyChanged(nameof(IsFailedQueriesLoggingEnabled));
+                RaisePropertyChanged(nameof(IsInfoMessagesLoggingEnabled));
             }
         }
     }

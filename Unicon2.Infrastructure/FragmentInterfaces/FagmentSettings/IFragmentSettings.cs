@@ -6,6 +6,6 @@ namespace Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings
     public interface IFragmentSettings
     {
         List<IFragmentSetting> FragmentSettings { get; set; }
-        Task<bool> ApplySettingByKey(string key,ISettingApplyingContext settingApplyingContext);
+        Task<bool> ApplySettingByKey(string key, ISettingApplyingContext settingApplyingContext);
     }
 }

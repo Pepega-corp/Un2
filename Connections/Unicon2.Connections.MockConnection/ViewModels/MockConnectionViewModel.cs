@@ -11,9 +11,10 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Connections.MockConnection.ViewModels
 {
-   public class MockConnectionViewModel:ViewModelBase, IDeviceConnectionViewModel
+    public class MockConnectionViewModel : ViewModelBase, IDeviceConnectionViewModel
     {
-        public string StrongName => StringKeys.MOCK_CONNECTION + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+        public string StrongName =>
+            StringKeys.MOCK_CONNECTION + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
         public object Model { get; set; }
 

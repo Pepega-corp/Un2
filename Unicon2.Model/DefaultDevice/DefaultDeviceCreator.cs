@@ -44,7 +44,6 @@ namespace Unicon2.Model.DefaultDevice
         {
             IDevice newDevice = this._deviceGettingFunc();
             newDevice.DeserializeFromFile(this.DeviceDescriptionFilePath);
-            newDevice.InitializeFromContainer(this._container);
             newDevice.Name = this.DeviceName;
             newDevice.DeviceSignature = this.DeviceName;
             newDevice.DeviceLogger = this._deviceLoggerGettingFunc();

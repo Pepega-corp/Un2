@@ -5,7 +5,7 @@ using Unicon2.Infrastructure.Services;
 
 namespace Unicon2.Infrastructure.DeviceInterfaces.SharedResources
 {
-    public interface IDeviceSharedResources:IDisposable
+    public interface IDeviceSharedResources : IDisposable
     {
         List<INameable> SharedResources { get; }
         void AddResource(INameable resource);

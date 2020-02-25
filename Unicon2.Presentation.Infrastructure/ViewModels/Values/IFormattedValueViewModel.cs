@@ -5,10 +5,10 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {
-    public interface IFormattedValueViewModel : IStronglyNamed, IRangeable, IMeasurable, IViewModel
+    public interface IFormattedValueViewModel<in TFormattedValue> : IRangeable, IMeasurable
     {
         string Header { get; set; }
-        void InitFromValue(IFormattedValue value);
+        void InitFromValue(TFormattedValue value);
 
     }
 }

@@ -21,7 +21,7 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
-    public class MatrixValueViewModel : FormattableValueViewModelBase, IMatrixValueViewModel
+    public class MatrixValueViewModel : FormattableValueViewModelBase<IMatrixValue>, IMatrixValueViewModel
     {
         private readonly MatrixViewModelTableFactory _matrixViewModelTableFactory;
         private DynamicDataTable _table;

@@ -3,7 +3,7 @@ using System.IO.Ports;
 
 namespace Unicon2.Infrastructure.DeviceInterfaces
 {
-    public interface IComPortConfiguration:ICloneable
+    public interface IComPortConfiguration : ICloneable
     {
         int BaudRate { get; set; }
         int DataBits { get; set; }

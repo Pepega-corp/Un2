@@ -15,7 +15,7 @@ namespace Unicon2.Formatting.Editor.ViewModels.Validators
             RuleFor(model => model.FormulaString).NotEmpty()
                 .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
                     .NULL_OR_EMPTY_MESSAGE));
-            RuleFor(model => model.FormulaString).Must(((args,s) => IsFormulaStringValid(s,args)))
+            RuleFor(model => model.FormulaString).Must(((args, s) => IsFormulaStringValid(s, args)))
                 .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
         }
 

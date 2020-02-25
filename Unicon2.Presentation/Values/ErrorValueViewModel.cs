@@ -4,17 +4,16 @@ using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-   public class ErrorValueViewModel:FormattableValueViewModelBase,IErrorValueViewModel
+    public class ErrorValueViewModel : FormattableValueViewModelBase<IErrorValue>, IErrorValueViewModel
     {
         private string _errorMessage;
 
         public override string StrongName => nameof(ErrorValueViewModel);
 
-        public override void InitFromValue(IFormattedValue value)
+        public override void InitFromValue(IErrorValue value)
         {
             Header = value.Header;
-            ErrorMessage = (value as IErrorValue).ErrorMessage;
-            base.InitFromValue(value);
+            ErrorMessage = value.ErrorMessage;
         }
 
         public string ErrorMessage
@@ -22,7 +21,7 @@ namespace Unicon2.Presentation.Values
             get { return _errorMessage; }
             set
             {
-                _errorMessage = value; 
+                _errorMessage = value;
                 RaisePropertyChanged();
             }
         }

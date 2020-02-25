@@ -10,69 +10,61 @@ using Unicon2.Presentation.Values.Validators;
 
 namespace Unicon2.Presentation.Values.Editable
 {
-    public class EditableNumericValueViewModel : EditableValueViewModelBase, INumericValueViewModel
+    public class EditableNumericValueViewModel : EditableValueViewModelBase<INumericValue>, INumericValueViewModel
     {
-        private readonly ILocalizerService _localizerService;
         private INumericValue _numericValue;
         private string _numValueString;
         private double _baseDoubleToCompare;
 
-        public EditableNumericValueViewModel(ILocalizerService localizerService)
-        {
-            this._localizerService = localizerService;
-        }
-
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.NUMERIC_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-        public override void InitFromValue(IFormattedValue value)
-        {
-            this._baseDoubleToCompare = (value as INumericValue).NumValue;
-            this.Model = value;
-            this._numericValue = value as INumericValue;
-            this.NumValue = this._numericValue.NumValue.ToString();
-            base.InitFromValue(value);
-        }
 
-        public override void SetBaseValueToCompare(ushort[] ushortsToCompare)
+        public override void InitFromValue(INumericValue value)
         {
-            this._baseDoubleToCompare = (this._ushortsFormatter.Format(ushortsToCompare) as INumericValue).NumValue;
-            this.SetIsChangedProperty(nameof(this.NumValue), Math.Abs(this._baseDoubleToCompare - this._numericValue.NumValue) > 0.5);
-            //  SetIsChangedProperty(nameof(NumValue), !_baseValueToCompare.CheckEquality(_ushortsFormatter.FormatBack(_numericValue)));
+            _numericValue = value;
+            _baseDoubleToCompare = _numericValue.NumValue;
+            NumValue = _numericValue.NumValue.ToString();
         }
 
         public string NumValue
         {
-            get { return this._numValueString; }
+            get { return _numValueString; }
             set
             {
 
-                this._numValueString = value;
-                this.FireErrorsChanged();
-                if (!this.HasErrors)
+                _numValueString = value;
+                FireErrorsChanged();
+                if (!HasErrors)
                 {
-                    this._numericValue.NumValue = double.Parse(value);
-                    this._numericValue.UshortsValue = this._ushortsFormatter.FormatBack(this._numericValue);
-                    this.SetIsChangedProperty(nameof(this.NumValue), Math.Abs(this._baseDoubleToCompare - this._numericValue.NumValue) > 0.0001);
-
-                    // SetIsChangedProperty(nameof(NumValue), !_baseValueToCompare.CheckEquality(_ushortsFormatter.FormatBack(_numericValue)));
-                    this.ValueChangedAction?.Invoke(this._numericValue.UshortsValue);
-
-                    this.RaisePropertyChanged();
+                    SetIsChangedProperty(nameof(NumValue),
+                        Math.Abs(_baseDoubleToCompare - double.Parse(value)) > 0.0001);
+                    RaisePropertyChanged();
                 }
             }
         }
 
         protected override void OnValidate()
         {
-            FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator(this._localizerService, this._ushortsFormatter).Validate(this);
-            this.SetValidationErrors(res);
+            // FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator(_localizerService, this._ushortsFormatter).Validate(this);
+            // SetValidationErrors(res);
+        }
+
+        public override INumericValue GetValue()
+        {
+            if (!HasErrors)
+            {
+                _numericValue.NumValue = _numericValue.NumValue = double.Parse(NumValue);
+            }
+
+            return _numericValue;
+
         }
     }
-
-
-
-
-
-
 }
+
+
+
+
+
+

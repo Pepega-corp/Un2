@@ -9,38 +9,22 @@ using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values.Editable
 {
-    public class EditableChosenFromListValueViewModel : EditableValueViewModelBase, IChosenFromListValueViewModel
+    public class EditableChosenFromListValueViewModel : EditableValueViewModelBase<IChosenFromListValue>,
+        IChosenFromListValueViewModel
     {
         private ObservableCollection<string> _availableItemsList;
         private string _selectedItemInitialValue;
         private IChosenFromListValue _chosenFromListValue;
-        private object _model;
 
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public override void InitFromValue(IFormattedValue value)
+        public override void InitFromValue(IChosenFromListValue value)
         {
-            _chosenFromListValue = value as IChosenFromListValue;
+            _chosenFromListValue = value;
             InitList(_chosenFromListValue.AvailableItemsList);
             _selectedItemInitialValue = _chosenFromListValue.SelectedItem;
-            base.InitFromValue(value);
-        }
-
-        public override void SetBaseValueToCompare(ushort[] ushortsToCompare)
-        {
-            try
-            {
-                _selectedItemInitialValue = (_ushortsFormatter.Format(ushortsToCompare) as IChosenFromListValue)
-                    .SelectedItem;
-                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue != SelectedItem);
-            }
-            catch (Exception e)
-            {
-                _selectedItemInitialValue=String.Empty;
-                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue != SelectedItem);
-            }
         }
 
         public ObservableCollection<string> AvailableItemsList
@@ -55,15 +39,19 @@ namespace Unicon2.Presentation.Values.Editable
             {
                 _chosenFromListValue.SelectedItem = value;
                 RaisePropertyChanged();
-                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue!= value);
-                _chosenFromListValue.UshortsValue = _ushortsFormatter?.FormatBack(_chosenFromListValue);
-                ValueChangedAction?.Invoke(_chosenFromListValue.UshortsValue);
+                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue != value);
             }
         }
 
         public void InitList(IEnumerable<string> stringEnumerable)
         {
-            _availableItemsList=new ObservableCollection<string>(stringEnumerable);
+            _availableItemsList = new ObservableCollection<string>(stringEnumerable);
+        }
+
+        public override IChosenFromListValue GetValue()
+        {
+            _chosenFromListValue.SelectedItem = SelectedItem;
+            return _chosenFromListValue;
         }
     }
 }

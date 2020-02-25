@@ -22,6 +22,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
         private string _currentResourceString;
         private bool _isFormatterFromResource;
+
         public FormatterSelectionViewModel(ITypesContainer container, IUshortFormattable ushortFormattable)
         {
             this.CurrentResourceString = null;
@@ -34,20 +35,26 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.UshortsFormatterViewModels.AddCollection(this._container.ResolveAll<IUshortsFormatterViewModel>());
 
             IUshortsFormatter currentUshortsFormatter = ushortFormattable.UshortsFormatter;
-            if ((currentUshortsFormatter != null) && (this._sharedResourcesViewModelFactory.CheckDeviceSharedResourcesContainsElement(currentUshortsFormatter)))
+            if ((currentUshortsFormatter != null) &&
+                (this._sharedResourcesViewModelFactory.CheckDeviceSharedResourcesContainsElement(
+                    currentUshortsFormatter)))
             {
                 this.CurrentResourceString = currentUshortsFormatter.Name;
                 this._isFormatterFromResource = true;
             }
+
             if (currentUshortsFormatter != null)
             {
-                IUshortsFormatterViewModel formatter = this._ushortsFormatterViewModels.FirstOrDefault(f => f.StrongName == currentUshortsFormatter.StrongName);
+                IUshortsFormatterViewModel formatter =
+                    this._ushortsFormatterViewModels.FirstOrDefault(f =>
+                        f.StrongName == currentUshortsFormatter.StrongName);
                 if (formatter != null)
                 {
                     formatter.InitFromFormatter(currentUshortsFormatter);
                     this.SelectedUshortsFormatterViewModel = formatter;
                 }
             }
+
             this.CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
             this.OkCommand = new RelayCommand<object>(this.OnOkExecute);
             this.ResetCommand = new RelayCommand(this.OnResetExecute);
@@ -57,7 +64,9 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         private void OnSelectFromResourcesExecute()
         {
-            IUshortsFormatter ushortsFormatter = this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(IUshortsFormatter)) as IUshortsFormatter;
+            IUshortsFormatter ushortsFormatter =
+                this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(IUshortsFormatter)) as
+                    IUshortsFormatter;
             if (ushortsFormatter == null) return;
             this._ushortFormattable.UshortsFormatter = ushortsFormatter;
             if (this._ushortFormattable.UshortsFormatter != null)
@@ -76,7 +85,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             if (this._selectedUshortsFormatterViewModel == null) return;
 
-            this._sharedResourcesViewModelFactory.AddSharedResource(this._selectedUshortsFormatterViewModel.GetFormatter());
+            this._sharedResourcesViewModelFactory.AddSharedResource(
+                this._selectedUshortsFormatterViewModel.GetFormatter());
             this.CurrentResourceString = (this._selectedUshortsFormatterViewModel.Model as IUshortsFormatter).Name;
             this.IsFormatterFromResource = true;
         }
@@ -94,8 +104,9 @@ namespace Unicon2.Formatting.Editor.ViewModels
             if (this.SelectedUshortsFormatterViewModel == null) return;
             if (this.SelectedUshortsFormatterViewModel is IDynamicFormatterViewModel)
             {
-                if (!((IDynamicFormatterViewModel)this.SelectedUshortsFormatterViewModel).IsValid) return;
+                if (!((IDynamicFormatterViewModel) this.SelectedUshortsFormatterViewModel).IsValid) return;
             }
+
             this._ushortFormattable.UshortsFormatter = this.SelectedUshortsFormatterViewModel.GetFormatter();
             (obj as Window)?.Close();
         }
@@ -125,7 +136,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             set
             {
                 this._selectedUshortsFormatterViewModel = value;
-                (value as IInitializableFromContainer)?.InitializeFromContainer(this._container);
                 this.RaisePropertyChanged();
             }
         }

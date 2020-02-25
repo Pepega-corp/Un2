@@ -208,5 +208,7 @@ namespace Unicon2.Formatting.Model
                 }
             }
         }
+
+        public IDataProvider DataProvider { get; set; }
     }
 }

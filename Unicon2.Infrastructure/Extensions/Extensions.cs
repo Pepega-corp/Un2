@@ -16,7 +16,8 @@ namespace Unicon2.Infrastructure.Extensions
             }
         }
 
-        public static void WriteObject(this DataContractSerializer serializer,XmlWriter stream, object data, Dictionary<string, string> namespaces)
+        public static void WriteObject(this DataContractSerializer serializer, XmlWriter stream, object data,
+            Dictionary<string, string> namespaces)
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
             xmlWriterSettings.Indent = true;
@@ -33,6 +34,7 @@ namespace Unicon2.Infrastructure.Extensions
                     writer.WriteAttributeString("xmlns", pair.Key, null, pair.Value);
 
                 }
+
                 serializer.WriteObjectContent(writer, data);
                 serializer.WriteEndObject(writer);
             }
@@ -46,9 +48,10 @@ namespace Unicon2.Infrastructure.Extensions
             {
                 if (ushorts1[i] != ushorts2[i]) return false;
             }
+
             return true;
         }
-        
+
         public static int GetIntFromBitArray(this BitArray bitArray)
         {
             if (bitArray.Length > 32)
@@ -60,10 +63,10 @@ namespace Unicon2.Infrastructure.Extensions
 
         }
 
-       public static ushort BoolArrayToUshort(this bool[] arr)
-       {
-           return (ushort)GetIntFromBitArray(new BitArray(arr));
-       }
+        public static ushort BoolArrayToUshort(this bool[] arr)
+        {
+            return (ushort) GetIntFromBitArray(new BitArray(arr));
+        }
 
         public static int GetIntFromTwoUshorts(this ushort[] ushorts)
         {
@@ -83,15 +86,16 @@ namespace Unicon2.Infrastructure.Extensions
             bool[] arrayToReaturn = new bool[ushorts.Length * 16];
             for (int ushortIndex = 0; ushortIndex < ushorts.Length; ushortIndex++)
             {
-                BitArray bitArray = new BitArray(new int[] { (int)ushorts[ushortIndex] });
+                BitArray bitArray = new BitArray(new int[] {(int) ushorts[ushortIndex]});
                 for (int bitIndex = 0; bitIndex < 16; bitIndex++)
                 {
                     arrayToReaturn[ushortIndex * 16 + bitIndex] = bitArray[bitIndex];
                 }
             }
+
             return arrayToReaturn;
         }
-        
+
         /// <summary>
         /// Конвертирует 2 байта в слово
         /// </summary>
@@ -101,9 +105,9 @@ namespace Unicon2.Infrastructure.Extensions
         public static ushort TwoBytesToUshort(byte highByte, byte lowByte)
         {
             ushort ret = highByte;
-            return (ushort)((ushort)(ret << 8) + (ushort)lowByte);
+            return (ushort) ((ushort) (ret << 8) + (ushort) lowByte);
         }
-        
+
         public static ushort[] ByteArrayToUshortArray(this byte[] byteArray)
         {
             if (byteArray.Length % 2 != 0)
@@ -112,16 +116,18 @@ namespace Unicon2.Infrastructure.Extensions
                 byteArray = new byte[byteArray.Length + 1];
                 Array.ConstrainedCopy(buffer, 0, byteArray, 0, buffer.Length);
             }
-            ushort[] ushorts=new ushort[byteArray.Length/2];
+
+            ushort[] ushorts = new ushort[byteArray.Length / 2];
             int ind = 0;
             for (int i = 0; i < ushorts.Length; i++)
             {
                 ushorts[i] = TwoBytesToUshort(byteArray[ind + 1], byteArray[ind]);
                 ind += sizeof(ushort);
             }
+
             return ushorts;
         }
-        
+
         /// <summary>
         /// Конвертирует массив слов в массив байт
         /// </summary>
@@ -145,6 +151,7 @@ namespace Unicon2.Infrastructure.Extensions
                     buffer[j++] = HIBYTE(words[i]);
                 }
             }
+
             return buffer;
         }
 
@@ -155,8 +162,9 @@ namespace Unicon2.Infrastructure.Extensions
         /// <returns>Мл.байт</returns>
         public static byte LOBYTE(int v)
         {
-            return (byte)(v & 0xff);
+            return (byte) (v & 0xff);
         }
+
         /// <summary>
         /// Возвращает старший байт слова.
         /// </summary>
@@ -164,7 +172,7 @@ namespace Unicon2.Infrastructure.Extensions
         /// <returns>Ст.байт</returns>
         public static byte HIBYTE(int v)
         {
-            return (byte)(v >> 8);
+            return (byte) (v >> 8);
         }
 
         /// <summary>
@@ -185,6 +193,7 @@ namespace Unicon2.Infrastructure.Extensions
                 buffer[0] = LOBYTE(word);
                 buffer[1] = HIBYTE(word);
             }
+
             return buffer;
         }
 
@@ -198,7 +207,7 @@ namespace Unicon2.Infrastructure.Extensions
         public static ushort ToUshort(byte high, byte low)
         {
             ushort ret = high;
-            return (ushort)((ushort)(ret << 8) + (ushort)low);
+            return (ushort) ((ushort) (ret << 8) + (ushort) low);
         }
     }
 }

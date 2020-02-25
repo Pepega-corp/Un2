@@ -4,21 +4,16 @@ using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-    public class BoolValueViewModel : FormattableValueViewModelBase, IBoolValueViewModel
+    public class BoolValueViewModel : FormattableValueViewModelBase<IBoolValue>, IBoolValueViewModel
     {
-        private string _strongName;
         private bool _boolValueProperty;
 
         public override string StrongName => nameof(BoolValueViewModel);
 
-        public override void InitFromValue(IFormattedValue value)
+        public override void InitFromValue(IBoolValue value)
         {
-            if (value is IBoolValue)
-            {
-                Header = value.Header;
-                BoolValueProperty = (value as IBoolValue).BoolValueProperty;
-            }
-            base.InitFromValue(value);
+            Header = value.Header;
+            BoolValueProperty = value.BoolValueProperty;
         }
 
         public bool BoolValueProperty

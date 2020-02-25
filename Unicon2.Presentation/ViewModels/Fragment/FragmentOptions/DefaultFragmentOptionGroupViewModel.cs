@@ -8,7 +8,7 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
 
         public DefaultFragmentOptionGroupViewModel()
         {
-            this.FragmentOptionCommandViewModels = new List<IFragmentOptionCommandViewModel>();
+            FragmentOptionCommandViewModels = new List<IFragmentOptionCommandViewModel>();
         }
 
 

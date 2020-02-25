@@ -6,7 +6,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Presentation.Values.Base
 {
-    public abstract class FormattableValueViewModelBase : ValidatableBindableBase, IFormattedValueViewModel
+    public abstract class FormattableValueViewModelBase<TFormattedValue> : ValidatableBindableBase, IFormattedValueViewModel<TFormattedValue>
     {
         private string _header;
         private string _measureUnit;
@@ -17,18 +17,15 @@ namespace Unicon2.Presentation.Values.Base
 
         public string Header
         {
-            get { return this._header; }
+            get { return _header; }
             set
             {
-                this._header = value;
-                this.RaisePropertyChanged();
+                _header = value;
+                RaisePropertyChanged();
             }
         }
 
-        public virtual void InitFromValue(IFormattedValue value)
-        {
-            Model = value;
-        }
+        public abstract void InitFromValue(TFormattedValue value);
 
         public bool IsRangeEnabled { get; set; }
         public IRange Range { get; set; }
@@ -45,6 +42,5 @@ namespace Unicon2.Presentation.Values.Base
             set => SetProperty(ref _isMeasureUnitEnabled, value);
         }
 
-        public object Model { get; set; }
     }
 }

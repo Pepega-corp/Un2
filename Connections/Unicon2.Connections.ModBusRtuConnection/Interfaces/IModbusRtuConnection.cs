@@ -4,7 +4,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Connections.ModBusRtuConnection.Interfaces
 {
-    public interface IModbusRtuConnection : IDeviceConnection, IDataProvider,IInitializableFromContainer
+    public interface IModbusRtuConnection : IDeviceConnection, IDataProvider
     {
         string PortName { get; set; }
         byte SlaveId { get; set; }

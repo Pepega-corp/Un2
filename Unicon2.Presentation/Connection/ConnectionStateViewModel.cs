@@ -21,8 +21,8 @@ namespace Unicon2.Presentation.Connection
 
         public ConnectionStateViewModel(IValueViewModelFactory valueViewModelFactory)
         {
-            this._valueViewModelFactory = valueViewModelFactory;
-            this.CheckConnectionCommand = new RelayCommand(OnCheckConnectionExecute);
+            _valueViewModelFactory = valueViewModelFactory;
+            CheckConnectionCommand = new RelayCommand(OnCheckConnectionExecute);
 
             _semaphoreSlim = new SemaphoreSlim(1);
             IndicatorOpacity = 1;
@@ -32,8 +32,8 @@ namespace Unicon2.Presentation.Connection
 
         private void OnCheckConnectionExecute()
         {
-            this._connectionState.TryReconnect();
-            this._connectionState.CheckConnection();
+            _connectionState.TryReconnect();
+            _connectionState.CheckConnection();
         }
 
 
@@ -41,8 +41,8 @@ namespace Unicon2.Presentation.Connection
 
         public object Model
         {
-            get { return this._connectionState; }
-            set { this.SetModel(value); }
+            get { return _connectionState; }
+            set { SetModel(value); }
         }
 
         private void SetModel(object value)
@@ -50,22 +50,22 @@ namespace Unicon2.Presentation.Connection
             if (value is IConnectionState)
             {
                 IConnectionState connectionState = (value as IConnectionState);
-                this._connectionState = connectionState;
+                _connectionState = connectionState;
 
 
-                this._connectionState.ConnectionStateChangedAction += () =>
+                _connectionState.ConnectionStateChangedAction += () =>
                 {
                     if (_connectionState.DataProvider is IDataProvider)
                         _connectionState.DataProvider.TransactionCompleteAction += () => { this?.BeginIndication(); };
-                    this.IsDeviceConnected = this._connectionState.IsConnected;
-                    if (this.IsDeviceConnected)
+                    IsDeviceConnected = _connectionState.IsConnected;
+                    if (IsDeviceConnected)
                     {
-                        this.TestValueViewModel =
-                            this._valueViewModelFactory.CreateFormattedValueViewModel(this._connectionState.TestResultValue);
+                        TestValueViewModel =
+                            _valueViewModelFactory.CreateFormattedValueViewModel(_connectionState.TestResultValue);
                     }
-                    this.RaisePropertyChanged(nameof(this.IsDeviceConnected));
+                    RaisePropertyChanged(nameof(IsDeviceConnected));
                 };
-                this._connectionState.ConnectionStateChangedAction?.Invoke();
+                _connectionState.ConnectionStateChangedAction?.Invoke();
             }
         }
 
@@ -73,10 +73,10 @@ namespace Unicon2.Presentation.Connection
 
         public double IndicatorOpacity
         {
-            get { return this._indicatorOpacity; }
+            get { return _indicatorOpacity; }
             set
             {
-                this._indicatorOpacity = value;
+                _indicatorOpacity = value;
                 RaisePropertyChanged();
             }
         }

@@ -24,7 +24,8 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
         private const int PORT_DEFAULT = 502;
         private const string IP_DEFAULT = "192.168.0.1";
 
-        public ModbusTcpConnection(IQueryResultFactory queryResultFactory, ILocalizerService localizerService) : base(queryResultFactory)
+        public ModbusTcpConnection(IQueryResultFactory queryResultFactory, ILocalizerService localizerService) : base(
+            queryResultFactory)
         {
             this._queryResultFactory = queryResultFactory;
             this._localizerService = localizerService;
@@ -33,7 +34,8 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
             this.IpAddress = IP_DEFAULT;
         }
 
-        protected override void LogQuery(bool isSuccessful, string dataTitle, string queryDescription, string queryResult = "",
+        protected override void LogQuery(bool isSuccessful, string dataTitle, string queryDescription,
+            string queryResult = "",
             Exception exception = null)
         {
             base.LogQuery(isSuccessful, dataTitle, queryDescription, queryResult, exception);
@@ -47,7 +49,8 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
                     this.LastQueryStatusChangedAction?.Invoke(true);
                 }
 
-                this._currentDeviceLogger.LogSuccessfulQuery("[" + queryDescription + "]" + " " + localizedDataTitle + ". " + queryResult);
+                this._currentDeviceLogger.LogSuccessfulQuery(
+                    "[" + queryDescription + "]" + " " + localizedDataTitle + ". " + queryResult);
             }
             else
             {
@@ -56,6 +59,7 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
                     this._isConnectionLost = true;
                     this.LastQueryStatusChangedAction?.Invoke(false);
                 }
+
                 string exceptionDescription;
                 if (exception is SlaveException)
                 {
@@ -66,6 +70,7 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
                 {
                     exceptionDescription = exception?.Message;
                 }
+
                 queryResult = exceptionDescription;
                 this._currentDeviceLogger.LogFailedQuery($"[{queryDescription}] {localizedDataTitle}  {queryResult}");
             }
@@ -73,10 +78,12 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
 
         public object Clone()
         {
-            return new ModbusTcpConnection(this._queryResultFactory, this._localizerService) { Port = this.Port, IpAddress = this.IpAddress };
+            return new ModbusTcpConnection(this._queryResultFactory, this._localizerService)
+                {Port = this.Port, IpAddress = this.IpAddress};
         }
 
         public string ConnectionName => "ModBus TCP";
+
         public async Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
         {
             try
@@ -99,6 +106,7 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
                 {
                     throw;
                 }
+
                 return false;
             }
 
@@ -111,16 +119,7 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
             this._currentModbusMaster.Dispose();
         }
 
-        [DataMember]
-        public int Port { get; set; }
-        [DataMember]
-        public string IpAddress { get; set; }
-
-
-        public override void InitializeFromContainer(ITypesContainer container)
-        {
-            this._localizerService = container.Resolve<ILocalizerService>();
-            base.InitializeFromContainer(container);
-        }
+        [DataMember] public int Port { get; set; }
+        [DataMember] public string IpAddress { get; set; }
     }
 }

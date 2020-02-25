@@ -10,17 +10,17 @@ namespace Unicon2.Presentation.Values.Validators
 {
     public class NumericValueViewModelValidator : AbstractValidator<EditableNumericValueViewModel>
     {
-        public NumericValueViewModelValidator(ILocalizerService localizerService,IUshortsFormatter ushortsFormatter)
+        public NumericValueViewModelValidator(ILocalizerService localizerService, IUshortsFormatter ushortsFormatter)
         {
-            CascadeMode=CascadeMode.StopOnFirstFailure;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor((model => model.NumValue)).Must((s =>
             {
                 double x;
                 return double.TryParse(s, out x);
             })).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
-            RuleFor((model => model.NumValue)).Must((args,o) =>
+            RuleFor((model => model.NumValue)).Must((args, o) =>
             {
-                INumericValue numericValue= args.Model as INumericValue;
+                INumericValue numericValue = args.GetValue() as INumericValue;
                 var prev = numericValue.NumValue;
                 try
                 {
@@ -35,6 +35,7 @@ namespace Unicon2.Presentation.Values.Validators
                 {
                     numericValue.NumValue = prev;
                 }
+
                 return true;
             }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
             RuleFor((model => model.NumValue)).Must((args, o) =>
@@ -44,10 +45,13 @@ namespace Unicon2.Presentation.Values.Validators
                 double x;
                 if (double.TryParse(o, out x))
                 {
-                  return  args.Range.CheckValue(x);
+                    return args.Range.CheckValue(x);
                 }
+
                 return false;
-            }).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.VALUE_OUT_OF_RANGE_MESSAGE_KEY));
+            }).WithMessage(
+                localizerService.GetLocalizedString(
+                    ApplicationGlobalNames.StatusMessages.VALUE_OUT_OF_RANGE_MESSAGE_KEY));
 
         }
     }

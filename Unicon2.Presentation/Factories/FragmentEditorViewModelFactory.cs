@@ -12,12 +12,12 @@ namespace Unicon2.Presentation.Factories
 
         public FragmentEditorViewModelFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public IFragmentEditorViewModel CreateFragmentEditorViewModel(IDeviceFragment deviceFragment)
         {
-            IFragmentEditorViewModel fragmentEditorViewModel = this._container.Resolve<IFragmentEditorViewModel>(deviceFragment.StrongName +
+            IFragmentEditorViewModel fragmentEditorViewModel = _container.Resolve<IFragmentEditorViewModel>(deviceFragment.StrongName +
                 ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             fragmentEditorViewModel.Model = deviceFragment;
             return fragmentEditorViewModel;

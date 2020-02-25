@@ -16,7 +16,7 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
         private readonly Dictionary<ushort, MemorySubscriptionCollection<IDeviceDataMemorySubscription>>
             _deviceDataObservers;
 
-        private readonly Dictionary<IEditableValueViewModel, MemorySubscriptionCollection<ILocalDataMemorySubscription>>
+        private readonly Dictionary<Guid, MemorySubscriptionCollection<ILocalDataMemorySubscription>>
             _localDataObservers;
 
         public MemoryBusDispatcher()
@@ -24,7 +24,7 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
             _deviceDataObservers =
                 new Dictionary<ushort, MemorySubscriptionCollection<IDeviceDataMemorySubscription>>();
             _localDataObservers =
-                new Dictionary<IEditableValueViewModel, MemorySubscriptionCollection<ILocalDataMemorySubscription>>();
+                new Dictionary<Guid, MemorySubscriptionCollection<ILocalDataMemorySubscription>>();
         }
 
         private static ushort[] GetAddressesRelated(ushort start, ushort length)
@@ -88,23 +88,23 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 
         public Result AddLocalDataSubscription(ILocalDataMemorySubscription localDataMemorySubscription)
         {
-            if (_localDataObservers.ContainsKey(localDataMemorySubscription.EditableValueViewModel))
+            if (_localDataObservers.ContainsKey(localDataMemorySubscription.EditableValueViewModel.Id))
             {
-                if (_localDataObservers[localDataMemorySubscription.EditableValueViewModel].Collection
+                if (_localDataObservers[localDataMemorySubscription.EditableValueViewModel.Id].Collection
                     .Any(subscription => subscription == localDataMemorySubscription))
                 {
                     return Result.Create(true);
                 }
                 else
                 {
-                    _localDataObservers[localDataMemorySubscription.EditableValueViewModel].Collection
+                    _localDataObservers[localDataMemorySubscription.EditableValueViewModel.Id].Collection
                         .Add(localDataMemorySubscription);
                     return Result.Create(true);
 
                 }
             }
 
-            _localDataObservers.Add(localDataMemorySubscription.EditableValueViewModel,
+            _localDataObservers.Add(localDataMemorySubscription.EditableValueViewModel.Id,
                 new MemorySubscriptionCollection<ILocalDataMemorySubscription>(localDataMemorySubscription));
             return Result.Create(true);
         }
@@ -118,13 +118,13 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
                 deviceDataMemorySubscriptions.AddRange(_deviceDataObservers[i].Collection);
             }
 
-            deviceDataMemorySubscriptions.Distinct().ToList().ForEach(subscription => subscription.Execute(null));
+            deviceDataMemorySubscriptions.Distinct().ToList().ForEach(subscription => subscription.Execute());
             return Result.Create(true);
         }
 
-        public Result TriggerLocalDataSubscriptionByViewModel(IEditableValueViewModel triggeredValueViewModel)
+        public Result TriggerLocalDataSubscriptionById(Guid id)
         {
-            _localDataObservers[triggeredValueViewModel].Collection.ForEach(subscription => subscription.Execute(null));
+            _localDataObservers[id].Collection.ForEach(subscription => subscription.Execute());
             return Result.Create(true);
         }
     }

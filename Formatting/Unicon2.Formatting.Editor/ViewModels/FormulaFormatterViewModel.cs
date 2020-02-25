@@ -17,7 +17,7 @@ using Unicon2.Unity.Interfaces;
 namespace Unicon2.Formatting.Editor.ViewModels
 {
 
-    public class FormulaFormatterViewModel : UshortsFormatterViewModelBase, IFormulaFormatterViewModel, IInitializableFromContainer
+    public class FormulaFormatterViewModel : UshortsFormatterViewModelBase, IFormulaFormatterViewModel
     {
         private readonly ILocalizerService _localizerService;
         private readonly ITypesContainer _container;
@@ -31,14 +31,16 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private string _formulaTooltipString;
 
         public FormulaFormatterViewModel(ILocalizerService localizerService, ITypesContainer container,
-            Func<IArgumentViewModel> argumentViewModelGettingFunc, ISharedResourcesViewModelFactory sharedResourcesViewModelFactory)
+            Func<IArgumentViewModel> argumentViewModelGettingFunc,
+            ISharedResourcesViewModelFactory sharedResourcesViewModelFactory)
         {
             this._localizerService = localizerService;
             this._container = container;
             this._argumentViewModelGettingFunc = argumentViewModelGettingFunc;
             this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
             this.ArgumentViewModels = new ObservableCollection<IArgumentViewModel>();
-            this._formulaFormatter = this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
+            this._formulaFormatter =
+                this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
 
             if (this._formulaFormatter == null)
                 throw new ArgumentException();
@@ -55,11 +57,13 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             this.SaveChanges();
             IUshortFormattable resource =
-                this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as IUshortFormattable;
+                this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as
+                    IUshortFormattable;
             if (resource != null)
             {
                 this._formulaFormatter.UshortFormattables.Add(resource);
             }
+
             this.InitFromFormatter(this._formulaFormatter);
         }
 
@@ -78,23 +82,28 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this._formulaFormatter.NumberOfSimbolsAfterComma = this.NumberOfSimbolsAfterComma;
             if (this.ArgumentViewModels.Count > 0)
             {
-                this.TestResult = this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.DYNAMIC_VALUES_CHECKING_IMPOSSIBLE);
+                this.TestResult =
+                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
+                        .DYNAMIC_VALUES_CHECKING_IMPOSSIBLE);
                 return;
             }
+
             try
             {
-                this.TestResult = this._formulaFormatter.Format(new[] { (ushort)this.TestValueOfX }).ToString();
+                this.TestResult = this._formulaFormatter.Format(new[] {(ushort) this.TestValueOfX}).ToString();
             }
             catch
             {
-                this.TestResult = this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR);
+                this.TestResult =
+                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR);
             }
         }
 
 
         protected override void OnValidate()
         {
-            FluentValidation.Results.ValidationResult result = new FormulaFormatterViewModelValidator(this._localizerService).Validate(this);
+            FluentValidation.Results.ValidationResult result =
+                new FormulaFormatterViewModelValidator(this._localizerService).Validate(this);
             this.SetValidationErrors(result);
         }
 
@@ -114,11 +123,13 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             if (ushortsFormatter == null)
             {
-                this._formulaFormatter = this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
+                this._formulaFormatter =
+                    this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
                 this.ArgumentViewModels.Clear();
                 this.FormulaString = string.Empty;
                 this.NumberOfSimbolsAfterComma = 4;
             }
+
             if (!(ushortsFormatter is IFormulaFormatter)) return;
 
             this._formulaFormatter = ushortsFormatter as IFormulaFormatter;
@@ -137,6 +148,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
                     this.ArgumentViewModels.Add(argumentViewModel);
                 }
             }
+
             this.NumberOfSimbolsAfterComma = this._formulaFormatter.NumberOfSimbolsAfterComma;
             this.FormulaString = this._formulaFormatter.FormulaString;
         }
@@ -214,7 +226,9 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public override object Clone()
         {
-            FormulaFormatterViewModel cloneFormulaFormatterViewModel = new FormulaFormatterViewModel(this._localizerService, this._container, this._argumentViewModelGettingFunc, this._sharedResourcesViewModelFactory);
+            FormulaFormatterViewModel cloneFormulaFormatterViewModel =
+                new FormulaFormatterViewModel(this._localizerService, this._container,
+                    this._argumentViewModelGettingFunc, this._sharedResourcesViewModelFactory);
             this.SaveChanges();
             cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
             return cloneFormulaFormatterViewModel;
@@ -230,6 +244,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
                     if (this.GetErrors(nameof(this.FormulaString)) == null) return true;
                     return false;
                 }
+
                 return true;
             }
         }
@@ -263,13 +278,5 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.IsInEditMode = false;
         }
 
-
-        public bool IsInitialized { get; private set; }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            this.IsInitialized = true;
-            this._formulaFormatter?.InitializeFromContainer(container);
-        }
     }
 }

@@ -20,12 +20,11 @@ namespace Unicon2.Formatting.Model
             {
                 this.InitializeFromContainer(StaticContainer.Container);
             }
+
             IStringValue formattedValue = this._stringValueGettingFunc();
             byte[] bytes = new byte[ushorts.Length * 2];
             Buffer.BlockCopy(ushorts, 0, bytes, 0, ushorts.Length * 2);
             string formattedString = Encoding.ASCII.GetString(bytes);
-
-            formattedValue.UshortsValue = ushorts;
             formattedValue.StrValue = formattedString;
             return formattedValue;
         }

@@ -18,7 +18,7 @@ namespace Unicon2.Connections.MockConnection.Model
     /// класс иммитации подключения
     /// </summary>
     [DataContract(Namespace = "MockConnectionNS", IsReference = true)]
-    public class MockConnection : IDeviceConnection, IDataProvider, IInitializableFromContainer
+    public class MockConnection : IDeviceConnection, IDataProvider
     {
         public MockConnection(ITypesContainer typesContainer)
         {
@@ -31,8 +31,7 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public Action TransactionCompleteAction { get; set; }
 
-        [DataMember]
-        public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
+        [DataMember] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
         public object Clone()
         {
@@ -43,10 +42,11 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public void Dispose()
         {
-            
+
         }
 
         public string ConnectionName => StringKeys.MOCK_CONNECTION;
+
         public Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
         {
             _currentDeviceLogger = currentDeviceLogger;
@@ -54,51 +54,64 @@ namespace Unicon2.Connections.MockConnection.Model
         }
 
         public Action<bool> LastQueryStatusChangedAction { get; set; }
+
         public void CloseConnection()
         {
         }
 
-        public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints, string dataTitle)
+        public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints,
+            string dataTitle)
         {
             await Task.Delay(50);
             PopulateMemoryIfNeeded(startAddress, numberOfPoints);
-            return new DefaultQueryResult<ushort[]>() { IsSuccessful = true, Result = MemorySlotDictionary.Where((pair) => startAddress <= pair.Key && pair.Key <= (startAddress + numberOfPoints - 1)).Select((pair) => pair.Value).ToArray() };
+            return new DefaultQueryResult<ushort[]>()
+            {
+                IsSuccessful = true,
+                Result = MemorySlotDictionary
+                    .Where((pair) => startAddress <= pair.Key && pair.Key <= (startAddress + numberOfPoints - 1))
+                    .Select((pair) => pair.Value).ToArray()
+            };
         }
 
         public async Task<IQueryResult<bool>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle)
         {
-            return new DefaultQueryResult<bool>() { IsSuccessful = false };
+            return new DefaultQueryResult<bool>() {IsSuccessful = false};
         }
 
-        public async Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle, ushort numberOfPoints)
+        public async Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle,
+            ushort numberOfPoints)
         {
-            return new DefaultQueryResult<bool[]>() { IsSuccessful = false };
+            return new DefaultQueryResult<bool[]>() {IsSuccessful = false};
         }
 
-        public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle)
+        public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite,
+            string dataTitle)
         {
             await Task.Delay(50);
-            PopulateMemoryIfNeeded(startAddress, (ushort)dataToWrite.Count());
-            for (ushort i = startAddress; i < startAddress + (ushort)dataToWrite.Count(); i++)
+            PopulateMemoryIfNeeded(startAddress, (ushort) dataToWrite.Count());
+            for (ushort i = startAddress; i < startAddress + (ushort) dataToWrite.Count(); i++)
             {
                 MemorySlotDictionary[i] = dataToWrite[i - startAddress];
             }
-            return new DefaultQueryResult() { IsSuccessful = true };
+
+            return new DefaultQueryResult() {IsSuccessful = true};
         }
 
         public async Task<IQueryResult> WriteSingleCoilAsync(ushort coilAddress, bool valueToWrite, string dataTitle)
         {
-            return new DefaultQueryResult() { IsSuccessful=false};
+            return new DefaultQueryResult() {IsSuccessful = false};
         }
 
-        public async Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite, string dataTitle)
+        public async Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite,
+            string dataTitle)
         {
-            return new DefaultQueryResult() { IsSuccessful = false };
+            return new DefaultQueryResult() {IsSuccessful = false};
         }
 
         public bool LastQuerySucceed { get; } = true;
 
         public bool IsInitialized { get; }
+
         public void InitializeFromContainer(ITypesContainer container)
         {
             _typesContainer = container;

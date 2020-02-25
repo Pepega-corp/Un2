@@ -12,25 +12,27 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         private readonly IConfigurationMemory _configurationMemory;
         private readonly IProperty _property;
 
-        public LocalDataPropertyMemorySubscription(IEditableValueViewModel editableValueViewModel, IConfigurationMemory configurationMemory, IProperty property)
+        public LocalDataPropertyMemorySubscription(IEditableValueViewModel<IFormattedValue> editableValueViewModel,
+            IConfigurationMemory configurationMemory, IProperty property)
         {
             _configurationMemory = configurationMemory;
             _property = property;
             EditableValueViewModel = editableValueViewModel;
         }
+
         public void Execute()
         {
-            
+
             var value = _property?.UshortsFormatter.Format(MemoryAccessor.GetUshortsFromMemory(
                 _configurationMemory,
                 _property.Address, _property.NumberOfPoints, true));
-            
-                var memoryValue =
-                    _property?.UshortsFormatter.FormatBack(property.LocalValue.Model as IFormattedValue);
-                MemoryAccessor.GetUshortsInMemory(_configurationMemory,propertyModel.Address,memoryValue,_isLocal);
-            
+
+            var memoryValue =
+                _property?.UshortsFormatter.FormatBack(EditableValueViewModel.GetValue());
+            MemoryAccessor.GetUshortsInMemory(_configurationMemory, _property.Address, memoryValue, true);
+
         }
 
-        public IEditableValueViewModel EditableValueViewModel { get; }
+        public IEditableValueViewModel<IFormattedValue> EditableValueViewModel { get; }
     }
 }
