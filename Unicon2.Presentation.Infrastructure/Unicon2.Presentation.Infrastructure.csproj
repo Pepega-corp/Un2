@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="Services\IToolBarService.cs" />
     <Compile Include="SharedResources\IDeviceSharedResourcesViewModelContainer.cs" />
+    <Compile Include="Subscription\IDeviceEventsDispatcher.cs" />
     <Compile Include="Subscription\IMemorySubscription.cs" />
     <Compile Include="TreeGrid\IAsTableViewModel.cs" />
     <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />

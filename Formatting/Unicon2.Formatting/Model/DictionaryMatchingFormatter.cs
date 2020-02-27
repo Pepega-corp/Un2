@@ -53,8 +53,6 @@ namespace Unicon2.Formatting.Model
             {
                 chosenFromListValue.SelectedItem = this.StringDictionary[ushorts[0]];
             }
-
-            chosenFromListValue.UshortsValue = ushorts;
             return chosenFromListValue;
         }
 

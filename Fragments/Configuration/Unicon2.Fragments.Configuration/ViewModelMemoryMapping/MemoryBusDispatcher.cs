@@ -6,25 +6,26 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Prope
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure.Functional;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 {
-    public class MemoryBusDispatcher : IMemoryBusDispatcher
+    public class MemoryBusDispatcher : IDeviceEventsDispatcher
     {
-        private readonly Dictionary<ushort, MemorySubscriptionCollection<IDeviceDataMemorySubscription>>
+        private readonly Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
             _deviceDataObservers;
 
-        private readonly Dictionary<Guid, MemorySubscriptionCollection<ILocalDataMemorySubscription>>
+        private readonly Dictionary<Guid, MemorySubscriptionCollection<IMemorySubscription>>
             _localDataObservers;
 
         public MemoryBusDispatcher()
         {
             _deviceDataObservers =
-                new Dictionary<ushort, MemorySubscriptionCollection<IDeviceDataMemorySubscription>>();
+                new Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>();
             _localDataObservers =
-                new Dictionary<Guid, MemorySubscriptionCollection<ILocalDataMemorySubscription>>();
+                new Dictionary<Guid, MemorySubscriptionCollection<IMemorySubscription>>();
         }
 
         private static ushort[] GetAddressesRelated(ushort start, ushort length)
@@ -41,12 +42,12 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 
 
         private void AddDeviceSubscriptionToCollection(ushort address,
-            IDeviceDataMemorySubscription deviceDataMemorySubscription)
+            IMemorySubscription deviceDataMemorySubscription)
         {
             if (!_deviceDataObservers.ContainsKey(address))
             {
                 _deviceDataObservers.Add(address,
-                    new MemorySubscriptionCollection<IDeviceDataMemorySubscription>(deviceDataMemorySubscription));
+                    new MemorySubscriptionCollection<IMemorySubscription>(deviceDataMemorySubscription));
             }
             else
             {
@@ -64,55 +65,55 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 
         }
 
-        public Result AddDeviceDataSubscription(ushort start, ushort length,
-            IDeviceDataMemorySubscription deviceDataMemorySubscription)
-        {
 
+        public Result AddAddressSubscription(ushort start, ushort length,
+            IMemorySubscription memorySubscription)
+        {
             var addresses = GetAddressesRelated(start,
                 length);
             if (addresses.All(address =>
                 _deviceDataObservers.ContainsKey(address) && _deviceDataObservers[address].Collection.Any(
                     subscription =>
-                        subscription == deviceDataMemorySubscription)))
+                        subscription == memorySubscription)))
             {
                 return Result.Create(true);
             }
 
             foreach (var address in addresses)
             {
-                AddDeviceSubscriptionToCollection(address, deviceDataMemorySubscription);
+                AddDeviceSubscriptionToCollection(address, memorySubscription);
             }
 
             return Result.Create(true);
         }
 
-        public Result AddLocalDataSubscription(ILocalDataMemorySubscription localDataMemorySubscription)
+        public Result AddSubscriptionById(IMemorySubscription subscription, Guid id)
         {
-            if (_localDataObservers.ContainsKey(localDataMemorySubscription.EditableValueViewModel.Id))
+            if (_localDataObservers.ContainsKey(id))
             {
-                if (_localDataObservers[localDataMemorySubscription.EditableValueViewModel.Id].Collection
-                    .Any(subscription => subscription == localDataMemorySubscription))
+                if (_localDataObservers[id].Collection
+                    .Any(subscriptionExisting => subscriptionExisting == subscription))
                 {
                     return Result.Create(true);
                 }
                 else
                 {
-                    _localDataObservers[localDataMemorySubscription.EditableValueViewModel.Id].Collection
-                        .Add(localDataMemorySubscription);
+                    _localDataObservers[id].Collection
+                        .Add(subscription);
                     return Result.Create(true);
 
                 }
             }
 
-            _localDataObservers.Add(localDataMemorySubscription.EditableValueViewModel.Id,
-                new MemorySubscriptionCollection<ILocalDataMemorySubscription>(localDataMemorySubscription));
+            _localDataObservers.Add(id,
+                new MemorySubscriptionCollection<IMemorySubscription>(subscription));
             return Result.Create(true);
         }
 
-        public Result TriggerDeviceDataSubscriptionByAddress(ushort triggeredAddress, ushort numberOfPoints)
+        public Result TriggerAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
         {
-            List<IDeviceDataMemorySubscription> deviceDataMemorySubscriptions =
-                new List<IDeviceDataMemorySubscription>();
+            List<IMemorySubscription> deviceDataMemorySubscriptions =
+                new List<IMemorySubscription>();
             for (var i = triggeredAddress; i < triggeredAddress + numberOfPoints; i++)
             {
                 deviceDataMemorySubscriptions.AddRange(_deviceDataObservers[i].Collection);
@@ -122,7 +123,7 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
             return Result.Create(true);
         }
 
-        public Result TriggerLocalDataSubscriptionById(Guid id)
+        public Result TriggerSubscriptionById(Guid id)
         {
             _localDataObservers[id].Collection.ForEach(subscription => subscription.Execute());
             return Result.Create(true);

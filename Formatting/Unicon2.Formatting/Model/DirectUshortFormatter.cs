@@ -14,7 +14,6 @@ namespace Unicon2.Formatting.Model
         protected override IFormattedValue OnFormatting(ushort[] ushorts)
         {
             INumericValue numericValue = this._numericValueGettingFunc();
-            numericValue.UshortsValue = ushorts;
             numericValue.NumValue = ushorts[0];
             return numericValue;
         }
