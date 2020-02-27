@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.ViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
@@ -13,6 +12,7 @@ using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Base;
@@ -21,7 +21,7 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
-    public class MatrixValueViewModel : FormattableValueViewModelBase<IMatrixValue>, IMatrixValueViewModel
+    public class MatrixValueViewModel : FormattableValueViewModelBase, IMatrixValueViewModel
     {
         private readonly MatrixViewModelTableFactory _matrixViewModelTableFactory;
         private DynamicDataTable _table;

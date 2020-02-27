@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates

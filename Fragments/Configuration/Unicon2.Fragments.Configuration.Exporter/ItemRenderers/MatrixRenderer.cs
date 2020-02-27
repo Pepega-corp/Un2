@@ -7,12 +7,12 @@ using System.Web.Mvc;
 using Unicon2.Fragments.Configuration.Exporter.Interfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.Export;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Values.Matrix;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Presentation.Values;
 using Unicon2.SharedResources.Behaviors;
 

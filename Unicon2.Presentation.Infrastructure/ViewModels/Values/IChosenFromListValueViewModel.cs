@@ -4,7 +4,7 @@ using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {
-    public interface IChosenFromListValueViewModel : IFormattedValueViewModel<IChosenFromListValue>
+    public interface IChosenFromListValueViewModel : IFormattedValueViewModel
     {
         ObservableCollection<string> AvailableItemsList { get; }
         string SelectedItem { get; set; }

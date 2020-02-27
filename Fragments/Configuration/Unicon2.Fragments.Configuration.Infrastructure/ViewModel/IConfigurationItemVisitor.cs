@@ -1,7 +1,7 @@
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
+using Unicon2.Infrastructure.Values.Matrix;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
 {

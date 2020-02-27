@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
 using Unicon2.Infrastructure.GeneralFactories;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 

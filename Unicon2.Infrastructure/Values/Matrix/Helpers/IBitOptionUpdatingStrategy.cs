@@ -1,4 +1,4 @@
-﻿namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.Helpers
+﻿namespace Unicon2.Infrastructure.Values.Matrix.Helpers
 {
     public interface IBitOptionUpdatingStrategy
     {

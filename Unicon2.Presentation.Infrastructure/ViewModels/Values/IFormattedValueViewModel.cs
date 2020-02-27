@@ -8,7 +8,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
     public interface IFormattedValueViewModel : IRangeable, IMeasurable
     {
         string Header { get; set; }
-        void InitFromValue(TFormattedValue value);
 
     }
 }

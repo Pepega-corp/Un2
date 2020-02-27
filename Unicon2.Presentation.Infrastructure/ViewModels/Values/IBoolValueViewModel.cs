@@ -2,7 +2,7 @@
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {
-    public interface IBoolValueViewModel : IFormattedValueViewModel<IBoolValue>
+    public interface IBoolValueViewModel : IFormattedValueViewModel
     {
         bool BoolValueProperty { get; set; }
     }

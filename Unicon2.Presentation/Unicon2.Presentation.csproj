@@ -87,6 +87,7 @@
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="DataTemplateSelectors\ToolbarButtonDataTemplateSelector.cs" />
     <Compile Include="Factories\DeviceViewModelFactory.cs" />
+    <Compile Include="Factories\EditableValueViewModelFactory.cs" />
     <Compile Include="Factories\FragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\FragmentPaneViewModelFactory.cs" />
     <Compile Include="Factories\ValueViewModelFactory.cs" />

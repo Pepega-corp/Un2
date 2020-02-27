@@ -7,7 +7,7 @@ using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {
-    public interface IBitMaskValueViewModel : IFormattedValueViewModel<IBitMaskValue>
+    public interface IBitMaskValueViewModel : IFormattedValueViewModel
     {
         List<List<bool>> BitArray { get; set; }
     }

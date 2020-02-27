@@ -144,6 +144,16 @@
     <Compile Include="Values\INumericValue.cs" />
     <Compile Include="Values\IStringValue.cs" />
     <Compile Include="Values\ITimeValue.cs" />
+    <Compile Include="Values\Matrix\Helpers\IBitOptionUpdatingStrategy.cs" />
+    <Compile Include="Values\Matrix\IAppointableMatrix.cs" />
+    <Compile Include="Values\Matrix\IBitOption.cs" />
+    <Compile Include="Values\Matrix\IMatrixMemoryVariable.cs" />
+    <Compile Include="Values\Matrix\IMatrixTemplate.cs" />
+    <Compile Include="Values\Matrix\IMatrixValue.cs" />
+    <Compile Include="Values\Matrix\IVariableColumnSignature.cs" />
+    <Compile Include="Values\Matrix\OptionTemplates\IMatrixVariableOptionTemplate.cs" />
+    <Compile Include="Values\Matrix\OptionTemplates\IOptionPossibleValue.cs" />
+    <Compile Include="Values\Matrix\OptionTemplates\IPossibleValueCondition.cs" />
     <Compile Include="ViewModel\IUshortFormattableViewModel.cs" />
     <Compile Include="Interfaces\IUshortsFormatter.cs" />
     <Compile Include="Interfaces\DataOperations\ILoadable.cs" />
@@ -159,6 +169,7 @@
     <Compile Include="Values\ICollectionValue.cs" />
     <Compile Include="Values\IFormattedValue.cs" />
     <Compile Include="ViewModel\IViewModel.cs" />
+    <Compile Include="Visitors\IValueVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

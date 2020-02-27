@@ -23,45 +23,7 @@ namespace Unicon2.Fragments.Configuration.Factories
         public IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue,
             IMeasurable measurable = null, IRangeable rangeable = null)
         {
-            try
-            {
-                IFormattedValueViewModel formattedValueViewModel =
-                    this._container.Resolve<IFormattedValueViewModel>(formattedValue.StrongName +
-                                                                      ApplicationGlobalNames.CommonInjectionStrings
-                                                                          .VIEW_MODEL);
-                formattedValueViewModel.InitFromValue(formattedValue);
-                if (measurable != null)
-                {
-                    formattedValueViewModel.IsMeasureUnitEnabled = measurable.IsMeasureUnitEnabled;
-                    formattedValueViewModel.MeasureUnit = measurable.MeasureUnit;
-                }
-                else
-                {
-                    formattedValueViewModel.IsMeasureUnitEnabled = false;
-                }
-                if (rangeable != null)
-                {
-                    formattedValueViewModel.IsRangeEnabled = rangeable.IsRangeEnabled;
-                    formattedValueViewModel.Range = rangeable.Range;
-                }
-                else
-                {
-                    formattedValueViewModel.IsRangeEnabled = false;
-                }
-
-                return formattedValueViewModel;
-            }
-            catch (Exception)
-            {
-                IFormattedValueViewModel formattedValueViewModel =
-
-                    this._container.Resolve<IFormattedValueViewModel>("StringValue" +
-                                                                      ApplicationGlobalNames.CommonInjectionStrings
-                                                                          .VIEW_MODEL);
-
-                (formattedValueViewModel as IStringValueViewModel).StringValue = formattedValue.AsString();
-                return formattedValueViewModel;
-            }
+      
         }
 
 

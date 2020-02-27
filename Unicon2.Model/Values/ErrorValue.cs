@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Base;
+using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
@@ -13,8 +14,12 @@ namespace Unicon2.Model.Values
         {
             return this.ErrorMessage;
         }
+        public override T Accept<T>(IValueVisitor<T> visitor)
+        {
+	        return visitor.VisitErrorValue(this);
+        }
 
-        [DataMember]
+		[DataMember]
         public string ErrorMessage { get; set; }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.Helpers;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories;
@@ -18,6 +15,9 @@ using Unicon2.Fragments.Configuration.Matrix.ViewModel;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Infrastructure.Values.Matrix;
+using Unicon2.Infrastructure.Values.Matrix.Helpers;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;

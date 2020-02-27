@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Base;
+using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
@@ -20,6 +21,11 @@ namespace Unicon2.Model.Values
         public override string AsString()
         {
             return nameof(BitMaskValue);
+        }
+
+        public override T Accept<T>(IValueVisitor<T> visitor)
+        {
+	        return visitor.VisitBitMaskValue(this);
         }
 
         [DataMember] public List<List<bool>> BitArray { get; set; }

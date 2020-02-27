@@ -2,12 +2,12 @@
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;

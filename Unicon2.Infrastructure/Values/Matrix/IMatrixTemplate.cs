@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 
-namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix
+namespace Unicon2.Infrastructure.Values.Matrix
 {
 
     public interface IMatrixTemplate : ICloneable

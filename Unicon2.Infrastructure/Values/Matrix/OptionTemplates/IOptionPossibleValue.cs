@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates
+namespace Unicon2.Infrastructure.Values.Matrix.OptionTemplates
 {
     public interface IOptionPossibleValue
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates
 {

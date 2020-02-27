@@ -68,7 +68,6 @@
     <Compile Include="Factories\IDeviceViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentPaneViewModelFactory.cs" />
-    <Compile Include="Factories\IValueViewModelFactory.cs" />
     <Compile Include="FragmentSettings\IFragmentSettingViewModel.cs" />
     <Compile Include="FragmentSettings\IQuickAccessMemorySettingViewModel.cs" />
     <Compile Include="Keys\PresentationKeys.cs" />

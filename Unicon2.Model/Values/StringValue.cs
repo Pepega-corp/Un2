@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Base;
+using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
@@ -16,5 +17,9 @@ namespace Unicon2.Model.Values
 
         [DataMember]
         public string StrValue { get; set; }
-    }
+        public override T Accept<T>(IValueVisitor<T> visitor)
+        {
+	        return visitor.VisitStringValue(this);
+        }
+	}
 }

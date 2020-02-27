@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
+using Unicon2.Infrastructure.Values.Matrix;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {

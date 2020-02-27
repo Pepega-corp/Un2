@@ -11,23 +11,17 @@ using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-    public class BitMaskValueViewModel : FormattableValueViewModelBase<IBitMaskValue>, IBitMaskValueViewModel
-    {
-        private List<List<bool>> _bitArray;
+	public class BitMaskValueViewModel : FormattableValueViewModelBase, IBitMaskValueViewModel
+	{
+		private List<List<bool>> _bitArray;
 
-        public override void InitFromValue(IBitMaskValue value)
-        {
-            Header = value.Header;
-            BitArray = value.BitArray;
-        }
+		public override string StrongName => PresentationKeys.BIT_MASK_VALUE +
+		                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public override string StrongName => PresentationKeys.BIT_MASK_VALUE +
-                                             ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        public List<List<bool>> BitArray
-        {
-            get { return _bitArray; }
-            set { SetProperty(ref _bitArray, value); }
-        }
-    }
+		public List<List<bool>> BitArray
+		{
+			get { return _bitArray; }
+			set { SetProperty(ref _bitArray, value); }
+		}
+	}
 }

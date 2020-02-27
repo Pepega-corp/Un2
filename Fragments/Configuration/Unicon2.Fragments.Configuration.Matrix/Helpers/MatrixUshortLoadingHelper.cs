@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Values.Matrix;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Helpers
 {

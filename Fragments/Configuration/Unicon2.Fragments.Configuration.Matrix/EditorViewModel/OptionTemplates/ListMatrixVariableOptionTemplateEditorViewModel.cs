@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.GeneralFactories;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 

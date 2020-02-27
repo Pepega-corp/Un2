@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Base;
+using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
@@ -25,6 +26,10 @@ namespace Unicon2.Model.Values
         public override string ToString()
         {
             return this.NumValue.ToString();
-        }
-    }
+		}
+		public override T Accept<T>(IValueVisitor<T> visitor)
+		{
+			return visitor.VisitNumericValue(this);
+		}
+	}
 }

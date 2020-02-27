@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Matrix;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Infrastructure.Values.Base;
+using Unicon2.Infrastructure.Values.Matrix;
+using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
@@ -16,7 +17,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         {
             return "Matrix";
         }
-
-        public IMatrixTemplate MatrixTemplate { get; set; }
+        public override T Accept<T>(IValueVisitor<T> visitor)
+        {
+	        return visitor.VisitMatrixValue(this);
+        }
+		public IMatrixTemplate MatrixTemplate { get; set; }
     }
 }

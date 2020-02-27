@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Base;
+using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
@@ -82,6 +83,10 @@ namespace Unicon2.Model.Values
         {
             return new DateTime(this.YearValue<2000? this.YearValue+2000: this.YearValue, this.MonthValue, this.DayInMonthValue, this.HoursValue, this.MinutesValue, this.SecondsValue,
                 this.MillisecondsValue < 100 ? this.MillisecondsValue * 10 : this.MillisecondsValue);
-        }
-    }
+		}
+		public override T Accept<T>(IValueVisitor<T> visitor)
+		{
+			return visitor.VisitTimeValue(this);
+		}
+	}
 }
