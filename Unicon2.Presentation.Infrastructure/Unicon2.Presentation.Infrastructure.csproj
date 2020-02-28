@@ -63,11 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\PlacementEnum.cs" />
-    <Compile Include="Events\IGlobalEventsService.cs" />
-    <Compile Include="Events\ValueChangedEvent.cs" />
     <Compile Include="Factories\IDeviceViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentPaneViewModelFactory.cs" />
+    <Compile Include="Factories\IValueViewModelFactory.cs" />
     <Compile Include="FragmentSettings\IFragmentSettingViewModel.cs" />
     <Compile Include="FragmentSettings\IQuickAccessMemorySettingViewModel.cs" />
     <Compile Include="Keys\PresentationKeys.cs" />
@@ -115,6 +114,7 @@
     <Compile Include="ViewModels\Values\IBoolValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IEditableValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IErrorValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\IMatrixValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IRangeableViewModel.cs" />
     <Compile Include="ViewModels\Values\IRangeViewModel.cs" />
     <Compile Include="ViewModels\Windows\ILogServiceViewModel.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="ViewModels\Values\INumericValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IStringValueViewModel.cs" />
     <Compile Include="ViewModels\Windows\IProjectBrowserViewModel.cs" />
+    <Compile Include="Visitors\IEditableValueViewModelVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -137,6 +138,10 @@
     <ProjectReference Include="..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
       <Project>{d025ec77-dfd4-444e-8f2c-218a5181c721}</Project>
       <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Unity\Unicon2.Unity.csproj">
+      <Project>{4d5a6b2a-5ac6-4d18-a126-a3e2f873c2f8}</Project>
+      <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

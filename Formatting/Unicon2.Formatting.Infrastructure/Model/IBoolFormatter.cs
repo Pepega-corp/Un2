@@ -2,8 +2,8 @@
 
 namespace Unicon2.Formatting.Infrastructure.Model
 {
-    public interface IBoolFormatter:IUshortsFormatter
+    public interface IBoolFormatter : IUshortsFormatter
     {
-        
+
     }
 }

@@ -5,11 +5,12 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.Keys;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Infrastructure.Visitors;
 using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values.Editable
 {
-    public class EditableChosenFromListValueViewModel : EditableValueViewModelBase<IChosenFromListValue>,
+    public class EditableChosenFromListValueViewModel : EditableValueViewModelBase,
         IChosenFromListValueViewModel
     {
         private ObservableCollection<string> _availableItemsList;
@@ -52,6 +53,10 @@ namespace Unicon2.Presentation.Values.Editable
         {
             _chosenFromListValue.SelectedItem = SelectedItem;
             return _chosenFromListValue;
+        }
+        public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitChosenFromListViewModel(this);
         }
     }
 }

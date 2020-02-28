@@ -88,7 +88,6 @@
     <Compile Include="Interfaces\EditorViewModel\IVariableSignatureEditorViewModel.cs" />
     <Compile Include="Interfaces\EditorViewModel\OptionTemplates\IOptionPossibleValueEditorViewModel.cs" />
     <Compile Include="Interfaces\EditorViewModel\OptionTemplates\IPossibleValueConditionEditorViewModel.cs" />
-    <Compile Include="Interfaces\ViewModel\IMatrixValueViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Options\IBitOptionViewModel.cs" />
     <Compile Include="Keys\MatrixKeys.cs" />
     <Compile Include="Model\AppointableMatrix.cs" />
@@ -131,9 +130,6 @@
     <Compile Include="View\MatrixValueView.xaml.cs">
       <DependentUpon>MatrixValueView.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\ViewModel\Factories\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

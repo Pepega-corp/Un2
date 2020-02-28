@@ -16,6 +16,7 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
 {
@@ -23,13 +24,13 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
     {
         private readonly IConfigurationMemory _memory;
         private readonly IDeviceConfiguration _configuration;
-        private readonly IMemoryBusDispatcher _memoryBusDispatcher;
+        private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
         private readonly MemoryAccessEnum _memoryAccessEnum;
 
-        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration, IMemoryBusDispatcher memoryBusDispatcher, MemoryAccessEnum memoryAccessEnum)
+        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration, IDeviceEventsDispatcher deviceEventsDispatcher, MemoryAccessEnum memoryAccessEnum)
         {
             _configuration = configuration;
-            _memoryBusDispatcher = memoryBusDispatcher;
+            _deviceEventsDispatcher = deviceEventsDispatcher;
             _memoryAccessEnum = memoryAccessEnum;
             if (configuration.ConfigurationMemory == null)
             {

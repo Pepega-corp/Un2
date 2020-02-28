@@ -1,18 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.Subscription;
-using Unicon2.Presentation.Infrastructure.TreeGrid;
-using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
-namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
+namespace Unicon2.Presentation.Subscription
 {
-    public class MemoryBusDispatcher : IDeviceEventsDispatcher
+    public class DeviceEventsDispatcher : IDeviceEventsDispatcher
     {
         private readonly Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
             _deviceDataObservers;
@@ -20,7 +14,7 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
         private readonly Dictionary<Guid, MemorySubscriptionCollection<IMemorySubscription>>
             _localDataObservers;
 
-        public MemoryBusDispatcher()
+        public DeviceEventsDispatcher()
         {
             _deviceDataObservers =
                 new Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>();

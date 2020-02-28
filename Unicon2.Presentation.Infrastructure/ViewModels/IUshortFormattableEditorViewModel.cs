@@ -4,7 +4,7 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels
 {
     public interface IUshortFormattableEditorViewModel
     {
-        string SelectedUshortFormatterName { get;  }
+        string SelectedUshortFormatterName { get; }
         ICommand ShowFormatterParameters { get; set; }
 
     }

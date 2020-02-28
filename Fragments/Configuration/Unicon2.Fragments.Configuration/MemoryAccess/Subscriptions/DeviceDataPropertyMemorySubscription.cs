@@ -2,7 +2,9 @@ using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Functional;
+using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
@@ -23,14 +25,16 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         {
             _property = property;
             _localAndDeviceValueContainingViewModel = localAndDeviceValueContainingViewModel;
-            _offset = offset;
             _valueViewModelFactory = valueViewModelFactory;
+            _offset = offset;
             _configurationMemory = configurationMemory;
         }
 
         public void Execute()
         {
-            var value = _property?.UshortsFormatter.Format(MemoryAccessor.GetUshortsFromMemory(
+            IFormattingService formattingService = StaticContainer.Container.Resolve<IFormattingService>();
+
+            var value = formattingService.FormatValue(_property?.UshortsFormatter, MemoryAccessor.GetUshortsFromMemory(
                 _configurationMemory,
                 (ushort) (_property.Address + _offset), _property.NumberOfPoints, false));
             _localAndDeviceValueContainingViewModel.DeviceValue = _valueViewModelFactory.CreateFormattedValueViewModel(value);

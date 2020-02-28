@@ -4,8 +4,8 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Resources
 {
-   public interface IResourceViewModel:IViewModel,INameable,IEditable
+    public interface IResourceViewModel : IViewModel, INameable, IEditable
     {
-       string ResourceStrongName { get; set; }
+        string ResourceStrongName { get; set; }
     }
 }

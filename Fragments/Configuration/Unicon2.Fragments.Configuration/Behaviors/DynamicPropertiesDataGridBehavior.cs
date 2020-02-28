@@ -32,12 +32,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
 
         public static readonly DependencyProperty RowValuesProperty =
-            DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable), typeof(DynamicPropertiesDataGridBehavior),
+            DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable),
+                typeof(DynamicPropertiesDataGridBehavior),
                 new PropertyMetadata(null, OnRowValuesPropertyChanged));
 
         public DynamicPropertiesTable RowValues
         {
-            get { return (DynamicPropertiesTable)this.GetValue(RowValuesProperty); }
+            get { return (DynamicPropertiesTable) this.GetValue(RowValuesProperty); }
             set { this.SetValue(RowValuesProperty, value); }
         }
 
@@ -83,7 +84,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     foreach (string columnNameString in this._journalDataTable.ColumnNamesStrings)
                     {
 
-                        List<ILocalAndDeviceValueContainingViewModel> localAndDeviceValueContainingViewModels = new List<ILocalAndDeviceValueContainingViewModel>();
+                        List<ILocalAndDeviceValueContainingViewModel> localAndDeviceValueContainingViewModels =
+                            new List<ILocalAndDeviceValueContainingViewModel>();
                         this._journalDataTable.Values.ForEach((list =>
                         {
                             if (list.Count > rowIndex)
@@ -128,6 +130,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 catch (Exception e)
                 {
                 }
+
                 this.AssociatedObject.ItemsSource = this._collection;
                 this._journalDataTable.Values.ForEach((list => { this.InsertRow(list); }));
             }
@@ -143,7 +146,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public bool IsTransponed
         {
-            get { return (bool)this.GetValue(IsTransponedProperty); }
+            get { return (bool) this.GetValue(IsTransponedProperty); }
             set { this.SetValue(IsTransponedProperty, value); }
         }
 
@@ -190,7 +193,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         private void InsertRow(IEnumerable<ILocalAndDeviceValueContainingViewModel> formattedValueViewModels)
         {
-            List<ILocalAndDeviceValueContainingViewModel> listToInsert = new List<ILocalAndDeviceValueContainingViewModel>(formattedValueViewModels);
+            List<ILocalAndDeviceValueContainingViewModel> listToInsert =
+                new List<ILocalAndDeviceValueContainingViewModel>(formattedValueViewModels);
 
             if (this.IsTransponed)
             {
@@ -200,7 +204,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                         StaticContainer.Container.Resolve<IStringValueViewModel>();
                     stringValueViewModel.StringValue =
                         this._journalDataTable.ColumnNamesStrings[this._collection.Count];
-                    IPropertyViewModel propertyViewModel = new RuntimePropertyViewModel(StaticContainer.Container, StaticContainer.Container.Resolve<IValueViewModelFactory>());
+                    IPropertyViewModel propertyViewModel = new RuntimePropertyViewModel();
                     (propertyViewModel as ILocalAndDeviceValueContainingViewModel).DeviceValue = stringValueViewModel;
                     listToInsert.Insert(0, propertyViewModel as ILocalAndDeviceValueContainingViewModel);
                 }
@@ -236,7 +240,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     {
                         stringValueViewModel.StringValue = string.Empty;
                     }
-                    IPropertyViewModel propertyViewModel = new RuntimePropertyViewModel(StaticContainer.Container, StaticContainer.Container.Resolve<IValueViewModelFactory>());
+
+                    IPropertyViewModel propertyViewModel = new RuntimePropertyViewModel();
                     (propertyViewModel as ILocalAndDeviceValueContainingViewModel).DeviceValue = stringValueViewModel;
                     (propertyViewModel as ILocalAndDeviceValueContainingViewModel).LocalValue = stringValueViewModel;
 
@@ -249,11 +254,11 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public static readonly DependencyProperty SelectedIndexesProperty =
             DependencyProperty.Register("SelectedIndexes", typeof(List<int>), typeof(DynamicPropertiesDataGridBehavior),
-                new FrameworkPropertyMetadata(null) { BindsTwoWayByDefault = true });
+                new FrameworkPropertyMetadata(null) {BindsTwoWayByDefault = true});
 
         public List<int> SelectedIndexes
         {
-            get { return (List<int>)this.GetValue(SelectedIndexesProperty); }
+            get { return (List<int>) this.GetValue(SelectedIndexesProperty); }
             set { this.SetValue(SelectedIndexesProperty, value); }
         }
 
@@ -288,12 +293,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 }
             }
         }
+
         public static readonly DependencyProperty CellStyleProperty =
             DependencyProperty.Register("CellStyle", typeof(Style), typeof(DynamicPropertiesGridViewBehavior));
 
         public Style CellStyle
         {
-            get { return (Style)this.GetValue(CellStyleProperty); }
+            get { return (Style) this.GetValue(CellStyleProperty); }
             set { this.SetValue(CellStyleProperty, value); }
         }
 

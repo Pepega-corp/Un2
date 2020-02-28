@@ -90,6 +90,7 @@
     <Compile Include="Factories\EditableValueViewModelFactory.cs" />
     <Compile Include="Factories\FragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\FragmentPaneViewModelFactory.cs" />
+    <Compile Include="Factories\FormattedValueViewModelFactory.cs" />
     <Compile Include="Factories\ValueViewModelFactory.cs" />
     <Compile Include="FragmentSettings\FragmentSettingsViewModel.cs" />
     <Compile Include="FragmentSettings\QuickAccessMemorySettingViewModel.cs" />
@@ -108,6 +109,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\ToolBarService.cs" />
+    <Compile Include="Subscription\MemoryBusDispatcher.cs" />
     <Compile Include="Values\Base\EditableValueViewModelBase.cs" />
     <Compile Include="Values\Base\FormattableValueViewModelBase.cs" />
     <Compile Include="Values\BitMaskValueViewModel.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="Views\ToolBarView.xaml.cs">
       <DependentUpon>ToolBarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visitors\EditableValueFetchingFromViewModelVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -14,6 +14,7 @@ using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
@@ -23,14 +24,14 @@ namespace Unicon2.Fragments.Configuration.Factories
     public class RuntimeConfigurationItemViewModelFactory : IRuntimeConfigurationItemViewModelFactory
     {
         private readonly ITypesContainer _container;
-        private IMemoryBusDispatcher _memoryBusDispatcher;
+        private IDeviceEventsDispatcher _deviceEventsDispatcher;
         private readonly IConfigurationMemory _configurationMemory;
 
-        public RuntimeConfigurationItemViewModelFactory(ITypesContainer container, IMemoryBusDispatcher memoryBusDispatcher, IConfigurationMemory configurationMemory)
+        public RuntimeConfigurationItemViewModelFactory(ITypesContainer container, IConfigurationMemory configurationMemory, IDeviceEventsDispatcher deviceEventsDispatcher)
         {
             this._container = container;
-            _memoryBusDispatcher = memoryBusDispatcher;
             _configurationMemory = configurationMemory;
+            _deviceEventsDispatcher = deviceEventsDispatcher;
         }
 
         private void InitializeBaseProperties(IConfigurationItemViewModel configurationViewModel,
@@ -68,7 +69,7 @@ namespace Unicon2.Fragments.Configuration.Factories
         {
             var res = _container.Resolve<IRuntimePropertyViewModel>();
             InitializeProperty(res, property);
-            _memoryBusDispatcher.AddDeviceDataSubscription(property.Address, property.NumberOfPoints,
+            _deviceEventsDispatcher.AddAddressSubscription(property.Address, property.NumberOfPoints,
                 new DeviceDataPropertyMemorySubscription(property, res, _container.Resolve<IValueViewModelFactory>(),
                     _configurationMemory));
             return res;
@@ -110,9 +111,9 @@ namespace Unicon2.Fragments.Configuration.Factories
             return res;
         }
 
-        public void Initialize(IMemoryBusDispatcher memoryBusDispatcher)
+        public void Initialize(IDeviceEventsDispatcher deviceEventsDispatcher)
         {
-            _memoryBusDispatcher = memoryBusDispatcher;
+            _deviceEventsDispatcher = deviceEventsDispatcher;
         }
     }
 }

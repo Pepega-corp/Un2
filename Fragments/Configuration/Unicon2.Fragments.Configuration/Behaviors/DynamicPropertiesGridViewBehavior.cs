@@ -36,12 +36,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public bool IsDeviceValues
         {
-            get { return (bool)this.GetValue(IsDeviceValuesProperty); }
+            get { return (bool) this.GetValue(IsDeviceValuesProperty); }
             set { this.SetValue(IsDeviceValuesProperty, value); }
         }
 
         public static readonly DependencyProperty RowValuesProperty =
-            DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable), typeof(DynamicPropertiesGridViewBehavior),
+            DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable),
+                typeof(DynamicPropertiesGridViewBehavior),
                 new PropertyMetadata(null, OnRowValuesPropertyChanged));
 
         public DynamicPropertiesTable RowValues
@@ -105,7 +106,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     }
                 }
             }
-            
+
             this._journalDataTable.TableUpdateAction = this.OnRowValuesChanged;
         }
 
@@ -149,13 +150,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             // DataTemplateSelector dataTemplateSelector1 = new ViewModelByStrongNameDataTemplateSelector();
             // dataTemplate1.VisualTree.SetValue(ContentPresenter.ContentTemplateSelectorProperty, dataTemplateSelector1);
 
-             DataTemplate cellDataTemplate = new DataTemplate();
+            DataTemplate cellDataTemplate = new DataTemplate();
 
 
 
 
             var innerVisualTree = new FrameworkElementFactory(typeof(ContentControl));
-            innerVisualTree.SetValue(FrameworkElement.StyleProperty,CellStyle);
+            innerVisualTree.SetValue(FrameworkElement.StyleProperty, CellStyle);
             if (IsDeviceValues)
             {
                 Binding b11 = new Binding(".[" + index + "].DeviceValue");
@@ -168,6 +169,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 //dataTemplate1.VisualTree.SetValue(ContentPresenter.HorizontalAlignmentProperty,HorizontalAlignment.Center);
                 innerVisualTree.SetValue(ContentControl.ContentProperty, b11);
             }
+
             DataTemplateSelector dataTemplateSelector1 = new ViewModelByStrongNameDataTemplateSelector();
             innerVisualTree.SetValue(ContentControl.ContentTemplateSelectorProperty, dataTemplateSelector1);
 
@@ -180,8 +182,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 Header = columnName,
                 //IsReadOnly = true,
                 CellTemplate = cellDataTemplate
-            }; 
-            
+            };
+
             return dataGridTemplateColumn;
         }
 
@@ -190,7 +192,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public Style CellStyle
         {
-            get { return (Style)this.GetValue(CellStyleProperty); }
+            get { return (Style) this.GetValue(CellStyleProperty); }
             set { this.SetValue(CellStyleProperty, value); }
         }
 
@@ -239,7 +241,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         protected override void OnAttached()
         {
-          //  this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
+            //  this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
             //  _dataTableOfRecords = new DataTable();
             this.OnRowValuesChanged();
             base.OnAttached();
@@ -263,7 +265,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             }
 
             if (clone is T)
-                return (T)clone;
+                return (T) clone;
             else
                 return null;
         }

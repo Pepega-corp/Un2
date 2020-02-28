@@ -6,6 +6,7 @@ namespace Unicon2.Presentation.Infrastructure.Factories
 {
     public interface IFragmentPaneViewModelFactory
     {
-        IFragmentPaneViewModel GetFragmentPaneViewModel(IFragmentViewModel fragmentViewModel,IEnumerable<IDeviceViewModel> deviceViewModels);
+        IFragmentPaneViewModel GetFragmentPaneViewModel(IFragmentViewModel fragmentViewModel,
+            IEnumerable<IDeviceViewModel> deviceViewModels);
     }
 }

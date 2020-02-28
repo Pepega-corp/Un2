@@ -7,6 +7,7 @@ using System.Text;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
+using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Unity.Interfaces;
 
@@ -21,30 +22,6 @@ namespace Unicon2.Formatting.Model
         {
             this._bitMaskValueGettingFunc = bitMaskValueGettingFunc;
         }
-
-        public override ushort[] FormatBack(IFormattedValue formattedValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IFormattedValue OnFormatting(ushort[] ushorts)
-        {
-            IBitMaskValue bitMaskValue = this._bitMaskValueGettingFunc();
-            foreach (ushort uUshort in ushorts)
-            {
-                List<bool> bools = new List<bool>();
-                BitArray bitArray = new BitArray(new[] { (int)uUshort });
-                foreach (bool o in bitArray)
-                {
-                    bools.Add(o);
-                }
-                bitMaskValue.BitArray.Add(bools.Take(16).Reverse().ToList());
-            }
-            bitMaskValue.BitSignatures.AddRange(this.BitSignatures);
-            return bitMaskValue;
-        }
-
-        public override string StrongName => StringKeys.DEFAULT_BIT_MASK_FORMATTER;
         public override object Clone()
         {
             DefaultBitMaskFormatter clone = new DefaultBitMaskFormatter(this._bitMaskValueGettingFunc);
@@ -52,17 +29,15 @@ namespace Unicon2.Formatting.Model
             return clone;
         }
 
+        public override T Accept<T>(IFormatterVisitor<T> visitor)
+        {
+            return visitor.VisitBitMaskFormatter(this);
+        }
+
         [DataMember]
         public string BitSignaturesInOneLine { get; set; }
 
         public List<string> BitSignatures { get; set; }
-
-
-        public override void InitializeFromContainer(ITypesContainer container)
-        {
-            this._bitMaskValueGettingFunc = container.Resolve<Func<IBitMaskValue>>();
-            base.InitializeFromContainer(container);
-        }
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)

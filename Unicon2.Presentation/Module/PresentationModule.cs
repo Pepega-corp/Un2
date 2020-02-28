@@ -5,6 +5,7 @@ using Unicon2.Presentation.FragmentSettings;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.FragmentSettings;
 using Unicon2.Presentation.Infrastructure.Keys;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Connection;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -12,6 +13,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Fragment
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentSettings;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
+using Unicon2.Presentation.Subscription;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
 using Unicon2.Presentation.ViewModels;
@@ -32,6 +34,7 @@ namespace Unicon2.Presentation.Module
             container.Register<INumericValueViewModel, NumericValueViewModel>();
             container.Register<IFormattedValueViewModel, BitMaskValueViewModel>(
                 PresentationKeys.BIT_MASK_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<IDeviceEventsDispatcher, DeviceEventsDispatcher>();
 
             container.Register<IFormattedValueViewModel, ChosenFromListValueViewModel>(
                 PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
@@ -52,6 +55,7 @@ namespace Unicon2.Presentation.Module
 
             container.Register(typeof(IBoolValueViewModel), typeof(BoolValueViewModel));
             container.Register(typeof(IBitMaskValueViewModel), typeof(BitMaskValueViewModel));
+            container.Register(typeof(IValueViewModelFactory), typeof(ValueViewModelFactory));
 
             container.Register(typeof(IFragmentOptionCommandViewModel), typeof(DefaultFragmentOptionCommandViewModel));
             container.Register(typeof(IFragmentOptionGroupViewModel), typeof(DefaultFragmentOptionGroupViewModel));

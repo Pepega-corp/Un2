@@ -6,19 +6,20 @@ using Unicon2.Infrastructure.Visitors;
 namespace Unicon2.Model.Values
 {
     [DataContract(Namespace = "ValuesNS")]
-   public class BoolValue:FormattedValueBase,IBoolValue
+    public class BoolValue : FormattedValueBase, IBoolValue
     {
-        [DataMember]
-        public bool BoolValueProperty { get; set; }
+        [DataMember] public bool BoolValueProperty { get; set; }
 
         public override string StrongName => nameof(BoolValue);
+
         public override string AsString()
         {
             return this.BoolValueProperty.ToString();
         }
+
         public override T Accept<T>(IValueVisitor<T> visitor)
         {
-	        return visitor.VisitBoolValue(this);
+            return visitor.VisitBoolValue(this);
         }
-	}
+    }
 }

@@ -6,6 +6,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping
 {
     public interface ILocalDataMemorySubscription : IMemorySubscription
     {
-        IEditableValueViewModel<IFormattedValue> EditableValueViewModel { get; }
+        IEditableValueViewModel EditableValueViewModel { get; }
     }
 }

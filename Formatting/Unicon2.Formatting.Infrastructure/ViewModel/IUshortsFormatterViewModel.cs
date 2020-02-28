@@ -4,9 +4,8 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Formatting.Infrastructure.ViewModel
 {
-    public interface IUshortsFormatterViewModel : IViewModel,ICloneable
+    public interface IUshortsFormatterViewModel : ICloneable
     {
-        IUshortsFormatter GetFormatter();
-        void InitFromFormatter(IUshortsFormatter ushortsFormatter);
+        
     }
 }

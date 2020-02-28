@@ -12,6 +12,7 @@ using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
@@ -29,13 +30,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 
         public RuntimeConfigurationViewModel(ITypesContainer container,
-            IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory,
-            IMemoryBusDispatcher memoryBusDispatcher)
+            IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
         {
             this._container = container;
             this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
-            MemoryBusDispatcher = memoryBusDispatcher;
-            _runtimeConfigurationItemViewModelFactory.Initialize(memoryBusDispatcher);
 
             this.AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
             this.MainRows = new ObservableCollection<MainConfigItemViewModel>();
@@ -141,7 +139,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
         }
 
-        public IMemoryBusDispatcher MemoryBusDispatcher { get; }
+        public IDeviceEventsDispatcher DeviceEventsDispatcher { get; set; }
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL;
 
@@ -160,7 +158,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public void Initialize(IDeviceFragment deviceFragment)
         {
-
             this.AllRows.Clear();
             this.RootConfigurationItemViewModels.Clear();
             if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return;
@@ -179,9 +176,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             this.FragmentOptionsViewModel =
                 (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, _container,
                     deviceConfiguration);
-            // this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels, false));
         }
 
+       
 
 
         //private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
@@ -211,8 +208,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         //    return resultCollection;
         //}
 
-        public void SetDeviceData(string deviceName)
+     
+
+        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher)
         {
+            DeviceEventsDispatcher = deviceEventsDispatcher;
+            _runtimeConfigurationItemViewModelFactory.Initialize(deviceEventsDispatcher);
             _deviceName = deviceName;
         }
 

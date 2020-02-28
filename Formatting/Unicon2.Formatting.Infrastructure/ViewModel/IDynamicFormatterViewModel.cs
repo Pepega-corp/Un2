@@ -2,7 +2,7 @@
 
 namespace Unicon2.Formatting.Infrastructure.ViewModel
 {
-    public interface IDynamicFormatterViewModel:IUshortsFormatterViewModel,IEditable
+    public interface IDynamicFormatterViewModel : IUshortsFormatterViewModel, IEditable
     {
 
         bool IsValid { get; }

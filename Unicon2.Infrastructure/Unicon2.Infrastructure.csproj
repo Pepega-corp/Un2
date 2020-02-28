@@ -113,6 +113,7 @@
     <Compile Include="Interfaces\EditOperations\IDeletable.cs" />
     <Compile Include="Interfaces\EditOperations\IEditable.cs" />
     <Compile Include="Interfaces\Factories\IFormatterEditorFactory.cs" />
+    <Compile Include="Interfaces\Factories\IFormatterValueFactory.cs" />
     <Compile Include="Interfaces\Factories\ISharedResourcesEditorFactory.cs" />
     <Compile Include="Interfaces\Factories\ISharedResourcesViewModelFactory.cs" />
     <Compile Include="Interfaces\IConnectable.cs" />
@@ -126,8 +127,10 @@
     <Compile Include="Interfaces\ISharedValueViewModel.cs" />
     <Compile Include="Interfaces\IStronglyNamed.cs" />
     <Compile Include="Interfaces\IUniqueId.cs" />
+    <Compile Include="Interfaces\Visitors\IFormatterVisitor.cs" />
     <Compile Include="Progress\ITaskProgressReport.cs" />
     <Compile Include="Services\ApplicationSettingsService\IApplicationSettingsService.cs" />
+    <Compile Include="Services\Formatting\IFormattingService.cs" />
     <Compile Include="Services\IHtmlExportService.cs" />
     <Compile Include="Services\ItemChangingContext\ConnectableItemChangingContext.cs" />
     <Compile Include="Services\ItemChangingContext\ItemModifyingTypeEnum.cs" />
@@ -145,7 +148,6 @@
     <Compile Include="Values\IStringValue.cs" />
     <Compile Include="Values\ITimeValue.cs" />
     <Compile Include="Values\Matrix\Helpers\IBitOptionUpdatingStrategy.cs" />
-    <Compile Include="Values\Matrix\IAppointableMatrix.cs" />
     <Compile Include="Values\Matrix\IBitOption.cs" />
     <Compile Include="Values\Matrix\IMatrixMemoryVariable.cs" />
     <Compile Include="Values\Matrix\IMatrixTemplate.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="Values\Matrix\OptionTemplates\IMatrixVariableOptionTemplate.cs" />
     <Compile Include="Values\Matrix\OptionTemplates\IOptionPossibleValue.cs" />
     <Compile Include="Values\Matrix\OptionTemplates\IPossibleValueCondition.cs" />
+    <Compile Include="Values\ValueKind.cs" />
     <Compile Include="ViewModel\IUshortFormattableViewModel.cs" />
     <Compile Include="Interfaces\IUshortsFormatter.cs" />
     <Compile Include="Interfaces\DataOperations\ILoadable.cs" />

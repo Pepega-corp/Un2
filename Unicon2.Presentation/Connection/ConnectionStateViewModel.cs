@@ -63,6 +63,7 @@ namespace Unicon2.Presentation.Connection
                         TestValueViewModel =
                             _valueViewModelFactory.CreateFormattedValueViewModel(_connectionState.TestResultValue);
                     }
+
                     RaisePropertyChanged(nameof(IsDeviceConnected));
                 };
                 _connectionState.ConnectionStateChangedAction?.Invoke();
@@ -80,6 +81,7 @@ namespace Unicon2.Presentation.Connection
                 RaisePropertyChanged();
             }
         }
+
         private async Task BeginIndication()
         {
             try

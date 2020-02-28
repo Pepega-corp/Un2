@@ -12,6 +12,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Matrix;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Base;
 using Unicon2.Presentation.Values.Editable;
@@ -20,7 +21,7 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
-    public class EditableMatrixValueViewModel : EditableValueViewModelBase<IMatrixValue>, IMatrixValueViewModel
+    public class EditableMatrixValueViewModel : EditableValueViewModelBase, IMatrixValueViewModel
     {
         private readonly MatrixViewModelTableFactory _matrixViewModelTableFactory;
         private DynamicDataTable _table;

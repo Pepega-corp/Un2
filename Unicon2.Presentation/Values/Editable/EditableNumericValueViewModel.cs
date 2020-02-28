@@ -5,6 +5,7 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.Keys;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Infrastructure.Visitors;
 using Unicon2.Presentation.Values.Base;
 using Unicon2.Presentation.Values.Validators;
 
@@ -59,6 +60,10 @@ namespace Unicon2.Presentation.Values.Editable
 
             return _numericValue;
 
+        }
+        public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitNumericValueViewModel(this);
         }
     }
 }

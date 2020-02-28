@@ -57,6 +57,7 @@
     <Compile Include="Model\DictionaryMatchingFormatter.cs" />
     <Compile Include="Model\DirectUshortFormatter.cs" />
     <Compile Include="Model\FormulaFormatter.cs" />
+    <Compile Include="Model\IterationDefinition.cs" />
     <Compile Include="Model\StringFormatter1251.cs" />
     <Compile Include="Model\UshortToIntegerFormatter.cs" />
     <Compile Include="Module\FormattingModule.cs" />
@@ -73,6 +74,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\FormattingService.cs" />
+    <Compile Include="Visitors\FormatterFormatVisitor.cs" />
+    <Compile Include="Visitors\FormatterFormatBackVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -83,7 +87,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
       <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>

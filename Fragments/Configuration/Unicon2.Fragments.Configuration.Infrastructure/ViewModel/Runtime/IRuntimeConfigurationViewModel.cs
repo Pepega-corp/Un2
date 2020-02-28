@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime
@@ -9,6 +10,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime
 
         ObservableCollection<IRuntimeConfigurationItemViewModel> RootConfigurationItemViewModels { get; set; }
         ObservableCollection<IRuntimeConfigurationItemViewModel> AllRows { get; set; }
-        IMemoryBusDispatcher MemoryBusDispatcher { get; }
+        IDeviceEventsDispatcher DeviceEventsDispatcher { get; }
     }
 }

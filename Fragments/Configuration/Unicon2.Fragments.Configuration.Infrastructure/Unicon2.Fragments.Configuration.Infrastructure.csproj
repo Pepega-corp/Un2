@@ -50,6 +50,7 @@
     <Compile Include="Factories\IConfigurationItemViewModelFactory.cs" />
     <Compile Include="MemoryViewModelMapping\ILocalDataMemorySubscription.cs" />
     <Compile Include="MemoryViewModelMapping\IDeviceDataMemorySubscription.cs" />
+    <Compile Include="StructItemsInterfaces\IAppointableMatrix.cs" />
     <Compile Include="StructItemsInterfaces\IConfigurationMemory.cs" />
     <Compile Include="StructItemsInterfaces\IGroupWithReiterationInfo.cs" />
     <Compile Include="StructItemsInterfaces\Properties\ISubProperty.cs" />

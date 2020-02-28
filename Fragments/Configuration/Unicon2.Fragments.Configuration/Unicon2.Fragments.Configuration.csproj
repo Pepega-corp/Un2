@@ -76,9 +76,6 @@
     <Compile Include="DataTemplateSelectors\SelectedConfigDetailsSelector.cs" />
     <Compile Include="Factories\ConfigurationItemFactory.cs" />
     <Compile Include="Factories\ConfigurationItemViewModelFactory.cs" />
-    <Compile Include="Factories\ValueViewModelFactory.cs" />
-    <Compile Include="Helpers\DataProviderAddressWrapper.cs" />
-    <Compile Include="Helpers\GroupInfoHelper.cs" />
     <Compile Include="MemoryAccess\ConfigurationMemoryAccessor.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalDataPropertyMemorySubscription.cs" />
@@ -110,7 +107,6 @@
     </Compile>
     <Compile Include="Resources\GridViewWithRowDetails.cs" />
     <Compile Include="ViewModelMemoryMapping\MemoryAccessor.cs" />
-    <Compile Include="ViewModelMemoryMapping\MemoryBusDispatcher.cs" />
     <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
     <Compile Include="ViewModel\GroupWithReiterationViewModel.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationExportHelper.cs" />

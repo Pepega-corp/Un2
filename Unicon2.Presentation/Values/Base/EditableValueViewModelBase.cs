@@ -4,16 +4,16 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Infrastructure.Visitors;
+using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Presentation.Values.Base
 {
-    public abstract class EditableValueViewModelBase<TFormattedValue> : FormattableValueViewModelBase<TFormattedValue>,
-        IEditableValueViewModel<TFormattedValue>
+    public abstract class EditableValueViewModelBase : FormattableValueViewModelBase,
+        IEditableValueViewModel
     {
 
         public bool IsFormattedValueChanged => _signaturedIsChangedPropertyDictionary.ContainsValue(true);
-
-        public abstract TFormattedValue GetValue();
 
         public bool IsEditEnabled
         {
@@ -29,6 +29,9 @@ namespace Unicon2.Presentation.Values.Base
         {
             _memorySubscription = memorySubscription;
         }
+
+        public abstract T Accept<T>(IEditableValueViewModelVisitor<T> visitor);
+        public IFormattedValue FormattedValue { get; set; }
 
         private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary =
             new Dictionary<string, bool>();
@@ -51,9 +54,11 @@ namespace Unicon2.Presentation.Values.Base
             {
                 _memorySubscription?.Execute();
             }
+
             RaisePropertyChanged(nameof(IsFormattedValueChanged));
         }
 
-        public Guid Id => Guid.NewGuid();
+        private readonly Lazy<Guid> _idLazy = new Lazy<Guid>(Guid.NewGuid);
+        public Guid Id => _idLazy.Value;
     }
 }

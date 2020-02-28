@@ -9,14 +9,14 @@ using Unicon2.Presentation.ViewModels;
 
 namespace Unicon2.Presentation.Services
 {
-   public class ToolBarService: IToolBarService
+    public class ToolBarService : IToolBarService
     {
         private readonly ToolBarViewModel _toolBarViewModel;
 
         public ToolBarService(ToolBarViewModel toolBarViewModel)
         {
             _toolBarViewModel = toolBarViewModel;
-            
+
         }
 
 

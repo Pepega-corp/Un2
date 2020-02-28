@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Formatting.Model.Base;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Matrix;
 

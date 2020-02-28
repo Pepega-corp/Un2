@@ -9,7 +9,7 @@ using Unicon2.Fragments.Configuration.ViewModel;
 
 namespace Unicon2.Fragments.Configuration.DataTemplateSelectors
 {
-    public class SelectedConfigDetailsSelector:DataTemplateSelector
+    public class SelectedConfigDetailsSelector : DataTemplateSelector
     {
 
         public DataTemplate TableTemplate { get; set; }
@@ -25,9 +25,10 @@ namespace Unicon2.Fragments.Configuration.DataTemplateSelectors
                 {
                     return TableTemplate;
                 }
+
                 return ConfigTreeTemplate;
             }
-          
+
             return base.SelectTemplate(item, container);
         }
 

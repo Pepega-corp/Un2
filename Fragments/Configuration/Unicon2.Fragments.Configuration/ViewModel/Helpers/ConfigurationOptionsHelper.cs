@@ -141,7 +141,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteReadConfiguration()
         {
-            var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,_runtimeConfigurationViewModel.MemoryBusDispatcher, MemoryAccessEnum.Read);
+            var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,_runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.Read);
             await memoryAccessor.Process();
         }
 

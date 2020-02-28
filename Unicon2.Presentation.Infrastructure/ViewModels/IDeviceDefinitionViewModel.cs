@@ -2,7 +2,7 @@
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels
 {
-    public interface IDeviceDefinitionViewModel:IViewModel
+    public interface IDeviceDefinitionViewModel : IViewModel
     {
         string Name { get; set; }
         string ConnectionDescription { get; set; }
