@@ -20,7 +20,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             Description = "Елемент выходного дискретного сигнала";
             Symbol = "Out";
 
-            Connectors = new ObservableCollection<IConnectorViewModel>
+            ConnectorViewModels = new ObservableCollection<IConnectorViewModel>
             {
                 new ConnectorViewModel(this, ConnectorOrientation.LEFT, ConnectorType.DIRECT)
             };
@@ -44,7 +44,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             var output = (IOutput) _model;
             output.OutputSignalNum = this.OutputSignals.IndexOf(this.SelectedSignal);
-            output.Connectors[0].ConnectionNumber = Connectors[0].ConnectionNumber;
+            output.Connectors[0] = ConnectorViewModels[0].Model;
 
             return output;
         }
@@ -58,7 +58,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
             this.OutputSignals.AddCollection(output.OutputSignals);
             this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
-            Connectors[0].Model = output.Connectors.First();
+            ConnectorViewModels[0].Model = output.Connectors.First();
         }
 
         public override object Clone()
@@ -70,10 +70,10 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ret.Model = newModel;
             ret.Caption = this.Caption;
 
-            for (int i = 0; i < Connectors.Count; i++)
+            for (int i = 0; i < ConnectorViewModels.Count; i++)
             {
-                var connector = Connectors[i];
-                ret.Connectors.Add(new ConnectorViewModel(connector.ParentViewModel, connector.Orientation, connector.ConnectorType));
+                var connector = ConnectorViewModels[i];
+                ret.ConnectorViewModels.Add(new ConnectorViewModel(connector.ParentViewModel, connector.Orientation, connector.ConnectorType));
             }
 
             return ret;

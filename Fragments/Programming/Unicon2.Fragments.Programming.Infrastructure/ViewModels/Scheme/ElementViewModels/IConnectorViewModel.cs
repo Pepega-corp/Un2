@@ -14,7 +14,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         IConnector Model { get; set; }
         ConnectorType ConnectorType { get; set; }
         ConnectorOrientation Orientation { get; }
-        int ConnectionNumber { get; set; }
-        bool Connected { get; set; }
+        bool Connected { get; }
     }
 }

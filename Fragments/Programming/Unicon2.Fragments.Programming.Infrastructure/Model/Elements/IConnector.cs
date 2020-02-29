@@ -4,6 +4,7 @@
     {
         ConnectorOrientation Orientation { get; }
         ConnectorType Type { get; set; }
+        IConnection Connection { get; set; }
         int ConnectionNumber { get; set; }
     }
 }

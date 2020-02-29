@@ -1,4 +1,5 @@
-﻿using Unicon2.Infrastructure.FragmentInterfaces;
+﻿using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.Model
@@ -7,5 +8,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
     {
         string ProjectName { get; set; }
         ISchemeModel[] Schemes { get; set; }
+        IConnection[] Connections { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model;
@@ -21,6 +22,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
     public class SchemeTabViewModel : ViewModelBase, ISchemeTabViewModel
     {
         #region Fields
+        private readonly IProgrammingViewModel _programmingViewModel;
         private readonly ILogicElementFactory _factory;
         public const int CELL_SIZE = 5;
         private ISchemeModel _model;
@@ -81,13 +83,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         #endregion Properties
 
-        public SchemeTabViewModel(string name, Size size, ILogicElementFactory factory) : this(factory)
+        public SchemeTabViewModel(ISchemeModel model, IProgrammingViewModel programmingViewModel, ILogicElementFactory factory) : this(factory)
         {
-            this.Model = new SchemeModel(name, size.Height, size.Width);
-        }
-
-        public SchemeTabViewModel(ISchemeModel model, ILogicElementFactory factory) : this(factory)
-        {
+            this._programmingViewModel = programmingViewModel;
             this.Model = model;
         }
 
@@ -142,7 +140,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             foreach (ILogicElementViewModel element in selectedElements)
             {
                 var removingConnections = new List<IConnectionViewModel>();
-                var connectedConnectors = element.Connectors.Where(c => c.Connected && c.Connections.Count != 0).ToList();
+                var connectedConnectors = element.ConnectorViewModels.Where(c => c.Connected && c.Connections.Count != 0).ToList();
                 foreach (var connector in connectedConnectors)
                 {
                     removingConnections.AddRange(connector.Connections);
@@ -190,5 +188,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
         }
 
         #endregion IFragmentViewModel
+
+        public void AddNewConnection(Connection connectionViewModel)
+        {
+            
+        }
     }
 }

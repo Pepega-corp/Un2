@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
@@ -25,8 +26,6 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public List<string> Bases { get; set; }
         [DataMember]
         public int BaseNum { get; set; }
-        [DataMember]
-        public int ConnectionNumber { get; set; }
         [DataMember]
         public double X { get; set; }
         [DataMember]
@@ -63,23 +62,22 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             
             this.InputSignalNum = inputSource.InputSignalNum;
             this.BaseNum = inputSource.BaseNum;
-            this.ConnectionNumber = inputSource.ConnectionNumber;
             this.Bases.Clear();
             this.Bases.AddRange(inputSource.Bases);
             this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
-            this.Connectors = new IConnector[inputSource.Connectors.Length];
-
-            for (int i = 0; i < inputSource.Connectors.Length; i++)
-            {
-                var connector = inputSource.Connectors[i];
-                this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
-            }
-
             for (int i = 0; i < this.Bases.Count; i++)
             {
                 var copiedDictionary = inputSource.AllInputSignals[i];
                 this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
             }
+
+            //this.Connectors = new IConnector[inputSource.Connectors.Length];
+            //for (int i = 0; i < inputSource.Connectors.Length; i++)
+            //{
+            //    var connector = inputSource.Connectors[i];
+            //    this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
+            //    this.Connectors[i].ConnectionNumber = connector.ConnectionNumber;
+            //}
         }
 
         public void CopyValues(ILibraryElement source)
@@ -131,7 +129,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 }
             }
             bindata[1] = (ushort)this.InputSignalNum;
-            bindata[2] = (ushort)this.ConnectionNumber;
+            bindata[2] = (ushort)this.Connectors.First().ConnectionNumber;
             return bindata;
         }
 
@@ -139,7 +137,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         {
             this.BaseNum = bin[0];
             this.InputSignalNum = bin[1];
-            this.ConnectionNumber = bin[2];
+            this.Connectors[0].ConnectionNumber = bin[2];
         }
 
         public string StrongName => ProgrammingKeys.INPUT;

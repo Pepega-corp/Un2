@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
@@ -7,13 +8,13 @@ namespace Unicon2.Fragments.Programming.Model
     [DataContract(Name = "schemeModel", Namespace ="SchemeModelNS")]
     public class SchemeModel : ISchemeModel
     {
-        public SchemeModel(string name, double height, double width)
+        public SchemeModel(string name, Size schemeSize)
         {
-            SchemeName = name;
-            SchemeHeight = height;
-            SchemeWidth = width;
-            Scale = 1;
-            LogicElements = new ILogicElement[0];
+            this.SchemeName = name;
+            this.SchemeHeight = schemeSize.Height;
+            this.SchemeWidth = schemeSize.Width;
+            this.Scale = 1;
+            this.LogicElements = new ILogicElement[0];
         }
         [DataMember]
         public string SchemeName { get; set; }
@@ -25,5 +26,7 @@ namespace Unicon2.Fragments.Programming.Model
         public double Scale { get; set; }
         [DataMember]
         public ILogicElement[] LogicElements { get ; set; }
+        [DataMember]
+        public IConnection[] Connections { get; set; }
     }
 }

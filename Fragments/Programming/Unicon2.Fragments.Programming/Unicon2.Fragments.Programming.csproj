@@ -64,6 +64,7 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="DesignerCanvasItemsControl.cs" />
     <Compile Include="DragElement.cs" />
+    <Compile Include="Model\Connection.cs" />
     <Compile Include="Model\Connector.cs" />
     <Compile Include="Model\Elements\Input.cs" />
     <Compile Include="Model\Elements\Output.cs" />

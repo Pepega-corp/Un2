@@ -66,7 +66,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        public ObservableCollection<IConnectorViewModel> Connectors { get; protected set; }
+        public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
 
         public double X
         {

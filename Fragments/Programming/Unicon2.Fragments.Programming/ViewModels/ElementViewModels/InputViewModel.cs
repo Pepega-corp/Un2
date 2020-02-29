@@ -23,7 +23,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.Description = "Елемент входного дискретного сигнала";
             this.Symbol = "In";
 
-            this.Connectors = new ObservableCollection<IConnectorViewModel>
+            this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>
             {
                 new ConnectorViewModel(this, ConnectorOrientation.RIGHT, ConnectorType.DIRECT)
             };
@@ -43,7 +43,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 if(string.Equals(this._selectedBase, value))
                     return;
                 this._selectedBase = value;
-                SetSignalsCollection(Bases.IndexOf(_selectedBase));
+                this.SetSignalsCollection(Bases.IndexOf(_selectedBase));
                 this.SelectedSignal = this.Signals[0];
                 RaisePropertyChanged();
             }
@@ -68,7 +68,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             var baseIndex =  this.Bases.IndexOf(this.SelectedBase);
             inputModel.BaseNum = baseIndex;
             inputModel.InputSignalNum = this._allInputSignals[baseIndex].First(s => s.Value == this.SelectedSignal).Key;
-            inputModel.Connectors[0] = Connectors[0].Model;
+            inputModel.Connectors[0] = ConnectorViewModels[0].Model;
 
             return inputModel;
         }
@@ -86,7 +86,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.SetSignalsCollection(model.BaseNum);
             this.SelectedSignal = this.Signals[model.InputSignalNum];
 
-            Connectors[0].ConnectionNumber = model.Connectors.First().ConnectionNumber;
+            ConnectorViewModels[0].Model = model.Connectors.First();
         }
 
         private void SetSignalsCollection(int index)
@@ -109,11 +109,11 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ret.Model = newModel;
             ret.Caption = this.Caption;
 
-            ret.Connectors.Clear();
-            for (int i = 0; i < this.Connectors.Count; i++)
+            ret.ConnectorViewModels.Clear();
+            for (int i = 0; i < this.ConnectorViewModels.Count; i++)
             {
-                IConnectorViewModel connector = this.Connectors[i];
-                ret.Connectors.Add(new ConnectorViewModel(connector.ParentViewModel, connector.Orientation, connector.ConnectorType));
+                IConnectorViewModel connector = this.ConnectorViewModels[i];
+                ret.ConnectorViewModels.Add(new ConnectorViewModel(connector.ParentViewModel, connector.Orientation, connector.ConnectorType));
             }
 
             return ret;

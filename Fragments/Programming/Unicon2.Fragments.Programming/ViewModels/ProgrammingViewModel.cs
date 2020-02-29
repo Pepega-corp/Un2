@@ -7,6 +7,7 @@ using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
@@ -71,8 +72,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._applicationGlobalCommands.ShowWindowModal(()=>new NewSchemeView(), schemeViewModel);
             if (schemeViewModel.DialogResult == MessageDialogResult.Affirmative)
             {
-                SchemeTabViewModel tabViewModel = new SchemeTabViewModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize, this._factory);
+                SchemeModel scemeMoedel = new SchemeModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
+                SchemeTabViewModel tabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
                 tabViewModel.CloseTabEvent += this.CloseTab;
+
                 this.SchemesCollection.Add(tabViewModel);
             }
         }
@@ -157,9 +160,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
                 foreach(var sceme in this._programmModel.Schemes)
                 {
-                    this.SchemesCollection.Add(new SchemeTabViewModel(sceme, this._factory));
+                    this.SchemesCollection.Add(new SchemeTabViewModel(sceme, this, this._factory));
                 }
-
+                foreach (var connection in this._programmModel.Connections)
+                {
+                    //TODO generate connections
+                }
                 return;
             }
 

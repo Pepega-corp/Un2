@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Unicon2.Fragments.Programming.Infrastructure;
+using Unicon2.Fragments.Programming.Infrastructure.Keys;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
     public class ConnectionViewModel : ViewModelBase, IConnectionViewModel
     {
-        private static Dictionary<IConnectionViewModel, int> ConnectionNumbers = new Dictionary<IConnectionViewModel, int>();
-
-        private const string NAME_PATTERN = "var{0}";
         public const string PATH_NAME = "ConnectionPath"; // должно полностью совпадать с Name у Path в XAML
 
         #region Private fields
-
-        private IConnectorViewModel _source;
-        private IConnectorViewModel _sink;
         private PathGeometry _path;
         private Point _labelPosition;
         private DoubleCollection _strokeDashArray;
@@ -27,6 +26,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private double _value;
         private double _x;
         private double _y;
+        private IConnection _model;
 
         #endregion
 
@@ -38,10 +38,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._gotValue = false;
         }
 
-        public ConnectionViewModel(IConnectorViewModel source, IConnectorViewModel sink, PathGeometry path) : this()
+        public ConnectionViewModel(IConnection model, PathGeometry path, IConnectorViewModel connector1, IConnectorViewModel connector2) : this()
         {
-            this.Source = source;
-            this.Sink = sink;
+            this._model = model;
             this.Path = path;
             this.StrokeDashArray = new DoubleCollection();
         }
@@ -83,50 +82,34 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public IConnectorViewModel Source
+        public IConnector Source
         {
-            get { return this._source; }
+            get { return this._model.Connectors.First(c=>c.Orientation == ConnectorOrientation.RIGHT); }
             set
             {
-                if (this._source != null && this._source.Equals(value)) return;
-                if (this._source != null)
-                {
-                    if (this._source.Connections.Contains(this))
-                    {
-                        this._source.Connections.Remove(this);
-                    }
-                }
-                this._source = value;
-                if (this._source != null)
-                {
-                    this._source.Connections.Add(this);
-                    this.UpdatePathGeometry();
-                }
+                if(value.Orientation != ConnectorOrientation.RIGHT)
+                    return;
 
+                var source = this._model.Connectors.First(c=>c.Orientation == ConnectorOrientation.RIGHT);
+                this._model.RemoveConnector(source);
+                this._model.AddConnector(value);
+                this.UpdatePathGeometry();
                 RaisePropertyChanged();
             }
         }
 
-        public IConnectorViewModel Sink
+        public IConnector Sink
         {
-            get { return this._sink; }
+            get { return this._model.Connectors.First(c => c.Orientation == ConnectorOrientation.LEFT); }
             set
             {
-                if (this._sink != null && this._sink.Equals(value)) return;
-                if (this._sink != null)
-                {
-                    if (this._sink.Connections.Contains(this))
-                    {
-                        this._sink.Connections.Remove(this);
-                    }
-                }
-                this._sink = value;
-                if (this._sink != null)
-                {
-                    this._sink.Connections.Add(this);
-                    this.UpdatePathGeometry();
-                }
+                if (value.Orientation != ConnectorOrientation.LEFT)
+                    return;
 
+                var sink = this._model.Connectors.First(c => c.Orientation == ConnectorOrientation.LEFT);
+                this._model.RemoveConnector(sink);
+                this._model.AddConnector(value);
+                this.UpdatePathGeometry();
                 RaisePropertyChanged();
             }
         }
@@ -242,54 +225,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         #endregion
 
-        #region Static methods
-
-        public static void AddNewConnectionNumber(ConnectionViewModel connection)
+        public string StrongName => ProgrammingKeys.CONNECTION +
+                                    ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+        public IConnection Model
         {
-            if (ConnectionNumbers.ContainsKey(connection))
-                return;
-
-            if (connection.Source.ConnectionNumber != -1)
-            {
-                ConnectionNumbers.Add(connection, connection.Source.ConnectionNumber);
-                connection.ConnectionNumber = connection.Source.ConnectionNumber;
-                connection.Sink.ConnectionNumber = connection.Source.ConnectionNumber;
-            }
-            else
-            {
-                int i = 0;
-                while (ConnectionNumbers.ContainsValue(i))
-                {
-                    i++;
-                }
-                ConnectionNumbers.Add(connection, i);
-                connection.ConnectionNumber = i;
-                connection.Source.ConnectionNumber = i;
-                connection.Sink.ConnectionNumber = i;
-                connection.Name = string.Format(NAME_PATTERN, i);
-            }
+            get { return this._model; }
+            set { this._model = value; }
         }
-
-        /// <summary>
-        /// Удаление связи, а так же из списка используемых номеров
-        /// </summary>
-        /// <param name="viewModel">Связь</param>
-        public static void RemoveConnectionWithNumber(IConnectionViewModel viewModel)
-        {
-            if (ConnectionNumbers.ContainsKey(viewModel))
-            {
-                ConnectionNumbers.Remove(viewModel);
-            }
-            //при удалении связи нужно проверять, подключен ли вывод еще с одной связью
-            viewModel.Source.Connections.Remove(viewModel);
-            viewModel.Source.Connected = viewModel.Source.Connections.Count > 0;
-            viewModel.Source = null;
-
-            viewModel.Sink.Connections.Remove(viewModel);
-            viewModel.Sink.Connected = viewModel.Sink.Connections.Count > 0;
-            viewModel.Sink = null;
-        }
-
-        #endregion
     }
 }

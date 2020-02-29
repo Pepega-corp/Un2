@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 
@@ -22,6 +23,8 @@ namespace Unicon2.Fragments.Programming.Model
 
         [DataMember]
         public ISchemeModel[] Schemes { get; set; }
+        [DataMember]
+        public IConnection[] Connections { get; set; }
 
         #region Implementation of IStronglyNamed
 

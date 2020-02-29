@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
@@ -21,8 +22,6 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public List<string> OutputSignals { get; set; }
         [DataMember]
         public int OutputSignalNum { get; set; }
-        [DataMember]
-        public int ConnectionNumber { get; set; }
         [DataMember]
         public double X { get; set; }
         [DataMember]
@@ -51,14 +50,16 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 throw new ArgumentException("Copied source is not " + typeof(Output));
             }
             
-            this.Connectors = new IConnector[outputSource.Connectors.Length];
-            for (int i = 0; i < outputSource.Connectors.Length; i++)
-            {
-                var connector = outputSource.Connectors[i];
-                this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
-            }
             this.OutputSignals.Clear();
             this.OutputSignals.AddRange(outputSource.OutputSignals);
+
+            //this.Connectors = new IConnector[outputSource.Connectors.Length];
+            //for (int i = 0; i < outputSource.Connectors.Length; i++)
+            //{
+            //    var connector = outputSource.Connectors[i];
+            //    this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
+            //    this.Connectors[i].ConnectionNumber = connector.ConnectionNumber;
+            //}
         }
 
         public void CopyValues(ILibraryElement source)
@@ -77,14 +78,14 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             ushort[] bindata = new ushort[this.BinSize];
             bindata[0] = 5;
             bindata[1] = (ushort)this.OutputSignalNum;
-            bindata[2] = (ushort)this.ConnectionNumber;
+            bindata[2] = (ushort)this.Connectors.First().ConnectionNumber;
             return bindata;
         }
 
         public void BinProgrammToProperty(ushort[] bin)
         {
             this.OutputSignalNum = bin[1];
-            this.ConnectionNumber = bin[2];
+            this.Connectors[0].ConnectionNumber = bin[2];
         }
 
         #region IStronglyName

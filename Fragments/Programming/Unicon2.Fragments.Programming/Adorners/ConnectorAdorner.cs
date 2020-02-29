@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Infrastructure;
+using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Adorners
@@ -53,12 +54,13 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             if (this._hitConnector != null)
             {
-                ConnectionViewModel connectionViewModel =
-                    this._sourceConnector.Model.Orientation == ConnectorOrientation.RIGHT
-                    ? new ConnectionViewModel(this._sourceConnector, this._hitConnector, this._pathGeometry)
-                    : new ConnectionViewModel(this._hitConnector, this._sourceConnector, this._pathGeometry);
-                ConnectionViewModel.AddNewConnectionNumber(connectionViewModel);
-
+                //TODO сделать проверку на наличие уже существующей связи и добавлять выводы к ней
+                //пока делать связи один к одному
+                Connection newConnection = new Connection();
+                newConnection.AddConnector(this._sourceConnector.Model);
+                newConnection.AddConnector(this._hitConnector.Model);
+                ConnectionViewModel connectionViewModel = new ConnectionViewModel(newConnection, this._pathGeometry, this._sourceConnector, this._hitConnector);
+                this._schemeTabViewModel.AddNewConnection(newConnection);
                 this._schemeTabViewModel.ElementCollection.Add(connectionViewModel);
 
                 this._hitConnector.IsDragConnection = false;

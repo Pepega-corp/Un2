@@ -188,7 +188,7 @@ namespace Unicon2.Fragments.Programming.Adorners
                 item.X = item.X + this._leftOffset;
                 item.Y = item.Y + this._topOffset;
                 // Задание новых координат точек выводов
-                foreach (IConnectorViewModel connector in item.Connectors)
+                foreach (IConnectorViewModel connector in item.ConnectorViewModels)
                 {
                     Point prevPoint = connector.ConnectorPoint;
                     connector.ConnectorPoint = new Point(prevPoint.X + this._leftOffset, prevPoint.Y + this._topOffset);
