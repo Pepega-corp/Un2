@@ -1,45 +1,39 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Unicon2.Formatting.Editor.ViewModels.Validators;
+using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
-using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Services;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.ViewModels
 {
     public class DictionaryMatchingFormatterViewModel : UshortsFormatterViewModelBase,
         IDictionaryMatchingFormatterViewModel
     {
-        private readonly ITypesContainer _container;
-        private IDictionaryMatchingFormatter _dictionaryMatchingFormatter;
         private ObservableCollection<BindableKeyValuePair<ushort, string>> _keyValuesDictionary;
         private BindableKeyValuePair<ushort, string> _selectedKeyValuePair;
-        private DictionaryMatchingFormatterValidator _validator;
+        //private DictionaryMatchingFormatterValidator _validator;
         private bool _isKeysIsNumbersOfBits;
 
-        public DictionaryMatchingFormatterViewModel(ITypesContainer container)
+        public DictionaryMatchingFormatterViewModel()
         {
-            this._container = container;
-            this._dictionaryMatchingFormatter = this._container.Resolve<IUshortsFormatter>(StringKeys.DICTIONARY_MATCHING_FORMATTER) as IDictionaryMatchingFormatter;
             this.KeyValuesDictionary = new ObservableCollection<BindableKeyValuePair<ushort, string>>();
             this.AddKeyValuePairCommand = new RelayCommand(this.OnAddKeyValuePairExecute);
             this.DeleteKeyValuePairCommand = new RelayCommand(this.OnDeleteKeyValuePairExecute, this.CanExecuteDeleteKeyValuePair);
             this.ImportFromSharedTablesCommand = new RelayCommand(this.OnExecuteImportFromSharedTables);
-            this._validator = new DictionaryMatchingFormatterValidator(this._container.Resolve<ILocalizerService>());
+           // this._validator = new DictionaryMatchingFormatterValidator(this._container.Resolve<ILocalizerService>());
         }
 
         private void OnExecuteImportFromSharedTables()
         {
 
         }
-
+        public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitDictionaryMatchFormatter(this);
+        }
         private bool CanExecuteDeleteKeyValuePair()
         {
             return this.SelectedKeyValuePair != null;
@@ -71,42 +65,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.KeyValuesDictionary.Add(keyPair);
         }
 
-        public override string StrongName => this._dictionaryMatchingFormatter?.StrongName;
-
-        public override IUshortsFormatter GetFormatter()
-        {
-            this.SaveChanges();
-            return this._dictionaryMatchingFormatter;
-        }
-
-        public override void InitFromFormatter(IUshortsFormatter ushortsFormatter)
-        {
-            this.KeyValuesDictionary.Clear();
-            if (ushortsFormatter == null)
-            {
-                this._dictionaryMatchingFormatter = this._container.Resolve<IUshortsFormatter>(StringKeys.DICTIONARY_MATCHING_FORMATTER) as IDictionaryMatchingFormatter;
-                this.IsKeysAreNumbersOfBits = false;
-            }
-            if (!(ushortsFormatter is IDictionaryMatchingFormatter)) return;
-            IDictionaryMatchingFormatter dictionaryMatchingFormatter = ushortsFormatter as IDictionaryMatchingFormatter;
-            this._dictionaryMatchingFormatter = dictionaryMatchingFormatter;
-            foreach (KeyValuePair<ushort, string> kvp in this._dictionaryMatchingFormatter.StringDictionary)
-            {
-                this.KeyValuesDictionary.Add(new BindableKeyValuePair<ushort, string>(kvp.Key, kvp.Value));
-            }
-            this.IsKeysAreNumbersOfBits = this._dictionaryMatchingFormatter.IsKeysAreNumbersOfBits;
-        }
-
-        private void SaveChanges()
-        {
-            this._dictionaryMatchingFormatter.StringDictionary = new Dictionary<ushort, string>();
-            foreach (BindableKeyValuePair<ushort, string> bkvp in this.KeyValuesDictionary)
-            {
-                this._dictionaryMatchingFormatter.StringDictionary.Add(bkvp.Key, bkvp.Value);
-            }
-            this._dictionaryMatchingFormatter.IsKeysAreNumbersOfBits = this.IsKeysAreNumbersOfBits;
-        }
-
+        public override string StrongName => StringKeys.DICTIONARY_MATCHING_FORMATTER;
+        
         public bool IsValid
         {
             get
@@ -122,22 +82,10 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public ICommand DeleteKeyValuePairCommand { get; }
 
-        public override object Model
-        {
-            get => this._dictionaryMatchingFormatter;
-            set
-            {
-                if (value is IDictionaryMatchingFormatter)
-                    this._dictionaryMatchingFormatter = (IDictionaryMatchingFormatter)value;
-                this.InitFromFormatter(this._dictionaryMatchingFormatter);
-            }
-        }
-
         public override object Clone()
         {
-            DictionaryMatchingFormatterViewModel cloneDictionaryMatchingFormatterViewModel = new DictionaryMatchingFormatterViewModel(this._container);
-            this.SaveChanges();
-            cloneDictionaryMatchingFormatterViewModel.InitFromFormatter(this._dictionaryMatchingFormatter.Clone() as IUshortsFormatter);
+            DictionaryMatchingFormatterViewModel cloneDictionaryMatchingFormatterViewModel = new DictionaryMatchingFormatterViewModel();
+      //      cloneDictionaryMatchingFormatterViewModel.InitFromFormatter(this._dictionaryMatchingFormatter.Clone() as IUshortsFormatter);
             return cloneDictionaryMatchingFormatterViewModel;
         }
 
@@ -177,8 +125,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         protected override void OnValidate()
         {
-            FluentValidation.Results.ValidationResult result = this._validator.Validate(this);
-            this.SetValidationErrors(result);
+          //  FluentValidation.Results.ValidationResult result = this._validator.Validate(this);
+         //   this.SetValidationErrors(result);
         }
 
         public bool IsInEditMode { get; set; }
@@ -190,7 +138,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public void StopEditElement()
         {
-            this.SaveChanges();
+           // this.SaveChanges();
             this.IsInEditMode = false;
         }
     }

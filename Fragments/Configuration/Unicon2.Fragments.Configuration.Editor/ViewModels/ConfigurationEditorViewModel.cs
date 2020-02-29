@@ -9,6 +9,7 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.View;
+using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
@@ -35,28 +36,18 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
     public class ConfigurationEditorViewModel : ViewModelBase, IConfigurationEditorViewModel, IChildPositionChangeable
     {
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
-        private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
-        private readonly ITypesContainer _container;
-        private readonly IConfigurationItemEditorViewModelFactory _configurationItemEditorViewModelFactory;
-        private readonly IConfigurationItemFactory _configurationItemFactory;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
         private IConfigurationItem _bufferConfigurationItem;
         private string _deviceName;
 
-        public ConfigurationEditorViewModel(ITypesContainer container,
-            IConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory,
-            IConfigurationItemFactory configurationItemFactory, IDeviceConfiguration deviceConfiguration,
+        public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
             ISharedResourcesViewModelFactory sharedResourcesViewModelFactory)
         {
-            this._container = container;
-            this._configurationItemEditorViewModelFactory = configurationItemEditorViewModelFactory;
-            this._configurationItemFactory = configurationItemFactory;
             this._allRows = new ObservableCollection<IConfigurationItemViewModel>();
             this._applicationGlobalCommands = applicationGlobalCommands;
-            this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
             this.RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
             this.ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
             this.AddRootElementCommand = new RelayCommand(this.OnAddRootElement);
@@ -170,12 +161,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanExecuteAddSelectedElementAsResource()
         {
-            return (this._selectedRow != null) && !this._deviceSharedResources.IsItemReferenced(this._selectedRow.);
+            return false;
+            // return (this._selectedRow != null) && !this._deviceSharedResources.IsItemReferenced(this._selectedRow.);
         }
 
         private void OnAddSelectedElementAsResourceExecute()
         {
-            this._sharedResourcesViewModelFactory.AddSharedResource(this._selectedRow.Model as INameable);
+           // this._sharedResourcesViewModelFactory.AddSharedResource(this._selectedRow.Model as INameable);
         }
 
         private bool CanPasteAsChildElementElement()
@@ -185,18 +177,18 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnPasteAsChildElementExecute()
         {
-            if (this.SelectedRow is IAsChildPasteable)
-            {
+            //if (this.SelectedRow is IAsChildPasteable)
+            //{
 
-                IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
-                    this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(
-                        this._bufferConfigurationItem.Clone() as IConfigurationItem, this.SelectedRow);
-                (this.SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
+            //    IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
+            //        this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(
+            //            this._bufferConfigurationItem.Clone() as IConfigurationItem, this.SelectedRow);
+            //    (this.SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
 
-                this.PrepareAdding();
-                this.SelectedRow = editorConfigurationItemViewModel;
-                this.CompleteAdding();
-            }
+            //    this.PrepareAdding();
+            //    this.SelectedRow = editorConfigurationItemViewModel;
+            //    this.CompleteAdding();
+            //}
         }
 
         private bool CanExecuteCopyElement()
@@ -206,22 +198,22 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnCopyElementExecute()
         {
-            if (this.SelectedRow is ICloneable)
-            {
-                this._bufferConfigurationItem = (this.SelectedRow.Model as IConfigurationItem);
-            }
+            //if (this.SelectedRow is ICloneable)
+            //{
+            //    this._bufferConfigurationItem = (this.SelectedRow.Model as IConfigurationItem);
+            //}
         }
 
         private void OnOpenConfigurationSettingsExecute()
         {
-            IFragmentSettingsViewModel configurationSettingsViewModel =
-                this._container.Resolve<IFragmentSettingsViewModel>();
-            if (this._deviceConfiguration.FragmentSettings == null)
-            {
-                this._deviceConfiguration.FragmentSettings = this._container.Resolve<IFragmentSettings>();
-            }
-            configurationSettingsViewModel.Model = this._deviceConfiguration.FragmentSettings;
-            this._applicationGlobalCommands.ShowWindowModal(() => new ConfigurationSettingsView(), configurationSettingsViewModel);
+            //IFragmentSettingsViewModel configurationSettingsViewModel =
+            //    this._container.Resolve<IFragmentSettingsViewModel>();
+            //if (this._deviceConfiguration.FragmentSettings == null)
+            //{
+            //    this._deviceConfiguration.FragmentSettings = this._container.Resolve<IFragmentSettings>();
+            //}
+            //configurationSettingsViewModel.Model = this._deviceConfiguration.FragmentSettings;
+            //this._applicationGlobalCommands.ShowWindowModal(() => new ConfigurationSettingsView(), configurationSettingsViewModel);
         }
 
         private bool CanExecuteAddChildGroupElement()
@@ -243,10 +235,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnAddRootGroupElementExecute()
         {
-            IConfigurationItem rootConfigurationItem = this._configurationItemFactory.ResolveGroupConfigurationItem();
-            this._deviceConfiguration.RootConfigurationItemList.Add(rootConfigurationItem);
             IEditorConfigurationItemViewModel configurationItemViewModel =
-                this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(rootConfigurationItem);
+                ConfigurationItemEditorViewModelFactory.Create().VisitItemsGroup(null);
             this.AllRows.Add(configurationItemViewModel);
             this.RootConfigurationItemViewModels.Add(configurationItemViewModel);
             this.SelectedRow = configurationItemViewModel;
@@ -273,10 +263,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnAddRootElement()
         {
-            IConfigurationItem rootConfigurationItem = this._configurationItemFactory.ResolveConfigurationItem();
-            this._deviceConfiguration.RootConfigurationItemList.Add(rootConfigurationItem);
             IEditorConfigurationItemViewModel configurationItemViewModel =
-                this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(rootConfigurationItem);
+                ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null);
             this.AllRows.Add(configurationItemViewModel);
             this.RootConfigurationItemViewModels.Add(configurationItemViewModel);
             this.SelectedRow = configurationItemViewModel;
@@ -507,7 +495,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                     if (this.RootConfigurationItemViewModels.Contains(configurationItemViewModel))
                     {
                         this.RootConfigurationItemViewModels.Remove(configurationItemViewModel);
-                        this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModel.Model as IConfigurationItem);
+                       // this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModel.Model as IConfigurationItem);
                     }
                 }
                 else
@@ -522,40 +510,25 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 
-        public object Model
-        {
-            get
-            {
-                this.Save();
-                this._deviceConfiguration.RootConfigurationItemList.Clear();
-                this.RootConfigurationItemViewModels.ForEach(model =>
-                {
-                    this._deviceConfiguration.RootConfigurationItemList.Add(model.Model as IConfigurationItem);
-                });
-                return this._deviceConfiguration;
-            }
-            set
-            {
-          
-            }
-        }
 
         public string NameForUiKey => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
+        public IDeviceFragment BuildDeviceFragment()
+        {
+            throw new NotImplementedException();
+        }
 
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
         public void Initialize(IDeviceFragment deviceFragment)
         {
-            this._deviceConfiguration = deviceFragment as IDeviceConfiguration;
-
-            if (this._deviceConfiguration.RootConfigurationItemList != null)
+            if (deviceFragment is IDeviceConfiguration deviceConfiguration)
             {
                 this.RootConfigurationItemViewModels.Clear();
                 this.AllRows.Clear();
-                foreach (IConfigurationItem member in this._deviceConfiguration.RootConfigurationItemList)
+                foreach (IConfigurationItem member in deviceConfiguration.RootConfigurationItemList)
                 {
                     IEditorConfigurationItemViewModel itemEditorViewModel =
-                        member.Accept(_configurationItemEditorViewModelFactory);
+                        member.Accept(ConfigurationItemEditorViewModelFactory.Create());
                     this.RootConfigurationItemViewModels.Add(itemEditorViewModel);
                     this.AllRows.Add(itemEditorViewModel);
                 }
@@ -564,7 +537,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public void SetResources(IDeviceSharedResources deviceSharedResources)
         {
-            this._deviceSharedResources = deviceSharedResources;
+           // this._deviceSharedResources = deviceSharedResources;
         }
 
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)
@@ -604,7 +577,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             this.RootConfigurationItemViewModels.Remove(
                 this.RootConfigurationItemViewModels.First((model => model == configurationItemViewModelToRemove)));
-            this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModelToRemove);
         }
     }
 }

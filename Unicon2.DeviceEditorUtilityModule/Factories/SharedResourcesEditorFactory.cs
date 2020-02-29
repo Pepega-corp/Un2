@@ -41,7 +41,6 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
                 }
                 if (resViewModel == null) return;
                 resViewModel.Model = resource;
-                (resource as IInitializableFromContainer)?.InitializeFromContainer(this._container);
                 resourceEditingViewModel.ResourceEditorViewModel = resViewModel;
                 applicationGlobalCommands.ShowWindowModal(() => new ResourcesEditingWindow(), resourceEditingViewModel, _owner);
             }

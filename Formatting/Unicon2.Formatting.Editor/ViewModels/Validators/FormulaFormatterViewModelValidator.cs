@@ -1,10 +1,8 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using org.mariuszgromada.math.mxparser;
-using Unicon2.Formatting.Infrastructure.Model;
 
 namespace Unicon2.Formatting.Editor.ViewModels.Validators
 {

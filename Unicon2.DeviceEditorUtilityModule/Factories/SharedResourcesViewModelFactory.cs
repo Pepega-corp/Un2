@@ -31,7 +31,7 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
         {
             if (!this._isInitialized) throw new Exception();
             IDeviceSharedResourcesViewModel deviceSharedResourcesViewModel = this._container.Resolve<IDeviceSharedResourcesViewModel>();
-            deviceSharedResourcesViewModel.Model = this._deviceSharedResources;
+          //  deviceSharedResourcesViewModel.Model = this._deviceSharedResources;
             deviceSharedResourcesViewModel.IsSelectingMode = false;
             this._applicationGlobalCommands.ShowWindowModal(() => new DeviceSharedResourcesView(), deviceSharedResourcesViewModel);
 
@@ -41,7 +41,7 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
         {
             if (!this._isInitialized) throw new Exception();
             IDeviceSharedResourcesViewModel deviceSharedResourcesViewModel = this._container.Resolve<IDeviceSharedResourcesViewModel>();
-            deviceSharedResourcesViewModel.Model = this._deviceSharedResources;
+          //  deviceSharedResourcesViewModel.Model = this._deviceSharedResources;
             deviceSharedResourcesViewModel.IsSelectingMode = true;
             deviceSharedResourcesViewModel.Initialize(typeNeeded);
             this._applicationGlobalCommands.ShowWindowModal((() => new DeviceSharedResourcesView()), deviceSharedResourcesViewModel);
@@ -51,7 +51,7 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
 
         public bool CheckDeviceSharedResourcesContainsElement(INameable resource)
         {
-            return this._deviceSharedResources.IsItemReferenced(resource);
+            return this._deviceSharedResources.IsItemReferenced(resource.Name);
         }
 
         public void AddSharedResource(INameable resourceToAdd)

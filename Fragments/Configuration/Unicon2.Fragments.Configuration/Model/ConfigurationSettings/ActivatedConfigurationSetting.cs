@@ -13,8 +13,6 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
 
     public class ActivatedConfigurationSetting : IActivatedSetting,IWriteable
     {
-        private IDataProvider _dataProvider;
-
         [DataMember(Name = nameof(ActivationAddress), Order = 0)]
 
         public ushort ActivationAddress { get; set; }
@@ -23,16 +21,11 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
 
         public bool IsSettingEnabled { get; set; }
 
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            _dataProvider = dataProvider;
-        }
-
         public async Task<bool> Write()
         {
             if(IsSettingEnabled)
             {
-                IQueryResult queryResult= await _dataProvider.WriteSingleCoilAsync(ActivationAddress,true,ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
+                IQueryResult queryResult= await DataProvider.WriteSingleCoilAsync(ActivationAddress,true,ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
                 return queryResult.IsSuccessful;
             }
             return false;
@@ -45,5 +38,7 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
         {
          return  await Write();
         }
+
+        public IDataProvider DataProvider { get; set; }
     }
 }

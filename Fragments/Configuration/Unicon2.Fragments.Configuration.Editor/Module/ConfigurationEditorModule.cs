@@ -7,6 +7,7 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
+using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.ElementAdding;
 using Unicon2.Infrastructure;
@@ -26,15 +27,13 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
                 ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
-            container.Register<IPropertyEditorEditorViewModel, PropertyEditorEditorViewModel>();
+            container.Register<IPropertyEditorViewModel, PropertyEditorViewModel>();
             container.Register<IConfigurationGroupEditorViewModel, ConfigurationGroupEditorViewModel>();
             container.Register<IDependentPropertyEditorViewModel, DependentPropertyEditorViewModel>();
             container.Register<IComplexPropertyEditorViewModel, ComplexPropertyEditorViewModel>();
             container.Register<ISubPropertyEditorViewModel, SubPropertyEditorViewModel>();
             
-
-            container.Register<IConfigurationItemEditorViewModelFactory, ConfigurationItemEditorViewModelFactory>();
-
+            
             container.Register<IElementAddingCommand, ElementAddingCommand>();
 
             container.Register(typeof(IFragmentSettingViewModel),

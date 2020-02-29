@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Formatting.Infrastructure.ViewModel
 {

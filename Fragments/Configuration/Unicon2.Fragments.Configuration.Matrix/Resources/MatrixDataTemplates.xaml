@@ -3,19 +3,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors1="clr-namespace:Unicon2.SharedResources.Behaviors;assembly=Unicon2.SharedResources"
     xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:converters1="clr-namespace:Unicon2.Fragments.Configuration.Converters;assembly=Unicon2.Fragments.Configuration"
     xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors;assembly=Unicon2.SharedResources"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:struct="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Configuration.Infrastructure"
-    xmlns:converters1="clr-namespace:Unicon2.Fragments.Configuration.Converters;assembly=Unicon2.Fragments.Configuration"
     xmlns:view="clr-namespace:Unicon2.Fragments.Configuration.Matrix.View">
 
     <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <converters1:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
     <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
     <converters1:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
-    <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" 
-                                                     />
+    <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
     <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
 
     <DataTemplate x:Key="MatrixValueViewModelDataTemplate">
@@ -59,9 +58,9 @@
     </DataTemplate>
 
     <DataTemplate x:Key="MatrixTableValueViewDataTemplate">
-        <view:MatrixTableValueView></view:MatrixTableValueView>
+        <view:MatrixTableValueView />
     </DataTemplate>
 
 
-</ResourceDictionary> 
+</ResourceDictionary>
 

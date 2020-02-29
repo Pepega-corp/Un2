@@ -16,6 +16,7 @@ namespace Unicon2.Presentation.FragmentSettings
     public class QuickAccessMemorySettingViewModel : ViewModelBase, IQuickAccessMemorySettingViewModel
     {
         private readonly Func<IRangeViewModel> _rangeViewModelGettingFunc;
+        private readonly ITypesContainer _container;
         private IQuickMemoryAccessSetting _quickMemoryAccessSetting;
         private bool _isSettingEnabled;
         private IRangeViewModel _selectedRangeViewModel;
@@ -23,6 +24,7 @@ namespace Unicon2.Presentation.FragmentSettings
         public QuickAccessMemorySettingViewModel(Func<IRangeViewModel> rangeViewModelGettingFunc, ITypesContainer container)
         {
             _rangeViewModelGettingFunc = rangeViewModelGettingFunc;
+            _container = container;
             AddRangeCommand = new RelayCommand(OnAddRangeExecute);
             DeleteRangeCommand = new RelayCommand(OnDeleteRangeExecute, CanExecuteDeleteRange);
             RangeViewModels = new ObservableCollection<IRangeViewModel>();
@@ -64,7 +66,9 @@ namespace Unicon2.Presentation.FragmentSettings
                 foreach (IRange range in setting.QuickAccessAddressRanges)
                 {
                     IRangeViewModel rangeViewModel = _rangeViewModelGettingFunc();
-                    rangeViewModel.Model = range;
+                    rangeViewModel.RangeFrom = range.RangeFrom.ToString();
+                    rangeViewModel.RangeTo = range.RangeTo.ToString();
+
                     RangeViewModels.Add(rangeViewModel);
                 }
                 IsSettingEnabled = _quickMemoryAccessSetting.IsSettingEnabled;
@@ -77,7 +81,11 @@ namespace Unicon2.Presentation.FragmentSettings
 
             foreach (IRangeViewModel rangeViewModel in RangeViewModels)
             {
-                _quickMemoryAccessSetting.QuickAccessAddressRanges.Add(rangeViewModel.Model as IRange);
+                var range=_container.Resolve<IRange>();
+                range.RangeTo = double.Parse(rangeViewModel.RangeTo);
+                range.RangeFrom = double.Parse(rangeViewModel.RangeFrom);
+
+                _quickMemoryAccessSetting.QuickAccessAddressRanges.Add(range);
             }
             _quickMemoryAccessSetting.IsSettingEnabled = IsSettingEnabled;
             return _quickMemoryAccessSetting;

@@ -73,13 +73,13 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             if (fragmentEditorViewModel == null) return;
             if (!(fragmentEditorViewModel is INameable))
             {
-                if (this.FragmentEditorViewModels.Any((model => model.StrongName == fragmentEditorViewModel.StrongName)))
+                if (this.FragmentEditorViewModels.Any((model => model.NameForUiKey == fragmentEditorViewModel.NameForUiKey)))
                     return;
                 this.FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
             else
             {
-                this.FragmentEditorViewModels.Add(this._container.Resolve<IFragmentEditorViewModel>(fragmentEditorViewModel.StrongName));
+               // this.FragmentEditorViewModels.Add(this._container.Resolve<IFragmentEditorViewModel>(fragmentEditorViewModel.StrongName));
             }
         }
 
@@ -121,7 +121,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             foreach (IDeviceFragment fragment in this._device.DeviceFragments)
             {
                 IFragmentEditorViewModel fragmentEditorViewModel = this._fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
-                fragmentEditorViewModel.Model = fragment;
+                fragmentEditorViewModel.Initialize(fragment);
                 if (fragmentEditorViewModel is IResourceContaining)
                 {
                     (fragmentEditorViewModel as IResourceContaining).SetResources(this._device.DeviceSharedResources);
@@ -140,7 +140,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             this._device.DeviceSharedResources = this._deviceSharedResources;
             foreach (IFragmentEditorViewModel fragmentEditorViewModel in this.FragmentEditorViewModels)
             {
-                (this._device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.Model as IDeviceFragment);
+                (this._device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.BuildDeviceFragment());
             }
             this._device.SerializeInFile(path, isDefaultSaving);
         }

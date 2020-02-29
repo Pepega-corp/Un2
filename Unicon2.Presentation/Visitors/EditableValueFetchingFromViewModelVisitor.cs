@@ -4,7 +4,7 @@ using Unicon2.Presentation.Infrastructure.Visitors;
 
 namespace Unicon2.Presentation.Visitors
 {
-    public class EditableValueFetchingFromViewModelVisitor : IEditableValueViewModelVisitor<IFormattedValue>
+    public class EditableValueFetchingFromViewModelVisitor : IEditableValueFetchingFromViewModelVisitor
     {
         public IFormattedValue VisitBoolValueViewModel(IBoolValueViewModel boolValueViewModel)
         {

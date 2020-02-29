@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Formatting.Model.Base;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Matrix;
 
@@ -14,27 +15,15 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
     [DataContract(Name = nameof(MatrixValueFormatter), Namespace = "MatrixValueFormatterNS", IsReference = true)]
     public class MatrixValueFormatter: UshortsFormatterBase
     {
-        private IAppointableMatrix _appointableMatrix;
-
-        public MatrixValueFormatter(IAppointableMatrix appointableMatrix)
-        {
-            _appointableMatrix = appointableMatrix;
-        }
-
-        public override ushort[] FormatBack(IFormattedValue formattedValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IFormattedValue OnFormatting(ushort[] ushorts)
-        {
-            return new MatrixValue(){MatrixTemplate=_appointableMatrix.MatrixTemplate,UshortsValue=ushorts};
-        }
-
-        public override string StrongName { get; }
+        
         public override object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public override T Accept<T>(IFormatterVisitor<T> visitor)
+        {
+            return visitor.VisitMatrixFormatter(this);
         }
     }
 }

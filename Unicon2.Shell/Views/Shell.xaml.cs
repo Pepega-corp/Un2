@@ -2,7 +2,6 @@
 using MahApps.Metro.Controls;
 using System.Windows;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Presentation.Infrastructure.Events;
 
 namespace Unicon2.Shell.Views
 {

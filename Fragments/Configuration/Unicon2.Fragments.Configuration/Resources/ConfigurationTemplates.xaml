@@ -9,10 +9,10 @@
     xmlns:dataTemplateSelectors1="clr-namespace:Unicon2.Fragments.Configuration.DataTemplateSelectors"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:runtime="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;assembly=Unicon2.Fragments.Configuration.Infrastructure"
     xmlns:struct="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Configuration.Infrastructure"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
-    xmlns:views="clr-namespace:Unicon2.Fragments.Configuration.Views"
-    xmlns:runtime="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;assembly=Unicon2.Fragments.Configuration.Infrastructure">
+    xmlns:views="clr-namespace:Unicon2.Fragments.Configuration.Views">
 
     <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <converters:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />

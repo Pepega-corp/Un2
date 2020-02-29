@@ -43,12 +43,12 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
             container.Register<IBitOption, ListMatrixBitOption>(MatrixKeys.LIST_MATRIX_BIT_OPTION);
             container.Register<MatrixViewModelTableFactory>();
 
-            container.Register(typeof(IViewModel), typeof(AppointableMatrixEditorViewModel),
-                ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-            container.Register(typeof(IViewModel), typeof(BoolMatrixVariableOptionTemplateEditorViewModel),
-                     MatrixKeys.BOOL_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-            container.Register(typeof(IViewModel), typeof(ListMatrixVariableOptionTemplateEditorViewModel),
-                MatrixKeys.LIST_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            //container.Register(typeof(IViewModel), typeof(AppointableMatrixEditorViewModel),
+            //    ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            //container.Register(typeof(IViewModel), typeof(BoolMatrixVariableOptionTemplateEditorViewModel),
+            //         MatrixKeys.BOOL_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            //container.Register(typeof(IViewModel), typeof(ListMatrixVariableOptionTemplateEditorViewModel),
+            //    MatrixKeys.LIST_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
 
 

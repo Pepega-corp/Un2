@@ -6,6 +6,5 @@ namespace Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryA
     public interface IQuickMemoryAccessSetting : IFragmentSetting
     {
         List<IRange> QuickAccessAddressRanges { get; set; }
-        IQuickMemoryAccessDataProviderStub QuickMemoryAccessDataProviderStub { get; set; }
     }
 }

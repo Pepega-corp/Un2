@@ -6,16 +6,18 @@
     xmlns:converters="clr-namespace:Unicon2.Fragments.Configuration.Editor.Converters"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:tree="clr-namespace:Unicon2.Fragments.Configuration.Editor.Interfaces.Tree"
-    xmlns:view="clr-namespace:Unicon2.Fragments.Configuration.Editor.View">
+    xmlns:view="clr-namespace:Unicon2.Fragments.Configuration.Editor.View"
+    xmlns:viewModels="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels">
 
     <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <converter:DisablingNegativeValueConverter x:Key="DisablingNegativeValueConverter" />
     <converters:IsFormattableToVisibilityConverter x:Key="IsFormattableToVisibilityConverter" />
     <converter:InvertConverter x:Key="InvertConverter" />
     <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
-    <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter"/>
+    <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
 
-    <DataTemplate x:Key="ConfigurationEditorViewModelDataTemplate" DataType="{x:Type tree:IConfigurationEditorViewModel}">
+    <DataTemplate x:Key="ConfigurationEditorViewModelDataTemplate" DataType="{x:Type viewModels:ConfigurationEditorViewModel}">
+
         <view:ConfigurationEditorView />
     </DataTemplate>
 

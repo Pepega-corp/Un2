@@ -28,7 +28,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         [DataMember]
         public bool IsGroupedProperty { get; set; }
-        
+
 
         //public override async Task<bool> Write()
         //{
@@ -59,6 +59,25 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         //    }
         //    return isToWrite;
         //}
+
+        // IQueryResult queryResult = this._queryResultFactory.CreateDefaultQueryResult();
+        //if (this.IsMemoryValuesSetsContainsAddress(startAddress))
+        //{
+        //    bool[] bitArrayToWrite = dataToWrite.GetBoolArrayFromUshortArray();
+        //    bool[] bitArrayExisting =
+        //        (new[] { this.GetValueFromMemoryValuesSets(startAddress) }).GetBoolArrayFromUshortArray();
+        //    for (int i = 0; i < bitArrayToWrite.Length; i++)
+        //    {
+        //        if (bitNumbers.Contains(i))
+        //        {
+        //            bitArrayExisting[i] = bitArrayToWrite[i];
+        //        }
+        //    }
+        //    this.SetValueFromMemoryValuesSets(startAddress, bitArrayExisting.BoolArrayToUshort());
+        //}
+
+        //queryResult.IsSuccessful = true;
+        //return queryResult;
 
         //private ushort[] GetParentLocalUshortsFromChildren(List<ISubProperty> subProperties)
         //{

@@ -14,45 +14,35 @@ namespace Unicon2.Presentation.Values.Editable
         IChosenFromListValueViewModel
     {
         private ObservableCollection<string> _availableItemsList;
-        private string _selectedItemInitialValue;
-        private IChosenFromListValue _chosenFromListValue;
+        private string _selectedItem;
+        private readonly Lazy<string> _selectedItemInitial;
+
+        public EditableChosenFromListValueViewModel()
+        {
+            _selectedItemInitial = new Lazy<string>(() => SelectedItem);
+        }
 
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public override void InitFromValue(IChosenFromListValue value)
-        {
-            _chosenFromListValue = value;
-            InitList(_chosenFromListValue.AvailableItemsList);
-            _selectedItemInitialValue = _chosenFromListValue.SelectedItem;
-        }
 
-        public ObservableCollection<string> AvailableItemsList
-        {
-            get { return _availableItemsList; }
-        }
+        public ObservableCollection<string> AvailableItemsList => _availableItemsList;
 
         public string SelectedItem
         {
-            get { return _chosenFromListValue.SelectedItem; }
+            get { return _selectedItem; }
             set
             {
-                _chosenFromListValue.SelectedItem = value;
+                _selectedItem = value;
                 RaisePropertyChanged();
-                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue != value);
+                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitial.Value != value);
             }
         }
 
         public void InitList(IEnumerable<string> stringEnumerable)
         {
             _availableItemsList = new ObservableCollection<string>(stringEnumerable);
-        }
-
-        public override IChosenFromListValue GetValue()
-        {
-            _chosenFromListValue.SelectedItem = SelectedItem;
-            return _chosenFromListValue;
         }
         public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
         {

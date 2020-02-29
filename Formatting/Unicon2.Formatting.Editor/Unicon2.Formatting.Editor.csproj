@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factories\FormatterEditorFactory.cs" />
+    <Compile Include="Factories\FormatterViewModelFactory.cs" />
     <Compile Include="Module\FormattingEditorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -87,6 +88,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\DefaultBitMaskFormatterViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IFormatterViewModelVisitable.cs" />
     <Compile Include="ViewModels\StringFormatter1251ViewModel.cs" />
     <Compile Include="ViewModels\UshortToIntegerFormatterViewModel.cs" />
     <Compile Include="ViewModels\AsciiStringFormatterViewModel.cs" />
@@ -107,6 +109,8 @@
     <Compile Include="Views\FormatterView.xaml.cs">
       <DependentUpon>FormatterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visitors\IFormatterViewModelVisitor.cs" />
+    <Compile Include="Visitors\SaveFormatterViewModelVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -140,6 +144,10 @@
       <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>
       <Name>Unicon2.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+      <Project>{EF9BF685-16AA-4942-A33C-D65562BD4215}</Project>
+      <Name>Unicon2.Presentation.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unicon2.SharedResources\Unicon2.SharedResources.csproj">
       <Project>{CA06A2C8-E39C-4D5C-B19B-3C60E7151AEF}</Project>
       <Name>Unicon2.SharedResources</Name>
@@ -152,9 +160,11 @@
       <Project>{2A80AB3B-3AF5-48DB-8604-14CC4229F2C3}</Project>
       <Name>Unicon2.Formatting.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Formatting\Unicon2.Formatting.csproj">
+      <Project>{DACD757A-1BEE-4C5E-BD62-D5BF7B89DA14}</Project>
+      <Name>Unicon2.Formatting</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Visitors" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

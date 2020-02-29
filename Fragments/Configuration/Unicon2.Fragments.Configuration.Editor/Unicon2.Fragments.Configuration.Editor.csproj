@@ -75,6 +75,8 @@
     <Compile Include="Converters\IsFormattableToVisibilityConverter.cs" />
     <Compile Include="CustomControls\WrapPanelWithRowsOrColumnsCount.cs" />
     <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
+    <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
+    <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
     <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />
     <Compile Include="Visitors\GroupWithReiterationEditorWindowFactory.cs" />
     <Compile Include="Interfaces\ConfigurationSettings\IActivatedConfigurationSettingViewModel.cs" />
@@ -88,7 +90,7 @@
     <Compile Include="Interfaces\Tree\IAddressIncreaseable.cs" />
     <Compile Include="Interfaces\Tree\IComplexPropertyEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\IDependentPropertyEditorViewModel.cs" />
-    <Compile Include="Interfaces\Tree\IPropertyEditorEditorViewModel.cs" />
+    <Compile Include="Interfaces\Tree\IPropertyEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\IConfigurationEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\IConfigurationGroupEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\ISubPropertyEditorViewModel.cs" />
@@ -114,7 +116,7 @@
     <Compile Include="ViewModels\DescriptionEditingViewModel.cs" />
     <Compile Include="ViewModels\EditorConfigurationItemViewModelBase.cs" />
     <Compile Include="ViewModels\ElementAdding\ElementAddingCommand.cs" />
-    <Compile Include="ViewModels\Properties\PropertyEditorEditorViewModel.cs" />
+    <Compile Include="ViewModels\Properties\PropertyEditorViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationEditorViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationGroupEditorViewModel.cs" />
     <Compile Include="ViewModels\Properties\SubPropertyEditorViewModel.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="View\GroupWithReiterationInfoEditorView.xaml.cs">
       <DependentUpon>GroupWithReiterationInfoEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visitors\SaveEditorConfigurationItemViewModelVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

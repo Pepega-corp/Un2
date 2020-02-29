@@ -19,7 +19,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
     {
         public AppointableMatrix(IMatrixTemplate matrixTemplate) 
         {
-            UshortsFormatter = new MatrixValueFormatter(this);
+            UshortsFormatter = new MatrixValueFormatter();
             this.MatrixTemplate = matrixTemplate;
         }
 

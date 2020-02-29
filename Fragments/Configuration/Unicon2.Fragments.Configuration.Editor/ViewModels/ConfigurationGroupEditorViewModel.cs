@@ -7,6 +7,7 @@ using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
+using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -21,9 +22,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public class ConfigurationGroupEditorViewModel : EditorConfigurationItemViewModelBase, IConfigurationGroupEditorViewModel
     {
-        private readonly ITypesContainer _container;
-        private readonly IConfigurationItemEditorViewModelFactory _configurationItemEditorViewModelFactory;
-        private readonly IConfigurationItemFactory _configurationItemFactory;
         private ObservableCollection<IPropertyViewModel> _properties;
         private bool _isInEditMode;
         private ushort _addressIteratorValue = 1;
@@ -31,21 +29,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private bool _isMain;
         private bool _isGroupWithReiteration;
 
-        public ConfigurationGroupEditorViewModel(ITypesContainer container,
-            IConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory,
-            IConfigurationItemFactory configurationItemFactory)
+        public ConfigurationGroupEditorViewModel()
         {
-            this._container = container;
-            this._configurationItemEditorViewModelFactory = configurationItemEditorViewModelFactory;
-            this._configurationItemFactory = configurationItemFactory;
-            this.IncreaseAddressCommand = new RelayCommand(this.OnIncreaseAddressExecute);
-            this.DecreaseAddressCommand = new RelayCommand(this.OnDecreaseAddressExecute);
+            IncreaseAddressCommand = new RelayCommand(OnIncreaseAddressExecute);
+            DecreaseAddressCommand = new RelayCommand(OnDecreaseAddressExecute);
 
         }
 
         private void OnDecreaseAddressExecute()
         {
-            foreach (IConfigurationItemViewModel childStructItemViewModel in this.ChildStructItemViewModels)
+            foreach (IConfigurationItemViewModel childStructItemViewModel in ChildStructItemViewModels)
             {
                 (childStructItemViewModel as IAddressIncreaseableDecreaseable).AddressIteratorValue = AddressIteratorValue;
                 (childStructItemViewModel as IAddressIncreaseableDecreaseable)?.DecreaseAddressCommand?.Execute(null);
@@ -54,7 +47,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnIncreaseAddressExecute()
         {
-            foreach (IConfigurationItemViewModel childStructItemViewModel in this.ChildStructItemViewModels)
+            foreach (IConfigurationItemViewModel childStructItemViewModel in ChildStructItemViewModels)
             {
                 (childStructItemViewModel as IAddressIncreaseableDecreaseable).AddressIteratorValue = AddressIteratorValue;
                 (childStructItemViewModel as IAddressIncreaseableDecreaseable)?.IncreaseAddressCommand?.Execute(null);
@@ -65,121 +58,102 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             get
             {
-                return this._addressIteratorValue;
+                return _addressIteratorValue;
             }
             set
             {
-                this._addressIteratorValue = value;
-                this.RaisePropertyChanged();
+                _addressIteratorValue = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsInEditMode
         {
-            get { return this._isInEditMode; }
+            get { return _isInEditMode; }
             set
             {
-                this._isInEditMode = value;
-                this.RaisePropertyChanged();
+                _isInEditMode = value;
+                RaisePropertyChanged();
             }
         }
 
         public void StartEditElement()
         {
-            this.IsInEditMode = true;
+            IsInEditMode = true;
             if (IsGroupWithReiteration)
             {
-                GroupWithReiterationEditorWindowFactory.StartEditingGroupWithReiteration(this, _configurationItemFactory);
+               // GroupWithReiterationEditorWindowFactory.StartEditingGroupWithReiteration(this, _configurationItemFactory);
             }
         }
 
         public void StopEditElement()
         {
-            this.SaveModel();
-            this.IsInEditMode = false;
+            IsInEditMode = false;
         }
 
 
 
         public void DeleteElement()
         {
-            (this.Parent as IChildItemRemovable)?.RemoveChildItem(this.Model as IConfigurationItem);
-            this.Dispose();
+           // (this.Parent as IChildItemRemovable)?.RemoveChildItem(this.Model as IConfigurationItem);
+            Dispose();
         }
 
         public IConfigurationItemViewModel AddChildElement()
         {
-            IConfigurationItem newProperty = this._configurationItemFactory.ResolveConfigurationItem();
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(newProperty,
-                    parent: this);
-            (this._model as IItemsGroup).ConfigurationItemList.Add(newProperty);
-            this.ChildStructItemViewModels.Add(newConfigurationItemViewModel);
+                ConfigurationItemEditorViewModelFactory.Create().SetParent(this).VisitProperty(null);
+            ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }
 
         public IConfigurationItemViewModel AddChildGroupElement()
         {
-            IConfigurationItem newGroupConfigurationItem = this._configurationItemFactory.ResolveGroupConfigurationItem();
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(
-                    newGroupConfigurationItem,
-                    parent: this);
-            (this._model as IItemsGroup).ConfigurationItemList.Add(newGroupConfigurationItem);
-            this.ChildStructItemViewModels.Add(newConfigurationItemViewModel);
+                ConfigurationItemEditorViewModelFactory.Create().SetParent(this).VisitItemsGroup(null);
+            ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }
 
         public IConfigurationItemViewModel AddDependentProperty()
         {
-            IConfigurationItem newDependentConfigurationItem = this._configurationItemFactory.ResolveDependentConfigurationItem();
-            IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(
-                    newDependentConfigurationItem,
-                    parent: this);
-            (this._model as IItemsGroup).ConfigurationItemList.Add(newDependentConfigurationItem);
-            this.ChildStructItemViewModels.Add(newConfigurationItemViewModel);
+            IEditorConfigurationItemViewModel newConfigurationItemViewModel = ConfigurationItemEditorViewModelFactory
+                .Create().SetParent(this).VisitDependentProperty(null);
+
+            ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }
 
         public IConfigurationItemViewModel AddComplexProperty()
         {
-            IConfigurationItem complexProperty = this._configurationItemFactory.ResolveComplexPropertyItem();
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(
-                    complexProperty,
-                    parent: this);
-            (this._model as IItemsGroup).ConfigurationItemList.Add(complexProperty);
-            this.ChildStructItemViewModels.Add(newConfigurationItemViewModel);
+                ConfigurationItemEditorViewModelFactory.Create().SetParent(this).VisitComplexProperty(null);
+            ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }
 
         public IConfigurationItemViewModel AddMatrix()
         {
-            IConfigurationItem matrix = this._configurationItemFactory.ResolveAppointableMatrix();
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(
-                    matrix,
-                    parent: this);
-            (this._model as IItemsGroup).ConfigurationItemList.Add(matrix);
-            this.ChildStructItemViewModels.Add(newConfigurationItemViewModel);
+                ConfigurationItemEditorViewModelFactory.Create().SetParent(this).VisitMatrix(null);
+            ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }
 
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)
         {
-            if (this.ChildStructItemViewModels.Contains(element))
+            if (ChildStructItemViewModels.Contains(element))
             {
                 if (isUp)
                 {
-                    if (this.ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel) >
+                    if (ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel) >
                         0) return true;
 
                 }
                 else
                 {
-                    if (this.ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel) <
-                        this.ChildStructItemViewModels.Count - 1) return true;
+                    if (ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel) <
+                        ChildStructItemViewModels.Count - 1) return true;
                 }
             }
 
@@ -189,9 +163,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public bool SetElement(IConfigurationItemViewModel element, bool isUp)
         {
 
-            if (this.ChildStructItemViewModels.Contains(element))
+            if (ChildStructItemViewModels.Contains(element))
             {
-                int moveIndexFrom = this.ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel);
+                int moveIndexFrom = ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel);
                 int moveIndexTo;
                 bool valid = false;
                 if (isUp)
@@ -203,22 +177,22 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 else
                 {
                     moveIndexTo = moveIndexFrom + 1;
-                    valid = moveIndexFrom < this.ChildStructItemViewModels.Count - 1;
+                    valid = moveIndexFrom < ChildStructItemViewModels.Count - 1;
                 }
                 if (valid)
                 {
-                    this.ChildStructItemViewModels.Move(moveIndexFrom, moveIndexTo);
-                    List<IConfigurationItem> modelItems = (this._model as IItemsGroup).ConfigurationItemList.ToList();
-                    if (modelItems.Count == this.ChildStructItemViewModels.Count)
-                    {
-                        modelItems.Clear();
-                        foreach (IConfigurationItemViewModel propViewModel in this.ChildStructItemViewModels)
-                        {
-                            modelItems.Add(propViewModel.Model as IConfigurationItem);
-                        }
-                        (this._model as IItemsGroup).ConfigurationItemList = modelItems;
-                        return true;
-                    }
+                    ChildStructItemViewModels.Move(moveIndexFrom, moveIndexTo);
+                    //List<IConfigurationItem> modelItems = (this._model as IItemsGroup).ConfigurationItemList.ToList();
+                    //if (modelItems.Count == this.ChildStructItemViewModels.Count)
+                    //{
+                    //    modelItems.Clear();
+                    //    foreach (IConfigurationItemViewModel propViewModel in this.ChildStructItemViewModels)
+                    //    {
+                    //        modelItems.Add(propViewModel.Model as IConfigurationItem);
+                    //    }
+                    //    (this._model as IItemsGroup).ConfigurationItemList = modelItems;
+                    //    return true;
+                    //}
                 }
                 else
                 {
@@ -236,65 +210,26 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 
-        protected override void SetModel(object model)
-        {
-            this.ChildStructItemViewModels.Clear();
-            var itemGroup = (model as IItemsGroup);
-            foreach (IConfigurationItem configurationItem in itemGroup.ConfigurationItemList)
-            {
-                this.ChildStructItemViewModels.Add(this._configurationItemEditorViewModelFactory
-                    .ResolveConfigurationItemEditorViewModel(configurationItem, this));
-            };
-            IsCheckable = true;
-            IsTableViewAllowed = itemGroup.IsTableViewAllowed;
-            IsMain = itemGroup.IsMain ?? true;
-            if (itemGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo)
-            {
-                _isGroupWithReiteration= groupWithReiterationInfo.IsReiterationEnabled;
-            }
-            base.SetModel(model);
-        }
-
-
-        protected override void SaveModel()
-        {
-            (this._model as IItemsGroup).ConfigurationItemList.Clear();
-            foreach (IConfigurationItemViewModel configurationItem in this.ChildStructItemViewModels)
-            {
-                (this._model as IItemsGroup).ConfigurationItemList.Add(configurationItem.Model as IConfigurationItem);
-            }
-
-            base.SaveModel();
-        }
-
-
-        protected override object GetModel()
-        {
-            var itemsGroup = (_model as IItemsGroup);
-            itemsGroup.ConfigurationItemList.Clear();
-            foreach (var childStructItemViewModel in ChildStructItemViewModels)
-            {
-                itemsGroup.ConfigurationItemList.Add(childStructItemViewModel.Model as IConfigurationItem);
-            }
-            itemsGroup.IsMain = IsMain;
-            itemsGroup.IsTableViewAllowed = IsTableViewAllowed;
-            return base.GetModel();
-        }
         
         public void PasteAsChild(object itemToPaste)
         {
             if (itemToPaste is IEditorConfigurationItemViewModel)
             {
-                this.ChildStructItemViewModels.Add(itemToPaste as IEditorConfigurationItemViewModel);
+                ChildStructItemViewModels.Add(itemToPaste as IEditorConfigurationItemViewModel);
             }
         }
 
         public override object Clone()
         {
-            ConfigurationGroupEditorViewModel cloneEditorViewModel = new ConfigurationGroupEditorViewModel(this._container, this._configurationItemEditorViewModelFactory, this._configurationItemFactory);
-            object buffModel = (this.Model as IItemsGroup).Clone();
-            cloneEditorViewModel.Model = buffModel;
+            ConfigurationGroupEditorViewModel cloneEditorViewModel = new ConfigurationGroupEditorViewModel();
+            //object buffModel = (this.Model as IItemsGroup).Clone();
+            //cloneEditorViewModel.Model = buffModel;
             return cloneEditorViewModel;
+        }
+
+        public override T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitItemsGroup(this);
         }
 
         public ICommand IncreaseAddressCommand { get; }
@@ -326,10 +261,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 {
                     StartEditElement();
                 }
-                if ((_model as IItemsGroup)?.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo)
-                {
-                    groupWithReiterationInfo.IsReiterationEnabled = value;
-                }
+                //if ((_model as IItemsGroup)?.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo)
+                //{
+                //    groupWithReiterationInfo.IsReiterationEnabled = value;
+                //}
 
             }
         }
@@ -338,8 +273,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
         {
-            this.ChildStructItemViewModels.Remove(
-                this.ChildStructItemViewModels.First((model => model == configurationItemViewModelToRemove)));
+            ChildStructItemViewModels.Remove(
+                ChildStructItemViewModels.First((model => model == configurationItemViewModelToRemove)));
         }
     }
 }

@@ -5,7 +5,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
-    public interface IDependentPropertyEditorViewModel:IDependentPropertyViewModel, IPropertyEditorEditorViewModel
+    public interface IDependentPropertyEditorViewModel:IDependentPropertyViewModel, IPropertyEditorViewModel
     {
         ICommand SubmitCommand { get; }
         ICommand CancelCommand { get; }

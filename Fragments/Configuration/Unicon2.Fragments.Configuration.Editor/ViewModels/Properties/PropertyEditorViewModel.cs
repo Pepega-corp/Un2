@@ -9,13 +9,14 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 {
-    public class PropertyEditorEditorViewModel : EditorConfigurationItemViewModelBase, IPropertyEditorEditorViewModel
+    public class PropertyEditorViewModel : EditorConfigurationItemViewModelBase, IPropertyEditorViewModel
     {
         private readonly ITypesContainer _container;
         private readonly ILocalizerService _localizerService;
@@ -28,7 +29,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         private bool _isMeasureUnitEnabled;
         private ushort _addressIteratorValue;
 
-        public PropertyEditorEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel, ILocalizerService localizerService)
+        public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel, ILocalizerService localizerService)
         {
             this._container = container;
             this._localizerService = localizerService;
@@ -36,26 +37,27 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             this.RangeViewModel = rangeViewModel;
             this.IncreaseAddressCommand = new RelayCommand(() =>
              {
-                 ((IProperty)this._model).Address += AddressIteratorValue;
-                 this.Address = ((IProperty)this._model).Address.ToString();
+                 //((IProperty)this._model).Address += AddressIteratorValue;
+                 //this.Address = ((IProperty)this._model).Address.ToString();
              });
             this.DecreaseAddressCommand = new RelayCommand(() =>
             {
-                ((IProperty)this._model).Address -= AddressIteratorValue;
-                this.Address = ((IProperty)this._model).Address.ToString();
+                //((IProperty)this._model).Address -= AddressIteratorValue;
+                //this.Address = ((IProperty)this._model).Address.ToString();
             });
         }
 
 
         private void OnShowFormatterParametersExecute()
         {
-            this._container.Resolve<IFormatterEditorFactory>().EditFormatterByUser(this._model as IProperty);
-            this.RaisePropertyChanged(nameof(this.SelectedUshortFormatterName));
+            //this._container.Resolve<IFormatterEditorFactory>().EditFormatterByUser(this._model as IProperty);
+            //this.RaisePropertyChanged(nameof(this.SelectedUshortFormatterName));
         }
         
         public ICommand ShowFormatterParameters { get; set; }
+        public IUshortsFormatterViewModel RelatedUshortsFormatterViewModel { get; set; }
 
-        public string SelectedUshortFormatterName => (this._model as IProperty)?.UshortsFormatter?.StrongName;
+        public string SelectedUshortFormatterName => RelatedUshortsFormatterViewModel?.StrongName;
 
 
 
@@ -110,21 +112,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         public virtual void StopEditElement()
         {
             this.IsInEditMode = false;
-            this.SaveModel();
-        }
-
-        protected override void SaveModel()
-        {
-            if (this.RangeViewModel.HasErrors) return;
-
-            if ((this._model as IProperty) == null) return;
-            (this._model as IProperty).Address = ushort.Parse(this.Address);
-            (this._model as IProperty).NumberOfPoints = ushort.Parse(this.NumberOfPoints);
-            (this._model as IProperty).IsMeasureUnitEnabled = this.IsMeasureUnitEnabled;
-            (this._model as IProperty).MeasureUnit = this.MeasureUnit;
-            (this._model as IProperty).IsRangeEnabled = this.IsRangeEnabled;
-            (this._model as IProperty).Range = this.RangeViewModel.Model as IRange;
-            base.SaveModel();
         }
 
         public void DeleteElement()
@@ -133,7 +120,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             {
                 if (this.Parent is IChildItemRemovable)
                 {
-                    (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
+                 //   (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
                 }
             }
         }
@@ -141,7 +128,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         protected override void OnDisposing()
         {
             base.OnDisposing();
-            this._model = null;
         }
 
         public override string TypeName => this.GetTypeName();
@@ -157,23 +143,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 
-        protected override object GetModel()
-        {
-            return base.GetModel();
-        }
-
-        protected override void SetModel(object model)
-        {
-            base.SetModel(model);
-            IProperty settingProperty = model as IProperty;
-            this.Address = settingProperty.Address.ToString();
-            this.NumberOfPoints = settingProperty.NumberOfPoints.ToString();
-            this.IsMeasureUnitEnabled = settingProperty.IsMeasureUnitEnabled;
-            this.MeasureUnit = settingProperty.MeasureUnit;
-            this.IsRangeEnabled = settingProperty.IsRangeEnabled;
-            this.RangeViewModel.Model = settingProperty.Range;
-
-        }
+      
 
 
         public string MeasureUnit
@@ -192,7 +162,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             set
             {
                 this._isMeasureUnitEnabled = value;
-                (this._model as IProperty).IsMeasureUnitEnabled = value;
                 this.RaisePropertyChanged();
             }
         }
@@ -203,8 +172,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             set
             {
                 this._isRangeEnabled = value;
-                (this._model as IProperty).IsRangeEnabled = value;
-
                 this.RaisePropertyChanged();
             }
         }
@@ -227,11 +194,15 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         public override object Clone()
         {
-            PropertyEditorEditorViewModel cloneEditorViewModel = new PropertyEditorEditorViewModel(this._container, this._rangeViewModel.Clone() as IRangeViewModel, this._localizerService);
-            cloneEditorViewModel.Model = (this.Model as ICloneable).Clone();
-
+            PropertyEditorViewModel cloneEditorViewModel = new PropertyEditorViewModel(this._container, this._rangeViewModel.Clone() as IRangeViewModel, this._localizerService);
+         
 
             return cloneEditorViewModel;
+        }
+
+        public override T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitProperty(this);
         }
 
         public ICommand IncreaseAddressCommand { get; }

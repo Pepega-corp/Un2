@@ -13,6 +13,7 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Infrastructure.Visitors;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Base;
 using Unicon2.Presentation.Values.Editable;
@@ -49,7 +50,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         {
             try
             {
-                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(_matrix, true);
+              //  Table = _matrixViewModelTableFactory.CreateMatrixDataTable(_matrix, true);
             }
             catch (Exception e)
             {
@@ -62,12 +63,12 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
                                              MatrixKeys.MATRIX_VALUE +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public override void InitFromValue(IMatrixValue value)
-        {
-            _matrix = value;
-            Header = value.Header;
-            FillTable();
-        }
+        //public override void InitFromValue(IMatrixValue value)
+        //{
+        //    _matrix = value;
+        //    Header = value.Header;
+        //    FillTable();
+        //}
 
         public DynamicDataTable Table
         {
@@ -83,8 +84,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
         {
             try
             {
-                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(_matrix, true);
-                _initialUshortsToCompare = (new MatrixViewModelTableParser()).GetUshortsFromTable(Table, _matrix);
+            //    Table = _matrixViewModelTableFactory.CreateMatrixDataTable(_matrix, true);
+             //   _initialUshortsToCompare = (new MatrixViewModelTableParser()).GetUshortsFromTable(Table, _matrix);
             }
             catch (Exception e)
             {
@@ -131,9 +132,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             return this;
         }
 
-        public override IMatrixValue GetValue()
+       
+        public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
         {
-            return _matrix;
+            return visitor.VisitMatrixViewModel(this);
         }
     }
 }

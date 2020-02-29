@@ -1,17 +1,7 @@
-﻿using Unicon2.Fragments.Configuration.Infrastructure.Factories;
-using Unicon2.Fragments.Configuration.Infrastructure.Keys;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
+﻿using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
-using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Values;
-using Unicon2.Presentation.Infrastructure.Events;
-using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 {

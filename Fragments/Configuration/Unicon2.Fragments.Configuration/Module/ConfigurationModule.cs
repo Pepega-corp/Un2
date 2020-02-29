@@ -19,6 +19,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Unity.Interfaces;
 
@@ -53,9 +54,6 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register(typeof(IRuntimeComplexPropertyViewModel), typeof(RuntimeComplexPropertyViewModel));
             container.Register(typeof(IRuntimeSubPropertyViewModel), typeof(RuntimeSubPropertyViewModel));
             container.Register(typeof(IRuntimeConfigurationViewModel), typeof(RuntimeConfigurationViewModel));
-            container.Register(typeof(IValueViewModelFactory), typeof(ValueViewModelFactory));
-            container.Register(typeof(IPropertyValueViewModelFactory), typeof(ValueViewModelFactory));
-            container.Register(typeof(IMemoryBusDispatcher), typeof(MemoryBusDispatcher));
 
             container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting),
                 ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
@@ -78,7 +76,7 @@ namespace Unicon2.Fragments.Configuration.Module
                 "AddressValueNS");
             serializerService.AddKnownTypeForSerializationRange(new[]
             {
-                typeof(LocalDeviceValuesConfigurationItemBase), typeof(DefaultDeviceConfiguration),
+                typeof(DefaultDeviceConfiguration),
                 typeof(DefaultItemsGroup), typeof(DefaultProperty),
                 typeof(List<DefaultItemsGroup>), typeof(List<DefaultProperty>), typeof(ActivatedConfigurationSetting),
                 typeof(DependentProperty), typeof(DependancyCondition), typeof(ComplexProperty), typeof(SubProperty),

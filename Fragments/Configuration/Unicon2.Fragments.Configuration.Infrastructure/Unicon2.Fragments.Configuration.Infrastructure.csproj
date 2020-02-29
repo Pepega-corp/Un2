@@ -68,7 +68,6 @@
     <Compile Include="ViewModel\ElementAdding\IElementAddingCommand.cs" />
     <Compile Include="ViewModel\IConfigurationItemVisitor.cs" />
     <Compile Include="ViewModel\Properties\IDependentPropertyViewModel.cs" />
-    <Compile Include="ViewModel\IEditorConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\Properties\IPropertyViewModel.cs" />
     <Compile Include="ViewModel\IItemGroupViewModel.cs" />
     <Compile Include="ViewModel\IConfigurationViewModel.cs" />

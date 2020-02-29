@@ -89,12 +89,17 @@ namespace Unicon2.Presentation.Factories
 
 		public IFormattedValueViewModel VisitChosenFromListValue(IChosenFromListValue chosenFromListValue)
 		{
-			return GetDefaultStringValue(chosenFromListValue);
+            IChosenFromListValueViewModel chosenFromListValueViewModel=new ChosenFromListValueViewModel();
+            chosenFromListValueViewModel.InitList(chosenFromListValue.AvailableItemsList);
+		    chosenFromListValueViewModel.SelectedItem = chosenFromListValue.SelectedItem;
+            return InitDefaults(chosenFromListValue, chosenFromListValueViewModel); ;
 		}
 
 		public IFormattedValueViewModel VisitErrorValue(IErrorValue errorValue)
 		{
-			return GetDefaultStringValue(errorValue);
+		    IErrorValueViewModel res = new ErrorValueViewModel();
+		    res.ErrorMessage = errorValue.ErrorMessage;
+		    return InitDefaults(errorValue, res);
 		}
 	}
 }

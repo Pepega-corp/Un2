@@ -19,7 +19,7 @@ namespace Unicon2.Presentation.Factories
         {
             IFragmentEditorViewModel fragmentEditorViewModel = _container.Resolve<IFragmentEditorViewModel>(deviceFragment.StrongName +
                 ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-            fragmentEditorViewModel.Model = deviceFragment;
+            fragmentEditorViewModel.Initialize(deviceFragment);
             return fragmentEditorViewModel;
         }
     }

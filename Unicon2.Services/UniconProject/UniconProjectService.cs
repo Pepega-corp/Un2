@@ -130,10 +130,6 @@ namespace Unicon2.Services.UniconProject
                     this._devicesContainerService.Refresh();
                     foreach (IConnectable connectableItem in this._uniconProject.ConnectableItems)
                     {
-                        if (connectableItem is IInitializableFromContainer)
-                        {
-                            (connectableItem as IInitializableFromContainer).InitializeFromContainer(this._container);
-                        }
                         if (connectableItem.DeviceConnection != null)
                         {
                             await this._devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,

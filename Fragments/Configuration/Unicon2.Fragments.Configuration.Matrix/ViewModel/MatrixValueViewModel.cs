@@ -34,27 +34,27 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
 
         public override string StrongName => MatrixKeys.MATRIX_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-        public override void InitFromValue(IFormattedValue value)
-        {
-            Model = value;
-            FillTable();
-            base.InitFromValue(value);
-        }
+        //public override void InitFromValue(IFormattedValue value)
+        //{
+        //    Model = value;
+        //    FillTable();
+        //    base.InitFromValue(value);
+        //}
 
-        private void FillTable()
-        {
-            IMatrixValue matrixValue = Model as IMatrixValue;
-            if (matrixValue == null) return;
-            try
-            {
-                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, false);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
+        //private void FillTable()
+        //{
+        //    IMatrixValue matrixValue = Model as IMatrixValue;
+        //    if (matrixValue == null) return;
+        //    try
+        //    {
+        //        Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, false);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //        throw;
+        //    }
+        //}
 
         public object Clone()
         {

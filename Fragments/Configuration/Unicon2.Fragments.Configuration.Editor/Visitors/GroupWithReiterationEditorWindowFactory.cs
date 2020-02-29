@@ -16,10 +16,10 @@ namespace Unicon2.Fragments.Configuration.Editor.Factories
         public static void StartEditingGroupWithReiteration(
             IConfigurationGroupEditorViewModel parent, IConfigurationItemFactory configurationItemFactory)
         {
-            if ((parent.Model as IItemsGroup).GroupInfo == null)
-            {
-                (parent.Model as IItemsGroup).GroupInfo = configurationItemFactory.ResolveGroupWithReiterationInfo();
-            }
+         //    if ((parent.Model as IItemsGroup).GroupInfo == null)
+          //  {
+          //      (parent.Model as IItemsGroup).GroupInfo = configurationItemFactory.ResolveGroupWithReiterationInfo();
+          //  }
             var window = new GroupWithReiterationInfoEditorView();
             window.DataContext = new GroupWithReiterationEditorViewModel(parent,()=>window.Close(),configurationItemFactory.ResolveReiterationSubGroupInfo);
             window.ShowDialog();

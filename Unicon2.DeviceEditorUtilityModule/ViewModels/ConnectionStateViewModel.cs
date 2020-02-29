@@ -8,7 +8,6 @@ using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces.Factories;
-using Unicon2.Infrastructure.Interfaces.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
@@ -20,7 +19,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
     {
         private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
         private IConnectionState _model;
-        private IDeviceValueContaining _previousDeviceValueContaining;
+        //private IDeviceValueContaining _previousDeviceValueContaining;
         private IComPortConfiguration _previousComPortConfiguration;
 
         public ConnectionStateViewModel(ISharedResourcesViewModelFactory sharedResourcesViewModelFactory, IComPortConfigurationViewModel comPortConfigurationViewModel)
@@ -50,7 +49,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         private void OnCancelExecute(object obj)
         {
-            this._model.DeviceValueContaining = this._previousDeviceValueContaining;
+           // this._model.DeviceValueContaining = this._previousDeviceValueContaining;
             this._model.DefaultComPortConfiguration = this._previousComPortConfiguration;
             this.CloseWindow(obj);
         }
@@ -75,7 +74,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as
                     IUshortFormattable;
             if (ushortFormattable == null) return;
-            this._model.DeviceValueContaining = ushortFormattable as IDeviceValueContaining;
+           // this._model.DeviceValueContaining = ushortFormattable as IDeviceValueContaining;
             this.RaisePropertyChanged(nameof(this.SelectedPropertyString));
         }
 
@@ -99,7 +98,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                     this._model.ExpectedValues = new List<string>();
                 }
                 this.ExpectedValues.AddCollection(this._model.ExpectedValues.Select(s => new StringWrapper(s)));
-                this._previousDeviceValueContaining = this._model.DeviceValueContaining;
+             //   this._previousDeviceValueContaining = this._model.DeviceValueContaining;
                 if (this._model.DefaultComPortConfiguration != null)
                 {
                     this._previousComPortConfiguration = this._model.DefaultComPortConfiguration.Clone() as IComPortConfiguration;

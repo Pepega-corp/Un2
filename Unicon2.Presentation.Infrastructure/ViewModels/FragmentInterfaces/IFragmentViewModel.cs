@@ -4,10 +4,15 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Fragment
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
 {
-    public interface IFragmentViewModel
+    public interface IFragmentViewModel: IFragmentInitializable
     {
         string NameForUiKey { get; }
         IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
+       
+    }
+
+    public interface IFragmentInitializable
+    {
         void Initialize(IDeviceFragment deviceFragment);
     }
 }

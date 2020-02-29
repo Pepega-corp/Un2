@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
@@ -45,14 +46,14 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             if (currentUshortsFormatter != null)
             {
-                IUshortsFormatterViewModel formatter =
-                    this._ushortsFormatterViewModels.FirstOrDefault(f =>
-                        f.StrongName == currentUshortsFormatter.StrongName);
-                if (formatter != null)
-                {
-                    formatter.InitFromFormatter(currentUshortsFormatter);
-                    this.SelectedUshortsFormatterViewModel = formatter;
-                }
+                //IUshortsFormatterViewModel formatter =
+                //    this._ushortsFormatterViewModels.FirstOrDefault(f =>
+                //        f.StrongName == currentUshortsFormatter.StrongName);
+               // if (formatter != null)
+               // {
+                   // formatter.InitFromFormatter(currentUshortsFormatter);
+                //    this.SelectedUshortsFormatterViewModel = formatter;
+              //  }
             }
 
             this.CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
@@ -61,7 +62,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.AddAsResourceCommand = new RelayCommand(this.OnAddAsResourceExecute);
             this.SelectFromResourcesCommand = new RelayCommand(this.OnSelectFromResourcesExecute);
         }
-
+      
         private void OnSelectFromResourcesExecute()
         {
             IUshortsFormatter ushortsFormatter =
@@ -73,11 +74,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
             {
                 this.CurrentResourceString = (this._ushortFormattable.UshortsFormatter).Name;
                 this.IsFormatterFromResource = true;
-                IUshortsFormatterViewModel viewModel =
-                    this.UshortsFormatterViewModels.First(
-                        (model => model.StrongName.Contains(this._ushortFormattable.UshortsFormatter.StrongName)));
-                viewModel.InitFromFormatter(this._ushortFormattable.UshortsFormatter);
-                this.SelectedUshortsFormatterViewModel = viewModel;
+              //  IUshortsFormatterViewModel viewModel =
+                    //this.UshortsFormatterViewModels.First(
+                    //    (model => model.StrongName.Contains(this._ushortFormattable.UshortsFormatter.StrongName)));
+              //  viewModel.InitFromFormatter(this._ushortFormattable.UshortsFormatter);
+               // this.SelectedUshortsFormatterViewModel = viewModel;
             }
         }
 
@@ -85,16 +86,16 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             if (this._selectedUshortsFormatterViewModel == null) return;
 
-            this._sharedResourcesViewModelFactory.AddSharedResource(
-                this._selectedUshortsFormatterViewModel.GetFormatter());
-            this.CurrentResourceString = (this._selectedUshortsFormatterViewModel.Model as IUshortsFormatter).Name;
+            //this._sharedResourcesViewModelFactory.AddSharedResource(
+            //    this._selectedUshortsFormatterViewModel.GetFormatter());
+            //this.CurrentResourceString = (this._selectedUshortsFormatterViewModel.Model as IUshortsFormatter).Name;
             this.IsFormatterFromResource = true;
         }
 
 
         private void OnResetExecute()
         {
-            this.SelectedUshortsFormatterViewModel?.InitFromFormatter(null);
+         //   this.SelectedUshortsFormatterViewModel?.InitFromFormatter(null);
             this.IsFormatterFromResource = false;
             this.CurrentResourceString = null;
         }
@@ -107,7 +108,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 if (!((IDynamicFormatterViewModel) this.SelectedUshortsFormatterViewModel).IsValid) return;
             }
 
-            this._ushortFormattable.UshortsFormatter = this.SelectedUshortsFormatterViewModel.GetFormatter();
+           // this._ushortFormattable.UshortsFormatter = this.SelectedUshortsFormatterViewModel.GetFormatter();
             (obj as Window)?.Close();
         }
 

@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Helpers
                         return;
                     }
                 }
-                appointableMatrix.DeviceUshortsValue = matrixUshorts.ToArray();
+                //appointableMatrix.DeviceUshortsValue = matrixUshorts.ToArray();
             
         }
         public static async Task<bool> WriteMatrixUshorts(IAppointableMatrix appointableMatrix, IDataProvider dataProvider,ushort[] ushortsToWrite)
@@ -54,8 +54,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.Helpers
             }
 
             if (!res) return false;
-            appointableMatrix.DeviceUshortsValue = ushortsToWrite;
-            appointableMatrix.ConfigurationItemChangedAction?.Invoke();
+        //    appointableMatrix.DeviceUshortsValue = ushortsToWrite;
+         //   appointableMatrix.ConfigurationItemChangedAction?.Invoke();
             return true;
 
         }

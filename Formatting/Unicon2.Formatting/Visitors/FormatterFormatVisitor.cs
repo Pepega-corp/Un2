@@ -251,5 +251,10 @@ namespace Unicon2.Formatting.Visitors
             bitMaskValue.BitSignatures.AddRange(bitMaskFormatter.BitSignatures);
             return bitMaskValue;
         }
+
+        public IFormattedValue VisitMatrixFormatter(IUshortsFormatter formatter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

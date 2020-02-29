@@ -95,7 +95,6 @@
     <Compile Include="FragmentInterfaces\FagmentSettings\ISettingApplyingContext.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IAddressableItem.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickAccessMemoryApplyingContext.cs" />
-    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessDataProviderStub.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessSetting.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\QuickAccessModeEnum.cs" />
     <Compile Include="FragmentInterfaces\IDeviceFragment.cs" />

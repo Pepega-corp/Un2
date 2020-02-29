@@ -6,6 +6,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.Export;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers

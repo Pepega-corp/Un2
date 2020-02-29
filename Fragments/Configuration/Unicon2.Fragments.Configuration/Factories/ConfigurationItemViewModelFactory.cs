@@ -47,7 +47,13 @@ namespace Unicon2.Fragments.Configuration.Factories
             runtimePropertyViewModel.MeasureUnit = property.MeasureUnit;
             runtimePropertyViewModel.RangeViewModel = this._container.Resolve<IRangeViewModel>();
             runtimePropertyViewModel.IsRangeEnabled = property.IsRangeEnabled;
-            runtimePropertyViewModel.RangeViewModel.Model = property.Range;
+            if (property.IsRangeEnabled)
+            {
+                runtimePropertyViewModel.RangeViewModel.RangeFrom = property.Range.RangeFrom.ToString();
+                runtimePropertyViewModel.RangeViewModel.RangeTo = property.Range.RangeTo.ToString();
+
+            }
+
             InitializeBaseProperties(runtimePropertyViewModel, property);
         }
 

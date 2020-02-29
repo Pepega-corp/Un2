@@ -16,15 +16,10 @@ namespace Unicon2.Formatting.Model
     [DataContract(IsReference = true, Namespace = "DefaultBitMaskFormatterNS")]
     public class DefaultBitMaskFormatter : UshortsFormatterBase, IBitMaskFormatter
     {
-        private Func<IBitMaskValue> _bitMaskValueGettingFunc;
-
-        public DefaultBitMaskFormatter(Func<IBitMaskValue> bitMaskValueGettingFunc)
-        {
-            this._bitMaskValueGettingFunc = bitMaskValueGettingFunc;
-        }
+        
         public override object Clone()
         {
-            DefaultBitMaskFormatter clone = new DefaultBitMaskFormatter(this._bitMaskValueGettingFunc);
+            DefaultBitMaskFormatter clone = new DefaultBitMaskFormatter();
             clone.BitSignatures = new List<string>(this.BitSignatures);
             return clone;
         }

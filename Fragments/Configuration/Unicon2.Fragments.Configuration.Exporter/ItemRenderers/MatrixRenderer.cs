@@ -11,6 +11,7 @@ using Unicon2.Fragments.Configuration.Matrix.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Presentation.Values;

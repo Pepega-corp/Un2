@@ -1,9 +1,8 @@
 ﻿using System;
+using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.ViewModels
 {
@@ -21,8 +20,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private string _millisecondsPointNumber;
 
 
-
-        public DefaultTimeFormatterViewModel(ITypesContainer container)
+        public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitTimeFormatter(this);
+        }
+        public DefaultTimeFormatterViewModel()
         {
             this.YearPointNumber = "0";
             this.MonthPointNumber = "1";
@@ -33,58 +35,10 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.MillisecondsPointNumber = "6";
             this.MillisecondsDecimalsPlaces = "2";
             this.NumberOfPointsInUse = "7";
-            this._defaultTimeFormatter = container.Resolve<IUshortsFormatter>(StringKeys.DEFAULT_TIME_FORMATTER) as IDefaultTimeFormatter;
         }
-
-
-        public override IUshortsFormatter GetFormatter()
-        {
-            this._defaultTimeFormatter.NumberOfPointsInUse = int.Parse(this.NumberOfPointsInUse);
-            this._defaultTimeFormatter.MillisecondsDecimalsPlaces = int.Parse(this.MillisecondsDecimalsPlaces);
-            this._defaultTimeFormatter.YearPointNumber = int.Parse(this.YearPointNumber);
-            this._defaultTimeFormatter.MonthPointNumber = int.Parse(this.MonthPointNumber);
-            this._defaultTimeFormatter.DayInMonthPointNumber = int.Parse(this.DayInMonthPointNumber);
-            this._defaultTimeFormatter.HoursPointNumber = int.Parse(this.HoursPointNumber);
-            this._defaultTimeFormatter.MinutesPointNumber = int.Parse(this.MinutesPointNumber);
-            this._defaultTimeFormatter.SecondsPointNumber = int.Parse(this.SecondsPointNumber);
-            this._defaultTimeFormatter.MillisecondsPointNumber = int.Parse(this.MillisecondsPointNumber);
-            return this._defaultTimeFormatter;
-        }
-
-        public override void InitFromFormatter(IUshortsFormatter ushortsFormatter)
-        {
-            if (ushortsFormatter is IDefaultTimeFormatter)
-            {
-                IDefaultTimeFormatter settingDefaultTimeFormatter = ushortsFormatter as IDefaultTimeFormatter;
-                this.MillisecondsDecimalsPlaces = settingDefaultTimeFormatter.MillisecondsDecimalsPlaces.ToString();
-                this.NumberOfPointsInUse = settingDefaultTimeFormatter.NumberOfPointsInUse.ToString();
-                this.YearPointNumber = settingDefaultTimeFormatter.YearPointNumber.ToString();
-                this.MonthPointNumber = settingDefaultTimeFormatter.MonthPointNumber.ToString();
-                this.DayInMonthPointNumber = settingDefaultTimeFormatter.DayInMonthPointNumber.ToString();
-                this.HoursPointNumber = settingDefaultTimeFormatter.HoursPointNumber.ToString();
-                this.MinutesPointNumber = settingDefaultTimeFormatter.MinutesPointNumber.ToString();
-                this.SecondsPointNumber = settingDefaultTimeFormatter.SecondsPointNumber.ToString();
-                this.MillisecondsPointNumber = settingDefaultTimeFormatter.MillisecondsPointNumber.ToString();
-                this.Model = ushortsFormatter;
-            }
-        }
-
+   
         public override string StrongName => StringKeys.DEFAULT_TIME_FORMATTER;
-        public override object Model
-        {
-            get
-            {
-                return this._defaultTimeFormatter;
-
-            }
-            set
-            {
-                IDefaultTimeFormatter defaultTimeFormatter = value as IDefaultTimeFormatter;
-
-                this._defaultTimeFormatter = defaultTimeFormatter;
-            }
-        }
-
+       
         public override object Clone()
         {
             throw new NotImplementedException();

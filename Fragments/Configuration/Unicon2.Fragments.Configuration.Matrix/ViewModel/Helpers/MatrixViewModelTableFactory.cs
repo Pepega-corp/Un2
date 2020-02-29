@@ -21,7 +21,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
         private IMatrixValue _matrixValue;
         private readonly Func<IBoolValue> _boolValue;
         private readonly Func<IChosenFromListValue> _chosenFromListValFunc;
-        private Func<IFormattedValueViewModel<IFormattedValue>> _formattedValueViewModelFunc;
+        private Func<IFormattedValueViewModel> _formattedValueViewModelFunc;
 
         public MatrixViewModelTableFactory(Func<IBoolValue> boolValue, Func<IChosenFromListValue> chosenFromListValFunc)
         {

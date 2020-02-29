@@ -130,5 +130,10 @@ namespace Unicon2.Formatting.Visitors
         {
             throw new NotImplementedException();
         }
+
+        public ushort[] VisitMatrixFormatter(IUshortsFormatter formatter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

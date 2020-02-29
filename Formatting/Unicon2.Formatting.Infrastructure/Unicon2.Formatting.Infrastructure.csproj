@@ -67,7 +67,6 @@
     <Compile Include="ViewModel\IFormulaFormatterViewModel.cs" />
     <Compile Include="ViewModel\InnerMembers\IArgumentViewModel.cs" />
     <Compile Include="ViewModel\IStaticFormatterViewModel.cs" />
-    <Compile Include="ViewModel\IUshortsFormatterViewModel.cs" />
     <Compile Include="Model\IDictionaryMatchingFormatter.cs" />
     <Compile Include="Model\IFormulaFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -97,6 +96,10 @@
     <ProjectReference Include="..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
       <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>
       <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+      <Project>{EF9BF685-16AA-4942-A33C-D65562BD4215}</Project>
+      <Name>Unicon2.Presentation.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

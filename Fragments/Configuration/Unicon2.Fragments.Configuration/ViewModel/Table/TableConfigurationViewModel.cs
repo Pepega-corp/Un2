@@ -2,23 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Behaviors;
-using Unicon2.Fragments.Configuration.Infrastructure.Keys;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
-using Unicon2.Fragments.Configuration.ViewModel.Properties;
-using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Presentation.Infrastructure.Events;
-using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
-using Unicon2.Presentation.Infrastructure.ViewModels.Values;
-using Unicon2.SharedResources.Behaviors;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Table

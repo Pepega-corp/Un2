@@ -11,23 +11,22 @@ using Unicon2.Presentation.Values.Validators;
 
 namespace Unicon2.Presentation.Values.Editable
 {
-    public class EditableNumericValueViewModel : EditableValueViewModelBase<INumericValue>, INumericValueViewModel
+    public class EditableNumericValueViewModel : EditableValueViewModelBase, INumericValueViewModel
     {
-        private INumericValue _numericValue;
         private string _numValueString;
-        private double _baseDoubleToCompare;
+        private readonly Lazy<double> _baseDoubleToCompareInitial;
+
+        public EditableNumericValueViewModel()
+        {
+            _baseDoubleToCompareInitial = new Lazy<double>(() => double.Parse(NumValue));
+
+        }
 
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.NUMERIC_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public override void InitFromValue(INumericValue value)
-        {
-            _numericValue = value;
-            _baseDoubleToCompare = _numericValue.NumValue;
-            NumValue = _numericValue.NumValue.ToString();
-        }
-
+      
         public string NumValue
         {
             get { return _numValueString; }
@@ -39,7 +38,7 @@ namespace Unicon2.Presentation.Values.Editable
                 if (!HasErrors)
                 {
                     SetIsChangedProperty(nameof(NumValue),
-                        Math.Abs(_baseDoubleToCompare - double.Parse(value)) > 0.0001);
+                        Math.Abs(_baseDoubleToCompareInitial.Value - double.Parse(value)) > 0.0001);
                     RaisePropertyChanged();
                 }
             }
@@ -50,17 +49,7 @@ namespace Unicon2.Presentation.Values.Editable
             // FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator(_localizerService, this._ushortsFormatter).Validate(this);
             // SetValidationErrors(res);
         }
-
-        public override INumericValue GetValue()
-        {
-            if (!HasErrors)
-            {
-                _numericValue.NumValue = _numericValue.NumValue = double.Parse(NumValue);
-            }
-
-            return _numericValue;
-
-        }
+        
         public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
         {
             return visitor.VisitNumericValueViewModel(this);

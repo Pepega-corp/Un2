@@ -6,6 +6,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels
     {
         string SelectedUshortFormatterName { get; }
         ICommand ShowFormatterParameters { get; set; }
-
+        IUshortsFormatterViewModel RelatedUshortsFormatterViewModel { get; set; }
     }
 }

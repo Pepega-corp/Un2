@@ -6,7 +6,7 @@ using Unicon2.Infrastructure.Interfaces.EditOperations;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
-    public interface IComplexPropertyEditorViewModel:IChildPositionChangeable,ISubPropertyAddable,IChildItemRemovable,IEditable
+    public interface IComplexPropertyEditorViewModel:IChildPositionChangeable,ISubPropertyAddable,IChildItemRemovable, IPropertyEditorViewModel
     {
         ObservableCollection<ISubPropertyEditorViewModel> SubPropertyEditorViewModels { get; set; }
         ObservableCollection<ISharedBitViewModel> MainBitNumbersInWordCollection { get; set; }

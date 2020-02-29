@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Interfaces;

@@ -8,7 +8,7 @@ using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-    public class ChosenFromListValueViewModel : FormattableValueViewModelBase<IChosenFromListValue>,
+    public class ChosenFromListValueViewModel : FormattableValueViewModelBase,
         IChosenFromListValueViewModel
     {
         private ObservableCollection<string> _availableItemsList;
@@ -16,14 +16,6 @@ namespace Unicon2.Presentation.Values
 
         public override string StrongName => PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-
-        public override void InitFromValue(IChosenFromListValue value)
-        {
-            InitList(value.AvailableItemsList);
-            Header = value.Header;
-            SelectedItem = value.SelectedItem;
-        }
 
 
         public ObservableCollection<string> AvailableItemsList => _availableItemsList;

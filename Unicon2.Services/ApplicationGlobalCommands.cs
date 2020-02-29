@@ -97,10 +97,6 @@ namespace Unicon2.Services
         {
             if (bufferObject is ICloneable)
             {
-                if (bufferObject is IInitializableFromContainer)
-                {
-                    (bufferObject as IInitializableFromContainer).InitializeFromContainer(this._container);
-                }
                 this._bufferObject = (bufferObject as ICloneable).Clone();
 
             }

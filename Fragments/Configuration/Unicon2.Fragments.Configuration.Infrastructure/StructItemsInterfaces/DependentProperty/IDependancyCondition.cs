@@ -1,8 +1,6 @@
 ﻿using System;
 using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
-using Unicon2.Infrastructure.Interfaces.Values;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty
 {
@@ -12,7 +10,7 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.D
         /// <summary>
         /// Ссылаемое свойство
         /// </summary>
-        ILocalAndDeviceValuesContaining LocalAndDeviceValuesContaining { get; set; }
+       // ILocalAndDeviceValuesContaining LocalAndDeviceValuesContaining { get; set; }
         ConditionsEnum ConditionsEnum { get; set; }
         ushort UshortValueToCompare { get; set; }
         ConditionResultEnum ConditionResult { get; set; }

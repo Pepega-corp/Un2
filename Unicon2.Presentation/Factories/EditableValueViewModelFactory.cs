@@ -49,6 +49,7 @@ namespace Unicon2.Presentation.Factories
 				formattedValueViewModel.IsRangeEnabled = false;
 			}
 
+		    formattedValueViewModel.FormattedValue = formattedValue;
 			return formattedValueViewModel;
 		}
 
@@ -72,8 +73,11 @@ namespace Unicon2.Presentation.Factories
 
 		public IEditableValueViewModel VisitNumericValue(INumericValue numericValue)
 		{
-			throw new NotImplementedException();
-		}
+		    return InitDefaults(numericValue, new EditableNumericValueViewModel()
+		    {
+		        NumValue = numericValue.NumValue.ToString()
+		    });
+        }
 
 		public IEditableValueViewModel VisitStringValue(IStringValue stringValue)
 		{
@@ -92,8 +96,13 @@ namespace Unicon2.Presentation.Factories
 
 		public IEditableValueViewModel VisitChosenFromListValue(IChosenFromListValue chosenFromListValue)
 		{
-			throw new NotImplementedException();
-		}
+		    var res = new EditableChosenFromListValueViewModel()
+		    {
+		        SelectedItem = chosenFromListValue.SelectedItem
+		    };
+            res.InitList(chosenFromListValue.AvailableItemsList);
+		    return InitDefaults(chosenFromListValue, res);
+        }
 
 		public IEditableValueViewModel VisitErrorValue(IErrorValue errorValue)
 		{

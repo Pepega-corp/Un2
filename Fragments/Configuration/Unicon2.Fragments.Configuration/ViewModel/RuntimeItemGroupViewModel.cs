@@ -9,7 +9,6 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel.Table;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
-using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Unity.Commands;
 
@@ -17,15 +16,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 {
     public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IRuntimeItemGroupViewModel, IAsTableViewModel
     {
-        private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
-        private readonly IGlobalEventsService _globalEventsService;
+
         private bool _isTableView;
         private TableConfigurationViewModel _tableConfigurationViewModel;
         private bool _isTableViewAllowed;
 
-        public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
+        public RuntimeItemGroupViewModel()
         {
-            this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
             this.IsCheckable = true;
         }
 

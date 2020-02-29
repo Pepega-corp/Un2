@@ -30,7 +30,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 res.Name = name;
                 return res;
             };
-            _model = parent.Model as IItemsGroup;
+           // _model = parent.Model as IItemsGroup;
             Parent = parent;
             SubmitCommand = new RelayCommand(OnSubmit);
             CancelCommand = new RelayCommand(OnCancel);

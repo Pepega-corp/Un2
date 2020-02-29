@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Unicon2.Formatting.Editor.ViewModels.Validators;
+using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
@@ -52,7 +53,10 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             this.InitializeFormulaTooltip();
         }
-
+        public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitFormulaFormatter(this);
+        }
         private void OnAddArgumentExecute()
         {
             this.SaveChanges();
@@ -64,7 +68,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 this._formulaFormatter.UshortFormattables.Add(resource);
             }
 
-            this.InitFromFormatter(this._formulaFormatter);
+          //  this.InitFromFormatter(this._formulaFormatter);
         }
 
         private void OnDeleteArgumentExecute(IArgumentViewModel argumentViewModel)
@@ -90,7 +94,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             try
             {
-                this.TestResult = this._formulaFormatter.Format(new[] {(ushort) this.TestValueOfX}).ToString();
+                //this.TestResult = this._formulaFormatter.Format(new[] {(ushort) this.TestValueOfX}).ToString();
             }
             catch
             {
@@ -107,11 +111,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.SetValidationErrors(result);
         }
 
-        public override IUshortsFormatter GetFormatter()
-        {
-            this.SaveChanges();
-            return this._formulaFormatter;
-        }
+        //public override IUshortsFormatter GetFormatter()
+        //{
+        //    this.SaveChanges();
+        //    return this._formulaFormatter;
+        //}
 
         private void SaveChanges()
         {
@@ -119,39 +123,39 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this._formulaFormatter.NumberOfSimbolsAfterComma = this.NumberOfSimbolsAfterComma;
         }
 
-        public override void InitFromFormatter(IUshortsFormatter ushortsFormatter)
-        {
-            if (ushortsFormatter == null)
-            {
-                this._formulaFormatter =
-                    this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
-                this.ArgumentViewModels.Clear();
-                this.FormulaString = string.Empty;
-                this.NumberOfSimbolsAfterComma = 4;
-            }
+        //public override void InitFromFormatter(IUshortsFormatter ushortsFormatter)
+        //{
+        //    if (ushortsFormatter == null)
+        //    {
+        //        this._formulaFormatter =
+        //            this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
+        //        this.ArgumentViewModels.Clear();
+        //        this.FormulaString = string.Empty;
+        //        this.NumberOfSimbolsAfterComma = 4;
+        //    }
 
-            if (!(ushortsFormatter is IFormulaFormatter)) return;
+        //    if (!(ushortsFormatter is IFormulaFormatter)) return;
 
-            this._formulaFormatter = ushortsFormatter as IFormulaFormatter;
+        //    this._formulaFormatter = ushortsFormatter as IFormulaFormatter;
 
 
-            this.ArgumentViewModels.Clear();
-            int index = 1;
-            if (this._formulaFormatter.UshortFormattables != null)
-            {
-                foreach (IUshortFormattable resource in this._formulaFormatter.UshortFormattables)
-                {
+        //    this.ArgumentViewModels.Clear();
+        //    int index = 1;
+        //    if (this._formulaFormatter.UshortFormattables != null)
+        //    {
+        //        foreach (IUshortFormattable resource in this._formulaFormatter.UshortFormattables)
+        //        {
 
-                    IArgumentViewModel argumentViewModel = this._argumentViewModelGettingFunc();
-                    argumentViewModel.ArgumentName = "x" + index++;
-                    argumentViewModel.Model = resource;
-                    this.ArgumentViewModels.Add(argumentViewModel);
-                }
-            }
+        //            IArgumentViewModel argumentViewModel = this._argumentViewModelGettingFunc();
+        //            argumentViewModel.ArgumentName = "x" + index++;
+        //            argumentViewModel.Model = resource;
+        //            this.ArgumentViewModels.Add(argumentViewModel);
+        //        }
+        //    }
 
-            this.NumberOfSimbolsAfterComma = this._formulaFormatter.NumberOfSimbolsAfterComma;
-            this.FormulaString = this._formulaFormatter.FormulaString;
-        }
+        //    this.NumberOfSimbolsAfterComma = this._formulaFormatter.NumberOfSimbolsAfterComma;
+        //    this.FormulaString = this._formulaFormatter.FormulaString;
+        //}
 
         public string FormulaToolTipString
         {
@@ -212,25 +216,15 @@ namespace Unicon2.Formatting.Editor.ViewModels
         }
 
 
-        public override string StrongName => this._formulaFormatter?.StrongName;
-
-        public override object Model
-        {
-            get { return this._formulaFormatter; }
-            set
-            {
-                if (value is IFormulaFormatter)
-                    this.InitFromFormatter(value as IUshortsFormatter);
-            }
-        }
-
+        public override string StrongName => StringKeys.FORMULA_FORMATTER;
+        
         public override object Clone()
         {
             FormulaFormatterViewModel cloneFormulaFormatterViewModel =
                 new FormulaFormatterViewModel(this._localizerService, this._container,
                     this._argumentViewModelGettingFunc, this._sharedResourcesViewModelFactory);
             this.SaveChanges();
-            cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
+           // cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
             return cloneFormulaFormatterViewModel;
         }
 

@@ -38,8 +38,7 @@ namespace Unicon2.Model.Module
 
             container.Register<IQuickAccessMemoryApplyingContext, QuickAccessMemoryApplyingContext>();
             container.Register<IFragmentSetting, QuickMemoryAccessSetting>(ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING);
-
-            container.Register<IQuickMemoryAccessDataProviderStub, QuickMemoryAccessDataProviderStub>();
+            
             container.Register<IQueryResult<ushort[]>, DefaultQueryResult<ushort[]>>();
             container.Register<IQueryResult<bool[]>, DefaultQueryResult<bool[]>>();
             container.Register<IQueryResult<bool>, DefaultQueryResult<bool>>();

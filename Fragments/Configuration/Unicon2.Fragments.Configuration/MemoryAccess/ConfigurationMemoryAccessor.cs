@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
-using Unicon2.Fragments.Configuration.Helpers;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
-using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Fragments.Configuration.Model.Memory;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
@@ -158,7 +151,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                         }
                     }
 
-                    _memoryBusDispatcher.TriggerDeviceDataSubscriptionByAddress(rangeFrom,
+                    _deviceEventsDispatcher.TriggerAddressSubscription(rangeFrom,
                         (ushort) (rangeTo - rangeFrom));
                     break;
                 }

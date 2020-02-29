@@ -7,7 +7,6 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Depen
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Interfaces.Factories;
-using Unicon2.Infrastructure.Interfaces.Values;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -42,7 +41,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
 
         private void OnSelectPropertyFromResourceExecute()
         {
-            this._dependancyCondition.LocalAndDeviceValuesContaining = this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(ILocalAndDeviceValuesContaining)) as ILocalAndDeviceValuesContaining;
+           // this._dependancyCondition.LocalAndDeviceValuesContaining = this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(ILocalAndDeviceValuesContaining)) as ILocalAndDeviceValuesContaining;
             this.RaisePropertyChanged(nameof(this.ReferencedResorcePropertyName));
         }
 
@@ -50,7 +49,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
         public ICommand SelectPropertyFromResourceCommand { get; }
         public string ReferencedResorcePropertyName
         {
-            get { return this._dependancyCondition?.LocalAndDeviceValuesContaining?.Name; }
+            get { return ""; /* return this._dependancyCondition?.LocalAndDeviceValuesContaining?.Name;*/ }
         }
 
         public List<string> ConditionsList { get; set; }
@@ -86,8 +85,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
                 this.RaisePropertyChanged();
             }
         }
+          public string UshortFormatterString =>"";
 
-        public string UshortFormatterString => this._dependancyCondition?.UshortsFormatter?.StrongName;
+        //  public string UshortFormatterString => this._dependancyCondition?.UshortsFormatter?.StrongName;
         public ICommand ShowFormatterParameters { get; }
 
         public string StrongName => ConfigurationKeys.DEPENDANCY_CONDITION +

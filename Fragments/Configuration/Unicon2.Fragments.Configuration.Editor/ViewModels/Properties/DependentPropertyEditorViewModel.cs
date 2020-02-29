@@ -16,7 +16,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 {
-    public class DependentPropertyEditorViewModel : PropertyEditorEditorViewModel, IDependentPropertyEditorViewModel
+    public class DependentPropertyEditorViewModel : PropertyEditorViewModel, IDependentPropertyEditorViewModel
     {
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly Func<IConditionViewModel> _conditionViewModelGettingFunc;
@@ -56,42 +56,46 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             (obj as Window)?.Close();
         }
 
+        public override T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitDependentProperty(this);
+        }
 
         public override void StopEditElement()
         {
-            IDependentProperty depProperty = this._model as IDependentProperty;
-            depProperty.DependancyConditions.Clear();
-            foreach (IConditionViewModel conditionViewModel in this.ConditionViewModels)
-            {
-                depProperty.DependancyConditions.Add(conditionViewModel.Model as IDependancyCondition);
-            }
-            base.StopEditElement();
+            //IDependentProperty depProperty = this._model as IDependentProperty;
+            //depProperty.DependancyConditions.Clear();
+            //foreach (IConditionViewModel conditionViewModel in this.ConditionViewModels)
+            //{
+            //    depProperty.DependancyConditions.Add(conditionViewModel.Model as IDependancyCondition);
+            //}
+            //base.StopEditElement();
         }
 
         private void OnCancelExecute(object obj)
         {
-            this.Model = this._model;
-            (obj as Window)?.Close();
+          //  this.Model = this._model;
+          //  (obj as Window)?.Close();
         }
 
 
         public override string StrongName => ConfigurationKeys.DEPENDENT_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-        protected override void SetModel(object model)
-        {
-            if (model is IDependentProperty)
-            {
-                IDependentProperty depProperty = model as IDependentProperty;
-                foreach (IDependancyCondition condition in depProperty.DependancyConditions)
-                {
-                    IConditionViewModel conditionViewModel = this._conditionViewModelGettingFunc();
-                    conditionViewModel.Model = condition;
-                    this.ConditionViewModels.Add(conditionViewModel);
-                }
-            }
-            base.SetModel(model);
-        }
+        //protected override void SetModel(object model)
+        //{
+        //    if (model is IDependentProperty)
+        //    {
+        //        IDependentProperty depProperty = model as IDependentProperty;
+        //        foreach (IDependancyCondition condition in depProperty.DependancyConditions)
+        //        {
+        //            IConditionViewModel conditionViewModel = this._conditionViewModelGettingFunc();
+        //            conditionViewModel.Model = condition;
+        //            this.ConditionViewModels.Add(conditionViewModel);
+        //        }
+        //    }
+        //    base.SetModel(model);
+        //}
 
 
 

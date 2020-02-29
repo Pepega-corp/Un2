@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Helpers;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces.DataOperations;
 
 namespace Unicon2.Fragments.Configuration.Model
 {

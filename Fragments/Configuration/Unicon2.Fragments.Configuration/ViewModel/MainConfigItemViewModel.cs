@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
-using Unicon2.Infrastructure.Common;
-using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
-using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
@@ -34,24 +26,24 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             
             IGroupWithReiterationInfo groupWithReiterationInfo = null;
 
-            if (RelatedConfigurationItemViewModel is IItemGroupViewModel groupViewModelWithreit &&
-                groupViewModelWithreit.Model is IItemsGroup itemsGroup &&
-                itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiteration)
-            {
-                IsGroupWithReiteration = groupWithReiteration.IsReiterationEnabled;
-                groupWithReiterationInfo = groupWithReiteration;
-            }
+            //if (RelatedConfigurationItemViewModel is IItemGroupViewModel groupViewModelWithreit &&
+            //    groupViewModelWithreit.Model is IItemsGroup itemsGroup &&
+            //    itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiteration)
+            //{
+            //    IsGroupWithReiteration = groupWithReiteration.IsReiterationEnabled;
+            //    groupWithReiterationInfo = groupWithReiteration;
+            //}
 
             if (!childConfigItemViewModels.Any()|| IsGroupWithReiteration)
             {
                 var relatedRows = new List<IConfigurationItemViewModel>();
                 if (IsGroupWithReiteration)
                 {
-                    var factory = StaticContainer.Container.Resolve<IRuntimeConfigurationItemViewModelFactory>();
-                    var children = groupWithReiterationInfo.SubGroups.Select(
-                        (info => factory.CreateGroupWithReiterationViewModel(info))).ToList();
+                    //var factory = StaticContainer.Container.Resolve<IRuntimeConfigurationItemViewModelFactory>();
+                    //var children = groupWithReiterationInfo.SubGroups.Select(
+                    //    (info => factory.CreateGroupWithReiterationViewModel(info))).ToList();
 
-                    FillRelatedRows(relatedRows, children, 0);
+                    //FillRelatedRows(relatedRows, children, 0);
 
                 }
                 else
