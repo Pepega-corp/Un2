@@ -28,6 +28,20 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             base.OnAttached();
             this.DesignerCanvas = AssociatedObject;
+
+            this.TabViewModel = this.DesignerCanvas.DataContext as SchemeTabViewModel;
+            if (this.TabViewModel != null)
+            {
+                this.TabViewModel.SelfBehavior = this;
+
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
+                if (adornerLayer != null)
+                {
+                    var designerCanvasAdorner = new DesignerCanvasAdorner(this.DesignerCanvas, this.TabViewModel) { IsHitTestVisible = false };
+                    adornerLayer.Add(designerCanvasAdorner);
+                }
+            }
+
             Grid outerGrid = this.GetOuterGrid(this.DesignerCanvas);
             if (outerGrid != null)
             {
@@ -37,18 +51,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             this.DesignerCanvas.MouseDown += this.OnMouseDown;
             this.DesignerCanvas.MouseMove += this.OnMouseMove;
             this.DesignerCanvas.Drop += this.OnDrop;
-            this.TabViewModel = this.DesignerCanvas.DataContext as SchemeTabViewModel;
-            if (this.TabViewModel != null)
-            {
-                this.TabViewModel.SelfBehavior = this;
-
-                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
-                if (adornerLayer != null)
-                {
-                    var designerCanvasAdorner = new DesignerCanvasAdorner(this.DesignerCanvas, this.TabViewModel) {IsHitTestVisible = false};
-                    adornerLayer.Add(designerCanvasAdorner);
-                }
-            }
+            
         }
 
         //На случай, если вместо Barder использовать Canvas

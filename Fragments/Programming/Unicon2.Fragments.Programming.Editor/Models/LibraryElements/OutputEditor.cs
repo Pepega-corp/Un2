@@ -14,16 +14,16 @@ namespace Unicon2.Fragments.Programming.Editor.Models.LibraryElements
 
         public string StrongName => ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR;
 
-        public Functional Functional { get; }
+        public ElementType ElementType =>  ElementType.Out;
 
-        public Group Group { get; }
+        public Functional Functional=>Functional.BOOLEAN;
+
+        public Group Group =>Group.INPUT_OUTPUT;
         [DataMember]
         public List<string> OutputSignals { get; set; }
 
         public OutputEditor()
         {
-            this.Functional = Functional.BOOLEAN;
-            this.Group = Group.INPUT_OUTPUT;
             this.OutputSignals = new List<string>();
             for (int i = 0; i < DEFAULT_SIZE; i++)
             {

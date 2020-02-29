@@ -23,10 +23,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         #region Fields
         private readonly ILogicElementFactory _factory;
         public const int CELL_SIZE = 5;
-        private string _schemeName;
-        private double _schemeHeight;
-        private double _schemeWidth;
-        private double _scale;
         private ISchemeModel _model;
         #endregion
 
@@ -36,26 +32,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// </summary>
         public event Action CloseTabEvent;
         #endregion
-
-        public SchemeTabViewModel(string name, Size size, ILogicElementFactory factory) : this(factory)
-        {
-            this.Model = new SchemeModel(name, size.Height, size.Width);
-        }
-
-        public SchemeTabViewModel(ISchemeModel model, ILogicElementFactory factory) : this(factory)
-        {
-            this.Model = model;
-        }
-
-        private SchemeTabViewModel(ILogicElementFactory factory)
-        {
-            this._factory = factory;
-            this.ElementCollection = new ObservableCollection<ISchemeElementViewModel>();
-            this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
-            this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
-            this.CloseTabCommand = new RelayCommand(this.CloseTab);
-            this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
-        }
 
         #region Properties
         /// <summary>
@@ -84,27 +60,47 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public double Scale
         {
-            get => this._scale;
+            get => this._model.Scale;
             set
             {
-                this._scale = value;
+                this._model.Scale = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(this.ScaleStr));
             }
         }
 
-        public string ScaleStr => $"{this._scale * 100}%";
+        public string ScaleStr => $"{this._model.Scale * 100}%";
 
-        public double RectHeight => (int) (this.SchemeHeight / this.RectY) * this.RectY- this.RectY;
+        public double RectHeight => (int)(this.SchemeHeight / this.RectY) * this.RectY - this.RectY;
 
         public double RectWidth => (int)(this.SchemeWidth / this.RectX) * this.RectX - this.RectX;
 
         public double RectX => CELL_SIZE;
-        
+
         public double RectY => CELL_SIZE;
 
         #endregion Properties
 
+        public SchemeTabViewModel(string name, Size size, ILogicElementFactory factory) : this(factory)
+        {
+            this.Model = new SchemeModel(name, size.Height, size.Width);
+        }
+
+        public SchemeTabViewModel(ISchemeModel model, ILogicElementFactory factory) : this(factory)
+        {
+            this.Model = model;
+        }
+
+        private SchemeTabViewModel(ILogicElementFactory factory)
+        {
+            this._factory = factory;
+            this.ElementCollection = new ObservableCollection<ISchemeElementViewModel>();
+            this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
+            this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
+            this.CloseTabCommand = new RelayCommand(this.CloseTab);
+            this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
+        }
+        
         #region ZoomCommands
         public ICommand ZoomIncrementCommand { get; }
 

@@ -39,17 +39,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-
-        public string Name
-        {
-            get => _model.Name;
-            set
-            {
-                _model.Name = value;
-                RaisePropertyChanged();
-            }
-        }
-
+        
         protected override ILogicElement GetModel()
         {
             var output = (IOutput) _model;

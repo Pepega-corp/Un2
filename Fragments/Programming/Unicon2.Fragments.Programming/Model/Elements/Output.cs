@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
+using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
@@ -25,18 +27,20 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public double X { get; set; }
         [DataMember]
         public double Y { get; set; }
-        public string Name { get; set; }
+        public ElementType ElementType => ElementType.Out;
+        public string Name => this.ElementType.ToString();
+        public Functional Functional => Functional.BOOLEAN;
+        public Group Group => Group.INPUT_OUTPUT;
+        public int BinSize => BIN_SIZE;
 
         public Output()
         {
-            this.Functional = Functional.BOOLEAN;
-            this.Group = Group.INPUT_OUTPUT;
+            this.OutputSignals = new List<string>();
             this.Connectors = new IConnector[] {new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
         }
 
-        private Output(Output cloneable)
+        private Output(Output cloneable):this()
         {
-            this.OutputSignals = new List<string>();
             this.CopyValues(cloneable);
         }
 
@@ -46,10 +50,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             {
                 throw new ArgumentException("Copied source is not " + typeof(Output));
             }
-
-            this.Name = outputSource.Name;
-            this.Functional = outputSource.Functional;
-            this.Group = outputSource.Group;
+            
             this.Connectors = new IConnector[outputSource.Connectors.Length];
             for (int i = 0; i < outputSource.Connectors.Length; i++)
             {
@@ -60,9 +61,16 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.OutputSignals.AddRange(outputSource.OutputSignals);
         }
 
-        public Functional Functional { get; private set; }
-        public Group Group { get; private set; }
-        public int BinSize => BIN_SIZE;
+        public void CopyValues(ILibraryElement source)
+        {
+            if (!(source is IOutputEditor outputEditor))
+            {
+                throw new ArgumentException("Copied source is not " + typeof(IOutputEditor));
+            }
+
+            this.OutputSignals.Clear();
+            this.OutputSignals.AddRange(outputEditor.OutputSignals);
+        }
 
         public ushort[] GetProgrammBin()
         {

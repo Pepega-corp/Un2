@@ -6,10 +6,12 @@ using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -21,12 +23,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private IProgrammModel _programmModel;
         
         #region Constructor
-        public ProgrammingViewModel(IApplicationGlobalCommands globalCommands, ILogicElementFactory factory)
+        public ProgrammingViewModel(IProgrammModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory factory)
         {
+            this._programmModel = model;
             this._applicationGlobalCommands = globalCommands;
             this._factory = factory;
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
+            this.ElementCollection = new ObservableCollection<ILogicElementViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
             this.CloseTabCommand = new RelayCommand(this.CloseTab, this.CanCloseTab);
@@ -53,6 +57,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public int SelectedTabIndex { get; set; }
 
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
+        public ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
 
         #endregion
 
@@ -148,12 +153,20 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             if (value is IProgrammModel model)
             {
-                this._programmModel = model;
+                this._programmModel.Schemes = model.Schemes;
 
                 foreach(var sceme in this._programmModel.Schemes)
                 {
                     this.SchemesCollection.Add(new SchemeTabViewModel(sceme, this._factory));
                 }
+
+                return;
+            }
+
+            if (value is IProgrammModelEditor modelEditor)
+            {
+                var logicElementsViewModels = this._factory.GetAllElementsViewModels(modelEditor.Elements);
+                this.ElementCollection.AddCollection(logicElementsViewModels);
             }
         }
 

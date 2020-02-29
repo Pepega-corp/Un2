@@ -113,5 +113,30 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
             return elementsViewModels;
         }
+
+        public List<ILogicElementViewModel> GetAllElementsViewModels(ILibraryElement[] libraryElements)
+        {
+            List<ILogicElementViewModel> elementsViewModels = new List<ILogicElementViewModel>();
+
+            var allElements = this._container.ResolveAll<ILogicElement>().ToArray();
+            var elements = new List<ILogicElement>();
+
+            foreach (var libraryElement in libraryElements)
+            {
+                var element = allElements.First(logicElement => logicElement.ElementType == libraryElement.ElementType);
+                element.CopyValues(libraryElement);
+                elements.Add(element);
+            }
+
+            foreach (ILogicElement element in elements)
+            {
+                ILogicElementViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(
+                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                viewmodel.Model = element;
+                elementsViewModels.Add(viewmodel);
+            }
+
+            return elementsViewModels;
+        }
     }
 }

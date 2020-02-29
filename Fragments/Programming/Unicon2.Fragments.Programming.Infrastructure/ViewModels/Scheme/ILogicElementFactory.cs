@@ -14,5 +14,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
         List<ILogicElementViewModel> GetAnalogElementsViewModels();
         List<ILogicElementEditorViewModel> GetAllElementsEditorViewModels(ILibraryElement[] elements);
         List<ILogicElementViewModel> GetAllElementsViewModels(ILogicElement[] elements);
+        List<ILogicElementViewModel> GetAllElementsViewModels(ILibraryElement[] elements);
     }
 }

@@ -10,8 +10,9 @@ namespace Unicon2.Fragments.Programming.Editor.Models.LibraryElements
     [DataContract(Namespace = "InputEditorNS")]
     public class InputEditor : IInputEditor
     {
-        public Functional Functional { get; }
-        public Group Group { get; }
+        public ElementType ElementType => ElementType.In;
+        public Functional Functional => Functional.BOOLEAN;
+        public Group Group => Group.INPUT_OUTPUT;
         [DataMember]
         public List<Dictionary<int, string>> AllInputSignals { get; set; }
         [DataMember]
@@ -21,8 +22,6 @@ namespace Unicon2.Fragments.Programming.Editor.Models.LibraryElements
 
         public InputEditor()
         {
-            this.Functional = Functional.BOOLEAN;
-            this.Group = Group.INPUT_OUTPUT;
             this.Bases = new List<string> { "Base0" };
 
             this.AllInputSignals =

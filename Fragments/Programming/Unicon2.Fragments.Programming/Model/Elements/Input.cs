@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
+using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
@@ -29,13 +31,14 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public double X { get; set; }
         [DataMember]
         public double Y { get; set; }
-
-        public string Name { get; set; }
+        public ElementType ElementType => ElementType.In;
+        public string Name => this.ElementType.ToString();
+        public Functional Functional => Functional.BOOLEAN;
+        public Group Group => Group.INPUT_OUTPUT;
+        public int BinSize => BIN_SIZE;
 
         public Input()
         {
-            this.Functional = Functional.BOOLEAN;
-            this.Group = Group.INPUT_OUTPUT;
             this.Connectors = new IConnector[] { new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT) };
             this.Bases = new List<string> {"Base0"};
 
@@ -46,15 +49,10 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 };
         }
 
-        private Input(Input cloneable)
+        private Input(Input cloneable) : this()
         {
-            this.Bases = new List<string>();
             this.CopyValues(cloneable);
         }
-
-        public Functional Functional { get; private set; }
-        public Group Group { get; private set; }
-        public int BinSize => BIN_SIZE;
 
         public void CopyValues(ILogicElement source)
         {
@@ -62,10 +60,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             {
                 throw new ArgumentException("Copied source is not " + typeof(Input));
             }
-
-            this.Name = inputSource.Name;
-            this.Functional = inputSource.Functional;
-            this.Group = inputSource.Group;
+            
             this.InputSignalNum = inputSource.InputSignalNum;
             this.BaseNum = inputSource.BaseNum;
             this.ConnectionNumber = inputSource.ConnectionNumber;
@@ -79,6 +74,23 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 var connector = inputSource.Connectors[i];
                 this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
             }
+
+            for (int i = 0; i < this.Bases.Count; i++)
+            {
+                var copiedDictionary = inputSource.AllInputSignals[i];
+                this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
+            }
+        }
+
+        public void CopyValues(ILibraryElement source)
+        {
+            if (!(source is IInputEditor inputSource))
+            {
+                throw new ArgumentException("Copied source is not " + typeof(Input));
+            }
+            this.Bases.Clear();
+            this.Bases.AddRange(inputSource.Bases);
+            this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
 
             for (int i = 0; i < this.Bases.Count; i++)
             {

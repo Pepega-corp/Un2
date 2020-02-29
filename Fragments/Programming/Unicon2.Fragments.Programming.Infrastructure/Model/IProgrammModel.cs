@@ -7,7 +7,5 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
     {
         string ProjectName { get; set; }
         ISchemeModel[] Schemes { get; set; }
-
-        //
     }
 }

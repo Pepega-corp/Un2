@@ -12,7 +12,7 @@ namespace Unicon2.Fragments.Programming.Model
             SchemeName = name;
             SchemeHeight = height;
             SchemeWidth = width;
-
+            Scale = 1;
             LogicElements = new ILogicElement[0];
         }
         [DataMember]
@@ -25,6 +25,5 @@ namespace Unicon2.Fragments.Programming.Model
         public double Scale { get; set; }
         [DataMember]
         public ILogicElement[] LogicElements { get ; set; }
-        //IConnection[] here
     }
 }

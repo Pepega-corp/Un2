@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="Enums\ElementType.cs" />
     <Compile Include="Enums\Functional.cs" />
     <Compile Include="Enums\Group.cs" />
     <Compile Include="Factories\LogicElementFactory.cs" />

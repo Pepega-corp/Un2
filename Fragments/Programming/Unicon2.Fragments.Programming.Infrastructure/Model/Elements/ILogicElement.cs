@@ -6,7 +6,8 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
 {
     public interface ILogicElement : IStronglyNamed
     {
-        string Name { get; set; }
+        ElementType ElementType { get; }
+        string Name { get; }
         Functional Functional { get; }
         Group Group { get; }
         IConnector[] Connectors { get; set; }
@@ -14,6 +15,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         ushort[] GetProgrammBin();
         void BinProgrammToProperty(ushort[] bin);
         void CopyValues(ILogicElement source);
+        void CopyValues(ILibraryElement source);
         double X { get; set; }
         double Y { get; set; }
     }
