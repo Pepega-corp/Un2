@@ -23,8 +23,6 @@ namespace Unicon2.Fragments.Configuration.Model
         IsReference = true)]
     public class DefaultDeviceConfiguration : Disposable, IDeviceConfiguration
     {
-       
-
         public DefaultDeviceConfiguration()
         {
             this.RootConfigurationItemList = new List<IConfigurationItem>();
@@ -63,9 +61,6 @@ namespace Unicon2.Fragments.Configuration.Model
 
         [DataMember(Name = nameof(ConfigurationSettings), Order = 2)]
         public IFragmentSettings FragmentSettings { get; set; }
-
-        [DataMember(Name = nameof(ConfigurationMemory), Order = 3)]
-        public IConfigurationMemory ConfigurationMemory { get; set; }
        
         protected override void OnDisposing()
         {

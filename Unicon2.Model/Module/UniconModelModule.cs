@@ -1,4 +1,5 @@
-﻿using Unicon2.Infrastructure;
+﻿using Unicon2.Fragments.Configuration.Model.Memory;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
@@ -46,6 +47,7 @@ namespace Unicon2.Model.Module
             container.Register<IQueryResult, DefaultQueryResult>();
 
             container.Register<IQueryResultFactory, QueryResultFactory>();
+            container.Register<IDeviceMemory, DeviceMemory>();
 
             container.Register<ITaskProgressReport, TaskProgressReport>();
 

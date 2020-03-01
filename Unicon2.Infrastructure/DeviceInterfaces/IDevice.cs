@@ -13,6 +13,7 @@ namespace Unicon2.Infrastructure.DeviceInterfaces
         IDeviceSharedResources DeviceSharedResources { get; set; }
         IDeviceLogger DeviceLogger { get; set; }
         string DeviceSignature { get; set; }
+		IDeviceMemory DeviceMemory { get; set; }
 
     }
 }

@@ -141,7 +141,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteReadConfiguration()
         {
-            var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,_runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.Read);
+            var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,_runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.Read,_runtimeConfigurationViewModel.DeviceMemory);
             await memoryAccessor.Process();
         }
 
@@ -236,9 +236,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             ofd.CheckFileExists = true;
             if (ofd.ShowDialog() == true)
             {
-              //  IConfigurationMemory loadedConfigMemory = _container.Resolve<ISerializerService>()
-              //      .DeserializeFromFile<IConfigurationMemory>(ofd.FileName);
-               // (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).ConfigurationMemory =
+              //  IDeviceMemory loadedConfigMemory = _container.Resolve<ISerializerService>()
+              //      .DeserializeFromFile<IDeviceMemory>(ofd.FileName);
+               // (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).DeviceMemory =
               //      loadedConfigMemory;
             }
         }
@@ -259,7 +259,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             if (sfd.ShowDialog() == true)
             {
              //   _container.Resolve<ISerializerService>().SerializeInFile(
-             //       (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).ConfigurationMemory,
+             //       (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).DeviceMemory,
              //       sfd.FileName);
             }
         }

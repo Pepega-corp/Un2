@@ -12,6 +12,7 @@ using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Subscription;
@@ -25,12 +26,12 @@ namespace Unicon2.Fragments.Configuration.Factories
     {
         private readonly ITypesContainer _container;
         private IDeviceEventsDispatcher _deviceEventsDispatcher;
-        private readonly IConfigurationMemory _configurationMemory;
+        private readonly IDeviceMemory _deviceMemory;
 
-        public RuntimeConfigurationItemViewModelFactory(ITypesContainer container, IConfigurationMemory configurationMemory, IDeviceEventsDispatcher deviceEventsDispatcher)
+        public RuntimeConfigurationItemViewModelFactory(ITypesContainer container, IDeviceMemory deviceMemory, IDeviceEventsDispatcher deviceEventsDispatcher)
         {
             this._container = container;
-            _configurationMemory = configurationMemory;
+            _deviceMemory = deviceMemory;
             _deviceEventsDispatcher = deviceEventsDispatcher;
         }
 
@@ -77,7 +78,7 @@ namespace Unicon2.Fragments.Configuration.Factories
             InitializeProperty(res, property);
             _deviceEventsDispatcher.AddAddressSubscription(property.Address, property.NumberOfPoints,
                 new DeviceDataPropertyMemorySubscription(property, res, _container.Resolve<IValueViewModelFactory>(),
-                    _configurationMemory));
+                    _deviceMemory));
             return res;
         }
 

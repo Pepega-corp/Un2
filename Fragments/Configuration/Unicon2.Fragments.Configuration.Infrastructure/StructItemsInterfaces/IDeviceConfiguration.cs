@@ -11,6 +11,5 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces
     {
         List<IConfigurationItem> RootConfigurationItemList { get; set; }
         bool CheckEquality(IDeviceConfiguration deviceConfigurationToCheck);
-        IConfigurationMemory ConfigurationMemory { get; set; }
     }
 }

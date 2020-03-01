@@ -1,33 +1,34 @@
 using System.Collections.Generic;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Infrastructure.DeviceInterfaces;
 
 namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 {
     public static class MemoryAccessor
     {
-        public static ushort[] GetUshortsFromMemory(IConfigurationMemory configurationMemory, ushort address,
+        public static ushort[] GetUshortsFromMemory(IDeviceMemory deviceMemory, ushort address,
             ushort numberOfPoints, bool isLocal)
         {
             if (isLocal)
             {
-                return GetUshortsFromMemoryDictionary(configurationMemory.LocalMemoryValues, address, numberOfPoints);
+                return GetUshortsFromMemoryDictionary(deviceMemory.LocalMemoryValues, address, numberOfPoints);
             }
             else
             {
-                return GetUshortsFromMemoryDictionary(configurationMemory.DeviceMemoryValues, address, numberOfPoints);
+                return GetUshortsFromMemoryDictionary(deviceMemory.DeviceMemoryValues, address, numberOfPoints);
             }
         }
 
-        public static void GetUshortsInMemory(IConfigurationMemory configurationMemory, ushort address,
+        public static void GetUshortsInMemory(IDeviceMemory deviceMemory, ushort address,
             ushort[] values, bool isLocal)
         {
             if (isLocal)
             {
-                 SetUshortsInMemoryDictionary(configurationMemory.LocalMemoryValues, address, values);
+                 SetUshortsInMemoryDictionary(deviceMemory.LocalMemoryValues, address, values);
             }
             else
             {
-                SetUshortsInMemoryDictionary(configurationMemory.DeviceMemoryValues, address, values);
+                SetUshortsInMemoryDictionary(deviceMemory.DeviceMemoryValues, address, values);
             }
         }
 

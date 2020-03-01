@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -11,6 +12,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
@@ -26,14 +28,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel
     public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel
     {
         private readonly ITypesContainer _container;
-        private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
 
 
-        public RuntimeConfigurationViewModel(ITypesContainer container,
-            IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
+        public RuntimeConfigurationViewModel(ITypesContainer container)
         {
             this._container = container;
-            this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
 
             this.AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
             this.MainRows = new ObservableCollection<MainConfigItemViewModel>();
@@ -168,7 +167,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 foreach (IConfigurationItem configurationItem in deviceConfiguration.RootConfigurationItemList)
                 {
                     this.RootConfigurationItemViewModels.Add(
-                        configurationItem.Accept(_runtimeConfigurationItemViewModelFactory));
+                        configurationItem.Accept(new RuntimeConfigurationItemViewModelFactory(_container,DeviceMemory,DeviceEventsDispatcher)));
                 }
             }
             
@@ -210,12 +209,14 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
      
 
-        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher)
+        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher, IDeviceMemory deviceMemory)
         {
             DeviceEventsDispatcher = deviceEventsDispatcher;
-            _runtimeConfigurationItemViewModelFactory.Initialize(deviceEventsDispatcher);
+            DeviceMemory = deviceMemory;
             _deviceName = deviceName;
         }
+
+        public IDeviceMemory DeviceMemory { get; set; }
 
         public string GetDeviceName()
         {

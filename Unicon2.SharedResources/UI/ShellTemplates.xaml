@@ -48,12 +48,12 @@
                             </ContextMenu>
                         </TextBlock.ContextMenu>
                     </TextBlock>
-                    <Image                        
+                    <Image
                         Width="18"
                         Height="18"
                         Margin="10,0,0,0"
-                        Source="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource IsConnectedToIconConverter}}"
-                        Opacity="{Binding ConnectionStateViewModel.IndicatorOpacity}">
+                        Opacity="{Binding ConnectionStateViewModel.IndicatorOpacity}"
+                        Source="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource IsConnectedToIconConverter}}">
 
                         <Image.ContextMenu>
                             <ContextMenu>

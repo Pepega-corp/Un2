@@ -3,6 +3,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Infrastructure.Values;
@@ -13,13 +14,13 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
     public class LocalDataPropertyMemorySubscription : ILocalDataMemorySubscription
     {
-        private readonly IConfigurationMemory _configurationMemory;
+        private readonly IDeviceMemory _deviceMemory;
         private readonly IProperty _property;
 
         public LocalDataPropertyMemorySubscription(IEditableValueViewModel editableValueViewModel,
-            IConfigurationMemory configurationMemory, IProperty property)
+            IDeviceMemory deviceMemory, IProperty property)
         {
-            _configurationMemory = configurationMemory;
+            _deviceMemory = deviceMemory;
             _property = property;
             EditableValueViewModel = editableValueViewModel;
         }
@@ -31,7 +32,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
             var ushorts = formattingService.FormatBack(_property?.UshortsFormatter, EditableValueViewModel.Accept(fetchingFromViewModelVisitor));
             
-            MemoryAccessor.GetUshortsInMemory(_configurationMemory, _property.Address, ushorts, true);
+            MemoryAccessor.GetUshortsInMemory(_deviceMemory, _property.Address, ushorts, true);
         }
 
         public IEditableValueViewModel EditableValueViewModel { get; }

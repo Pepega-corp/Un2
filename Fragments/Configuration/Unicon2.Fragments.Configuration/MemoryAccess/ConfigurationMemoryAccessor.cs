@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Fragments.Configuration.Model.Memory;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -15,23 +14,17 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 {
     public class ConfigurationMemoryAccessor
     {
-        private readonly IConfigurationMemory _memory;
+        private readonly IDeviceMemory _memory;
         private readonly IDeviceConfiguration _configuration;
         private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
         private readonly MemoryAccessEnum _memoryAccessEnum;
 
-        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration, IDeviceEventsDispatcher deviceEventsDispatcher, MemoryAccessEnum memoryAccessEnum)
+        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration, IDeviceEventsDispatcher deviceEventsDispatcher, MemoryAccessEnum memoryAccessEnum, IDeviceMemory deviceMemory)
         {
             _configuration = configuration;
             _deviceEventsDispatcher = deviceEventsDispatcher;
             _memoryAccessEnum = memoryAccessEnum;
-            if (configuration.ConfigurationMemory == null)
-            {
-                _memory = new ConfigurationMemory();
-                configuration.ConfigurationMemory = _memory;
-            }
-            else
-                _memory = configuration.ConfigurationMemory;
+            _memory = deviceMemory;
         }
 
         public async Task Process()
@@ -130,7 +123,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
 
         private async Task ProcessAddressRange(IDataProvider dataProvider, ushort rangeFrom, ushort rangeTo,
-            IConfigurationMemory memory)
+            IDeviceMemory memory)
         {
             switch (_memoryAccessEnum)
             {

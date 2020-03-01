@@ -3,6 +3,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.Factories;
@@ -17,17 +18,17 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         private readonly ILocalAndDeviceValueContainingViewModel _localAndDeviceValueContainingViewModel;
         private readonly ushort _offset;
         private readonly IValueViewModelFactory _valueViewModelFactory;
-        private readonly IConfigurationMemory _configurationMemory;
+        private readonly IDeviceMemory _deviceMemory;
 
         public DeviceDataPropertyMemorySubscription(IProperty property,
             ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
-            IValueViewModelFactory valueViewModelFactory, IConfigurationMemory configurationMemory, ushort offset = 0)
+            IValueViewModelFactory valueViewModelFactory, IDeviceMemory deviceMemory, ushort offset = 0)
         {
             _property = property;
             _localAndDeviceValueContainingViewModel = localAndDeviceValueContainingViewModel;
             _valueViewModelFactory = valueViewModelFactory;
             _offset = offset;
-            _configurationMemory = configurationMemory;
+            _deviceMemory = deviceMemory;
         }
 
         public void Execute()
@@ -35,7 +36,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             IFormattingService formattingService = StaticContainer.Container.Resolve<IFormattingService>();
 
             var value = formattingService.FormatValue(_property?.UshortsFormatter, MemoryAccessor.GetUshortsFromMemory(
-                _configurationMemory,
+                _deviceMemory,
                 (ushort) (_property.Address + _offset), _property.NumberOfPoints, false));
             _localAndDeviceValueContainingViewModel.DeviceValue = _valueViewModelFactory.CreateFormattedValueViewModel(value);
         }

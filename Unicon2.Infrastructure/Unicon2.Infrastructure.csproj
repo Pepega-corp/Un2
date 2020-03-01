@@ -81,6 +81,7 @@
     <Compile Include="Connection\IConnectionState.cs" />
     <Compile Include="Connection\IQueryResultFactory.cs" />
     <Compile Include="DeviceInterfaces\IComPortConfiguration.cs" />
+    <Compile Include="DeviceInterfaces\IDeviceMemory.cs" />
     <Compile Include="DeviceInterfaces\IDataProvider.cs" />
     <Compile Include="DeviceInterfaces\IDevice.cs" />
     <Compile Include="DeviceInterfaces\IDeviceConnection.cs" />

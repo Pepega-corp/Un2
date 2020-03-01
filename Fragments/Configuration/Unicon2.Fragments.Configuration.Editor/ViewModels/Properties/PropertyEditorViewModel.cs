@@ -50,8 +50,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         private void OnShowFormatterParametersExecute()
         {
-            //this._container.Resolve<IFormatterEditorFactory>().EditFormatterByUser(this._model as IProperty);
-            //this.RaisePropertyChanged(nameof(this.SelectedUshortFormatterName));
+            this._container.Resolve<IFormatterEditorFactory>().EditFormatterByUser(this);
+	        this.RaisePropertyChanged(nameof(this.SelectedUshortFormatterName));
         }
         
         public ICommand ShowFormatterParameters { get; set; }

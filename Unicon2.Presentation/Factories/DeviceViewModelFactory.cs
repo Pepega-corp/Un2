@@ -26,6 +26,10 @@ namespace Unicon2.Presentation.Factories
         public IDeviceViewModel CreateDeviceViewModel(IDevice device)
         {
             IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
+            if (device.DeviceMemory == null)
+            {
+	            device.DeviceMemory = _container.Resolve<IDeviceMemory>();
+            }
             if (device.DeviceFragments != null)
             {
                 foreach (IDeviceFragment deviceFragment in device.DeviceFragments)
@@ -37,7 +41,7 @@ namespace Unicon2.Presentation.Factories
                     fragmentViewModel.Initialize(deviceFragment);
                     if (fragmentViewModel is IDeviceDataProvider deviceDataProvider)
                     {
-                        deviceDataProvider.SetDeviceData(device.Name, _deviceEventsDispatcher);
+                        deviceDataProvider.SetDeviceData(device.Name, _deviceEventsDispatcher,device.DeviceMemory);
                     }
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }

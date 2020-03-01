@@ -6,6 +6,7 @@ using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
@@ -17,44 +18,44 @@ namespace Unicon2.Formatting.Editor.ViewModels
     public class FormatterSelectionViewModel : ViewModelBase, IFormatterSelectionViewModel
     {
         private readonly ITypesContainer _container;
-        private readonly IUshortFormattable _ushortFormattable;
+        private readonly IUshortFormattableViewModel _ushortFormattableViewModel;
+        //private readonly IUshortFormattable _ushortFormattable;
         private IUshortsFormatterViewModel _selectedUshortsFormatterViewModel;
         private ObservableCollection<IUshortsFormatterViewModel> _ushortsFormatterViewModels;
         private ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
         private string _currentResourceString;
         private bool _isFormatterFromResource;
 
-        public FormatterSelectionViewModel(ITypesContainer container, IUshortFormattable ushortFormattable)
+        public FormatterSelectionViewModel(ITypesContainer container, IUshortFormattableViewModel ushortFormattableViewModel)
         {
             this.CurrentResourceString = null;
             this._container = container;
+            _ushortFormattableViewModel = ushortFormattableViewModel;
 
             this._sharedResourcesViewModelFactory = this._container.Resolve<ISharedResourcesViewModelFactory>();
 
-            this._ushortFormattable = ushortFormattable;
             this._ushortsFormatterViewModels = new ObservableCollection<IUshortsFormatterViewModel>();
             this.UshortsFormatterViewModels.AddCollection(this._container.ResolveAll<IUshortsFormatterViewModel>());
 
-            IUshortsFormatter currentUshortsFormatter = ushortFormattable.UshortsFormatter;
-            if ((currentUshortsFormatter != null) &&
-                (this._sharedResourcesViewModelFactory.CheckDeviceSharedResourcesContainsElement(
-                    currentUshortsFormatter)))
-            {
-                this.CurrentResourceString = currentUshortsFormatter.Name;
-                this._isFormatterFromResource = true;
-            }
+            //if ((currentUshortsFormatter != null) &&
+            //    (this._sharedResourcesViewModelFactory.CheckDeviceSharedResourcesContainsElement(
+            //        currentUshortsFormatter)))
+            //{
+            //    this.CurrentResourceString = currentUshortsFormatter.Name;
+            //    this._isFormatterFromResource = true;
+            //}
 
-            if (currentUshortsFormatter != null)
-            {
-                //IUshortsFormatterViewModel formatter =
-                //    this._ushortsFormatterViewModels.FirstOrDefault(f =>
-                //        f.StrongName == currentUshortsFormatter.StrongName);
-               // if (formatter != null)
-               // {
-                   // formatter.InitFromFormatter(currentUshortsFormatter);
-                //    this.SelectedUshortsFormatterViewModel = formatter;
-              //  }
-            }
+            //if (currentUshortsFormatter != null)
+            //{
+            //    //IUshortsFormatterViewModel formatter =
+            //    //    this._ushortsFormatterViewModels.FirstOrDefault(f =>
+            //    //        f.StrongName == currentUshortsFormatter.StrongName);
+            //   // if (formatter != null)
+            //   // {
+            //       // formatter.InitFromFormatter(currentUshortsFormatter);
+            //    //    this.SelectedUshortsFormatterViewModel = formatter;
+            //  //  }
+            //}
 
             this.CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
             this.OkCommand = new RelayCommand<object>(this.OnOkExecute);

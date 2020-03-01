@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Infrastructure.DeviceInterfaces;
 
 namespace Unicon2.Fragments.Configuration.Model.Memory
 {
-    [DataContract(Name = nameof(ConfigurationMemory), Namespace = "ConfigurationMemoryNS", IsReference = true)]
-    public class ConfigurationMemory : IConfigurationMemory
+    [DataContract(Name = nameof(DeviceMemory), Namespace = "ConfigurationMemoryNS", IsReference = true)]
+    public class DeviceMemory : IDeviceMemory
     {
-        public ConfigurationMemory()
+        public DeviceMemory()
         {
             DeviceMemoryValues = new Dictionary<ushort, ushort>();
             LocalMemoryValues = new Dictionary<ushort, ushort>();

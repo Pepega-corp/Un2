@@ -2,7 +2,6 @@
 using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
-using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -14,12 +13,9 @@ using Unicon2.Fragments.Configuration.Model.Memory;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
-using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Infrastructure.Services;
-using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Unity.Interfaces;
 
@@ -70,7 +66,7 @@ namespace Unicon2.Fragments.Configuration.Module
             serializerService.AddNamespaceAttribute("subProperty", "SubPropertyNS");
             serializerService.AddNamespaceAttribute("localDeviceValuesConfigurationItemBase",
                 "LocalDeviceValuesConfigurationItemBaseNS");
-            serializerService.AddNamespaceAttribute("configurationMemory",
+            serializerService.AddNamespaceAttribute("deviceMemory",
                 "ConfigurationMemoryNS");
             serializerService.AddNamespaceAttribute("addressValue",
                 "AddressValueNS");
@@ -82,7 +78,7 @@ namespace Unicon2.Fragments.Configuration.Module
                 typeof(DependentProperty), typeof(DependancyCondition), typeof(ComplexProperty), typeof(SubProperty),
                 typeof(GroupWithReiterationInfo), typeof(ReiterationSubGroupInfo),
                 typeof(List<ReiterationSubGroupInfo>),
-                typeof(ConfigurationMemory)
+                typeof(DeviceMemory)
             });
 
             //регистрация ресурсов

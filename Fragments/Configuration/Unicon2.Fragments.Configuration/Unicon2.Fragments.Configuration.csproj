@@ -79,7 +79,6 @@
     <Compile Include="MemoryAccess\ConfigurationMemoryAccessor.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalDataPropertyMemorySubscription.cs" />
-    <Compile Include="Model\Memory\ConfigurationMemory.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
     <Compile Include="Model\DefaultDeviceConfiguration.cs" />
     <Compile Include="Model\GroupWithReiterationInfo.cs" />
@@ -155,6 +154,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Unicon2.Model\Unicon2.Model.csproj">
+      <Project>{2504F838-86E8-48C4-9288-5EDFB922F0CC}</Project>
+      <Name>Unicon2.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Unicon2.Unity\Unicon2.Unity.csproj">
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>

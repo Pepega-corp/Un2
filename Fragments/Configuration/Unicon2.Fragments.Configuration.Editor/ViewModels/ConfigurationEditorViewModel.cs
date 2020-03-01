@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
@@ -514,7 +515,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public string NameForUiKey => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
         public IDeviceFragment BuildDeviceFragment()
         {
-            throw new NotImplementedException();
+	        return ConfigurationFragmentFactory.CreateConfiguration(this);
         }
 
 

@@ -3,6 +3,7 @@ using Unicon2.Formatting.Editor.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.Factories
@@ -16,10 +17,11 @@ namespace Unicon2.Formatting.Editor.Factories
             this._container = container;
         }
 
-        public void EditFormatterByUser(IUshortFormattable model)
+
+        public void EditFormatterByUser(IUshortFormattableViewModel ushortFormattableViewModel)
         {
-            IApplicationGlobalCommands applicationGlobalCommands = this._container.Resolve<IApplicationGlobalCommands>();
-            applicationGlobalCommands?.ShowWindowModal(() => new FormatterView(), new FormatterSelectionViewModel(this._container, model));
-        }
+			IApplicationGlobalCommands applicationGlobalCommands = this._container.Resolve<IApplicationGlobalCommands>();
+			applicationGlobalCommands?.ShowWindowModal(() => new FormatterView(), new FormatterSelectionViewModel(this._container, ushortFormattableViewModel));
+		}
     }
 }

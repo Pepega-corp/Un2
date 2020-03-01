@@ -106,6 +106,9 @@ namespace Unicon2.Model.DefaultDevice
         [DataMember(Name = nameof(DeviceSignature))]
         public string DeviceSignature { get; set; }
 
+        [DataMember(Name = nameof(DeviceMemory))]
+		public IDeviceMemory DeviceMemory { get; set; }
+
 
         public void InitializeConnection(IDeviceConnection deviceConnection)
         {

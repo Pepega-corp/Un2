@@ -69,6 +69,7 @@
     <Compile Include="FragmentSettings\DefaultFragmentSettings.cs" />
     <Compile Include="FragmentSettings\QuickAccessMemoryApplyingContext.cs" />
     <Compile Include="FragmentSettings\QuickMemoryAccessSetting.cs" />
+    <Compile Include="Memory\DeviceMemory.cs" />
     <Compile Include="Module\UniconModelModule.cs" />
     <Compile Include="Progress\TaskProgressReport.cs" />
     <Compile Include="Properties\Annotations.cs" />
