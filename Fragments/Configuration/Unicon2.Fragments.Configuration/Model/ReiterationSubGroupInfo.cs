@@ -8,12 +8,11 @@ namespace Unicon2.Fragments.Configuration.Model
 {
     [DataContract(Namespace = "ReiterationSubGroupInfoNS", Name = nameof(ReiterationSubGroupInfo), IsReference = true)]
 
-    public class ReiterationSubGroupInfo: IReiterationSubGroupInfo
+    public class ReiterationSubGroupInfo : IReiterationSubGroupInfo
     {
 
-        [DataMember]
-        public string Name { get; set; }
-        
+        [DataMember] public string Name { get; set; }
+
         public object Clone()
         {
             return new ReiterationSubGroupInfo()

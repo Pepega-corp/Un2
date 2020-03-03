@@ -4,7 +4,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.SharedResources.LayoutHelpers
 {
-   public class DockingManagerTemplateSelector: DataTemplateSelector
+    public class DockingManagerTemplateSelector : DataTemplateSelector
     {
         public DataTemplate FragmentPaneTemplate { get; set; }
 
@@ -14,7 +14,8 @@ namespace Unicon2.SharedResources.LayoutHelpers
             {
                 return this.FragmentPaneTemplate;
             }
-            return base.SelectTemplate(item,container);
+
+            return base.SelectTemplate(item, container);
         }
     }
 }

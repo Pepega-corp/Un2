@@ -5,7 +5,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Fragment
 
 namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
 {
-   public class DefaultFragmentOptionCommandViewModel: IFragmentOptionCommandViewModel
+    public class DefaultFragmentOptionCommandViewModel : IFragmentOptionCommandViewModel
     {
         public string TitleKey { get; set; }
 
@@ -13,6 +13,6 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
 
         public string Title => StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(TitleKey);
 
-        public string IconKey { get ; set; }
+        public string IconKey { get; set; }
     }
 }

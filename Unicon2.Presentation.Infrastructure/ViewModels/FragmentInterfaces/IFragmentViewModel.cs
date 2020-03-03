@@ -4,11 +4,11 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Fragment
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
 {
-    public interface IFragmentViewModel: IFragmentInitializable
+    public interface IFragmentViewModel : IFragmentInitializable
     {
         string NameForUiKey { get; }
         IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-       
+
     }
 
     public interface IFragmentInitializable

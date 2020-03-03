@@ -3,7 +3,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Infrastructure.Values.Matrix
 {
-    public interface IBitOption:IStronglyNamed
+    public interface IBitOption : IStronglyNamed
     {
         string FullSignature { get; }
         IVariableColumnSignature VariableColumnSignature { get; set; }

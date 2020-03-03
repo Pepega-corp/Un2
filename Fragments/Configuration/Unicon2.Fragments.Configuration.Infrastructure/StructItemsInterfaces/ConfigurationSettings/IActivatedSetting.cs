@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces
 {
-    public interface IActivatedSetting:IFragmentSetting
+    public interface IActivatedSetting : IFragmentSetting
     {
         ushort ActivationAddress { get; set; }
     }

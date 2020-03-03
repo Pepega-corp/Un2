@@ -20,7 +20,8 @@ namespace Unicon2.Services
         private readonly ILogService _logService;
         private readonly ILocalizerService _localizerService;
 
-        public DevicesContainerService(Func<IDevice> deviceGettingFunc, Func<IDeviceCreator> deviceCreatorGettingFunc, ILogService logService,ILocalizerService localizerService)
+        public DevicesContainerService(Func<IDevice> deviceGettingFunc, Func<IDeviceCreator> deviceCreatorGettingFunc,
+            ILogService logService, ILocalizerService localizerService)
         {
             this._deviceGettingFunc = deviceGettingFunc;
             this._deviceCreatorGettingFunc = deviceCreatorGettingFunc;
@@ -53,6 +54,7 @@ namespace Unicon2.Services
                 device.Dispose();
                 throw e;
             }
+
             //инициализация подключения (добавление логгеров, датапровайдеров)
             device.InitializeConnection(deviceConnection);
             await device.ConnectionState.CheckConnection();
@@ -61,8 +63,10 @@ namespace Unicon2.Services
             {
                 this.AddConnectableItem(device);
             }
+
             return true;
         }
+
         public void RemoveConnectableItem(IConnectable device)
         {
             try
@@ -70,8 +74,12 @@ namespace Unicon2.Services
                 //this.ConnectableItems.RemoveAt(this.ConnectableItems.FindIndex(o => o.Equals(device)));
                 this.ConnectableItems.Remove(device);
             }
-            catch (ArgumentNullException _ane) { }
-            catch (ArgumentOutOfRangeException _aofr) { }
+            catch (ArgumentNullException _ane)
+            {
+            }
+            catch (ArgumentOutOfRangeException _aofr)
+            {
+            }
         }
 
         public void LoadDevicesDefinitions(string folderPath = ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH)
@@ -100,7 +108,7 @@ namespace Unicon2.Services
                     var message =
                         this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
                             .DEVICE_READING_ERROR);
-                    this._logService.LogMessage(message +" "+ name);
+                    this._logService.LogMessage(message + " " + name);
                 }
             }
         }
@@ -117,15 +125,19 @@ namespace Unicon2.Services
 
         public void Refresh()
         {
-            this.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
+            this.ConnectableItemChanged?.Invoke(
+                new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
             foreach (var item in ConnectableItems)
             {
                 try
                 {
                     item.DeviceConnection.CloseConnection();
                 }
-                catch (Exception ex) { }
+                catch (Exception ex)
+                {
+                }
             }
+
             this.ConnectableItems.Clear();
         }
 

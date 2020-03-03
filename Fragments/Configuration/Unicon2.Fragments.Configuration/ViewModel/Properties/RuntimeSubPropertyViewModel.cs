@@ -6,7 +6,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 {
-    public class RuntimeSubPropertyViewModel :  RuntimePropertyViewModel,IRuntimeSubPropertyViewModel
+    public class RuntimeSubPropertyViewModel : RuntimePropertyViewModel, IRuntimeSubPropertyViewModel
     {
         protected override string GetTypeName()
         {

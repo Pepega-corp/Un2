@@ -12,13 +12,14 @@ using Unicon2.Infrastructure.Services;
 
 namespace Unicon2.Model.DefaultDevice
 {
-    [DataContract(Name = nameof(DeviceSharedResources),Namespace = "DeviceSharedResourcesNS")]
+    [DataContract(Name = nameof(DeviceSharedResources), Namespace = "DeviceSharedResourcesNS")]
     public class DeviceSharedResources : Disposable, IDeviceSharedResources
     {
         public DeviceSharedResources()
         {
-            this.SharedResources=new List<INameable>();
+            this.SharedResources = new List<INameable>();
         }
+
         [DataMember(Name = nameof(SharedResources))]
         public List<INameable> SharedResources { get; set; }
 
@@ -36,15 +37,17 @@ namespace Unicon2.Model.DefaultDevice
         {
             return this.SharedResources.Any(nameableResource => nameableResource.Name == name);
         }
-        
+
 
         public void SaveInFile(string path, ISerializerService serializerService)
         {
             try
             {
-                using (XmlWriter fs = XmlWriter.Create(path, new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 }))
+                using (XmlWriter fs =
+                    XmlWriter.Create(path, new XmlWriterSettings {Indent = true, Encoding = Encoding.UTF8}))
                 {
-                    DataContractSerializer ds = new DataContractSerializer(typeof(DeviceSharedResources), serializerService.GetTypesForSerialiation());
+                    DataContractSerializer ds = new DataContractSerializer(typeof(DeviceSharedResources),
+                        serializerService.GetTypesForSerialiation());
 
                     ds.WriteObject(fs, this, serializerService.GetNamespacesAttributes());
                 }
@@ -61,8 +64,9 @@ namespace Unicon2.Model.DefaultDevice
             {
                 using (XmlReader fs = XmlReader.Create(path))
                 {
-                    DataContractSerializer ds = new DataContractSerializer(typeof(DeviceSharedResources), serializerService.GetTypesForSerialiation());
-                    DeviceSharedResources res = (DeviceSharedResources)ds.ReadObject(fs);
+                    DataContractSerializer ds = new DataContractSerializer(typeof(DeviceSharedResources),
+                        serializerService.GetTypesForSerialiation());
+                    DeviceSharedResources res = (DeviceSharedResources) ds.ReadObject(fs);
                     this.SharedResources.AddRange(res.SharedResources);
                 }
             }

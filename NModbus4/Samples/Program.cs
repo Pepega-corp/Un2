@@ -59,11 +59,11 @@ namespace Samples
 
                 byte slaveId = 1;
                 ushort startAddress = 1280;
-                ushort[] registers = new ushort[] { 1, 2, 3 };
+                ushort[] registers = new ushort[] {1, 2, 3};
 
                 // write three registers
 
-           var r=     master.ReadHoldingRegisters(slaveId, startAddress, 5);
+                var r = master.ReadHoldingRegisters(slaveId, startAddress, 5);
 
 
             }
@@ -143,7 +143,7 @@ namespace Samples
         {
             using (UdpClient client = new UdpClient())
             {
-                IPEndPoint endPoint = new IPEndPoint(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
+                IPEndPoint endPoint = new IPEndPoint(new IPAddress(new byte[] {127, 0, 0, 1}), 502);
                 client.Connect(endPoint);
 
                 ModbusIpMaster master = ModbusIpMaster.CreateIp(client);
@@ -151,7 +151,7 @@ namespace Samples
                 ushort startAddress = 1;
 
                 // write three coils
-                master.WriteMultipleCoils(startAddress, new bool[] { true, false, true });
+                master.WriteMultipleCoils(startAddress, new bool[] {true, false, true});
             }
         }
 
@@ -228,7 +228,7 @@ namespace Samples
         {
             byte slaveId = 1;
             int port = 502;
-            IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
+            IPAddress address = new IPAddress(new byte[] {127, 0, 0, 1});
 
             // create and start the TCP slave
             TcpListener slaveTcpListener = new TcpListener(address, port);
@@ -267,7 +267,7 @@ namespace Samples
         {
             byte slaveId = 1;
             int port = 502;
-            IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
+            IPAddress address = new IPAddress(new byte[] {127, 0, 0, 1});
 
             // create and start the TCP slave
             TcpListener slaveTcpListener = new TcpListener(address, port);
@@ -375,7 +375,7 @@ namespace Samples
                 ushort highOrderValue = BitConverter.ToUInt16(BitConverter.GetBytes(largeValue), 2);
 
                 // write large value in two 16 bit chunks
-                master.WriteMultipleRegisters(slaveId, startAddress, new ushort[] { lowOrderValue, highOrderValue });
+                master.WriteMultipleRegisters(slaveId, startAddress, new ushort[] {lowOrderValue, highOrderValue});
 
                 // read large value in two 16 bit chunks and perform conversion
                 ushort[] registers = master.ReadHoldingRegisters(slaveId, startAddress, 2);

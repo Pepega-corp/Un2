@@ -12,9 +12,9 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.Visitors
 {
-   public class SaveFormatterViewModelVisitor: IFormatterViewModelVisitor<IUshortsFormatter>
+    public class SaveFormatterViewModelVisitor : IFormatterViewModelVisitor<IUshortsFormatter>
     {
-   
+
         public IUshortsFormatter VisitBoolFormatter(BoolFormatterViewModel formatterViewModel)
         {
             return new BoolFormatter();
@@ -71,13 +71,14 @@ namespace Unicon2.Formatting.Editor.Visitors
             {
                 formatter.StringDictionary.Add(bkvp.Key, bkvp.Value);
             }
+
             formatter.IsKeysAreNumbersOfBits = formatterViewModel.IsKeysAreNumbersOfBits;
             return formatter;
         }
 
         public IUshortsFormatter VisitBitMaskFormatter(DefaultBitMaskFormatterViewModel formatterViewModel)
         {
-            var formatter=new DefaultBitMaskFormatter();
+            var formatter = new DefaultBitMaskFormatter();
             formatter.BitSignatures = formatterViewModel.BitSignatures.Select(wrapper => wrapper.StringValue).ToList();
             return formatter;
         }

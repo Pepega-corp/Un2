@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace Unicon2.SharedResources.Converter
 {
-  public  class ObjectsEqualityToBoolConverter:IMultiValueConverter
+    public class ObjectsEqualityToBoolConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

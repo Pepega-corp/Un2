@@ -9,9 +9,9 @@ using Unicon2.Infrastructure.Interfaces.DataOperations;
 
 namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
 {
-    [DataContract(Name = nameof(ActivatedConfigurationSetting),Namespace = "ActivatedConfigurationSettingNS")]
+    [DataContract(Name = nameof(ActivatedConfigurationSetting), Namespace = "ActivatedConfigurationSettingNS")]
 
-    public class ActivatedConfigurationSetting : IActivatedSetting,IWriteable
+    public class ActivatedConfigurationSetting : IActivatedSetting, IWriteable
     {
         [DataMember(Name = nameof(ActivationAddress), Order = 0)]
 
@@ -23,20 +23,22 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
 
         public async Task<bool> Write()
         {
-            if(IsSettingEnabled)
+            if (IsSettingEnabled)
             {
-                IQueryResult queryResult= await DataProvider.WriteSingleCoilAsync(ActivationAddress,true,ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
+                IQueryResult queryResult = await DataProvider.WriteSingleCoilAsync(ActivationAddress, true,
+                    ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
                 return queryResult.IsSuccessful;
             }
+
             return false;
         }
 
         public string StrongName => ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING;
-       
+
 
         public async Task<bool> ApplySetting(ISettingApplyingContext settingApplyingContext)
         {
-         return  await Write();
+            return await Write();
         }
 
         public IDataProvider DataProvider { get; set; }

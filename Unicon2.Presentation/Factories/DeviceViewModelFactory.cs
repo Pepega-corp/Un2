@@ -16,7 +16,8 @@ namespace Unicon2.Presentation.Factories
         private readonly ITypesContainer _container;
         private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
 
-        public DeviceViewModelFactory(Func<IDeviceViewModel> deviceViewModelGettingFunc, ITypesContainer container, IDeviceEventsDispatcher deviceEventsDispatcher)
+        public DeviceViewModelFactory(Func<IDeviceViewModel> deviceViewModelGettingFunc, ITypesContainer container,
+            IDeviceEventsDispatcher deviceEventsDispatcher)
         {
             _deviceViewModelGettingFunc = deviceViewModelGettingFunc;
             _container = container;
@@ -28,21 +29,23 @@ namespace Unicon2.Presentation.Factories
             IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
             if (device.DeviceMemory == null)
             {
-	            device.DeviceMemory = _container.Resolve<IDeviceMemory>();
+                device.DeviceMemory = _container.Resolve<IDeviceMemory>();
             }
+
             if (device.DeviceFragments != null)
             {
                 foreach (IDeviceFragment deviceFragment in device.DeviceFragments)
                 {
                     IFragmentViewModel fragmentViewModel =
                         _container.Resolve<IFragmentViewModel>(deviceFragment.StrongName +
-                                                                    ApplicationGlobalNames.CommonInjectionStrings
-                                                                        .VIEW_MODEL);
+                                                               ApplicationGlobalNames.CommonInjectionStrings
+                                                                   .VIEW_MODEL);
                     fragmentViewModel.Initialize(deviceFragment);
                     if (fragmentViewModel is IDeviceDataProvider deviceDataProvider)
                     {
-                        deviceDataProvider.SetDeviceData(device.Name, _deviceEventsDispatcher,device.DeviceMemory);
+                        deviceDataProvider.SetDeviceData(device.Name, _deviceEventsDispatcher, device.DeviceMemory);
                     }
+
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }
             }

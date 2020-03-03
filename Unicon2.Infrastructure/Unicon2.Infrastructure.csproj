@@ -112,8 +112,6 @@
     <Compile Include="Interfaces\EditOperations\IAsChlidPasteable.cs" />
     <Compile Include="Interfaces\EditOperations\IDeletable.cs" />
     <Compile Include="Interfaces\EditOperations\IEditable.cs" />
-    <Compile Include="Interfaces\Factories\IFormatterEditorFactory.cs" />
-    <Compile Include="Interfaces\Factories\IFormatterValueFactory.cs" />
     <Compile Include="Interfaces\Factories\ISharedResourcesEditorFactory.cs" />
     <Compile Include="Interfaces\Factories\ISharedResourcesViewModelFactory.cs" />
     <Compile Include="Interfaces\IConnectable.cs" />

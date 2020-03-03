@@ -8,7 +8,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Fragment
 
 namespace Unicon2.Shell.ViewModels
 {
-    public class DynamicContextMenuViewModel:BindableBase
+    public class DynamicContextMenuViewModel : BindableBase
     {
         public DynamicContextMenuViewModel()
         {

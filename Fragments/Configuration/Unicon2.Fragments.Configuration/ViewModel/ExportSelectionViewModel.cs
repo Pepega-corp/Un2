@@ -26,12 +26,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         {
             return selectorViewModels.Select((model =>
                 new SelectorForItemsGroup(MapSelectorForItemsGroups(model.Selectors), model.RelatedItemsGroup,
-                    model.IsSelected,IsDeviceDataPrinting,IsLocalDataPrinting)));
+                    model.IsSelected, IsDeviceDataPrinting, IsLocalDataPrinting)));
         }
 
         private void OnSubmitExecute()
         {
-            _onSubmit(new ConfigurationExportSelector(IsDeviceDataPrinting, IsLocalDataPrinting, MapSelectorForItemsGroups(Selectors).ToList()));
+            _onSubmit(new ConfigurationExportSelector(IsDeviceDataPrinting, IsLocalDataPrinting,
+                MapSelectorForItemsGroups(Selectors).ToList()));
         }
 
         private Action<ConfigurationExportSelector> _onSubmit;

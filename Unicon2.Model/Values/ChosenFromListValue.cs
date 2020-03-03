@@ -8,12 +8,13 @@ namespace Unicon2.Model.Values
 {
     [DataContract(Namespace = "ValuesNS")]
 
-    public class ChosenFromListValue:FormattedValueBase,IChosenFromListValue
+    public class ChosenFromListValue : FormattedValueBase, IChosenFromListValue
     {
         private List<string> _availableItemsList;
         private bool _isDefaultValueInAvailable;
 
         public override string StrongName => nameof(ChosenFromListValue);
+
         public override string AsString()
         {
             return this.SelectedItem;
@@ -24,13 +25,13 @@ namespace Unicon2.Model.Values
         {
             get { return this._availableItemsList; }
         }
-        [DataMember]
-        public string SelectedItem { get; set; }
+
+        [DataMember] public string SelectedItem { get; set; }
 
         public void InitList(IEnumerable<string> stringEnumerable)
         {
-            this._availableItemsList=new List<string>(stringEnumerable);
-            
+            this._availableItemsList = new List<string>(stringEnumerable);
+
         }
 
         public void SetListDefaultValue(string defaultValue)
@@ -44,10 +45,12 @@ namespace Unicon2.Model.Values
         {
             if (this._isDefaultValueInAvailable)
             {
-                if (string.Equals(str, this._availableItemsList[0])) {
+                if (string.Equals(str, this._availableItemsList[0]))
+                {
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -60,11 +63,13 @@ namespace Unicon2.Model.Values
                     return true;
                 }
             }
+
             return false;
         }
-		public override T Accept<T>(IValueVisitor<T> visitor)
+
+        public override T Accept<T>(IValueVisitor<T> visitor)
         {
-	        return visitor.VisitChosenFromListValue(this);
+            return visitor.VisitChosenFromListValue(this);
         }
-	}
+    }
 }

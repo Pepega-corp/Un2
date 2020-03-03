@@ -12,7 +12,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Formatting.Editor.Factories
 {
-    public class FormatterViewModelFactory: IFormatterVisitor<IUshortsFormatterViewModel>
+    public class FormatterViewModelFactory : IFormatterVisitor<IUshortsFormatterViewModel>
     {
         public IUshortsFormatterViewModel VisitBoolFormatter(IUshortsFormatter formatter)
         {
@@ -68,6 +68,7 @@ namespace Unicon2.Formatting.Editor.Factories
             {
                 vm.KeyValuesDictionary.Add(new BindableKeyValuePair<ushort, string>(kvp.Key, kvp.Value));
             }
+
             vm.IsKeysAreNumbersOfBits = dictionaryMatchingFormatter.IsKeysAreNumbersOfBits;
             return vm;
 
@@ -75,8 +76,10 @@ namespace Unicon2.Formatting.Editor.Factories
 
         public IUshortsFormatterViewModel VisitBitMaskFormatter(IUshortsFormatter formatter)
         {
-            var vm= new DefaultBitMaskFormatterViewModel();
-            vm.BitSignatures =new ObservableCollection<StringWrapper>((formatter as IBitMaskFormatter).BitSignatures.Select(s => new StringWrapper(s)));
+            var vm = new DefaultBitMaskFormatterViewModel();
+            vm.BitSignatures =
+                new ObservableCollection<StringWrapper>(
+                    (formatter as IBitMaskFormatter).BitSignatures.Select(s => new StringWrapper(s)));
             return vm;
         }
 

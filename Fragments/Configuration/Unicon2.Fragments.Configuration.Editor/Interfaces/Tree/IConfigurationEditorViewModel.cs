@@ -9,7 +9,8 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
-    public interface IConfigurationEditorViewModel :IConfigurationViewModel,  IFragmentEditorViewModel, IChildItemRemovable, IResourceContaining
+    public interface IConfigurationEditorViewModel : IConfigurationViewModel, IFragmentEditorViewModel,
+        IChildItemRemovable, IResourceContaining
     {
         IEditorConfigurationItemViewModel SelectedRow { get; set; }
         ICommand AddRootGroupElementCommand { get; set; }
@@ -20,8 +21,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
         ICommand SetElementUpCommand { get; set; }
         ICommand SetElementDownCommand { get; set; }
         ICommand OpenConfigurationSettingsCommand { get; set; }
-        ICommand CopyElementCommand { get;  }
-        ICommand PasteAsChildElementCommand { get;  }
+        ICommand CopyElementCommand { get; }
+        ICommand PasteAsChildElementCommand { get; }
         ICommand AddSelectedElementAsResourceCommand { get; }
         ICommand EditDescriptionCommand { get; }
         ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollection { get; set; }

@@ -28,8 +28,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
     {
         private readonly IMatrixMemoryVariableEditorViewModelFactory _matrixMemoryVariableEditorViewModelFactory;
         private readonly IVariableSignatureEditorViewModelFactory _variableSignatureEditorViewModelFactory;
-        private readonly IGeneralViewModelFactory<IMatrixVariableOptionTemplateEditorViewModel> _generalViewModelFactory;
-        private readonly IMatrixVariableOptionTemplateEditorViewModelFactory _matrixVariableOptionTemplateEditorViewModelFactory;
+
+        private readonly IGeneralViewModelFactory<IMatrixVariableOptionTemplateEditorViewModel>
+            _generalViewModelFactory;
+
+        private readonly IMatrixVariableOptionTemplateEditorViewModelFactory
+            _matrixVariableOptionTemplateEditorViewModelFactory;
+
         private readonly IGeneralViewModelFactory<IBitOptionEditorViewModel> _bitOptionFactory;
         private readonly IGeneralViewModelFactory<IAssignedBitEditorViewModel> _assignedBitViewModelFactory;
         private readonly IBitOptionUpdatingStrategy _bitOptionUpdatingStrategy;
@@ -37,7 +42,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         private readonly IDialogCoordinator _dialogCoordinator;
         private IMatrixTemplate _model;
         private int _numberOfBitsOnEachVariable;
-        private List<IMatrixVariableOptionTemplateEditorViewModel> _availableMatrixVariableOptionTemplateEditorViewModels;
+
+        private List<IMatrixVariableOptionTemplateEditorViewModel>
+            _availableMatrixVariableOptionTemplateEditorViewModels;
+
         private IMatrixVariableOptionTemplateEditorViewModel _selectedMatrixVariableOptionTemplateEditorViewModel;
         private List<IAssignedBitEditorViewModel> _assignedBitEditorViewModels;
         private ObservableCollection<IBitOptionEditorViewModel> _bitOptionEditorViewModels;
@@ -58,18 +66,21 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             IMatrixVariableOptionTemplateEditorViewModelFactory matrixVariableOptionTemplateEditorViewModelFactory,
             IGeneralViewModelFactory<IBitOptionEditorViewModel> bitOptionFactory,
             IGeneralViewModelFactory<IAssignedBitEditorViewModel> assignedBitViewModelFactory,
-            IBitOptionUpdatingStrategy bitOptionUpdatingStrategy, ILocalizerService localizerService, IDialogCoordinator dialogCoordinator)
+            IBitOptionUpdatingStrategy bitOptionUpdatingStrategy, ILocalizerService localizerService,
+            IDialogCoordinator dialogCoordinator)
         {
             this._matrixMemoryVariableEditorViewModelFactory = matrixMemoryVariableEditorViewModelFactory;
             this._variableSignatureEditorViewModelFactory = variableSignatureEditorViewModelFactory;
             this._generalViewModelFactory = generalViewModelFactory;
-            this._matrixVariableOptionTemplateEditorViewModelFactory = matrixVariableOptionTemplateEditorViewModelFactory;
+            this._matrixVariableOptionTemplateEditorViewModelFactory =
+                matrixVariableOptionTemplateEditorViewModelFactory;
             this._bitOptionFactory = bitOptionFactory;
             this._assignedBitViewModelFactory = assignedBitViewModelFactory;
             _bitOptionUpdatingStrategy = bitOptionUpdatingStrategy;
             _localizerService = localizerService;
             _dialogCoordinator = dialogCoordinator;
-            this.MatrixMemoryVariableEditorViewModels = new ObservableCollection<IMatrixMemoryVariableEditorViewModel>();
+            this.MatrixMemoryVariableEditorViewModels =
+                new ObservableCollection<IMatrixMemoryVariableEditorViewModel>();
             this.AddMatrixVariableCommand = new RelayCommand(this.OnAddMatrixVariableExucute);
             this.VariableSignatureEditorViewModels = new ObservableCollection<IVariableSignatureEditorViewModel>();
             this.AddSignatureCommand = new RelayCommand(this.OnAddSignatureExucute);
@@ -82,7 +93,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             this.ClearSignaturesCommand = new RelayCommand(this.OnClearSignatures);
             this.AddSignatureGroupCommand = new RelayCommand(this.OnAddSignatureGroupExecute);
             this.AvailableMatrixVariableOptionTemplateEditorViewModels =
-                this._matrixVariableOptionTemplateEditorViewModelFactory.CreateAvailableMatrixVariableOptionTemplateEditorViewModel();
+                this._matrixVariableOptionTemplateEditorViewModelFactory
+                    .CreateAvailableMatrixVariableOptionTemplateEditorViewModel();
             this._bitOptionEditorViewModels = new ObservableCollection<IBitOptionEditorViewModel>();
             this.AssignedBitEditorViewModels = new ObservableCollection<IAssignedBitEditorViewModel>();
 
@@ -92,25 +104,30 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         private void OnAssignSignalsAutomatically()
         {
-            var minFromAsingableAndOptions = Math.Min(AssignedBitEditorViewModels.Count, _bitOptionEditorViewModels.Count);
+            var minFromAsingableAndOptions =
+                Math.Min(AssignedBitEditorViewModels.Count, _bitOptionEditorViewModels.Count);
             for (int i = 0; i < minFromAsingableAndOptions; i++)
             {
                 AssignedBitEditorViewModels[i].SelectedBitOptionEditorViewModel = _bitOptionEditorViewModels[i];
             }
 
         }
+
         private void OnClearAssignedSignals()
         {
-            var minFromAsingableAndOptions = Math.Min(AssignedBitEditorViewModels.Count, _bitOptionEditorViewModels.Count);
+            var minFromAsingableAndOptions =
+                Math.Min(AssignedBitEditorViewModels.Count, _bitOptionEditorViewModels.Count);
             for (int i = 0; i < minFromAsingableAndOptions; i++)
             {
                 AssignedBitEditorViewModels[i].SelectedBitOptionEditorViewModel = null;
             }
         }
+
         private void OnClearSignatures()
         {
             VariableSignatureEditorViewModels.Clear();
         }
+
         private bool CanExecuteSubmit(object obj)
         {
             return !HasErrors;
@@ -148,16 +165,20 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
             for (int i = 0; i < this.NumberOfBitsOnEachVariable; i++)
             {
-                IAssignedBitEditorViewModel assignedBitEditorViewModel = this._assignedBitViewModelFactory.CreateViewModelByType();
+                IAssignedBitEditorViewModel assignedBitEditorViewModel =
+                    this._assignedBitViewModelFactory.CreateViewModelByType();
                 assignedBitEditorViewModel.NumberOfBit = i;
-                IBitOptionEditorViewModel relatedBitOption = this.BitOptionEditorViewModels.FirstOrDefault(model => model.NumbersOfAssotiatedBits.Contains(i));
+                IBitOptionEditorViewModel relatedBitOption =
+                    this.BitOptionEditorViewModels.FirstOrDefault(model => model.NumbersOfAssotiatedBits.Contains(i));
                 if (relatedBitOption != null)
                 {
                     assignedBitEditorViewModel.SelectedBitOptionEditorViewModel = relatedBitOption;
                 }
+
                 assignedBitEditorViewModel.BitOptionEditorViewModels = this.BitOptionEditorViewModels;
                 this.AssignedBitEditorViewModels.Add(assignedBitEditorViewModel);
             }
+
             RaisePropertyChanged(nameof(GroupedAssignedBitEditorViewModels));
         }
 
@@ -192,7 +213,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         private void OnAddSignatureExucute()
         {
-            this.VariableSignatureEditorViewModels.Add(this._variableSignatureEditorViewModelFactory.CreateVariableSignatureEditorViewModel());
+            this.VariableSignatureEditorViewModels.Add(this._variableSignatureEditorViewModelFactory
+                .CreateVariableSignatureEditorViewModel());
         }
 
         private void OnAddSignatureGroupExecute()
@@ -204,11 +226,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 {
                     for (int i = 0; i < ValueSignatureNumberOfPoints; i++)
                     {
-                        var variableModel = this._variableSignatureEditorViewModelFactory.CreateVariableSignatureEditorViewModel();
+                        var variableModel = this._variableSignatureEditorViewModelFactory
+                            .CreateVariableSignatureEditorViewModel();
                         variableModel.Signature = ValueSignatureMask + j;
                         variableModel.IsMultipleAssgnmentAllowed = false;
                         this.VariableSignatureEditorViewModels.Add(variableModel);
-                        variableModel = this._variableSignatureEditorViewModelFactory.CreateVariableSignatureEditorViewModel();
+                        variableModel = this._variableSignatureEditorViewModelFactory
+                            .CreateVariableSignatureEditorViewModel();
                         variableModel.Signature = ValueSignatureMask + j + _inversionString;
                         this.VariableSignatureEditorViewModels.Add(variableModel);
                         j++;
@@ -216,9 +240,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 }
                 else
                 {
-                    for (int i = 0; i <  ValueSignatureNumberOfPoints; i++)
+                    for (int i = 0; i < ValueSignatureNumberOfPoints; i++)
                     {
-                        var variableModel = this._variableSignatureEditorViewModelFactory.CreateVariableSignatureEditorViewModel();
+                        var variableModel = this._variableSignatureEditorViewModelFactory
+                            .CreateVariableSignatureEditorViewModel();
                         variableModel.Signature = ValueSignatureMask + j;
                         variableModel.IsMultipleAssgnmentAllowed = false;
                         this.VariableSignatureEditorViewModels.Add(variableModel);
@@ -227,7 +252,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 }
 
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+            }
             finally
             {
                 ValueSignatureMask = string.Empty;
@@ -239,7 +266,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         private void OnAddMatrixVariableExucute()
         {
-            this.MatrixMemoryVariableEditorViewModels.Add(this._matrixMemoryVariableEditorViewModelFactory.CreateMatrixMemoryVariableEditorViewModel());
+            this.MatrixMemoryVariableEditorViewModels.Add(this._matrixMemoryVariableEditorViewModelFactory
+                .CreateMatrixMemoryVariableEditorViewModel());
         }
 
 
@@ -260,6 +288,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                         this._matrixMemoryVariableEditorViewModelFactory.CreateMatrixMemoryVariableEditorViewModel(
                             matrixMemoryVariable));
                 }
+
                 this.VariableSignatureEditorViewModels.Clear();
                 foreach (IVariableColumnSignature variableSignature in this._model.VariableColumnSignatures)
                 {
@@ -270,8 +299,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
 
 
-                IMatrixVariableOptionTemplateEditorViewModel existing = this.AvailableMatrixVariableOptionTemplateEditorViewModels.FirstOrDefault((model =>
-                   (model.Model as IMatrixVariableOptionTemplate).StrongName == this._model.MatrixVariableOptionTemplate.StrongName));
+                IMatrixVariableOptionTemplateEditorViewModel existing =
+                    this.AvailableMatrixVariableOptionTemplateEditorViewModels.FirstOrDefault((model =>
+                        (model.Model as IMatrixVariableOptionTemplate).StrongName ==
+                        this._model.MatrixVariableOptionTemplate.StrongName));
                 existing.Model = this._model.MatrixVariableOptionTemplate;
                 this.SelectedMatrixVariableOptionTemplateEditorViewModel = existing;
                 this.UpdateViewModel();
@@ -283,18 +314,25 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         {
             this._model.NumberOfBitsOnEachVariable = this.NumberOfBitsOnEachVariable;
             this._model.MatrixMemoryVariables.Clear();
-            foreach (IMatrixMemoryVariableEditorViewModel matrixMemoryVariableEditorViewModel in this.MatrixMemoryVariableEditorViewModels)
+            foreach (IMatrixMemoryVariableEditorViewModel matrixMemoryVariableEditorViewModel in this
+                .MatrixMemoryVariableEditorViewModels)
             {
-                this._model.MatrixMemoryVariables.Add(matrixMemoryVariableEditorViewModel.Model as IMatrixMemoryVariable);
+                this._model.MatrixMemoryVariables.Add(
+                    matrixMemoryVariableEditorViewModel.Model as IMatrixMemoryVariable);
             }
+
             this._model.VariableColumnSignatures.Clear();
-            foreach (IVariableSignatureEditorViewModel variableSignatureEditorViewModel in this.VariableSignatureEditorViewModels)
+            foreach (IVariableSignatureEditorViewModel variableSignatureEditorViewModel in this
+                .VariableSignatureEditorViewModels)
             {
-                this._model.VariableColumnSignatures.Add(variableSignatureEditorViewModel.Model as IVariableColumnSignature);
+                this._model.VariableColumnSignatures.Add(
+                    variableSignatureEditorViewModel.Model as IVariableColumnSignature);
             }
+
             this._model.MatrixVariableOptionTemplate =
                 this.SelectedMatrixVariableOptionTemplateEditorViewModel.Model as IMatrixVariableOptionTemplate;
-            this._model.ResultBitOptions = this.BitOptionEditorViewModels.Select((model => model.Model as IBitOption)).ToList();
+            this._model.ResultBitOptions =
+                this.BitOptionEditorViewModels.Select((model => model.Model as IBitOption)).ToList();
         }
 
         public int NumberOfBitsOnEachVariable
@@ -343,20 +381,26 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         public ObservableCollection<IAssignedBitEditorViewModel> AssignedBitEditorViewModels { get; }
 
-        public ObservableCollection<ObservableCollection<IAssignedBitEditorViewModel>> GroupedAssignedBitEditorViewModels
+        public ObservableCollection<ObservableCollection<IAssignedBitEditorViewModel>>
+            GroupedAssignedBitEditorViewModels
         {
             get
             {
-                var groupsNum = Math.Ceiling((decimal)AssignedBitEditorViewModels.Count / 16);
-                var groupedAssignedBitEditorViewModels = new ObservableCollection<ObservableCollection<IAssignedBitEditorViewModel>>();
+                var groupsNum = Math.Ceiling((decimal) AssignedBitEditorViewModels.Count / 16);
+                var groupedAssignedBitEditorViewModels =
+                    new ObservableCollection<ObservableCollection<IAssignedBitEditorViewModel>>();
                 for (var i = 0; i < groupsNum; i++)
                 {
-                    groupedAssignedBitEditorViewModels.Add(i == groupsNum - 1 && AssignedBitEditorViewModels.Count % 16 != 0
-                        ? new ObservableCollection<IAssignedBitEditorViewModel>(AssignedBitEditorViewModels.Skip(i * 16)
-                            .Take(AssignedBitEditorViewModels.Count % 16))
-                        : new ObservableCollection<IAssignedBitEditorViewModel>(AssignedBitEditorViewModels.Skip(i * 16)
-                            .Take(16)));
+                    groupedAssignedBitEditorViewModels.Add(
+                        i == groupsNum - 1 && AssignedBitEditorViewModels.Count % 16 != 0
+                            ? new ObservableCollection<IAssignedBitEditorViewModel>(AssignedBitEditorViewModels
+                                .Skip(i * 16)
+                                .Take(AssignedBitEditorViewModels.Count % 16))
+                            : new ObservableCollection<IAssignedBitEditorViewModel>(AssignedBitEditorViewModels
+                                .Skip(i * 16)
+                                .Take(16)));
                 }
+
                 return groupedAssignedBitEditorViewModels;
             }
         }
@@ -382,6 +426,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
                 RaisePropertyChanged();
             }
         }
+
         public bool IsInversion
         {
             get { return _isInversion; }
@@ -417,9 +462,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         protected override void OnValidate()
         {
-            FluentValidation.Results.ValidationResult res = (new MatrixTemplateEditorViewModelValidator(this._localizerService)).Validate(this);
+            FluentValidation.Results.ValidationResult res =
+                (new MatrixTemplateEditorViewModelValidator(this._localizerService)).Validate(this);
             this.SetValidationErrors(res);
         }
     }
 }
-

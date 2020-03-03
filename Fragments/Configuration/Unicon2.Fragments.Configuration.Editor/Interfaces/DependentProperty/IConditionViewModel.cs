@@ -5,7 +5,7 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty
 {
-    public interface IConditionViewModel:IViewModel,IDisposable
+    public interface IConditionViewModel : IViewModel, IDisposable
     {
         ICommand SelectPropertyFromResourceCommand { get; }
         string ReferencedResorcePropertyName { get; }
@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty
         ushort UshortValueToCompare { get; set; }
         List<string> ConditionResultList { get; set; }
         string SelectedConditionResult { get; set; }
-        string UshortFormatterString { get;  }
+        string UshortFormatterString { get; }
         ICommand ShowFormatterParameters { get; }
     }
 }

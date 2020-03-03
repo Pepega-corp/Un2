@@ -11,7 +11,7 @@ using Unicon2.Presentation.Infrastructure.TreeGrid;
 
 namespace Unicon2.SharedResources.DataTemplateSelectors
 {
-  public  class TableViewByNameDataTemplateSelector:DataTemplateSelector
+    public class TableViewByNameDataTemplateSelector : DataTemplateSelector
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -20,8 +20,11 @@ namespace Unicon2.SharedResources.DataTemplateSelectors
                 FrameworkElement element = container as FrameworkElement;
                 //var x =  element?.TryFindResource(((IStronglyNamed)item).StrongName + ApplicationGlobalNames.CommonInjectionStrings.DATATEMPLATE) as DataTemplate;
 
-                return element?.TryFindResource(((IAsTableViewModel)item).AsossiatedDetailsViewName + ApplicationGlobalNames.CommonInjectionStrings.DATATEMPLATE) as DataTemplate;
+                return element?.TryFindResource(((IAsTableViewModel) item).AsossiatedDetailsViewName +
+                                                ApplicationGlobalNames.CommonInjectionStrings.DATATEMPLATE) as
+                    DataTemplate;
             }
+
             return null;
         }
     }

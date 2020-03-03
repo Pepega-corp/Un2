@@ -6,7 +6,8 @@ using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
-    public interface IPropertyEditorViewModel :IEditorConfigurationItemViewModel, IPropertyViewModel, IEditable, IDeletable, IAddressIncreaseableDecreaseable,
+    public interface IPropertyEditorViewModel : IEditorConfigurationItemViewModel, IPropertyViewModel, IEditable,
+        IDeletable, IAddressIncreaseableDecreaseable,
         IUshortFormattableEditorViewModel
     {
         string Address { get; set; }

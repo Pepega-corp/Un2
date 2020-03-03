@@ -7,19 +7,20 @@ namespace Unicon2.Model.Values
 {
     [DataContract(Namespace = "ValuesNS")]
 
-    public class StringValue:FormattedValueBase, IStringValue
+    public class StringValue : FormattedValueBase, IStringValue
     {
         public override string StrongName => nameof(StringValue);
+
         public override string AsString()
         {
             return this.StrValue;
         }
 
-        [DataMember]
-        public string StrValue { get; set; }
+        [DataMember] public string StrValue { get; set; }
+
         public override T Accept<T>(IValueVisitor<T> visitor)
         {
-	        return visitor.VisitStringValue(this);
+            return visitor.VisitStringValue(this);
         }
-	}
+    }
 }

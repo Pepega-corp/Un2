@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
 {
-    public class ConditionViewModel : DisposableBindableBase, IConditionViewModel
+    public class ConditionViewModel : PropertyEditorViewModel, IConditionViewModel, IUshortFormattableEditorViewModel
     {
 
         private IDependancyCondition _dependancyCondition;
@@ -22,7 +27,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
         private string _selectedConditionResult;
         private string _selectedCondition;
 
-        public ConditionViewModel(IDependancyCondition dependancyCondition, ISharedResourcesViewModelFactory sharedResourcesViewModelFactory, IFormatterEditorFactory formatterEditorFactory)
+        public ConditionViewModel(IDependancyCondition dependancyCondition,
+            ISharedResourcesViewModelFactory sharedResourcesViewModelFactory,
+            IFormatterEditorFactory formatterEditorFactory, ITypesContainer container, IRangeViewModel rangeViewModel,
+            ILocalizerService localizerService) : base(container, rangeViewModel, localizerService)
         {
             this._dependancyCondition = dependancyCondition;
             this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
@@ -33,9 +41,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
             this.ShowFormatterParameters = new RelayCommand(this.OnShowFormatterParameters);
         }
 
+
         private void OnShowFormatterParameters()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this._dependancyCondition);
+            this._formatterEditorFactory.EditFormatterByUser(this);
             this.RaisePropertyChanged(nameof(this.UshortFormatterString));
         }
 

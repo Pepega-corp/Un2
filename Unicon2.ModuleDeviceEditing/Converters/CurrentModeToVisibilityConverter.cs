@@ -6,7 +6,7 @@ using Unicon2.ModuleDeviceEditing.Interfaces;
 
 namespace Unicon2.ModuleDeviceEditing.Converters
 {
-   public class CurrentModeToVisibilityConverter:IValueConverter
+    public class CurrentModeToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

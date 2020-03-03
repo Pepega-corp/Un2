@@ -6,7 +6,7 @@ using Unicon2.Infrastructure.Interfaces.EditOperations;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
-    public interface ISubPropertyEditorViewModel : IEditorConfigurationItemViewModel,IEditable
+    public interface ISubPropertyEditorViewModel : IEditorConfigurationItemViewModel, IEditable
     {
         ObservableCollection<ISharedBitViewModel> BitNumbersInWord { get; set; }
         void SetMainBitNumbersInWord(ObservableCollection<ISharedBitViewModel> mainBitViewModels);

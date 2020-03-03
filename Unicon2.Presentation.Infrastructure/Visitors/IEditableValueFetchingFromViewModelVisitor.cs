@@ -2,8 +2,8 @@
 
 namespace Unicon2.Presentation.Infrastructure.Visitors
 {
-    public interface IEditableValueFetchingFromViewModelVisitor: IEditableValueViewModelVisitor<IFormattedValue>
+    public interface IEditableValueFetchingFromViewModelVisitor : IEditableValueViewModelVisitor<IFormattedValue>
     {
-        
+
     }
 }

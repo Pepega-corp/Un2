@@ -167,17 +167,19 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 foreach (IConfigurationItem configurationItem in deviceConfiguration.RootConfigurationItemList)
                 {
                     this.RootConfigurationItemViewModels.Add(
-                        configurationItem.Accept(new RuntimeConfigurationItemViewModelFactory(_container,DeviceMemory,DeviceEventsDispatcher)));
+                        configurationItem.Accept(
+                            new RuntimeConfigurationItemViewModelFactory(_container, DeviceMemory,
+                                DeviceEventsDispatcher)));
                 }
             }
-            
+
             this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
             this.FragmentOptionsViewModel =
                 (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, _container,
                     deviceConfiguration);
         }
 
-       
+
 
 
         //private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
@@ -207,9 +209,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         //    return resultCollection;
         //}
 
-     
 
-        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher, IDeviceMemory deviceMemory)
+
+        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher,
+            IDeviceMemory deviceMemory)
         {
             DeviceEventsDispatcher = deviceEventsDispatcher;
             DeviceMemory = deviceMemory;

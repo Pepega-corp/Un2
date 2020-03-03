@@ -107,6 +107,7 @@
     <Compile Include="ViewModels\IDeviceConnectionViewModel.cs" />
     <Compile Include="ViewModels\IDeviceDefinitionViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IFragmentPaneViewModel.cs" />
+    <Compile Include="ViewModels\IFormatterEditorFactory.cs" />
     <Compile Include="ViewModels\ILocalAndDeviceValueContainingViewModel.cs" />
     <Compile Include="ViewModels\IUshortFormattableEditorViewModel.cs" />
     <Compile Include="ViewModels\IUshortsFormatterViewModel.cs" />

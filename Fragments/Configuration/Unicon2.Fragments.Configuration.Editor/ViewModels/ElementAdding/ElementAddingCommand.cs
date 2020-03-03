@@ -4,7 +4,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding
 {
-    public class ElementAddingCommand : ViewModelBase,IElementAddingCommand
+    public class ElementAddingCommand : ViewModelBase, IElementAddingCommand
     {
         private string _name;
         private bool _isSelected;
@@ -14,7 +14,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding
             get { return _name; }
             set
             {
-                _name = value; 
+                _name = value;
                 RaisePropertyChanged();
             }
         }
@@ -26,7 +26,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding
             get { return _isSelected; }
             set
             {
-                _isSelected = value; 
+                _isSelected = value;
                 RaisePropertyChanged();
             }
         }

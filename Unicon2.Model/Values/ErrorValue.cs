@@ -7,19 +7,20 @@ namespace Unicon2.Model.Values
 {
     [DataContract(Namespace = "ValuesNS")]
 
-    public class ErrorValue:FormattedValueBase,IErrorValue
+    public class ErrorValue : FormattedValueBase, IErrorValue
     {
         public override string StrongName => nameof(ErrorValue);
+
         public override string AsString()
         {
             return this.ErrorMessage;
         }
+
         public override T Accept<T>(IValueVisitor<T> visitor)
         {
-	        return visitor.VisitErrorValue(this);
+            return visitor.VisitErrorValue(this);
         }
 
-		[DataMember]
-        public string ErrorMessage { get; set; }
+        [DataMember] public string ErrorMessage { get; set; }
     }
 }

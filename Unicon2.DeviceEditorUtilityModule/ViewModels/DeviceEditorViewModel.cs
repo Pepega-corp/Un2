@@ -38,7 +38,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             this.OpenSharedResourcesCommand = new RelayCommand(this.OnOpenSharedResourcesExecute);
             this.DeleteFragmentCommand = new RelayCommand<object>(this.OnDeleteFragmentExecute);
 
-            this._currentFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
+            this._currentFolder =
+                Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
         }
 
         private void OnDeleteFragmentExecute(object obj)
@@ -47,7 +48,9 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             if (this._dialogCoordinator.ShowModalMessageExternal(this,
                     this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.DELETE),
                     this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings
-                        .DELETE_SELECTED_ITEM_QUESTION) + " (" + this._localizerService.GetLocalizedString((obj as IFragmentEditorViewModel).NameForUiKey) + ") ", MessageDialogStyle.AffirmativeAndNegative) ==
+                        .DELETE_SELECTED_ITEM_QUESTION) + " (" +
+                    this._localizerService.GetLocalizedString((obj as IFragmentEditorViewModel).NameForUiKey) + ") ",
+                    MessageDialogStyle.AffirmativeAndNegative) ==
                 MessageDialogResult.Affirmative)
             {
                 this.ResultingDeviceViewModel.FragmentEditorViewModels.Remove(obj as IFragmentEditorViewModel);
@@ -106,7 +109,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             if (ofd.ShowDialog() == true)
             {
                 this.ResultingDeviceViewModel.LoadDevice(ofd.FileName);
-                this._currentFolder =  Path.GetDirectoryName(ofd.FileName);
+                this._currentFolder = Path.GetDirectoryName(ofd.FileName);
             }
         }
 

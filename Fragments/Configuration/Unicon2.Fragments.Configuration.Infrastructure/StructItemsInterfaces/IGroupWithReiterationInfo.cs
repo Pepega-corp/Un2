@@ -12,13 +12,13 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces
         bool IsReiterationEnabled { get; set; }
     }
 
-    public interface IGroupInfo:ICloneable
+    public interface IGroupInfo : ICloneable
     {
 
     }
 
 
-    public interface IReiterationSubGroupInfo: ICloneable
+    public interface IReiterationSubGroupInfo : ICloneable
     {
         string Name { get; set; }
     }

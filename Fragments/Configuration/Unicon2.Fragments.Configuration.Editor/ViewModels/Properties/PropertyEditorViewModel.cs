@@ -29,17 +29,18 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         private bool _isMeasureUnitEnabled;
         private ushort _addressIteratorValue;
 
-        public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel, ILocalizerService localizerService)
+        public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
+            ILocalizerService localizerService)
         {
             this._container = container;
             this._localizerService = localizerService;
             this.ShowFormatterParameters = new RelayCommand(this.OnShowFormatterParametersExecute);
             this.RangeViewModel = rangeViewModel;
             this.IncreaseAddressCommand = new RelayCommand(() =>
-             {
-                 //((IProperty)this._model).Address += AddressIteratorValue;
-                 //this.Address = ((IProperty)this._model).Address.ToString();
-             });
+            {
+                //((IProperty)this._model).Address += AddressIteratorValue;
+                //this.Address = ((IProperty)this._model).Address.ToString();
+            });
             this.DecreaseAddressCommand = new RelayCommand(() =>
             {
                 //((IProperty)this._model).Address -= AddressIteratorValue;
@@ -51,9 +52,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         private void OnShowFormatterParametersExecute()
         {
             this._container.Resolve<IFormatterEditorFactory>().EditFormatterByUser(this);
-	        this.RaisePropertyChanged(nameof(this.SelectedUshortFormatterName));
+            this.RaisePropertyChanged(nameof(this.SelectedUshortFormatterName));
         }
-        
+
         public ICommand ShowFormatterParameters { get; set; }
         public IUshortsFormatterViewModel RelatedUshortsFormatterViewModel { get; set; }
 
@@ -83,7 +84,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             }
         }
 
-        public  ushort AddressIteratorValue
+        public ushort AddressIteratorValue
         {
             get { return this._addressIteratorValue; }
             set
@@ -120,7 +121,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             {
                 if (this.Parent is IChildItemRemovable)
                 {
-                 //   (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
+                    //   (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
                 }
             }
         }
@@ -140,10 +141,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
 
         public virtual string StrongName => ConfigurationKeys.DEFAULT_PROPERTY +
-                                             ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
+                                            ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 
-      
+
 
 
         public string MeasureUnit
@@ -188,14 +189,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         protected override void OnValidate()
         {
-            FluentValidation.Results.ValidationResult res = (new PropertyEditorEditorViewModelValidator(this._localizerService)).Validate(this);
+            FluentValidation.Results.ValidationResult res =
+                (new PropertyEditorEditorViewModelValidator(this._localizerService)).Validate(this);
             this.SetValidationErrors(res);
         }
 
         public override object Clone()
         {
-            PropertyEditorViewModel cloneEditorViewModel = new PropertyEditorViewModel(this._container, this._rangeViewModel.Clone() as IRangeViewModel, this._localizerService);
-         
+            PropertyEditorViewModel cloneEditorViewModel = new PropertyEditorViewModel(this._container,
+                this._rangeViewModel.Clone() as IRangeViewModel, this._localizerService);
+
 
             return cloneEditorViewModel;
         }

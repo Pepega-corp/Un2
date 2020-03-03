@@ -13,9 +13,9 @@ using Unicon2.Infrastructure.Values.Matrix;
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
     [DataContract(Name = nameof(MatrixValueFormatter), Namespace = "MatrixValueFormatterNS", IsReference = true)]
-    public class MatrixValueFormatter: UshortsFormatterBase
+    public class MatrixValueFormatter : UshortsFormatterBase
     {
-        
+
         public override object Clone()
         {
             throw new NotImplementedException();

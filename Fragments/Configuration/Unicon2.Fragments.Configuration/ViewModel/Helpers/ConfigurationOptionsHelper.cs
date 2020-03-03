@@ -33,7 +33,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         private IDeviceConfiguration _deviceConfiguration;
 
         public IFragmentOptionsViewModel CreateConfigurationFragmentOptionsViewModel(
-            IRuntimeConfigurationViewModel runtimeConfigurationViewModel, ITypesContainer container, IDeviceConfiguration deviceConfiguration)
+            IRuntimeConfigurationViewModel runtimeConfigurationViewModel, ITypesContainer container,
+            IDeviceConfiguration deviceConfiguration)
         {
             _runtimeConfigurationViewModel = runtimeConfigurationViewModel;
             _container = container;
@@ -141,7 +142,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteReadConfiguration()
         {
-            var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,_runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.Read,_runtimeConfigurationViewModel.DeviceMemory);
+            var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,
+                _runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.Read,
+                _runtimeConfigurationViewModel.DeviceMemory);
             await memoryAccessor.Process();
         }
 
@@ -236,18 +239,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             ofd.CheckFileExists = true;
             if (ofd.ShowDialog() == true)
             {
-              //  IDeviceMemory loadedConfigMemory = _container.Resolve<ISerializerService>()
-              //      .DeserializeFromFile<IDeviceMemory>(ofd.FileName);
-               // (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).DeviceMemory =
-              //      loadedConfigMemory;
+                //  IDeviceMemory loadedConfigMemory = _container.Resolve<ISerializerService>()
+                //      .DeserializeFromFile<IDeviceMemory>(ofd.FileName);
+                // (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).DeviceMemory =
+                //      loadedConfigMemory;
             }
         }
 
         private void OnExecuteExportConfiguration()
         {
-           // ConfigurationExportHelper.ExportConfiguration(
-          //      _runtimeConfigurationViewModel.Model as IDeviceConfiguration, _container,
-          //      _runtimeConfigurationViewModel.GetDeviceName(), _runtimeConfigurationViewModel.NameForUiKey);
+            // ConfigurationExportHelper.ExportConfiguration(
+            //      _runtimeConfigurationViewModel.Model as IDeviceConfiguration, _container,
+            //      _runtimeConfigurationViewModel.GetDeviceName(), _runtimeConfigurationViewModel.NameForUiKey);
         }
 
         private void OnExecuteSaveConfiguration()
@@ -258,17 +261,17 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             sfd.FileName = _runtimeConfigurationViewModel.NameForUiKey;
             if (sfd.ShowDialog() == true)
             {
-             //   _container.Resolve<ISerializerService>().SerializeInFile(
-             //       (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).DeviceMemory,
-             //       sfd.FileName);
+                //   _container.Resolve<ISerializerService>().SerializeInFile(
+                //       (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).DeviceMemory,
+                //       sfd.FileName);
             }
         }
 
         private async void OnExecuteWriteLocalValuesToDevice()
         {
-           // bool isWritten = await (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).Write();
-           // if (isWritten)
-           //     (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).FragmentSettings?.ApplySettingByKey(
+            // bool isWritten = await (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).Write();
+            // if (isWritten)
+            //     (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).FragmentSettings?.ApplySettingByKey(
             //        ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING, null);
         }
 
@@ -279,7 +282,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteTransferFromDeviceToLocal()
         {
-           //
+            //
         }
     }
 }

@@ -10,6 +10,6 @@ namespace Unicon2.Model.FragmentSettings
     {
         public QuickAccessModeEnum QuickAccessMode { get; set; }
         public Action<IRange> OnFillAddressRange { get; set; }
-        Func<IRange, Task> IQuickAccessMemoryApplyingContext.OnFillAddressRange { get ; set ; }
+        Func<IRange, Task> IQuickAccessMemoryApplyingContext.OnFillAddressRange { get; set; }
     }
 }

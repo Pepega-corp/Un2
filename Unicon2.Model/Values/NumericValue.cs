@@ -5,28 +5,27 @@ using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
-    [DataContract(Namespace = "ValuesNS")]
+	[DataContract(Namespace = "ValuesNS")]
 
-    public class NumericValue:FormattedValueBase,INumericValue
-    {
-        [DataMember]
-        public string MeasureUnit { get; set; }
-        [DataMember]
-        public bool IsMeasureUnitEnabled { get; set; }
+	public class NumericValue : FormattedValueBase, INumericValue
+	{
+		[DataMember] public string MeasureUnit { get; set; }
+		[DataMember] public bool IsMeasureUnitEnabled { get; set; }
 
-        public override string StrongName => nameof(NumericValue);
-        public override string AsString()
-        {
-            return this.ToString();
-        }
+		public override string StrongName => nameof(NumericValue);
 
-        [DataMember]
-        public double NumValue { get; set; }
-
-        public override string ToString()
-        {
-            return this.NumValue.ToString();
+		public override string AsString()
+		{
+			return this.ToString();
 		}
+
+		[DataMember] public double NumValue { get; set; }
+
+		public override string ToString()
+		{
+			return this.NumValue.ToString();
+		}
+
 		public override T Accept<T>(IValueVisitor<T> visitor)
 		{
 			return visitor.VisitNumericValue(this);

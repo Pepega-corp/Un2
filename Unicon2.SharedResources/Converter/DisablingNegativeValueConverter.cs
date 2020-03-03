@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace Unicon2.SharedResources.Converter
 {
-  public  class DisablingNegativeValueConverter:IValueConverter
+    public class DisablingNegativeValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -16,10 +16,12 @@ namespace Unicon2.SharedResources.Converter
             {
                 return 0;
             }
-            if (int.TryParse(value.ToString(),out val))
+
+            if (int.TryParse(value.ToString(), out val))
             {
                 if (val < 0) return 0;
             }
+
             return value;
         }
 

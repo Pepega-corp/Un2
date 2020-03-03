@@ -19,7 +19,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 {
     public class ConfigurationExportHelper
     {
-        public static async Task ExportConfiguration(IDeviceConfiguration deviceConfiguration, ITypesContainer typesContainer,string deviceName,string nameForUI)
+        public static async Task ExportConfiguration(IDeviceConfiguration deviceConfiguration,
+            ITypesContainer typesContainer, string deviceName, string nameForUI)
         {
             var viewModel = typesContainer.Resolve<ExportSelectionViewModel>();
             var logger = typesContainer.Resolve<ILogService>();
@@ -33,7 +34,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                 {
                     Filter = " HTML файл (*html)|*html" + "|Все файлы (*.*)|*.* ",
                     DefaultExt = ".html",
-                    FileName = $"{nameForUiLocalized} {deviceName}" 
+                    FileName = $"{nameForUiLocalized} {deviceName}"
                 };
                 if (sfd.ShowDialog() == true)
                 {
@@ -41,7 +42,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                     {
                         viewModel.IsSavingInProcess = true;
                         File.WriteAllText(sfd.FileName,
-                           await typesContainer.Resolve<IHtmlRenderer<IDeviceConfiguration, ConfigurationExportSelector>>()
+                            await typesContainer
+                                .Resolve<IHtmlRenderer<IDeviceConfiguration, ConfigurationExportSelector>>()
                                 .RenderHtmlString(deviceConfiguration, exportSelector));
                         logger.LogMessage(ApplicationGlobalNames.StatusMessages.FILE_EXPORT_SUCCESSFUL);
                         viewModel.IsSavingInProcess = false;

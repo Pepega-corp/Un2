@@ -6,11 +6,9 @@ namespace Unicon2.Model.Values
 {
     [DataContract(Namespace = "ValuesNS")]
 
-    public class BitGroupValue:IBitGroupValue
+    public class BitGroupValue : IBitGroupValue
     {
-        [DataMember]
-        public IFormattedValue FormattedValue { get; set; }
-        [DataMember]
-        public IUshortsFormatter UshortsFormatter { get; set; }
+        [DataMember] public IFormattedValue FormattedValue { get; set; }
+        [DataMember] public IUshortsFormatter UshortsFormatter { get; set; }
     }
 }

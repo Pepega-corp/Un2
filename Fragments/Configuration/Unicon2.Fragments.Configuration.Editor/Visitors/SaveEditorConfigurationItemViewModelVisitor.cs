@@ -13,7 +13,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.Visitors
 {
-    public class SaveEditorConfigurationItemViewModelVisitor: IConfigurationItemViewModelVisitor<IConfigurationItem>
+    public class SaveEditorConfigurationItemViewModelVisitor : IConfigurationItemViewModelVisitor<IConfigurationItem>
     {
         private readonly ITypesContainer _container;
 
@@ -33,9 +33,12 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 range.RangeFrom = double.Parse(editorViewModel.RangeViewModel.RangeFrom);
                 property.Range = range;
             }
+
             return InitDefaults(property, editorViewModel);
         }
-        private IConfigurationItem InitDefaults(IConfigurationItem configurationItem, IEditorConfigurationItemViewModel editorConfigurationItemViewModel)
+
+        private IConfigurationItem InitDefaults(IConfigurationItem configurationItem,
+            IEditorConfigurationItemViewModel editorConfigurationItemViewModel)
         {
             editorConfigurationItemViewModel.Description = configurationItem.Description;
             editorConfigurationItemViewModel.Header = configurationItem.Name;
@@ -52,6 +55,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                     group.ConfigurationItemList.Add(editorConfigurationItemViewModel.Accept(this));
                 }
             }
+
             group.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
             group.IsMain = itemsGroup.IsMain;
             return InitDefaults(group, itemsGroup);
@@ -60,9 +64,9 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         public IConfigurationItem VisitProperty(IPropertyEditorViewModel propertyViewModel)
         {
             var property = _container.Resolve<IProperty>();
-            property.Address =ushort.Parse(propertyViewModel.Address);
+            property.Address = ushort.Parse(propertyViewModel.Address);
             property.NumberOfPoints = ushort.Parse(propertyViewModel.NumberOfPoints);
-            return InitializeProperty(propertyViewModel,property);
+            return InitializeProperty(propertyViewModel, property);
         }
 
         public IConfigurationItem VisitComplexProperty(IComplexPropertyEditorViewModel property)

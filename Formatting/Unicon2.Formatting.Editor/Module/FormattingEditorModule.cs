@@ -9,6 +9,7 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.Module
