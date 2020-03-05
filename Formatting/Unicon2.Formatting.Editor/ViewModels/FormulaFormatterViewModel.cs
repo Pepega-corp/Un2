@@ -23,7 +23,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private readonly ILocalizerService _localizerService;
         private readonly ITypesContainer _container;
         private readonly Func<IArgumentViewModel> _argumentViewModelGettingFunc;
-        private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
+        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private IFormulaFormatter _formulaFormatter;
         private string _formulaString;
         private string _testResult;
@@ -33,12 +33,12 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public FormulaFormatterViewModel(ILocalizerService localizerService, ITypesContainer container,
             Func<IArgumentViewModel> argumentViewModelGettingFunc,
-            ISharedResourcesViewModelFactory sharedResourcesViewModelFactory)
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
         {
             this._localizerService = localizerService;
             this._container = container;
             this._argumentViewModelGettingFunc = argumentViewModelGettingFunc;
-            this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
+            this._sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             this.ArgumentViewModels = new ObservableCollection<IArgumentViewModel>();
             this._formulaFormatter =
                 this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
@@ -61,7 +61,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             this.SaveChanges();
             IUshortFormattable resource =
-                this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as
+                this._sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as
                     IUshortFormattable;
             if (resource != null)
             {
@@ -222,7 +222,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             FormulaFormatterViewModel cloneFormulaFormatterViewModel =
                 new FormulaFormatterViewModel(this._localizerService, this._container,
-                    this._argumentViewModelGettingFunc, this._sharedResourcesViewModelFactory);
+                    this._argumentViewModelGettingFunc, this._sharedResourcesGlobalViewModel);
             this.SaveChanges();
            // cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
             return cloneFormulaFormatterViewModel;

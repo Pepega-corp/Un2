@@ -85,7 +85,6 @@
   <ItemGroup>
     <Compile Include="Factories\ConnectionStateViewModelFactory.cs" />
     <Compile Include="Factories\SharedResourcesEditorFactory.cs" />
-    <Compile Include="Factories\SharedResourcesViewModelFactory.cs" />
     <Compile Include="Interfaces\DeviceSharedResources\IDeviceSharedResourcesViewModel.cs" />
     <Compile Include="Interfaces\DeviceSharedResources\IResourceEditingViewModel.cs" />
     <Compile Include="Interfaces\DeviceSharedResources\IResourcesAddingViewModel.cs" />

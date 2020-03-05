@@ -21,19 +21,19 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
     {
 
         private IDependancyCondition _dependancyCondition;
-        private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
+        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         private ushort _ushortValueToCompare;
         private string _selectedConditionResult;
         private string _selectedCondition;
 
         public ConditionViewModel(IDependancyCondition dependancyCondition,
-            ISharedResourcesViewModelFactory sharedResourcesViewModelFactory,
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,
             IFormatterEditorFactory formatterEditorFactory, ITypesContainer container, IRangeViewModel rangeViewModel,
             ILocalizerService localizerService) : base(container, rangeViewModel, localizerService)
         {
             this._dependancyCondition = dependancyCondition;
-            this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
+            this._sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             this._formatterEditorFactory = formatterEditorFactory;
             this.SelectPropertyFromResourceCommand = new RelayCommand(this.OnSelectPropertyFromResourceExecute);
             this.ConditionResultList = new List<string>(Enum.GetNames(typeof(ConditionResultEnum)));

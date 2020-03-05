@@ -17,14 +17,14 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 {
     public class ConnectionStateViewModel : ViewModelBase, IConnectionStateViewModel
     {
-        private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
+        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private IConnectionState _model;
         //private IDeviceValueContaining _previousDeviceValueContaining;
         private IComPortConfiguration _previousComPortConfiguration;
 
-        public ConnectionStateViewModel(ISharedResourcesViewModelFactory sharedResourcesViewModelFactory, IComPortConfigurationViewModel comPortConfigurationViewModel)
+        public ConnectionStateViewModel(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel, IComPortConfigurationViewModel comPortConfigurationViewModel)
         {
-            this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
+            this._sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             this.SelectTestConnectionProperty = new RelayCommand(this.OnSelectTestConnectionExecute);
             this.SubmitCommand = new RelayCommand<object>(this.OnSubmitExecute);
             this.CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
@@ -71,7 +71,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnSelectTestConnectionExecute()
         {
             IUshortFormattable ushortFormattable =
-                this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as
+                this._sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as
                     IUshortFormattable;
             if (ushortFormattable == null) return;
            // this._model.DeviceValueContaining = ushortFormattable as IDeviceValueContaining;

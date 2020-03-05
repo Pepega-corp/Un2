@@ -45,7 +45,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
-            ISharedResourcesViewModelFactory sharedResourcesViewModelFactory)
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
         {
             this._allRows = new ObservableCollection<IConfigurationItemViewModel>();
             this._applicationGlobalCommands = applicationGlobalCommands;

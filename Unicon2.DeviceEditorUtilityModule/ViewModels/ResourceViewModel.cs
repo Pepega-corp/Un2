@@ -6,37 +6,11 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 {
     public class ResourceViewModel : ViewModelBase, IResourceViewModel
     {
-        private INameable _resource;
         private string _name;
         private bool _isInEditMode;
         private string _resourceStrongName;
 
         public string StrongName => nameof(ResourceViewModel);
-
-        public object Model
-        {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
-        }
-
-        private void SetModel(object value)
-        {
-            if (value is INameable)
-            {
-                this._resource = value as INameable;
-                this.Name = (value as INameable).Name;
-                if (value is IStronglyNamed)
-                {
-                    this.ResourceStrongName = (value as IStronglyNamed).StrongName;
-                }
-            }
-        }
-
-        private object GetModel()
-        {
-            this._resource.Name = this.Name;
-            return this._resource;
-        }
 
         public string Name
         {
@@ -65,7 +39,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public void StopEditElement()
         {
-            this._resource.Name = this.Name;
             this.IsInEditMode = false;
         }
 
@@ -78,5 +51,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public INameable RelatedEditorItemViewModel { get; set; }
     }
 }

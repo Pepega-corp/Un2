@@ -25,7 +25,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private ITypesContainer _container;
         private IDeviceSharedResources _deviceSharedResources;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
-        private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
+        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private readonly IFragmentEditorViewModelFactory _fragmentEditorViewModelFactory;
         private readonly IConnectionStateViewModelFactory _connectionStateViewModelFactory;
         private string _deviceName;
@@ -34,7 +34,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public ResultingDeviceViewModel(IDevice device, ITypesContainer container, ILocalizerService localizerService,
             IDeviceSharedResources deviceSharedResources, IApplicationGlobalCommands applicationGlobalCommands,
-            ISharedResourcesViewModelFactory sharedResourcesViewModelFactory,
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,
             IFragmentEditorViewModelFactory fragmentEditorViewModelFactory,
             IConnectionStateViewModelFactory connectionStateViewModelFactory)
         {
@@ -42,7 +42,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             this._container = container;
             this._deviceSharedResources = deviceSharedResources;
             this._applicationGlobalCommands = applicationGlobalCommands;
-            this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
+            this._sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             this._fragmentEditorViewModelFactory = fragmentEditorViewModelFactory;
             this._connectionStateViewModelFactory = connectionStateViewModelFactory;
             this._availableEditorFragments = new ObservableCollection<IFragmentEditorViewModel>();
@@ -57,7 +57,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
             this.DeviceName = localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.NEW_DEVICE_STRING);
             this.FragmentEditorViewModels = new ObservableCollection<IFragmentEditorViewModel>();
-            sharedResourcesViewModelFactory.InitializeFromResources(deviceSharedResources);
+            sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
             this.NavigateToConnectionTestingCommand = new RelayCommand(this.OnNavigateToConnectionTestingExecute);
         }
 
@@ -98,7 +98,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public void OpenSharedResources()
         {
-            this._sharedResourcesViewModelFactory.OpenSharedResourcesForEditing();
+            this._sharedResourcesGlobalViewModel.OpenSharedResourcesForEditing();
         }
 
 
@@ -129,7 +129,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 this.FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
             this._deviceSharedResources = this._device.DeviceSharedResources;
-            this._sharedResourcesViewModelFactory.InitializeFromResources(this._deviceSharedResources);
+            this._sharedResourcesGlobalViewModel.InitializeFromResources(this._deviceSharedResources);
             this.DeviceName = this._device.Name;
         }
 
