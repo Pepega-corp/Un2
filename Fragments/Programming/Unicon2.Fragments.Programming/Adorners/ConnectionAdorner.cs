@@ -89,9 +89,32 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             this._currentPath = this._currentPath ?? new PathGeometry();
 
-            List<Point> pathPoints = this._hitConnector == null
-                ? PathFinder.GetConnectionLine(this._connection.Source, position, ConnectorOrientation.NONE)
-                : PathFinder.GetConnectionLine(this._connection.Source, this._hitConnector);
+            List<Point> pathPoints;
+
+            PathFinder.ConnectorInfo sourceInfo = new PathFinder.ConnectorInfo
+            {
+                ConnectorPoint = this._connection.Source.ConnectorPoint,
+                Orientation = this._connection.Source.Orientation,
+                ConnectorParentX = this._connection.Source.ParentViewModel.X,
+                ConnectorParentY = this._connection.Source.ParentViewModel.Y
+            };
+
+            if (this._hitConnector == null)
+            {
+                pathPoints = PathFinder.GetConnectionLine(sourceInfo, position, ConnectorOrientation.NONE);
+            }
+            else
+            {
+                PathFinder.ConnectorInfo hitInfo = new PathFinder.ConnectorInfo
+                {
+                    ConnectorPoint = this._hitConnector.ConnectorPoint,
+                    Orientation = this._hitConnector.Orientation,
+                    ConnectorParentX = this._hitConnector.ParentViewModel.X,
+                    ConnectorParentY = this._hitConnector.ParentViewModel.Y
+                };
+
+                pathPoints = PathFinder.GetConnectionLine(sourceInfo, hitInfo);
+            }
 
             if (pathPoints.Count > 0)
             {
@@ -114,7 +137,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             }
             FrameworkElement fe = (FrameworkElement)hitObject;
             ConnectorViewModel cvm = fe.DataContext as ConnectorViewModel;
-            if (cvm == null || cvm.Model.Orientation == this._connection.Source.Model.Orientation)
+            if (cvm == null || cvm.Model.Orientation == this._connection.Source.Orientation)
             {
                 this.HitConnector = null;
                 return;

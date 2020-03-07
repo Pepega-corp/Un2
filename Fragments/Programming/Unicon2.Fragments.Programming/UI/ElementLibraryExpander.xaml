@@ -138,7 +138,7 @@
                             BorderBrush="{StaticResource AccentColorBrush2}"
                             BorderThickness="1">
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <ItemsControl ItemsSource="{Binding ElementCollection}" Style="{StaticResource LogicItemsListStyle}" />
+                                <ItemsControl ItemsSource="{Binding ElementsLibrary}" Style="{StaticResource LogicItemsListStyle}" />
                             </ScrollViewer>
                         </Border>
                     </Grid>

@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming
 {
     internal class PathFinder
     {
+        public struct ConnectorInfo
+        {
+            public Point ConnectorPoint;
+            public ConnectorOrientation Orientation;
+            public double ConnectorParentX;
+            public double ConnectorParentY;
+        }
         /// <summary>
         /// Получает путь соединяющий 2 вывода
         /// </summary>
         /// <param name="source">Вывод-источник</param>
         /// <param name="sink">Целевой вывод</param>
-        internal static List<Point> GetConnectionLine(IConnectorViewModel source, IConnectorViewModel sink)
+        internal static List<Point> GetConnectionLine(ConnectorInfo source, ConnectorInfo sink)
         {
             List<Point> linePoints = new List<Point>();
 
@@ -36,7 +42,7 @@ namespace Unicon2.Fragments.Programming
             return linePoints;
         }
 
-        private static void AddOtherPoints(List<Point> linePoints, IConnectorViewModel source, IConnectorViewModel sink, Rect sourceRect, Rect sinkRect)
+        private static void AddOtherPoints(List<Point> linePoints, ConnectorInfo source, ConnectorInfo sink, Rect sourceRect, Rect sinkRect)
         {
             if (IsPointVisible(source, sink.ConnectorPoint, sourceRect))
             {
@@ -57,7 +63,7 @@ namespace Unicon2.Fragments.Programming
         /// <summary>
         /// Добавление точек вокруг элементов для исключения пересечения элементов линией связи
         /// </summary>
-        private static void AddLineAround(List<Point> linePoints, IConnectorViewModel source, IConnectorViewModel sink, Rect sourceRect, Rect sinkRect)
+        private static void AddLineAround(List<Point> linePoints, ConnectorInfo source, ConnectorInfo sink, Rect sourceRect, Rect sinkRect)
         {
             // ближайшая угловая точка рамки цели
             Point nearestSinkPoint = GetNearestNeighborSink(sink, sinkRect, source.ConnectorPoint);
@@ -65,10 +71,10 @@ namespace Unicon2.Fragments.Programming
             if (Math.Abs(nearestSinkPoint.Y - sinkRect.Top) < 0.0001)
             {
                 // верхние точки рамки источника
-                Point sourceNeigbor = source.Model.Orientation == ConnectorOrientation.LEFT
+                Point sourceNeigbor = source.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.TopLeft
                     : sourceRect.TopRight;
-                Point sourceOpposite = source.Model.Orientation == ConnectorOrientation.LEFT
+                Point sourceOpposite = source.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.TopRight
                     : sourceRect.TopLeft;
                 linePoints.Add(new Point(sourceNeigbor.X, source.ConnectorPoint.Y));
@@ -97,10 +103,10 @@ namespace Unicon2.Fragments.Programming
             else // ближе к низу
             {
                 // Нижние точки рамки источника
-                Point sourceNeigbor = source.Model.Orientation == ConnectorOrientation.LEFT
+                Point sourceNeigbor = source.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.BottomLeft
                     : sourceRect.BottomRight;
-                Point sourceOpposite = source.Model.Orientation == ConnectorOrientation.LEFT
+                Point sourceOpposite = source.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.BottomRight
                     : sourceRect.BottomLeft;
                 linePoints.Add(new Point(sourceNeigbor.X, source.ConnectorPoint.Y));
@@ -129,7 +135,7 @@ namespace Unicon2.Fragments.Programming
             linePoints.Add(sink.ConnectorPoint);
         }
 
-        internal static List<Point> GetConnectionLine(IConnectorViewModel source, Point sinkPoint, ConnectorOrientation preferredOrientation)
+        internal static List<Point> GetConnectionLine(ConnectorInfo source, Point sinkPoint, ConnectorOrientation preferredOrientation)
         {
             List<Point> linePoints = new List<Point>();
             Rect sourceRect = GetElementRect(source);
@@ -149,7 +155,7 @@ namespace Unicon2.Fragments.Programming
         }
 
         // При необходимости, добавляем дополнительные точки, чтобы линия не пересекала элемент
-        private static void AddOtherPoints(List<Point> linePoints, IConnectorViewModel source, Point sinkPoint, Rect sourceRect)
+        private static void AddOtherPoints(List<Point> linePoints, ConnectorInfo source, Point sinkPoint, Rect sourceRect)
         {
             if (IsPointVisible(source, sinkPoint, sourceRect))
             {
@@ -207,12 +213,12 @@ namespace Unicon2.Fragments.Programming
             }
         }
 
-        private static void OptimizeLine(List<Point> linePoints, IConnectorViewModel source, IConnectorViewModel sink, Rect sourceRect, Rect sinkRect)
+        private static void OptimizeLine(List<Point> linePoints, ConnectorInfo source, ConnectorInfo sink, Rect sourceRect, Rect sinkRect)
         {
             if (source.ConnectorPoint.Y > sink.ConnectorPoint.Y)
             {
                 double middleY = sink.ConnectorPoint.Y + (source.ConnectorPoint.Y - sink.ConnectorPoint.Y) / 2;
-                Point rectAngle = source.Model.Orientation == ConnectorOrientation.LEFT
+                Point rectAngle = source.Orientation == ConnectorOrientation.LEFT
                     ? sourceRect.TopLeft
                     : sourceRect.TopRight;
                 linePoints.Add(new Point(rectAngle.X, source.ConnectorPoint.Y));
@@ -221,10 +227,10 @@ namespace Unicon2.Fragments.Programming
             }
             else
             {
-                Point rectAngle = sink.Model.Orientation == ConnectorOrientation.LEFT
+                Point rectAngle = sink.Orientation == ConnectorOrientation.LEFT
                     ? sinkRect.TopLeft
                     : sinkRect.TopRight;
-                if (sink.Model.Orientation == ConnectorOrientation.LEFT)
+                if (sink.Orientation == ConnectorOrientation.LEFT)
                 {
                     if (rectAngle.X < source.ConnectorPoint.X)
                     {
@@ -256,9 +262,9 @@ namespace Unicon2.Fragments.Programming
         /// <param name="source">Источник с точкой</param>
         /// <param name="sinkPoint">Конечная точка</param>
         /// <param name="sourceRect">Рамка источника</param>
-        private static bool IsPointVisible(IConnectorViewModel source, Point sinkPoint, Rect sourceRect)
+        private static bool IsPointVisible(ConnectorInfo source, Point sinkPoint, Rect sourceRect)
         {
-            return source.Model.Orientation == ConnectorOrientation.LEFT
+            return source.Orientation == ConnectorOrientation.LEFT
                 ? sourceRect.Left > sinkPoint.X
                 : sourceRect.Right < sinkPoint.X;
         }
@@ -270,7 +276,7 @@ namespace Unicon2.Fragments.Programming
         /// <param name="sinkRect">Рамка целевого элемента</param>
         /// <param name="sink">VM целевого элемента</param>
         /// <returns></returns>
-        private static bool TargetIsNotVisible(Rect sourceRect, Rect sinkRect, IConnectorViewModel sink)
+        private static bool TargetIsNotVisible(Rect sourceRect, Rect sinkRect, ConnectorInfo sink)
         {
             return sourceRect.IntersectsWith(sinkRect)
                 || (sourceRect.Bottom >= sinkRect.Top && sourceRect.Bottom <= sinkRect.Bottom)
@@ -286,10 +292,10 @@ namespace Unicon2.Fragments.Programming
         /// <param name="source">Источник связи</param>
         /// <param name="endPoint">Точка конца линии связи</param>
         /// <param name="rectSource">Рамка, охватывающая элемент-источник</param>
-        private static Point GetNearestNeighborSource(IConnectorViewModel source, Point endPoint, Rect rectSource)
+        private static Point GetNearestNeighborSource(ConnectorInfo source, Point endPoint, Rect rectSource)
         {
             Point n1, n2; // точки углов рамки
-            GetNeighborCorners(source.Model.Orientation, rectSource, out n1, out n2);
+            GetNeighborCorners(source.Orientation, rectSource, out n1, out n2);
             return Point.Subtract(n1, endPoint).Length <= Point.Subtract(n2, endPoint).Length ? n1 : n2;
         }
 
@@ -299,10 +305,10 @@ namespace Unicon2.Fragments.Programming
         /// <param name="sink">Целевой элемент</param>
         /// <param name="sinkRect">Рамка, охватывающая целевой элемент</param>
         /// <param name="sourcePoint">Точка источника</param>
-        private static Point GetNearestNeighborSink(IConnectorViewModel sink, Rect sinkRect, Point sourcePoint)
+        private static Point GetNearestNeighborSink(ConnectorInfo sink, Rect sinkRect, Point sourcePoint)
         {
             Point n1, n2; // точки углов рамки
-            GetNeighborCorners(sink.Model.Orientation, sinkRect, out n1, out n2);
+            GetNeighborCorners(sink.Orientation, sinkRect, out n1, out n2);
             return Point.Subtract(n1, sourcePoint).Length <= Point.Subtract(n2, sourcePoint).Length ? n1 : n2;
         }
 
@@ -329,23 +335,23 @@ namespace Unicon2.Fragments.Programming
             }
         }
         /// <summary>
-        /// Получает прямоугольную область,которая охватывает элемент с его выводом-источником связи
+        /// Получает прямоугольную область,которая охватывает элемент с его выводом связи
         /// </summary>
-        /// <param name="source">VM источника связи</param>
+        /// <param name="connectorInfo">Информация по выводу</param>
         /// <returns>Охватываемая область</returns>
-        private static Rect GetElementRect(IConnectorViewModel source)
+        private static Rect GetElementRect(ConnectorInfo connectorInfo)
         {
             //TODO Get real size of ContentPresenter
-            Rect rect = new Rect(source.ParentViewModel.X, source.ParentViewModel.Y, 30, 30);//source.ParentViewModel.Width, source.ParentViewModel.Height);
-            if (rect.Contains(source.ConnectorPoint))
+            Rect rect = new Rect(connectorInfo.ConnectorParentX, connectorInfo.ConnectorParentY, 30, 30);//source.ParentViewModel.Width, source.ParentViewModel.Height);
+            if (rect.Contains(connectorInfo.ConnectorPoint))
             {
                 rect.Inflate(10, 10);
             }
             else
             {
-                double margin = source.Model.Orientation == ConnectorOrientation.RIGHT
-                    ? source.ConnectorPoint.X - rect.Right
-                    : rect.Left - source.ConnectorPoint.X;
+                double margin = connectorInfo.Orientation == ConnectorOrientation.RIGHT
+                    ? connectorInfo.ConnectorPoint.X - rect.Right
+                    : rect.Left - connectorInfo.ConnectorPoint.X;
                 rect.Inflate(margin, margin);
             }
             return rect;

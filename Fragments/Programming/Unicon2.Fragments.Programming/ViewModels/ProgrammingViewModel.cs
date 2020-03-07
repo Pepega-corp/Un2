@@ -31,7 +31,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._factory = factory;
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
-            this.ElementCollection = new ObservableCollection<ILogicElementViewModel>();
+            this.ElementsLibrary = new ObservableCollection<ILogicElementViewModel>();
+            this.ConnectionCollection = new ObservableCollection<IConnectionViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
             this.CloseTabCommand = new RelayCommand(this.CloseTab, this.CanCloseTab);
@@ -58,10 +59,26 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public int SelectedTabIndex { get; set; }
 
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
-        public ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
+        public ObservableCollection<ILogicElementViewModel> ElementsLibrary { get; }
+        public ObservableCollection<IConnectionViewModel> ConnectionCollection { get; }
 
         #endregion
 
+        public void AddConnection(IConnectionViewModel connectionViewModel)
+        {
+            if(this.ConnectionCollection.Contains(connectionViewModel))
+                return;
+
+            this.ConnectionCollection.Add(connectionViewModel);
+        }
+
+        public void RemoveConnection(IConnectionViewModel connectionViewModel)
+        {
+            if (this.ConnectionCollection.Contains(connectionViewModel))
+            {
+                this.ConnectionCollection.Remove(connectionViewModel);
+            }
+        }
 
         #region NewSchemeCommand
         public ICommand NewSchemeCommand { get; }
@@ -162,9 +179,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 {
                     this.SchemesCollection.Add(new SchemeTabViewModel(sceme, this, this._factory));
                 }
+
+                //get all contactors
+
                 foreach (var connection in this._programmModel.Connections)
                 {
-                    //TODO generate connections
+                    // get connectors with same connection number
+
+                    //this.ConnectionCollection.Add(new ConnectionViewModel());
                 }
                 return;
             }
@@ -172,7 +194,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if (value is IProgrammModelEditor modelEditor)
             {
                 var logicElementsViewModels = this._factory.GetAllElementsViewModels(modelEditor.Elements);
-                this.ElementCollection.AddCollection(logicElementsViewModels);
+                this.ElementsLibrary.AddCollection(logicElementsViewModels);
             }
         }
 

@@ -132,7 +132,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             var selectedConnections = this.ElementCollection.Where(e => e is IConnectionViewModel && e.IsSelected).Cast<IConnectionViewModel>().ToList();
             foreach (IConnectionViewModel connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
             {
-                ConnectionViewModel.RemoveConnectionWithNumber(connectionViewModel);
+                this._programmingViewModel.RemoveConnection(connectionViewModel);
                 this.ElementCollection.Remove(connectionViewModel);
             }
 
@@ -147,7 +147,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 }
                 foreach (var removingConnection in removingConnections)
                 {
-                    ConnectionViewModel.RemoveConnectionWithNumber(removingConnection);
+                    this._programmingViewModel.RemoveConnection(removingConnection);
                     if (this.ElementCollection.Contains(removingConnection))
                     {
                         this.ElementCollection.Remove(removingConnection);
@@ -189,9 +189,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         #endregion IFragmentViewModel
 
-        public void AddNewConnection(Connection connectionViewModel)
+        public void AddConnectionToProgramm(IConnectionViewModel connectionViewModel)
         {
-            
+            this._programmingViewModel.AddConnection(connectionViewModel);
         }
     }
 }

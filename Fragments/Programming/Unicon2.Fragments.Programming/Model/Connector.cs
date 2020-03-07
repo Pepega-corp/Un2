@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
@@ -16,6 +17,7 @@ namespace Unicon2.Fragments.Programming.Model
         /// Тип вывода: прямой или инверсный
         /// </summary>
         [DataMember] public ConnectorType Type { get; set; }
+        [DataMember] public Point ConnectorPoint { get; set; }
 
         /// <summary>
         /// Линия связи с данным выводом

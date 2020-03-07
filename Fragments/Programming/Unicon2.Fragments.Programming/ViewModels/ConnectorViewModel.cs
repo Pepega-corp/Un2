@@ -13,7 +13,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
     public class ConnectorViewModel : ViewModelBase, IConnectorViewModel, IDisposable
     {
         private bool _isDragConnection;
-        private Point _connectorPoint;
         private string _symbol;
         private IConnector _modelConnector;
 
@@ -37,16 +36,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// </summary>
         public Point ConnectorPoint
         {
-            get { return this._connectorPoint; }
+            get { return this._modelConnector.ConnectorPoint; }
             set
             {
-                if (this._connectorPoint == value) return;
-                this._connectorPoint = value;
+                this._modelConnector.ConnectorPoint = value;
                 RaisePropertyChanged();
             }
         }
 
-        public ILogicElementViewModel ParentViewModel { get; private set; }
+        public ILogicElementViewModel ParentViewModel { get; }
 
         public ObservableCollection<IConnectionViewModel> Connections { get; }
 
@@ -56,7 +54,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             get { return this._modelConnector; }
             set
             {
-                if (value == null || this._modelConnector != null && this._modelConnector.Equals(value)) return;
+                if (value == null)
+                    return;
                 this._modelConnector = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(this.ConnectorType));

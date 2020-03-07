@@ -27,22 +27,22 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private double _x;
         private double _y;
         private IConnection _model;
+        private IConnectorViewModel _sourceViewModel;
+        private IConnectorViewModel _sinkViewModel;
 
         #endregion
 
         #region Constructors
 
-        public ConnectionViewModel()
-        {
-            this._currentValue = 0;
-            this._gotValue = false;
-        }
-
-        public ConnectionViewModel(IConnection model, PathGeometry path, IConnectorViewModel connector1, IConnectorViewModel connector2) : this()
+        public ConnectionViewModel(IConnection model, PathGeometry path, IConnectorViewModel sourceViewModel, IConnectorViewModel sinkViewModel)
         {
             this._model = model;
+            this._sourceViewModel = sourceViewModel;
+            this._sinkViewModel = sinkViewModel;
             this.Path = path;
             this.StrokeDashArray = new DoubleCollection();
+            this._currentValue = 0;
+            this._gotValue = false;
         }
 
         #endregion
@@ -82,33 +82,29 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public IConnector Source
+        public IConnectorViewModel Source
         {
-            get { return this._model.Connectors.First(c=>c.Orientation == ConnectorOrientation.RIGHT); }
+            get { return this._sourceViewModel; }
             set
             {
                 if(value.Orientation != ConnectorOrientation.RIGHT)
                     return;
 
-                var source = this._model.Connectors.First(c=>c.Orientation == ConnectorOrientation.RIGHT);
-                this._model.RemoveConnector(source);
-                this._model.AddConnector(value);
+                this._sourceViewModel = value;
                 this.UpdatePathGeometry();
                 RaisePropertyChanged();
             }
         }
 
-        public IConnector Sink
+        public IConnectorViewModel Sink
         {
-            get { return this._model.Connectors.First(c => c.Orientation == ConnectorOrientation.LEFT); }
+            get { return this._sinkViewModel; }
             set
             {
                 if (value.Orientation != ConnectorOrientation.LEFT)
                     return;
 
-                var sink = this._model.Connectors.First(c => c.Orientation == ConnectorOrientation.LEFT);
-                this._model.RemoveConnector(sink);
-                this._model.AddConnector(value);
+                this._sinkViewModel = value;
                 this.UpdatePathGeometry();
                 RaisePropertyChanged();
             }
@@ -211,7 +207,24 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if (this.Source == null || this.Sink == null || this._path == null) return;
 
             this._path.Figures.Clear();
-            List<Point> linePoints = PathFinder.GetConnectionLine(this.Source, this.Sink);
+
+            PathFinder.ConnectorInfo sourceInfo = new PathFinder.ConnectorInfo
+            {
+                ConnectorPoint = this.Source.ConnectorPoint,
+                Orientation = this.Source.Orientation,
+                ConnectorParentX = this.Source.ParentViewModel.X,
+                ConnectorParentY = this.Source.ParentViewModel.Y
+            };
+            PathFinder.ConnectorInfo sinkInfo = new PathFinder.ConnectorInfo
+            {
+                ConnectorPoint = this.Sink.ConnectorPoint,
+                Orientation = this.Sink.Orientation,
+                ConnectorParentX = this.Sink.ParentViewModel.X,
+                ConnectorParentY = this.Sink.ParentViewModel.Y
+            };
+
+            List<Point> linePoints = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
+
             if (linePoints.Count > 1)
             {
                 PathFigure figure = new PathFigure();

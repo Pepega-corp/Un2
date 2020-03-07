@@ -60,7 +60,8 @@ namespace Unicon2.Fragments.Programming.Adorners
                 newConnection.AddConnector(this._sourceConnector.Model);
                 newConnection.AddConnector(this._hitConnector.Model);
                 ConnectionViewModel connectionViewModel = new ConnectionViewModel(newConnection, this._pathGeometry, this._sourceConnector, this._hitConnector);
-                this._schemeTabViewModel.AddNewConnection(newConnection);
+
+                this._schemeTabViewModel.AddConnectionToProgramm(connectionViewModel);
                 this._schemeTabViewModel.ElementCollection.Add(connectionViewModel);
 
                 this._hitConnector.IsDragConnection = false;
@@ -99,9 +100,32 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             this._pathGeometry = this._pathGeometry ?? new PathGeometry();
 
-            List<Point> pathPoints = this._hitConnector == null
-                ? PathFinder.GetConnectionLine(this._sourceConnector, position, ConnectorOrientation.NONE)
-                : PathFinder.GetConnectionLine(this._sourceConnector, this._hitConnector);
+            List<Point> pathPoints;
+
+            PathFinder.ConnectorInfo sourceInfo = new PathFinder.ConnectorInfo
+            {
+                ConnectorPoint = this._sourceConnector.ConnectorPoint,
+                Orientation = this._sourceConnector.Orientation,
+                ConnectorParentX = this._sourceConnector.ParentViewModel.X,
+                ConnectorParentY = this._sourceConnector.ParentViewModel.Y
+            };
+
+            if (this._hitConnector == null)
+            {
+                pathPoints = PathFinder.GetConnectionLine(sourceInfo, position, ConnectorOrientation.NONE);
+            }
+            else
+            {
+                PathFinder.ConnectorInfo hitInfo = new PathFinder.ConnectorInfo
+                {
+                    ConnectorPoint = this._hitConnector.ConnectorPoint,
+                    Orientation = this._hitConnector.Orientation,
+                    ConnectorParentX = this._hitConnector.ParentViewModel.X,
+                    ConnectorParentY = this._hitConnector.ParentViewModel.Y
+                };
+
+                pathPoints = PathFinder.GetConnectionLine(sourceInfo, hitInfo);
+            }
 
             if (pathPoints.Count > 0)
             {
