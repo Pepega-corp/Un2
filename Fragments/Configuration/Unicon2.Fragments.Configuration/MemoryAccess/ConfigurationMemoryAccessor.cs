@@ -19,7 +19,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
         private readonly MemoryAccessEnum _memoryAccessEnum;
 
-        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration, IDeviceEventsDispatcher deviceEventsDispatcher, MemoryAccessEnum memoryAccessEnum, IDeviceMemory deviceMemory)
+        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration,
+            IDeviceEventsDispatcher deviceEventsDispatcher, MemoryAccessEnum memoryAccessEnum,
+            IDeviceMemory deviceMemory)
         {
             _configuration = configuration;
             _deviceEventsDispatcher = deviceEventsDispatcher;
@@ -33,6 +35,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             {
                 _memory.DeviceMemoryValues.Clear();
             }
+
             await ApplyMemorySettings();
             await ProcessProperties();
         }
@@ -63,6 +66,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                             await ProcessConfigurationItem(configurationItemInGroup, offset);
                         }
                     }
+
                     break;
                 case IComplexProperty complexProperty:
                     await ProcessComplexProperty(complexProperty, offset);
@@ -138,13 +142,13 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                         (ushort) (rangeTo - rangeFrom + 1), ConfigurationKeys.READING_CONFIGURATION_QUERY);
                     if (res.IsSuccessful)
                     {
-                        for (var i = rangeFrom; i <= rangeTo; i++)
+                        for (var i = rangeFrom; i < rangeTo; i++)
                         {
                             memory.DeviceMemoryValues[i] = res.Result[i - rangeFrom];
                         }
                     }
 
-                    _deviceEventsDispatcher.TriggerAddressSubscription(rangeFrom,
+                    _deviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
                         (ushort) (rangeTo - rangeFrom));
                     break;
                 }
@@ -158,28 +162,41 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
                     var res = await dataProvider.WriteMultipleRegistersAsync(rangeFrom,
                         valuesToWrite.ToArray(), ConfigurationKeys.WRITING_CONFIGURATION_QUERY);
-                    break;
-                }
-                case MemoryAccessEnum.InitializeLocalValues:
-                    for (var i = rangeFrom; i <= rangeTo; i++)
+                    if (res.IsSuccessful)
                     {
-                        memory.DeviceMemoryValues[i] = 0;
+                        for (var i = rangeFrom; i < rangeTo; i++)
+                        {
+                            if (memory.LocalMemoryValues.ContainsKey(i))
+                            {
+                                memory.DeviceMemoryValues[i] = memory.LocalMemoryValues[i];
+                            }
+                            else
+                            {
+                                memory.DeviceMemoryValues[i] = 0;
+                            }
+                        }
+
+                        _deviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
+                            (ushort) (rangeTo - rangeFrom));
                     }
 
                     break;
-                case MemoryAccessEnum.TransferFromLocalToDevice:
-                    for (var i = rangeFrom; i <= rangeTo; i++)
+                }
+                case MemoryAccessEnum.TransferFromDeviceToLocal:
+                    for (var i = rangeFrom; i < rangeTo; i++)
                     {
-                        if (memory.LocalMemoryValues.ContainsKey(i))
+                        if (memory.DeviceMemoryValues.ContainsKey(i))
                         {
-                            memory.DeviceMemoryValues[i] = memory.LocalMemoryValues[i];
+                            memory.LocalMemoryValues[i] = memory.DeviceMemoryValues[i];
                         }
                         else
                         {
-                            memory.DeviceMemoryValues[i] = 0;
+                            memory.LocalMemoryValues[i] = 0;
                         }
                     }
 
+                    _deviceEventsDispatcher.TriggerLocalAddressSubscription(rangeFrom,
+                        (ushort) (rangeTo - rangeFrom));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -205,8 +222,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
     {
         Read,
         Write,
-        InitializeLocalValues,
-        TransferFromLocalToDevice,
-
+        TransferFromDeviceToLocal
     }
 }

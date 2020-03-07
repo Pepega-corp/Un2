@@ -34,7 +34,19 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 
         private static void SetUshortsInMemoryDictionary(Dictionary<ushort, ushort> configurationMemoryLocalMemoryValues, ushort address, ushort[] values)
         {
-            throw new System.NotImplementedException();
+            ushort addressCurrent = address;
+            foreach (var value in values)
+            {
+                if(configurationMemoryLocalMemoryValues.ContainsKey(addressCurrent))
+                {
+                    configurationMemoryLocalMemoryValues[addressCurrent] = value;
+                }
+                else
+                {
+                    configurationMemoryLocalMemoryValues.Add(addressCurrent,value);
+                }
+                addressCurrent++;
+            }
         }
 
 

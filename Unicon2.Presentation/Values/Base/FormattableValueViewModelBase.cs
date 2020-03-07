@@ -6,7 +6,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Presentation.Values.Base
 {
-    public abstract class FormattableValueViewModelBase : ValidatableBindableBase, IFormattedValueViewModel
+    public abstract class FormattableValueViewModelBase : ValidatableBindableBase, IFormattedValueViewModel, IStronglyNamed
     {
         private string _header;
         private string _measureUnit;

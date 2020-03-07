@@ -12,8 +12,10 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
     {
         bool IsFormattedValueChanged { get; }
         bool IsEditEnabled { get; set; }
-        void InitSubscription(IMemorySubscription memorySubscription);
+        void InitDispatcher(IDeviceEventsDispatcher deviceEventsDispatcher);
         T Accept<T>(IEditableValueViewModelVisitor<T> visitor);
         IFormattedValue FormattedValue { get; set; }
+        void RefreshBaseValueToCompare();
+        
     }
 }

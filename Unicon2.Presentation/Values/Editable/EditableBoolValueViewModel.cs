@@ -10,12 +10,11 @@ namespace Unicon2.Presentation.Values.Editable
     public class EditableBoolValueViewModel : EditableValueViewModelBase, IBoolValueViewModel
     {
         private bool _boolValueProperty;
-        private readonly Lazy<bool> _baseValueBoolLazyInitial;
+        private bool _baseValueBoolInitial;
 
         public EditableBoolValueViewModel()
         {
             IsEditEnabled = true;
-            _baseValueBoolLazyInitial = new Lazy<bool>(() => BoolValueProperty);
         }
 
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
@@ -29,9 +28,15 @@ namespace Unicon2.Presentation.Values.Editable
             set
             {
                 _boolValueProperty = value;
-                SetIsChangedProperty(nameof(BoolValueProperty), _baseValueBoolLazyInitial.Value != value);
+                SetIsChangedProperty(nameof(BoolValueProperty), _baseValueBoolInitial != value);
                 RaisePropertyChanged();
             }
+        }
+
+        public override void RefreshBaseValueToCompare()
+        {
+            _baseValueBoolInitial = BoolValueProperty;
+            base.RefreshBaseValueToCompare();
         }
 
         public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)

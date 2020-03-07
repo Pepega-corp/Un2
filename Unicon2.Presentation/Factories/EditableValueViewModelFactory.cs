@@ -7,6 +7,7 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Infrastructure.Visitors;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
@@ -16,12 +17,12 @@ namespace Unicon2.Presentation.Factories
 {
 	public class EditableValueViewModelFactory : IValueVisitor<IEditableValueViewModel>
 	{
-		[CanBeNull] private IRangeable _rangeable;
+	    [CanBeNull] private IRangeable _rangeable;
 		[CanBeNull] private IMeasurable _measurable;
 
 		public EditableValueViewModelFactory([CanBeNull] IRangeable rangeable = null, [CanBeNull] IMeasurable measurable = null)
 		{
-			_rangeable = rangeable;
+		    _rangeable = rangeable;
 			_measurable = measurable;
 		}
 
@@ -48,7 +49,6 @@ namespace Unicon2.Presentation.Factories
 			{
 				formattedValueViewModel.IsRangeEnabled = false;
 			}
-
 		    formattedValueViewModel.FormattedValue = formattedValue;
 			return formattedValueViewModel;
 		}

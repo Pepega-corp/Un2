@@ -15,13 +15,8 @@ namespace Unicon2.Presentation.Values.Editable
     {
         private ObservableCollection<string> _availableItemsList;
         private string _selectedItem;
-        private readonly Lazy<string> _selectedItemInitial;
-
-        public EditableChosenFromListValueViewModel()
-        {
-            _selectedItemInitial = new Lazy<string>(() => SelectedItem);
-        }
-
+        private string _selectedItemInitial;
+        
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
@@ -36,8 +31,13 @@ namespace Unicon2.Presentation.Values.Editable
             {
                 _selectedItem = value;
                 RaisePropertyChanged();
-                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitial.Value != value);
+                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitial != value);
             }
+        }
+        public override void RefreshBaseValueToCompare()
+        {
+            _selectedItemInitial = SelectedItem;
+            base.RefreshBaseValueToCompare();
         }
 
         public void InitList(IEnumerable<string> stringEnumerable)

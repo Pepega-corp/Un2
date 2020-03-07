@@ -71,8 +71,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnSelectTestConnectionExecute()
         {
             IUshortFormattable ushortFormattable =
-                this._sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as
-                    IUshortFormattable;
+                this._sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortFormattable>();
             if (ushortFormattable == null) return;
            // this._model.DeviceValueContaining = ushortFormattable as IDeviceValueContaining;
             this.RaisePropertyChanged(nameof(this.SelectedPropertyString));

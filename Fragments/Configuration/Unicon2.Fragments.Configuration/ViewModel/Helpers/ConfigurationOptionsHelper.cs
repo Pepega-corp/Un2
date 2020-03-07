@@ -269,10 +269,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteWriteLocalValuesToDevice()
         {
-            // bool isWritten = await (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).Write();
-            // if (isWritten)
-            //     (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).FragmentSettings?.ApplySettingByKey(
-            //        ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING, null);
+            var memoryAccessorWrite = new ConfigurationMemoryAccessor(_deviceConfiguration,
+                _runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.Write,
+                _runtimeConfigurationViewModel.DeviceMemory);
+            await memoryAccessorWrite.Process();
         }
 
         private async void OnExecuteEditLocalValues()
@@ -282,7 +282,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteTransferFromDeviceToLocal()
         {
-            //
+            var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,
+                _runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.TransferFromDeviceToLocal,
+                _runtimeConfigurationViewModel.DeviceMemory);
+            await memoryAccessor.Process();
         }
     }
 }

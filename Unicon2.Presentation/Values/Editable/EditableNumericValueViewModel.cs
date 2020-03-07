@@ -14,13 +14,7 @@ namespace Unicon2.Presentation.Values.Editable
     public class EditableNumericValueViewModel : EditableValueViewModelBase, INumericValueViewModel
     {
         private string _numValueString;
-        private readonly Lazy<double> _baseDoubleToCompareInitial;
-
-        public EditableNumericValueViewModel()
-        {
-            _baseDoubleToCompareInitial = new Lazy<double>(() => double.Parse(NumValue));
-
-        }
+        private double _baseDoubleToCompareInitial;
 
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.NUMERIC_VALUE_KEY +
@@ -38,12 +32,16 @@ namespace Unicon2.Presentation.Values.Editable
                 if (!HasErrors)
                 {
                     SetIsChangedProperty(nameof(NumValue),
-                        Math.Abs(_baseDoubleToCompareInitial.Value - double.Parse(value)) > 0.0001);
+                        Math.Abs(_baseDoubleToCompareInitial - double.Parse(value)) > 0.0001);
                     RaisePropertyChanged();
                 }
             }
         }
-
+        public override void RefreshBaseValueToCompare()
+        {
+            _baseDoubleToCompareInitial = double.Parse(NumValue);
+            base.RefreshBaseValueToCompare();
+        }
         protected override void OnValidate()
         {
             // FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator(_localizerService, this._ushortsFormatter).Validate(this);

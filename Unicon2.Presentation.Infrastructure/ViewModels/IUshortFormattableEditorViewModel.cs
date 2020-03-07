@@ -6,7 +6,7 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels
     public interface IUshortFormattableEditorViewModel : INameable
     {
         string SelectedUshortFormatterName { get; }
-        ICommand ShowFormatterParameters { get; set; }
+        ICommand ShowFormatterParameters { get; }
         IUshortsFormatterViewModel RelatedUshortsFormatterViewModel { get; set; }
     }
 }

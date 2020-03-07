@@ -9,16 +9,21 @@ namespace Unicon2.Presentation.Subscription
     public class DeviceEventsDispatcher : IDeviceEventsDispatcher
     {
         private readonly Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
-            _deviceDataObservers;
+            _deviceMemoryObservers;
+
+        private readonly Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+            _localMemoryDataObservers;
 
         private readonly Dictionary<Guid, MemorySubscriptionCollection<IMemorySubscription>>
-            _localDataObservers;
+            _idObservers;
 
         public DeviceEventsDispatcher()
         {
-            _deviceDataObservers =
+            _deviceMemoryObservers =
                 new Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>();
-            _localDataObservers =
+            _localMemoryDataObservers =
+                new Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>();
+            _idObservers =
                 new Dictionary<Guid, MemorySubscriptionCollection<IMemorySubscription>>();
         }
 
@@ -36,37 +41,48 @@ namespace Unicon2.Presentation.Subscription
 
 
         private void AddDeviceSubscriptionToCollection(ushort address,
-            IMemorySubscription deviceDataMemorySubscription)
+            IMemorySubscription deviceDataMemorySubscription,
+            Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+                memoryDataObservers)
         {
-            if (!_deviceDataObservers.ContainsKey(address))
+            if (!memoryDataObservers.ContainsKey(address))
             {
-                _deviceDataObservers.Add(address,
+                memoryDataObservers.Add(address,
                     new MemorySubscriptionCollection<IMemorySubscription>(deviceDataMemorySubscription));
             }
             else
             {
-                if (_deviceDataObservers[address].Collection
+                if (_deviceMemoryObservers[address].Collection
                     .All(subscription => subscription != deviceDataMemorySubscription))
-                    _deviceDataObservers[address].Collection.Add(deviceDataMemorySubscription);
+                    memoryDataObservers[address].Collection.Add(deviceDataMemorySubscription);
             }
         }
 
 
         public void Dispose()
         {
-            _deviceDataObservers.Clear();
-            _localDataObservers.Clear();
+            _deviceMemoryObservers.Clear();
+            _idObservers.Clear();
 
         }
 
 
-        public Result AddAddressSubscription(ushort start, ushort length,
+        public Result AddDeviceAddressSubscription(ushort start, ushort length,
             IMemorySubscription memorySubscription)
+        {
+            return AddAddressSubscription(start, length,
+                memorySubscription, _deviceMemoryObservers);
+        }
+
+        private Result AddAddressSubscription(ushort start, ushort length,
+            IMemorySubscription memorySubscription,
+            Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+                memoryObservers)
         {
             var addresses = GetAddressesRelated(start,
                 length);
             if (addresses.All(address =>
-                _deviceDataObservers.ContainsKey(address) && _deviceDataObservers[address].Collection.Any(
+                memoryObservers.ContainsKey(address) && memoryObservers[address].Collection.Any(
                     subscription =>
                         subscription == memorySubscription)))
             {
@@ -75,51 +91,70 @@ namespace Unicon2.Presentation.Subscription
 
             foreach (var address in addresses)
             {
-                AddDeviceSubscriptionToCollection(address, memorySubscription);
+                AddDeviceSubscriptionToCollection(address, memorySubscription, memoryObservers);
             }
 
             return Result.Create(true);
         }
 
+        public Result AddLocalAddressSubscription(ushort start, ushort length,
+            IMemorySubscription memorySubscription)
+        {
+            return AddAddressSubscription(start, length,
+                memorySubscription, _localMemoryDataObservers);
+        }
+
         public Result AddSubscriptionById(IMemorySubscription subscription, Guid id)
         {
-            if (_localDataObservers.ContainsKey(id))
+            if (_idObservers.ContainsKey(id))
             {
-                if (_localDataObservers[id].Collection
+                if (_idObservers[id].Collection
                     .Any(subscriptionExisting => subscriptionExisting == subscription))
                 {
                     return Result.Create(true);
                 }
                 else
                 {
-                    _localDataObservers[id].Collection
+                    _idObservers[id].Collection
                         .Add(subscription);
                     return Result.Create(true);
 
                 }
             }
 
-            _localDataObservers.Add(id,
+            _idObservers.Add(id,
                 new MemorySubscriptionCollection<IMemorySubscription>(subscription));
             return Result.Create(true);
         }
 
-        public Result TriggerAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
+        public Result TriggerLocalAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
+        {
+            return TriggerAddressSubscription(triggeredAddress, numberOfPoints, _localMemoryDataObservers);
+        }
+
+        private Result TriggerAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
+            Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+                memoryDataObservers)
         {
             List<IMemorySubscription> deviceDataMemorySubscriptions =
                 new List<IMemorySubscription>();
             for (var i = triggeredAddress; i < triggeredAddress + numberOfPoints; i++)
             {
-                deviceDataMemorySubscriptions.AddRange(_deviceDataObservers[i].Collection);
+                deviceDataMemorySubscriptions.AddRange(memoryDataObservers[i].Collection);
             }
 
             deviceDataMemorySubscriptions.Distinct().ToList().ForEach(subscription => subscription.Execute());
             return Result.Create(true);
         }
 
+        public Result TriggerDeviceAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
+        {
+            return TriggerAddressSubscription(triggeredAddress, numberOfPoints, _deviceMemoryObservers);
+        }
+
         public Result TriggerSubscriptionById(Guid id)
         {
-            _localDataObservers[id].Collection.ForEach(subscription => subscription.Execute());
+            _idObservers[id].Collection.ForEach(subscription => subscription.Execute());
             return Result.Create(true);
         }
     }

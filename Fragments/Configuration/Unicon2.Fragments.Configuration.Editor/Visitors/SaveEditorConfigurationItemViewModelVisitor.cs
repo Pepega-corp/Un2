@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 
@@ -34,14 +35,16 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 property.Range = range;
             }
 
+            property.UshortsFormatter = _container.Resolve<ISaveFormatterService>()
+                .CreateUshortsFormatter(editorViewModel.RelatedUshortsFormatterViewModel);
             return InitDefaults(property, editorViewModel);
         }
 
         private IConfigurationItem InitDefaults(IConfigurationItem configurationItem,
             IEditorConfigurationItemViewModel editorConfigurationItemViewModel)
         {
-            editorConfigurationItemViewModel.Description = configurationItem.Description;
-            editorConfigurationItemViewModel.Header = configurationItem.Name;
+            configurationItem.Description = editorConfigurationItemViewModel.Description;
+            configurationItem.Name = editorConfigurationItemViewModel.Header;
             return configurationItem;
         }
 
@@ -64,8 +67,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         public IConfigurationItem VisitProperty(IPropertyEditorViewModel propertyViewModel)
         {
             var property = _container.Resolve<IProperty>();
-            property.Address = ushort.Parse(propertyViewModel.Address);
-            property.NumberOfPoints = ushort.Parse(propertyViewModel.NumberOfPoints);
+            property.Address = ushort.Parse(propertyViewModel.Address??"0");
+            property.NumberOfPoints = ushort.Parse(propertyViewModel.NumberOfPoints??"0");
             return InitializeProperty(propertyViewModel, property);
         }
 

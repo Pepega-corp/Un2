@@ -1,6 +1,7 @@
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Presentation.Factories
@@ -17,6 +18,7 @@ namespace Unicon2.Presentation.Factories
         {
             return formattedValue.Accept(new EditableValueViewModelFactory(formattedValue as IRangeable,
                 formattedValue as IMeasurable));
+
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             var selectedFormatterViewModel =
                 _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortsFormatterViewModel>();
             if (selectedFormatterViewModel == null) return;
-            this.CurrentResourceString = selectedFormatterViewModel.Name;
+            this.CurrentResourceString = selectedFormatterViewModel.StrongName;
             this.IsFormatterFromResource = true;
             this.SelectedUshortsFormatterViewModel = selectedFormatterViewModel as IUshortsFormatterViewModel;
 
@@ -106,6 +106,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 if (!((IDynamicFormatterViewModel) this.SelectedUshortsFormatterViewModel).IsValid) return;
             }
 
+            _ushortFormattableViewModel.RelatedUshortsFormatterViewModel = SelectedUshortsFormatterViewModel;
             // this._ushortFormattable.UshortsFormatter = this.SelectedUshortsFormatterViewModel.GetFormatter();
             (obj as Window)?.Close();
         }

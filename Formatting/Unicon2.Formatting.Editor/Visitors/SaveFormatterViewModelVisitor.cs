@@ -50,7 +50,12 @@ namespace Unicon2.Formatting.Editor.Visitors
 
         public IUshortsFormatter VisitFormulaFormatter(FormulaFormatterViewModel formatterViewModel)
         {
-            throw new NotImplementedException();
+            return new FormulaFormatter()
+            {
+                FormulaString = formatterViewModel.FormulaString,
+                NumberOfSimbolsAfterComma = formatterViewModel.NumberOfSimbolsAfterComma
+
+            };
         }
 
         public IUshortsFormatter VisitString1251Formatter(StringFormatter1251ViewModel formatterViewModel)

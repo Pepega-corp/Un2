@@ -13,6 +13,7 @@ using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Subscription;
@@ -67,6 +68,7 @@ namespace Unicon2.Fragments.Configuration.Factories
                 res.ChildStructItemViewModels.Add(configurationItem.Accept(this));
             }
 
+            res.IsMain = itemsGroup.IsMain ?? false;
             res.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
             InitializeBaseProperties(res, itemsGroup);
             return res;
@@ -76,12 +78,42 @@ namespace Unicon2.Fragments.Configuration.Factories
         {
             var res = _container.Resolve<IRuntimePropertyViewModel>();
             InitializeProperty(res, property);
-            _deviceEventsDispatcher.AddAddressSubscription(property.Address, property.NumberOfPoints,
+
+            _deviceEventsDispatcher.AddDeviceAddressSubscription(property.Address, property.NumberOfPoints,
                 new DeviceDataPropertyMemorySubscription(property, res, _container.Resolve<IValueViewModelFactory>(),
                     _deviceMemory));
+
+            var localValue = _container.Resolve<IFormattingService>().FormatValue(property.UshortsFormatter,
+                InitDefaultUshortsValue(property.NumberOfPoints));
+            var editableValue = _container.Resolve<IValueViewModelFactory>().CreateEditableValueViewModel(localValue);
+            var editSubscription = new LocalDataEditedSubscription(editableValue, _deviceMemory, property);
+            
+            res.LocalValue = editableValue;
+            editableValue.InitDispatcher(_deviceEventsDispatcher);
+            _deviceEventsDispatcher.AddSubscriptionById(editSubscription
+                , res.LocalValue.Id);
+            
+            var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(editableValue, _deviceMemory,
+                property.Address, property.NumberOfPoints);
+
+            _deviceEventsDispatcher.AddDeviceAddressSubscription(property.Address, property.NumberOfPoints,
+                setUnchangedSuscription);
+
+            var localDataSubscription = new LocalMemorySubscription(res.LocalValue, property.Address, property.NumberOfPoints, property.UshortsFormatter,_deviceMemory);
+            _deviceEventsDispatcher.AddLocalAddressSubscription(property.Address, property.NumberOfPoints,
+                localDataSubscription);
             return res;
         }
 
+        private ushort[] InitDefaultUshortsValue(ushort numOfPoints)
+        {
+            var res=new ushort[numOfPoints];
+            for (int i = 0; i < numOfPoints; i++)
+            {
+                res[i] = 0;
+            }
+            return res;
+        }
         public IRuntimeConfigurationItemViewModel VisitComplexProperty(IComplexProperty complexProperty)
         {
             var res = _container.Resolve<IRuntimeComplexPropertyViewModel>();

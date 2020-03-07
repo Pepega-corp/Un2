@@ -40,11 +40,12 @@ namespace Unicon2.Presentation.Factories
                         _container.Resolve<IFragmentViewModel>(deviceFragment.StrongName +
                                                                ApplicationGlobalNames.CommonInjectionStrings
                                                                    .VIEW_MODEL);
-                    fragmentViewModel.Initialize(deviceFragment);
                     if (fragmentViewModel is IDeviceDataProvider deviceDataProvider)
                     {
                         deviceDataProvider.SetDeviceData(device.Name, _deviceEventsDispatcher, device.DeviceMemory);
                     }
+                    fragmentViewModel.Initialize(deviceFragment);
+                  
 
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }

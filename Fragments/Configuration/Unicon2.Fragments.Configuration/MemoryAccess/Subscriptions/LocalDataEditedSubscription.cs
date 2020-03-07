@@ -12,12 +12,12 @@ using Unicon2.Presentation.Infrastructure.Visitors;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
-    public class LocalDataPropertyMemorySubscription : ILocalDataMemorySubscription
+    public class LocalDataEditedSubscription : ILocalDataMemorySubscription
     {
         private readonly IDeviceMemory _deviceMemory;
         private readonly IProperty _property;
 
-        public LocalDataPropertyMemorySubscription(IEditableValueViewModel editableValueViewModel,
+        public LocalDataEditedSubscription(IEditableValueViewModel editableValueViewModel,
             IDeviceMemory deviceMemory, IProperty property)
         {
             _deviceMemory = deviceMemory;

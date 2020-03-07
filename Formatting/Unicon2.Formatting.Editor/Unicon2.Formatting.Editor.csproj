@@ -87,6 +87,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\SaveFormatterService.cs" />
     <Compile Include="ViewModels\DefaultBitMaskFormatterViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFormatterViewModelVisitable.cs" />
     <Compile Include="ViewModels\StringFormatter1251ViewModel.cs" />

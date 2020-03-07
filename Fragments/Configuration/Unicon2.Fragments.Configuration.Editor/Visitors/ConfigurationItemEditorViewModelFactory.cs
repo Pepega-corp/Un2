@@ -91,6 +91,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 
             InitializeBaseProperties(runtimePropertyViewModel, property);
         }
+
         public IEditorConfigurationItemViewModel VisitItemsGroup(IItemsGroup itemsGroup)
         {
             var res = _container.Resolve<IConfigurationGroupEditorViewModel>();
@@ -102,6 +103,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                     res.ChildStructItemViewModels.Add(configurationItem.Accept(this.SetParent(res)));
                 }
 
+                res.IsMain = itemsGroup.IsMain ?? false;
                 res.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
                 InitializeBaseProperties(res, itemsGroup);
             }
@@ -109,7 +111,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             return res;
         }
 
-    
+
 
         public IEditorConfigurationItemViewModel VisitProperty(IProperty property)
         {

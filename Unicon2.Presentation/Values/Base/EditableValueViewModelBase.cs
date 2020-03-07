@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.Subscription;
@@ -25,19 +26,30 @@ namespace Unicon2.Presentation.Values.Base
             }
         }
 
-        public void InitSubscription(IMemorySubscription memorySubscription)
+        public void InitDispatcher(IDeviceEventsDispatcher deviceEventsDispatcher)
         {
-            _memorySubscription = memorySubscription;
+            _deviceEventsDispatcher = deviceEventsDispatcher;
         }
-
         public abstract T Accept<T>(IEditableValueViewModelVisitor<T> visitor);
         public IFormattedValue FormattedValue { get; set; }
+
+        public virtual void RefreshBaseValueToCompare()
+        {
+            foreach (var key in _signaturedIsChangedPropertyDictionary.Keys.ToList())
+            {
+                _signaturedIsChangedPropertyDictionary[key] = false;
+            }
+
+            RaisePropertyChanged(nameof(
+                IsFormattedValueChanged
+            ));
+        }
 
         private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary =
             new Dictionary<string, bool>();
 
         private bool _isEditEnabled;
-        private IMemorySubscription _memorySubscription;
+        private IDeviceEventsDispatcher _deviceEventsDispatcher;
 
         protected void SetIsChangedProperty(string propertyName, bool isChanged)
         {
@@ -52,7 +64,7 @@ namespace Unicon2.Presentation.Values.Base
 
             if (isChanged)
             {
-                _memorySubscription?.Execute();
+                _deviceEventsDispatcher?.TriggerSubscriptionById(Id);
             }
 
             RaisePropertyChanged(nameof(IsFormattedValueChanged));

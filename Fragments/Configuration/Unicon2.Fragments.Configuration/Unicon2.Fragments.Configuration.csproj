@@ -78,7 +78,9 @@
     <Compile Include="Factories\ConfigurationItemViewModelFactory.cs" />
     <Compile Include="MemoryAccess\ConfigurationMemoryAccessor.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
-    <Compile Include="MemoryAccess\Subscriptions\LocalDataPropertyMemorySubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\EditableValueSetUnchangedSubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\LocalDataEditedSubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\LocalMemorySubscription.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
     <Compile Include="Model\DefaultDeviceConfiguration.cs" />
     <Compile Include="Model\GroupWithReiterationInfo.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Views\ExportSelectionWindow.xaml.cs">
       <DependentUpon>ExportSelectionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visitors\EditableValueSetFromLocalVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

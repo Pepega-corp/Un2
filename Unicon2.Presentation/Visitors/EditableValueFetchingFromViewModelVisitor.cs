@@ -1,3 +1,4 @@
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Infrastructure.Visitors;
@@ -23,7 +24,9 @@ namespace Unicon2.Presentation.Visitors
 
         public IFormattedValue VisitNumericValueViewModel(INumericValueViewModel numericValueViewModel)
         {
-            throw new System.NotImplementedException();
+            var numericValue =(numericValueViewModel as IEditableValueViewModel)?.FormattedValue as INumericValue;
+            numericValue.NumValue = double.Parse(numericValueViewModel.NumValue);
+            return numericValue;
         }
 
         public IFormattedValue VisitStringValueViewModel(IStringValueViewModel stringValueViewModel)

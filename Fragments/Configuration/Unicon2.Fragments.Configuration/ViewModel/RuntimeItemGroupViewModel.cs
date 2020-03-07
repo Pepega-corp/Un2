@@ -70,5 +70,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             get => _isTableViewAllowed;
             set => SetProperty(ref _isTableViewAllowed, value);
         }
+
+        public bool IsMain { get; set; }
     }
 }

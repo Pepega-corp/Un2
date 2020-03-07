@@ -177,37 +177,22 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             this.FragmentOptionsViewModel =
                 (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, _container,
                     deviceConfiguration);
+            MainRows = FilterMainConfigItems(RootConfigurationItemViewModels);
         }
 
 
 
 
-        //private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
-        //    IEnumerable<IConfigurationItemViewModel> rootItems, bool isParentReiterable,
-        //    IGroupWithReiterationInfo groupWithReiterationInfo = null)
-        //{
-        //    var resultCollection = new ObservableCollection<MainConfigItemViewModel>();
-        //    resultCollection.AddCollection(rootItems.Where(item =>
-        //        item is IItemGroupViewModel itemGroupViewModel &&
-        //        ((itemGroupViewModel.Model as IItemsGroup).IsMain ?? true)).Select(item =>
-        //    {
-        //        //if (item is IItemGroupViewModel groupViewModelWithreit &&
-        //        //    groupViewModelWithreit.Model is IItemsGroup itemsGroup &&
-        //        //    itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiteration &&
-        //        //    groupWithReiteration.IsReiterationEnabled)
-        //        //{
-        //        //    return new MainConfigItemViewModel(
-        //        //        FilterMainConfigItems(item.ChildStructItemViewModels, true,groupWithReiterationInfo.SubGroups), item);
-        //        //}
-        //        //else
-        //        //{
-        //        return new MainConfigItemViewModel(
-        //            FilterMainConfigItems(item.ChildStructItemViewModels, isParentReiterable), item);
-
-
-        //    }));
-        //    return resultCollection;
-        //}
+        private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
+            IEnumerable<IConfigurationItemViewModel> rootItems)
+        {
+            var resultCollection = new ObservableCollection<MainConfigItemViewModel>();
+            resultCollection.AddCollection(rootItems.Where(item =>
+                item is IItemGroupViewModel itemGroupViewModel &&
+                itemGroupViewModel.IsMain).Select(item => new MainConfigItemViewModel(
+                FilterMainConfigItems(item.ChildStructItemViewModels), item)));
+            return resultCollection;
+        }
 
 
 

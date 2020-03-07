@@ -33,6 +33,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         
         private string _lastPath;
         private string _lastFileName;
+        private Type _typeNeeded;
         private const string DEFAULT_FOLDER = "SharedResources";
         private const string EXTENSION = ".sr";
 
@@ -131,7 +132,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         private bool CanExecuteSelectResource(object arg)
         {
-            return SelectedResourceViewModel != null && SelectedResourceViewModel.Model.GetType().GetInterfaces().Contains(_typeNeeded);
+            return SelectedResourceViewModel != null && SelectedResourceViewModel.GetType().GetInterfaces().Contains(_typeNeeded);
         }
 
         private bool CanExecuteOpenResourceForEditing(object _owner)
@@ -141,7 +142,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         private void OnOpenResourceForEditingExecute(object _owner)
         {
-            _sharedResourcesEditorFactory.OpenResourceForEdit(SelectedResourceViewModel.Model as INameable, _owner);
+            _sharedResourcesEditorFactory.OpenResourceForEdit(SelectedResourceViewModel, _owner);
         }
 
         private void OnCloseExecute(object obj)
@@ -203,7 +204,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             foreach (INameable sharedResource in deviceSharedResources.SharedResources)
             {
                 IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
-                resourceViewModel.Model = sharedResource;
+             //   resourceViewModel.Model = sharedResource;
                 ResourcesCollection.Add(resourceViewModel);
             }
             _isInitialized = true;
@@ -219,21 +220,19 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         }
 
-        public INameable OpenSharedResourcesForSelecting(Type typeNeeded)
+        public T OpenSharedResourcesForSelecting<T>()
         {
             if (!_isInitialized) throw new Exception();
-            IDeviceSharedResourcesViewModel deviceSharedResourcesViewModel = _container.Resolve<IDeviceSharedResourcesViewModel>();
-          //  deviceSharedResourcesViewModel.Model = this._deviceSharedResources;
-            deviceSharedResourcesViewModel.IsSelectingMode = true;
-            deviceSharedResourcesViewModel.Initialize(typeNeeded);
-            _applicationGlobalCommands.ShowWindowModal((() => new DeviceSharedResourcesView()), deviceSharedResourcesViewModel);
-            if (deviceSharedResourcesViewModel.SelectedResourceViewModel == null) return null;
-            return deviceSharedResourcesViewModel.SelectedResourceViewModel.Model as INameable;
+            IsSelectingMode = true;
+            _typeNeeded = typeof(T);
+            _applicationGlobalCommands.ShowWindowModal((() => new DeviceSharedResourcesView()), this);
+            if (SelectedResourceViewModel == null) return default(T);
+            return (T)SelectedResourceViewModel;
         }
 
         public bool CheckDeviceSharedResourcesContainsElement(INameable resource)
         {
-            return _deviceSharedResources.IsItemReferenced(resource.Name);
+            return ResourcesCollection.Any(model =>model==resource);
         }
 
         public void AddSharedResource(INameable resourceToAdd)
@@ -241,7 +240,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             if (!_isInitialized) throw new Exception();
             IResourcesAddingViewModel resourcesAddingViewModel = _container.Resolve<IResourcesAddingViewModel>();
             resourcesAddingViewModel.Model = resourceToAdd;
-            resourcesAddingViewModel.Initialize(_deviceSharedResources);
+            //resourcesAddingViewModel.Initialize(_deviceSharedResources);
             _applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
         }
     }
