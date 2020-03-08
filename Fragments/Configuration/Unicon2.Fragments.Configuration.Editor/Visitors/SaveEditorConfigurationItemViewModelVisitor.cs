@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
@@ -34,9 +35,9 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 range.RangeFrom = double.Parse(editorViewModel.RangeViewModel.RangeFrom);
                 property.Range = range;
             }
-
+			_container.Resolve<ISharedResourcesGlobalViewModel>().CheckDeviceSharedResourcesContainsElement()
             property.UshortsFormatter = _container.Resolve<ISaveFormatterService>()
-                .CreateUshortsFormatter(editorViewModel.RelatedUshortsFormatterViewModel);
+                .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
             return InitDefaults(property, editorViewModel);
         }
 

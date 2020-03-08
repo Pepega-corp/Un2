@@ -14,14 +14,14 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public ResourceEditingViewModel()
         {
-            this.CloseCommand = new RelayCommand<object>(OnCloseExecute);
+            CloseCommand = new RelayCommand<object>(OnCloseExecute);
         }
 
         private void OnCloseExecute(object obj)
         {
-            if (this._resourceEditorViewModel is IEditable)
+            if (_resourceEditorViewModel is IEditable)
             {
-                (this._resourceEditorViewModel as IEditable).StopEditElement();
+                (_resourceEditorViewModel as IEditable).StopEditElement();
             }
             if (obj is Window)
             {
@@ -32,10 +32,10 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public IViewModel ResourceEditorViewModel
         {
-            get { return this._resourceEditorViewModel; }
+            get { return _resourceEditorViewModel; }
             set
             {
-                this._resourceEditorViewModel = value;
+                _resourceEditorViewModel = value;
                 RaisePropertyChanged();
             }
         }

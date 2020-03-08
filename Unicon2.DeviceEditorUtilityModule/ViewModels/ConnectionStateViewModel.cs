@@ -24,42 +24,42 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public ConnectionStateViewModel(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel, IComPortConfigurationViewModel comPortConfigurationViewModel)
         {
-            this._sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
-            this.SelectTestConnectionProperty = new RelayCommand(this.OnSelectTestConnectionExecute);
-            this.SubmitCommand = new RelayCommand<object>(this.OnSubmitExecute);
-            this.CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
-            this.ExpectedValues = new ObservableCollection<StringWrapper>();
-            this.DeleteExpectedValueCommand = new RelayCommand<object>(this.OnDeleteExpectedValueExecute);
-            this.AddExpectedValueCommand = new RelayCommand(this.OnAddExpectedValueExecute);
-            this.DefaultComPortConfigurationViewModel = comPortConfigurationViewModel;
+            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+            SelectTestConnectionProperty = new RelayCommand(OnSelectTestConnectionExecute);
+            SubmitCommand = new RelayCommand<object>(OnSubmitExecute);
+            CancelCommand = new RelayCommand<object>(OnCancelExecute);
+            ExpectedValues = new ObservableCollection<StringWrapper>();
+            DeleteExpectedValueCommand = new RelayCommand<object>(OnDeleteExpectedValueExecute);
+            AddExpectedValueCommand = new RelayCommand(OnAddExpectedValueExecute);
+            DefaultComPortConfigurationViewModel = comPortConfigurationViewModel;
         }
 
         private void OnAddExpectedValueExecute()
         {
-            this.ExpectedValues.Add(new StringWrapper(""));
+            ExpectedValues.Add(new StringWrapper(""));
         }
 
         private void OnDeleteExpectedValueExecute(object obj)
         {
-            if ((obj is StringWrapper) && (this.ExpectedValues.Contains(obj as StringWrapper)))
+            if ((obj is StringWrapper) && (ExpectedValues.Contains(obj as StringWrapper)))
             {
-                this.ExpectedValues.Remove(obj as StringWrapper);
+                ExpectedValues.Remove(obj as StringWrapper);
             }
         }
 
         private void OnCancelExecute(object obj)
         {
            // this._model.DeviceValueContaining = this._previousDeviceValueContaining;
-            this._model.DefaultComPortConfiguration = this._previousComPortConfiguration;
-            this.CloseWindow(obj);
+            _model.DefaultComPortConfiguration = _previousComPortConfiguration;
+            CloseWindow(obj);
         }
 
         private void OnSubmitExecute(object obj)
         {
-            this._model.ExpectedValues = this.ExpectedValues.Select((wrapper => wrapper.StringValue)).ToList();
-            this._model.DefaultComPortConfiguration = this.DefaultComPortConfigurationViewModel.Model as IComPortConfiguration;
+            _model.ExpectedValues = ExpectedValues.Select((wrapper => wrapper.StringValue)).ToList();
+            _model.DefaultComPortConfiguration = DefaultComPortConfigurationViewModel.Model as IComPortConfiguration;
 
-            this.CloseWindow(obj);
+            CloseWindow(obj);
         }
 
 
@@ -71,10 +71,10 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnSelectTestConnectionExecute()
         {
             IUshortFormattable ushortFormattable =
-                this._sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortFormattable>();
+                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortFormattable>();
             if (ushortFormattable == null) return;
            // this._model.DeviceValueContaining = ushortFormattable as IDeviceValueContaining;
-            this.RaisePropertyChanged(nameof(this.SelectedPropertyString));
+            RaisePropertyChanged(nameof(SelectedPropertyString));
         }
 
 
@@ -85,25 +85,25 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             get
             {
 
-                return this._model;
+                return _model;
 
             }
             set
             {
-                this._model = value as IConnectionState;
-                this.ExpectedValues.Clear();
-                if (this._model.ExpectedValues == null)
+                _model = value as IConnectionState;
+                ExpectedValues.Clear();
+                if (_model.ExpectedValues == null)
                 {
-                    this._model.ExpectedValues = new List<string>();
+                    _model.ExpectedValues = new List<string>();
                 }
-                this.ExpectedValues.AddCollection(this._model.ExpectedValues.Select(s => new StringWrapper(s)));
+                ExpectedValues.AddCollection(_model.ExpectedValues.Select(s => new StringWrapper(s)));
              //   this._previousDeviceValueContaining = this._model.DeviceValueContaining;
-                if (this._model.DefaultComPortConfiguration != null)
+                if (_model.DefaultComPortConfiguration != null)
                 {
-                    this._previousComPortConfiguration = this._model.DefaultComPortConfiguration.Clone() as IComPortConfiguration;
-                    this.DefaultComPortConfigurationViewModel.Model = this._model.DefaultComPortConfiguration;
+                    _previousComPortConfiguration = _model.DefaultComPortConfiguration.Clone() as IComPortConfiguration;
+                    DefaultComPortConfigurationViewModel.Model = _model.DefaultComPortConfiguration;
                 }
-                this.RaisePropertyChanged(nameof(this.SelectedPropertyString));
+                RaisePropertyChanged(nameof(SelectedPropertyString));
             }
         }
 
@@ -111,7 +111,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public IComPortConfigurationViewModel DefaultComPortConfigurationViewModel { get; }
 
-        public string SelectedPropertyString => this._model.DeviceValueContaining?.Name;
+        public string SelectedPropertyString => _model.DeviceValueContaining?.Name;
         public ICommand SelectTestConnectionProperty { get; }
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }

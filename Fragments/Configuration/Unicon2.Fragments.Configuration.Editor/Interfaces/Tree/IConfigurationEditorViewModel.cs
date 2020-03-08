@@ -10,7 +10,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
     public interface IConfigurationEditorViewModel : IConfigurationViewModel, IFragmentEditorViewModel,
-        IChildItemRemovable, IResourceContaining
+        IChildItemRemovable
     {
         IEditorConfigurationItemViewModel SelectedRow { get; set; }
         ICommand AddRootGroupElementCommand { get; set; }

@@ -14,40 +14,40 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public string Name
         {
-            get { return this._name; }
+            get { return _name; }
             set
             {
-                this._name = value;
+                _name = value;
                 RaisePropertyChanged();
             }
         }
 
         public bool IsInEditMode
         {
-            get { return this._isInEditMode; }
+            get { return _isInEditMode; }
             set
             {
-                this._isInEditMode = value;
+                _isInEditMode = value;
                 RaisePropertyChanged();
             }
         }
 
         public void StartEditElement()
         {
-            this.IsInEditMode = true;
+            IsInEditMode = true;
         }
 
         public void StopEditElement()
         {
-            this.IsInEditMode = false;
+            IsInEditMode = false;
         }
 
         public string ResourceStrongName
         {
-            get { return this._resourceStrongName; }
+            get { return _resourceStrongName; }
             set
             {
-                this._resourceStrongName = value;
+                _resourceStrongName = value;
                 RaisePropertyChanged();
             }
         }

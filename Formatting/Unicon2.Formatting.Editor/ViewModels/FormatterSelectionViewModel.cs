@@ -106,7 +106,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 if (!((IDynamicFormatterViewModel) this.SelectedUshortsFormatterViewModel).IsValid) return;
             }
 
-            _ushortFormattableViewModel.RelatedUshortsFormatterViewModel = SelectedUshortsFormatterViewModel;
+            _ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel = SelectedUshortsFormatterViewModel;
             // this._ushortFormattable.UshortsFormatter = this.SelectedUshortsFormatterViewModel.GetFormatter();
             (obj as Window)?.Close();
         }

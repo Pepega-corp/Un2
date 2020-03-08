@@ -39,7 +39,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
-        private IConfigurationItem _bufferConfigurationItem;
+        private IEditorConfigurationItemViewModel _bufferConfigurationItem;
         private string _deviceName;
 
         public ConfigurationEditorViewModel(
@@ -178,19 +178,17 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnPasteAsChildElementExecute()
         {
-            //if (this.SelectedRow is IAsChildPasteable)
-            //{
+			if (this.SelectedRow is IAsChildPasteable)
+			{
 
-            //    IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
-            //        this._configurationItemEditorViewModelFactory.ResolveConfigurationItemEditorViewModel(
-            //            this._bufferConfigurationItem.Clone() as IConfigurationItem, this.SelectedRow);
-            //    (this.SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
+				IEditorConfigurationItemViewModel editorConfigurationItemViewModel =_bufferConfigurationItem.Clone() as IEditorConfigurationItemViewModel;
+				(this.SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
 
-            //    this.PrepareAdding();
-            //    this.SelectedRow = editorConfigurationItemViewModel;
-            //    this.CompleteAdding();
-            //}
-        }
+				this.PrepareAdding();
+				this.SelectedRow = editorConfigurationItemViewModel;
+				this.CompleteAdding();
+			}
+		}
 
         private bool CanExecuteCopyElement()
         {
@@ -199,11 +197,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnCopyElementExecute()
         {
-            //if (this.SelectedRow is ICloneable)
-            //{
-            //    this._bufferConfigurationItem = (this.SelectedRow.Model as IConfigurationItem);
-            //}
-        }
+			if (this.SelectedRow is ICloneable)
+			{
+				this._bufferConfigurationItem = SelectedRow;
+			}
+		}
 
         private void OnOpenConfigurationSettingsExecute()
         {
@@ -347,8 +345,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnShowFormatterParametersExecute()
         {
-            if (!(this.SelectedRow is IUshortFormattableEditorViewModel)) return;
-            (this.SelectedRow as IUshortFormattableEditorViewModel).ShowFormatterParameters.Execute(null);
+	        (SelectedRow as IUshortFormattableEditorViewModel)?.FormatterParametersViewModel.ShowFormatterParameters();
         }
 
         private bool CanExecuteDeleteElement()

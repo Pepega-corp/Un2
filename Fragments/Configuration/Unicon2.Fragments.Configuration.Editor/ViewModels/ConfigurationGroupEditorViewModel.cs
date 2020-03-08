@@ -22,50 +22,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public class ConfigurationGroupEditorViewModel : EditorConfigurationItemViewModelBase, IConfigurationGroupEditorViewModel
     {
-        private ObservableCollection<IPropertyViewModel> _properties;
         private bool _isInEditMode;
-        private ushort _addressIteratorValue = 1;
         private bool _isTableViewAllowed;
         private bool _isMain;
         private bool _isGroupWithReiteration;
-
-        public ConfigurationGroupEditorViewModel()
-        {
-            IncreaseAddressCommand = new RelayCommand(OnIncreaseAddressExecute);
-            DecreaseAddressCommand = new RelayCommand(OnDecreaseAddressExecute);
-
-        }
-
-        private void OnDecreaseAddressExecute()
-        {
-            foreach (IConfigurationItemViewModel childStructItemViewModel in ChildStructItemViewModels)
-            {
-                (childStructItemViewModel as IAddressIncreaseableDecreaseable).AddressIteratorValue = AddressIteratorValue;
-                (childStructItemViewModel as IAddressIncreaseableDecreaseable)?.DecreaseAddressCommand?.Execute(null);
-            }
-        }
-
-        private void OnIncreaseAddressExecute()
-        {
-            foreach (IConfigurationItemViewModel childStructItemViewModel in ChildStructItemViewModels)
-            {
-                (childStructItemViewModel as IAddressIncreaseableDecreaseable).AddressIteratorValue = AddressIteratorValue;
-                (childStructItemViewModel as IAddressIncreaseableDecreaseable)?.IncreaseAddressCommand?.Execute(null);
-            }
-        }
-
-        public ushort AddressIteratorValue
-        {
-            get
-            {
-                return _addressIteratorValue;
-            }
-            set
-            {
-                _addressIteratorValue = value;
-                RaisePropertyChanged();
-            }
-        }
+		
 
         public bool IsInEditMode
         {
@@ -276,5 +237,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             ChildStructItemViewModels.Remove(
                 ChildStructItemViewModels.First((model => model == configurationItemViewModelToRemove)));
         }
+
+        public void ChangeAddress(ushort addressOffset, bool isIncrease)
+        {
+			foreach (IConfigurationItemViewModel childStructItemViewModel in ChildStructItemViewModels)
+			{
+				(childStructItemViewModel as IAddressChangeable)?.ChangeAddress(addressOffset, isIncrease);
+			}
+		}
     }
 }

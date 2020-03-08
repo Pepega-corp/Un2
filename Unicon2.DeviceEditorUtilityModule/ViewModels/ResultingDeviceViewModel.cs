@@ -38,33 +38,31 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             IFragmentEditorViewModelFactory fragmentEditorViewModelFactory,
             IConnectionStateViewModelFactory connectionStateViewModelFactory)
         {
-            this._device = device;
-            this._container = container;
-            this._deviceSharedResources = deviceSharedResources;
-            this._applicationGlobalCommands = applicationGlobalCommands;
-            this._sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
-            this._fragmentEditorViewModelFactory = fragmentEditorViewModelFactory;
-            this._connectionStateViewModelFactory = connectionStateViewModelFactory;
-            this._availableEditorFragments = new ObservableCollection<IFragmentEditorViewModel>();
-            this.AddFragmentCommand = new RelayCommand<IFragmentEditorViewModel>(this.OnExecuteAddFragment);
+            _device = device;
+            _container = container;
+            _deviceSharedResources = deviceSharedResources;
+            _applicationGlobalCommands = applicationGlobalCommands;
+            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+            _fragmentEditorViewModelFactory = fragmentEditorViewModelFactory;
+            _connectionStateViewModelFactory = connectionStateViewModelFactory;
+            _availableEditorFragments = new ObservableCollection<IFragmentEditorViewModel>();
+            AddFragmentCommand = new RelayCommand<IFragmentEditorViewModel>(OnExecuteAddFragment);
 
-            IEnumerable<IFragmentEditorViewModel> fragments = this._container.ResolveAll<IFragmentEditorViewModel>();
+            IEnumerable<IFragmentEditorViewModel> fragments = _container.ResolveAll<IFragmentEditorViewModel>();
             foreach (IFragmentEditorViewModel fragment in fragments)
             {
-                (fragment as IResourceContaining)?.SetResources(deviceSharedResources);
-                this.AvailableEditorFragments.Add(fragment);
+                AvailableEditorFragments.Add(fragment);
             }
-
-            this.DeviceName = localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.NEW_DEVICE_STRING);
-            this.FragmentEditorViewModels = new ObservableCollection<IFragmentEditorViewModel>();
+            DeviceName = localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.NEW_DEVICE_STRING);
+            FragmentEditorViewModels = new ObservableCollection<IFragmentEditorViewModel>();
             sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
-            this.NavigateToConnectionTestingCommand = new RelayCommand(this.OnNavigateToConnectionTestingExecute);
+            NavigateToConnectionTestingCommand = new RelayCommand(OnNavigateToConnectionTestingExecute);
         }
 
         private void OnNavigateToConnectionTestingExecute()
         {
-            this._applicationGlobalCommands.ShowWindowModal(
-                () => new ConnectionTestingWindow(), this._connectionStateViewModelFactory.CreateConnectionStateViewModel(this._device.ConnectionState));
+            _applicationGlobalCommands.ShowWindowModal(
+                () => new ConnectionTestingWindow(), _connectionStateViewModelFactory.CreateConnectionStateViewModel(_device.ConnectionState));
         }
 
 
@@ -73,9 +71,9 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             if (fragmentEditorViewModel == null) return;
             if (!(fragmentEditorViewModel is INameable))
             {
-                if (this.FragmentEditorViewModels.Any((model => model.NameForUiKey == fragmentEditorViewModel.NameForUiKey)))
+                if (FragmentEditorViewModels.Any((model => model.NameForUiKey == fragmentEditorViewModel.NameForUiKey)))
                     return;
-                this.FragmentEditorViewModels.Add(fragmentEditorViewModel);
+                FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
             else
             {
@@ -88,70 +86,67 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public ObservableCollection<IFragmentEditorViewModel> AvailableEditorFragments
         {
-            get { return this._availableEditorFragments; }
+            get { return _availableEditorFragments; }
             set
             {
-                this._availableEditorFragments = value;
-                this.RaisePropertyChanged();
+                _availableEditorFragments = value;
+                RaisePropertyChanged();
             }
         }
 
         public void OpenSharedResources()
         {
-            this._sharedResourcesGlobalViewModel.OpenSharedResourcesForEditing();
+            _sharedResourcesGlobalViewModel.OpenSharedResourcesForEditing();
         }
 
 
 
         public ObservableCollection<IFragmentEditorViewModel> FragmentEditorViewModels
         {
-            get { return this._fragmentEditorViewModels; }
+            get { return _fragmentEditorViewModels; }
             set
             {
-                this._fragmentEditorViewModels = value;
-                this.RaisePropertyChanged();
+                _fragmentEditorViewModels = value;
+                RaisePropertyChanged();
             }
         }
 
 
         public void LoadDevice(string path)
         {
-            this._device.DeserializeFromFile(path);
-            this.FragmentEditorViewModels.Clear();
-            foreach (IDeviceFragment fragment in this._device.DeviceFragments)
+            _device.DeserializeFromFile(path);
+            FragmentEditorViewModels.Clear();
+            foreach (IDeviceFragment fragment in _device.DeviceFragments)
             {
-                IFragmentEditorViewModel fragmentEditorViewModel = this._fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
+                IFragmentEditorViewModel fragmentEditorViewModel = _fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
                 fragmentEditorViewModel.Initialize(fragment);
-                if (fragmentEditorViewModel is IResourceContaining)
-                {
-                    (fragmentEditorViewModel as IResourceContaining).SetResources(this._device.DeviceSharedResources);
-                }
-                this.FragmentEditorViewModels.Add(fragmentEditorViewModel);
+                _sharedResourcesGlobalViewModel.InitializeFromResources(_device.DeviceSharedResources);
+                FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
-            this._deviceSharedResources = this._device.DeviceSharedResources;
-            this._sharedResourcesGlobalViewModel.InitializeFromResources(this._deviceSharedResources);
-            this.DeviceName = this._device.Name;
+            _deviceSharedResources = _device.DeviceSharedResources;
+            _sharedResourcesGlobalViewModel.InitializeFromResources(_deviceSharedResources);
+            DeviceName = _device.Name;
         }
 
         public void SaveDevice(string path, bool isDefaultSaving = true)
         {
-            this._device.Name = this.DeviceName;
-            this._device.DeviceFragments = new List<IDeviceFragment>();
-            this._device.DeviceSharedResources = this._deviceSharedResources;
-            foreach (IFragmentEditorViewModel fragmentEditorViewModel in this.FragmentEditorViewModels)
+            _device.Name = DeviceName;
+            _device.DeviceFragments = new List<IDeviceFragment>();
+            _device.DeviceSharedResources = _deviceSharedResources;
+            foreach (IFragmentEditorViewModel fragmentEditorViewModel in FragmentEditorViewModels)
             {
-                (this._device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.BuildDeviceFragment());
+                (_device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.BuildDeviceFragment());
             }
-            this._device.SerializeInFile(path, isDefaultSaving);
+            _device.SerializeInFile(path, isDefaultSaving);
         }
 
         public string DeviceName
         {
-            get { return this._deviceName; }
+            get { return _deviceName; }
             set
             {
-                this._deviceName = value;
-                this.RaisePropertyChanged();
+                _deviceName = value;
+                RaisePropertyChanged();
             }
         }
 

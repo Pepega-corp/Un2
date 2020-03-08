@@ -16,8 +16,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public ResourcesAddingViewModel()
         {
-            this.SubmitCommand = new RelayCommand(this.OnSubmitExecute);
-            this.CloseCommand = new RelayCommand<object>(this.OnCloseExecute);
+            SubmitCommand = new RelayCommand(OnSubmitExecute);
+            CloseCommand = new RelayCommand<object>(OnCloseExecute);
 
         }
 
@@ -29,10 +29,10 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         private void OnSubmitExecute()
         {
-            this._resource.Name = this.NameKey;
-            this._deviceSharedResources.AddResource(this._resource);
-            this.IsResourceAdded = true;
-            this.RaisePropertyChanged(nameof(this.IsResourceAdded));
+            _resource.Name = NameKey;
+            _deviceSharedResources.AddResource(_resource);
+            IsResourceAdded = true;
+            RaisePropertyChanged(nameof(IsResourceAdded));
         }
 
 
@@ -40,11 +40,11 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public string NameKey
         {
-            get { return this._nameKey; }
+            get { return _nameKey; }
             set
             {
-                this._nameKey = value;
-                this.RaisePropertyChanged();
+                _nameKey = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -54,15 +54,15 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public void Initialize(IDeviceSharedResources deviceSharedResources)
         {
-            this._deviceSharedResources = deviceSharedResources;
+            _deviceSharedResources = deviceSharedResources;
         }
 
         public string StrongName => nameof(ResourcesAddingViewModel);
 
         public object Model
         {
-            get { return this._resource; }
-            set { this._resource = value as INameable; }
+            get { return _resource; }
+            set { _resource = value as INameable; }
         }
     }
 }
