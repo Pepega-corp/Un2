@@ -24,7 +24,7 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
         {
             if (isLocal)
             {
-                 SetUshortsInMemoryDictionary(deviceMemory.LocalMemoryValues, address, values);
+                SetUshortsInMemoryDictionary(deviceMemory.LocalMemoryValues, address, values);
             }
             else
             {
@@ -32,25 +32,28 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
             }
         }
 
-        private static void SetUshortsInMemoryDictionary(Dictionary<ushort, ushort> configurationMemoryLocalMemoryValues, ushort address, ushort[] values)
+        private static void SetUshortsInMemoryDictionary(
+            Dictionary<ushort, ushort> configurationMemoryLocalMemoryValues, ushort address, ushort[] values)
         {
             ushort addressCurrent = address;
             foreach (var value in values)
             {
-                if(configurationMemoryLocalMemoryValues.ContainsKey(addressCurrent))
+                if (configurationMemoryLocalMemoryValues.ContainsKey(addressCurrent))
                 {
                     configurationMemoryLocalMemoryValues[addressCurrent] = value;
                 }
                 else
                 {
-                    configurationMemoryLocalMemoryValues.Add(addressCurrent,value);
+                    configurationMemoryLocalMemoryValues.Add(addressCurrent, value);
                 }
+
                 addressCurrent++;
             }
         }
 
 
-        private static ushort[] GetUshortsFromMemoryDictionary(Dictionary<ushort, ushort> configurationMemoryValues, ushort address, ushort numberOfPoints)
+        private static ushort[] GetUshortsFromMemoryDictionary(Dictionary<ushort, ushort> configurationMemoryValues,
+            ushort address, ushort numberOfPoints)
         {
             var result = new ushort[numberOfPoints];
             var counter = 0;
@@ -58,6 +61,7 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
             {
                 result[counter++] = configurationMemoryValues[i];
             }
+
             return result;
         }
 

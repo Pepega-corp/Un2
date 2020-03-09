@@ -8,7 +8,7 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
@@ -35,7 +35,16 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 range.RangeFrom = double.Parse(editorViewModel.RangeViewModel.RangeFrom);
                 property.Range = range;
             }
-			_container.Resolve<ISharedResourcesGlobalViewModel>().CheckDeviceSharedResourcesContainsElement()
+
+            if (_container.Resolve<ISharedResourcesGlobalViewModel>()
+                .CheckDeviceSharedResourcesContainsViewModel(editorViewModel.FormatterParametersViewModel))
+            {
+                
+            }
+            else
+            {орва
+                
+            }
             property.UshortsFormatter = _container.Resolve<ISaveFormatterService>()
                 .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
             return InitDefaults(property, editorViewModel);
@@ -68,8 +77,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         public IConfigurationItem VisitProperty(IPropertyEditorViewModel propertyViewModel)
         {
             var property = _container.Resolve<IProperty>();
-            property.Address = ushort.Parse(propertyViewModel.Address??"0");
-            property.NumberOfPoints = ushort.Parse(propertyViewModel.NumberOfPoints??"0");
+            property.Address = ushort.Parse(propertyViewModel.Address ?? "0");
+            property.NumberOfPoints = ushort.Parse(propertyViewModel.NumberOfPoints ?? "0");
             return InitializeProperty(propertyViewModel, property);
         }
 

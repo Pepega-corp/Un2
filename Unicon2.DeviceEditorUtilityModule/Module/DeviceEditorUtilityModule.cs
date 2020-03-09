@@ -4,7 +4,7 @@ using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
 using Unicon2.DeviceEditorUtilityModule.ViewModels;
 using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 using Unicon2.Unity.Interfaces;
 

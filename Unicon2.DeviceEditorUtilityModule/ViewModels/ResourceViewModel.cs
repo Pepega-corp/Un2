@@ -6,22 +6,12 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 {
     public class ResourceViewModel : ViewModelBase, IResourceViewModel
     {
-        private string _name;
         private bool _isInEditMode;
         private string _resourceStrongName;
 
         public string StrongName => nameof(ResourceViewModel);
 
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                RaisePropertyChanged();
-            }
-        }
-
+      
         public bool IsInEditMode
         {
             get { return _isInEditMode; }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 
 namespace Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources

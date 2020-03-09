@@ -11,8 +11,8 @@ using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -34,6 +34,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		private string _lastPath;
 		private string _lastFileName;
 		private Type _typeNeeded;
+		private IDeviceSharedResources _deviceSharedResources;
 		private const string DEFAULT_FOLDER = "SharedResources";
 		private const string EXTENSION = ".sr";
 
@@ -198,6 +199,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		public void InitializeFromResources(IDeviceSharedResources deviceSharedResources)
 		{
 			ResourcesCollection.Clear();
+			_deviceSharedResources = deviceSharedResources;
 			foreach (INameable sharedResource in deviceSharedResources.SharedResources)
 			{
 				IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
@@ -229,9 +231,19 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			return (T) SelectedResourceViewModel;
 		}
 
-		public bool CheckDeviceSharedResourcesContainsElement(INameable resource)
+		public bool CheckDeviceSharedResourcesContainsModel(INameable resource)
 		{
-			return ResourcesCollection.Any(model => model == resource);
+			return _deviceSharedResources.SharedResources.Any(nameable => nameable == resource);
+		}
+
+		public bool CheckDeviceSharedResourcesContainsViewModel(INameable resource)
+		{
+			return ResourcesCollection.Any(model => model.RelatedEditorItemViewModel.Name == resource.Name);
+		}
+
+		public INameable GetResourceViewModel(string name)
+		{
+			return ResourcesCollection.FirstOrDefault(model => model.RelatedEditorItemViewModel.Name == name)?.RelatedEditorItemViewModel;
 		}
 
 		public void AddSharedResource(INameable resourceToAdd)

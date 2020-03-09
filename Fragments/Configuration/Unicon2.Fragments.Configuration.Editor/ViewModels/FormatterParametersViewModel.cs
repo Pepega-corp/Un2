@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
-	public class FormatterParametersViewModel:ViewModelBase, IFormatterParametersViewModel
+	public class FormatterParametersViewModel : ViewModelBase, IFormatterParametersViewModel
 	{
 		private IUshortsFormatterViewModel _relatedUshortsFormatterViewModel;
 		private bool _isFromSharedResources;
+		private string _name;
 
 		public FormatterParametersViewModel()
 		{
@@ -29,7 +31,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 			get => _relatedUshortsFormatterViewModel;
 			set
 			{
-				_relatedUshortsFormatterViewModel = value; 
+				_relatedUshortsFormatterViewModel = value;
 				RaisePropertyChanged();
 			}
 		}
@@ -39,7 +41,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 			get => _isFromSharedResources;
 			set
 			{
-				_isFromSharedResources = value; 
+				_isFromSharedResources = value;
 				RaisePropertyChanged();
 			}
 		}
@@ -48,12 +50,26 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 		{
 			if (IsFromSharedResources)
 			{
-				return new FormatterParametersViewModel();
-			}r
+				return this;
+			}
+
 			return new FormatterParametersViewModel()
 			{
-				 RelatedUshortsFormatterViewModel = RelatedUshortsFormatterViewModel
+				RelatedUshortsFormatterViewModel =
+					RelatedUshortsFormatterViewModel.Clone() as IUshortsFormatterViewModel,
+				Name = Name,
+				IsFromSharedResources = false
 			};
+		}
+
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				_name = value;
+				RaisePropertyChanged();
+			}
 		}
 	}
 }

@@ -4,8 +4,9 @@ using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
 using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.DeviceEditorUtilityModule.Factories
@@ -19,7 +20,7 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
             this._container = container;
         }
 
-        public void OpenResourceForEdit(INameable resource, object _owner)
+        public void OpenResourceForEdit(IResourceViewModel resource, object _owner)
         {
             IStronglyNamed stronglyNamed = resource as IStronglyNamed;
 

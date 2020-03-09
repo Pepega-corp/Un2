@@ -22,7 +22,7 @@ using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;

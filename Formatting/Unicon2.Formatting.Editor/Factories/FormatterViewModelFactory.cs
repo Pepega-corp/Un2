@@ -8,11 +8,12 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Formatting.Editor.Factories
 {
-    public class FormatterViewModelFactory : IFormatterVisitor<IUshortsFormatterViewModel>
+    public class FormatterViewModelFactory : IFormatterViewModelFactory, IFormatterVisitor<IUshortsFormatterViewModel>
     {
         public IUshortsFormatterViewModel VisitBoolFormatter(IUshortsFormatter formatter)
         {
@@ -86,6 +87,11 @@ namespace Unicon2.Formatting.Editor.Factories
         public IUshortsFormatterViewModel VisitMatrixFormatter(IUshortsFormatter formatter)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IUshortsFormatterViewModel CreateFormatterViewModel(IUshortsFormatter ushortsFormatter)
+        {
+            return ushortsFormatter.Accept(this);
         }
     }
 }

@@ -9,7 +9,6 @@ using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;

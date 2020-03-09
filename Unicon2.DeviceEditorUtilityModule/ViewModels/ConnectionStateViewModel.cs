@@ -7,7 +7,7 @@ using Unicon2.DeviceEditorUtilityModule.Interfaces;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;

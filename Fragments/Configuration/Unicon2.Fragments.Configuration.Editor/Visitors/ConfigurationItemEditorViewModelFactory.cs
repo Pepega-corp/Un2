@@ -5,7 +5,9 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 
@@ -16,6 +18,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         public static ConfigurationItemEditorViewModelFactory SetParent(
             this ConfigurationItemEditorViewModelFactory factory, IEditorConfigurationItemViewModel parent)
         {
+            factory.Parent = parent;
             return factory;
         }
     }
@@ -75,6 +78,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 configurationViewModel.Level = Parent.Level + 1;
             }
         }
+
         private void InitializeProperty(IPropertyEditorViewModel runtimePropertyViewModel, IProperty property)
         {
             runtimePropertyViewModel.IsMeasureUnitEnabled = property.IsMeasureUnitEnabled;
@@ -88,6 +92,33 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 
                 runtimePropertyViewModel.RangeViewModel = rangeViewModel;
             }
+
+            var sharedResourcesGlobalViewModel = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+            if (sharedResourcesGlobalViewModel
+                .CheckDeviceSharedResourcesContainsModel(property.UshortsFormatter))
+            {
+                if (!sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(
+                    property.UshortsFormatter))
+                {
+                    var formatterViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+                        .CreateFormatterViewModel(property.UshortsFormatter);
+                    var formatterParametersViewModel = new FormatterParametersViewModel()
+                    {
+                        Name = property.UshortsFormatter.Name,
+                        IsFromSharedResources = true,
+                        RelatedUshortsFormatterViewModel = formatterViewModel
+                    };
+                    sharedResourcesGlobalViewModel.AddSharedResource(formatterParametersViewModel);
+                    runtimePropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
+                }
+                else
+                {
+                    runtimePropertyViewModel.FormatterParametersViewModel =
+                        sharedResourcesGlobalViewModel.GetResourceViewModel(property.UshortsFormatter.Name) as
+                            IFormatterParametersViewModel;
+                }
+            }
+
 
             InitializeBaseProperties(runtimePropertyViewModel, property);
         }

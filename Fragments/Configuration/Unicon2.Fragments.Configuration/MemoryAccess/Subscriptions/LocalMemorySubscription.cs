@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         public void Execute()
         {
             var localValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(_ushortsFormatter,
-                MemoryAccessor.GetUshortsFromMemory(_deviceMemory,_address,_numberOfPoints,true));
+                MemoryAccessor.GetUshortsFromMemory(_deviceMemory, _address, _numberOfPoints, true));
             _editableValueViewModel.Accept(new EditableValueSetFromLocalVisitor(localValue));
             _editableValueViewModel.RefreshBaseValueToCompare();
         }

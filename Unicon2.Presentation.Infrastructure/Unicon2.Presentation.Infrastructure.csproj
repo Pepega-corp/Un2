@@ -64,8 +64,11 @@
   <ItemGroup>
     <Compile Include="Enums\PlacementEnum.cs" />
     <Compile Include="Factories\IDeviceViewModelFactory.cs" />
+    <Compile Include="Factories\IFormatterViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentPaneViewModelFactory.cs" />
+    <Compile Include="Factories\ISharedResourcesEditorFactory.cs" />
+    <Compile Include="Factories\ISharedResourcesGlobalViewModel.cs" />
     <Compile Include="Factories\IValueViewModelFactory.cs" />
     <Compile Include="FragmentSettings\IFragmentSettingViewModel.cs" />
     <Compile Include="FragmentSettings\IQuickAccessMemorySettingViewModel.cs" />

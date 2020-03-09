@@ -2,7 +2,6 @@
 using Unicon2.Formatting.Editor.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Interfaces;

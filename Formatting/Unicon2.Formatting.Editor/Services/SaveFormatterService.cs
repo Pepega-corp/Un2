@@ -6,7 +6,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Formatting.Editor.Services
 {
-    public class SaveFormatterService: ISaveFormatterService
+    public class SaveFormatterService : ISaveFormatterService
     {
         public IUshortsFormatter CreateUshortsFormatter(IUshortsFormatterViewModel ushortsFormatterViewModel)
         {
@@ -14,6 +14,7 @@ namespace Unicon2.Formatting.Editor.Services
             {
                 return ushortsFormatterViewModelBase.Accept(new SaveFormatterViewModelVisitor());
             }
+
             return null;
         }
     }

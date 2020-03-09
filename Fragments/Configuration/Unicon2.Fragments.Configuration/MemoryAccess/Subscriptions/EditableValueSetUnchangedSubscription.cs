@@ -9,14 +9,15 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
-   public class EditableValueSetUnchangedSubscription:IMemorySubscription
+    public class EditableValueSetUnchangedSubscription : IMemorySubscription
     {
         private readonly IEditableValueViewModel _editableValueViewModel;
         private readonly IDeviceMemory _deviceMemory;
         private readonly ushort _address;
         private readonly ushort _numberOfPoints;
 
-        public EditableValueSetUnchangedSubscription(IEditableValueViewModel editableValueViewModel,IDeviceMemory deviceMemory,ushort address, ushort numberOfPoints)
+        public EditableValueSetUnchangedSubscription(IEditableValueViewModel editableValueViewModel,
+            IDeviceMemory deviceMemory, ushort address, ushort numberOfPoints)
         {
             _editableValueViewModel = editableValueViewModel;
             _deviceMemory = deviceMemory;
@@ -34,6 +35,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     isMemoryEqualOnAddresses = false;
                     break;
                 }
+
                 if (_deviceMemory.DeviceMemoryValues[i] == _deviceMemory.LocalMemoryValues[i]) continue;
                 isMemoryEqualOnAddresses = false;
                 break;
@@ -44,6 +46,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 _editableValueViewModel.RefreshBaseValueToCompare();
             }
         }
-        
+
     }
 }

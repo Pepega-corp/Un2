@@ -10,15 +10,14 @@ using Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.Formatting;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.ViewModels
 {
-
     public class FormulaFormatterViewModel : UshortsFormatterViewModelBase, IFormulaFormatterViewModel
     {
         private readonly ILocalizerService _localizerService;
@@ -56,10 +55,12 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             this.InitializeFormulaTooltip();
         }
+
         public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
         {
             return visitor.VisitFormulaFormatter(this);
         }
+
         private void OnAddArgumentExecute()
         {
             this.SaveChanges();
@@ -70,7 +71,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 this._formulaFormatter.UshortFormattables.Add(resource);
             }
 
-          //  this.InitFromFormatter(this._formulaFormatter);
+            //  this.InitFromFormatter(this._formulaFormatter);
         }
 
         private void OnDeleteArgumentExecute(IArgumentViewModel argumentViewModel)
@@ -96,7 +97,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             try
             {
-                this.TestResult = _formattingService.FormatValue(_formulaFormatter,new[] {(ushort) this.TestValueOfX}).ToString();
+                this.TestResult = _formattingService.FormatValue(_formulaFormatter, new[] {(ushort) this.TestValueOfX})
+                    .ToString();
             }
             catch
             {
@@ -219,14 +221,14 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
 
         public override string StrongName => StringKeys.FORMULA_FORMATTER;
-        
+
         public override object Clone()
         {
             FormulaFormatterViewModel cloneFormulaFormatterViewModel =
                 new FormulaFormatterViewModel(this._localizerService, this._container,
-                    this._argumentViewModelGettingFunc, this._sharedResourcesGlobalViewModel,_formattingService);
+                    this._argumentViewModelGettingFunc, this._sharedResourcesGlobalViewModel, _formattingService);
             this.SaveChanges();
-           // cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
+            // cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
             return cloneFormulaFormatterViewModel;
         }
 
@@ -247,7 +249,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         private void InitializeFormulaTooltip()
         {
-
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.AppendLine("Some text");
             sb.AppendLine("Some text");
@@ -258,7 +259,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
             sb.AppendLine("Some text");
 
             _formulaTooltipString = sb.ToString();
-
         }
 
         public bool IsInEditMode { get; set; }
@@ -273,6 +273,5 @@ namespace Unicon2.Formatting.Editor.ViewModels
             this.SaveChanges();
             this.IsInEditMode = false;
         }
-
     }
 }
