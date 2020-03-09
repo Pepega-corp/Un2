@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -45,7 +47,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 				RaisePropertyChanged();
 			}
 		}
-
+		
 		public object Clone()
 		{
 			if (IsFromSharedResources)

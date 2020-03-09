@@ -9,6 +9,5 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels
 		void ShowFormatterParameters();
 		IUshortsFormatterViewModel RelatedUshortsFormatterViewModel { get; set; }
 		bool IsFromSharedResources { get; set; }
-
 	}
 }

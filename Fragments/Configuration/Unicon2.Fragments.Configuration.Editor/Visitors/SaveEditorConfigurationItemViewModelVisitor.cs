@@ -42,11 +42,11 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 
             }
             else
-            {орва
-                
-            }
-            property.UshortsFormatter = _container.Resolve<ISaveFormatterService>()
+            {
+                 property.UshortsFormatter = _container.Resolve<ISaveFormatterService>()
                 .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
+            }
+           
             return InitDefaults(property, editorViewModel);
         }
 
