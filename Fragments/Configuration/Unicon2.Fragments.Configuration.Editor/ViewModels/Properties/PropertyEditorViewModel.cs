@@ -166,7 +166,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 				Address = Address,
 				IsMeasureUnitEnabled = IsMeasureUnitEnabled,
 				IsRangeEnabled = IsRangeEnabled,
-				FormatterParametersViewModel = FormatterParametersViewModel.Clone() as IFormatterParametersViewModel
+				FormatterParametersViewModel = FormatterParametersViewModel?.Clone() as IFormatterParametersViewModel,
+				Header = Header,
+				Name = Name
 			};
 
 			return cloneEditorViewModel;

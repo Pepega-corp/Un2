@@ -36,18 +36,25 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 property.Range = range;
             }
 
-            if (_container.Resolve<ISharedResourcesGlobalViewModel>()
-                .CheckDeviceSharedResourcesContainsViewModel(editorViewModel.FormatterParametersViewModel))
+            if (editorViewModel.FormatterParametersViewModel != null)
             {
-                property.UshortsFormatter=_container.Resolve<ISharedResourcesGlobalViewModel>().GetOrAddResourceModelFromCache(editorViewModel.FormatterParametersViewModel.Name,()=>_container.Resolve<ISaveFormatterService>()
-                    .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel)) as IUshortsFormatter;
+	            if (_container.Resolve<ISharedResourcesGlobalViewModel>()
+		            .CheckDeviceSharedResourcesContainsViewModel(editorViewModel.FormatterParametersViewModel))
+	            {
+		            property.UshortsFormatter = _container.Resolve<ISharedResourcesGlobalViewModel>()
+			            .GetOrAddResourceModelFromCache(editorViewModel.FormatterParametersViewModel.Name, () =>
+				            _container.Resolve<ISaveFormatterService>()
+					            .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel
+						            .RelatedUshortsFormatterViewModel)) as IUshortsFormatter;
+	            }
+	            else
+	            {
+		            property.UshortsFormatter = _container.Resolve<ISaveFormatterService>()
+			            .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel
+				            .RelatedUshortsFormatterViewModel);
+	            }
             }
-            else
-            {
-                 property.UshortsFormatter = _container.Resolve<ISaveFormatterService>()
-                .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
-            }
-           
+
             return InitDefaults(property, editorViewModel);
         }
 

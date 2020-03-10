@@ -29,6 +29,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentSettings;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
 
@@ -37,6 +38,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
     public class ConfigurationEditorViewModel : ViewModelBase, IConfigurationEditorViewModel, IChildPositionChangeable
     {
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
+        private readonly IFormatterEditorFactory _formatterEditorFactory;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
         private IEditorConfigurationItemViewModel _bufferConfigurationItem;
@@ -45,10 +47,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
-            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,IFormatterEditorFactory formatterEditorFactory
+	        )
         {
             this._allRows = new ObservableCollection<IConfigurationItemViewModel>();
             this._applicationGlobalCommands = applicationGlobalCommands;
+            _formatterEditorFactory = formatterEditorFactory;
             this.RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
             this.ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
             this.AddRootElementCommand = new RelayCommand(this.OnAddRootElement);
@@ -345,7 +349,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnShowFormatterParametersExecute()
         {
-	        (SelectedRow as IUshortFormattableEditorViewModel)?.FormatterParametersViewModel.ShowFormatterParameters();
+			_formatterEditorFactory.EditFormatterByUser(SelectedRow as IUshortFormattableEditorViewModel);
         }
 
         private bool CanExecuteDeleteElement()
@@ -528,14 +532,22 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                     IEditorConfigurationItemViewModel itemEditorViewModel =
                         member.Accept(ConfigurationItemEditorViewModelFactory.Create());
                     this.RootConfigurationItemViewModels.Add(itemEditorViewModel);
-                    this.AllRows.Add(itemEditorViewModel);
                 }
             }
-        }
 
-        public void SetResources(IDeviceSharedResources deviceSharedResources)
+            InitRows(RootConfigurationItemViewModels,AllRows);
+		}
+
+        private void InitRows(IEnumerable<IConfigurationItemViewModel> configurationItemViewModels, ObservableCollection<IConfigurationItemViewModel> rows)
         {
-           // this._deviceSharedResources = deviceSharedResources;
+	        foreach (var configurationItemViewModel in configurationItemViewModels)
+			{
+				rows.Add(configurationItemViewModel);
+				if (configurationItemViewModel.ChildStructItemViewModels != null)
+		        {
+					InitRows(configurationItemViewModel.ChildStructItemViewModels,rows);
+		        }
+	        }
         }
 
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)

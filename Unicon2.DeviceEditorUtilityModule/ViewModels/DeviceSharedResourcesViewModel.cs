@@ -202,6 +202,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			ResourcesCollection.Clear();
 			_deviceSharedResources = deviceSharedResources;
 			_isInitialized = true;
+			_resourceModelCache.Clear();
 		}
 
 		public void OpenSharedResourcesForEditing()

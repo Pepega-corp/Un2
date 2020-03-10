@@ -23,10 +23,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 		{
 		}
 
-		public void ShowFormatterParameters()
-		{
-			throw new NotImplementedException();
-		}
+		
 
 		public IUshortsFormatterViewModel RelatedUshortsFormatterViewModel
 		{
