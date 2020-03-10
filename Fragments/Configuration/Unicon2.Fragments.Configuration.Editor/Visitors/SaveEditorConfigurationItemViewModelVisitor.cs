@@ -39,7 +39,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             if (_container.Resolve<ISharedResourcesGlobalViewModel>()
                 .CheckDeviceSharedResourcesContainsViewModel(editorViewModel.FormatterParametersViewModel))
             {
-                
+                property.UshortsFormatter=_container.Resolve<ISharedResourcesGlobalViewModel>().GetOrAddResourceModelFromCache(editorViewModel.FormatterParametersViewModel.Name,()=>_container.Resolve<ISaveFormatterService>()
+                    .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel)) as IUshortsFormatter;
             }
             else
             {

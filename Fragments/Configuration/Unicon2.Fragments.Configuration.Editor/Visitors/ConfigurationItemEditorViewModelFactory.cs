@@ -108,7 +108,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                         IsFromSharedResources = true,
                         RelatedUshortsFormatterViewModel = formatterViewModel
                     };
-                    sharedResourcesGlobalViewModel.AddSharedResource(formatterParametersViewModel);
+                    sharedResourcesGlobalViewModel.AddSharedResourceViewModel(formatterParametersViewModel);
                     runtimePropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
                 }
                 else

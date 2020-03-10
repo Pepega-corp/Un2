@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -200,13 +201,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		{
 			ResourcesCollection.Clear();
 			_deviceSharedResources = deviceSharedResources;
-			foreach (INameable sharedResource in deviceSharedResources.SharedResources)
-			{
-				IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
-				//   resourceViewModel.Model = sharedResource;
-				ResourcesCollection.Add(resourceViewModel);
-			}
-
 			_isInitialized = true;
 		}
 
@@ -243,16 +237,38 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
 		public INameable GetResourceViewModel(string name)
 		{
-			return ResourcesCollection.FirstOrDefault(model => model.RelatedEditorItemViewModel.Name == name)?.RelatedEditorItemViewModel;
+			return ResourcesCollection.FirstOrDefault(model => model.RelatedEditorItemViewModel.Name == name)
+				?.RelatedEditorItemViewModel;
 		}
 
-		public void AddSharedResource(INameable resourceToAdd)
+		public void AddAsSharedResource(INameable resourceToAdd)
 		{
 			if (!_isInitialized) throw new Exception();
 			IResourcesAddingViewModel resourcesAddingViewModel = _container.Resolve<IResourcesAddingViewModel>();
 			resourcesAddingViewModel.Model = resourceToAdd;
 			//resourcesAddingViewModel.Initialize(_deviceSharedResources);
 			_applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
+		}
+
+		public void AddSharedResourceViewModel(INameable resourceToAdd)
+		{
+			IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
+			resourceViewModel.RelatedEditorItemViewModel = resourceToAdd;
+			ResourcesCollection.Add(resourceViewModel);
+		}
+
+		private Dictionary<string, INameable> _resourceModelCache = new Dictionary<string, INameable>();
+
+		public INameable GetOrAddResourceModelFromCache(string name, Func<INameable> factoryIfEmpty)
+		{
+			if (_resourceModelCache.ContainsKey(name))
+			{
+				return _resourceModelCache[name];
+			}
+
+			var model = factoryIfEmpty();
+			_resourceModelCache.Add(name, model);
+			return model;
 		}
 	}
 }
