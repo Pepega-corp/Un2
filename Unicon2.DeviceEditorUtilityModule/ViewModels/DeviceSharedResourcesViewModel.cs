@@ -246,8 +246,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		{
 			if (!_isInitialized) throw new Exception();
 			IResourcesAddingViewModel resourcesAddingViewModel = _container.Resolve<IResourcesAddingViewModel>();
-			resourcesAddingViewModel.Model = resourceToAdd;
-			//resourcesAddingViewModel.Initialize(_deviceSharedResources);
+			resourcesAddingViewModel.ResourceViewModel = resourceToAdd;
 			_applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
 		}
 

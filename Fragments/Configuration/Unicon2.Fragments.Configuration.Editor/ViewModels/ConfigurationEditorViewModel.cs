@@ -47,120 +47,130 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
-            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,IFormatterEditorFactory formatterEditorFactory
-	        )
+            IFormatterEditorFactory formatterEditorFactory
+        )
         {
-            this._allRows = new ObservableCollection<IConfigurationItemViewModel>();
-            this._applicationGlobalCommands = applicationGlobalCommands;
+            _allRows = new ObservableCollection<IConfigurationItemViewModel>();
+            _applicationGlobalCommands = applicationGlobalCommands;
             _formatterEditorFactory = formatterEditorFactory;
-            this.RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
-            this.ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
-            this.AddRootElementCommand = new RelayCommand(this.OnAddRootElement);
+            RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
+            ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
+            AddRootElementCommand = new RelayCommand(OnAddRootElement);
 
-            this.AddRootGroupElementCommand = new RelayCommand(this.OnAddRootGroupElementExecute);
+            AddRootGroupElementCommand = new RelayCommand(OnAddRootGroupElementExecute);
             IElementAddingCommand command = elementAddingCommandAddingFunc();
             command.Name = "AddChildElement";
-            command.AddingCommand = new RelayCommand(this.OnAddChildElementExecute, this.CanExecuteAddChildElement);
-            this.ElementsAddingCommandCollection.Add(command);
+            command.AddingCommand = new RelayCommand(OnAddChildElementExecute, CanExecuteAddChildElement);
+            ElementsAddingCommandCollection.Add(command);
             command = elementAddingCommandAddingFunc();
             command.Name = "AddChildGroup";
-            command.AddingCommand = new RelayCommand(this.OnAddChildGroupElementExecute, this.CanExecuteAddChildGroupElement);
-            this.ElementsAddingCommandCollection.Add(command);
+            command.AddingCommand =
+                new RelayCommand(OnAddChildGroupElementExecute, CanExecuteAddChildGroupElement);
+            ElementsAddingCommandCollection.Add(command);
 
 
             command = elementAddingCommandAddingFunc();
             command.Name = "AddDependentProperty";
-            command.AddingCommand = new RelayCommand(this.OnAddDependentPropertyExecute, this.CanExecuteAddChildGroupElement);
-            this.ElementsAddingCommandCollection.Add(command);
+            command.AddingCommand =
+                new RelayCommand(OnAddDependentPropertyExecute, CanExecuteAddChildGroupElement);
+            ElementsAddingCommandCollection.Add(command);
 
             command = elementAddingCommandAddingFunc();
             command.Name = "AddComplexProperty";
-            command.AddingCommand = new RelayCommand(this.OnAddComplexPropertyExecute, this.CanExecuteAddChildGroupElement);
-            this.ElementsAddingCommandCollection.Add(command);
+            command.AddingCommand =
+                new RelayCommand(OnAddComplexPropertyExecute, CanExecuteAddChildGroupElement);
+            ElementsAddingCommandCollection.Add(command);
 
             command = elementAddingCommandAddingFunc();
             command.Name = "AddSubProperty";
-            command.AddingCommand = new RelayCommand(this.OnAddAddSubPropertyExecute, this.CanExecuteAddSubPropertyElement);
-            this.ElementsAddingCommandCollection.Add(command);
+            command.AddingCommand =
+                new RelayCommand(OnAddAddSubPropertyExecute, CanExecuteAddSubPropertyElement);
+            ElementsAddingCommandCollection.Add(command);
 
             command = elementAddingCommandAddingFunc();
             command.Name = "AddMatrix";
-            command.AddingCommand = new RelayCommand(this.OnAddMatrixExecute, this.CanExecuteAddChildGroupElement);
-            this.ElementsAddingCommandCollection.Add(command);
+            command.AddingCommand = new RelayCommand(OnAddMatrixExecute, CanExecuteAddChildGroupElement);
+            ElementsAddingCommandCollection.Add(command);
 
-            this.EditElementCommand = new RelayCommand(this.OnEditElementExecute, this.CanExecuteEditElement);
-            this.DeleteElementCommand = new RelayCommand(this.OnDeleteElementExecute, this.CanExecuteDeleteElement);
-            this.ShowFormatterParametersCommand =
-                new RelayCommand(this.OnShowFormatterParametersExecute, this.CanExecuteShowFormatterParameters);
-            this.SetElementDownCommand = new RelayCommand(this.OnSetElementDownExecute, this.CanExecuteSetElementDown);
-            this.SetElementUpCommand = new RelayCommand(this.OnSetElementUpExecute, this.CanExecuteSetElementUp);
-            this.OpenConfigurationSettingsCommand = new RelayCommand(this.OnOpenConfigurationSettingsExecute);
-            this.CopyElementCommand = new RelayCommand(this.OnCopyElementExecute, this.CanExecuteCopyElement);
-            this.PasteAsChildElementCommand =
-                new RelayCommand(this.OnPasteAsChildElementExecute, this.CanPasteAsChildElementElement);
+            EditElementCommand = new RelayCommand(OnEditElementExecute, CanExecuteEditElement);
+            DeleteElementCommand = new RelayCommand(OnDeleteElementExecute, CanExecuteDeleteElement);
+            ShowFormatterParametersCommand =
+                new RelayCommand(OnShowFormatterParametersExecute, CanExecuteShowFormatterParameters);
+            SetElementDownCommand = new RelayCommand(OnSetElementDownExecute, CanExecuteSetElementDown);
+            SetElementUpCommand = new RelayCommand(OnSetElementUpExecute, CanExecuteSetElementUp);
+            OpenConfigurationSettingsCommand = new RelayCommand(OnOpenConfigurationSettingsExecute);
+            CopyElementCommand = new RelayCommand(OnCopyElementExecute, CanExecuteCopyElement);
+            PasteAsChildElementCommand =
+                new RelayCommand(OnPasteAsChildElementExecute, CanPasteAsChildElementElement);
 
-            this.AddSelectedElementAsResourceCommand = new RelayCommand(this.OnAddSelectedElementAsResourceExecute,
-                this.CanExecuteAddSelectedElementAsResource);
-            this.EditDescriptionCommand = new RelayCommand(this.OnEditDescriptionExecute, this.CanExecuteEditDescription);
+            AddSelectedElementAsResourceCommand = new RelayCommand(OnAddSelectedElementAsResourceExecute,
+                CanExecuteAddSelectedElementAsResource);
+            EditDescriptionCommand =
+                new RelayCommand(OnEditDescriptionExecute, CanExecuteEditDescription);
         }
 
         private void OnAddMatrixExecute()
         {
-            if (this.SelectedRow is IChildAddable)
+            if (SelectedRow is IChildAddable)
             {
-                IEditorConfigurationItemViewModel dependentProperty = (this.SelectedRow as IChildAddable).AddMatrix() as IEditorConfigurationItemViewModel;
-                this.PrepareAdding();
-                this.SelectedRow = dependentProperty;
-                this.CompleteAdding();
+                IEditorConfigurationItemViewModel dependentProperty =
+                    (SelectedRow as IChildAddable).AddMatrix() as IEditorConfigurationItemViewModel;
+                PrepareAdding();
+                SelectedRow = dependentProperty;
+                CompleteAdding();
             }
         }
 
         private void OnAddAddSubPropertyExecute()
         {
-            if (this.SelectedRow is ISubPropertyAddable)
+            if (SelectedRow is ISubPropertyAddable)
             {
-                IEditorConfigurationItemViewModel dependentProperty = (this.SelectedRow as ISubPropertyAddable).AddSubProperty() as IEditorConfigurationItemViewModel;
-                this.PrepareAdding();
+                IEditorConfigurationItemViewModel dependentProperty =
+                    (SelectedRow as ISubPropertyAddable).AddSubProperty() as IEditorConfigurationItemViewModel;
+                PrepareAdding();
 
-                this.SelectedRow = dependentProperty;
-                this.CompleteAdding();
+                SelectedRow = dependentProperty;
+                CompleteAdding();
             }
         }
 
         private bool CanExecuteAddSubPropertyElement()
         {
-            return this.SelectedRow is ISubPropertyAddable;
+            return SelectedRow is ISubPropertyAddable;
         }
 
         private void OnAddComplexPropertyExecute()
         {
-            if (this.SelectedRow is IChildAddable)
+            if (SelectedRow is IChildAddable)
             {
-                IEditorConfigurationItemViewModel dependentProperty = (this.SelectedRow as IChildAddable).AddComplexProperty() as IEditorConfigurationItemViewModel;
-                this.PrepareAdding();
-                this.SelectedRow = dependentProperty;
-                this.CompleteAdding();
+                IEditorConfigurationItemViewModel dependentProperty =
+                    (SelectedRow as IChildAddable).AddComplexProperty() as IEditorConfigurationItemViewModel;
+                PrepareAdding();
+                SelectedRow = dependentProperty;
+                CompleteAdding();
             }
         }
 
         private void OnEditDescriptionExecute()
         {
-            this._applicationGlobalCommands.ShowWindowModal(() => new DescriptionEditingWindow(), new DescriptionEditingViewModel() { Item = SelectedRow });
+            _applicationGlobalCommands.ShowWindowModal(() => new DescriptionEditingWindow(),
+                new DescriptionEditingViewModel() {Item = SelectedRow});
         }
 
         private bool CanExecuteEditDescription()
         {
-            return this.SelectedRow != null;
+            return SelectedRow != null;
         }
 
 
         private void OnAddDependentPropertyExecute()
         {
-            if (this.SelectedRow is IChildAddable)
+            if (SelectedRow is IChildAddable)
             {
-                IEditorConfigurationItemViewModel dependentProperty = (this.SelectedRow as IChildAddable).AddDependentProperty() as IEditorConfigurationItemViewModel;
-                this.PrepareAdding();
-                this.SelectedRow = dependentProperty;
+                IEditorConfigurationItemViewModel dependentProperty =
+                    (SelectedRow as IChildAddable).AddDependentProperty() as IEditorConfigurationItemViewModel;
+                PrepareAdding();
+                SelectedRow = dependentProperty;
             }
         }
 
@@ -172,40 +182,41 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnAddSelectedElementAsResourceExecute()
         {
-           // this._sharedResourcesViewModelFactory.AddSharedResource(this._selectedRow.Model as INameable);
+            // this._sharedResourcesViewModelFactory.AddSharedResource(this._selectedRow.Model as INameable);
         }
 
         private bool CanPasteAsChildElementElement()
         {
-            return this.SelectedRow is IAsChildPasteable && this._bufferConfigurationItem != null;
+            return SelectedRow is IAsChildPasteable && _bufferConfigurationItem != null;
         }
 
         private void OnPasteAsChildElementExecute()
         {
-			if (this.SelectedRow is IAsChildPasteable)
-			{
+            if (SelectedRow is IAsChildPasteable)
+            {
 
-				IEditorConfigurationItemViewModel editorConfigurationItemViewModel =_bufferConfigurationItem.Clone() as IEditorConfigurationItemViewModel;
-				(this.SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
+                IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
+                    _bufferConfigurationItem.Clone() as IEditorConfigurationItemViewModel;
+                (SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
 
-				this.PrepareAdding();
-				this.SelectedRow = editorConfigurationItemViewModel;
-				this.CompleteAdding();
-			}
-		}
+                PrepareAdding();
+                SelectedRow = editorConfigurationItemViewModel;
+                CompleteAdding();
+            }
+        }
 
         private bool CanExecuteCopyElement()
         {
-            return this.SelectedRow is ICloneable;
+            return SelectedRow is ICloneable;
         }
 
         private void OnCopyElementExecute()
         {
-			if (this.SelectedRow is ICloneable)
-			{
-				this._bufferConfigurationItem = SelectedRow;
-			}
-		}
+            if (SelectedRow is ICloneable)
+            {
+                _bufferConfigurationItem = SelectedRow;
+            }
+        }
 
         private void OnOpenConfigurationSettingsExecute()
         {
@@ -221,18 +232,19 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanExecuteAddChildGroupElement()
         {
-            return (this.SelectedRow is IChildAddable);
+            return (SelectedRow is IChildAddable);
         }
 
         private void OnAddChildGroupElementExecute()
         {
-            if (this.SelectedRow is IChildAddable)
+            if (SelectedRow is IChildAddable)
             {
-                IEditorConfigurationItemViewModel configurationItemViewModel = (this.SelectedRow as IChildAddable).AddChildGroupElement() as IEditorConfigurationItemViewModel;
-                this.PrepareAdding();
+                IEditorConfigurationItemViewModel configurationItemViewModel =
+                    (SelectedRow as IChildAddable).AddChildGroupElement() as IEditorConfigurationItemViewModel;
+                PrepareAdding();
 
-                this.SelectedRow = configurationItemViewModel;
-                this.CompleteAdding();
+                SelectedRow = configurationItemViewModel;
+                CompleteAdding();
             }
         }
 
@@ -240,27 +252,27 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             IEditorConfigurationItemViewModel configurationItemViewModel =
                 ConfigurationItemEditorViewModelFactory.Create().VisitItemsGroup(null);
-            this.AllRows.Add(configurationItemViewModel);
-            this.RootConfigurationItemViewModels.Add(configurationItemViewModel);
-            this.SelectedRow = configurationItemViewModel;
-            this.CompleteAdding();
+            AllRows.Add(configurationItemViewModel);
+            RootConfigurationItemViewModels.Add(configurationItemViewModel);
+            SelectedRow = configurationItemViewModel;
+            CompleteAdding();
         }
 
         private bool CanExecuteAddChildElement()
         {
-            return (this.SelectedRow is IChildAddable);
+            return (SelectedRow is IChildAddable);
         }
 
         private void OnAddChildElementExecute()
         {
-            if (this.SelectedRow is IChildAddable)
+            if (SelectedRow is IChildAddable)
             {
 
                 IEditorConfigurationItemViewModel configurationEditorViewModel =
-                    (this.SelectedRow as IChildAddable).AddChildElement() as IEditorConfigurationItemViewModel;
-                this.PrepareAdding();
-                this.SelectedRow = configurationEditorViewModel;
-                this.CompleteAdding();
+                    (SelectedRow as IChildAddable).AddChildElement() as IEditorConfigurationItemViewModel;
+                PrepareAdding();
+                SelectedRow = configurationEditorViewModel;
+                CompleteAdding();
             }
         }
 
@@ -268,50 +280,52 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             IEditorConfigurationItemViewModel configurationItemViewModel =
                 ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null);
-            this.AllRows.Add(configurationItemViewModel);
-            this.RootConfigurationItemViewModels.Add(configurationItemViewModel);
-            this.SelectedRow = configurationItemViewModel;
-            this.CompleteAdding();
+            AllRows.Add(configurationItemViewModel);
+            RootConfigurationItemViewModels.Add(configurationItemViewModel);
+            SelectedRow = configurationItemViewModel;
+            CompleteAdding();
         }
 
         private void PrepareAdding()
         {
-            this.SelectedRow.IsCheckable = true;
-            this.SelectedRow?.Checked?.Invoke(true);
+            SelectedRow.IsCheckable = true;
+            SelectedRow?.Checked?.Invoke(true);
         }
 
 
 
         private void CompleteAdding()
         {
-            this.OnEditElementExecute();
+            OnEditElementExecute();
         }
 
 
         public IEditorConfigurationItemViewModel SelectedRow
         {
-            get { return this._selectedRow; }
+            get { return _selectedRow; }
             set
             {
-                if (this._selectedRow is IEditable)
+                if (_selectedRow is IEditable)
                 {
-                    (this._selectedRow as IEditable).StopEditElement();
+                    (_selectedRow as IEditable).StopEditElement();
                 }
-                this._selectedRow = value;
-                foreach (IElementAddingCommand elementAddingCommand in this.ElementsAddingCommandCollection)
+
+                _selectedRow = value;
+                foreach (IElementAddingCommand elementAddingCommand in ElementsAddingCommandCollection)
                 {
                     (elementAddingCommand.AddingCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 }
-                (this.EditDescriptionCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (this.AddSelectedElementAsResourceCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (this.EditElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (this.DeleteElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (this.ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (this.SetElementDownCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (this.SetElementUpCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (this.CopyElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (this.PasteAsChildElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                this.RaisePropertyChanged();
+
+                (EditDescriptionCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (AddSelectedElementAsResourceCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (EditElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (DeleteElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (SetElementDownCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (SetElementUpCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (CopyElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (PasteAsChildElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -319,11 +333,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public ObservableCollection<IConfigurationItemViewModel> AllRows
         {
-            get { return this._allRows; }
+            get { return _allRows; }
             set
             {
-                this._allRows = value;
-                this.RaisePropertyChanged();
+                _allRows = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -344,23 +358,23 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanExecuteShowFormatterParameters()
         {
-            return (this.SelectedRow is IUshortFormattableEditorViewModel);
+            return (SelectedRow is IUshortFormattableEditorViewModel);
         }
 
         private void OnShowFormatterParametersExecute()
         {
-			_formatterEditorFactory.EditFormatterByUser(SelectedRow as IUshortFormattableEditorViewModel);
+            _formatterEditorFactory.EditFormatterByUser(SelectedRow as IUshortFormattableEditorViewModel);
         }
 
         private bool CanExecuteDeleteElement()
         {
-            return (this.SelectedRow is IDeletable);
+            return (SelectedRow is IDeletable);
         }
 
         private bool CanExecuteEditElement()
         {
 
-            return (this.SelectedRow is IEditable);
+            return (SelectedRow is IEditable);
         }
 
         //private bool CanExecuteAddChildElement()
@@ -372,100 +386,108 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private void OnDeleteElementExecute()
         {
 
-            if (!(this.SelectedRow is IDeletable)) return;
-            this.DeleteHeirarchicalRow(this.SelectedRow);
+            if (!(SelectedRow is IDeletable)) return;
+            DeleteHeirarchicalRow(SelectedRow);
         }
 
         private void OnEditElementExecute()
         {
-            if (this.SelectedRow is IEditable)
+            if (SelectedRow is IEditable)
             {
-                (this.SelectedRow as IEditable).StartEditElement();
+                (SelectedRow as IEditable).StartEditElement();
             }
         }
 
         private bool CanExecuteSetElementUp()
         {
-            if (this.SelectedRow == null) return false;
-            if (this.RootConfigurationItemViewModels.Contains(this.SelectedRow))
+            if (SelectedRow == null) return false;
+            if (RootConfigurationItemViewModels.Contains(SelectedRow))
             {
-                return this.GetIsSetElementPossible(this.SelectedRow, true);
+                return GetIsSetElementPossible(SelectedRow, true);
             }
-            if (this.SelectedRow.Parent == null) return false;
-            if (!(this.SelectedRow.Parent is IChildPositionChangeable)) return false;
-            return (this.SelectedRow.Parent as IChildPositionChangeable).GetIsSetElementPossible(this.SelectedRow, true);
+
+            if (SelectedRow.Parent == null) return false;
+            if (!(SelectedRow.Parent is IChildPositionChangeable)) return false;
+            return (SelectedRow.Parent as IChildPositionChangeable)
+                .GetIsSetElementPossible(SelectedRow, true);
         }
 
         private bool CanExecuteSetElementDown()
 
         {
-            if (this.SelectedRow == null) return false;
-            if (this.RootConfigurationItemViewModels.Contains(this.SelectedRow))
+            if (SelectedRow == null) return false;
+            if (RootConfigurationItemViewModels.Contains(SelectedRow))
             {
-                return this.GetIsSetElementPossible(this.SelectedRow, false);
+                return GetIsSetElementPossible(SelectedRow, false);
             }
-            if (this.SelectedRow.Parent == null) return false;
-            if (!(this.SelectedRow.Parent is IChildPositionChangeable)) return false;
-            return (this.SelectedRow.Parent as IChildPositionChangeable).GetIsSetElementPossible(this.SelectedRow, false);
+
+            if (SelectedRow.Parent == null) return false;
+            if (!(SelectedRow.Parent is IChildPositionChangeable)) return false;
+            return (SelectedRow.Parent as IChildPositionChangeable).GetIsSetElementPossible(SelectedRow,
+                false);
         }
 
         private void OnSetElementUpExecute()
         {
-            if (this.SelectedRow == null) return;
-            IEditorConfigurationItemViewModel selectedRowBuffer = this.SelectedRow;
+            if (SelectedRow == null) return;
+            IEditorConfigurationItemViewModel selectedRowBuffer = SelectedRow;
             bool isElementSetted = false;
-            if (this.RootConfigurationItemViewModels.Contains(this.SelectedRow))
+            if (RootConfigurationItemViewModels.Contains(SelectedRow))
             {
-                this.SetElement(this.SelectedRow, true);
+                SetElement(SelectedRow, true);
             }
             else
             {
-                if (this.SelectedRow.Parent == null) return;
-                if (!(this.SelectedRow.Parent is IChildPositionChangeable)) return;
-                this.SelectedRow.Checked?.Invoke(false);
-                isElementSetted = ((this.SelectedRow.Parent as IChildPositionChangeable).SetElement(this.SelectedRow, true));
+                if (SelectedRow.Parent == null) return;
+                if (!(SelectedRow.Parent is IChildPositionChangeable)) return;
+                SelectedRow.Checked?.Invoke(false);
+                isElementSetted =
+                    ((SelectedRow.Parent as IChildPositionChangeable).SetElement(SelectedRow, true));
 
                 if (isElementSetted)
                 {
 
-                    this.SelectedRow.Parent.Checked?.Invoke(true);
+                    SelectedRow.Parent.Checked?.Invoke(true);
                 }
             }
-            this.SelectedRow = selectedRowBuffer;
+
+            SelectedRow = selectedRowBuffer;
 
         }
 
         private void OnSetElementDownExecute()
         {
-            if (this.SelectedRow == null) return;
-            IEditorConfigurationItemViewModel selectedRowBuffer = this.SelectedRow;
-            if (this.RootConfigurationItemViewModels.Contains(this.SelectedRow))
+            if (SelectedRow == null) return;
+            IEditorConfigurationItemViewModel selectedRowBuffer = SelectedRow;
+            if (RootConfigurationItemViewModels.Contains(SelectedRow))
             {
-                this.SetElement(this.SelectedRow, false);
+                SetElement(SelectedRow, false);
             }
             else
             {
-                if (this.SelectedRow.Parent == null) return;
-                if (!(this.SelectedRow.Parent is IChildPositionChangeable)) return;
-                this.SelectedRow.Checked?.Invoke(false);
-                bool isElementSetted = (this.SelectedRow.Parent as IChildPositionChangeable).SetElement(this.SelectedRow, false);
+                if (SelectedRow.Parent == null) return;
+                if (!(SelectedRow.Parent is IChildPositionChangeable)) return;
+                SelectedRow.Checked?.Invoke(false);
+                bool isElementSetted =
+                    (SelectedRow.Parent as IChildPositionChangeable).SetElement(SelectedRow, false);
 
                 if (isElementSetted)
                 {
-                    this.SelectedRow.Parent.Checked?.Invoke(true);
+                    SelectedRow.Parent.Checked?.Invoke(true);
                 }
             }
-            this.SelectedRow = selectedRowBuffer;
+
+            SelectedRow = selectedRowBuffer;
         }
 
 
         private void Save()
         {
-            if (this.SelectedRow is IEditable)
+            if (SelectedRow is IEditable)
             {
-                if ((this.SelectedRow as IEditable).IsInEditMode)
+                if ((SelectedRow as IEditable).IsInEditMode)
                 {
-                    (this.SelectedRow as IEditable).StopEditElement();
+                    (SelectedRow as IEditable).StopEditElement();
                 }
             }
         }
@@ -482,7 +504,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                     {
                         if (item is IEditorConfigurationItemViewModel)
                         {
-                            this.DeleteHeirarchicalRow(item as IEditorConfigurationItemViewModel);
+                            DeleteHeirarchicalRow(item as IEditorConfigurationItemViewModel);
                         }
                     }
                 }
@@ -494,66 +516,71 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 //проверка на корневой элемент (у него нет родителя и он состоит в списке корневых элементов)
                 if (configurationItemViewModel.Parent == null)
                 {
-                    if (this.RootConfigurationItemViewModels.Contains(configurationItemViewModel))
+                    if (RootConfigurationItemViewModels.Contains(configurationItemViewModel))
                     {
-                        this.RootConfigurationItemViewModels.Remove(configurationItemViewModel);
-                       // this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModel.Model as IConfigurationItem);
+                        RootConfigurationItemViewModels.Remove(configurationItemViewModel);
+                        // this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModel.Model as IConfigurationItem);
                     }
                 }
                 else
                 {
-                    ((IDeletable)configurationItemViewModel).DeleteElement();
+                    ((IDeletable) configurationItemViewModel).DeleteElement();
                 }
             }
-            this.AllRows.Remove(configurationItemViewModel);
+
+            AllRows.Remove(configurationItemViewModel);
         }
 
 
-        public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
+        public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                                    ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 
 
         public string NameForUiKey => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
+
         public IDeviceFragment BuildDeviceFragment()
         {
-	        return ConfigurationFragmentFactory.CreateConfiguration(this);
+            return ConfigurationFragmentFactory.CreateConfiguration(this);
         }
 
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
+
         public void Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IDeviceConfiguration deviceConfiguration)
             {
-                this.RootConfigurationItemViewModels.Clear();
-                this.AllRows.Clear();
+                RootConfigurationItemViewModels.Clear();
+                AllRows.Clear();
                 foreach (IConfigurationItem member in deviceConfiguration.RootConfigurationItemList)
                 {
                     IEditorConfigurationItemViewModel itemEditorViewModel =
                         member.Accept(ConfigurationItemEditorViewModelFactory.Create());
-                    this.RootConfigurationItemViewModels.Add(itemEditorViewModel);
+                    RootConfigurationItemViewModels.Add(itemEditorViewModel);
                 }
             }
 
-            InitRows(RootConfigurationItemViewModels,AllRows);
-		}
+            InitRows(RootConfigurationItemViewModels, AllRows);
+        }
 
-        private void InitRows(IEnumerable<IConfigurationItemViewModel> configurationItemViewModels, ObservableCollection<IConfigurationItemViewModel> rows)
+        private void InitRows(IEnumerable<IConfigurationItemViewModel> configurationItemViewModels,
+            ObservableCollection<IConfigurationItemViewModel> rows)
         {
-	        foreach (var configurationItemViewModel in configurationItemViewModels)
-			{
-				rows.Add(configurationItemViewModel);
-				if (configurationItemViewModel.ChildStructItemViewModels != null)
-		        {
-					InitRows(configurationItemViewModel.ChildStructItemViewModels,rows);
-		        }
-	        }
+            foreach (var configurationItemViewModel in configurationItemViewModels)
+            {
+                rows.Add(configurationItemViewModel);
+                if (configurationItemViewModel.ChildStructItemViewModels != null)
+                {
+                    InitRows(configurationItemViewModel.ChildStructItemViewModels, rows);
+                }
+            }
         }
 
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)
         {
-            int indexOfElement = this.RootConfigurationItemViewModels.IndexOf(element);
-            int itemsCount = this.RootConfigurationItemViewModels.Count;
+            int indexOfElement = RootConfigurationItemViewModels.IndexOf(element);
+            int itemsCount = RootConfigurationItemViewModels.Count;
             if (isUp)
             {
                 return indexOfElement > 0;
@@ -566,27 +593,28 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public bool SetElement(IConfigurationItemViewModel element, bool isUp)
         {
-            int indexOfElement = this.RootConfigurationItemViewModels.IndexOf(element);
+            int indexOfElement = RootConfigurationItemViewModels.IndexOf(element);
             int newIndexOfElement = isUp ? indexOfElement - 1 : indexOfElement + 1;
             if (element.IsChecked)
             {
                 element.Checked?.Invoke(false);
             }
-            IConfigurationItemViewModel replaceableElement = this.RootConfigurationItemViewModels[newIndexOfElement];
+
+            IConfigurationItemViewModel replaceableElement = RootConfigurationItemViewModels[newIndexOfElement];
             if (replaceableElement.IsChecked)
             {
                 replaceableElement.Checked?.Invoke(false);
             }
 
-            this.RootConfigurationItemViewModels.Move(indexOfElement, newIndexOfElement);
-            this.AllRows.Move(this.AllRows.IndexOf(replaceableElement), this.AllRows.IndexOf(element));
+            RootConfigurationItemViewModels.Move(indexOfElement, newIndexOfElement);
+            AllRows.Move(AllRows.IndexOf(replaceableElement), AllRows.IndexOf(element));
             return true;
         }
 
         public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
         {
-            this.RootConfigurationItemViewModels.Remove(
-                this.RootConfigurationItemViewModels.First((model => model == configurationItemViewModelToRemove)));
+            RootConfigurationItemViewModels.Remove(
+                RootConfigurationItemViewModels.First((model => model == configurationItemViewModelToRemove)));
         }
     }
 }

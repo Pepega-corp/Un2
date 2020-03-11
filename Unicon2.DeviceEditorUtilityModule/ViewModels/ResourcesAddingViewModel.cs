@@ -11,8 +11,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
     public class ResourcesAddingViewModel : ViewModelBase, IResourcesAddingViewModel
     {
         private string _nameKey;
-        private INameable _resource;
-        private IDeviceSharedResources _deviceSharedResources;
 
         public ResourcesAddingViewModel()
         {
@@ -29,8 +27,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         private void OnSubmitExecute()
         {
-            _resource.Name = NameKey;
-            _deviceSharedResources.AddResource(_resource);
             IsResourceAdded = true;
             RaisePropertyChanged(nameof(IsResourceAdded));
         }
@@ -51,18 +47,9 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         public ICommand SubmitCommand { get; }
 
         public ICommand CloseCommand { get; }
+        public INameable ResourceViewModel { get; set; }
 
-        public void Initialize(IDeviceSharedResources deviceSharedResources)
-        {
-            _deviceSharedResources = deviceSharedResources;
-        }
 
         public string StrongName => nameof(ResourcesAddingViewModel);
-
-        public object Model
-        {
-            get { return _resource; }
-            set { _resource = value as INameable; }
-        }
     }
 }
