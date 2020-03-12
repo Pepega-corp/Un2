@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
@@ -9,22 +10,20 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model.Properties
 {
-    [DataContract(Namespace = "DefaultPropertyNS", Name = nameof(DefaultProperty), IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultProperty : ConfigurationItemBase, IProperty
     {
-        [DataMember(Name = nameof(UshortsFormatter), Order = 0)]
-        public IUshortsFormatter UshortsFormatter { get; set; }
+        [JsonProperty] public IUshortsFormatter UshortsFormatter { get; set; }
 
-        [DataMember(Name = nameof(Address), Order = 1)]
-        public ushort Address { get; set; }
-        [DataMember(Order = 2)] public ushort NumberOfPoints { get; set; }
-        [DataMember(Order = 3)] public string MeasureUnit { get; set; }
+        [JsonProperty] public ushort Address { get; set; }
+        [JsonProperty] public ushort NumberOfPoints { get; set; }
+        [JsonProperty] public string MeasureUnit { get; set; }
 
-        [DataMember(Order = 4)] public bool IsMeasureUnitEnabled { get; set; }
+        [JsonProperty] public bool IsMeasureUnitEnabled { get; set; }
 
-        [DataMember(Order = 5)] public bool IsRangeEnabled { get; set; }
+        [JsonProperty] public bool IsRangeEnabled { get; set; }
 
-        [DataMember(Order = 6)] public IRange Range { get; set; }
+        [JsonProperty] public IRange Range { get; set; }
 
         protected override IConfigurationItem OnCloning()
         {

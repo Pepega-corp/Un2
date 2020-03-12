@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -12,7 +13,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model.Properties
 {
-    [DataContract(Namespace = "SubPropertyNS", Name = nameof(SubProperty), IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class SubProperty : DefaultProperty, ISubProperty
     {
@@ -42,7 +43,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             return new[] { (ushort)(new BitArray(bools).GetIntFromBitArray()) };
         }
 
-        [DataMember]
+        [JsonProperty]
         public List<int> BitNumbersInWord { get; set; }
 
         public Action LocalValueChanged { get; set; }

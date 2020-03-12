@@ -248,8 +248,8 @@
                     MinWidth="200"
                     Margin="5"
                     FontSize="20"
-                    Text="{Binding FormulaString}" 
-                    ToolTip="{Binding FormulaToolTipString}"/>
+                    Text="{Binding FormulaString}"
+                    ToolTip="{Binding FormulaToolTipString}" />
             </StackPanel>
             <StackPanel Grid.Row="2" Orientation="Vertical">
                 <Button

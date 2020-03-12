@@ -6,6 +6,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 using Unicon2.Unity.Interfaces;
 
@@ -22,28 +23,20 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
 
         public void OpenResourceForEdit(IResourceViewModel resource, object _owner)
         {
-            IStronglyNamed stronglyNamed = resource as IStronglyNamed;
-
-            if (stronglyNamed == null) return;
-
             IApplicationGlobalCommands applicationGlobalCommands = this._container.Resolve<IApplicationGlobalCommands>();
             if (applicationGlobalCommands != null)
             {
                 IResourceEditingViewModel resourceEditingViewModel = this._container.Resolve<IResourceEditingViewModel>();
-                IViewModel resViewModel;
-                try
+
+                if (resource.RelatedEditorItemViewModel is IFormatterParametersViewModel
+                    formatterParametersViewModel)
                 {
-                    resViewModel = this._container.Resolve<IViewModel>(stronglyNamed.StrongName +
-                        ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                    resourceEditingViewModel.ResourceEditorViewModel = formatterParametersViewModel.RelatedUshortsFormatterViewModel;
+                    applicationGlobalCommands.ShowWindowModal(() => new ResourcesEditingWindow(), resourceEditingViewModel, _owner);
                 }
-                catch (Exception)
-                {
-                    return;
-                }
-                if (resViewModel == null) return;
-                resViewModel.Model = resource;
-                resourceEditingViewModel.ResourceEditorViewModel = resViewModel;
-                applicationGlobalCommands.ShowWindowModal(() => new ResourcesEditingWindow(), resourceEditingViewModel, _owner);
+
+
+            
             }
         }
     }

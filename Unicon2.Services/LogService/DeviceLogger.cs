@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Services.LogService
 {
-    [DataContract(Namespace = "DeviceLoggerNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DeviceLogger : IDeviceLogger
     {
         private Func<ILogMessage> _logMessageGettingFunc;
@@ -72,19 +73,19 @@ namespace Unicon2.Services.LogService
 
         public Action<ILogMessage> LogMessageAriseAction { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsInfoMessagesLoggingEnabled { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsFailedQueriesLoggingEnabled { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsSuccessfulQueriesLoggingEnabled { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsErrorsLoggingEnabled { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public string SourceName { get; set; }
 
         public object Clone()
@@ -92,16 +93,6 @@ namespace Unicon2.Services.LogService
             IDeviceLogger deviceLogger=new DeviceLogger(this._logMessageGettingFunc);
            deviceLogger.SetLoggerSubject(this.SourceName);
             return deviceLogger;
-        }
-
-        public bool IsInitialized { get; private set; }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            if (this.IsInitialized) return;
-
-            this._logMessageGettingFunc = container.Resolve<Func<ILogMessage>>();
-            this.IsInitialized = true;
         }
     }
 }

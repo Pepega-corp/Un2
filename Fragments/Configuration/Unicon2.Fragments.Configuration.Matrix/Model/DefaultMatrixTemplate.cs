@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Values.Matrix;
@@ -7,8 +8,7 @@ using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(DefaultMatrixTemplate), IsReference = true)]
-
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultMatrixTemplate : IMatrixTemplate
     {
         public DefaultMatrixTemplate()
@@ -19,16 +19,16 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
             this.MatrixVariableOptionTemplate = new BoolMatrixVariableOptionTemplate();
         }
 
-        [DataMember]
+        [JsonProperty]
         public int NumberOfBitsOnEachVariable { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<IMatrixMemoryVariable> MatrixMemoryVariables { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<IVariableColumnSignature> VariableColumnSignatures { get; set; }
-        [DataMember]
+        [JsonProperty]
         public IMatrixVariableOptionTemplate MatrixVariableOptionTemplate { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public List<IBitOption> ResultBitOptions { get; set; }
 
         public object Clone()

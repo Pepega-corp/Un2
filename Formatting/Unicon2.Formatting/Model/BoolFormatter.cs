@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
@@ -9,7 +10,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Model
 {
-    [DataContract(Name = nameof(BoolFormatter), Namespace = "BoolFormatterNS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class BoolFormatter : UshortsFormatterBase, IBoolFormatter
     {

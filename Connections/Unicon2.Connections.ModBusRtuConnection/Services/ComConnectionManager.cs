@@ -32,12 +32,9 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
             {
                 try
                 {
-                    using (XmlReader fs = XmlReader.Create(StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".xml"))
-                    {
-                        DataContractSerializer ds = new DataContractSerializer(typeof(ComConnectionManager), this._serializerService.GetTypesForSerialiation());
-                        this.ComPortConfigurationsDictionary = ((ComConnectionManager)ds.ReadObject(fs))
-                            .ComPortConfigurationsDictionary;
-                    }
+                    this.ComPortConfigurationsDictionary =
+                        _serializerService.DeserializeFromFile<ComConnectionManager>(
+                            StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json").ComPortConfigurationsDictionary;
                 }
                 catch (Exception e)
                 {
@@ -55,20 +52,21 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
             {
                 if (!this.ComPortConfigurationsDictionary.ContainsKey(portName))
                 {
-                    this.ComPortConfigurationsDictionary.Add(portName, this._comPortConfigurationFactory.CreateComPortConfiguration());
+                    this.ComPortConfigurationsDictionary.Add(portName,
+                        this._comPortConfigurationFactory.CreateComPortConfiguration());
                 }
             }
 
             return portNames;
         }
 
-        [DataMember]
-        public Dictionary<string, IComPortConfiguration> ComPortConfigurationsDictionary { get; set; }
+        [DataMember] public Dictionary<string, IComPortConfiguration> ComPortConfigurationsDictionary { get; set; }
 
         public IComPortConfiguration GetComPortConfiguration(string portName)
         {
             if (portName == null) return null;
-            if (this.ComPortConfigurationsDictionary.ContainsKey(portName)) return this.ComPortConfigurationsDictionary[portName];
+            if (this.ComPortConfigurationsDictionary.ContainsKey(portName))
+                return this.ComPortConfigurationsDictionary[portName];
             return null;
         }
 
@@ -76,8 +74,10 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
         {
             if (!this.ComPortConfigurationsDictionary.ContainsKey(portName))
             {
-                this.ComPortConfigurationsDictionary.Add(portName, this._comPortConfigurationFactory.CreateComPortConfiguration());
+                this.ComPortConfigurationsDictionary.Add(portName,
+                    this._comPortConfigurationFactory.CreateComPortConfiguration());
             }
+
             this.ComPortConfigurationsDictionary[portName] = comPortConfiguration;
         }
 
@@ -97,18 +97,15 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
             {
                 serialPort.Open();
             }
-            catch(Exception portExc)
+            catch (Exception portExc)
             {
                 Debug.Write(portExc.Message);
                 return null;
             }
+
             try
             {
-                using (XmlWriter fs = XmlWriter.Create(StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".xml", new XmlWriterSettings { Indent = true }))
-                {
-                    DataContractSerializer ds = new DataContractSerializer(typeof(ComConnectionManager), this._serializerService.GetTypesForSerialiation());
-                    ds.WriteObject(fs, this);
-                }
+                _serializerService.SerializeInFile(this, StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json");
             }
             catch (Exception e)
             {
@@ -131,7 +128,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
             serialPort.ReadTimeout = comPortConfiguration.WaitAnswer;
             serialPort.WriteTimeout = comPortConfiguration.WaitAnswer;
             serialPort.Open();
-         
+
             return serialPortAdapter;
         }
     }

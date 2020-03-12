@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
@@ -11,7 +12,7 @@ using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Model.Connection
 {
-    [DataContract(Namespace = "DeviceConnectionStateNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DeviceConnectionState : IConnectionState
     {
         private IDeviceConnection _deviceConnection;
@@ -91,9 +92,9 @@ namespace Unicon2.Model.Connection
 
 
         public IFormattedValue TestResultValue { get; set; }
-        [DataMember] public IUshortFormattable DeviceValueContaining { get; set; }
-        [DataMember] public List<string> ExpectedValues { get; set; }
-        [DataMember] public IComPortConfiguration DefaultComPortConfiguration { get; set; }
+        [JsonProperty] public IUshortFormattable DeviceValueContaining { get; set; }
+        [JsonProperty] public List<string> ExpectedValues { get; set; }
+        [JsonProperty] public IComPortConfiguration DefaultComPortConfiguration { get; set; }
 
         public void Initialize(IDeviceConnection deviceConnection, IDeviceLogger deviceLogger)
         {

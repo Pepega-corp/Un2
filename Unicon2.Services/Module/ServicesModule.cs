@@ -35,8 +35,8 @@ namespace Unicon2.Services.Module
             container.RegisterInstance<IApplicationGlobalCommands>(
                 new ApplicationGlobalCommands(container, container.Resolve<IDialogCoordinator>(), container.Resolve<ILocalizerService>()));
 
-            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(DeviceLogger));
-            container.Resolve<ISerializerService>().AddNamespaceAttribute("deviceLogger", "DeviceLoggerNS");
+           // container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(DeviceLogger));
+           // container.Resolve<ISerializerService>().AddNamespaceAttribute("deviceLogger", "DeviceLoggerNS");
         }
     }
 }

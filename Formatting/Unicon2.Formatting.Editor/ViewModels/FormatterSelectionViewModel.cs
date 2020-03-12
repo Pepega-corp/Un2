@@ -50,22 +50,18 @@ namespace Unicon2.Formatting.Editor.ViewModels
                     CurrentResourceString = ushortFormattableViewModel.FormatterParametersViewModel.Name;
                     _isFormatterFromResource = true;
                 }
-                else
-                {
-                    IUshortsFormatterViewModel formatter =
-                        _ushortsFormatterViewModels.FirstOrDefault(f =>
-                            f.StrongName == ushortFormattableViewModel.FormatterParametersViewModel
-                                .RelatedUshortsFormatterViewModel.StrongName);
-                    if (formatter != null)
-                    {
-                        var existingIndex =
-                            _ushortsFormatterViewModels.IndexOf(formatter);
-                        _ushortsFormatterViewModels.RemoveAt(existingIndex);
-                        _ushortsFormatterViewModels.Insert(existingIndex,
-                            ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
-                        SelectedUshortsFormatterViewModel = formatter;
-                    }
-                }
+
+                var formatter =
+                    _ushortsFormatterViewModels.FirstOrDefault(f =>
+                        f.StrongName == ushortFormattableViewModel.FormatterParametersViewModel
+                            .RelatedUshortsFormatterViewModel.StrongName);
+                var existingIndex =
+                    _ushortsFormatterViewModels.IndexOf(formatter);
+                _ushortsFormatterViewModels.RemoveAt(existingIndex);
+                _ushortsFormatterViewModels.Insert(existingIndex,
+                    ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
+                SelectedUshortsFormatterViewModel = ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel;
+
             }
 
 
@@ -79,11 +75,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private void OnSelectFromResourcesExecute()
         {
             var selectedFormatterViewModel =
-                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortsFormatterViewModel>();
+                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IFormatterParametersViewModel>();
             if (selectedFormatterViewModel == null) return;
-            CurrentResourceString = selectedFormatterViewModel.StrongName;
+            CurrentResourceString = selectedFormatterViewModel.Name;
             IsFormatterFromResource = true;
-            SelectedUshortsFormatterViewModel = selectedFormatterViewModel;
+            SelectedUshortsFormatterViewModel = selectedFormatterViewModel.RelatedUshortsFormatterViewModel;
         }
 
         private void OnAddAsResourceExecute()
@@ -116,9 +112,18 @@ namespace Unicon2.Formatting.Editor.ViewModels
             {
                 if (!((IDynamicFormatterViewModel) SelectedUshortsFormatterViewModel).IsValid) return;
             }
-            _ushortFormattableViewModel.FormatterParametersViewModel = _container.Resolve<IFormatterParametersViewModel>();
+
+            if (CurrentResourceString != null)
+            {
+                _ushortFormattableViewModel.FormatterParametersViewModel= _sharedResourcesGlobalViewModel.GetResourceViewModel(CurrentResourceString) as IFormatterParametersViewModel;
+            }
+            else
+            {
+                     _ushortFormattableViewModel.FormatterParametersViewModel = _container.Resolve<IFormatterParametersViewModel>();
             _ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
                 SelectedUshortsFormatterViewModel;
+            }
+       
             (obj as Window)?.Close();
         }
 

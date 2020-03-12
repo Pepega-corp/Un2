@@ -8,5 +8,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.Resources
     {
         string ResourceStrongName { get; set; }
         INameable RelatedEditorItemViewModel { get; set; }
+       
     }
 }

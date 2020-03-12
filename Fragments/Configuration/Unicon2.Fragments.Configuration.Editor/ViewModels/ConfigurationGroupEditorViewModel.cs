@@ -63,7 +63,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public IConfigurationItemViewModel AddChildElement()
         {
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                ConfigurationItemEditorViewModelFactory.Create().SetParent(this).VisitProperty(null);
+                ConfigurationItemEditorViewModelFactory.Create().WithParent(this).VisitProperty(null);
             ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }
@@ -71,7 +71,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public IConfigurationItemViewModel AddChildGroupElement()
         {
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                ConfigurationItemEditorViewModelFactory.Create().SetParent(this).VisitItemsGroup(null);
+                ConfigurationItemEditorViewModelFactory.Create().WithParent(this).VisitItemsGroup(null);
             ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }
@@ -79,7 +79,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public IConfigurationItemViewModel AddDependentProperty()
         {
             IEditorConfigurationItemViewModel newConfigurationItemViewModel = ConfigurationItemEditorViewModelFactory
-                .Create().SetParent(this).VisitDependentProperty(null);
+                .Create().WithParent(this).VisitDependentProperty(null);
 
             ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
@@ -88,7 +88,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public IConfigurationItemViewModel AddComplexProperty()
         {
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                ConfigurationItemEditorViewModelFactory.Create().SetParent(this).VisitComplexProperty(null);
+                ConfigurationItemEditorViewModelFactory.Create().WithParent(this).VisitComplexProperty(null);
             ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }
@@ -96,7 +96,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public IConfigurationItemViewModel AddMatrix()
         {
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =
-                ConfigurationItemEditorViewModelFactory.Create().SetParent(this).VisitMatrix(null);
+                ConfigurationItemEditorViewModelFactory.Create().WithParent(this).VisitMatrix(null);
             ChildStructItemViewModels.Add(newConfigurationItemViewModel);
             return newConfigurationItemViewModel;
         }

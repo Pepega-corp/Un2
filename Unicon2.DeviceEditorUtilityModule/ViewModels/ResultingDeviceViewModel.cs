@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
@@ -27,6 +29,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private readonly IFragmentEditorViewModelFactory _fragmentEditorViewModelFactory;
         private readonly IConnectionStateViewModelFactory _connectionStateViewModelFactory;
+        private readonly ISerializerService _serializerService;
         private string _deviceName;
         private ObservableCollection<IFragmentEditorViewModel> _fragmentEditorViewModels;
         private ObservableCollection<IFragmentEditorViewModel> _availableEditorFragments;
@@ -35,7 +38,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             IDeviceSharedResources deviceSharedResources, IApplicationGlobalCommands applicationGlobalCommands,
             ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,
             IFragmentEditorViewModelFactory fragmentEditorViewModelFactory,
-            IConnectionStateViewModelFactory connectionStateViewModelFactory)
+            IConnectionStateViewModelFactory connectionStateViewModelFactory,ISerializerService serializerService)
         {
             _device = device;
             _container = container;
@@ -44,6 +47,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             _fragmentEditorViewModelFactory = fragmentEditorViewModelFactory;
             _connectionStateViewModelFactory = connectionStateViewModelFactory;
+            _serializerService = serializerService;
             _availableEditorFragments = new ObservableCollection<IFragmentEditorViewModel>();
             AddFragmentCommand = new RelayCommand<IFragmentEditorViewModel>(OnExecuteAddFragment);
 
@@ -113,17 +117,15 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public void LoadDevice(string path)
         {
-            _device.DeserializeFromFile(path);
+            _device = _serializerService.DeserializeFromFile<IDevice>(path);
             FragmentEditorViewModels.Clear();
+            _sharedResourcesGlobalViewModel.InitializeFromResources(_device.DeviceSharedResources);
             foreach (IDeviceFragment fragment in _device.DeviceFragments)
             {
                 IFragmentEditorViewModel fragmentEditorViewModel = _fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
-                fragmentEditorViewModel.Initialize(fragment);
-                _sharedResourcesGlobalViewModel.InitializeFromResources(_device.DeviceSharedResources);
                 FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
             _deviceSharedResources = _device.DeviceSharedResources;
-            _sharedResourcesGlobalViewModel.InitializeFromResources(_deviceSharedResources);
             DeviceName = _device.Name;
         }
 
@@ -131,12 +133,29 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         {
             _device.Name = DeviceName;
             _device.DeviceFragments = new List<IDeviceFragment>();
-            _device.DeviceSharedResources = _deviceSharedResources;
             foreach (IFragmentEditorViewModel fragmentEditorViewModel in FragmentEditorViewModels)
             {
                 (_device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.BuildDeviceFragment());
             }
-            _device.SerializeInFile(path, isDefaultSaving);
+            _device.DeviceSharedResources = _sharedResourcesGlobalViewModel.GetSharedResources();
+            if (isDefaultSaving)
+            {
+
+                if (!(Directory.Exists(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH)))
+                {
+                    Directory.CreateDirectory(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH);
+                }
+                path = Path.Combine(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH, path + ".json");
+            }
+            try
+            {
+                _serializerService.SerializeInFile(_device,path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public string DeviceName

@@ -32,12 +32,11 @@
         <converter:InvertConverter x:Key="InvertConverter" />
         <converter:BoolToVisConverter x:Key="BoolToVisConverter" />
         <DataTemplate x:Key="ResourceViewModelDataTemplate" DataType="viewModels:ResourceViewModel">
-            <TextBox Style="{DynamicResource EditableFieldBoxStyle}" Text="{Binding Name}" />
+            <TextBox Style="{DynamicResource EditableFieldBoxStyle}" Text="{Binding RelatedEditorItemViewModel.Name}" />
         </DataTemplate>
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.InputBindings>
-        <KeyBinding Key="Delete"
-                    Command="{Binding DeleteResourceCommand}"/>
+        <KeyBinding Key="Delete" Command="{Binding DeleteResourceCommand}" />
     </controls:MetroWindow.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>

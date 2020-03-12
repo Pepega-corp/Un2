@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Unity.Commands;
@@ -10,7 +11,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 {
     public class ResourceEditingViewModel : ViewModelBase, IResourceEditingViewModel
     {
-        private IViewModel _resourceEditorViewModel;
+        private object _resourceEditorViewModel;
 
         public ResourceEditingViewModel()
         {
@@ -30,7 +31,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         }
 
 
-        public IViewModel ResourceEditorViewModel
+        public object ResourceEditorViewModel
         {
             get { return _resourceEditorViewModel; }
             set

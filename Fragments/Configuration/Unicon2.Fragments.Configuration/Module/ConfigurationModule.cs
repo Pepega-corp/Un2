@@ -9,7 +9,6 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Fragments.Configuration.Model.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Model.DependentProperty;
-using Unicon2.Fragments.Configuration.Model.Memory;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
@@ -54,32 +53,32 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting),
                 ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
 
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddNamespaceAttribute("defaultDeviceConfiguration", "DefaultDeviceConfigurationNS");
-            serializerService.AddNamespaceAttribute("defaultItemsGroup", "DefaultItemsGroupNS");
-            serializerService.AddNamespaceAttribute("defaultProperty", "DefaultPropertyNS");
-            serializerService.AddNamespaceAttribute("activatedConfigurationSetting",
-                "ActivatedConfigurationSettingNS");
-            serializerService.AddNamespaceAttribute("dependentProperty", "DependentPropertyNS");
-            serializerService.AddNamespaceAttribute("dependancyCondition", "DependancyConditionNS");
-            serializerService.AddNamespaceAttribute("complexProperty", "ComplexPropertyNS");
-            serializerService.AddNamespaceAttribute("subProperty", "SubPropertyNS");
-            serializerService.AddNamespaceAttribute("localDeviceValuesConfigurationItemBase",
-                "LocalDeviceValuesConfigurationItemBaseNS");
-            serializerService.AddNamespaceAttribute("deviceMemory",
-                "ConfigurationMemoryNS");
-            serializerService.AddNamespaceAttribute("addressValue",
-                "AddressValueNS");
-            serializerService.AddKnownTypeForSerializationRange(new[]
-            {
-                typeof(DefaultDeviceConfiguration),
-                typeof(DefaultItemsGroup), typeof(DefaultProperty),
-                typeof(List<DefaultItemsGroup>), typeof(List<DefaultProperty>), typeof(ActivatedConfigurationSetting),
-                typeof(DependentProperty), typeof(DependancyCondition), typeof(ComplexProperty), typeof(SubProperty),
-                typeof(GroupWithReiterationInfo), typeof(ReiterationSubGroupInfo),
-                typeof(List<ReiterationSubGroupInfo>),
-                typeof(DeviceMemory)
-            });
+            //ISerializerService serializerService = container.Resolve<ISerializerService>();
+            //serializerService.AddNamespaceAttribute("defaultDeviceConfiguration", "DefaultDeviceConfigurationNS");
+            //serializerService.AddNamespaceAttribute("defaultItemsGroup", "DefaultItemsGroupNS");
+            //serializerService.AddNamespaceAttribute("defaultProperty", "DefaultPropertyNS");
+            //serializerService.AddNamespaceAttribute("activatedConfigurationSetting",
+            //    "ActivatedConfigurationSettingNS");
+            //serializerService.AddNamespaceAttribute("dependentProperty", "DependentPropertyNS");
+            //serializerService.AddNamespaceAttribute("dependancyCondition", "DependancyConditionNS");
+            //serializerService.AddNamespaceAttribute("complexProperty", "ComplexPropertyNS");
+            //serializerService.AddNamespaceAttribute("subProperty", "SubPropertyNS");
+            //serializerService.AddNamespaceAttribute("localDeviceValuesConfigurationItemBase",
+            //    "LocalDeviceValuesConfigurationItemBaseNS");
+            //serializerService.AddNamespaceAttribute("deviceMemory",
+            //    "ConfigurationMemoryNS");
+            //serializerService.AddNamespaceAttribute("addressValue",
+            //    "AddressValueNS");
+            //serializerService.AddKnownTypeForSerializationRange(new[]
+            //{
+            //    typeof(DefaultDeviceConfiguration),
+            //    typeof(DefaultItemsGroup), typeof(DefaultProperty),
+            //    typeof(List<DefaultItemsGroup>), typeof(List<DefaultProperty>), typeof(ActivatedConfigurationSetting),
+            //    typeof(DependentProperty), typeof(DependancyCondition), typeof(ComplexProperty), typeof(SubProperty),
+            //    typeof(GroupWithReiterationInfo), typeof(ReiterationSubGroupInfo),
+            //    typeof(List<ReiterationSubGroupInfo>),
+            //    typeof(DeviceMemory)
+            //});
 
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>()

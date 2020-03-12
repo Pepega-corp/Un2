@@ -18,7 +18,7 @@ namespace Unicon2.Connections.OfflineConnection
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/OfflineConnectionResources.xaml",
                 this.GetType().Assembly);
 
-            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(OfflineConnection));
+          //  container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(OfflineConnection));
         }
     }
 }

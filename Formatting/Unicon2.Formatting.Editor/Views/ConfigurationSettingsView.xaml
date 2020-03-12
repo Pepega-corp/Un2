@@ -1,21 +1,24 @@
-﻿<controls:MetroWindow x:Class="Unicon2.Formatting.Editor.Views.ConfigurationSettingsView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Unicon2.Formatting.Editor.Views"
-        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:lex="http://wpflocalizeextension.codeplex.com"
-        mc:Ignorable="d"
-        Title="{lex:Loc Settings}" Height="300" Width="500">
+﻿<controls:MetroWindow
+    x:Class="Unicon2.Formatting.Editor.Views.ConfigurationSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:Unicon2.Formatting.Editor.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="{lex:Loc Settings}"
+    Width="500"
+    Height="300"
+    mc:Ignorable="d">
     <Grid>
         <GroupBox Header="{lex:Loc Activation}">
 
             <StackPanel>
-                <CheckBox Content="{lex:Loc Activation}" IsChecked="{Binding IsConfigurationActivationEnabled}"></CheckBox>
+                <CheckBox Content="{lex:Loc Activation}" IsChecked="{Binding IsConfigurationActivationEnabled}" />
                 <UniformGrid Columns="2">
-                    <TextBlock Text="{lex:Loc Address}"></TextBlock>
-                    <TextBox Text="{Binding ActivationAddress}"></TextBox>
+                    <TextBlock Text="{lex:Loc Address}" />
+                    <TextBox Text="{Binding ActivationAddress}" />
                 </UniformGrid>
             </StackPanel>
         </GroupBox>

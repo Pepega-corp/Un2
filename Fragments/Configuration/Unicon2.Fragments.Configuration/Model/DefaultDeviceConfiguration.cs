@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Xml;
 using ControlzEx.Standard;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.MemoryAccess;
@@ -19,8 +20,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model
 {
-    [DataContract(Name = nameof(DefaultDeviceConfiguration), Namespace = "DefaultDeviceConfigurationNS",
-        IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultDeviceConfiguration : Disposable, IDeviceConfiguration
     {
         public DefaultDeviceConfiguration()
@@ -29,9 +29,7 @@ namespace Unicon2.Fragments.Configuration.Model
         }
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
-
-        [DataMember(Name = nameof(RootConfigurationItemList), Order = 1)]
-
+        [JsonProperty]
         public List<IConfigurationItem> RootConfigurationItemList { get; set; }
 
         public bool CheckEquality(IDeviceConfiguration deviceConfigurationToCheck)
@@ -58,8 +56,7 @@ namespace Unicon2.Fragments.Configuration.Model
 
             return true;
         }
-
-        [DataMember(Name = nameof(ConfigurationSettings), Order = 2)]
+        [JsonProperty]
         public IFragmentSettings FragmentSettings { get; set; }
        
         protected override void OnDisposing()

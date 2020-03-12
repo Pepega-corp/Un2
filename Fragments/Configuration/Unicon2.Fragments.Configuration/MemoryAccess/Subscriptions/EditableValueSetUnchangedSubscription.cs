@@ -32,7 +32,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             {
                 if (!_deviceMemory.LocalMemoryValues.ContainsKey(i) || !_deviceMemory.DeviceMemoryValues.ContainsKey(i))
                 {
-                    isMemoryEqualOnAddresses = false;
                     break;
                 }
 

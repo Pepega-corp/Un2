@@ -80,7 +80,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnCreateDeviceExecute()
         {
             if (File.Exists(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH + "//" +
-                            ResultingDeviceViewModel.DeviceName + ".xml"))
+                            ResultingDeviceViewModel.DeviceName + ".json"))
             {
                 if (_dialogCoordinator.ShowModalMessageExternal(this,
                         _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.SAVING),

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Connections.MockConnection.Keys;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -17,7 +18,7 @@ namespace Unicon2.Connections.MockConnection.Model
     /// <summary>
     /// класс иммитации подключения
     /// </summary>
-    [DataContract(Namespace = "MockConnectionNS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class MockConnection : IDeviceConnection, IDataProvider
     {
         public MockConnection(ITypesContainer typesContainer)
@@ -31,7 +32,7 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public Action TransactionCompleteAction { get; set; }
 
-        [DataMember] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
+        [JsonProperty] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
         public object Clone()
         {

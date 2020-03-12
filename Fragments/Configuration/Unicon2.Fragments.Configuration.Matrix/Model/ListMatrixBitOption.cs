@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(ListMatrixBitOption), IsReference = true)]
-
+    [JsonObject(MemberSerialization.OptIn)]
     public class ListMatrixBitOption : IBitOption
     {
         public ListMatrixBitOption()
@@ -20,10 +20,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
         public string FullSignature => this.VariableColumnSignature.Signature + " " + this.OptionPossibleValue.PossibleValueName;
 
-        [DataMember]
+        [JsonProperty]
         public IVariableColumnSignature VariableColumnSignature { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public List<int> NumbersOfAssotiatedBits { get; set; }
 
         public bool IsBitOptionEqual(IBitOption comparingBitOption)
@@ -35,7 +35,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
         }
 
-        [DataMember]
+        [JsonProperty]
         public IOptionPossibleValue OptionPossibleValue { get; set; }
     }
 }

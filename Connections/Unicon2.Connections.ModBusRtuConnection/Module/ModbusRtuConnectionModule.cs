@@ -38,11 +38,11 @@ namespace Unicon2.Connections.ModBusRtuConnection.Module
             container.Register<IComConnectionManager, ComConnectionManager>(true);
             
             //регистрация известных для сериализации типов
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(Model.ModBusRtuConnection));
-            serializerService.AddKnownTypeForSerialization(typeof(ComPortConfiguration));
-            serializerService.AddNamespaceAttribute("modBusRtuConnection", "ModBusRtuConnectionNS");
-            serializerService.AddNamespaceAttribute("comPortConfiguration", "ComPortConfigurationNS");
+            //ISerializerService serializerService = container.Resolve<ISerializerService>();
+            //serializerService.AddKnownTypeForSerialization(typeof(Model.ModBusRtuConnection));
+            //serializerService.AddKnownTypeForSerialization(typeof(ComPortConfiguration));
+            //serializerService.AddNamespaceAttribute("modBusRtuConnection", "ModBusRtuConnectionNS");
+            //serializerService.AddNamespaceAttribute("comPortConfiguration", "ComPortConfigurationNS");
 
             //регистрация ресурсов
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();

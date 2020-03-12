@@ -570,10 +570,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             foreach (var configurationItemViewModel in configurationItemViewModels)
             {
                 rows.Add(configurationItemViewModel);
-                if (configurationItemViewModel.ChildStructItemViewModels != null)
-                {
-                    InitRows(configurationItemViewModel.ChildStructItemViewModels, rows);
-                }
             }
         }
 

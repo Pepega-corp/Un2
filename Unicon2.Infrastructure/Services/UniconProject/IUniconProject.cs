@@ -8,7 +8,7 @@ namespace Unicon2.Infrastructure.Services.UniconProject
     /// <summary>
     /// Проект уникона
     /// </summary>
-    public interface IUniconProject : ISerializableInFile, IDisposable
+    public interface IUniconProject : IDisposable
     {
         /// <summary>
         /// Все подключаемые устройства

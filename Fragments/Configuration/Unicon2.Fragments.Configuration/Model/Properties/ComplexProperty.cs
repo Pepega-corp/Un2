@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -13,7 +14,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model.Properties
 {
-    [DataContract(Namespace = "ComplexPropertyNS", Name = nameof(ComplexProperty), IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class ComplexProperty : DefaultProperty, IComplexProperty
     {
 
@@ -23,10 +24,10 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             SubProperties = new List<ISubProperty>();
         }
 
-        [DataMember]
+        [JsonProperty]
         public List<ISubProperty> SubProperties { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsGroupedProperty { get; set; }
 
 

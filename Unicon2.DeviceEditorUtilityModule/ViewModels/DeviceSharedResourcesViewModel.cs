@@ -135,7 +135,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		private bool CanExecuteSelectResource(object arg)
 		{
 			return SelectedResourceViewModel != null &&
-			       SelectedResourceViewModel.GetType().GetInterfaces().Contains(_typeNeeded);
+			       SelectedResourceViewModel.RelatedEditorItemViewModel.GetType().GetInterfaces().Contains(_typeNeeded);
 		}
 
 		private bool CanExecuteOpenResourceForEditing(object _owner)
@@ -208,12 +208,9 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		public void OpenSharedResourcesForEditing()
 		{
 			if (!_isInitialized) throw new Exception();
-			IDeviceSharedResourcesViewModel deviceSharedResourcesViewModel =
-				_container.Resolve<IDeviceSharedResourcesViewModel>();
-			//  deviceSharedResourcesViewModel.Model = this._deviceSharedResources;
-			deviceSharedResourcesViewModel.IsSelectingMode = false;
+			IsSelectingMode = false;
 			_applicationGlobalCommands.ShowWindowModal(() => new DeviceSharedResourcesView(),
-				deviceSharedResourcesViewModel);
+				this);
 		}
 
 		public T OpenSharedResourcesForSelecting<T>()
@@ -221,14 +218,15 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			if (!_isInitialized) throw new Exception();
 			IsSelectingMode = true;
 			_typeNeeded = typeof(T);
+            (SelectResourceCommand as RelayCommand<object>).RaiseCanExecuteChanged();
 			_applicationGlobalCommands.ShowWindowModal((() => new DeviceSharedResourcesView()), this);
-			if (SelectedResourceViewModel == null) return default(T);
-			return (T) SelectedResourceViewModel;
+			if (!CanExecuteSelectResource(null)) return default(T);
+			return (T) SelectedResourceViewModel.RelatedEditorItemViewModel;
 		}
 
 		public bool CheckDeviceSharedResourcesContainsModel(INameable resource)
 		{
-			return _deviceSharedResources.SharedResources.Any(nameable => nameable == resource);
+            return _deviceSharedResources.SharedResources.Any(nameable => nameable == resource);
 		}
 
 		public bool CheckDeviceSharedResourcesContainsViewModel(INameable resource)
@@ -248,6 +246,12 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			IResourcesAddingViewModel resourcesAddingViewModel = _container.Resolve<IResourcesAddingViewModel>();
 			resourcesAddingViewModel.ResourceViewModel = resourceToAdd;
 			_applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
+		    if (resourcesAddingViewModel.IsResourceAdded)
+		    {
+		        IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
+		        resourceViewModel.RelatedEditorItemViewModel = resourceToAdd;
+                ResourcesCollection.Add(resourceViewModel);
+		    }
 		}
 
 		public void AddSharedResourceViewModel(INameable resourceToAdd)
@@ -267,8 +271,15 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			}
 
 			var model = factoryIfEmpty();
+		    model.Name = name;
 			_resourceModelCache.Add(name, model);
 			return model;
 		}
+
+	    public IDeviceSharedResources GetSharedResources()
+	    {
+	        _deviceSharedResources.SharedResources = _resourceModelCache.Values.ToList();
+	        return _deviceSharedResources;
+	    }
 	}
 }

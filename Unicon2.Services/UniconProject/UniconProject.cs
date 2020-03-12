@@ -20,57 +20,22 @@ namespace Unicon2.Services.UniconProject
 
         public UniconProject(ISerializerService serializerService)
         {
-            this._serializerService = serializerService;
-            this.Name = this.DefaultProjectName;
-            this.ProjectPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), this.Name);
+            _serializerService = serializerService;
+            Name = DefaultProjectName;
+            ProjectPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), Name);
 
-            if (this.ProjectPath != null && !Directory.Exists(Path.Combine(this.ProjectPath, this.Name)))
+            if (ProjectPath != null && !Directory.Exists(Path.Combine(ProjectPath, Name)))
             {
-                Directory.CreateDirectory(Path.Combine(this.ProjectPath, this.Name));
+                Directory.CreateDirectory(Path.Combine(ProjectPath, Name));
             }
-            this.SerializeInFile(Path.Combine(this.ProjectPath, Path.ChangeExtension(this.Name, ".uniproj")), false);
+            _serializerService.SerializeInFile(this,Path.Combine(ProjectPath, Path.ChangeExtension(Name, ".uniproj")));
         }
 
 
-        public void SerializeInFile(string elementName, bool isDefaultSaving)
-        {
-            try
-            {
-                using (XmlWriter fs = XmlWriter.Create(elementName, new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 }))
-                {
-                    DataContractSerializer ds = new DataContractSerializer(typeof(UniconProject), this._serializerService.GetTypesForSerialiation());
-                    ds.WriteObject(fs, this, this._serializerService.GetNamespacesAttributes());
-
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
-        public void DeserializeFromFile(string path)
-        {
-            try
-            {
-                using (XmlReader fs = XmlReader.Create(path))
-                {
-                    DataContractSerializer ds = new DataContractSerializer(typeof(UniconProject), this._serializerService.GetTypesForSerialiation());
-                    UniconProject project = ((UniconProject)ds.ReadObject(fs));
-                    this.ConnectableItems = project.ConnectableItems;
-                    this.LayoutString = project.LayoutString;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw new SerializationException();
-            }
-        }
 
         public void Dispose()
         {
-            this.ConnectableItems?.Clear();
+            ConnectableItems?.Clear();
         }
 
         [DataMember]
@@ -80,9 +45,9 @@ namespace Unicon2.Services.UniconProject
         {
             get
             {
-                if ((this.ProjectPath != null) && (this.Name != null) && this.Name != this.DefaultProjectName)
+                if ((ProjectPath != null) && (Name != null) && Name != DefaultProjectName)
                 {
-                    if (File.Exists(this.ProjectPath + "\\" + this.Name + ".uniproj")) return true;
+                    if (File.Exists(ProjectPath + "\\" + Name + ".uniproj")) return true;
                 }
                 return false;
             }
@@ -93,23 +58,25 @@ namespace Unicon2.Services.UniconProject
 
         public bool GetIsProjectChanged()
         {
-            if ((this.ProjectPath != null) && (this.Name != null))
+            return true;
+            if ((ProjectPath != null) && (Name != null))
             {
-                if (File.Exists(this.ProjectPath + "\\" + this.Name + ".uniproj"))
+                if (File.Exists(ProjectPath + "\\" + Name + ".uniproj"))
                 {
                     try
                     {
                         StringBuilder stringBuilder = new StringBuilder();
 
-                        using (XmlWriter fs = XmlWriter.Create(stringBuilder, new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 }))
-                        {
-                            DataContractSerializer ds = new DataContractSerializer(typeof(UniconProject),
-                                this._serializerService.GetTypesForSerialiation());
+                        //using (XmlWriter fs = XmlWriter.Create(stringBuilder, new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 }))
+                        //{
+                        //    DataContractSerializer ds = new DataContractSerializer(typeof(UniconProject),
+                        //        _serializerService.GetTypesForSerialiation());
 
-                            ds.WriteObject(fs, this, this._serializerService.GetNamespacesAttributes());
-                        }
+                        //    ds.WriteObject(fs, this, _serializerService.GetNamespacesAttributes());
+                        //}
+                        _serializerService.SerializeInFile(this,stringBuilder.ToString());
                         string existing = stringBuilder.ToString();
-                        string xmlString = System.IO.File.ReadAllText(this.ProjectPath + "\\" + this.Name + ".uniproj");
+                        string xmlString = File.ReadAllText(ProjectPath + "\\" + Name + ".uniproj");
 
                         string existing1 = existing.Remove(0, existing.IndexOf("UniconProject"));
                         string xmlString1 = xmlString.Remove(0, xmlString.IndexOf("UniconProject"));

@@ -16,5 +16,6 @@ namespace Unicon2.Presentation.Infrastructure.Factories
         void AddSharedResourceViewModel(INameable resourceToAdd);
 
         INameable GetOrAddResourceModelFromCache(string name, Func<INameable> factoryIfEmpty);
+        IDeviceSharedResources GetSharedResources();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Infrastructure.Interfaces;
@@ -7,8 +8,7 @@ using Unicon2.Infrastructure.Interfaces.Dependancy;
 
 namespace Unicon2.Fragments.Configuration.Model.DependentProperty
 {
-    [DataContract(Namespace = "DependancyConditionNS")]
-
+    [JsonObject(MemberSerialization.OptIn)]
     public class DependancyCondition : IDependancyCondition
     {
 
@@ -40,22 +40,22 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         //        }
         //    }
         //}
-        
-        [DataMember(Order = 3)]
+
+        [JsonProperty]
         public ConditionsEnum ConditionsEnum { get; set; }
-        [DataMember(Order = 4)]
+        [JsonProperty]
         public ushort UshortValueToCompare { get; set; }
-        [DataMember(Order = 5)]
+        [JsonProperty]
         public ConditionResultEnum ConditionResult { get; set; }
 
         public Action<ConditionResultChangingEventArgs> ConditionResultChangedAction { get; set; }
 
         public string StrongName => ConfigurationKeys.DEPENDANCY_CONDITION;
 
-        [DataMember(Order = 6)]
+        [JsonProperty]
         public string Name { get; set; }
 
-        [DataMember(Order = 7)]
+        [JsonProperty]
         public IUshortsFormatter UshortsFormatter { get; set; }
 
 

@@ -82,21 +82,21 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
 
             container.Register<IAssignedBitEditorViewModel, AssignedBitEditorViewModel>();
         
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(AppointableMatrix));
-            serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixTemplate));
-            serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixMemoryVariable));
-            serializerService.AddKnownTypeForSerialization(typeof(DefaultVariableColumnSignature));
-            serializerService.AddKnownTypeForSerialization(typeof(ListMatrixVariableOptionTemplate));
-            serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixVariableOptionTemplate));
-            serializerService.AddKnownTypeForSerialization(typeof(OptionPossibleValue));
-            serializerService.AddKnownTypeForSerialization(typeof(PossibleValueCondition));
-            serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixBitOption));
-            serializerService.AddKnownTypeForSerialization(typeof(ListMatrixBitOption));
-            serializerService.AddKnownTypeForSerialization(typeof(MatrixValueFormatter));
+            //ISerializerService serializerService = container.Resolve<ISerializerService>();
+            //serializerService.AddKnownTypeForSerialization(typeof(AppointableMatrix));
+            //serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixTemplate));
+            //serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixMemoryVariable));
+            //serializerService.AddKnownTypeForSerialization(typeof(DefaultVariableColumnSignature));
+            //serializerService.AddKnownTypeForSerialization(typeof(ListMatrixVariableOptionTemplate));
+            //serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixVariableOptionTemplate));
+            //serializerService.AddKnownTypeForSerialization(typeof(OptionPossibleValue));
+            //serializerService.AddKnownTypeForSerialization(typeof(PossibleValueCondition));
+            //serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixBitOption));
+            //serializerService.AddKnownTypeForSerialization(typeof(ListMatrixBitOption));
+            //serializerService.AddKnownTypeForSerialization(typeof(MatrixValueFormatter));
 
-            serializerService.AddNamespaceAttribute("appointableMatrix", "AppointableMatrixNS");
-            serializerService.AddNamespaceAttribute("matrixValueFormatter", "MatrixValueFormatterNS");
+            //serializerService.AddNamespaceAttribute("appointableMatrix", "AppointableMatrixNS");
+            //serializerService.AddNamespaceAttribute("matrixValueFormatter", "MatrixValueFormatterNS");
 
 
             //регистрация ресурсов

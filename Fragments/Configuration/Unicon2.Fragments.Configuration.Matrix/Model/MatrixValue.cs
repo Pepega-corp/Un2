@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Infrastructure.Values.Base;
 using Unicon2.Infrastructure.Values.Matrix;
@@ -10,6 +11,7 @@ using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class MatrixValue : FormattedValueBase, IMatrixValue
     {
         public override string StrongName => MatrixKeys.MATRIX_VALUE;
@@ -23,7 +25,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         {
             return visitor.VisitMatrixValue(this);
         }
-
+        [JsonProperty]
         public IMatrixTemplate MatrixTemplate { get; set; }
     }
 }

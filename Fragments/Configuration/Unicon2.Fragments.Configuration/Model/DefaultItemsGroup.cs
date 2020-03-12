@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
@@ -11,7 +12,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model
 {
-    [DataContract(Namespace = "DefaultItemsGroupNS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultItemsGroup : ConfigurationItemBase, IItemsGroup
     {
         public DefaultItemsGroup() 
@@ -19,16 +20,16 @@ namespace Unicon2.Fragments.Configuration.Model
             this.ConfigurationItemList = new List<IConfigurationItem>();
         }
 
-        [DataMember(Name = nameof(ConfigurationItemList), Order = 0)]
+        [JsonProperty]
         public List<IConfigurationItem> ConfigurationItemList { get; set; }
 
-        [DataMember(Name = nameof(IsTableViewAllowed), Order = 1)]
+        [JsonProperty]
         public bool IsTableViewAllowed { get; set; }
 
-        [DataMember(Name = nameof(IsMain), Order = 2)]
+        [JsonProperty]
         public bool? IsMain { get; set; }
 
-        [DataMember(Name = nameof(GroupInfo), Order = 3)]
+        [JsonProperty]
         public IGroupInfo GroupInfo { get; set; }
 
         public override T Accept<T>(IConfigurationItemVisitor<T> visitor)

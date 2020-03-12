@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -16,7 +17,7 @@ using Expression = org.mariuszgromada.math.mxparser.Expression;
 
 namespace Unicon2.Formatting.Model
 {
-    [DataContract(Name = nameof(FormulaFormatter), Namespace = "FormulaFormatterNS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class FormulaFormatter : UshortsFormatterBase, IFormulaFormatter
     {
    
@@ -40,12 +41,12 @@ namespace Unicon2.Formatting.Model
             return visitor.VisitFormulaFormatter(this);
         }
 
-        [DataMember(Name = nameof(FormulaString))]
+        [JsonProperty]
         public string FormulaString { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<IUshortFormattable> UshortFormattables { get; set; }
 
-        [DataMember]
+        [JsonProperty]
 
         public ushort NumberOfSimbolsAfterComma
         {

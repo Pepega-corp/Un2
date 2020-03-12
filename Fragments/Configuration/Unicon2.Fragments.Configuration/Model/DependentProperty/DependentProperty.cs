@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -12,7 +13,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model.DependentProperty
 {
-    [DataContract(Namespace = "DependentPropertyNS", Name = nameof(DependentProperty), IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DependentProperty : DefaultProperty, IDependentProperty
     {
         private IProperty _relatedProperty;
@@ -23,12 +24,8 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
             this.DependancyConditions = new List<IDependancyCondition>();
         }
 
-        [DataMember]
-
-        public List<IDependancyCondition> DependancyConditions { get; set; }
-        [DataMember]
-
-        public ConditionResultEnum ActualConditionResult { get; set; }
+        [JsonProperty] public List<IDependancyCondition> DependancyConditions { get; set; }
+        [JsonProperty] public ConditionResultEnum ActualConditionResult { get; set; }
 
         public IUshortsFormatter DeviceValueUshortsFormatter { get; set; }
         public IUshortsFormatter LocalValueUshortsFormatter { get; set; }

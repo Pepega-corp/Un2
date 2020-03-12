@@ -19,14 +19,16 @@ namespace Unicon2.Services
         private readonly Func<IDeviceCreator> _deviceCreatorGettingFunc;
         private readonly ILogService _logService;
         private readonly ILocalizerService _localizerService;
+        private readonly ISerializerService _serializerService;
 
         public DevicesContainerService(Func<IDevice> deviceGettingFunc, Func<IDeviceCreator> deviceCreatorGettingFunc,
-            ILogService logService, ILocalizerService localizerService)
+            ILogService logService, ILocalizerService localizerService, ISerializerService serializerService)
         {
             this._deviceGettingFunc = deviceGettingFunc;
             this._deviceCreatorGettingFunc = deviceCreatorGettingFunc;
             this._logService = logService;
             this._localizerService = localizerService;
+            _serializerService = serializerService;
             this.ConnectableItems = new List<IConnectable>();
         }
 
@@ -88,7 +90,7 @@ namespace Unicon2.Services
             string[] names = Directory.GetFiles(folderPath).Select((s => Path.GetFileName(s))).ToArray();
             this.Creators = new List<IDeviceCreator>();
 
-            foreach (string name in names.Where(name => name.Contains("xml")))
+            foreach (string name in names.Where(name => name.Contains("json")))
             {
                 IDeviceCreator deviceCreator = this._deviceCreatorGettingFunc();
 
@@ -97,7 +99,7 @@ namespace Unicon2.Services
                 IDevice device = this._deviceGettingFunc();
                 try
                 {
-                    device.DeserializeFromFile(deviceCreator.DeviceDescriptionFilePath);
+                    device= _serializerService.DeserializeFromFile<IDevice>(deviceCreator.DeviceDescriptionFilePath);
                     deviceCreator.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
                     device.Dispose();
                     deviceCreator.DeviceName = Path.GetFileNameWithoutExtension(name);
@@ -118,7 +120,7 @@ namespace Unicon2.Services
             IDeviceCreator creatorFinded = this.Creators.FirstOrDefault((creator => creator.DeviceName == deviceName));
             if (creatorFinded == null) return;
             IDevice device = this._deviceGettingFunc();
-            device.DeserializeFromFile(creatorFinded.DeviceDescriptionFilePath);
+            device=_serializerService.DeserializeFromFile<IDevice>(creatorFinded.DeviceDescriptionFilePath);
             creatorFinded.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
             device.Dispose();
         }

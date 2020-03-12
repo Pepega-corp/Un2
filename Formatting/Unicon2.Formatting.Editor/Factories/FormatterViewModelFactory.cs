@@ -2,8 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Unicon2.Formatting.Editor.ViewModels;
+using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
@@ -48,7 +50,15 @@ namespace Unicon2.Formatting.Editor.Factories
 
         public IUshortsFormatterViewModel VisitFormulaFormatter(IUshortsFormatter formatter)
         {
-            throw new System.NotImplementedException();
+            IUshortsFormatterViewModel formatterViewModel =
+                StaticContainer.Container.Resolve<IUshortsFormatterViewModel>(
+                    StringKeys.FORMULA_FORMATTER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            var formulaFormatter = formatter as IFormulaFormatter;
+            (formatterViewModel as IFormulaFormatterViewModel).NumberOfSimbolsAfterComma =
+                formulaFormatter.NumberOfSimbolsAfterComma;
+            (formatterViewModel as IFormulaFormatterViewModel).FormulaString =
+                formulaFormatter.FormulaString;
+            return formatterViewModel;
         }
 
         public IUshortsFormatterViewModel VisitString1251Formatter(IUshortsFormatter formatter)

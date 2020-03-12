@@ -7,12 +7,6 @@ namespace Unicon2.Infrastructure.DeviceInterfaces.SharedResources
 {
     public interface IDeviceSharedResources : IDisposable
     {
-        List<INameable> SharedResources { get; }
-        void AddResource(INameable resource);
-        void DeleteResource(INameable resource);
-        bool IsItemReferenced(string name);
-
-        void SaveInFile(string path, ISerializerService serializerService);
-        void LoadFromFile(string path, ISerializerService serializerService);
+        List<INameable> SharedResources { get; set; }
     }
 }

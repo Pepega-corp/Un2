@@ -1,5 +1,4 @@
-﻿using Unicon2.Fragments.Configuration.Model.Memory;
-using Unicon2.Infrastructure;
+﻿using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
@@ -12,6 +11,7 @@ using Unicon2.Infrastructure.Values;
 using Unicon2.Model.Connection;
 using Unicon2.Model.DefaultDevice;
 using Unicon2.Model.FragmentSettings;
+using Unicon2.Model.Memory;
 using Unicon2.Model.Progress;
 using Unicon2.Model.Values;
 using Unicon2.Model.Values.Range;
@@ -54,32 +54,32 @@ namespace Unicon2.Model.Module
             container.Register<IDeviceCreator, DefaultDeviceCreator>();
             container.Register(typeof(IDevice), typeof(DefaultDevice.DefaultDevice));
 
-            ISerializerService serializer = container.Resolve<ISerializerService>();
-            serializer.AddKnownTypeForSerialization(typeof(BoolValue));
-            serializer.AddKnownTypeForSerialization(typeof(NumericValue));
-            serializer.AddKnownTypeForSerialization(typeof(ChosenFromListValue));
-            serializer.AddKnownTypeForSerialization(typeof(BitGroupValue));
-            serializer.AddKnownTypeForSerialization(typeof(ErrorValue));
-            serializer.AddKnownTypeForSerialization(typeof(StringValue));
-            serializer.AddKnownTypeForSerialization(typeof(BitMaskValue));
-            serializer.AddKnownTypeForSerialization(typeof(TimeValue));
+            //ISerializerService serializer = container.Resolve<ISerializerService>();
+            //serializer.AddKnownTypeForSerialization(typeof(BoolValue));
+            //serializer.AddKnownTypeForSerialization(typeof(NumericValue));
+            //serializer.AddKnownTypeForSerialization(typeof(ChosenFromListValue));
+            //serializer.AddKnownTypeForSerialization(typeof(BitGroupValue));
+            //serializer.AddKnownTypeForSerialization(typeof(ErrorValue));
+            //serializer.AddKnownTypeForSerialization(typeof(StringValue));
+            //serializer.AddKnownTypeForSerialization(typeof(BitMaskValue));
+            //serializer.AddKnownTypeForSerialization(typeof(TimeValue));
 
-            serializer.AddKnownTypeForSerialization(typeof(DeviceSharedResources));
+            //serializer.AddKnownTypeForSerialization(typeof(DeviceSharedResources));
             
-            serializer.AddKnownTypeForSerialization(typeof(QuickMemoryAccessSetting));
-            serializer.AddKnownTypeForSerialization(typeof(DefaultFragmentSettings));
-            serializer.AddNamespaceAttribute("deviceSharedResourcesNS", "DeviceSharedResourcesNS");
-            serializer.AddNamespaceAttribute("quickMemoryAccessSetting", "QuickMemoryAccessSettingNS");
-            serializer.AddNamespaceAttribute("defaultFragmentSettings", "defaultFragmentSettingsNS");
-            serializer.AddKnownTypeForSerialization(typeof(DefaultRange));
-            serializer.AddKnownTypeForSerialization(typeof(DefaultDevice.DefaultDevice));
-            serializer.AddKnownTypeForSerialization(typeof(DeviceConnectionState));
-            serializer.AddNamespaceAttribute("defaultRange", "DefaultRangeNS");
-            serializer.AddNamespaceAttribute("defaultDevice", "DefaultDeviceNS");
+            //serializer.AddKnownTypeForSerialization(typeof(QuickMemoryAccessSetting));
+            //serializer.AddKnownTypeForSerialization(typeof(DefaultFragmentSettings));
+            //serializer.AddNamespaceAttribute("deviceSharedResourcesNS", "DeviceSharedResourcesNS");
+            //serializer.AddNamespaceAttribute("quickMemoryAccessSetting", "QuickMemoryAccessSettingNS");
+            //serializer.AddNamespaceAttribute("defaultFragmentSettings", "defaultFragmentSettingsNS");
+            //serializer.AddKnownTypeForSerialization(typeof(DefaultRange));
+            //serializer.AddKnownTypeForSerialization(typeof(DefaultDevice.DefaultDevice));
+            //serializer.AddKnownTypeForSerialization(typeof(DeviceConnectionState));
+            //serializer.AddNamespaceAttribute("defaultRange", "DefaultRangeNS");
+            //serializer.AddNamespaceAttribute("defaultDevice", "DefaultDeviceNS");
 
-            serializer.AddNamespaceAttribute("array", "http://schemas.microsoft.com/2003/10/Serialization/Arrays");
+            //serializer.AddNamespaceAttribute("array", "http://schemas.microsoft.com/2003/10/Serialization/Arrays");
 
-            serializer.AddNamespaceAttribute("values", "ValuesNS");
+            //serializer.AddNamespaceAttribute("values", "ValuesNS");
         }
     }
 }

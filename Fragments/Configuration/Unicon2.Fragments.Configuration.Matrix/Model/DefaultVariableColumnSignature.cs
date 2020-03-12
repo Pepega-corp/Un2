@@ -1,15 +1,15 @@
 ﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Values.Matrix;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(DefaultVariableColumnSignature), IsReference = true)]
-
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultVariableColumnSignature : IVariableColumnSignature
     {
-        [DataMember]
+        [JsonProperty]
         public string Signature { get; set; }
-        [DataMember]
+        [JsonProperty]
         public bool IsMultipleAssignmentAllowed { get; set; }
     }
 

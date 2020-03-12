@@ -1,8 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
+using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -10,7 +13,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 {
     public class ResourcesAddingViewModel : ViewModelBase, IResourcesAddingViewModel
     {
-        private string _nameKey;
 
         public ResourcesAddingViewModel()
         {
@@ -27,22 +29,17 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         private void OnSubmitExecute()
         {
+            if (StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>()
+                .CheckDeviceSharedResourcesContainsViewModel(ResourceViewModel))
+            { 
+                return;
+            }
             IsResourceAdded = true;
             RaisePropertyChanged(nameof(IsResourceAdded));
         }
 
 
         public bool IsResourceAdded { get; private set; }
-
-        public string NameKey
-        {
-            get { return _nameKey; }
-            set
-            {
-                _nameKey = value;
-                RaisePropertyChanged();
-            }
-        }
 
         public ICommand SubmitCommand { get; }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
@@ -13,7 +14,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Model
 {
-    [DataContract(IsReference = true, Namespace = "DefaultBitMaskFormatterNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultBitMaskFormatter : UshortsFormatterBase, IBitMaskFormatter
     {
         
@@ -29,7 +30,7 @@ namespace Unicon2.Formatting.Model
             return visitor.VisitBitMaskFormatter(this);
         }
 
-        [DataMember]
+        [JsonProperty]
         public string BitSignaturesInOneLine { get; set; }
 
         public List<string> BitSignatures { get; set; }

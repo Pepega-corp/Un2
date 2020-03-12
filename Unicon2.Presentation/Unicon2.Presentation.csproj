@@ -109,7 +109,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\ToolBarService.cs" />
-    <Compile Include="Subscription\DeviceBusDispatcher.cs" />
+    <Compile Include="Subscription\DeviceEventsDispatcher.cs" />
+    <Compile Include="Subscription\FragmentAwareEventsDispatcher.cs" />
     <Compile Include="Values\Base\EditableValueViewModelBase.cs" />
     <Compile Include="Values\Base\FormattableValueViewModelBase.cs" />
     <Compile Include="Values\BitMaskValueViewModel.cs" />

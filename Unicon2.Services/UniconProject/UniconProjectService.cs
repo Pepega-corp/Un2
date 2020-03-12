@@ -26,12 +26,14 @@ namespace Unicon2.Services.UniconProject
         private readonly IDevicesContainerService _devicesContainerService;
         private readonly ITypesContainer _container;
         private readonly ILogService _logService;
+        private readonly ISerializerService _serializerService;
         private object _dialogContext;
 
 
         public UniconProjectService(IUniconProject uniconProject, ILocalizerService localizerService,
             IDialogCoordinator dialogCoordinator, IApplicationSettingsService applicationSettingsService,
-            IDevicesContainerService devicesContainerService, ITypesContainer container, ILogService logService)
+            IDevicesContainerService devicesContainerService, ITypesContainer container, ILogService logService,ISerializerService serializerService
+            )
         {
             this._uniconProject = uniconProject;
             this._localizerService = localizerService;
@@ -40,6 +42,7 @@ namespace Unicon2.Services.UniconProject
             this._devicesContainerService = devicesContainerService;
             this._container = container;
             this._logService = logService;
+            _serializerService = serializerService;
         }
 
 
@@ -124,7 +127,9 @@ namespace Unicon2.Services.UniconProject
             {
                 try
                 {
-                    this._uniconProject.DeserializeFromFile(ofd.FileName);
+                    var deserialized = _serializerService.DeserializeFromFile<IUniconProject>(ofd.FileName);
+                    _uniconProject.ConnectableItems = deserialized.ConnectableItems;
+                    _uniconProject.LayoutString = deserialized.LayoutString;
                     this._uniconProject.ProjectPath = Path.GetDirectoryName(ofd.FileName);
                     this._uniconProject.Name = Path.GetFileNameWithoutExtension(ofd.FileName);
                     this._devicesContainerService.Refresh();
@@ -161,7 +166,7 @@ namespace Unicon2.Services.UniconProject
             string projectPath = Path.Combine(this._uniconProject.ProjectPath, this._uniconProject.Name + ".uniproj");
             if (isDefaultSaving && this._uniconProject.IsProjectSaved)
             {
-                this._uniconProject.SerializeInFile(projectPath, false);
+                _serializerService.SerializeInFile(_uniconProject, projectPath);
             }
             else
             {
@@ -171,7 +176,7 @@ namespace Unicon2.Services.UniconProject
                 {
                     this._uniconProject.ProjectPath = projectPath = Path.GetDirectoryName(sfd.FileName);
                     this._uniconProject.Name = Path.GetFileNameWithoutExtension(sfd.FileName);
-                    this._uniconProject.SerializeInFile(this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj", false);
+                    _serializerService.SerializeInFile(_uniconProject, this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj");
                 }
                 else return;
             }

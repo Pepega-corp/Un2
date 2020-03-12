@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 {
     public static class ConfigurationItemEditorViewModelFactoryExtension
     {
-        public static ConfigurationItemEditorViewModelFactory SetParent(
+        public static ConfigurationItemEditorViewModelFactory WithParent(
             this ConfigurationItemEditorViewModelFactory factory, IEditorConfigurationItemViewModel parent)
         {
             factory.Parent = parent;
@@ -79,20 +79,21 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             }
         }
 
-        private void InitializeProperty(IPropertyEditorViewModel runtimePropertyViewModel, IProperty property)
+        private void InitializeProperty(IPropertyEditorViewModel editorPropertyViewModel, IProperty property)
         {
-            runtimePropertyViewModel.IsMeasureUnitEnabled = property.IsMeasureUnitEnabled;
-            runtimePropertyViewModel.MeasureUnit = property.MeasureUnit;
-            runtimePropertyViewModel.IsRangeEnabled = property.IsRangeEnabled;
+            editorPropertyViewModel.IsMeasureUnitEnabled = property.IsMeasureUnitEnabled;
+            editorPropertyViewModel.MeasureUnit = property.MeasureUnit;
+            editorPropertyViewModel.IsRangeEnabled = property.IsRangeEnabled;
             if (property.IsRangeEnabled)
             {
                 IRangeViewModel rangeViewModel = _container.Resolve<IRangeViewModel>();
                 rangeViewModel.RangeFrom = property.Range.RangeFrom.ToString();
                 rangeViewModel.RangeFrom = property.Range.RangeTo.ToString();
 
-                runtimePropertyViewModel.RangeViewModel = rangeViewModel;
+                editorPropertyViewModel.RangeViewModel = rangeViewModel;
             }
-
+            editorPropertyViewModel.Address = property.Address.ToString();
+            editorPropertyViewModel.NumberOfPoints = property.NumberOfPoints.ToString();
             var sharedResourcesGlobalViewModel = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
             if (sharedResourcesGlobalViewModel
                 .CheckDeviceSharedResourcesContainsModel(property.UshortsFormatter))
@@ -109,18 +110,18 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                         RelatedUshortsFormatterViewModel = formatterViewModel
                     };
                     sharedResourcesGlobalViewModel.AddSharedResourceViewModel(formatterParametersViewModel);
-                    runtimePropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
+                    editorPropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
                 }
                 else
                 {
-                    runtimePropertyViewModel.FormatterParametersViewModel =
+                    editorPropertyViewModel.FormatterParametersViewModel =
                         sharedResourcesGlobalViewModel.GetResourceViewModel(property.UshortsFormatter.Name) as
                             IFormatterParametersViewModel;
                 }
             }
 
 
-            InitializeBaseProperties(runtimePropertyViewModel, property);
+            InitializeBaseProperties(editorPropertyViewModel, property);
         }
 
         public IEditorConfigurationItemViewModel VisitItemsGroup(IItemsGroup itemsGroup)
@@ -131,7 +132,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 res.ChildStructItemViewModels.Clear();
                 foreach (IConfigurationItem configurationItem in itemsGroup.ConfigurationItemList)
                 {
-                    res.ChildStructItemViewModels.Add(configurationItem.Accept(this.SetParent(res)));
+                    res.IsCheckable = true;
+                    res.ChildStructItemViewModels.Add(configurationItem.Accept(this.WithParent(res)));
                 }
 
                 res.IsMain = itemsGroup.IsMain ?? false;

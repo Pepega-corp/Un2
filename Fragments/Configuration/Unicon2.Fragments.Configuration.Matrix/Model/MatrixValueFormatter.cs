@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Model.Base;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
@@ -12,7 +13,7 @@ using Unicon2.Infrastructure.Values.Matrix;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Name = nameof(MatrixValueFormatter), Namespace = "MatrixValueFormatterNS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class MatrixValueFormatter : UshortsFormatterBase
     {
 

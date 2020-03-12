@@ -36,24 +36,24 @@ namespace Unicon2.Formatting.Module
             container.Register(typeof(IFormatterFactory), typeof(FormatterFactory));
             container.Register(typeof(IFormattingService), typeof(FormattingService), true);
 
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerializationRange(new[]
-            {
-                typeof(FormulaFormatter),
-                typeof(UshortsFormatterBase), typeof(StringFormatter1251),
-                typeof(BoolFormatter), typeof(DirectUshortFormatter), typeof(DefaultBitMaskFormatter),
-                typeof(AsciiStringFormatter), typeof(DictionaryMatchingFormatter), typeof(DefaultTimeFormatter),
-                typeof(UshortToIntegerFormatter)
-            });
-            serializerService.AddNamespaceAttribute("formulaFormatter", "FormulaFormatterNS");
-            serializerService.AddNamespaceAttribute("boolFormatter", "BoolFormatterNS");
-            serializerService.AddNamespaceAttribute("directUshortFormatter", "DirectUshortFormatterNS");
-            serializerService.AddNamespaceAttribute("asciiStringFormatter", "AsciiStringFormatterNS");
-            serializerService.AddNamespaceAttribute("dictionaryMatchingFormatter", "DictionaryMatchingFormatterNS");
-            serializerService.AddNamespaceAttribute("defaultTimeFormatter", "DefaultTimeFormatterNS");
-            serializerService.AddNamespaceAttribute("ushortToIntegerFormatter", "UshortToIntegerFormatterNS");
-            serializerService.AddNamespaceAttribute("defaultBitMaskFormatter", "DefaultBitMaskFormatterNS");
-            serializerService.AddNamespaceAttribute("stringFormatter1251", "StringFormatter1251NS");
+            //ISerializerService serializerService = container.Resolve<ISerializerService>();
+            //serializerService.AddKnownTypeForSerializationRange(new[]
+            //{
+            //    typeof(FormulaFormatter),
+            //    typeof(UshortsFormatterBase), typeof(StringFormatter1251),
+            //    typeof(BoolFormatter), typeof(DirectUshortFormatter), typeof(DefaultBitMaskFormatter),
+            //    typeof(AsciiStringFormatter), typeof(DictionaryMatchingFormatter), typeof(DefaultTimeFormatter),
+            //    typeof(UshortToIntegerFormatter)
+            //});
+            //serializerService.AddNamespaceAttribute("formulaFormatter", "FormulaFormatterNS");
+            //serializerService.AddNamespaceAttribute("boolFormatter", "BoolFormatterNS");
+            //serializerService.AddNamespaceAttribute("directUshortFormatter", "DirectUshortFormatterNS");
+            //serializerService.AddNamespaceAttribute("asciiStringFormatter", "AsciiStringFormatterNS");
+            //serializerService.AddNamespaceAttribute("dictionaryMatchingFormatter", "DictionaryMatchingFormatterNS");
+            //serializerService.AddNamespaceAttribute("defaultTimeFormatter", "DefaultTimeFormatterNS");
+            //serializerService.AddNamespaceAttribute("ushortToIntegerFormatter", "UshortToIntegerFormatterNS");
+            //serializerService.AddNamespaceAttribute("defaultBitMaskFormatter", "DefaultBitMaskFormatterNS");
+            //serializerService.AddNamespaceAttribute("stringFormatter1251", "StringFormatter1251NS");
         }
     }
 }

@@ -340,7 +340,7 @@
                                             HorizontalAlignment="Stretch"
                                             Orientation="Horizontal"
                                             Visibility="{Binding ., Converter={StaticResource IsFormattableToVisibilityConverter}}">
-                                            <lex:LocProxy Name="formatterProxy" Source="{Binding SelectedUshortFormatterName, TargetNullValue=NotSet}" />
+                                            <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterParametersViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
                                             <TextBlock Margin="3" Text="{Binding ElementName=formatterProxy, Path=Result}" />
                                         </StackPanel>
                                     </DataTemplate>

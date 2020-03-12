@@ -27,8 +27,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 		private bool _isRangeEnabled;
 		private bool _isMeasureUnitEnabled;
 		private ushort _addressIteratorValue;
+	    private IFormatterParametersViewModel _formatterParametersViewModel;
 
-		public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
+	    public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
 			ILocalizerService localizerService)
 		{
 			this._container = container;
@@ -184,6 +185,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 			Address = isIncrease ? (ushort.Parse(Address) + addressOffset).ToString() : (ushort.Parse(Address) - addressOffset).ToString();
 		}
 
-		public IFormatterParametersViewModel FormatterParametersViewModel { get; set; }
+	    public IFormatterParametersViewModel FormatterParametersViewModel
+	    {
+	        get => _formatterParametersViewModel;
+	        set
+	        {
+	            _formatterParametersViewModel = value;
+                RaisePropertyChanged();
+	        }
+	    }
 	}
 }

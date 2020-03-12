@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.BaseItems;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
@@ -17,96 +21,37 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Model.DefaultDevice
 {
-    [DataContract(Namespace = "DefaultDeviceNS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultDevice : Disposable, IDevice
     {
         private ILogService _logService;
-        private ISerializerService _serializerService;
-        [DataMember]
+
         private IDeviceConnection _deviceConnection;
 
-        public DefaultDevice(IConnectionState connectionState, ILogService logService,
-            ISerializerService serializerService, IDeviceSharedResources deviceSharedResources)
+        public DefaultDevice(IConnectionState connectionState, ILogService logService, IDeviceSharedResources deviceSharedResources)
         {
             this.ConnectionState = connectionState;
             this._logService = logService;
-            this._serializerService = serializerService;
             this.DeviceFragments = new List<IDeviceFragment>();
             this.DeviceSharedResources = deviceSharedResources;
         }
-
-
-        [DataMember(Name = nameof(Name))]
+        [JsonProperty]
         public string Name { get; set; }
-
-        [DataMember(Name = nameof(ConnectionState))]
+        [JsonProperty]
         public IConnectionState ConnectionState { get; set; }
-        [DataMember]
+        [JsonProperty]
         public IDeviceLogger DeviceLogger { get; set; }
         public IDeviceConnection DeviceConnection
         {
             get { return this._deviceConnection; }
         }
-        [DataMember(Name = nameof(DeviceFragments))]
+        [JsonProperty]
         public IEnumerable<IDeviceFragment> DeviceFragments { get; set; }
-        [DataMember(Name = nameof(DeviceSharedResources))]
-
+        [JsonProperty]
         public IDeviceSharedResources DeviceSharedResources { get; set; }
-
-        public void SerializeInFile(string elementName, bool isDefaultSaving)
-        {
-            if (isDefaultSaving)
-            {
-                if (!(Directory.Exists(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH)))
-                {
-                    Directory.CreateDirectory(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH);
-                }
-                elementName = Path.Combine(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH, elementName + ".xml");
-            }
-            try
-            {
-                using (XmlWriter fs = XmlWriter.Create(elementName, new XmlWriterSettings() { Indent = true }))
-                {
-                    DataContractSerializer ds = new DataContractSerializer(typeof(DefaultDevice), this._serializerService.GetTypesForSerialiation());
-                    ds.WriteObject(fs, this, this._serializerService.GetNamespacesAttributes());
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
-        public void DeserializeFromFile(string path)
-        {
-            using (XmlReader fs = XmlReader.Create(path))
-            {
-                DataContractSerializer ds =
-                    new DataContractSerializer(typeof(DefaultDevice),
-                        this._serializerService.GetTypesForSerialiation());
-                DefaultDevice device = (DefaultDevice) ds.ReadObject(fs);
-                this.Name = device.Name;
-                this.DeviceFragments = device.DeviceFragments;
-                if (device.DeviceSharedResources != null)
-                {
-                    this.DeviceSharedResources = device.DeviceSharedResources;
-                }
-                this.ConnectionState = device.ConnectionState;
-                this.DeviceLogger = device.DeviceLogger;
-            }
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext sc)
-        {
-            this.InitializeDeviceFragments();
-        }
-
-
-        [DataMember(Name = nameof(DeviceSignature))]
+        [JsonProperty]
         public string DeviceSignature { get; set; }
 
-        [DataMember(Name = nameof(DeviceMemory))]
 		public IDeviceMemory DeviceMemory { get; set; }
 
 
@@ -126,21 +71,11 @@ namespace Unicon2.Model.DefaultDevice
                 }
             }
         }
-
-
         protected override void OnDisposing()
         {
             this._logService?.DeleteLogger(this.DeviceLogger);
             this._deviceConnection?.Dispose();
             base.OnDisposing();
-        }
-
-        private void InitializeDeviceFragments()
-        {
-            foreach (IDeviceFragment deviceFragment in this.DeviceFragments)
-            {
-                (deviceFragment as IParentDeviceNameRequirable)?.SetParentDeviceName(this.Name);
-            }
         }
     }
 
