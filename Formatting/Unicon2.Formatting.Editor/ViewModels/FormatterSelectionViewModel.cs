@@ -116,7 +116,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             {
                 if (!((IDynamicFormatterViewModel) SelectedUshortsFormatterViewModel).IsValid) return;
             }
-
+            _ushortFormattableViewModel.FormatterParametersViewModel = _container.Resolve<IFormatterParametersViewModel>();
             _ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
                 SelectedUshortsFormatterViewModel;
             (obj as Window)?.Close();

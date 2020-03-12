@@ -164,7 +164,7 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, ConfigurationEditorModule>(nameof(ConfigurationEditorModule));
             //container.Register<IUnityModule, UniconDateTimeModule>(nameof(UniconDateTimeModule));
             //container.Register<IUnityModule, UniconDateTimeEditorModule>(nameof(UniconDateTimeEditorModule)); 
-            container.Register<IUnityModule, MatrixConfigurationModule>(nameof(MatrixConfigurationModule));
+            //container.Register<IUnityModule, MatrixConfigurationModule>(nameof(MatrixConfigurationModule));
             //container.Register<IUnityModule, ModbusMemoryModule>(nameof(ModbusMemoryModule));
             //container.Register<IUnityModule, JournaEditorModule>(nameof(JournaEditorModule));
             //container.Register<IUnityModule, UniconJournalModule>(nameof(UniconJournalModule));
