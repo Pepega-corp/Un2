@@ -31,12 +31,12 @@ namespace Unicon2.Formatting.Visitors
 
         public ushort[] VisitAsciiStringFormatter(IUshortsFormatter boolFormatter)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public ushort[] VisitTimeFormatter(IUshortsFormatter boolFormatter)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public ushort[] VisitDirectUshortFormatter(IUshortsFormatter boolFormatter)
@@ -97,12 +97,12 @@ namespace Unicon2.Formatting.Visitors
 
         public ushort[] VisitString1251Formatter(IUshortsFormatter boolFormatter)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public ushort[] VisitUshortToIntegerFormatter(IUshortsFormatter boolFormatter)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public ushort[] VisitDictionaryMatchFormatter(IUshortsFormatter formatter)

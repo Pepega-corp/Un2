@@ -24,35 +24,35 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         public DependentPropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel, ILocalizerService localizerService, IApplicationGlobalCommands applicationGlobalCommands, Func<IConditionViewModel> conditionViewModelGettingFunc) : base(container, rangeViewModel, localizerService)
         {
-            this._applicationGlobalCommands = applicationGlobalCommands;
-            this._conditionViewModelGettingFunc = conditionViewModelGettingFunc;
-            this.SubmitCommand = new RelayCommand<object>(this.OnSubmitExecute);
-            this.CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
-            this.ConditionViewModels = new ObservableCollection<IConditionViewModel>();
-            this.AddConditionCommand = new RelayCommand(this.OnAddConditionExecute);
-            this.DeleteConditionCommand = new RelayCommand(this.OnDeleteConditionExecute, this.CanExecuteDeleteCondition);
+            _applicationGlobalCommands = applicationGlobalCommands;
+            _conditionViewModelGettingFunc = conditionViewModelGettingFunc;
+            SubmitCommand = new RelayCommand<object>(OnSubmitExecute);
+            CancelCommand = new RelayCommand<object>(OnCancelExecute);
+            ConditionViewModels = new ObservableCollection<IConditionViewModel>();
+            AddConditionCommand = new RelayCommand(OnAddConditionExecute);
+            DeleteConditionCommand = new RelayCommand(OnDeleteConditionExecute, CanExecuteDeleteCondition);
         }
 
         private bool CanExecuteDeleteCondition()
         {
-            return this.SelectedConditionViewModel != null;
+            return SelectedConditionViewModel != null;
         }
 
         private void OnDeleteConditionExecute()
         {
-            this.SelectedConditionViewModel.Dispose();
-            this.ConditionViewModels.Remove(this.SelectedConditionViewModel);
+            SelectedConditionViewModel.Dispose();
+            ConditionViewModels.Remove(SelectedConditionViewModel);
         }
 
         private void OnAddConditionExecute()
         {
-            IConditionViewModel newConditionViewModel = this._conditionViewModelGettingFunc();
-            this.ConditionViewModels.Add(newConditionViewModel);
+            IConditionViewModel newConditionViewModel = _conditionViewModelGettingFunc();
+            ConditionViewModels.Add(newConditionViewModel);
         }
 
         private void OnSubmitExecute(object obj)
         {
-            this.StopEditElement();
+            StopEditElement();
             (obj as Window)?.Close();
         }
 
@@ -107,8 +107,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         public override void StartEditElement()
         {
-            this._isInEditMode = true;
-            this._applicationGlobalCommands.ShowWindowModal((() => new DependentPropertyEditorWindow()), this);
+            _isInEditMode = true;
+            _applicationGlobalCommands.ShowWindowModal((() => new DependentPropertyEditorWindow()), this);
         }
 
 
@@ -119,12 +119,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         public IConditionViewModel SelectedConditionViewModel
         {
-            get { return this._selectedConditionViewModel; }
+            get { return _selectedConditionViewModel; }
             set
             {
-                this._selectedConditionViewModel = value;
-                ((RelayCommand)this.DeleteConditionCommand).RaiseCanExecuteChanged();
-                this.RaisePropertyChanged();
+                _selectedConditionViewModel = value;
+                ((RelayCommand)DeleteConditionCommand).RaiseCanExecuteChanged();
+                RaisePropertyChanged();
             }
         }
 

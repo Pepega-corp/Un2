@@ -13,58 +13,58 @@ namespace Unicon2.Fragments.Configuration.Factories
 
         public ConfigurationItemFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public IConfigurationItem ResolveConfigurationItem()
         {
-            IProperty prop = this._container.Resolve(typeof(IProperty)) as IProperty;
+            IProperty prop = _container.Resolve(typeof(IProperty)) as IProperty;
             prop.NumberOfPoints = 1;
             return prop;
         }
 
         public IConfigurationItem ResolveGroupConfigurationItem()
         {
-            IItemsGroup group = this._container.Resolve(typeof(IItemsGroup)) as IItemsGroup;
+            IItemsGroup group = _container.Resolve(typeof(IItemsGroup)) as IItemsGroup;
             return group;
         }
 
         public IConfigurationItem ResolveDependentConfigurationItem()
         {
-            IDependentProperty dependentProperty = this._container.Resolve(typeof(IDependentProperty)) as IDependentProperty;
+            IDependentProperty dependentProperty = _container.Resolve(typeof(IDependentProperty)) as IDependentProperty;
             return dependentProperty;
         }
 
         public IConfigurationItem ResolveSubPropertyItem()
         {
-            ISubProperty subProperty = this._container.Resolve(typeof(ISubProperty)) as ISubProperty;
+            ISubProperty subProperty = _container.Resolve(typeof(ISubProperty)) as ISubProperty;
             return subProperty;
         }
 
         public IConfigurationItem ResolveComplexPropertyItem()
         {
-            IComplexProperty complexProperty = this._container.Resolve(typeof(IComplexProperty)) as IComplexProperty;
+            IComplexProperty complexProperty = _container.Resolve(typeof(IComplexProperty)) as IComplexProperty;
             complexProperty.NumberOfPoints = 1;
             return complexProperty;
         }
 
         public IConfigurationItem ResolveAppointableMatrix()
         {
-            IConfigurationItem appointableMatrix = this._container.Resolve<IConfigurationItem>(ConfigurationKeys.APPOINTABLE_MATRIX);
+            IConfigurationItem appointableMatrix = _container.Resolve<IConfigurationItem>(ConfigurationKeys.APPOINTABLE_MATRIX);
 
             return appointableMatrix;
         }
 
         public IGroupWithReiterationInfo ResolveGroupWithReiterationInfo()
         {
-            IGroupWithReiterationInfo groupWithReiterationInfo = this._container.Resolve<IGroupWithReiterationInfo>();
+            IGroupWithReiterationInfo groupWithReiterationInfo = _container.Resolve<IGroupWithReiterationInfo>();
             groupWithReiterationInfo.SubGroups=new List<IReiterationSubGroupInfo>();
             return groupWithReiterationInfo;
         }
 
         public IReiterationSubGroupInfo ResolveReiterationSubGroupInfo()
         {
-            IReiterationSubGroupInfo reiterationSubGroupInfo = this._container.Resolve<IReiterationSubGroupInfo>();
+            IReiterationSubGroupInfo reiterationSubGroupInfo = _container.Resolve<IReiterationSubGroupInfo>();
             return reiterationSubGroupInfo;
         }
     }

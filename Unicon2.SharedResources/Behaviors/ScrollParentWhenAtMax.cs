@@ -16,18 +16,18 @@ namespace Unicon2.SharedResources.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
-            this.AssociatedObject.PreviewMouseWheel += PreviewMouseWheel;
+            AssociatedObject.PreviewMouseWheel += PreviewMouseWheel;
         }
 
         protected override void OnDetaching()
         {
-            this.AssociatedObject.PreviewMouseWheel -= PreviewMouseWheel;
+            AssociatedObject.PreviewMouseWheel -= PreviewMouseWheel;
             base.OnDetaching();
         }
 
         private void PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            var scrollViewer = GetVisualChild<ScrollViewer>(this.AssociatedObject);
+            var scrollViewer = GetVisualChild<ScrollViewer>(AssociatedObject);
             var scrollPos = scrollViewer.ContentVerticalOffset;
             if ((scrollPos == scrollViewer.ScrollableHeight && e.Delta < 0)
                 || (scrollPos == 0 && e.Delta > 0))

@@ -32,26 +32,26 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
             IFormatterEditorFactory formatterEditorFactory, ITypesContainer container, IRangeViewModel rangeViewModel,
             ILocalizerService localizerService) : base(container, rangeViewModel, localizerService)
         {
-            this._dependancyCondition = dependancyCondition;
-            this._sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
-            this._formatterEditorFactory = formatterEditorFactory;
-            this.SelectPropertyFromResourceCommand = new RelayCommand(this.OnSelectPropertyFromResourceExecute);
-            this.ConditionResultList = new List<string>(Enum.GetNames(typeof(ConditionResultEnum)));
-            this.ConditionsList = new List<string>(Enum.GetNames(typeof(ConditionsEnum)));
-            this.ShowFormatterParameters = new RelayCommand(this.OnShowFormatterParameters);
+            _dependancyCondition = dependancyCondition;
+            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+            _formatterEditorFactory = formatterEditorFactory;
+            SelectPropertyFromResourceCommand = new RelayCommand(OnSelectPropertyFromResourceExecute);
+            ConditionResultList = new List<string>(Enum.GetNames(typeof(ConditionResultEnum)));
+            ConditionsList = new List<string>(Enum.GetNames(typeof(ConditionsEnum)));
+            ShowFormatterParameters = new RelayCommand(OnShowFormatterParameters);
         }
 
 
         private void OnShowFormatterParameters()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this);
-            this.RaisePropertyChanged(nameof(this.UshortFormatterString));
+            _formatterEditorFactory.EditFormatterByUser(this);
+            RaisePropertyChanged(nameof(UshortFormatterString));
         }
 
         private void OnSelectPropertyFromResourceExecute()
         {
            // this._dependancyCondition.LocalAndDeviceValuesContaining = this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(ILocalAndDeviceValuesContaining)) as ILocalAndDeviceValuesContaining;
-            this.RaisePropertyChanged(nameof(this.ReferencedResorcePropertyName));
+            RaisePropertyChanged(nameof(ReferencedResorcePropertyName));
         }
 
 
@@ -65,21 +65,21 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
 
         public string SelectedCondition
         {
-            get { return this._selectedCondition; }
+            get { return _selectedCondition; }
             set
             {
-                this._selectedCondition = value;
-                this.RaisePropertyChanged();
+                _selectedCondition = value;
+                RaisePropertyChanged();
             }
         }
 
         public ushort UshortValueToCompare
         {
-            get { return this._ushortValueToCompare; }
+            get { return _ushortValueToCompare; }
             set
             {
-                this._ushortValueToCompare = value;
-                this.RaisePropertyChanged();
+                _ushortValueToCompare = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -87,11 +87,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
 
         public string SelectedConditionResult
         {
-            get { return this._selectedConditionResult; }
+            get { return _selectedConditionResult; }
             set
             {
-                this._selectedConditionResult = value;
-                this.RaisePropertyChanged();
+                _selectedConditionResult = value;
+                RaisePropertyChanged();
             }
         }
           public string UshortFormatterString =>"";
@@ -104,30 +104,30 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
 
         public object Model
         {
-            get { return this.GetModel(); }
-            set { this.SetModel(value as IDependancyCondition); }
+            get { return GetModel(); }
+            set { SetModel(value as IDependancyCondition); }
         }
 
         private void SetModel(IDependancyCondition dependancyCondition)
         {
-            this._dependancyCondition = dependancyCondition;
-            this.SelectedCondition = this._dependancyCondition.ConditionsEnum.ToString();
-            this.SelectedConditionResult = this._dependancyCondition.ConditionResult.ToString();
-            this.UshortValueToCompare = this._dependancyCondition.UshortValueToCompare;
-            this.RaisePropertyChanged(nameof(this.UshortFormatterString));
+            _dependancyCondition = dependancyCondition;
+            SelectedCondition = _dependancyCondition.ConditionsEnum.ToString();
+            SelectedConditionResult = _dependancyCondition.ConditionResult.ToString();
+            UshortValueToCompare = _dependancyCondition.UshortValueToCompare;
+            RaisePropertyChanged(nameof(UshortFormatterString));
         }
 
 
         private IDependancyCondition GetModel()
         {
-            this._dependancyCondition.UshortValueToCompare = this.UshortValueToCompare;
+            _dependancyCondition.UshortValueToCompare = UshortValueToCompare;
             ConditionsEnum cond;
-            Enum.TryParse(this.SelectedCondition, out cond);
-            this._dependancyCondition.ConditionsEnum = cond;
+            Enum.TryParse(SelectedCondition, out cond);
+            _dependancyCondition.ConditionsEnum = cond;
             ConditionResultEnum condRes;
-            Enum.TryParse(this.SelectedConditionResult, out condRes);
-            this._dependancyCondition.ConditionResult = condRes;
-            return this._dependancyCondition;
+            Enum.TryParse(SelectedConditionResult, out condRes);
+            _dependancyCondition.ConditionResult = condRes;
+            return _dependancyCondition;
         }
     }
 }

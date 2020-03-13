@@ -30,10 +30,10 @@ namespace Unicon2.Model.DefaultDevice
 
         public DefaultDevice(IConnectionState connectionState, ILogService logService, IDeviceSharedResources deviceSharedResources)
         {
-            this.ConnectionState = connectionState;
-            this._logService = logService;
-            this.DeviceFragments = new List<IDeviceFragment>();
-            this.DeviceSharedResources = deviceSharedResources;
+            ConnectionState = connectionState;
+            _logService = logService;
+            DeviceFragments = new List<IDeviceFragment>();
+            DeviceSharedResources = deviceSharedResources;
         }
         [JsonProperty]
         public string Name { get; set; }
@@ -43,7 +43,7 @@ namespace Unicon2.Model.DefaultDevice
         public IDeviceLogger DeviceLogger { get; set; }
         public IDeviceConnection DeviceConnection
         {
-            get { return this._deviceConnection; }
+            get { return _deviceConnection; }
         }
         [JsonProperty]
         public IEnumerable<IDeviceFragment> DeviceFragments { get; set; }
@@ -57,12 +57,12 @@ namespace Unicon2.Model.DefaultDevice
 
         public void InitializeConnection(IDeviceConnection deviceConnection)
         {
-            this._deviceConnection = deviceConnection;
-            this._logService.AddLogger(this.DeviceLogger, this.Name);
-            this.ConnectionState.Initialize(deviceConnection, this.DeviceLogger);
+            _deviceConnection = deviceConnection;
+            _logService.AddLogger(DeviceLogger, Name);
+            ConnectionState.Initialize(deviceConnection, DeviceLogger);
             if (deviceConnection is IDataProvider)
             {
-                foreach (IDeviceFragment fragment in this.DeviceFragments)
+                foreach (IDeviceFragment fragment in DeviceFragments)
                 {
                     if (fragment is IDataProviderContaining dataProviderContaining)
                     {
@@ -73,8 +73,8 @@ namespace Unicon2.Model.DefaultDevice
         }
         protected override void OnDisposing()
         {
-            this._logService?.DeleteLogger(this.DeviceLogger);
-            this._deviceConnection?.Dispose();
+            _logService?.DeleteLogger(DeviceLogger);
+            _deviceConnection?.Dispose();
             base.OnDisposing();
         }
     }

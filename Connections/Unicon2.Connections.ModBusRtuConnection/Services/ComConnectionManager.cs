@@ -6,6 +6,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
+using Newtonsoft.Json;
 using NModbus4.Serial;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces.Factories;
@@ -16,7 +17,7 @@ using Unicon2.Infrastructure.Services;
 namespace Unicon2.Connections.ModBusRtuConnection.Services
 {
 
-    [DataContract(Namespace = nameof(ComConnectionManager) + "Ns", Name = nameof(ComConnectionManager))]
+    [JsonObject(MemberSerialization.OptIn)]
     public class ComConnectionManager : IComConnectionManager
     {
         private readonly IComPortConfigurationFactory _comPortConfigurationFactory;
@@ -25,14 +26,14 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
         public ComConnectionManager(IComPortConfigurationFactory comPortConfigurationFactory,
             ISerializerService serializerService)
         {
-            this._comPortConfigurationFactory = comPortConfigurationFactory;
-            this._serializerService = serializerService;
-            this.ComPortConfigurationsDictionary = new Dictionary<string, IComPortConfiguration>();
+            _comPortConfigurationFactory = comPortConfigurationFactory;
+            _serializerService = serializerService;
+            ComPortConfigurationsDictionary = new Dictionary<string, IComPortConfiguration>();
             if (File.Exists(StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".xml"))
             {
                 try
                 {
-                    this.ComPortConfigurationsDictionary =
+                    ComPortConfigurationsDictionary =
                         _serializerService.DeserializeFromFile<ComConnectionManager>(
                             StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json").ComPortConfigurationsDictionary;
                 }
@@ -50,43 +51,43 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
             List<string> portNames = SerialPort.GetPortNames().ToList();
             foreach (string portName in portNames)
             {
-                if (!this.ComPortConfigurationsDictionary.ContainsKey(portName))
+                if (!ComPortConfigurationsDictionary.ContainsKey(portName))
                 {
-                    this.ComPortConfigurationsDictionary.Add(portName,
-                        this._comPortConfigurationFactory.CreateComPortConfiguration());
+                    ComPortConfigurationsDictionary.Add(portName,
+                        _comPortConfigurationFactory.CreateComPortConfiguration());
                 }
             }
 
             return portNames;
         }
 
-        [DataMember] public Dictionary<string, IComPortConfiguration> ComPortConfigurationsDictionary { get; set; }
+        [JsonProperty] public Dictionary<string, IComPortConfiguration> ComPortConfigurationsDictionary { get; set; }
 
         public IComPortConfiguration GetComPortConfiguration(string portName)
         {
             if (portName == null) return null;
-            if (this.ComPortConfigurationsDictionary.ContainsKey(portName))
-                return this.ComPortConfigurationsDictionary[portName];
+            if (ComPortConfigurationsDictionary.ContainsKey(portName))
+                return ComPortConfigurationsDictionary[portName];
             return null;
         }
 
         public void SetComPortConfigurationByName(IComPortConfiguration comPortConfiguration, string portName)
         {
-            if (!this.ComPortConfigurationsDictionary.ContainsKey(portName))
+            if (!ComPortConfigurationsDictionary.ContainsKey(portName))
             {
-                this.ComPortConfigurationsDictionary.Add(portName,
-                    this._comPortConfigurationFactory.CreateComPortConfiguration());
+                ComPortConfigurationsDictionary.Add(portName,
+                    _comPortConfigurationFactory.CreateComPortConfiguration());
             }
 
-            this.ComPortConfigurationsDictionary[portName] = comPortConfiguration;
+            ComPortConfigurationsDictionary[portName] = comPortConfiguration;
         }
 
         public SerialPortAdapter GetSerialPortAdapter(string portName)
         {
             SerialPort serialPort = new SerialPort(portName);
             SerialPortAdapter serialPortAdapter = new SerialPortAdapter(serialPort);
-            if (!this.ComPortConfigurationsDictionary.ContainsKey(portName)) return null;
-            IComPortConfiguration comPortConfiguration = this.ComPortConfigurationsDictionary[portName];
+            if (!ComPortConfigurationsDictionary.ContainsKey(portName)) return null;
+            IComPortConfiguration comPortConfiguration = ComPortConfigurationsDictionary[portName];
             serialPort.BaudRate = comPortConfiguration.BaudRate;
             serialPort.DataBits = comPortConfiguration.DataBits;
             serialPort.StopBits = comPortConfiguration.StopBits;
@@ -119,8 +120,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
         {
             SerialPort serialPort = new SerialPort(portName);
             SerialPortAdapter serialPortAdapter = new SerialPortAdapter(serialPort);
-            if (!this.ComPortConfigurationsDictionary.ContainsKey(portName)) return null;
-            comPortConfiguration = this.ComPortConfigurationsDictionary[portName];
+            if (!ComPortConfigurationsDictionary.ContainsKey(portName)) return null;
+            comPortConfiguration = ComPortConfigurationsDictionary[portName];
             serialPort.BaudRate = comPortConfiguration.BaudRate;
             serialPort.DataBits = comPortConfiguration.DataBits;
             serialPort.StopBits = comPortConfiguration.StopBits;

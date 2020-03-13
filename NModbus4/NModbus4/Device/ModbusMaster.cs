@@ -35,7 +35,7 @@ namespace NModbus4.Device
                 startAddress,
                 numberOfPoints);
 
-            return this.PerformReadDiscretes(request);
+            return PerformReadDiscretes(request);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace NModbus4.Device
                 startAddress,
                 numberOfPoints);
 
-            return this.PerformReadDiscretesAsync(request);
+            return PerformReadDiscretesAsync(request);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace NModbus4.Device
                 startAddress,
                 numberOfPoints);
 
-            return this.PerformReadDiscretes(request);
+            return PerformReadDiscretes(request);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace NModbus4.Device
                 startAddress,
                 numberOfPoints);
 
-            return this.PerformReadDiscretesAsync(request);
+            return PerformReadDiscretesAsync(request);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace NModbus4.Device
                 startAddress,
                 numberOfPoints);
 
-            return this.PerformReadRegisters(request);
+            return PerformReadRegisters(request);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace NModbus4.Device
                 startAddress,
                 numberOfPoints);
 
-            return this.PerformReadRegistersAsync(request);
+            return PerformReadRegistersAsync(request);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace NModbus4.Device
                 startAddress,
                 numberOfPoints);
 
-            return this.PerformReadRegisters(request);
+            return PerformReadRegisters(request);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace NModbus4.Device
                 startAddress,
                 numberOfPoints);
 
-            return this.PerformReadRegistersAsync(request);
+            return PerformReadRegistersAsync(request);
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace NModbus4.Device
         public void WriteSingleCoil(byte slaveAddress, ushort coilAddress, bool value)
         {
             WriteSingleCoilRequestResponse request = new WriteSingleCoilRequestResponse(slaveAddress, coilAddress, value);
-            this.Transport.UnicastMessage<WriteSingleCoilRequestResponse>(request);
+            Transport.UnicastMessage<WriteSingleCoilRequestResponse>(request);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace NModbus4.Device
         public Task WriteSingleCoilAsync(byte slaveAddress, ushort coilAddress, bool value)
         {
             WriteSingleCoilRequestResponse request = new WriteSingleCoilRequestResponse(slaveAddress, coilAddress, value);
-            return this.PerformWriteRequestAsync<WriteSingleCoilRequestResponse>(request);
+            return PerformWriteRequestAsync<WriteSingleCoilRequestResponse>(request);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace NModbus4.Device
                 registerAddress,
                 value);
 
-            this.Transport.UnicastMessage<WriteSingleRegisterRequestResponse>(request);
+            Transport.UnicastMessage<WriteSingleRegisterRequestResponse>(request);
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace NModbus4.Device
                 registerAddress,
                 value);
 
-            return this.PerformWriteRequestAsync<WriteSingleRegisterRequestResponse>(request);
+            return PerformWriteRequestAsync<WriteSingleRegisterRequestResponse>(request);
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace NModbus4.Device
                 startAddress,
                 new RegisterCollection(data));
 
-            this.Transport.UnicastMessage<WriteMultipleRegistersResponse>(request);
+            Transport.UnicastMessage<WriteMultipleRegistersResponse>(request);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace NModbus4.Device
                 startAddress,
                 new RegisterCollection(data));
 
-            return this.PerformWriteRequestAsync<WriteMultipleRegistersResponse>(request);
+            return PerformWriteRequestAsync<WriteMultipleRegistersResponse>(request);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace NModbus4.Device
                 startAddress,
                 new DiscreteCollection(data));
 
-            this.Transport.UnicastMessage<WriteMultipleCoilsResponse>(request);
+            Transport.UnicastMessage<WriteMultipleCoilsResponse>(request);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace NModbus4.Device
                 startAddress,
                 new DiscreteCollection(data));
 
-            return this.PerformWriteRequestAsync<WriteMultipleCoilsResponse>(request);
+            return PerformWriteRequestAsync<WriteMultipleCoilsResponse>(request);
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace NModbus4.Device
                 startWriteAddress,
                 new RegisterCollection(writeData));
 
-            return this.PerformReadRegisters(request);
+            return PerformReadRegisters(request);
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace NModbus4.Device
                 startWriteAddress,
                 new RegisterCollection(writeData));
 
-            return this.PerformReadRegistersAsync(request);
+            return PerformReadRegistersAsync(request);
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace NModbus4.Device
         public TResponse ExecuteCustomMessage<TResponse>(IModbusMessage request)
             where TResponse : IModbusMessage, new()
         {
-            return this.Transport.UnicastMessage<TResponse>(request);
+            return Transport.UnicastMessage<TResponse>(request);
         }
 
         private static void ValidateData<T>(string argumentName, T[] data, int maxDataLength)
@@ -407,45 +407,45 @@ namespace NModbus4.Device
 
         private bool[] PerformReadDiscretes(ReadCoilsInputsRequest request)
         {
-            ReadCoilsInputsResponse response = this.Transport.UnicastMessage<ReadCoilsInputsResponse>(request);
+            ReadCoilsInputsResponse response = Transport.UnicastMessage<ReadCoilsInputsResponse>(request);
             return response.Data.Take(request.NumberOfPoints).ToArray();
         }
 
         private Task<bool[]> PerformReadDiscretesAsync(ReadCoilsInputsRequest request)
         {
-            return Task.Factory.StartNew(() => this.PerformReadDiscretes(request));
+            return Task.Factory.StartNew(() => PerformReadDiscretes(request));
         }
 
         private ushort[] PerformReadRegisters(ReadHoldingInputRegistersRequest request)
         {
             ReadHoldingInputRegistersResponse response =
-                this.Transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
+                Transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
 
             return response.Data.Take(request.NumberOfPoints).ToArray();
         }
 
         private Task<ushort[]> PerformReadRegistersAsync(ReadHoldingInputRegistersRequest request)
         {
-            return Task.Factory.StartNew(() => this.PerformReadRegisters(request));
+            return Task.Factory.StartNew(() => PerformReadRegisters(request));
         }
 
         private ushort[] PerformReadRegisters(ReadWriteMultipleRegistersRequest request)
         {
             ReadHoldingInputRegistersResponse response =
-                this.Transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
+                Transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
 
             return response.Data.Take(request.ReadRequest.NumberOfPoints).ToArray();
         }
 
         private Task<ushort[]> PerformReadRegistersAsync(ReadWriteMultipleRegistersRequest request)
         {
-            return Task.Factory.StartNew(() => this.PerformReadRegisters(request));
+            return Task.Factory.StartNew(() => PerformReadRegisters(request));
         }
 
         private Task PerformWriteRequestAsync<T>(IModbusMessage request)
             where T : IModbusMessage, new()
         {
-            return Task.Factory.StartNew(() => this.Transport.UnicastMessage<T>(request));
+            return Task.Factory.StartNew(() => Transport.UnicastMessage<T>(request));
         }
     }
 }

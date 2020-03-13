@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.Connection;
@@ -9,15 +10,15 @@ using Unicon2.Infrastructure.Interfaces.DataOperations;
 
 namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
 {
-    [DataContract(Name = nameof(ActivatedConfigurationSetting), Namespace = "ActivatedConfigurationSettingNS")]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class ActivatedConfigurationSetting : IActivatedSetting, IWriteable
     {
-        [DataMember(Name = nameof(ActivationAddress), Order = 0)]
+        [JsonProperty]
 
         public ushort ActivationAddress { get; set; }
 
-        [DataMember(Name = nameof(IsSettingEnabled), Order = 1)]
+        [JsonProperty]
 
         public bool IsSettingEnabled { get; set; }
 

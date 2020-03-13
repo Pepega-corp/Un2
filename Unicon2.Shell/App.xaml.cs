@@ -71,18 +71,18 @@ namespace Unicon2.Shell
             }
             else
             {
-                this._bootstrapperInitialized = false;
+                _bootstrapperInitialized = false;
                 UniconSplashScreenViewModel uniconSplashScreenViewModel = new UniconSplashScreenViewModel(this);
-                this.WaitForCreation = new AutoResetEvent(false);
+                WaitForCreation = new AutoResetEvent(false);
                 //local function
                 void ShowSplash()
                 {
                     Dispatcher.CurrentDispatcher.BeginInvoke((Action)(() =>
                    {
-                       this._uniconSplashScreen = new UniconSplashScreen();
-                       this._uniconSplashScreen.DataContext = uniconSplashScreenViewModel;
-                       this._uniconSplashScreen.Show();
-                       this.WaitForCreation.Set();
+                       _uniconSplashScreen = new UniconSplashScreen();
+                       _uniconSplashScreen.DataContext = uniconSplashScreenViewModel;
+                       _uniconSplashScreen.Show();
+                       WaitForCreation.Set();
                    }));
 
                     Dispatcher.Run();
@@ -91,10 +91,10 @@ namespace Unicon2.Shell
                 Thread thread = new Thread(ShowSplash) { Name = "Splash Thread", IsBackground = true };
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.Start();
-                this.WaitForCreation.WaitOne();
-                this._uniconSplashScreen.Closed += (o, ea) =>
+                WaitForCreation.WaitOne();
+                _uniconSplashScreen.Closed += (o, ea) =>
                 {
-                    if (!this._bootstrapperInitialized)
+                    if (!_bootstrapperInitialized)
                     {
                         Environment.Exit(0);
                     }
@@ -111,7 +111,7 @@ namespace Unicon2.Shell
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            this.BootsrapperMessageAction?.Invoke("Register Types");
+            BootsrapperMessageAction?.Invoke("Register Types");
             //Register TypesContainer that represent IUnityContainer
             containerRegistry.RegisterSingleton<ITypesContainer, TypesContainer>();
             StaticContainer.SetContainer(Container.Resolve<ITypesContainer>());
@@ -124,8 +124,8 @@ namespace Unicon2.Shell
             StaticContainer.Container.RegisterViewModel<Views.Shell, ShellViewModel>();
             StaticContainer.Container.RegisterViewModel<ShellSettingsFlyOut, ShellSettingsViewModel>();
             //модули
-            this.RegisterModuleCatalogs(StaticContainer.Container);
-            this.InitializeUnityModules();
+            RegisterModuleCatalogs(StaticContainer.Container);
+            InitializeUnityModules();
         }
 
         protected override Window CreateShell()
@@ -138,15 +138,15 @@ namespace Unicon2.Shell
             Current.MainWindow = shell;
             Current.MainWindow?.Show();
             Current.MainWindow?.Activate();
-            this._bootstrapperInitialized = true;
-            this._uniconSplashScreen.Dispatcher.Invoke(this._uniconSplashScreen.Close);
+            _bootstrapperInitialized = true;
+            _uniconSplashScreen.Dispatcher.Invoke(_uniconSplashScreen.Close);
             ShellSettingsViewModel settingsViewModel = Container.Resolve<ShellSettingsViewModel>();
             settingsViewModel.Initialize();
         }
 
         protected void RegisterModuleCatalogs(ITypesContainer container)
         {
-            this.BootsrapperMessageAction?.Invoke("Adding Modules To Catalog");
+            BootsrapperMessageAction?.Invoke("Adding Modules To Catalog");
             container.Register<IUnityModule, ServicesModule>(nameof(ServicesModule));
             container.Register<IUnityModule, ModuleDeviceEditingModule>(nameof(ModuleDeviceEditingModule));
             container.Register<IUnityModule, MockConnectionModule>(nameof(MockConnectionModule));
@@ -183,14 +183,14 @@ namespace Unicon2.Shell
         {
             base.InitializeModules();
 
-            this.BootsrapperMessageAction?.Invoke("Initializing Devices");
+            BootsrapperMessageAction?.Invoke("Initializing Devices");
             IDevicesContainerService devicesContainerService = StaticContainer.Container.Resolve<IDevicesContainerService>();
             devicesContainerService.LoadDevicesDefinitions();
         }
 
         private void InitializeUnityModules()
         {
-            this.BootsrapperMessageAction?.Invoke("Initializing Modules");
+            BootsrapperMessageAction?.Invoke("Initializing Modules");
             System.Collections.Generic.IEnumerable<IUnityModule> modules = StaticContainer.Container.ResolveAll<IUnityModule>();
             foreach (IUnityModule module in modules)
             {

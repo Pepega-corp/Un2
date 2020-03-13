@@ -4,16 +4,16 @@ using System;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Connections.DataProvider.Model;
 using Unicon2.Connections.ModBusTcpConnection.Interfaces;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.LogService;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Connections.ModBusTcpConnection.Model
 {
-    [DataContract(Namespace = "ModbusTcpConnectionNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class ModbusTcpConnection : ModbusDataProvider, IModbusTcpConnection
     {
         private readonly IQueryResultFactory _queryResultFactory;
@@ -27,11 +27,11 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
         public ModbusTcpConnection(IQueryResultFactory queryResultFactory, ILocalizerService localizerService) : base(
             queryResultFactory)
         {
-            this._queryResultFactory = queryResultFactory;
-            this._localizerService = localizerService;
+            _queryResultFactory = queryResultFactory;
+            _localizerService = localizerService;
 
-            this.Port = PORT_DEFAULT;
-            this.IpAddress = IP_DEFAULT;
+            Port = PORT_DEFAULT;
+            IpAddress = IP_DEFAULT;
         }
 
         protected override void LogQuery(bool isSuccessful, string dataTitle, string queryDescription,
@@ -40,30 +40,30 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
         {
             base.LogQuery(isSuccessful, dataTitle, queryDescription, queryResult, exception);
             string localizedDataTitle = dataTitle;
-            this._localizerService.TryGetLocalizedString(dataTitle, out localizedDataTitle);
+            _localizerService.TryGetLocalizedString(dataTitle, out localizedDataTitle);
             if (isSuccessful)
             {
-                if (this._isConnectionLost)
+                if (_isConnectionLost)
                 {
-                    this._isConnectionLost = false;
-                    this.LastQueryStatusChangedAction?.Invoke(true);
+                    _isConnectionLost = false;
+                    LastQueryStatusChangedAction?.Invoke(true);
                 }
 
-                this._currentDeviceLogger.LogSuccessfulQuery(
+                _currentDeviceLogger.LogSuccessfulQuery(
                     "[" + queryDescription + "]" + " " + localizedDataTitle + ". " + queryResult);
             }
             else
             {
-                if (!this._isConnectionLost)
+                if (!_isConnectionLost)
                 {
-                    this._isConnectionLost = true;
-                    this.LastQueryStatusChangedAction?.Invoke(false);
+                    _isConnectionLost = true;
+                    LastQueryStatusChangedAction?.Invoke(false);
                 }
 
                 string exceptionDescription;
                 if (exception is SlaveException)
                 {
-                    this._localizerService.TryGetLocalizedString((exception as SlaveException).MessageKey,
+                    _localizerService.TryGetLocalizedString((exception as SlaveException).MessageKey,
                         out exceptionDescription);
                 }
                 else
@@ -72,14 +72,14 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
                 }
 
                 queryResult = exceptionDescription;
-                this._currentDeviceLogger.LogFailedQuery($"[{queryDescription}] {localizedDataTitle}  {queryResult}");
+                _currentDeviceLogger.LogFailedQuery($"[{queryDescription}] {localizedDataTitle}  {queryResult}");
             }
         }
 
         public object Clone()
         {
-            return new ModbusTcpConnection(this._queryResultFactory, this._localizerService)
-                {Port = this.Port, IpAddress = this.IpAddress};
+            return new ModbusTcpConnection(_queryResultFactory, _localizerService)
+                {Port = Port, IpAddress = IpAddress};
         }
 
         public string ConnectionName => "ModBus TCP";
@@ -90,11 +90,11 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
             {
                 await Task.Run(() =>
                 {
-                    TcpClient client = new TcpClient(this.IpAddress, this.Port);
+                    TcpClient client = new TcpClient(IpAddress, Port);
 
-                    this._currentModbusMaster = ModbusIpMaster.CreateIp(client);
+                    _currentModbusMaster = ModbusIpMaster.CreateIp(client);
 
-                    this._currentDeviceLogger = currentDeviceLogger;
+                    _currentDeviceLogger = currentDeviceLogger;
                 });
 
                 return true;
@@ -116,10 +116,10 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
 
         public void CloseConnection()
         {
-            this._currentModbusMaster.Dispose();
+            _currentModbusMaster.Dispose();
         }
 
-        [DataMember] public int Port { get; set; }
-        [DataMember] public string IpAddress { get; set; }
+        [JsonProperty] public int Port { get; set; }
+        [JsonProperty] public string IpAddress { get; set; }
     }
 }

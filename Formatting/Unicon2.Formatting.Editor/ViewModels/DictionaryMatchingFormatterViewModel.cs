@@ -19,10 +19,10 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public DictionaryMatchingFormatterViewModel()
         {
-            this.KeyValuesDictionary = new ObservableCollection<BindableKeyValuePair<ushort, string>>();
-            this.AddKeyValuePairCommand = new RelayCommand(this.OnAddKeyValuePairExecute);
-            this.DeleteKeyValuePairCommand = new RelayCommand(this.OnDeleteKeyValuePairExecute, this.CanExecuteDeleteKeyValuePair);
-            this.ImportFromSharedTablesCommand = new RelayCommand(this.OnExecuteImportFromSharedTables);
+            KeyValuesDictionary = new ObservableCollection<BindableKeyValuePair<ushort, string>>();
+            AddKeyValuePairCommand = new RelayCommand(OnAddKeyValuePairExecute);
+            DeleteKeyValuePairCommand = new RelayCommand(OnDeleteKeyValuePairExecute, CanExecuteDeleteKeyValuePair);
+            ImportFromSharedTablesCommand = new RelayCommand(OnExecuteImportFromSharedTables);
            // this._validator = new DictionaryMatchingFormatterValidator(this._container.Resolve<ILocalizerService>());
         }
 
@@ -36,33 +36,33 @@ namespace Unicon2.Formatting.Editor.ViewModels
         }
         private bool CanExecuteDeleteKeyValuePair()
         {
-            return this.SelectedKeyValuePair != null;
+            return SelectedKeyValuePair != null;
         }
 
         private void OnDeleteKeyValuePairExecute()
         {
-            if (!this.KeyValuesDictionary.Contains(this.SelectedKeyValuePair)) return;
-            this.KeyValuesDictionary.Remove(this.SelectedKeyValuePair);
-            this.SelectedKeyValuePair = null;
-            this.FireErrorsChanged(nameof(this.KeyValuesDictionary));
+            if (!KeyValuesDictionary.Contains(SelectedKeyValuePair)) return;
+            KeyValuesDictionary.Remove(SelectedKeyValuePair);
+            SelectedKeyValuePair = null;
+            FireErrorsChanged(nameof(KeyValuesDictionary));
         }
 
         private void OnAddKeyValuePairExecute()
         {
-            this.AddNewKeyPair();
-            this.FireErrorsChanged(nameof(this.KeyValuesDictionary));
+            AddNewKeyPair();
+            FireErrorsChanged(nameof(KeyValuesDictionary));
         }
 
         private void AddNewKeyPair()
         {
-            if (this.KeyValuesDictionary.Count == 0)
+            if (KeyValuesDictionary.Count == 0)
             {
-                this.KeyValuesDictionary.Add(new BindableKeyValuePair<ushort, string>());
+                KeyValuesDictionary.Add(new BindableKeyValuePair<ushort, string>());
                 return;
             }
-            ushort maxKey = this.KeyValuesDictionary.Select(pair => pair.Key).Max();
+            ushort maxKey = KeyValuesDictionary.Select(pair => pair.Key).Max();
             BindableKeyValuePair<ushort, string> keyPair = new BindableKeyValuePair<ushort, string> { Key = (ushort)(maxKey + 1), Value = string.Empty };
-            this.KeyValuesDictionary.Add(keyPair);
+            KeyValuesDictionary.Add(keyPair);
         }
 
         public override string StrongName => StringKeys.DICTIONARY_MATCHING_FORMATTER;
@@ -71,8 +71,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             get
             {
-                this.FireErrorsChanged(nameof(this.KeyValuesDictionary));
-                return !this.HasErrors;
+                FireErrorsChanged(nameof(KeyValuesDictionary));
+                return !HasErrors;
             }
         }
 
@@ -91,35 +91,35 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public ObservableCollection<BindableKeyValuePair<ushort, string>> KeyValuesDictionary
         {
-            get => this._keyValuesDictionary;
+            get => _keyValuesDictionary;
             set
             {
-                this._keyValuesDictionary = value;
-                this.RaisePropertyChanged();
+                _keyValuesDictionary = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsKeysAreNumbersOfBits
         {
-            get { return this._isKeysIsNumbersOfBits; }
+            get { return _isKeysIsNumbersOfBits; }
             set
             {
-                this._isKeysIsNumbersOfBits = value;
-                this.RaisePropertyChanged();
+                _isKeysIsNumbersOfBits = value;
+                RaisePropertyChanged();
             }
         }
 
         public BindableKeyValuePair<ushort, string> SelectedKeyValuePair
         {
-            get { return this._selectedKeyValuePair; }
+            get { return _selectedKeyValuePair; }
             set
             {
-                if (this._selectedKeyValuePair != null) this._selectedKeyValuePair.IsInEditMode = false;
-                this._selectedKeyValuePair = value;
-                if (this._selectedKeyValuePair != null) this._selectedKeyValuePair.IsInEditMode = true;
-                this.RaisePropertyChanged();
-                (this.DeleteKeyValuePairCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                this.FireErrorsChanged(nameof(this.KeyValuesDictionary));
+                if (_selectedKeyValuePair != null) _selectedKeyValuePair.IsInEditMode = false;
+                _selectedKeyValuePair = value;
+                if (_selectedKeyValuePair != null) _selectedKeyValuePair.IsInEditMode = true;
+                RaisePropertyChanged();
+                (DeleteKeyValuePairCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                FireErrorsChanged(nameof(KeyValuesDictionary));
             }
         }
 
@@ -133,13 +133,13 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public void StartEditElement()
         {
-            this.IsInEditMode = true;
+            IsInEditMode = true;
         }
 
         public void StopEditElement()
         {
            // this.SaveChanges();
-            this.IsInEditMode = false;
+            IsInEditMode = false;
         }
     }
 }

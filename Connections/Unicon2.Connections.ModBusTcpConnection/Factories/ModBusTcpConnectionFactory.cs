@@ -14,20 +14,20 @@ namespace Unicon2.Connections.ModBusTcpConnection.Factories
 
         public ModBusTcpConnectionFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
 
         public IDeviceConnection CreateDeviceConnection()
         {
-            return this._container.Resolve<IModbusTcpConnection>();
+            return _container.Resolve<IModbusTcpConnection>();
         }
 
         public IViewModel CreateDeviceConnectionViewModel()
         {
-            IViewModel deviceConnectionViewModel = this._container.Resolve<IModbusTcpConnectionViewModel>(ModBusTcpKeys.MODBUS_TCP_CONNECTION 
+            IViewModel deviceConnectionViewModel = _container.Resolve<IModbusTcpConnectionViewModel>(ModBusTcpKeys.MODBUS_TCP_CONNECTION 
                 + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            deviceConnectionViewModel.Model = this._container.Resolve<IDeviceConnection>(ModBusTcpKeys.MODBUS_TCP_CONNECTION);
+            deviceConnectionViewModel.Model = _container.Resolve<IDeviceConnection>(ModBusTcpKeys.MODBUS_TCP_CONNECTION);
             return deviceConnectionViewModel;
         }
     }

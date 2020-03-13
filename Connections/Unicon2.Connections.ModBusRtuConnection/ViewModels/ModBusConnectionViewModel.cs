@@ -30,23 +30,23 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         public ModBusConnectionViewModel(IComConnectionManager connectionManager, ITypesContainer container,
             IComPortConfigurationViewModelFactory comPortConfigurationViewModelFactory, IComPortInterrogationViewModel comPortInterrogationViewModel)
         {
-            this._connectionManager = connectionManager;
-            this._container = container;
-            this._comPortConfigurationViewModelFactory = comPortConfigurationViewModelFactory;
-            this.RefreshAvailablePorts = new RelayCommand(this.OnRefreshingAvailablePorts);
-            this.AvailablePorts = new ObservableCollection<string>();
-            this.OnRefreshingAvailablePorts();
-            this.ComPortInterrogationViewModel = comPortInterrogationViewModel;
-            this._isInterrogationEnabled = true;
+            _connectionManager = connectionManager;
+            _container = container;
+            _comPortConfigurationViewModelFactory = comPortConfigurationViewModelFactory;
+            RefreshAvailablePorts = new RelayCommand(OnRefreshingAvailablePorts);
+            AvailablePorts = new ObservableCollection<string>();
+            OnRefreshingAvailablePorts();
+            ComPortInterrogationViewModel = comPortInterrogationViewModel;
+            _isInterrogationEnabled = true;
         }
 
 
         private void OnRefreshingAvailablePorts()
         {
-            string selectedPort = this.SelectedPort;
-            this.AvailablePorts.Clear();
-            this.AvailablePorts.AddCollection(this._connectionManager.GetSerialPortNames());
-            this.SelectedPort = !this.AvailablePorts.Contains(selectedPort) ? null : selectedPort;
+            string selectedPort = SelectedPort;
+            AvailablePorts.Clear();
+            AvailablePorts.AddCollection(_connectionManager.GetSerialPortNames());
+            SelectedPort = !AvailablePorts.Contains(selectedPort) ? null : selectedPort;
         }
 
         public string StrongName => "ModBus RTU";
@@ -55,25 +55,25 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         {
             get
             {
-                this._modbusRtuConnection.ComPortConfiguration = this.SelectedComPortConfigurationViewModel.Model as IComPortConfiguration;
-                if (this.SelectedPort != null)
+                _modbusRtuConnection.ComPortConfiguration = SelectedComPortConfigurationViewModel.Model as IComPortConfiguration;
+                if (SelectedPort != null)
                 {
-                    this._connectionManager.SetComPortConfigurationByName(this._modbusRtuConnection.ComPortConfiguration,
-                        this.SelectedPort);
+                    _connectionManager.SetComPortConfigurationByName(_modbusRtuConnection.ComPortConfiguration,
+                        SelectedPort);
                 }
-                return this._modbusRtuConnection;
+                return _modbusRtuConnection;
             }
-            set => this.SetConnectionModel(value as IModbusRtuConnection);
+            set => SetConnectionModel(value as IModbusRtuConnection);
         }
 
         private void SetConnectionModel(IModbusRtuConnection connection)
         {
-            this._modbusRtuConnection = connection;
-            this.SelectedComPortConfigurationViewModel = this._comPortConfigurationViewModelFactory.CreateComPortConfigurationViewModel(this._modbusRtuConnection.ComPortConfiguration);
-            this.SetPort(this._modbusRtuConnection.PortName);
-            this.RaisePropertyChanged(nameof(this.SlaveId));
-            this.RaisePropertyChanged(nameof(this.ConnectionName));
-            this.RaisePropertyChanged(nameof(this.SelectedComPortConfigurationViewModel));
+            _modbusRtuConnection = connection;
+            SelectedComPortConfigurationViewModel = _comPortConfigurationViewModelFactory.CreateComPortConfigurationViewModel(_modbusRtuConnection.ComPortConfiguration);
+            SetPort(_modbusRtuConnection.PortName);
+            RaisePropertyChanged(nameof(SlaveId));
+            RaisePropertyChanged(nameof(ConnectionName));
+            RaisePropertyChanged(nameof(SelectedComPortConfigurationViewModel));
 
         }
 
@@ -86,56 +86,56 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 
         public bool IsInterrogationEnabled
         {
-            get { return this._isInterrogationEnabled; }
+            get { return _isInterrogationEnabled; }
             set
             {
-                this._isInterrogationEnabled = value;
-                this.RaisePropertyChanged();
+                _isInterrogationEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
         public string SelectedPort
         {
-            get => this._selectedPort;
-            set => this.SetPort(value);
+            get => _selectedPort;
+            set => SetPort(value);
         }
 
         private void SetPort(string value)
         {
-            if (this._selectedPort == value) return;
-            this._selectedPort = value;
-            this.RaisePropertyChanged();
-            if (this._selectedPort == null) return;
-            IComPortConfiguration comPortConfiguration = this._connectionManager.GetComPortConfiguration(this._selectedPort);
-            this.SelectedComPortConfigurationViewModel = this._comPortConfigurationViewModelFactory.CreateComPortConfigurationViewModel(comPortConfiguration);
-            this._modbusRtuConnection.ComPortConfiguration = comPortConfiguration;
-            this._modbusRtuConnection.PortName = this._selectedPort;
-            this.RaisePropertyChanged(nameof(this.SelectedComPortConfigurationViewModel));
+            if (_selectedPort == value) return;
+            _selectedPort = value;
+            RaisePropertyChanged();
+            if (_selectedPort == null) return;
+            IComPortConfiguration comPortConfiguration = _connectionManager.GetComPortConfiguration(_selectedPort);
+            SelectedComPortConfigurationViewModel = _comPortConfigurationViewModelFactory.CreateComPortConfigurationViewModel(comPortConfiguration);
+            _modbusRtuConnection.ComPortConfiguration = comPortConfiguration;
+            _modbusRtuConnection.PortName = _selectedPort;
+            RaisePropertyChanged(nameof(SelectedComPortConfigurationViewModel));
         }
 
         public byte SlaveId
         {
-            get => this._modbusRtuConnection.SlaveId;
+            get => _modbusRtuConnection.SlaveId;
             set
             {
-                this._modbusRtuConnection.SlaveId = this.SlaveId;
-                this.RaisePropertyChanged();
+                _modbusRtuConnection.SlaveId = SlaveId;
+                RaisePropertyChanged();
             }
         }
 
-        public string ConnectionName => this._modbusRtuConnection.ConnectionName;
+        public string ConnectionName => _modbusRtuConnection.ConnectionName;
 
 
         protected override void OnValidate()
         {
-            ValidationResult result = new ModBusConnectionViewModelValidator(this._container.Resolve<ILocalizerService>()).Validate(this);
-            this.SetValidationErrors(result);
+            ValidationResult result = new ModBusConnectionViewModelValidator(_container.Resolve<ILocalizerService>()).Validate(this);
+            SetValidationErrors(result);
         }
 
         object IViewModel.Model
         {
-            get { return this.Model; }
-            set { this.Model = value as IDeviceConnection; }
+            get { return Model; }
+            set { Model = value as IDeviceConnection; }
         }
     }
 }

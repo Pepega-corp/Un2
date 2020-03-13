@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Text;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Model.Base;
 using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Infrastructure.Values;
@@ -8,7 +9,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Model
 {
-    [DataContract(Namespace = "StringFormatter1251NS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class StringFormatter1251 : UshortsFormatterBase
     {
         public override object Clone()

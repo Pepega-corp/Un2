@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
 
         public MatrixVariableOptionTemplateEditorViewModelFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public List<IMatrixVariableOptionTemplateEditorViewModel> CreateAvailableMatrixVariableOptionTemplateEditorViewModel()
@@ -23,11 +23,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
             List<IMatrixVariableOptionTemplateEditorViewModel> matrixVariableOptionTemplateEditorViewModels =
                 new List<IMatrixVariableOptionTemplateEditorViewModel>();
 
-            IEnumerable<IMatrixVariableOptionTemplate> matrixVariableOptionTemplates = this._container.ResolveAll<IMatrixVariableOptionTemplate>();
+            IEnumerable<IMatrixVariableOptionTemplate> matrixVariableOptionTemplates = _container.ResolveAll<IMatrixVariableOptionTemplate>();
 
             matrixVariableOptionTemplates.ForEach(model =>
             {
-                IMatrixVariableOptionTemplateEditorViewModel matrixVariableOptionTemplateEditorViewModel = this._container.Resolve<IViewModel>(
+                IMatrixVariableOptionTemplateEditorViewModel matrixVariableOptionTemplateEditorViewModel = _container.Resolve<IViewModel>(
                         model.StrongName + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as IMatrixVariableOptionTemplateEditorViewModel;
                 matrixVariableOptionTemplateEditorViewModel.Model = model;
                 matrixVariableOptionTemplateEditorViewModels.Add(matrixVariableOptionTemplateEditorViewModel);

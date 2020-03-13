@@ -15,53 +15,53 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
 
         protected override void OnAttached()
         {
-            this._assToggleButton = this.AssociatedObject;
-            if (!(this._assToggleButton.DataContext is IConfigurationItemViewModel)) return;
-            (this._assToggleButton.DataContext as IConfigurationItemViewModel).Checked += this.TreeGridItemCheched;
+            _assToggleButton = AssociatedObject;
+            if (!(_assToggleButton.DataContext is IConfigurationItemViewModel)) return;
+            (_assToggleButton.DataContext as IConfigurationItemViewModel).Checked += TreeGridItemCheched;
 
-            this._assToggleButton.Checked += this.TreeViewToggleButtonBehavior_Checked;
-            this._assToggleButton.Unchecked += this.TreeViewToggleButtonBehavior_Unchecked;
+            _assToggleButton.Checked += TreeViewToggleButtonBehavior_Checked;
+            _assToggleButton.Unchecked += TreeViewToggleButtonBehavior_Unchecked;
             base.OnAttached();
         }
 
         protected override void OnDetaching()
         {
-            this._assToggleButton = this.AssociatedObject;
-            if (!(this._assToggleButton.DataContext is IConfigurationItemViewModel)) return;
-            (this._assToggleButton.DataContext as IConfigurationItemViewModel).Checked -= this.TreeGridItemCheched;
-            this._assToggleButton.Checked -= this.TreeViewToggleButtonBehavior_Checked;
-            this._assToggleButton.Unchecked -= this.TreeViewToggleButtonBehavior_Unchecked;
+            _assToggleButton = AssociatedObject;
+            if (!(_assToggleButton.DataContext is IConfigurationItemViewModel)) return;
+            (_assToggleButton.DataContext as IConfigurationItemViewModel).Checked -= TreeGridItemCheched;
+            _assToggleButton.Checked -= TreeViewToggleButtonBehavior_Checked;
+            _assToggleButton.Unchecked -= TreeViewToggleButtonBehavior_Unchecked;
             base.OnDetaching();
         }
 
 
         private void TreeGridItemCheched(bool? isToExpand)
         {
-            if (!this._assToggleButton.IsEnabled) return;
-            if (!this._assToggleButton.IsChecked.HasValue) return;
+            if (!_assToggleButton.IsEnabled) return;
+            if (!_assToggleButton.IsChecked.HasValue) return;
             if (isToExpand.HasValue)
             {
                 if (isToExpand.Value)
                 {
-                    if (this._assToggleButton.IsChecked.Value)
+                    if (_assToggleButton.IsChecked.Value)
                     {
-                        this.RefreshToggleButtonRows();
+                        RefreshToggleButtonRows();
                     }
 
                 }
-                this._assToggleButton.IsChecked = isToExpand;
+                _assToggleButton.IsChecked = isToExpand;
             }
             else
             {
-                this._assToggleButton.IsChecked = !this._assToggleButton.IsChecked.Value;
+                _assToggleButton.IsChecked = !_assToggleButton.IsChecked.Value;
             }
         }
 
         private void RefreshToggleButtonRows()
         {
             ObservableCollection<IConfigurationItemViewModel> allItems =
-                this._assToggleButton.Tag as ObservableCollection<IConfigurationItemViewModel>;
-            IConfigurationItemViewModel currentItem = this._assToggleButton.DataContext as IConfigurationItemViewModel;
+                _assToggleButton.Tag as ObservableCollection<IConfigurationItemViewModel>;
+            IConfigurationItemViewModel currentItem = _assToggleButton.DataContext as IConfigurationItemViewModel;
             if (allItems != null)
             {
                 int startIndex =
@@ -95,7 +95,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
                         else
                         {
                             //allItems.Add(child);
-                            this.AddTreeGridItem(allItems, child, currentItem, startIndex);
+                            AddTreeGridItem(allItems, child, currentItem, startIndex);
                         }
                     }
                 }
@@ -111,7 +111,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
             IConfigurationItemViewModel oldItem = ((sender as ToggleButton).DataContext as IConfigurationItemViewModel);
             if (oldItem == null) return;
             oldItem.IsChecked = false;
-            this.DeleteTreeGridItem(allItems, oldItem, false);
+            DeleteTreeGridItem(allItems, oldItem, false);
         }
 
         private void TreeViewToggleButtonBehavior_Checked(object sender, System.Windows.RoutedEventArgs e)
@@ -127,7 +127,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
                 foreach (IConfigurationItemViewModel newItem in newItems)
                 {
                     index++;
-                    this.AddTreeGridItem(treeGridItems, newItem, oldItem, index);
+                    AddTreeGridItem(treeGridItems, newItem, oldItem, index);
                 }
 
                 return;
@@ -159,15 +159,15 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
                     removingItem.ChildStructItemViewModels;
                 foreach (IConfigurationItemViewModel newItem in newItems)
                 {
-                    this.DeleteTreeGridItem(treeGridItems, newItem, true);
+                    DeleteTreeGridItem(treeGridItems, newItem, true);
                 }
             }
             else if (removingItem.ChildStructItemViewModels is IConfigurationItemViewModel)
             {
-                this.DeleteTreeGridItem(treeGridItems, removingItem.ChildStructItemViewModels as IConfigurationItemViewModel, true);
+                DeleteTreeGridItem(treeGridItems, removingItem.ChildStructItemViewModels as IConfigurationItemViewModel, true);
 
             }
-            if (removeFromCollection) this.RemoveItemFromList(treeGridItems, removingItem);
+            if (removeFromCollection) RemoveItemFromList(treeGridItems, removingItem);
 
 
         }

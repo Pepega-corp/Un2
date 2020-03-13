@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
@@ -13,21 +14,20 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Model.FragmentSettings
 {
-    [DataContract(Namespace = "QuickMemoryAccessSettingNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class QuickMemoryAccessSetting : IQuickMemoryAccessSetting
     {
-        private IDataProvider _dataProvider;
         private bool _isInitialized;
 
         public QuickMemoryAccessSetting()
         {
-            this.QuickAccessAddressRanges = new List<IRange>();
+            QuickAccessAddressRanges = new List<IRange>();
         }
 
 
         public string StrongName => ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING;
 
-        [DataMember]
+        [JsonProperty]
         public bool IsSettingEnabled { get; set; }
         public async Task<bool> ApplySetting(ISettingApplyingContext context)
         {
@@ -36,10 +36,10 @@ namespace Unicon2.Model.FragmentSettings
             {
                 await settingApplyingContext.OnFillAddressRange(quickAccessAddressRange);
             }
-            return this.IsSettingEnabled;
+            return IsSettingEnabled;
         }
 
-        [DataMember]
+        [JsonProperty]
         public List<IRange> QuickAccessAddressRanges { get; set; }
         
     }

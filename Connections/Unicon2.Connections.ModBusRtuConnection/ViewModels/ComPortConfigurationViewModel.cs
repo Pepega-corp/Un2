@@ -31,159 +31,159 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 
         public ComPortConfigurationViewModel(IComPortConfiguration comPortConfiguration)
         {
-            this._comPortConfiguration = comPortConfiguration;
-            this.BaudRates = new ObservableCollection<int>();
+            _comPortConfiguration = comPortConfiguration;
+            BaudRates = new ObservableCollection<int>();
             foreach (BaudRatesEnum baudRatesEnum in Enum.GetValues(typeof(BaudRatesEnum)))
             {
-                this.BaudRates.Add((int)baudRatesEnum);
+                BaudRates.Add((int)baudRatesEnum);
             }
-            this.DataBitsCollection = new ObservableCollection<int>();
+            DataBitsCollection = new ObservableCollection<int>();
             foreach (DataBitsEnum dataBit in Enum.GetValues(typeof(DataBitsEnum)))
             {
-                this.DataBitsCollection.Add((int)dataBit);
+                DataBitsCollection.Add((int)dataBit);
             }
 
-            this.StopBitsCollection = new ObservableCollection<StopBits>();
+            StopBitsCollection = new ObservableCollection<StopBits>();
             foreach (StopBits stopBit in Enum.GetValues(typeof(StopBits)))
             {
-                this.StopBitsCollection.Add(stopBit);
+                StopBitsCollection.Add(stopBit);
             }
-            this.ParityCollection = new ObservableCollection<Parity>();
+            ParityCollection = new ObservableCollection<Parity>();
             foreach (Parity parity in Enum.GetValues(typeof(Parity)))
             {
-                this.ParityCollection.Add(parity);
+                ParityCollection.Add(parity);
             }
 
 
-            this.SelectedBaudRate = (int)BaudRatesEnum.BR115200;
-            this.SelectedDataBits = 8;
-            this.SelectedStopBits = StopBits.One;
-            this.SelectedParity = Parity.None;
-            this.WaitAnswer = 200;
-            this.WaitByte = 100;
-            this.OnTransmission = 0;
-            this.OffTramsmission = 0;
+            SelectedBaudRate = (int)BaudRatesEnum.BR115200;
+            SelectedDataBits = 8;
+            SelectedStopBits = StopBits.One;
+            SelectedParity = Parity.None;
+            WaitAnswer = 200;
+            WaitByte = 100;
+            OnTransmission = 0;
+            OffTramsmission = 0;
 
         }
 
 
         public int SelectedBaudRate
         {
-            get => this._selectedBaudRate;
+            get => _selectedBaudRate;
             set
             {
-                this._selectedBaudRate = value;
-                this.RaisePropertyChanged();
+                _selectedBaudRate = value;
+                RaisePropertyChanged();
             }
         }
 
         public int SelectedDataBits
         {
-            get { return this._selectedDataBits; }
+            get { return _selectedDataBits; }
             set
             {
-                this._selectedDataBits = value;
-                this.RaisePropertyChanged();
+                _selectedDataBits = value;
+                RaisePropertyChanged();
             }
         }
 
         public StopBits SelectedStopBits
         {
-            get { return this._selectedStopBits; }
+            get { return _selectedStopBits; }
             set
             {
-                this._selectedStopBits = value;
-                this.RaisePropertyChanged();
+                _selectedStopBits = value;
+                RaisePropertyChanged();
             }
         }
 
         public Parity SelectedParity
         {
-            get { return this._selectedParity; }
+            get { return _selectedParity; }
             set
             {
-                this._selectedParity = value;
-                this.RaisePropertyChanged();
+                _selectedParity = value;
+                RaisePropertyChanged();
             }
         }
 
         public int WaitAnswer
         {
-            get { return this._waitAnswer; }
+            get { return _waitAnswer; }
             set
             {
-                this._waitAnswer = value;
-                this.RaisePropertyChanged();
+                _waitAnswer = value;
+                RaisePropertyChanged();
             }
         }
 
         public int WaitByte
         {
-            get { return this._waitByte; }
+            get { return _waitByte; }
             set
             {
-                this._waitByte = value;
-                this.RaisePropertyChanged();
+                _waitByte = value;
+                RaisePropertyChanged();
             }
         }
 
         public int OnTransmission
         {
-            get { return this._onTransmission; }
+            get { return _onTransmission; }
             set
             {
-                this._onTransmission = value;
-                this.RaisePropertyChanged();
+                _onTransmission = value;
+                RaisePropertyChanged();
             }
         }
 
         public int OffTramsmission
         {
-            get { return this._offTramsmission; }
+            get { return _offTramsmission; }
             set
             {
-                this._offTramsmission = value;
-                this.RaisePropertyChanged();
+                _offTramsmission = value;
+                RaisePropertyChanged();
             }
         }
 
         public ObservableCollection<int> BaudRates
         {
-            get { return this._baudRates; }
+            get { return _baudRates; }
             set
             {
-                this._baudRates = value;
-                this.RaisePropertyChanged();
+                _baudRates = value;
+                RaisePropertyChanged();
             }
         }
 
         public ObservableCollection<int> DataBitsCollection
         {
-            get { return this._dataBitsCollection; }
+            get { return _dataBitsCollection; }
             set
             {
-                this._dataBitsCollection = value;
-                this.RaisePropertyChanged();
+                _dataBitsCollection = value;
+                RaisePropertyChanged();
             }
         }
 
         public ObservableCollection<StopBits> StopBitsCollection
         {
-            get { return this._stopBitsCollection; }
+            get { return _stopBitsCollection; }
             set
             {
-                this._stopBitsCollection = value;
-                this.RaisePropertyChanged();
+                _stopBitsCollection = value;
+                RaisePropertyChanged();
             }
         }
 
         public ObservableCollection<Parity> ParityCollection
         {
-            get { return this._parityCollection; }
+            get { return _parityCollection; }
             set
             {
-                this._parityCollection = value;
-                this.RaisePropertyChanged();
+                _parityCollection = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -195,28 +195,28 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             get
             {
 
-                this._comPortConfiguration.Parity = this.SelectedParity;
-                this._comPortConfiguration.BaudRate = this.SelectedBaudRate;
-                this._comPortConfiguration.DataBits = this.SelectedDataBits;
-                this._comPortConfiguration.OffTramsmission = this.OffTramsmission;
-                this._comPortConfiguration.OnTransmission = this.OnTransmission;
-                this._comPortConfiguration.StopBits = this.SelectedStopBits;
-                this._comPortConfiguration.WaitAnswer = this.WaitAnswer;
-                this._comPortConfiguration.WaitByte = this.WaitByte;
-                return this._comPortConfiguration;
+                _comPortConfiguration.Parity = SelectedParity;
+                _comPortConfiguration.BaudRate = SelectedBaudRate;
+                _comPortConfiguration.DataBits = SelectedDataBits;
+                _comPortConfiguration.OffTramsmission = OffTramsmission;
+                _comPortConfiguration.OnTransmission = OnTransmission;
+                _comPortConfiguration.StopBits = SelectedStopBits;
+                _comPortConfiguration.WaitAnswer = WaitAnswer;
+                _comPortConfiguration.WaitByte = WaitByte;
+                return _comPortConfiguration;
             }
             set
             {
                 if (!(value is IComPortConfiguration)) return;
-                this._comPortConfiguration = value as IComPortConfiguration;
-                this.SelectedParity = this._comPortConfiguration.Parity;
-                this.SelectedBaudRate = this._comPortConfiguration.BaudRate;
-                this.SelectedDataBits = this._comPortConfiguration.DataBits;
-                this.OffTramsmission = this._comPortConfiguration.OffTramsmission;
-                this.OnTransmission = this._comPortConfiguration.OnTransmission;
-                this.SelectedStopBits = this._comPortConfiguration.StopBits;
-                this.WaitAnswer = this._comPortConfiguration.WaitAnswer;
-                this.WaitByte = this._comPortConfiguration.WaitByte;
+                _comPortConfiguration = value as IComPortConfiguration;
+                SelectedParity = _comPortConfiguration.Parity;
+                SelectedBaudRate = _comPortConfiguration.BaudRate;
+                SelectedDataBits = _comPortConfiguration.DataBits;
+                OffTramsmission = _comPortConfiguration.OffTramsmission;
+                OnTransmission = _comPortConfiguration.OnTransmission;
+                SelectedStopBits = _comPortConfiguration.StopBits;
+                WaitAnswer = _comPortConfiguration.WaitAnswer;
+                WaitByte = _comPortConfiguration.WaitByte;
             }
         }
     }

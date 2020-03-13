@@ -12,44 +12,44 @@ namespace Unicon2.Infrastructure.Common
         private bool _isInEditMode;
         public K Key
         {
-            get { return this._key; }
+            get { return _key; }
             set
             {
-                this._key = value;
-                this.RaisePropertyChanged();
+                _key = value;
+                RaisePropertyChanged();
             }
         }
 
         public V Value
         {
-            get { return this._value; }
+            get { return _value; }
             set
             {
-                this._value = value;
-                this.RaisePropertyChanged();
+                _value = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsInEditMode
         {
-            get { return this._isInEditMode; }
+            get { return _isInEditMode; }
             set
             {
-                this._isInEditMode = value;
-                this.RaisePropertyChanged();
+                _isInEditMode = value;
+                RaisePropertyChanged();
             }
         }
 
 
         public BindableKeyValuePair(K key, V value)
         {
-            this.Key = key;
-            this.Value = value;
+            Key = key;
+            Value = value;
         }
 
         public BindableKeyValuePair()
         {
-            this.HasErrors = false;
+            HasErrors = false;
         }
 
         public IEnumerable GetErrors(string propertyName)

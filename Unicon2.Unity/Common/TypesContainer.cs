@@ -16,43 +16,43 @@ namespace Unicon2.Unity.Common
 
         public TypesContainer(IUnityContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public T Resolve<T>()
         {
-            return this._container.Resolve<T>();
+            return _container.Resolve<T>();
         }
 
         public object Resolve(Type t)
         {
-            return this._container.Resolve(t);
+            return _container.Resolve(t);
         }
 
         public T Resolve<T>(string key)
         {
-            return this._container.Resolve<T>(key);
+            return _container.Resolve<T>(key);
         }
 
         public object Resolve(Type t, string key)
         {
-            return this._container.Resolve(t, key);
+            return _container.Resolve(t, key);
         }
 
         public IEnumerable<T> ResolveAll<T>()
         {
-            return this._container.ResolveAll<T>();
+            return _container.ResolveAll<T>();
         }
 
         public void Register<T>(bool isSingleton = false)
         {
             if (isSingleton)
             {
-                this._container.RegisterSingleton<T>();
+                _container.RegisterSingleton<T>();
             }
             else
             {
-                this._container.RegisterType<T>();
+                _container.RegisterType<T>();
             }
         }
 
@@ -60,11 +60,11 @@ namespace Unicon2.Unity.Common
         {
             if (isSingleton)
             {
-                this._container.RegisterSingleton(t);
+                _container.RegisterSingleton(t);
             }
             else
             {
-                this._container.RegisterType(t);
+                _container.RegisterType(t);
             }
         }
 
@@ -72,11 +72,11 @@ namespace Unicon2.Unity.Common
         {
             if (isSingleton)
             {
-                this._container.RegisterSingleton<TFrom, TTo>();
+                _container.RegisterSingleton<TFrom, TTo>();
             }
             else
             {
-                this._container.RegisterType<TFrom, TTo>();
+                _container.RegisterType<TFrom, TTo>();
             }
         }
 
@@ -84,11 +84,11 @@ namespace Unicon2.Unity.Common
         {
             if (isSingleton)
             {
-                this._container.RegisterSingleton(from, to);
+                _container.RegisterSingleton(from, to);
             }
             else
             {
-                this._container.RegisterType(from, to);
+                _container.RegisterType(from, to);
             }
         }
 
@@ -96,11 +96,11 @@ namespace Unicon2.Unity.Common
         {
             if (isSingleton)
             {
-                this._container.RegisterSingleton<TFrom, TTo>(key);
+                _container.RegisterSingleton<TFrom, TTo>(key);
             }
             else
             {
-                this._container.RegisterType<TFrom, TTo>(key);
+                _container.RegisterType<TFrom, TTo>(key);
             }
         }
 
@@ -108,17 +108,17 @@ namespace Unicon2.Unity.Common
         {
             if (isSingleton)
             {
-                this._container.RegisterSingleton(from, to, key);
+                _container.RegisterSingleton(from, to, key);
             }
             else
             {
-                this._container.RegisterType(from, to, key);
+                _container.RegisterType(from, to, key);
             }
         }
 
         public void RegisterInstance<T>(T instance)
         {
-            this._container.RegisterInstance(instance);
+            _container.RegisterInstance(instance);
         }
 
         public void RegisterViewModel<TView, TViewModel>()
@@ -128,7 +128,7 @@ namespace Unicon2.Unity.Common
 
         public void RegisterForNavigation<TView>(string key)
         {
-            this._container.RegisterTypeForNavigation<TView>(key);
+            _container.RegisterTypeForNavigation<TView>(key);
         }
     }
 }

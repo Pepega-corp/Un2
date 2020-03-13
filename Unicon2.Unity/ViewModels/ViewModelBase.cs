@@ -11,12 +11,12 @@ namespace Unicon2.Unity.ViewModels
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
         }
 
         public bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
@@ -26,7 +26,7 @@ namespace Unicon2.Unity.ViewModels
                 return false;
             }
             storage = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             return true;
         }
     }

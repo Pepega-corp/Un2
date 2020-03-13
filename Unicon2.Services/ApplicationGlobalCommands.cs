@@ -24,9 +24,9 @@ namespace Unicon2.Services
 
         public ApplicationGlobalCommands(ITypesContainer container, IDialogCoordinator dialogCoordinator, ILocalizerService localizerService)
         {
-            this._container = container;
-            this._dialogCoordinator = dialogCoordinator;
-            this._localizerService = localizerService;
+            _container = container;
+            _dialogCoordinator = dialogCoordinator;
+            _localizerService = localizerService;
         }
 
         public void ShutdownApplication()
@@ -49,17 +49,17 @@ namespace Unicon2.Services
 
         public void ShowWindowModal(Func<Window> getWindow, object dataContext)
         {
-            this.GetWindow(getWindow, dataContext);
+            GetWindow(getWindow, dataContext);
         }
 
         public void ShowWindowModal(Func<Window> getWindow, object dataContext, object _owner)
         {
-            this.GetWindow(getWindow, dataContext, _owner);
+            GetWindow(getWindow, dataContext, _owner);
         }
 
         public void ShowWindowModal(Func<Window> getWindow, object dataContext, bool isTopmost)
         {
-            Window windowToShow = this.GetWindow(getWindow, dataContext);
+            Window windowToShow = GetWindow(getWindow, dataContext);
             windowToShow.Topmost = isTopmost;
         }
 
@@ -75,8 +75,8 @@ namespace Unicon2.Services
 
         public bool AskUserToDeleteSelectedGlobal(object context)
         {
-            if (this._dialogCoordinator.ShowModalMessageExternal(context, this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.DELETE),
-                   this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.DELETE_SELECTED_ITEM_QUESTION),
+            if (_dialogCoordinator.ShowModalMessageExternal(context, _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.DELETE),
+                   _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.DELETE_SELECTED_ITEM_QUESTION),
                     MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
                 return true;
@@ -86,9 +86,9 @@ namespace Unicon2.Services
 
         public void ShowErrorMessage(string errorKey, object context)
         {
-            this._dialogCoordinator.ShowModalMessageExternal(context,
-                this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR),
-                this._localizerService.GetLocalizedString(errorKey));
+            _dialogCoordinator.ShowModalMessageExternal(context,
+                _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR),
+                _localizerService.GetLocalizedString(errorKey));
         }
 
 
@@ -97,7 +97,7 @@ namespace Unicon2.Services
         {
             if (bufferObject is ICloneable)
             {
-                this._bufferObject = (bufferObject as ICloneable).Clone();
+                _bufferObject = (bufferObject as ICloneable).Clone();
 
             }
             else
@@ -108,7 +108,7 @@ namespace Unicon2.Services
 
         public object GetFromBuffer()
         {
-            ICloneable cloneable = this._bufferObject as ICloneable;
+            ICloneable cloneable = _bufferObject as ICloneable;
             if (cloneable != null) return cloneable.Clone();
             throw new ArgumentException();
         }
@@ -117,15 +117,15 @@ namespace Unicon2.Services
         {
             if (isToOpen)
             {
-                this._progressDialogController = await this._dialogCoordinator.ShowProgressAsync(context,
-                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.PROCESSING_VALUES), "",
+                _progressDialogController = await _dialogCoordinator.ShowProgressAsync(context,
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.PROCESSING_VALUES), "",
                     false);
             }
             else
             {
-                if (this._progressDialogController != null)
+                if (_progressDialogController != null)
                 {
-                    await this._progressDialogController.CloseAsync();
+                    await _progressDialogController.CloseAsync();
                 }
             }
         }

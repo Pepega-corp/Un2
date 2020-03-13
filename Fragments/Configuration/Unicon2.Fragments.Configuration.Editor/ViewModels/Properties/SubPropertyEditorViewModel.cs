@@ -18,7 +18,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         public SubPropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
             ILocalizerService localizerService) : base(container, rangeViewModel, localizerService)
         {
-            this.BitNumbersInWord = new ObservableCollection<ISharedBitViewModel>();
+            BitNumbersInWord = new ObservableCollection<ISharedBitViewModel>();
 
         }
 
@@ -72,20 +72,20 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         public override string Address
         {
-            get { return (this.Parent as PropertyEditorViewModel).Address; }
+            get { return (Parent as PropertyEditorViewModel).Address; }
             set
             {
-                if (this.Parent == null) return;
-                (this.Parent as PropertyEditorViewModel).Address = value;
-                this.RaisePropertyChanged();
+                if (Parent == null) return;
+                (Parent as PropertyEditorViewModel).Address = value;
+                RaisePropertyChanged();
             }
         }
 
 
         public override string NumberOfPoints
         {
-            get { return (this.Parent as PropertyEditorViewModel)?.NumberOfPoints; }
-            set => this.RaisePropertyChanged();
+            get { return (Parent as PropertyEditorViewModel)?.NumberOfPoints; }
+            set => RaisePropertyChanged();
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Base;
 using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
-    [DataContract(Namespace = "ValuesNS")]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class StringValue : FormattedValueBase, IStringValue
     {
@@ -13,10 +14,10 @@ namespace Unicon2.Model.Values
 
         public override string AsString()
         {
-            return this.StrValue;
+            return StrValue;
         }
 
-        [DataMember] public string StrValue { get; set; }
+        [JsonProperty] public string StrValue { get; set; }
 
         public override T Accept<T>(IValueVisitor<T> visitor)
         {

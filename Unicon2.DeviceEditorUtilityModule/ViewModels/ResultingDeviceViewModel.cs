@@ -38,7 +38,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             IDeviceSharedResources deviceSharedResources, IApplicationGlobalCommands applicationGlobalCommands,
             ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,
             IFragmentEditorViewModelFactory fragmentEditorViewModelFactory,
-            IConnectionStateViewModelFactory connectionStateViewModelFactory,ISerializerService serializerService)
+            IConnectionStateViewModelFactory connectionStateViewModelFactory, ISerializerService serializerService)
         {
             _device = device;
             _container = container;
@@ -56,7 +56,9 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             {
                 AvailableEditorFragments.Add(fragment);
             }
-            DeviceName = localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.NEW_DEVICE_STRING);
+
+            DeviceName =
+                localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.NEW_DEVICE_STRING);
             FragmentEditorViewModels = new ObservableCollection<IFragmentEditorViewModel>();
             sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
             NavigateToConnectionTestingCommand = new RelayCommand(OnNavigateToConnectionTestingExecute);
@@ -65,7 +67,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnNavigateToConnectionTestingExecute()
         {
             _applicationGlobalCommands.ShowWindowModal(
-                () => new ConnectionTestingWindow(), _connectionStateViewModelFactory.CreateConnectionStateViewModel(_device.ConnectionState));
+                () => new ConnectionTestingWindow(),
+                _connectionStateViewModelFactory.CreateConnectionStateViewModel(_device.ConnectionState));
         }
 
 
@@ -80,7 +83,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
             else
             {
-               // this.FragmentEditorViewModels.Add(this._container.Resolve<IFragmentEditorViewModel>(fragmentEditorViewModel.StrongName));
+                // this.FragmentEditorViewModels.Add(this._container.Resolve<IFragmentEditorViewModel>(fragmentEditorViewModel.StrongName));
             }
         }
 
@@ -122,9 +125,11 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             _sharedResourcesGlobalViewModel.InitializeFromResources(_device.DeviceSharedResources);
             foreach (IDeviceFragment fragment in _device.DeviceFragments)
             {
-                IFragmentEditorViewModel fragmentEditorViewModel = _fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
+                IFragmentEditorViewModel fragmentEditorViewModel =
+                    _fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
                 FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
+
             _deviceSharedResources = _device.DeviceSharedResources;
             DeviceName = _device.Name;
         }
@@ -137,6 +142,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             {
                 (_device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.BuildDeviceFragment());
             }
+
             _device.DeviceSharedResources = _sharedResourcesGlobalViewModel.GetSharedResources();
             if (isDefaultSaving)
             {
@@ -145,11 +151,13 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 {
                     Directory.CreateDirectory(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH);
                 }
+
                 path = Path.Combine(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH, path + ".json");
             }
+
             try
             {
-                _serializerService.SerializeInFile(_device,path);
+                _serializerService.SerializeInFile(_device, path);
             }
             catch (Exception e)
             {

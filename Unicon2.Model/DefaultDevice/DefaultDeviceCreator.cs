@@ -18,10 +18,10 @@ namespace Unicon2.Model.DefaultDevice
         public DefaultDeviceCreator(Func<IDevice> deviceGettingFunc, ILogService logService,
             Func<IDeviceLogger> deviceLoggerGettingFunc, ITypesContainer container, ISerializerService serializerService)
         {
-            this._deviceGettingFunc = deviceGettingFunc;
-            this._logService = logService;
-            this._deviceLoggerGettingFunc = deviceLoggerGettingFunc;
-            this._container = container;
+            _deviceGettingFunc = deviceGettingFunc;
+            _logService = logService;
+            _deviceLoggerGettingFunc = deviceLoggerGettingFunc;
+            _container = container;
             _serializerService = serializerService;
         }
 
@@ -32,26 +32,26 @@ namespace Unicon2.Model.DefaultDevice
 
         public string DeviceName
         {
-            get { return this._deviceName; }
-            set { this._deviceName = value; }
+            get { return _deviceName; }
+            set { _deviceName = value; }
         }
 
         public IConnectionState ConnectionState { get; set; }
 
         public IDeviceConnection AvailableConnection
         {
-            get { return this._availableConnection; }
-            set { this._availableConnection = value; }
+            get { return _availableConnection; }
+            set { _availableConnection = value; }
         }
 
         public IDevice Create()
         {
-            IDevice newDevice = this._deviceGettingFunc();
-            _serializerService.DeserializeFromFile<IDevice>(this.DeviceDescriptionFilePath);
-            newDevice.Name = this.DeviceName;
-            newDevice.DeviceSignature = this.DeviceName;
-            newDevice.DeviceLogger = this._deviceLoggerGettingFunc();
-            this._logService.AddLogger(newDevice.DeviceLogger, newDevice.Name);
+            IDevice newDevice = _deviceGettingFunc();
+            _serializerService.DeserializeFromFile<IDevice>(DeviceDescriptionFilePath);
+            newDevice.Name = DeviceName;
+            newDevice.DeviceSignature = DeviceName;
+            newDevice.DeviceLogger = _deviceLoggerGettingFunc();
+            _logService.AddLogger(newDevice.DeviceLogger, newDevice.Name);
             return newDevice;
         }
 

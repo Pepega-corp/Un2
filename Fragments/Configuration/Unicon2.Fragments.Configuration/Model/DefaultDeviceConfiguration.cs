@@ -25,7 +25,7 @@ namespace Unicon2.Fragments.Configuration.Model
     {
         public DefaultDeviceConfiguration()
         {
-            this.RootConfigurationItemList = new List<IConfigurationItem>();
+            RootConfigurationItemList = new List<IConfigurationItem>();
         }
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
@@ -34,16 +34,16 @@ namespace Unicon2.Fragments.Configuration.Model
 
         public bool CheckEquality(IDeviceConfiguration deviceConfigurationToCheck)
         {
-            if (deviceConfigurationToCheck.RootConfigurationItemList.Count == this.RootConfigurationItemList.Count)
+            if (deviceConfigurationToCheck.RootConfigurationItemList.Count == RootConfigurationItemList.Count)
             {
                 foreach (IConfigurationItem configurationItem in deviceConfigurationToCheck.RootConfigurationItemList)
                 {
                     if (configurationItem.Name ==
-                        this.RootConfigurationItemList[
+                        RootConfigurationItemList[
                             deviceConfigurationToCheck.RootConfigurationItemList.IndexOf(configurationItem)].Name)
                     {
-                        if (!this.CheckItemRecursive(configurationItem,
-                            this.RootConfigurationItemList[
+                        if (!CheckItemRecursive(configurationItem,
+                            RootConfigurationItemList[
                                 deviceConfigurationToCheck.RootConfigurationItemList.IndexOf(configurationItem)]))
                             return false;
                     }
@@ -61,7 +61,7 @@ namespace Unicon2.Fragments.Configuration.Model
        
         protected override void OnDisposing()
         {
-            foreach (IConfigurationItem configurationItem in this.RootConfigurationItemList)
+            foreach (IConfigurationItem configurationItem in RootConfigurationItemList)
             {
                 configurationItem.Dispose();
             }
@@ -80,7 +80,7 @@ namespace Unicon2.Fragments.Configuration.Model
                     foreach (IConfigurationItem item in (configurationItem as IItemsGroup)
                         .ConfigurationItemList)
                     {
-                        if (!this.CheckItemRecursive(item,
+                        if (!CheckItemRecursive(item,
                             ((IItemsGroup) configurationItemToCheck).ConfigurationItemList[
                                 ((IItemsGroup) configurationItem).ConfigurationItemList.IndexOf(item)])) return false;
                     }

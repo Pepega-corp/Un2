@@ -10,12 +10,12 @@ namespace Unicon2.Formatting.Factories
 
         public FormatterFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public IUshortsFormatter GetUshortsFormatterByKey(string formatterKey)
         {
-            return this._container.Resolve<IUshortsFormatter>(formatterKey);
+            return _container.Resolve<IUshortsFormatter>(formatterKey);
         }
     }
 }

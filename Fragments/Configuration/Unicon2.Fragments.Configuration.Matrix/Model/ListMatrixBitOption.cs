@@ -12,13 +12,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
     {
         public ListMatrixBitOption()
         {
-            this.NumbersOfAssotiatedBits = new List<int>();
+            NumbersOfAssotiatedBits = new List<int>();
         }
 
 
         public string StrongName => MatrixKeys.LIST_MATRIX_BIT_OPTION;
 
-        public string FullSignature => this.VariableColumnSignature.Signature + " " + this.OptionPossibleValue.PossibleValueName;
+        public string FullSignature => VariableColumnSignature.Signature + " " + OptionPossibleValue.PossibleValueName;
 
         [JsonProperty]
         public IVariableColumnSignature VariableColumnSignature { get; set; }
@@ -30,8 +30,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         {
 
             if (!(comparingBitOption is ListMatrixBitOption)) return false;
-                return (comparingBitOption.VariableColumnSignature == this.VariableColumnSignature) &&
-                   (((ListMatrixBitOption) comparingBitOption).OptionPossibleValue == this.OptionPossibleValue) && (comparingBitOption.StrongName == this.StrongName);
+                return (comparingBitOption.VariableColumnSignature == VariableColumnSignature) &&
+                   (((ListMatrixBitOption) comparingBitOption).OptionPossibleValue == OptionPossibleValue) && (comparingBitOption.StrongName == StrongName);
 
         }
 

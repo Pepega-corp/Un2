@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
@@ -12,7 +13,7 @@ using Unicon2.Infrastructure.Services.UniconProject;
 
 namespace Unicon2.Services.UniconProject
 {
-    [DataContract]
+    [JsonObject(MemberSerialization.OptIn)]
     public class UniconProject : IUniconProject
     {
         private readonly ISerializerService _serializerService;
@@ -28,7 +29,8 @@ namespace Unicon2.Services.UniconProject
             {
                 Directory.CreateDirectory(Path.Combine(ProjectPath, Name));
             }
-            _serializerService.SerializeInFile(this,Path.Combine(ProjectPath, Path.ChangeExtension(Name, ".uniproj")));
+
+            _serializerService.SerializeInFile(this, Path.Combine(ProjectPath, Path.ChangeExtension(Name, ".uniproj")));
         }
 
 
@@ -38,8 +40,7 @@ namespace Unicon2.Services.UniconProject
             ConnectableItems?.Clear();
         }
 
-        [DataMember]
-        public List<IConnectable> ConnectableItems { get; set; }
+        [JsonProperty] public List<IConnectable> ConnectableItems { get; set; }
 
         public bool IsProjectSaved
         {
@@ -49,6 +50,7 @@ namespace Unicon2.Services.UniconProject
                 {
                     if (File.Exists(ProjectPath + "\\" + Name + ".uniproj")) return true;
                 }
+
                 return false;
             }
 
@@ -74,7 +76,7 @@ namespace Unicon2.Services.UniconProject
 
                         //    ds.WriteObject(fs, this, _serializerService.GetNamespacesAttributes());
                         //}
-                        _serializerService.SerializeInFile(this,stringBuilder.ToString());
+                        _serializerService.SerializeInFile(this, stringBuilder.ToString());
                         string existing = stringBuilder.ToString();
                         string xmlString = File.ReadAllText(ProjectPath + "\\" + Name + ".uniproj");
 
@@ -92,12 +94,12 @@ namespace Unicon2.Services.UniconProject
                     }
                 }
             }
+
             return true;
         }
 
-        public string Name { get; set; }
-        public string ProjectPath { get; set; }
-
-        public string LayoutString { get; set; }
+        [JsonProperty] public string Name { get; set; }
+        [JsonProperty] public string ProjectPath { get; set; }
+        [JsonProperty] public string LayoutString { get; set; }
     }
 }

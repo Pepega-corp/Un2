@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Configuration.Factories
         public RuntimeConfigurationItemViewModelFactory(ITypesContainer container, IDeviceMemory deviceMemory,
             IDeviceEventsDispatcher deviceEventsDispatcher)
         {
-            this._container = container;
+            _container = container;
             _deviceMemory = deviceMemory;
             _deviceEventsDispatcher = deviceEventsDispatcher;
         }
@@ -48,7 +48,7 @@ namespace Unicon2.Fragments.Configuration.Factories
         {
             runtimePropertyViewModel.IsMeasureUnitEnabled = property.IsMeasureUnitEnabled;
             runtimePropertyViewModel.MeasureUnit = property.MeasureUnit;
-            runtimePropertyViewModel.RangeViewModel = this._container.Resolve<IRangeViewModel>();
+            runtimePropertyViewModel.RangeViewModel = _container.Resolve<IRangeViewModel>();
             runtimePropertyViewModel.IsRangeEnabled = property.IsRangeEnabled;
             if (property.IsRangeEnabled)
             {

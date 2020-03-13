@@ -47,8 +47,8 @@ namespace Unicon2.Formatting.Editor.Module
             container.Register(typeof(IFormatterViewModelFactory), typeof(FormatterViewModelFactory));
 
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();
-            xamlResourcesService.AddResourceAsGlobal("Resources/FormattersTemplates.xaml", this.GetType().Assembly);
-            xamlResourcesService.AddResourceAsGlobal("Resources/InnerMembersTemplates.xaml", this.GetType().Assembly);
+            xamlResourcesService.AddResourceAsGlobal("Resources/FormattersTemplates.xaml", GetType().Assembly);
+            xamlResourcesService.AddResourceAsGlobal("Resources/InnerMembersTemplates.xaml", GetType().Assembly);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         internal IEditorConfigurationItemViewModel Parent { get; set; }
         private ConfigurationItemEditorViewModelFactory()
         {
-            this._container = StaticContainer.Container;
+            _container = StaticContainer.Container;
         }
 
         public static ConfigurationItemEditorViewModelFactory Create()

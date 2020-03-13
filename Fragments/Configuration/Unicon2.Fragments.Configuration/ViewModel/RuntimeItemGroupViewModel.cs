@@ -23,7 +23,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public RuntimeItemGroupViewModel()
         {
-            this.IsCheckable = true;
+            IsCheckable = true;
         }
 
         private void OnTryTransformToTable()

@@ -46,8 +46,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.Module
 
             //регистрация ресурсов
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();
-            xamlResourcesService.AddResourceAsGlobal("Resources/ModBusRtuConnectionResources.xaml", this.GetType().Assembly);
-            xamlResourcesService.AddResourceAsGlobal("Resources/ComPortConfigurationResources.xaml", this.GetType().Assembly);
+            xamlResourcesService.AddResourceAsGlobal("Resources/ModBusRtuConnectionResources.xaml", GetType().Assembly);
+            xamlResourcesService.AddResourceAsGlobal("Resources/ComPortConfigurationResources.xaml", GetType().Assembly);
         }
     }
 }

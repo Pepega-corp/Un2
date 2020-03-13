@@ -18,15 +18,15 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
 
         public SharedResourcesEditorFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public void OpenResourceForEdit(IResourceViewModel resource, object _owner)
         {
-            IApplicationGlobalCommands applicationGlobalCommands = this._container.Resolve<IApplicationGlobalCommands>();
+            IApplicationGlobalCommands applicationGlobalCommands = _container.Resolve<IApplicationGlobalCommands>();
             if (applicationGlobalCommands != null)
             {
-                IResourceEditingViewModel resourceEditingViewModel = this._container.Resolve<IResourceEditingViewModel>();
+                IResourceEditingViewModel resourceEditingViewModel = _container.Resolve<IResourceEditingViewModel>();
 
                 if (resource.RelatedEditorItemViewModel is IFormatterParametersViewModel
                     formatterParametersViewModel)

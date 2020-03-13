@@ -76,7 +76,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             set
             {
                 _table = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -115,7 +115,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         public object Clone()
         {
-            IMatrixValueViewModel matrixItem = this.OnCloning();
+            IMatrixValueViewModel matrixItem = OnCloning();
 
             return matrixItem;
         }

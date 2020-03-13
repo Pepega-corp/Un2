@@ -24,7 +24,7 @@ namespace Unicon2.Connections.MockConnection.Model
         public MockConnection(ITypesContainer typesContainer)
         {
             MemorySlotDictionary = new Dictionary<ushort, ushort>();
-            this._typesContainer = typesContainer;
+            _typesContainer = typesContainer;
         }
 
         private IDeviceLogger _currentDeviceLogger;

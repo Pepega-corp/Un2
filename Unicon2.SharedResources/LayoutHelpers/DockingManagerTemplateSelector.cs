@@ -12,7 +12,7 @@ namespace Unicon2.SharedResources.LayoutHelpers
         {
             if (item is IFragmentPaneViewModel)
             {
-                return this.FragmentPaneTemplate;
+                return FragmentPaneTemplate;
             }
 
             return base.SelectTemplate(item, container);

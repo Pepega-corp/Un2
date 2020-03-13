@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Unicon2.Infrastructure.BaseItems
 {
     /// <summary>
     /// Represents a basic implementation for Disposable pattern 
     /// </summary>
-    [DataContract(IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class Disposable : IDisposable
     {
         private object _lockObject;
@@ -60,13 +61,13 @@ namespace Unicon2.Infrastructure.BaseItems
         /// <param name="disposing">A value which specifies whether this method is called from Dispose method or from finalize method</param>
         protected void Dispose(bool disposing)
         {
-            if (this.IsDisposed) return;
+            if (IsDisposed) return;
             if (disposing)
             {
-                lock (this.LockObject)
-                    this.OnDisposing();
+                lock (LockObject)
+                    OnDisposing();
             }
-            this.IsDisposed = true;
+            IsDisposed = true;
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace Unicon2.Infrastructure.BaseItems
         /// </summary>
         protected void ThrowIfDisposed()
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 throw new ObjectDisposedException(DISPOSED_MESSAGE);
         }
 
@@ -94,7 +95,7 @@ namespace Unicon2.Infrastructure.BaseItems
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
     }

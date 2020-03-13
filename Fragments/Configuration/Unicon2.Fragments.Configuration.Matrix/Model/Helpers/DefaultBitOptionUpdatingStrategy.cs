@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
 
         public DefaultBitOptionUpdatingStrategy(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public void UpdateBitOptions(IMatrixTemplate matrixTemplate)
@@ -29,7 +29,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
                         (matrixTemplate.MatrixVariableOptionTemplate as ListMatrixVariableOptionTemplate)
                         .OptionPossibleValues)
                     {
-                        IBitOption bitOption = this._container.Resolve<IBitOption>(MatrixKeys.LIST_MATRIX_BIT_OPTION);
+                        IBitOption bitOption = _container.Resolve<IBitOption>(MatrixKeys.LIST_MATRIX_BIT_OPTION);
                         ((ListMatrixBitOption)bitOption).OptionPossibleValue = optionPossibleValue;
                         bitOption.VariableColumnSignature = variableOptionSignature;
 
@@ -40,7 +40,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model.Helpers
                 }
                 else if (matrixTemplate.MatrixVariableOptionTemplate is BoolMatrixVariableOptionTemplate)
                 {
-                    IBitOption bitOption = this._container.Resolve<IBitOption>(MatrixKeys.BOOL_MATRIX_BIT_OPTION);
+                    IBitOption bitOption = _container.Resolve<IBitOption>(MatrixKeys.BOOL_MATRIX_BIT_OPTION);
                     bitOption.VariableColumnSignature = variableOptionSignature;
 
                     IBitOption existing =

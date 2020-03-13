@@ -100,7 +100,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
 
 
             //регистрация ресурсов
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MatrixDataTemplates.xaml", this.GetType().Assembly);
+            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MatrixDataTemplates.xaml", GetType().Assembly);
 
         }
 

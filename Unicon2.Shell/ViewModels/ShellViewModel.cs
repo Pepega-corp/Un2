@@ -56,53 +56,53 @@ namespace Unicon2.Shell.ViewModels
             IProjectBrowserViewModel projectBrowserViewModel,
             IUniconProjectService uniconProjectService, ToolBarViewModel toolBarViewModel)
         {
-            this.LogServiceViewModel = logServiceViewModel;
-            this.ProjectBrowserViewModel = projectBrowserViewModel;
-            this.LogService = logService;
-            this._devicesContainerService = devicesContainerService;
-            this._devicesContainerService.ConnectableItemChanged += this.OnDeviceChanged;
-            this._dialogCoordinator = dialogCoordinator;
-            this._applicationGlobalCommands = applicationGlobalCommands;
-            this._regionManager = regionManager;
-            this._localizerService = localizerService;
-            this._deviceViewModelFactory = deviceViewModelFactory;
-            this._fragmentPaneViewModelFactory = fragmentPaneViewModelFactory;
-            this._uniconProjectService = uniconProjectService;
+            LogServiceViewModel = logServiceViewModel;
+            ProjectBrowserViewModel = projectBrowserViewModel;
+            LogService = logService;
+            _devicesContainerService = devicesContainerService;
+            _devicesContainerService.ConnectableItemChanged += OnDeviceChanged;
+            _dialogCoordinator = dialogCoordinator;
+            _applicationGlobalCommands = applicationGlobalCommands;
+            _regionManager = regionManager;
+            _localizerService = localizerService;
+            _deviceViewModelFactory = deviceViewModelFactory;
+            _fragmentPaneViewModelFactory = fragmentPaneViewModelFactory;
+            _uniconProjectService = uniconProjectService;
 
-            this.ExitCommand = new RelayCommand(this.OnExit);
-            this.NavigateToDeviceEditorCommand = new RelayCommand(this.OnNavigateToDeviceEditor);
-            this.NavigateToDeviceAddingCommand = new RelayCommand(this.OnNavigateToDeviceAddingExecute);
-            this.AddNewFragmentCommand = new RelayCommand<IFragmentViewModel>(this.OnExecuteAddNewFragment);
-            this._fragmentsOpenedCollection = new ObservableCollection<IFragmentPaneViewModel>();
-            this.OpenOscillogramCommand = new RelayCommand(this.OnOpenOscillogramExecute);
-            this.OnClosingCommand = new RelayCommand<CancelEventArgs>(this.OnExecuteClosing);
-            this.AnchorableWindows = new ObservableCollection<IAnchorableWindow>
+            ExitCommand = new RelayCommand(OnExit);
+            NavigateToDeviceEditorCommand = new RelayCommand(OnNavigateToDeviceEditor);
+            NavigateToDeviceAddingCommand = new RelayCommand(OnNavigateToDeviceAddingExecute);
+            AddNewFragmentCommand = new RelayCommand<IFragmentViewModel>(OnExecuteAddNewFragment);
+            _fragmentsOpenedCollection = new ObservableCollection<IFragmentPaneViewModel>();
+            OpenOscillogramCommand = new RelayCommand(OnOpenOscillogramExecute);
+            OnClosingCommand = new RelayCommand<CancelEventArgs>(OnExecuteClosing);
+            AnchorableWindows = new ObservableCollection<IAnchorableWindow>
             {
-                this.ProjectBrowserViewModel, this.LogServiceViewModel
+                ProjectBrowserViewModel, LogServiceViewModel
             };
             ToolBarViewModel = toolBarViewModel;
             StaticOptionsButtonsHelper.InitializeStaticButtons(this);
-            this.NewProjectCommand = new RelayCommand(this.OnNewProjectExecute);
-            this.SaveProjectCommand = new RelayCommand(this.OnSaveProjectExecute);
-            this.SaveAsProjectCommand = new RelayCommand(this.OnSaveAsProjectExecute);
-            this.OpenProjectCommand = new RelayCommand(this.OnOpenProjectExecute);
+            NewProjectCommand = new RelayCommand(OnNewProjectExecute);
+            SaveProjectCommand = new RelayCommand(OnSaveProjectExecute);
+            SaveAsProjectCommand = new RelayCommand(OnSaveAsProjectExecute);
+            OpenProjectCommand = new RelayCommand(OnOpenProjectExecute);
         }
 
 
 
         private void OnOpenOscillogramExecute()
         {
-            this._applicationGlobalCommands.OpenOscillogram();
+            _applicationGlobalCommands.OpenOscillogram();
         }
 
         public IFragmentPaneViewModel ActiveFragmentViewModel
         {
-            get { return this._activeFragmentViewModel; }
+            get { return _activeFragmentViewModel; }
             set
             {
-                this._activeFragmentViewModel = value;
-                this.RaisePropertyChanged();
-                this.RaisePropertyChanged(nameof(this.ActiveFragmentViewModel.FragmentTitle));
+                _activeFragmentViewModel = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(ActiveFragmentViewModel.FragmentTitle));
                 ToolBarViewModel.SetDynamicOptionsGroup(ActiveFragmentViewModel?.FragmentViewModel
                     ?.FragmentOptionsViewModel);
             }
@@ -110,11 +110,11 @@ namespace Unicon2.Shell.ViewModels
 
         public ObservableCollection<IFragmentPaneViewModel> FragmentsOpenedCollection
         {
-            get { return this._fragmentsOpenedCollection; }
+            get { return _fragmentsOpenedCollection; }
             set
             {
-                this._fragmentsOpenedCollection = value;
-                this.RaisePropertyChanged();
+                _fragmentsOpenedCollection = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -123,11 +123,11 @@ namespace Unicon2.Shell.ViewModels
         /// </summary>
         public bool IsMenuFlyOutOpen
         {
-            get => this._isMenuFlyOutOpen;
+            get => _isMenuFlyOutOpen;
             set
             {
-                this._isMenuFlyOutOpen = value;
-                this.RaisePropertyChanged();
+                _isMenuFlyOutOpen = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -147,11 +147,11 @@ namespace Unicon2.Shell.ViewModels
         private void OnNavigateToDeviceEditor()
         {
             IRegion runtimeRegion =
-                this._regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
+                _regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
             if (runtimeRegion == null) return;
             Uri uri = new Uri(ApplicationGlobalNames.ViewNames.DEVICEEDITOR_VIEW_NAME, UriKind.Relative);
 
-            this._regionManager.RequestNavigate(ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME, uri,
+            _regionManager.RequestNavigate(ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME, uri,
                 result =>
                 {
                     if (result.Result == false)
@@ -160,27 +160,27 @@ namespace Unicon2.Shell.ViewModels
                     }
                 });
 
-            this.IsMenuFlyOutOpen = false;
+            IsMenuFlyOutOpen = false;
         }
 
         private void OnExit()
         {
-            if (this.CheckExiting())
-                this._applicationGlobalCommands.ShutdownApplication();
+            if (CheckExiting())
+                _applicationGlobalCommands.ShutdownApplication();
         }
 
         private bool CheckExiting()
         {
-            ProjectSaveCheckingResultEnum res = this._uniconProjectService.CheckIfProjectSaved(this);
+            ProjectSaveCheckingResultEnum res = _uniconProjectService.CheckIfProjectSaved(this);
             if (res == ProjectSaveCheckingResultEnum.ProjectAlreadySaved)
             {
-                if (this._dialogCoordinator.ShowModalMessageExternal(this,
-                        this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT),
-                        this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT_QUESTION),
+                if (_dialogCoordinator.ShowModalMessageExternal(this,
+                        _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT),
+                        _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.EXIT_QUESTION),
                         MessageDialogStyle.AffirmativeAndNegative) ==
                     MessageDialogResult.Affirmative)
                 {
-                    this._applicationGlobalCommands.ShutdownApplication();
+                    _applicationGlobalCommands.ShutdownApplication();
                 }
 
                 return false;
@@ -201,14 +201,14 @@ namespace Unicon2.Shell.ViewModels
             {
                 case ItemModifyingTypeEnum.Edit:
                     IRegion runtimeRegion =
-                        this._regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
+                        _regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
                     if (runtimeRegion == null) return;
                     Uri uri = new Uri(ApplicationGlobalNames.ViewNames.DEVICEEDITING_VIEW_NAME, UriKind.Relative);
                     NavigationParameters parameters = new NavigationParameters();
                     parameters.Add(ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY,
                         connectableItemChangingContext.Connectable);
 
-                    this._regionManager.RequestNavigate(
+                    _regionManager.RequestNavigate(
                         ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME,
                         uri,
                         result =>
@@ -219,24 +219,24 @@ namespace Unicon2.Shell.ViewModels
                             }
                         }, parameters);
 
-                    this.IsMenuFlyOutOpen = false;
+                    IsMenuFlyOutOpen = false;
                     break;
                 case ItemModifyingTypeEnum.Delete:
 
-                    if (this._applicationGlobalCommands.AskUserToDeleteSelectedGlobal(this))
+                    if (_applicationGlobalCommands.AskUserToDeleteSelectedGlobal(this))
                     {
-                        IDeviceViewModel deviceViewModel = this.ProjectBrowserViewModel.DeviceViewModels.First((model =>
+                        IDeviceViewModel deviceViewModel = ProjectBrowserViewModel.DeviceViewModels.First((model =>
                             model.Model == connectableItemChangingContext.Connectable));
                         foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
                         {
                             IFragmentPaneViewModel openedFragment =
-                                this.FragmentsOpenedCollection.FirstOrDefault((model =>
+                                FragmentsOpenedCollection.FirstOrDefault((model =>
                                     model.FragmentViewModel == fragment));
                             openedFragment?.FragmentPaneClosedAction?.Invoke(openedFragment);
                         }
 
-                        this.ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
-                        this.ActiveFragmentViewModel = null;
+                        ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
+                        ActiveFragmentViewModel = null;
                         //закрываем соединение при удалении устройства
                         (connectableItemChangingContext.Connectable as IDevice).DeviceConnection.CloseConnection();
                         //надо удалить девайс из коллекции _devicesContainerService
@@ -248,29 +248,29 @@ namespace Unicon2.Shell.ViewModels
                     break;
                 case ItemModifyingTypeEnum.Add:
                     if (connectableItemChangingContext.Connectable != null)
-                        this.ProjectBrowserViewModel.DeviceViewModels.Add(
-                            this._deviceViewModelFactory.CreateDeviceViewModel(
+                        ProjectBrowserViewModel.DeviceViewModels.Add(
+                            _deviceViewModelFactory.CreateDeviceViewModel(
                                 connectableItemChangingContext.Connectable as IDevice));
                     break;
                 case ItemModifyingTypeEnum.Refresh:
-                    foreach (IDeviceViewModel deviceViewModel in this.ProjectBrowserViewModel.DeviceViewModels)
+                    foreach (IDeviceViewModel deviceViewModel in ProjectBrowserViewModel.DeviceViewModels)
                     {
                         foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
                         {
                             IFragmentPaneViewModel openedFragment =
-                                this.FragmentsOpenedCollection.FirstOrDefault(model =>
+                                FragmentsOpenedCollection.FirstOrDefault(model =>
                                     model.FragmentViewModel == fragment);
                             if (openedFragment != null)
                             {
-                                this.FragmentsOpenedCollection.Remove(openedFragment);
+                                FragmentsOpenedCollection.Remove(openedFragment);
                             }
                         }
 
-                        this.ActiveFragmentViewModel = null;
+                        ActiveFragmentViewModel = null;
                         (deviceViewModel.Model as IDisposable)?.Dispose();
                     }
 
-                    this.ProjectBrowserViewModel.DeviceViewModels.Clear();
+                    ProjectBrowserViewModel.DeviceViewModels.Clear();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -280,49 +280,49 @@ namespace Unicon2.Shell.ViewModels
         private void OnExecuteAddNewFragment(IFragmentViewModel fragmentViewModel)
         {
             IFragmentPaneViewModel existingPane =
-                this.FragmentsOpenedCollection.FirstOrDefault((model => model.FragmentViewModel == fragmentViewModel));
+                FragmentsOpenedCollection.FirstOrDefault((model => model.FragmentViewModel == fragmentViewModel));
             if (existingPane != null)
             {
-                this.ActiveFragmentViewModel = existingPane;
+                ActiveFragmentViewModel = existingPane;
                 return;
             }
 
             IFragmentPaneViewModel fragmentPaneViewModel =
-                this._fragmentPaneViewModelFactory.GetFragmentPaneViewModel(fragmentViewModel,
-                    this.ProjectBrowserViewModel.DeviceViewModels);
-            if (!this.FragmentsOpenedCollection.Contains(fragmentPaneViewModel))
+                _fragmentPaneViewModelFactory.GetFragmentPaneViewModel(fragmentViewModel,
+                    ProjectBrowserViewModel.DeviceViewModels);
+            if (!FragmentsOpenedCollection.Contains(fragmentPaneViewModel))
             {
-                this.FragmentsOpenedCollection.Add(fragmentPaneViewModel);
-                fragmentPaneViewModel.FragmentPaneClosedAction += this.OnPaneClosed;
+                FragmentsOpenedCollection.Add(fragmentPaneViewModel);
+                fragmentPaneViewModel.FragmentPaneClosedAction += OnPaneClosed;
             }
 
-            this.ActiveFragmentViewModel = fragmentPaneViewModel;
+            ActiveFragmentViewModel = fragmentPaneViewModel;
         }
 
         private void OnPaneClosed(IFragmentPaneViewModel fragmentPaneViewModel)
         {
             if (fragmentPaneViewModel == null) return;
 
-            if (this.ActiveFragmentViewModel == fragmentPaneViewModel)
+            if (ActiveFragmentViewModel == fragmentPaneViewModel)
             {
-                this.ActiveFragmentViewModel = null;
+                ActiveFragmentViewModel = null;
             }
 
             fragmentPaneViewModel.FragmentPaneClosedAction = null;
-            this.FragmentsOpenedCollection.Remove(fragmentPaneViewModel);
+            FragmentsOpenedCollection.Remove(fragmentPaneViewModel);
             (fragmentPaneViewModel.FragmentViewModel as IDisposable)?.Dispose();
         }
 
         private void OnNavigateToDeviceAddingExecute()
         {
             IRegion runtimeRegion =
-                this._regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
+                _regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
             if (runtimeRegion == null) return;
             Uri uri = new Uri(ApplicationGlobalNames.ViewNames.DEVICEEDITING_VIEW_NAME, UriKind.Relative);
             NavigationParameters parameters = new NavigationParameters();
             parameters.Add(ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY, null);
 
-            this._regionManager.RequestNavigate(ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME, uri,
+            _regionManager.RequestNavigate(ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME, uri,
                 result =>
                 {
                     if (result.Result == false)
@@ -332,7 +332,7 @@ namespace Unicon2.Shell.ViewModels
                 }, parameters);
 
 
-            this.IsMenuFlyOutOpen = false;
+            IsMenuFlyOutOpen = false;
         }
 
         public ICommand NewProjectCommand { get; }
@@ -344,27 +344,27 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnSaveAsProjectExecute()
         {
-            this._uniconProjectService.SaveProjectAs();
+            _uniconProjectService.SaveProjectAs();
         }
 
         private void OnSaveProjectExecute()
         {
-            this._uniconProjectService.SaveProject();
+            _uniconProjectService.SaveProject();
         }
 
         private void OnNewProjectExecute()
         {
-            this._uniconProjectService.CreateNewProject();
+            _uniconProjectService.CreateNewProject();
         }
 
         private void OnOpenProjectExecute()
         {
-            this._uniconProjectService.OpenProject("", this);
+            _uniconProjectService.OpenProject("", this);
         }
 
         private void OnExecuteClosing(CancelEventArgs cancelEventArgs)
         {
-            if (this.CheckExiting()) return;
+            if (CheckExiting()) return;
 
             if (cancelEventArgs != null) cancelEventArgs.Cancel = true;
         }

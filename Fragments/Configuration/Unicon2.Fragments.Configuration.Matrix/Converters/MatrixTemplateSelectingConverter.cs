@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Converters
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values[0] == null) return false;
-            this._matrixVariableOptionTemplateEditorViewModels =
+            _matrixVariableOptionTemplateEditorViewModels =
                 values[1] as IEnumerable<IMatrixVariableOptionTemplateEditorViewModel>;
             IMatrixVariableOptionTemplateEditorViewModel matrixVariableOptionTemplateEditorViewModel =
                 values[0] as IMatrixVariableOptionTemplateEditorViewModel;
@@ -34,7 +34,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Converters
             {
                 return new[]
                 {
-                    this._matrixVariableOptionTemplateEditorViewModels.First((model =>
+                    _matrixVariableOptionTemplateEditorViewModels.First((model =>
                         (model.Model as IMatrixVariableOptionTemplate).StrongName == parameter.ToString()))
                 };
             }

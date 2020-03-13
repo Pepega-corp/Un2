@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
 using Unicon2.Infrastructure.Interfaces.Visitors;
@@ -8,7 +9,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Model
 {
-    [DataContract(Namespace = "DefaultTimeFormatterNS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultTimeFormatter : UshortsFormatterBase, IDefaultTimeFormatter
     {
 
@@ -19,15 +20,15 @@ namespace Unicon2.Formatting.Model
         public override object Clone()
         {
             DefaultTimeFormatter cloneFormatter = new DefaultTimeFormatter();
-            cloneFormatter.DayInMonthPointNumber = this.DayInMonthPointNumber;
-            cloneFormatter.YearPointNumber = this.YearPointNumber;
-            cloneFormatter.MonthPointNumber = this.MonthPointNumber;
-            cloneFormatter.HoursPointNumber = this.HoursPointNumber;
-            cloneFormatter.MinutesPointNumber = this.MinutesPointNumber;
-            cloneFormatter.SecondsPointNumber = this.SecondsPointNumber;
-            cloneFormatter.MillisecondsDecimalsPlaces = this.MillisecondsDecimalsPlaces;
-            cloneFormatter.MillisecondsPointNumber = this.MillisecondsPointNumber;
-            cloneFormatter.NumberOfPointsInUse = this.NumberOfPointsInUse;
+            cloneFormatter.DayInMonthPointNumber = DayInMonthPointNumber;
+            cloneFormatter.YearPointNumber = YearPointNumber;
+            cloneFormatter.MonthPointNumber = MonthPointNumber;
+            cloneFormatter.HoursPointNumber = HoursPointNumber;
+            cloneFormatter.MinutesPointNumber = MinutesPointNumber;
+            cloneFormatter.SecondsPointNumber = SecondsPointNumber;
+            cloneFormatter.MillisecondsDecimalsPlaces = MillisecondsDecimalsPlaces;
+            cloneFormatter.MillisecondsPointNumber = MillisecondsPointNumber;
+            cloneFormatter.NumberOfPointsInUse = NumberOfPointsInUse;
 
             return cloneFormatter;
         }
@@ -37,23 +38,23 @@ namespace Unicon2.Formatting.Model
             return visitor.VisitTimeFormatter(this);
         }
 
-        [DataMember]
+        [JsonProperty]
         public int MillisecondsDecimalsPlaces { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int NumberOfPointsInUse { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int YearPointNumber { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int MonthPointNumber { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int DayInMonthPointNumber { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int HoursPointNumber { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int MinutesPointNumber { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int SecondsPointNumber { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int MillisecondsPointNumber { get; set; }
     }
 }

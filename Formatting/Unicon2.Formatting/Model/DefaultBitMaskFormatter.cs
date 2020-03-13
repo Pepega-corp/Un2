@@ -21,7 +21,7 @@ namespace Unicon2.Formatting.Model
         public override object Clone()
         {
             DefaultBitMaskFormatter clone = new DefaultBitMaskFormatter();
-            clone.BitSignatures = new List<string>(this.BitSignatures);
+            clone.BitSignatures = new List<string>(BitSignatures);
             return clone;
         }
 
@@ -38,9 +38,9 @@ namespace Unicon2.Formatting.Model
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)
         {
-            if (this.BitSignaturesInOneLine == null) return;
-            string[] bitSignatures = this.BitSignaturesInOneLine.Split(',');
-            this.BitSignatures = new List<string>();
+            if (BitSignaturesInOneLine == null) return;
+            string[] bitSignatures = BitSignaturesInOneLine.Split(',');
+            BitSignatures = new List<string>();
             foreach (string bitSignature in bitSignatures)
             {
                 string preparedString = bitSignature.Replace("&lt", "<").Replace("&gt", ">");
@@ -50,7 +50,7 @@ namespace Unicon2.Formatting.Model
                     preparedString = preparedString.Remove(0, preparedString.IndexOf("\""));
 
 
-                    this.BitSignatures.Add(preparedString.Replace("\"", ""));
+                    BitSignatures.Add(preparedString.Replace("\"", ""));
                 }
             }
         }
@@ -61,18 +61,18 @@ namespace Unicon2.Formatting.Model
         {
 
             StringBuilder sb = new StringBuilder();
-            this.BitSignatures.ForEach((s =>
+            BitSignatures.ForEach((s =>
             {
                 sb.Append("\"");
                 string preparedString = s.Replace("<", "&lt").Replace(">", "&gt");
                 sb.Append(preparedString);
                 sb.Append("\"");
-                if (this.BitSignatures.IndexOf(s) != this.BitSignatures.Count - 1)
+                if (BitSignatures.IndexOf(s) != BitSignatures.Count - 1)
                 {
                     sb.Append(",");
                 }
             }));
-            this.BitSignaturesInOneLine = sb.ToString();
+            BitSignaturesInOneLine = sb.ToString();
         }
 
     }

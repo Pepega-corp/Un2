@@ -1,11 +1,12 @@
 ﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Base;
 using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
-    [DataContract(Namespace = "ValuesNS")]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class ErrorValue : FormattedValueBase, IErrorValue
     {
@@ -13,7 +14,7 @@ namespace Unicon2.Model.Values
 
         public override string AsString()
         {
-            return this.ErrorMessage;
+            return ErrorMessage;
         }
 
         public override T Accept<T>(IValueVisitor<T> visitor)
@@ -21,6 +22,6 @@ namespace Unicon2.Model.Values
             return visitor.VisitErrorValue(this);
         }
 
-        [DataMember] public string ErrorMessage { get; set; }
+        [JsonProperty] public string ErrorMessage { get; set; }
     }
 }

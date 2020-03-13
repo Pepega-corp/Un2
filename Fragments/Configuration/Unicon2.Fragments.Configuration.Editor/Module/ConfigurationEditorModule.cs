@@ -47,7 +47,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
 
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",
-                this.GetType().Assembly);
+                GetType().Assembly);
         }
     }
 }

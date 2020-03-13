@@ -16,8 +16,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSetting
 
         public ActivatedConfigurationSettingViewModel(ITypesContainer container)
         {
-            this._activatedSettingItem = container.Resolve<IFragmentSetting>(ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING) as IActivatedSetting;
-            this.ActivationAddress = "0";
+            _activatedSettingItem = container.Resolve<IFragmentSetting>(ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING) as IActivatedSetting;
+            ActivationAddress = "0";
         }
 
         public string StrongName => ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING +
@@ -25,44 +25,44 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSetting
 
         public object Model
         {
-            get { return this.SaveModel(); }
-            set { this.SetModel(value); }
+            get { return SaveModel(); }
+            set { SetModel(value); }
         }
 
         private void SetModel(object value)
         {
-            this._activatedSettingItem = value as IActivatedSetting;
+            _activatedSettingItem = value as IActivatedSetting;
 
-            if(this._activatedSettingItem == null) return;
+            if(_activatedSettingItem == null) return;
 
-            this.ActivationAddress = this._activatedSettingItem.ActivationAddress.ToString();
-            this.IsSettingEnabled = this._activatedSettingItem.IsSettingEnabled;
+            ActivationAddress = _activatedSettingItem.ActivationAddress.ToString();
+            IsSettingEnabled = _activatedSettingItem.IsSettingEnabled;
         }
 
         private object SaveModel()
         {
-            this._activatedSettingItem.ActivationAddress = ushort.Parse(this.ActivationAddress);
-            this._activatedSettingItem.IsSettingEnabled = this.IsSettingEnabled;
-            return this._activatedSettingItem;
+            _activatedSettingItem.ActivationAddress = ushort.Parse(ActivationAddress);
+            _activatedSettingItem.IsSettingEnabled = IsSettingEnabled;
+            return _activatedSettingItem;
         }
 
         public string ActivationAddress
         {
-            get { return this._activationAddress; }
+            get { return _activationAddress; }
             set
             {
-                this._activationAddress = value;
-                this.RaisePropertyChanged();
+                _activationAddress = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsSettingEnabled
         {
-            get { return this._isSettingEnabled; }
+            get { return _isSettingEnabled; }
             set
             {
-                this._isSettingEnabled = value;
-                this.RaisePropertyChanged();
+                _isSettingEnabled = value;
+                RaisePropertyChanged();
             }
         }
     }

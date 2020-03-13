@@ -21,7 +21,7 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
 
         public DependentProperty()
         {
-            this.DependancyConditions = new List<IDependancyCondition>();
+            DependancyConditions = new List<IDependancyCondition>();
         }
 
         [JsonProperty] public List<IDependancyCondition> DependancyConditions { get; set; }

@@ -24,7 +24,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 (relatedConfigurationItemViewModel is IItemGroupViewModel groupViewModel) &&
                 groupViewModel.IsTableViewAllowed;
 
-            IGroupWithReiterationInfo groupWithReiterationInfo = null;
+           // IGroupWithReiterationInfo groupWithReiterationInfo = null;
 
             //if (RelatedConfigurationItemViewModel is IItemGroupViewModel groupViewModelWithreit &&
             //    groupViewModelWithreit.Model is IItemsGroup itemsGroup &&

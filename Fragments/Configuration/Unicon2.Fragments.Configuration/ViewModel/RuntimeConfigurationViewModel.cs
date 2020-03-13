@@ -32,12 +32,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public RuntimeConfigurationViewModel(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
 
-            this.AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
-            this.MainRows = new ObservableCollection<MainConfigItemViewModel>();
+            AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
+            MainRows = new ObservableCollection<MainConfigItemViewModel>();
 
-            this.RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
+            RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
             MainItemSelectedCommand = new RelayCommand<object>(OnMainItemSelected);
             ShowTableCommand = new RelayCommand<object>(OnShowTable);
         }
@@ -109,32 +109,32 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public ObservableCollection<IRuntimeConfigurationItemViewModel> RootConfigurationItemViewModels
         {
-            get { return this._rootConfigurationItemViewModels; }
+            get { return _rootConfigurationItemViewModels; }
             set
             {
-                this._rootConfigurationItemViewModels = value;
-                this.RaisePropertyChanged();
+                _rootConfigurationItemViewModels = value;
+                RaisePropertyChanged();
 
             }
         }
 
         public ObservableCollection<MainConfigItemViewModel> MainRows
         {
-            get { return this._mainRows; }
+            get { return _mainRows; }
             set
             {
-                this._mainRows = value;
-                this.RaisePropertyChanged();
+                _mainRows = value;
+                RaisePropertyChanged();
             }
         }
 
         public ObservableCollection<IRuntimeConfigurationItemViewModel> AllRows
         {
-            get { return this._allRows; }
+            get { return _allRows; }
             set
             {
-                this._allRows = value;
-                this.RaisePropertyChanged();
+                _allRows = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -147,18 +147,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel
         {
-            get { return this._fragmentOptionsViewModel; }
+            get { return _fragmentOptionsViewModel; }
             set
             {
-                this._fragmentOptionsViewModel = value;
-                this.RaisePropertyChanged();
+                _fragmentOptionsViewModel = value;
+                RaisePropertyChanged();
             }
         }
 
         public void Initialize(IDeviceFragment deviceFragment)
         {
-            this.AllRows.Clear();
-            this.RootConfigurationItemViewModels.Clear();
+            AllRows.Clear();
+            RootConfigurationItemViewModels.Clear();
             if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return;
 
             _nameForUiKey = deviceConfiguration.StrongName;
@@ -166,15 +166,15 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             {
                 foreach (IConfigurationItem configurationItem in deviceConfiguration.RootConfigurationItemList)
                 {
-                    this.RootConfigurationItemViewModels.Add(
+                    RootConfigurationItemViewModels.Add(
                         configurationItem.Accept(
                             new RuntimeConfigurationItemViewModelFactory(_container, DeviceMemory,
                                 DeviceEventsDispatcher)));
                 }
             }
 
-            this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
-            this.FragmentOptionsViewModel =
+            AllRows.AddCollection(RootConfigurationItemViewModels);
+            FragmentOptionsViewModel =
                 (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, _container,
                     deviceConfiguration);
             MainRows = FilterMainConfigItems(RootConfigurationItemViewModels);

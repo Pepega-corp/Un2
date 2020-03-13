@@ -19,7 +19,7 @@ namespace Unicon2.Connections.MockConnection.Factories
 
         public MockConnectionFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
         /// <summary>
         /// создание объекта класса подключения
@@ -27,14 +27,14 @@ namespace Unicon2.Connections.MockConnection.Factories
         /// <returns></returns>
         public IDeviceConnection CreateDeviceConnection()
         {
-            return this._container.Resolve<Model.MockConnection>();
+            return _container.Resolve<Model.MockConnection>();
         }
 
         public IViewModel CreateDeviceConnectionViewModel()
         {
-            IViewModel deviceConnectionViewModel = this._container.Resolve<IDeviceConnectionViewModel>(StringKeys.MOCK_CONNECTION
+            IViewModel deviceConnectionViewModel = _container.Resolve<IDeviceConnectionViewModel>(StringKeys.MOCK_CONNECTION
                 + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            deviceConnectionViewModel.Model = this._container.Resolve<IDeviceConnection>(StringKeys.MOCK_CONNECTION);
+            deviceConnectionViewModel.Model = _container.Resolve<IDeviceConnection>(StringKeys.MOCK_CONNECTION);
             return deviceConnectionViewModel;
         }
     }

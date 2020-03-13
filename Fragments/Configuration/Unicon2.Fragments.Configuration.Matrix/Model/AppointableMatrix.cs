@@ -21,7 +21,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
         public AppointableMatrix(IMatrixTemplate matrixTemplate) 
         {
             UshortsFormatter = new MatrixValueFormatter();
-            this.MatrixTemplate = matrixTemplate;
+            MatrixTemplate = matrixTemplate;
         }
 
         [JsonProperty] public IMatrixTemplate MatrixTemplate { get; set; }

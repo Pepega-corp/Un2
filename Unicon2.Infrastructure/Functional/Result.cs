@@ -78,12 +78,12 @@ namespace Unicon2.Infrastructure.Functional
 
         public static Result CreateMergeAnd(Result result1, Result result2)
         {
-            return Result.Create(result1.IsSuccess && result2.IsSuccess);
+            return Create(result1.IsSuccess && result2.IsSuccess);
         }
 
         public static Result CreateMergeAnd(bool isSuccess, Result previousResult)
         {
-            return Result.Create(previousResult.IsSuccess && isSuccess);
+            return Create(previousResult.IsSuccess && isSuccess);
         }
     }
 

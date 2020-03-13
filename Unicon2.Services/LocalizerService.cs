@@ -16,15 +16,15 @@ namespace Unicon2.Services
         /// <param name="culture"></param>
         public LocalizerService(string culture)
         {
-            this.SupportedLanguages = CultureInfo.GetCultures(CultureTypes.AllCultures)
+            SupportedLanguages = CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Where(c => c.IetfLanguageTag.Equals("ru-RU") || c.IetfLanguageTag.Equals("en-US")).ToList();
-            this.SetLocale(culture);
+            SetLocale(culture);
 
-            CultureInfo selectedLanguage = this.SupportedLanguages.FirstOrDefault(t => t.Name == Settings.Default.Language);
+            CultureInfo selectedLanguage = SupportedLanguages.FirstOrDefault(t => t.Name == Settings.Default.Language);
 
             if (selectedLanguage != null)
             {
-                this.SelectedLanguage = selectedLanguage;
+                SelectedLanguage = selectedLanguage;
             }
         }
 
@@ -83,7 +83,7 @@ namespace Unicon2.Services
             get { return LocalizeDictionary.Instance.Culture; }
             set
             {
-                this.SetLocale(value);
+                SetLocale(value);
 
             }
         }

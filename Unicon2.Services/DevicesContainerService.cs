@@ -24,12 +24,12 @@ namespace Unicon2.Services
         public DevicesContainerService(Func<IDevice> deviceGettingFunc, Func<IDeviceCreator> deviceCreatorGettingFunc,
             ILogService logService, ILocalizerService localizerService, ISerializerService serializerService)
         {
-            this._deviceGettingFunc = deviceGettingFunc;
-            this._deviceCreatorGettingFunc = deviceCreatorGettingFunc;
-            this._logService = logService;
-            this._localizerService = localizerService;
+            _deviceGettingFunc = deviceGettingFunc;
+            _deviceCreatorGettingFunc = deviceCreatorGettingFunc;
+            _logService = logService;
+            _localizerService = localizerService;
             _serializerService = serializerService;
-            this.ConnectableItems = new List<IConnectable>();
+            ConnectableItems = new List<IConnectable>();
         }
 
         public List<IConnectable> ConnectableItems { get; set; }
@@ -41,8 +41,8 @@ namespace Unicon2.Services
 
         public void AddConnectableItem(IConnectable device)
         {
-            this.ConnectableItems.Add(device);
-            this.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Add));
+            ConnectableItems.Add(device);
+            ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Add));
         }
 
         public async Task<bool> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection)
@@ -61,9 +61,9 @@ namespace Unicon2.Services
             device.InitializeConnection(deviceConnection);
             await device.ConnectionState.CheckConnection();
             //ниже не работает как надо, запихивает девайс в любом случае, даже если переподключаться к одному и тому же устройству
-            if (!this.ConnectableItems.Contains(device))
+            if (!ConnectableItems.Contains(device))
             {
-                this.AddConnectableItem(device);
+                AddConnectableItem(device);
             }
 
             return true;
@@ -74,7 +74,7 @@ namespace Unicon2.Services
             try
             {
                 //this.ConnectableItems.RemoveAt(this.ConnectableItems.FindIndex(o => o.Equals(device)));
-                this.ConnectableItems.Remove(device);
+                ConnectableItems.Remove(device);
             }
             catch (ArgumentNullException _ane)
             {
@@ -88,38 +88,38 @@ namespace Unicon2.Services
         {
             if (!(Directory.Exists(folderPath))) return;
             string[] names = Directory.GetFiles(folderPath).Select((s => Path.GetFileName(s))).ToArray();
-            this.Creators = new List<IDeviceCreator>();
+            Creators = new List<IDeviceCreator>();
 
             foreach (string name in names.Where(name => name.Contains("json")))
             {
-                IDeviceCreator deviceCreator = this._deviceCreatorGettingFunc();
+                IDeviceCreator deviceCreator = _deviceCreatorGettingFunc();
 
                 deviceCreator.DeviceDescriptionFilePath = Path.Combine(folderPath, name);
 
-                IDevice device = this._deviceGettingFunc();
+                IDevice device = _deviceGettingFunc();
                 try
                 {
                     device= _serializerService.DeserializeFromFile<IDevice>(deviceCreator.DeviceDescriptionFilePath);
                     deviceCreator.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
                     device.Dispose();
                     deviceCreator.DeviceName = Path.GetFileNameWithoutExtension(name);
-                    this.Creators.Add(deviceCreator);
+                    Creators.Add(deviceCreator);
                 }
                 catch
                 {
                     var message =
-                        this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
+                        _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
                             .DEVICE_READING_ERROR);
-                    this._logService.LogMessage(message + " " + name);
+                    _logService.LogMessage(message + " " + name);
                 }
             }
         }
 
         public void UpdateDeviceDefinition(string deviceName)
         {
-            IDeviceCreator creatorFinded = this.Creators.FirstOrDefault((creator => creator.DeviceName == deviceName));
+            IDeviceCreator creatorFinded = Creators.FirstOrDefault((creator => creator.DeviceName == deviceName));
             if (creatorFinded == null) return;
-            IDevice device = this._deviceGettingFunc();
+            IDevice device = _deviceGettingFunc();
             device=_serializerService.DeserializeFromFile<IDevice>(creatorFinded.DeviceDescriptionFilePath);
             creatorFinded.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
             device.Dispose();
@@ -127,7 +127,7 @@ namespace Unicon2.Services
 
         public void Refresh()
         {
-            this.ConnectableItemChanged?.Invoke(
+            ConnectableItemChanged?.Invoke(
                 new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
             foreach (var item in ConnectableItems)
             {
@@ -140,7 +140,7 @@ namespace Unicon2.Services
                 }
             }
 
-            this.ConnectableItems.Clear();
+            ConnectableItems.Clear();
         }
 
 

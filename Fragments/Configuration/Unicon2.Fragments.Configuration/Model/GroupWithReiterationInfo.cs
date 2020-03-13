@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces;
 
 namespace Unicon2.Fragments.Configuration.Model
 {
-    [DataContract(Namespace = "GroupWithReiterationInfoNS", Name = nameof(GroupWithReiterationInfo),
-        IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class GroupWithReiterationInfo : IGroupWithReiterationInfo
     {
-        private IDataProvider _dataProvider;
-        [DataMember] public int ReiterationStep { get; set; }
+        [JsonProperty] public int ReiterationStep { get; set; }
 
-        [DataMember] public List<IReiterationSubGroupInfo> SubGroups { get; set; }
+        [JsonProperty] public List<IReiterationSubGroupInfo> SubGroups { get; set; }
 
-        [DataMember] public bool IsReiterationEnabled { get; set; }
+        [JsonProperty] public bool IsReiterationEnabled { get; set; }
 
         public object Clone()
         {

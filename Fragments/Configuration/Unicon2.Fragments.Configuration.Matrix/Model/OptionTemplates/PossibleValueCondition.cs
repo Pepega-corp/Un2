@@ -1,15 +1,16 @@
 ﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates
 {
-    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(PossibleValueCondition), IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class PossibleValueCondition : IPossibleValueCondition
     {
-        [DataMember]
+        [JsonProperty]
         public bool BoolConditionRule { get; set; }
-        [DataMember]
+        [JsonProperty]
         public IOptionPossibleValue RelatedOptionPossibleValue { get; set; }
     }
 }

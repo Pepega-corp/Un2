@@ -32,59 +32,59 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 	    public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
 			ILocalizerService localizerService)
 		{
-			this._container = container;
-			this._localizerService = localizerService;
-			this.RangeViewModel = rangeViewModel;
+			_container = container;
+			_localizerService = localizerService;
+			RangeViewModel = rangeViewModel;
 		}
 
 		public virtual string Address
 		{
-			get { return this._address; }
+			get { return _address; }
 			set
 			{
-				this._address = value;
-				this.RaisePropertyChanged();
-				this.FireErrorsChanged();
+				_address = value;
+				RaisePropertyChanged();
+				FireErrorsChanged();
 			}
 		}
 
 		public virtual string NumberOfPoints
 		{
-			get { return this._numberOfPoints; }
+			get { return _numberOfPoints; }
 			set
 			{
-				this._numberOfPoints = value;
-				this.RaisePropertyChanged();
-				this.FireErrorsChanged();
+				_numberOfPoints = value;
+				RaisePropertyChanged();
+				FireErrorsChanged();
 			}
 		}
 
 
 		public bool IsInEditMode
 		{
-			get { return this._isInEditMode; }
+			get { return _isInEditMode; }
 			set
 			{
-				this._isInEditMode = value;
-				this.RaisePropertyChanged();
+				_isInEditMode = value;
+				RaisePropertyChanged();
 			}
 		}
 
 		public virtual void StartEditElement()
 		{
-			this.IsInEditMode = true;
+			IsInEditMode = true;
 		}
 
 		public virtual void StopEditElement()
 		{
-			this.IsInEditMode = false;
+			IsInEditMode = false;
 		}
 
 		public void DeleteElement()
 		{
-			if (this.Parent != null)
+			if (Parent != null)
 			{
-				if (this.Parent is IChildItemRemovable)
+				if (Parent is IChildItemRemovable)
 				{
 					//   (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
 				}
@@ -96,7 +96,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 			base.OnDisposing();
 		}
 
-		public override string TypeName => this.GetTypeName();
+		public override string TypeName => GetTypeName();
 
 
 		protected virtual string GetTypeName()
@@ -114,55 +114,55 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
 		public string MeasureUnit
 		{
-			get { return this._measureUnit; }
+			get { return _measureUnit; }
 			set
 			{
-				this._measureUnit = value;
-				this.RaisePropertyChanged();
+				_measureUnit = value;
+				RaisePropertyChanged();
 			}
 		}
 
 		public bool IsMeasureUnitEnabled
 		{
-			get { return this._isMeasureUnitEnabled; }
+			get { return _isMeasureUnitEnabled; }
 			set
 			{
-				this._isMeasureUnitEnabled = value;
-				this.RaisePropertyChanged();
+				_isMeasureUnitEnabled = value;
+				RaisePropertyChanged();
 			}
 		}
 
 		public bool IsRangeEnabled
 		{
-			get { return this._isRangeEnabled; }
+			get { return _isRangeEnabled; }
 			set
 			{
-				this._isRangeEnabled = value;
-				this.RaisePropertyChanged();
+				_isRangeEnabled = value;
+				RaisePropertyChanged();
 			}
 		}
 
 		public IRangeViewModel RangeViewModel
 		{
-			get { return this._rangeViewModel; }
+			get { return _rangeViewModel; }
 			set
 			{
-				this._rangeViewModel = value;
-				this.RaisePropertyChanged();
+				_rangeViewModel = value;
+				RaisePropertyChanged();
 			}
 		}
 
 		protected override void OnValidate()
 		{
 			FluentValidation.Results.ValidationResult res =
-				(new PropertyEditorEditorViewModelValidator(this._localizerService)).Validate(this);
-			this.SetValidationErrors(res);
+				(new PropertyEditorEditorViewModelValidator(_localizerService)).Validate(this);
+			SetValidationErrors(res);
 		}
 
 		public override object Clone()
 		{
-			var cloneEditorViewModel = new PropertyEditorViewModel(this._container,
-				this._rangeViewModel.Clone() as IRangeViewModel, this._localizerService)
+			var cloneEditorViewModel = new PropertyEditorViewModel(_container,
+				_rangeViewModel.Clone() as IRangeViewModel, _localizerService)
 			{
 				Address = Address,
 				IsMeasureUnitEnabled = IsMeasureUnitEnabled,

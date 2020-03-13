@@ -17,8 +17,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         protected override void OnAttached()
         {
-            this._assToggleButton = this.AssociatedObject;
-            if (!(this._assToggleButton.DataContext is IConfigurationItemViewModel)) return;
+            _assToggleButton = AssociatedObject;
+            if (!(_assToggleButton.DataContext is IConfigurationItemViewModel)) return;
             InitTree(AssociatedObject);
             base.OnAttached();
         }
@@ -56,7 +56,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     if (!isAdded)
                     {
                         index++;
-                        this.AddTreeGridItem(treeGridItems, newItem, oldItem, index);
+                        AddTreeGridItem(treeGridItems, newItem, oldItem, index);
                     }
                 }
             }

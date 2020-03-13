@@ -14,7 +14,7 @@ namespace Unicon2.SharedResources.Converter
         /// <param name="parameter"></param>
         /// <param name="culture"></param>
         /// <returns></returns>
-        public object Convert(object value, System.Type targetType, object parameter,
+        public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
             var valueAsBool = value as bool?;
@@ -40,7 +40,7 @@ namespace Unicon2.SharedResources.Converter
         /// <param name="parameter"></param>
         /// <param name="culture"></param>
         /// <returns></returns>
-        public object ConvertBack(object value, System.Type targetType, object parameter,
+        public object ConvertBack(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();

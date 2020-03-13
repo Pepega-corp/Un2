@@ -28,8 +28,8 @@ namespace Unicon2.SharedResources.Behaviors
 
         public DynamicDataTable RowValues
         {
-            get { return (DynamicDataTable)this.GetValue(RowValuesProperty); }
-            set { this.SetValue(RowValuesProperty, value); }
+            get { return (DynamicDataTable)GetValue(RowValuesProperty); }
+            set { SetValue(RowValuesProperty, value); }
         }
 
         private static void OnRowValuesPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -40,79 +40,79 @@ namespace Unicon2.SharedResources.Behaviors
 
         private void OnRowValuesChanged()
         {
-            if (this.AssociatedObject == null) return;
-            if (this.RowValues == null) return;
-            this._journalDataTable = this.RowValues;
+            if (AssociatedObject == null) return;
+            if (RowValues == null) return;
+            _journalDataTable = RowValues;
 
-            this.AssociatedObject.Columns.Clear();
+            AssociatedObject.Columns.Clear();
 
             int index = 0;
-            if (this.IsTransponed)
+            if (IsTransponed)
             {
 
-                if (this._journalDataTable.IsBaseNumeration && this._journalDataTable.RowHeadersStrings != null)
+                if (_journalDataTable.IsBaseNumeration && _journalDataTable.RowHeadersStrings != null)
                 {
-                    this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index++, "#"));
+                    AssociatedObject.Columns.Add(CreateGridTemplateColumn(index++, "#"));
                 }
-                this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index++, ""));
-                if (this._journalDataTable.RowHeadersStrings != null)
+                AssociatedObject.Columns.Add(CreateGridTemplateColumn(index++, ""));
+                if (_journalDataTable.RowHeadersStrings != null)
                 {
-                    foreach (string rowHeadersString in this._journalDataTable.RowHeadersStrings)
+                    foreach (string rowHeadersString in _journalDataTable.RowHeadersStrings)
                     {
-                        this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index, rowHeadersString));
+                        AssociatedObject.Columns.Add(CreateGridTemplateColumn(index, rowHeadersString));
                         index++;
                     }
                 }
 
 
-                if (this._journalDataTable.ColumnNamesStrings != null)
+                if (_journalDataTable.ColumnNamesStrings != null)
                 {
-                    this._collection = new ObservableCollection<List<IFormattedValueViewModel>>();
+                    _collection = new ObservableCollection<List<IFormattedValueViewModel>>();
 
                     int rowIndex = 0;
-                    foreach (string columnNameString in this._journalDataTable.ColumnNamesStrings)
+                    foreach (string columnNameString in _journalDataTable.ColumnNamesStrings)
                     {
 
                         List<IFormattedValueViewModel> formattedValueViewModels = new List<IFormattedValueViewModel>();
-                        this._journalDataTable.Values.ForEach((list =>
+                        _journalDataTable.Values.ForEach((list =>
                         {
                             if (list.Count > rowIndex)
                                 formattedValueViewModels.Add(list[rowIndex]);
                         }));
 
                         rowIndex++;
-                        this.InsertRow(formattedValueViewModels);
+                        InsertRow(formattedValueViewModels);
                     }
                 }
-                this.AssociatedObject.ItemsSource = this._collection;
+                AssociatedObject.ItemsSource = _collection;
             }
             else
             {
-                if (this._journalDataTable.RowHeadersStrings != null)
+                if (_journalDataTable.RowHeadersStrings != null)
                 {
-                    this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index++, ""));
+                    AssociatedObject.Columns.Add(CreateGridTemplateColumn(index++, ""));
 
                 }
-                if ((this._journalDataTable.ColumnNamesStrings != null) && (this._journalDataTable.IsBaseNumeration))
+                if ((_journalDataTable.ColumnNamesStrings != null) && (_journalDataTable.IsBaseNumeration))
                 {
-                    this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index++, "№"));
+                    AssociatedObject.Columns.Add(CreateGridTemplateColumn(index++, "№"));
                 }
 
-                if (this._journalDataTable.ColumnNamesStrings != null)
+                if (_journalDataTable.ColumnNamesStrings != null)
                 {
-                    foreach (string columnName in this._journalDataTable.ColumnNamesStrings)
+                    foreach (string columnName in _journalDataTable.ColumnNamesStrings)
                     {
-                        this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index, columnName));
+                        AssociatedObject.Columns.Add(CreateGridTemplateColumn(index, columnName));
                         index++;
                     }
                 }
-                this._collection = new ObservableCollection<List<IFormattedValueViewModel>>();
+                _collection = new ObservableCollection<List<IFormattedValueViewModel>>();
 
-                this.AssociatedObject.ItemsSource = this._collection;
-                this._journalDataTable.Values.ForEach((list => { this.InsertRow(list); }));
+                AssociatedObject.ItemsSource = _collection;
+                _journalDataTable.Values.ForEach((list => { InsertRow(list); }));
             }
-            this._journalDataTable.FormattedValueViewModelAddedAction = this.InsertRow;
-            this._journalDataTable.TableUpdateAction = this.OnRowValuesChanged;
+            _journalDataTable.FormattedValueViewModelAddedAction = InsertRow;
+            _journalDataTable.TableUpdateAction = OnRowValuesChanged;
         }
 
 
@@ -122,8 +122,8 @@ namespace Unicon2.SharedResources.Behaviors
 
         public bool IsTransponed
         {
-            get { return (bool)this.GetValue(IsTransponedProperty); }
-            set { this.SetValue(IsTransponedProperty, value); }
+            get { return (bool)GetValue(IsTransponedProperty); }
+            set { SetValue(IsTransponedProperty, value); }
         }
 
         private static void OnIsTransponedPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -157,39 +157,39 @@ namespace Unicon2.SharedResources.Behaviors
         {
             List<IFormattedValueViewModel> listToInsert = new List<IFormattedValueViewModel>(formattedValueViewModels);
 
-            if (this.IsTransponed)
+            if (IsTransponed)
             {
-                if (this._journalDataTable.ColumnNamesStrings != null)
+                if (_journalDataTable.ColumnNamesStrings != null)
                 {
                     IStringValueViewModel stringValueViewModel =
                      StaticContainer.Container.Resolve<IStringValueViewModel>();
-                    stringValueViewModel.StringValue = this._journalDataTable.ColumnNamesStrings[this._collection.Count];
+                    stringValueViewModel.StringValue = _journalDataTable.ColumnNamesStrings[_collection.Count];
                     listToInsert.Insert(0, stringValueViewModel);
                 }
-                if ((this._journalDataTable.IsBaseNumeration) && (this._journalDataTable.RowHeadersStrings != null))
+                if ((_journalDataTable.IsBaseNumeration) && (_journalDataTable.RowHeadersStrings != null))
                 {
                     INumericValueViewModel numericValueViewModel =
                         StaticContainer.Container.Resolve<INumericValueViewModel>();
-                    numericValueViewModel.NumValue = (this._collection.Count + 1).ToString();
+                    numericValueViewModel.NumValue = (_collection.Count + 1).ToString();
                     listToInsert.Insert(0, numericValueViewModel);
                 }
             }
             else
             {
-                if ((this._journalDataTable.IsBaseNumeration) && this._journalDataTable.ColumnNamesStrings != null)
+                if ((_journalDataTable.IsBaseNumeration) && _journalDataTable.ColumnNamesStrings != null)
                 {
                     INumericValueViewModel numericValueViewModel =
                        StaticContainer.Container.Resolve<INumericValueViewModel>();
-                    numericValueViewModel.NumValue = (this._collection.Count + 1).ToString();
+                    numericValueViewModel.NumValue = (_collection.Count + 1).ToString();
                     listToInsert.Insert(0, numericValueViewModel);
                 }
-                if ((this._journalDataTable.RowHeadersStrings != null))
+                if ((_journalDataTable.RowHeadersStrings != null))
                 {
                     IStringValueViewModel stringValueViewModel =
                         StaticContainer.Container.Resolve<IStringValueViewModel>();
-                    if (this._journalDataTable.RowHeadersStrings.Count > this._collection.Count)
+                    if (_journalDataTable.RowHeadersStrings.Count > _collection.Count)
                     {
-                        stringValueViewModel.StringValue = this._journalDataTable.RowHeadersStrings[this._collection.Count];
+                        stringValueViewModel.StringValue = _journalDataTable.RowHeadersStrings[_collection.Count];
                     }
                     else
                     {
@@ -201,7 +201,7 @@ namespace Unicon2.SharedResources.Behaviors
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this._collection.Add(listToInsert);
+                _collection.Add(listToInsert);
             });
         }
 
@@ -211,14 +211,14 @@ namespace Unicon2.SharedResources.Behaviors
 
         public List<int> SelectedIndexes
         {
-            get { return (List<int>)this.GetValue(SelectedIndexesProperty); }
-            set { this.SetValue(SelectedIndexesProperty, value); }
+            get { return (List<int>)GetValue(SelectedIndexesProperty); }
+            set { SetValue(SelectedIndexesProperty, value); }
         }
 
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems != null && e.AddedItems.Count > 0 && this.SelectedIndexes != null)
+            if (e.AddedItems != null && e.AddedItems.Count > 0 && SelectedIndexes != null)
             {
                 foreach (List<IFormattedValueViewModel> formattedValueViewModels in e.AddedItems)
                 {
@@ -226,13 +226,13 @@ namespace Unicon2.SharedResources.Behaviors
                     if (int.TryParse((formattedValueViewModels[0] as INumericValueViewModel).NumValue,
                         out selectedIndex))
                     {
-                        this.SelectedIndexes.Add(selectedIndex);
+                        SelectedIndexes.Add(selectedIndex);
 
                     }
                 }
             }
 
-            if (e.RemovedItems != null && e.RemovedItems.Count > 0 && this.SelectedIndexes != null)
+            if (e.RemovedItems != null && e.RemovedItems.Count > 0 && SelectedIndexes != null)
             {
                 foreach (List<IFormattedValueViewModel> formattedValueViewModels in e.RemovedItems)
                 {
@@ -240,7 +240,7 @@ namespace Unicon2.SharedResources.Behaviors
                     if (int.TryParse((formattedValueViewModels[0] as INumericValueViewModel).NumValue,
                         out selectedIndex))
                     {
-                        this.SelectedIndexes.Remove(selectedIndex);
+                        SelectedIndexes.Remove(selectedIndex);
 
                     }
                 }
@@ -250,9 +250,9 @@ namespace Unicon2.SharedResources.Behaviors
 
         protected override void OnAttached()
         {
-            this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
+            AssociatedObject.SelectionChanged += OnSelectionChanged;
             //  _dataTableOfRecords = new DataTable();
-            this.OnRowValuesChanged();
+            OnRowValuesChanged();
             base.OnAttached();
         }
     }

@@ -11,12 +11,12 @@ namespace Unicon2.Connections.ModBusRtuConnection.Factories
 
         public ComPortConfigurationViewModelFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public IComPortConfigurationViewModel CreateComPortConfigurationViewModel(IComPortConfiguration comPortConfiguration)
         {
-            IComPortConfigurationViewModel comPortConfigurationViewModel = this._container.Resolve<IComPortConfigurationViewModel>();
+            IComPortConfigurationViewModel comPortConfigurationViewModel = _container.Resolve<IComPortConfigurationViewModel>();
             comPortConfigurationViewModel.Model = comPortConfiguration;
             return comPortConfigurationViewModel;
         }

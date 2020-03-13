@@ -14,16 +14,16 @@ namespace Unicon2.Formatting.Editor.Factories
 
         public FormatterEditorFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
 
         public void EditFormatterByUser(IUshortFormattableEditorViewModel ushortFormattableViewModel)
         {
             IApplicationGlobalCommands applicationGlobalCommands =
-                this._container.Resolve<IApplicationGlobalCommands>();
+                _container.Resolve<IApplicationGlobalCommands>();
             applicationGlobalCommands?.ShowWindowModal(() => new FormatterView(),
-                new FormatterSelectionViewModel(this._container, ushortFormattableViewModel));
+                new FormatterSelectionViewModel(_container, ushortFormattableViewModel));
         }
     }
 }

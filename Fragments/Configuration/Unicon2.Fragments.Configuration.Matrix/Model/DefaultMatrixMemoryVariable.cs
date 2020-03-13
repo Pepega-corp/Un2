@@ -1,17 +1,18 @@
 ﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Values.Matrix;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(DefaultMatrixMemoryVariable), IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class DefaultMatrixMemoryVariable : IMatrixMemoryVariable
     {
-        [DataMember]
+        [JsonProperty]
         public string Name { get; set; }
-        [DataMember]
+        [JsonProperty]
         public ushort StartAddressWord { get; set; }
-        [DataMember]
+        [JsonProperty]
         public ushort StartAddressBit { get; set; }
     }
 }

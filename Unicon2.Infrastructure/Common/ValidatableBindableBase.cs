@@ -20,30 +20,30 @@ namespace Unicon2.Infrastructure.Common
         public IEnumerable GetErrors(string propertyName)
         {
             if (string.IsNullOrEmpty(propertyName)) return null;
-            if (this._errorDictionary.ContainsKey(propertyName))
+            if (_errorDictionary.ContainsKey(propertyName))
             {
-                return this._errorDictionary[propertyName];
+                return _errorDictionary[propertyName];
             }
             return null;
         }
 
         public void SetValidationErrors(ValidationResult result)
         {
-            this._errorDictionary.Clear();
+            _errorDictionary.Clear();
             foreach (ValidationFailure error in result.Errors)
             {
-                if (this._errorDictionary.ContainsKey(error.PropertyName))
+                if (_errorDictionary.ContainsKey(error.PropertyName))
                 {
-                    this._errorDictionary[error.PropertyName].Add(error);
+                    _errorDictionary[error.PropertyName].Add(error);
                 }
                 else
                 {
-                    this._errorDictionary.Add(error.PropertyName, new List<ValidationFailure> { error });
+                    _errorDictionary.Add(error.PropertyName, new List<ValidationFailure> { error });
                 }
             }
         }
 
-        public bool HasErrors => this._errorDictionary.Count != 0;
+        public bool HasErrors => _errorDictionary.Count != 0;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = OnErrorsChanged;
 

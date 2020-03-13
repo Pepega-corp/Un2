@@ -82,7 +82,7 @@ namespace Unicon2.Fragments.Configuration.Module
 
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>()
-                .AddResourceAsGlobal("Resources/ConfigurationTemplates.xaml", this.GetType().Assembly);
+                .AddResourceAsGlobal("Resources/ConfigurationTemplates.xaml", GetType().Assembly);
         }
     }
 }

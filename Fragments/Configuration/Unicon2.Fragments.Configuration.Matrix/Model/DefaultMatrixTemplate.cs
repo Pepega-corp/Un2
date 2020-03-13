@@ -13,10 +13,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
     {
         public DefaultMatrixTemplate()
         {
-            this.ResultBitOptions = new List<IBitOption>();
-            this.MatrixMemoryVariables = new List<IMatrixMemoryVariable>();
-            this.VariableColumnSignatures = new List<IVariableColumnSignature>();
-            this.MatrixVariableOptionTemplate = new BoolMatrixVariableOptionTemplate();
+            ResultBitOptions = new List<IBitOption>();
+            MatrixMemoryVariables = new List<IMatrixMemoryVariable>();
+            VariableColumnSignatures = new List<IVariableColumnSignature>();
+            MatrixVariableOptionTemplate = new BoolMatrixVariableOptionTemplate();
         }
 
         [JsonProperty]

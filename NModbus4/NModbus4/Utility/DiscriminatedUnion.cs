@@ -40,13 +40,13 @@ namespace NModbus4.Utility
         {
             get
             {
-                if (this.Option != DiscriminatedUnionOption.A)
+                if (Option != DiscriminatedUnionOption.A)
                 {
                     string msg = $"{DiscriminatedUnionOption.A} is not a valid option for this discriminated union instance.";
                     throw new InvalidOperationException(msg);
                 }
 
-                return this.optionA;
+                return optionA;
             }
         }
 
@@ -58,13 +58,13 @@ namespace NModbus4.Utility
         {
             get
             {
-                if (this.Option != DiscriminatedUnionOption.B)
+                if (Option != DiscriminatedUnionOption.B)
                 {
                     string msg = $"{DiscriminatedUnionOption.B} is not a valid option for this discriminated union instance.";
                     throw new InvalidOperationException(msg);
                 }
 
-                return this.optionB;
+                return optionB;
             }
         }
 
@@ -73,7 +73,7 @@ namespace NModbus4.Utility
         /// </summary>
         public DiscriminatedUnionOption Option
         {
-            get { return this.option; }
+            get { return option; }
         }
 
         /// <summary>

@@ -13,60 +13,60 @@ namespace Unicon2.Services.LogService
 
         public DeviceLogger(Func<ILogMessage> logMessageGettingFunc)
         {
-            this._logMessageGettingFunc = logMessageGettingFunc;
-            this.IsInfoMessagesLoggingEnabled = true;
-            this.IsErrorsLoggingEnabled = true;
-            this.IsFailedQueriesLoggingEnabled = true;
+            _logMessageGettingFunc = logMessageGettingFunc;
+            IsInfoMessagesLoggingEnabled = true;
+            IsErrorsLoggingEnabled = true;
+            IsFailedQueriesLoggingEnabled = true;
         }
 
 
         public void LogInfoMessage(string description)
         {
-            if (!this.IsInfoMessagesLoggingEnabled) return;
-            ILogMessage logMessage = this.GetRawMessage();
+            if (!IsInfoMessagesLoggingEnabled) return;
+            ILogMessage logMessage = GetRawMessage();
             logMessage.Description = description;
             logMessage.LogMessageType = LogMessageTypeEnum.Info;
-            this.LogMessageAriseAction?.Invoke(logMessage);
+            LogMessageAriseAction?.Invoke(logMessage);
         }
 
         public void LogError(string description)
         {
-            if(!this.IsErrorsLoggingEnabled)return;
-            ILogMessage logMessage = this.GetRawMessage();
+            if(!IsErrorsLoggingEnabled)return;
+            ILogMessage logMessage = GetRawMessage();
             logMessage.Description = description;
             logMessage.LogMessageType = LogMessageTypeEnum.Error;
-            this.LogMessageAriseAction?.Invoke(logMessage);
+            LogMessageAriseAction?.Invoke(logMessage);
         }
 
         public void LogSuccessfulQuery(string description)
         {
-            if (!this.IsSuccessfulQueriesLoggingEnabled) return;
-            ILogMessage logMessage = this.GetRawMessage();
+            if (!IsSuccessfulQueriesLoggingEnabled) return;
+            ILogMessage logMessage = GetRawMessage();
             logMessage.Description = description;
             logMessage.LogMessageType = LogMessageTypeEnum.SuccsessfulQuery;
-            this.LogMessageAriseAction?.Invoke(logMessage);
+            LogMessageAriseAction?.Invoke(logMessage);
         }
 
         public void LogFailedQuery(string description)
         {
-            if (!this.IsFailedQueriesLoggingEnabled) return;
-            ILogMessage logMessage = this.GetRawMessage();
+            if (!IsFailedQueriesLoggingEnabled) return;
+            ILogMessage logMessage = GetRawMessage();
             logMessage.Description = description;
             logMessage.LogMessageType = LogMessageTypeEnum.FailedQuery;
-            this.LogMessageAriseAction?.Invoke(logMessage);
+            LogMessageAriseAction?.Invoke(logMessage);
 
         }
 
         public void SetLoggerSubject(string subjectName)
         {
-            this.SourceName = subjectName;
+            SourceName = subjectName;
         }
 
 
         private ILogMessage GetRawMessage()
         {
-            ILogMessage logMessageRaw = this._logMessageGettingFunc();
-            logMessageRaw.MessageSubject = this.SourceName;
+            ILogMessage logMessageRaw = _logMessageGettingFunc();
+            logMessageRaw.MessageSubject = SourceName;
             logMessageRaw.MessageDateTime = DateTime.Now;
             return logMessageRaw;
         }
@@ -90,8 +90,8 @@ namespace Unicon2.Services.LogService
 
         public object Clone()
         {
-            IDeviceLogger deviceLogger=new DeviceLogger(this._logMessageGettingFunc);
-           deviceLogger.SetLoggerSubject(this.SourceName);
+            IDeviceLogger deviceLogger=new DeviceLogger(_logMessageGettingFunc);
+           deviceLogger.SetLoggerSubject(SourceName);
             return deviceLogger;
         }
     }

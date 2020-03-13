@@ -21,7 +21,7 @@ namespace Unicon2.Unity.Navigation
         {
             NavigationParameters navigationParametersToRegion = new NavigationParameters();
 
-            this.ForEach(parameter =>
+            ForEach(parameter =>
             {
                 navigationParametersToRegion.Add(parameter.ParameterName, parameter.Parameter);
             });
@@ -44,7 +44,7 @@ namespace Unicon2.Unity.Navigation
         public UniconNavigationParameters AddParameterByName(string key, object parameter)
         {
             if (this.Any((navigationParameter => navigationParameter.ParameterName == key))) return this;
-            this.Add(new UniconNavigationParameter(key, parameter));
+            Add(new UniconNavigationParameter(key, parameter));
             return this;
         }
     }
@@ -53,8 +53,8 @@ namespace Unicon2.Unity.Navigation
     {
         public UniconNavigationParameter(string parameterName, object parameter)
         {
-            this.ParameterName = parameterName;
-            this.Parameter = parameter;
+            ParameterName = parameterName;
+            Parameter = parameter;
         }
 
         public string ParameterName { get; }

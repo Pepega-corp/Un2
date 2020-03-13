@@ -1,11 +1,9 @@
-﻿using Unicon2.Connections.ModBusTcpConnection.Factories;
-using Unicon2.Connections.ModBusTcpConnection.Interfaces;
+﻿using Unicon2.Connections.ModBusTcpConnection.Interfaces;
 using Unicon2.Connections.ModBusTcpConnection.Keys;
 using Unicon2.Connections.ModBusTcpConnection.Model;
 using Unicon2.Connections.ModBusTcpConnection.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Unity.Interfaces;
 
@@ -27,7 +25,7 @@ namespace Unicon2.Connections.ModBusTcpConnection.Module
            // container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(ModbusTcpConnection));
            // container.Resolve<ISerializerService>().AddNamespaceAttribute("modbusTcpConnection", "ModbusTcpConnectionNS");
 
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ModBusTcpConnectionResources.xaml", this.GetType().Assembly);
+            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ModBusTcpConnectionResources.xaml", GetType().Assembly);
         }
     }
 }

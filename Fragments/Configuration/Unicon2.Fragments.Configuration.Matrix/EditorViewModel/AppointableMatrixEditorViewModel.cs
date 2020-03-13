@@ -14,10 +14,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
     {
         public AppointableMatrixEditorViewModel(IMatrixTemplateEditorViewModel matrixTemplateEditorViewModel)
         {
-            this.MatrixTemplateEditorViewModel = matrixTemplateEditorViewModel;
+            MatrixTemplateEditorViewModel = matrixTemplateEditorViewModel;
         }
 
-        public override string TypeName => this.StrongName;
+        public override string TypeName => StrongName;
         public override object Clone()
         {
             throw new NotImplementedException();
@@ -34,7 +34,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         public void StartEditElement()
         {
             AppointableMatrixEditorWindow appointableMatrixEditorWindow = new AppointableMatrixEditorWindow();
-            appointableMatrixEditorWindow.DataContext = this.MatrixTemplateEditorViewModel;
+            appointableMatrixEditorWindow.DataContext = MatrixTemplateEditorViewModel;
             appointableMatrixEditorWindow.ShowDialog();
             //this._model.Name = this.MatrixTemplateEditorViewModel.MatrixName;
             //this.Header = this._model.Name;
@@ -47,9 +47,9 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         public void DeleteElement()
         {
-            if (this.Parent != null)
+            if (Parent != null)
             {
-                if (this.Parent is IChildItemRemovable)
+                if (Parent is IChildItemRemovable)
                 {
                  //   (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
                 }

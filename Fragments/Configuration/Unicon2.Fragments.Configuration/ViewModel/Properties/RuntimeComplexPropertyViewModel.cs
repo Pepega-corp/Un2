@@ -21,11 +21,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         
         public bool IsGroupedProperty
         {
-            get { return this._isGroupedProperty; }
+            get { return _isGroupedProperty; }
             set
             {
-                this._isGroupedProperty = value;
-                this.RaisePropertyChanged();
+                _isGroupedProperty = value;
+                RaisePropertyChanged();
             }
         }
     }

@@ -36,24 +36,24 @@ namespace Unicon2.Formatting.Editor.ViewModels
             Func<IArgumentViewModel> argumentViewModelGettingFunc,
             ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel, IFormattingService formattingService)
         {
-            this._localizerService = localizerService;
-            this._container = container;
-            this._argumentViewModelGettingFunc = argumentViewModelGettingFunc;
-            this._sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+            _localizerService = localizerService;
+            _container = container;
+            _argumentViewModelGettingFunc = argumentViewModelGettingFunc;
+            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             _formattingService = formattingService;
-            this.ArgumentViewModels = new ObservableCollection<IArgumentViewModel>();
-            this._formulaFormatter =
-                this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
+            ArgumentViewModels = new ObservableCollection<IArgumentViewModel>();
+            _formulaFormatter =
+                _container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
 
-            if (this._formulaFormatter == null)
+            if (_formulaFormatter == null)
                 throw new ArgumentException();
 
-            this.CheckCommand = new RelayCommand(this.OnCheckCommandExecute);
-            this.DeleteArgumentCommand = new RelayCommand<IArgumentViewModel>(this.OnDeleteArgumentExecute);
-            this.AddArgumentCommand = new RelayCommand(this.OnAddArgumentExecute);
-            this._formulaFormatter.NumberOfSimbolsAfterComma = 3;
+            CheckCommand = new RelayCommand(OnCheckCommandExecute);
+            DeleteArgumentCommand = new RelayCommand<IArgumentViewModel>(OnDeleteArgumentExecute);
+            AddArgumentCommand = new RelayCommand(OnAddArgumentExecute);
+            _formulaFormatter.NumberOfSimbolsAfterComma = 3;
 
-            this.InitializeFormulaTooltip();
+            InitializeFormulaTooltip();
         }
 
         public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
@@ -63,12 +63,12 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         private void OnAddArgumentExecute()
         {
-            this.SaveChanges();
+            SaveChanges();
             IUshortFormattable resource =
-                this._sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortFormattable>();
+                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortFormattable>();
             if (resource != null)
             {
-                this._formulaFormatter.UshortFormattables.Add(resource);
+                _formulaFormatter.UshortFormattables.Add(resource);
             }
 
             //  this.InitFromFormatter(this._formulaFormatter);
@@ -76,34 +76,34 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         private void OnDeleteArgumentExecute(IArgumentViewModel argumentViewModel)
         {
-            this.ArgumentViewModels.Remove(argumentViewModel);
-            this._formulaFormatter.UshortFormattables.Remove(argumentViewModel.Model as IUshortFormattable);
+            ArgumentViewModels.Remove(argumentViewModel);
+            _formulaFormatter.UshortFormattables.Remove(argumentViewModel.Model as IUshortFormattable);
         }
 
         private void OnCheckCommandExecute()
         {
-            this.FireErrorsChanged(nameof(this.TestValueOfX));
-            this.FireErrorsChanged(nameof(this.FormulaString));
-            if (this.HasErrors) return;
-            this._formulaFormatter.FormulaString = this.FormulaString;
-            this._formulaFormatter.NumberOfSimbolsAfterComma = this.NumberOfSimbolsAfterComma;
-            if (this.ArgumentViewModels.Count > 0)
+            FireErrorsChanged(nameof(TestValueOfX));
+            FireErrorsChanged(nameof(FormulaString));
+            if (HasErrors) return;
+            _formulaFormatter.FormulaString = FormulaString;
+            _formulaFormatter.NumberOfSimbolsAfterComma = NumberOfSimbolsAfterComma;
+            if (ArgumentViewModels.Count > 0)
             {
-                this.TestResult =
-                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
+                TestResult =
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
                         .DYNAMIC_VALUES_CHECKING_IMPOSSIBLE);
                 return;
             }
 
             try
             {
-                this.TestResult = _formattingService.FormatValue(_formulaFormatter, new[] {(ushort) this.TestValueOfX})
+                TestResult = _formattingService.FormatValue(_formulaFormatter, new[] {(ushort) TestValueOfX})
                     .ToString();
             }
             catch
             {
-                this.TestResult =
-                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR);
+                TestResult =
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR);
             }
         }
 
@@ -111,8 +111,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
         protected override void OnValidate()
         {
             FluentValidation.Results.ValidationResult result =
-                new FormulaFormatterViewModelValidator(this._localizerService).Validate(this);
-            this.SetValidationErrors(result);
+                new FormulaFormatterViewModelValidator(_localizerService).Validate(this);
+            SetValidationErrors(result);
         }
 
         //public override IUshortsFormatter GetFormatter()
@@ -123,8 +123,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         private void SaveChanges()
         {
-            this._formulaFormatter.FormulaString = this.FormulaString;
-            this._formulaFormatter.NumberOfSimbolsAfterComma = this.NumberOfSimbolsAfterComma;
+            _formulaFormatter.FormulaString = FormulaString;
+            _formulaFormatter.NumberOfSimbolsAfterComma = NumberOfSimbolsAfterComma;
         }
 
         //public override void InitFromFormatter(IUshortsFormatter ushortsFormatter)
@@ -166,38 +166,38 @@ namespace Unicon2.Formatting.Editor.ViewModels
             get { return _formulaTooltipString; }
             set
             {
-                this._formulaTooltipString = value;
-                this.RaisePropertyChanged();
+                _formulaTooltipString = value;
+                RaisePropertyChanged();
             }
         }
 
         public string FormulaString
         {
-            get { return this._formulaString; }
+            get { return _formulaString; }
             set
             {
-                this._formulaString = value;
-                this.RaisePropertyChanged();
+                _formulaString = value;
+                RaisePropertyChanged();
             }
         }
 
         public double TestValueOfX
         {
-            get { return this._testValueOfX; }
+            get { return _testValueOfX; }
             set
             {
-                this._testValueOfX = value;
-                this.RaisePropertyChanged();
+                _testValueOfX = value;
+                RaisePropertyChanged();
             }
         }
 
         public string TestResult
         {
-            get { return this._testResult; }
+            get { return _testResult; }
             set
             {
-                this._testResult = value;
-                this.RaisePropertyChanged();
+                _testResult = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -211,11 +211,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public ushort NumberOfSimbolsAfterComma
         {
-            get { return this._numberOfSimbolsAfterComma; }
+            get { return _numberOfSimbolsAfterComma; }
             set
             {
-                this._numberOfSimbolsAfterComma = value;
-                this.RaisePropertyChanged();
+                _numberOfSimbolsAfterComma = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -225,9 +225,9 @@ namespace Unicon2.Formatting.Editor.ViewModels
         public override object Clone()
         {
             FormulaFormatterViewModel cloneFormulaFormatterViewModel =
-                new FormulaFormatterViewModel(this._localizerService, this._container,
-                    this._argumentViewModelGettingFunc, this._sharedResourcesGlobalViewModel, _formattingService);
-            this.SaveChanges();
+                new FormulaFormatterViewModel(_localizerService, _container,
+                    _argumentViewModelGettingFunc, _sharedResourcesGlobalViewModel, _formattingService);
+            SaveChanges();
             // cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
             return cloneFormulaFormatterViewModel;
         }
@@ -236,10 +236,10 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             get
             {
-                this.FireErrorsChanged(nameof(this.FormulaString));
-                if (this.HasErrors)
+                FireErrorsChanged(nameof(FormulaString));
+                if (HasErrors)
                 {
-                    if (this.GetErrors(nameof(this.FormulaString)) == null) return true;
+                    if (GetErrors(nameof(FormulaString)) == null) return true;
                     return false;
                 }
 
@@ -265,13 +265,13 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public void StartEditElement()
         {
-            this.IsInEditMode = true;
+            IsInEditMode = true;
         }
 
         public void StopEditElement()
         {
-            this.SaveChanges();
-            this.IsInEditMode = false;
+            SaveChanges();
+            IsInEditMode = false;
         }
     }
 }

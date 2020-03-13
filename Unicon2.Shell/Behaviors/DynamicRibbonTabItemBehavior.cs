@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
@@ -53,7 +54,7 @@ namespace Unicon2.Shell.Behaviors
                     {
                         CheckBox toggleButton = new CheckBox();
                         toggleButton.Content = header;
-                        toggleButton.SetBinding(CheckBox.IsCheckedProperty,
+                        toggleButton.SetBinding(ToggleButton.IsCheckedProperty,
                         new Binding("IsChecked")
                         {
                             Source = fragmentOptionCommandViewModel,

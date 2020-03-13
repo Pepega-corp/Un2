@@ -12,10 +12,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
     {
         public BoolMatrixBitOption()
         {
-            this.NumbersOfAssotiatedBits = new List<int>();
+            NumbersOfAssotiatedBits = new List<int>();
         }
 
-        public string FullSignature => this.VariableColumnSignature?.Signature;
+        public string FullSignature => VariableColumnSignature?.Signature;
         [JsonProperty]
         public IVariableColumnSignature VariableColumnSignature { get; set; }
         [JsonProperty]
@@ -23,7 +23,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
         public bool IsBitOptionEqual(IBitOption comparingBitOption)
         {
-            return comparingBitOption.VariableColumnSignature == this.VariableColumnSignature && (comparingBitOption.StrongName == this.StrongName);
+            return comparingBitOption.VariableColumnSignature == VariableColumnSignature && (comparingBitOption.StrongName == StrongName);
         }
 
         public string StrongName => MatrixKeys.BOOL_MATRIX_BIT_OPTION;

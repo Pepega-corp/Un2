@@ -31,7 +31,7 @@ namespace Unicon2.SharedResources.Markups
         /// <param name="viewName">The name of the view to resolve</param>
         public ViewResolverExtension(string viewName)
         {
-            this.ViewName = viewName;
+            ViewName = viewName;
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace Unicon2.SharedResources.Markups
         /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (string.IsNullOrEmpty(this.ViewName)) return null;
-            var resolvedView = StaticContainer.Container.Resolve(typeof(UserControl), this.ViewName);
+            if (string.IsNullOrEmpty(ViewName)) return null;
+            var resolvedView = StaticContainer.Container.Resolve(typeof(UserControl), ViewName);
             return resolvedView;
         }
     }

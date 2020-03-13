@@ -31,29 +31,29 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             ILocalizerService localizerService, IApplicationGlobalCommands applicationGlobalCommands,
             Func<ISharedBitViewModel> sharedBitViewModelGettingFunc) : base(container, rangeViewModel, localizerService)
         {
-            this._applicationGlobalCommands = applicationGlobalCommands;
-            this.SubPropertyEditorViewModels = new ObservableCollection<ISubPropertyEditorViewModel>();
-            this.SubmitCommand = new RelayCommand<object>(this.OnSubmit);
-            this.CancelCommand = new RelayCommand<object>(this.OnCancel);
-            this.MainBitNumbersInWordCollection = new ObservableCollection<ISharedBitViewModel>();
+            _applicationGlobalCommands = applicationGlobalCommands;
+            SubPropertyEditorViewModels = new ObservableCollection<ISubPropertyEditorViewModel>();
+            SubmitCommand = new RelayCommand<object>(OnSubmit);
+            CancelCommand = new RelayCommand<object>(OnCancel);
+            MainBitNumbersInWordCollection = new ObservableCollection<ISharedBitViewModel>();
             for (int i = 0; i < 16; i++)
             {
                 ISharedBitViewModel sharedBitViewModel = sharedBitViewModelGettingFunc();
                 sharedBitViewModel.NumberOfBit = i;
-                this.MainBitNumbersInWordCollection.Add(sharedBitViewModel);
+                MainBitNumbersInWordCollection.Add(sharedBitViewModel);
             }
         }
 
         private void OnSubmit(object obj)
         {
-            this.StopEditElement();
+            StopEditElement();
             (obj as Window)?.Close();
         }
 
         private void OnCancel(object obj)
         {
             //this.SetModel(this._model);
-            this.StopEditElement();
+            StopEditElement();
             (obj as Window)?.Close();
         }
 
@@ -62,11 +62,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         public bool IsGroupedProperty
         {
-            get { return this._isGroupedProperty; }
+            get { return _isGroupedProperty; }
             set
             {
-                this._isGroupedProperty = value;
-                this.RaisePropertyChanged();
+                _isGroupedProperty = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -113,7 +113,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         public override void StartEditElement()
         {
             base.StartEditElement();
-            this._applicationGlobalCommands.ShowWindowModal(() => new ComplexPropertyEditorWindow(), this);
+            _applicationGlobalCommands.ShowWindowModal(() => new ComplexPropertyEditorWindow(), this);
         }
 
         protected override string GetTypeName()
@@ -123,10 +123,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         public bool GetIsSetElementPossible(IConfigurationItemViewModel element, bool isUp)
         {
-            if (this.ChildStructItemViewModels.Contains(element))
+            if (ChildStructItemViewModels.Contains(element))
             {
-                int startIndex = this.ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel);
-                return isUp ? startIndex > 0 : this.ChildStructItemViewModels.Count - 1 > startIndex;
+                int startIndex = ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel);
+                return isUp ? startIndex > 0 : ChildStructItemViewModels.Count - 1 > startIndex;
             }
 
             return false;

@@ -11,7 +11,7 @@ namespace Unicon2.Unity.Navigation
 
         public NavigationContext ToNavigationContext()
         {
-            NavigationContext result = new NavigationContext(ServiceLocator.Current.GetInstance<IRegionNavigationService>(), this.Uri, null);
+            NavigationContext result = new NavigationContext(ServiceLocator.Current.GetInstance<IRegionNavigationService>(), Uri, null);
             NavigationParameters?.ForEach(parameter =>
             {
                 result.Parameters.Add(parameter.ParameterName, parameter.Parameter);

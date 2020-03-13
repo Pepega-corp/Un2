@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Configuration.Model
     {
         public DefaultItemsGroup() 
         {
-            this.ConfigurationItemList = new List<IConfigurationItem>();
+            ConfigurationItemList = new List<IConfigurationItem>();
         }
 
         [JsonProperty]
@@ -38,7 +38,7 @@ namespace Unicon2.Fragments.Configuration.Model
         }
         protected override void OnDisposing()
         {
-            foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+            foreach (IConfigurationItem configurationItem in ConfigurationItemList)
             {
                 configurationItem.Dispose();
             }
@@ -47,7 +47,7 @@ namespace Unicon2.Fragments.Configuration.Model
         protected override IConfigurationItem OnCloning()
         {
             DefaultItemsGroup cloneDefaultItemsGroup = new DefaultItemsGroup();
-            foreach (IConfigurationItem configurationItem in this.ConfigurationItemList)
+            foreach (IConfigurationItem configurationItem in ConfigurationItemList)
             {
                 cloneDefaultItemsGroup.ConfigurationItemList.Add(configurationItem.Clone() as IConfigurationItem);
             }

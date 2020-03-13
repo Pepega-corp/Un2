@@ -16,15 +16,15 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public DefaultBitMaskFormatterViewModel()
         {
-            this.BitSignatures = new ObservableCollection<StringWrapper>();
-            this.AddSignatureCommand = new RelayCommand(() =>
+            BitSignatures = new ObservableCollection<StringWrapper>();
+            AddSignatureCommand = new RelayCommand(() =>
               {
-                  this.BitSignatures.Add(new StringWrapper(string.Empty));
+                  BitSignatures.Add(new StringWrapper(string.Empty));
               });
-            this.DeleteSignatureCommand = new RelayCommand(() =>
+            DeleteSignatureCommand = new RelayCommand(() =>
             {
-                this.BitSignatures.Remove(this.SelectedBitSignature);
-            }, () => this.SelectedBitSignature != null);
+                BitSignatures.Remove(SelectedBitSignature);
+            }, () => SelectedBitSignature != null);
         }
         public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
         {
@@ -43,22 +43,22 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public ObservableCollection<StringWrapper> BitSignatures
         {
-            get { return this._bitSignatures; }
+            get { return _bitSignatures; }
             set
             {
-                this._bitSignatures = value;
-                this.RaisePropertyChanged();
+                _bitSignatures = value;
+                RaisePropertyChanged();
             }
         }
 
         public StringWrapper SelectedBitSignature
         {
-            get { return this._selectedBitSignature; }
+            get { return _selectedBitSignature; }
             set
             {
-                this._selectedBitSignature = value;
-                this.RaisePropertyChanged();
-                (this.DeleteSignatureCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                _selectedBitSignature = value;
+                RaisePropertyChanged();
+                (DeleteSignatureCommand as RelayCommand)?.RaiseCanExecuteChanged();
             }
         }
 

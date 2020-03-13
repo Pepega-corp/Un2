@@ -21,21 +21,21 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         public SubProperty()
         {
-            this.BitNumbersInWord = new List<int>();
+            BitNumbersInWord = new List<int>();
         }
 
 
         public void SetParent(IComplexProperty complexProperty)
         {
-            this._complexProperty = complexProperty;
+            _complexProperty = complexProperty;
         }
 
         private ushort[] GetUshortValueFromParentsValue(ushort[] parentUshorts)
         {
-            bool[] bools = new bool[this.BitNumbersInWord.Count];
+            bool[] bools = new bool[BitNumbersInWord.Count];
             BitArray bitArray = new BitArray(new int[] { parentUshorts[0] });
             int index = 0;
-            foreach (int bitNum in this.BitNumbersInWord)
+            foreach (int bitNum in BitNumbersInWord)
             {
                 bools[index] = bitArray[bitNum];
                 index++;
@@ -52,15 +52,15 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         {
             SubProperty subProperty = new SubProperty
             {
-                UshortsFormatter = this.UshortsFormatter,
-                Address = this.Address,
-                NumberOfPoints = this.NumberOfPoints,
-                MeasureUnit = this.MeasureUnit,
-                IsMeasureUnitEnabled = this.IsMeasureUnitEnabled,
-                Range = this.Range.Clone() as IRange,
-                IsRangeEnabled = this.IsRangeEnabled
+                UshortsFormatter = UshortsFormatter,
+                Address = Address,
+                NumberOfPoints = NumberOfPoints,
+                MeasureUnit = MeasureUnit,
+                IsMeasureUnitEnabled = IsMeasureUnitEnabled,
+                Range = Range.Clone() as IRange,
+                IsRangeEnabled = IsRangeEnabled
             };
-            this.BitNumbersInWord.ForEach((i => subProperty.BitNumbersInWord.Add(i)));
+            BitNumbersInWord.ForEach((i => subProperty.BitNumbersInWord.Add(i)));
             return subProperty;
         }
         public override T Accept<T>(IConfigurationItemVisitor<T> visitor)

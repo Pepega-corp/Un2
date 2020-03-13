@@ -11,36 +11,35 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         private IEditableValueViewModel _localValue;
         private string _measureUnit;
         private bool _isMeasureUnitEnabled;
-        private IRange _range;
         private IRangeViewModel _rangeViewModel;
         private bool _isRangeEnabled;
 
         public RuntimePropertyViewModel()
         {
-            this.IsCheckable = false;
+            IsCheckable = false;
         }
 
         public IFormattedValueViewModel DeviceValue
         {
-            get { return this._value; }
+            get { return _value; }
             set
             {
-                this._value = value;
-                this.RaisePropertyChanged();
+                _value = value;
+                RaisePropertyChanged();
             }
         }
 
         public IEditableValueViewModel LocalValue
         {
-            get { return this._localValue; }
+            get { return _localValue; }
             set
             {
-                this._localValue = value;
-                this.RaisePropertyChanged();
+                _localValue = value;
+                RaisePropertyChanged();
             }
         }
 
-        public override string TypeName => this.GetTypeName();
+        public override string TypeName => GetTypeName();
 
         protected virtual string GetTypeName()
         {
@@ -49,41 +48,41 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 
         public string MeasureUnit
         {
-            get { return this._measureUnit; }
+            get { return _measureUnit; }
             set
             {
-                this._measureUnit = value;
-                this.RaisePropertyChanged();
+                _measureUnit = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsMeasureUnitEnabled
         {
-            get { return this._isMeasureUnitEnabled; }
+            get { return _isMeasureUnitEnabled; }
             set
             {
-                this._isMeasureUnitEnabled = value;
-                this.RaisePropertyChanged();
+                _isMeasureUnitEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsRangeEnabled
         {
-            get { return this._isRangeEnabled; }
+            get { return _isRangeEnabled; }
             set
             {
-                this._isRangeEnabled = value;
-                this.RaisePropertyChanged();
+                _isRangeEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
         public IRangeViewModel RangeViewModel
         {
-            get { return this._rangeViewModel; }
+            get { return _rangeViewModel; }
             set
             {
-                this._rangeViewModel = value;
-                this.RaisePropertyChanged();
+                _rangeViewModel = value;
+                RaisePropertyChanged();
             }
         }
         

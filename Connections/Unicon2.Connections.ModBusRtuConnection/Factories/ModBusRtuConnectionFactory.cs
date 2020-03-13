@@ -18,7 +18,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Factories
 
         public ModBusRtuConnectionFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
         /// <summary>
         /// создание объекта класса подключения
@@ -26,15 +26,15 @@ namespace Unicon2.Connections.ModBusRtuConnection.Factories
         /// <returns></returns>
         public IDeviceConnection CreateDeviceConnection()
         {
-            return this._container.Resolve<IModbusRtuConnection>();
+            return _container.Resolve<IModbusRtuConnection>();
         }
 
         public IViewModel CreateDeviceConnectionViewModel()
         {
-            IViewModel deviceConnectionViewModel = this._container.Resolve<IDeviceConnectionViewModel>(StringKeys.MODBUS_RTU_CONNECTION
+            IViewModel deviceConnectionViewModel = _container.Resolve<IDeviceConnectionViewModel>(StringKeys.MODBUS_RTU_CONNECTION
                 + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
-            deviceConnectionViewModel.Model = this._container.Resolve<IDeviceConnection>(StringKeys.MODBUS_RTU_CONNECTION);
+            deviceConnectionViewModel.Model = _container.Resolve<IDeviceConnection>(StringKeys.MODBUS_RTU_CONNECTION);
             ((IModbusRtuConnection)deviceConnectionViewModel.Model).SlaveId = 1;
             return deviceConnectionViewModel;
         }

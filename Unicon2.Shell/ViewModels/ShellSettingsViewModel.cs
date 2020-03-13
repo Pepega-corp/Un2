@@ -20,7 +20,7 @@ namespace Unicon2.Shell.ViewModels
         public void Initialize()
         {
             // create metro theme color menu items for the demo
-            this.ApplicationThemes = ThemeManager.AppThemes
+            ApplicationThemes = ThemeManager.AppThemes
                 .Select(a => new ApplicationTheme
                 {
                     Name = a.Name,
@@ -30,30 +30,30 @@ namespace Unicon2.Shell.ViewModels
                 .ToList();
 
             // create accent colors list
-            this.AccentColors = ThemeManager.Accents
+            AccentColors = ThemeManager.Accents
                 .Select(a => new AccentColor { Name = a.Name, ColorBrush = a.Resources["AccentColorBrush"] as Brush })
                 .ToList();
 
-            this.SelectedTheme = this.ApplicationThemes.FirstOrDefault(t => t.Name.Equals(Settings.Default.BaseTheme));
-            this.SelectedAccentColor = this.AccentColors.FirstOrDefault(c => c.Name.Equals(Settings.Default.BaseColor));
+            SelectedTheme = ApplicationThemes.FirstOrDefault(t => t.Name.Equals(Settings.Default.BaseTheme));
+            SelectedAccentColor = AccentColors.FirstOrDefault(c => c.Name.Equals(Settings.Default.BaseColor));
 
-            if (this.SelectedTheme == null)
-                this.SelectedTheme = this.ApplicationThemes.FirstOrDefault();
-            if (this.SelectedAccentColor == null)
-                this.SelectedAccentColor = this.AccentColors.FirstOrDefault(c => c.Name.Equals("Cyan"));
+            if (SelectedTheme == null)
+                SelectedTheme = ApplicationThemes.FirstOrDefault();
+            if (SelectedAccentColor == null)
+                SelectedAccentColor = AccentColors.FirstOrDefault(c => c.Name.Equals("Cyan"));
         }
 
         public ShellSettingsViewModel(ITypesContainer containerProvider)
         {
-            this._containerProvider = containerProvider;
+            _containerProvider = containerProvider;
         }
 
         private ILocalizerService LocalizerService
         {
             get
             {
-                this._localizerService = this._localizerService ?? this._containerProvider.Resolve<ILocalizerService>();
-                return this._localizerService;
+                _localizerService = _localizerService ?? _containerProvider.Resolve<ILocalizerService>();
+                return _localizerService;
             }
         }
 
@@ -64,8 +64,8 @@ namespace Unicon2.Shell.ViewModels
         /// </summary>
         public IList<ApplicationTheme> ApplicationThemes
         {
-            get { return this.applicationsThemes; }
-            set { SetProperty(ref this.applicationsThemes, value); }
+            get { return applicationsThemes; }
+            set { SetProperty(ref applicationsThemes, value); }
         }
 
         private IList<AccentColor> accentColors;
@@ -75,8 +75,8 @@ namespace Unicon2.Shell.ViewModels
         /// </summary>
         public IList<AccentColor> AccentColors
         {
-            get { return this.accentColors; }
-            set { SetProperty(ref this.accentColors, value); }
+            get { return accentColors; }
+            set { SetProperty(ref accentColors, value); }
         }
 
         private ApplicationTheme selectedTheme;
@@ -86,10 +86,10 @@ namespace Unicon2.Shell.ViewModels
         /// </summary>
         public ApplicationTheme SelectedTheme
         {
-            get { return this.selectedTheme; }
+            get { return selectedTheme; }
             set
             {
-                if (SetProperty(ref this.selectedTheme, value))
+                if (SetProperty(ref selectedTheme, value))
                 {
                     var theme = ThemeManager.DetectAppStyle(Application.Current);
                     var appTheme = ThemeManager.GetAppTheme(value.Name);
@@ -107,10 +107,10 @@ namespace Unicon2.Shell.ViewModels
         /// </summary>
         public AccentColor SelectedAccentColor
         {
-            get { return this.selectedAccentColor; }
+            get { return selectedAccentColor; }
             set
             {
-                if (SetProperty(ref this.selectedAccentColor, value))
+                if (SetProperty(ref selectedAccentColor, value))
                 {
                     var theme = ThemeManager.DetectAppStyle(Application.Current);
                     var accent = ThemeManager.GetAccent(value.Name);
@@ -128,7 +128,7 @@ namespace Unicon2.Shell.ViewModels
         /// </summary>
         public IList<CultureInfo> SupportedLanguages
         {
-            get { return this.LocalizerService?.SupportedLanguages; }
+            get { return LocalizerService?.SupportedLanguages; }
         }
 
         /// <summary>
@@ -136,13 +136,13 @@ namespace Unicon2.Shell.ViewModels
         /// </summary>
         public CultureInfo SelectedLanguage
         {
-            get { return this.LocalizerService?.SelectedLanguage; }
+            get { return LocalizerService?.SelectedLanguage; }
             set
             {
-                if (value != null && !ReferenceEquals(value, this.LocalizerService.SelectedLanguage))
+                if (value != null && !ReferenceEquals(value, LocalizerService.SelectedLanguage))
                 {
-                    if (this.LocalizerService != null)
-                        this.LocalizerService.SelectedLanguage = value;
+                    if (LocalizerService != null)
+                        LocalizerService.SelectedLanguage = value;
                 }
             }
         }

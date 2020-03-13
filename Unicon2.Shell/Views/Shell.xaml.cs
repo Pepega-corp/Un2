@@ -12,11 +12,11 @@ namespace Unicon2.Shell.Views
     {
         public Shell()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
           
 
-        private void Shell_Initialized(object sender, System.EventArgs e)
+        private void Shell_Initialized(object sender, EventArgs e)
         {
             foreach (var item in fileContextMenu.Items)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.BaseItems;
@@ -9,30 +10,30 @@ using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 
 namespace Unicon2.Fragments.Configuration.Model
 {
-    [DataContract(IsReference = true, Namespace = "ConfigurationItemBaseNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class ConfigurationItemBase : Disposable, IConfigurationItem, IExtensibleDataObject
     {
         private ExtensionDataObject _extensionData;
         
-        [DataMember]
+        [JsonProperty]
         public string Name { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public string Description { get; set; }
 
         public abstract T Accept<T>(IConfigurationItemVisitor<T> visitor);
 
         public virtual ExtensionDataObject ExtensionData
         {
-            get { return this._extensionData; }
-            set { this._extensionData = value; }
+            get { return _extensionData; }
+            set { _extensionData = value; }
         }
         
         public object Clone()
         {
-            IConfigurationItem configurationItem = this.OnCloning();
-            configurationItem.Description = this.Description;
-            configurationItem.Name = this.Name;
+            IConfigurationItem configurationItem = OnCloning();
+            configurationItem.Description = Description;
+            configurationItem.Name = Name;
             return configurationItem;
         }
 
@@ -41,7 +42,7 @@ namespace Unicon2.Fragments.Configuration.Model
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)
         {
-            this.LockObject = new object();
+            LockObject = new object();
         }
     }
 

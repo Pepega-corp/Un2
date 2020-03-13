@@ -21,7 +21,7 @@ namespace Unicon2.Connections.MockConnection.Module
             container.Register<IDeviceConnectionFactory, MockConnectionFactory>(StringKeys.MOCK_CONNECTION_FACTORY_NAME);
             //регистрация ресурсов
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();
-            xamlResourcesService.AddResourceAsGlobal("Resources/MockConnectionResources.xaml", this.GetType().Assembly);
+            xamlResourcesService.AddResourceAsGlobal("Resources/MockConnectionResources.xaml", GetType().Assembly);
         }
     }
 }
