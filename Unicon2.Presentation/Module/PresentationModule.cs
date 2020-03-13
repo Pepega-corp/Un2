@@ -36,7 +36,7 @@ namespace Unicon2.Presentation.Module
             container.Register<INumericValueViewModel, NumericValueViewModel>();
             container.Register<IFormattedValueViewModel, BitMaskValueViewModel>(
                 PresentationKeys.BIT_MASK_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            container.Register<IDeviceEventsDispatcher, DeviceEventsDispatcher>();
+            container.Register<IDeviceEventsDispatcher, FragmentLevelEventsDispatcher>();
 
             container.Register<IFormattedValueViewModel, ChosenFromListValueViewModel>(
                 PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
@@ -54,7 +54,7 @@ namespace Unicon2.Presentation.Module
                 ApplicationGlobalNames.CommonInjectionStrings.EDITABLE + PresentationKeys.BOOL_VALUE_KEY +
                 ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register(typeof(IStringValueViewModel), typeof(StringValueViewModel));
-            container.Register(typeof(IDeviceEventsDispatcher), typeof(DeviceEventsDispatcher));
+            container.Register(typeof(IDeviceEventsDispatcher), typeof(FragmentLevelEventsDispatcher));
 
             container.Register(typeof(IBoolValueViewModel), typeof(BoolValueViewModel));
             container.Register(typeof(IBitMaskValueViewModel), typeof(BitMaskValueViewModel));

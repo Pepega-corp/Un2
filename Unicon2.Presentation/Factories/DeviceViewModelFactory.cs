@@ -6,6 +6,7 @@ using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+using Unicon2.Presentation.Subscription;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Presentation.Factories
@@ -14,17 +15,14 @@ namespace Unicon2.Presentation.Factories
     {
         private readonly Func<IDeviceViewModel> _deviceViewModelGettingFunc;
         private readonly ITypesContainer _container;
-        private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
 
-        public DeviceViewModelFactory(Func<IDeviceViewModel> deviceViewModelGettingFunc, ITypesContainer container,
-            IDeviceEventsDispatcher deviceEventsDispatcher)
+        public DeviceViewModelFactory(Func<IDeviceViewModel> deviceViewModelGettingFunc, ITypesContainer container)
         {
             _deviceViewModelGettingFunc = deviceViewModelGettingFunc;
             _container = container;
-            _deviceEventsDispatcher = deviceEventsDispatcher;
         }
 
-        public IDeviceViewModel CreateDeviceViewModel(IDevice device)
+        public IDeviceViewModel CreateDeviceViewModel(IDevice device, Func<IFragmentViewModel> getActiveFragment)
         {
             IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
             if (device.DeviceMemory == null)
@@ -32,6 +30,7 @@ namespace Unicon2.Presentation.Factories
                 device.DeviceMemory = _container.Resolve<IDeviceMemory>();
             }
 
+            var deviceLevelPublisher = new DeviceLevelEventsPublisher(getActiveFragment);
             if (device.DeviceFragments != null)
             {
                 foreach (IDeviceFragment deviceFragment in device.DeviceFragments)
@@ -42,10 +41,15 @@ namespace Unicon2.Presentation.Factories
                                                                    .VIEW_MODEL);
                     if (fragmentViewModel is IDeviceDataProvider deviceDataProvider)
                     {
-                        deviceDataProvider.SetDeviceData(device.Name, _deviceEventsDispatcher, device.DeviceMemory);
+                        var fragmentLevelDispatcher = new FragmentLevelEventsDispatcher();
+                        deviceLevelPublisher.AddFragmentDispatcher(fragmentViewModel, fragmentLevelDispatcher);
+                        deviceDataProvider.SetDeviceData(device.Name,
+                            new FragmentEventsDispatcher(deviceLevelPublisher, fragmentLevelDispatcher),
+                            device.DeviceMemory);
                     }
+
                     fragmentViewModel.Initialize(deviceFragment);
-                  
+
 
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }
@@ -54,5 +58,7 @@ namespace Unicon2.Presentation.Factories
             deviceViewModel.Model = device;
             return deviceViewModel;
         }
+
+      
     }
 }

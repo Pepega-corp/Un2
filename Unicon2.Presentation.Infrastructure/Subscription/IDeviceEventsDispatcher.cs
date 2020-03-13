@@ -3,15 +3,27 @@ using Unicon2.Infrastructure.Functional;
 
 namespace Unicon2.Presentation.Infrastructure.Subscription
 {
-    public interface IDeviceEventsDispatcher : IDisposable
+    public interface IDeviceEventsDispatcher : IDeviceEventsPublisher, IDeviceEventsSubscriber
     {
-        Result AddDeviceAddressSubscription(ushort address, ushort numberOfPoints,
-            IMemorySubscription runtimeConfigurationItemViewModel);
-        Result AddLocalAddressSubscription(ushort address, ushort numberOfPoints,
-            IMemorySubscription runtimeConfigurationItemViewModel);
-        Result AddSubscriptionById(IMemorySubscription subscription, Guid id);
+
+    }
+
+    public interface IDeviceEventsPublisher
+    {
         Result TriggerDeviceAddressSubscription(ushort triggeredAddress, ushort numberOfPoints);
         Result TriggerLocalAddressSubscription(ushort triggeredAddress, ushort numberOfPoints);
         Result TriggerSubscriptionById(Guid id);
     }
+
+    public interface IDeviceEventsSubscriber : IDisposable
+    {
+        Result AddDeviceAddressSubscription(ushort address, ushort numberOfPoints,
+            IMemorySubscription memorySubscription);
+
+        Result AddLocalAddressSubscription(ushort address, ushort numberOfPoints,
+            IMemorySubscription memorySubscription);
+
+        Result AddSubscriptionById(IMemorySubscription subscription, Guid id);
+    }
+
 }
