@@ -47,8 +47,8 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             if (this._dragStart && e.LeftButton == MouseButtonState.Pressed)
             {
-                ILogicElementViewModel item = (ILogicElementViewModel)this._selectedItem.Clone();
-                DragElement dragObject = new DragElement(item);
+                var item = (ILogicElementViewModel)this._selectedItem.Clone();
+                var dragObject = new DragElement(item);
                 DragDrop.DoDragDrop(this._selectRect, dragObject, DragDropEffects.Copy);
                 e.Handled = true;
             }

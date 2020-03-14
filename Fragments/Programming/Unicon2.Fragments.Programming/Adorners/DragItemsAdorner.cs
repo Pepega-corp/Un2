@@ -39,9 +39,9 @@ namespace Unicon2.Fragments.Programming.Adorners
                 Opacity = 0.5
             };
 
-            foreach (Rect rect in this._thumbRects)
+            foreach (var rect in this._thumbRects)
             {
-                Rectangle rectangle = new Rectangle();
+                var rectangle = new Rectangle();
                 rectangle.Height = rect.Height;
                 rectangle.Width = rect.Width;
                 Canvas.SetLeft(rectangle, rect.Left);
@@ -76,7 +76,7 @@ namespace Unicon2.Fragments.Programming.Adorners
 
         public override GeneralTransform GetDesiredTransform(GeneralTransform transform)
         {
-            GeneralTransformGroup result = new GeneralTransformGroup();
+            var result = new GeneralTransformGroup();
             result.Children.Add(base.GetDesiredTransform(transform));
             result.Children.Add(new TranslateTransform(this._leftOffset * this._tabViewModel.Scale,
                 this._topOffset * this._tabViewModel.Scale));
@@ -112,12 +112,12 @@ namespace Unicon2.Fragments.Programming.Adorners
                     return;
                 }
 
-                double minLeft = double.MaxValue;
-                double minTop = double.MaxValue;
+                var minLeft = double.MaxValue;
+                var minTop = double.MaxValue;
                 double maxRight = 0;
                 double maxBottom = 0;
                 // определение позиции контрола самого близкого к точке (0,0) Canvas
-                foreach (Rect thumbRect in this._thumbRects)
+                foreach (var thumbRect in this._thumbRects)
                 {
                     minLeft = Math.Min(thumbRect.X, minLeft);
                     minTop = Math.Min(thumbRect.Y, minTop);
@@ -169,8 +169,8 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             if (Math.Abs(value % 5) > 0)
             {
-                int i = (int) value / 5;
-                double delta = Math.Abs(value - i * 5);
+                var i = (int) value / 5;
+                var delta = Math.Abs(value - i * 5);
                 value = value > 0
                     ? (delta >= 2.5 ? value + 5 - delta : value - delta)
                     : (delta >= 2.5 ? value - 5 + delta : value + delta);
@@ -181,26 +181,18 @@ namespace Unicon2.Fragments.Programming.Adorners
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             // перемещение всех элементов
-            foreach (ContentPresenter control in this._contentPresenters.Where(control => control.Content is ILogicElementViewModel))
+            foreach (var control in this._contentPresenters.Where(control => control.Content is ILogicElementViewModel))
             {
-                ILogicElementViewModel item = control.Content as ILogicElementViewModel;
-                if(item == null) continue;
-                item.X = item.X + this._leftOffset;
-                item.Y = item.Y + this._topOffset;
-                // Задание новых координат точек выводов
-                foreach (IConnectorViewModel connector in item.ConnectorViewModels)
-                {
-                    Point prevPoint = connector.ConnectorPoint;
-                    connector.ConnectorPoint = new Point(prevPoint.X + this._leftOffset, prevPoint.Y + this._topOffset);
-                    foreach (IConnectionViewModel connection in connector.Connections)
-                    {
-                        connection.UpdateConnector(connector);
-                    }
-                }
+                var item = control.Content as ILogicElementViewModel;
+                if(item == null)
+                    continue;
+
+                item.X += this._leftOffset;
+                item.Y += this._topOffset;
             }
 
             if (IsMouseCaptured) ReleaseMouseCapture();
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
+            var adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             adornerLayer?.Remove(this);
         }
     }

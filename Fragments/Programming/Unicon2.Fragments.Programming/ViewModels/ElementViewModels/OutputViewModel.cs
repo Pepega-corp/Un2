@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Common;
@@ -19,12 +19,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ElementName = "Выход";
             Description = "Елемент выходного дискретного сигнала";
             Symbol = "Out";
-
-            ConnectorViewModels = new ObservableCollection<IConnectorViewModel>
-            {
-                new ConnectorViewModel(this, ConnectorOrientation.LEFT, ConnectorType.DIRECT)
-            };
-
+            ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
             this.OutputSignals = new ObservableCollection<string>();
         }
 
@@ -58,22 +53,23 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
             this.OutputSignals.AddCollection(output.OutputSignals);
             this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
-            ConnectorViewModels[0].Model = output.Connectors.First();
+            ConnectorViewModels.Clear();
+            ConnectorViewModels.Add(new ConnectorViewModel(this, _model.Connectors.First()));
         }
 
         public override object Clone()
         {
-            OutputViewModel ret =
-                new OutputViewModel(_globalCommands);
+            var ret = new OutputViewModel(_globalCommands);
             var newModel = new Output();
             newModel.CopyValues(_model);
             ret.Model = newModel;
             ret.Caption = this.Caption;
 
-            for (int i = 0; i < ConnectorViewModels.Count; i++)
+            for (var i = 0; i < this.ConnectorViewModels.Count; i++)
             {
-                var connector = ConnectorViewModels[i];
-                ret.ConnectorViewModels.Add(new ConnectorViewModel(connector.ParentViewModel, connector.Orientation, connector.ConnectorType));
+                var sourceConnector = this.ConnectorViewModels[i].Model;
+                var connector = new Connector(sourceConnector.Orientation, sourceConnector.Type);
+                ret.ConnectorViewModels.Add(new ConnectorViewModel(ret, connector));
             }
 
             return ret;

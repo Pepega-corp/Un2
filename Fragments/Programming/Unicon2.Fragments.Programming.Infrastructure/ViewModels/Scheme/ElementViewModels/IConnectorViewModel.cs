@@ -8,12 +8,14 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
     {
         string Symbol {get;}
 
-        Point ConnectorPoint { get; set; }
+        Point ConnectorPosition { get; set; }
         ILogicElementViewModel ParentViewModel { get; }
         ObservableCollection<IConnectionViewModel> Connections { get; }
         IConnector Model { get; set; }
         ConnectorType ConnectorType { get; set; }
         ConnectorOrientation Orientation { get; }
         bool Connected { get; }
+
+        void UpdateConnectorPosition();
     }
 }

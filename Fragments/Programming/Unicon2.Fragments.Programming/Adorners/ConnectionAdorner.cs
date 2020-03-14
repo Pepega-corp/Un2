@@ -107,7 +107,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             {
                 var hitInfo = new PathFinder.ConnectorInfo
                 {
-                    ConnectorPoint = this._hitConnector.ConnectorPoint,
+                    ConnectorPoint = this._hitConnector.ConnectorPosition,
                     Orientation = this._hitConnector.Orientation,
                     ConnectorParentX = this._hitConnector.ParentViewModel.X,
                     ConnectorParentY = this._hitConnector.ParentViewModel.Y
@@ -137,16 +137,16 @@ namespace Unicon2.Fragments.Programming.Adorners
             }
             var fe = (FrameworkElement)hitObject;
             var cvm = fe.DataContext as ConnectorViewModel;
-            if (cvm == null /*|| cvm.Model.Orientation == this._connection.Source.Orientation*/)
+            if (cvm == null || cvm.Model.Orientation == this._connection.SourceConnector.Orientation)
             {
                 this.HitConnector = null;
                 return;
             }
             //нахождение точки присоединения элементу
-            var itemRect = VisualTreeHelper.GetDescendantBounds(fe);
-            var itemBounds =
-                fe.TransformToAncestor(this._designerCanvas).TransformBounds(itemRect);
-            cvm.ConnectorPoint = new Point(itemBounds.X + (itemBounds.Right - itemBounds.X) / 2, itemBounds.Y + (itemBounds.Bottom - itemBounds.Y) / 2);
+            //var itemRect = VisualTreeHelper.GetDescendantBounds(fe);
+            //var itemBounds =
+            //    fe.TransformToAncestor(this._designerCanvas).TransformBounds(itemRect);
+            //cvm.ConnectorPosition = new Point(itemBounds.X + (itemBounds.Right - itemBounds.X) / 2, itemBounds.Y + (itemBounds.Bottom - itemBounds.Y) / 2);
             this.HitConnector = cvm;
         }
     }

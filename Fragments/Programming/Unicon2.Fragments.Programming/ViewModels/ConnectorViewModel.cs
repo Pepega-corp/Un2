@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
+using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
-using Unicon2.Fragments.Programming.Model;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -15,11 +15,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private bool _isDragConnection;
         private string _symbol;
         private IConnector _modelConnector;
+        private ConnectorBehavior _connectorBehaviour;
 
-        public ConnectorViewModel(ILogicElementViewModel parent, ConnectorOrientation orientation, ConnectorType type)
+        public ConnectorViewModel(ILogicElementViewModel parent, IConnector model)
         {
             this.ParentViewModel = parent;
-            this.Model = new Connector(orientation, type);
+            this.Model = model;
             this.IsDragConnection = false;
             this._symbol = string.Empty;
             this.Connections = new ObservableCollection<IConnectionViewModel>();
@@ -34,7 +35,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// <summary>
         /// Точка расположения коннектора в DesignerCanvas
         /// </summary>
-        public Point ConnectorPoint
+        public Point ConnectorPosition
         {
             get { return this._modelConnector.ConnectorPoint; }
             set
@@ -119,6 +120,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private void ConnectionsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
             RaisePropertyChanged(nameof(this.Connected));
+        }
+
+        public void SetBehaviour(ConnectorBehavior connectorBehavior)
+        {
+            _connectorBehaviour = connectorBehavior;
+        }
+
+        public void UpdateConnectorPosition()
+        {
+            this._connectorBehaviour.UpdateConnectorPosition();
         }
     }
 }

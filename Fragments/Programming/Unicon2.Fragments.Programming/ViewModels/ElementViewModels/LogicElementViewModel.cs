@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             set
             {
                 this._isSelected = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -52,7 +52,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             set
             {
                 this._caption = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -62,7 +62,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             protected set
             {
                 this._description = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -70,23 +70,33 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public double X
         {
-            get { return _model.X; }
+            get { return this._model.X; }
             set
             {
-                if (Math.Abs(_model.X - value) < 0.01) return;
-                _model.X = value;
+                if (Math.Abs(this._model.X - value) < 0.01) return;
+                this._model.X = value;
                 RaisePropertyChanged();
+
+                UpdateConnectorsPosition();
             }
         }
 
         public double Y
         {
-            get { return _model.Y; }
+            get { return this._model.Y; }
             set
             {
-                if (Math.Abs(_model.Y - value) < 0.01) return;
-                _model.Y = value;
+                if (Math.Abs(this._model.Y - value) < 0.01) return;
+                this._model.Y = value;
                 RaisePropertyChanged();
+            }
+        }
+
+        private void UpdateConnectorsPosition()
+        {
+            foreach (var connectorViewModel in this.ConnectorViewModels)
+            {
+                connectorViewModel.UpdateConnectorPosition();
             }
         }
 

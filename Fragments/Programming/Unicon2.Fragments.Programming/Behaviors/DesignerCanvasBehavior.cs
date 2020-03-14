@@ -34,7 +34,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             {
                 this.TabViewModel.SelfBehavior = this;
 
-                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
+                var adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
                 if (adornerLayer != null)
                 {
                     var designerCanvasAdorner = new DesignerCanvasAdorner(this.DesignerCanvas, this.TabViewModel) { IsHitTestVisible = false };
@@ -42,7 +42,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
                 }
             }
 
-            Grid outerGrid = this.GetOuterGrid(this.DesignerCanvas);
+            var outerGrid = this.GetOuterGrid(this.DesignerCanvas);
             if (outerGrid != null)
             {
                 this._scaleTransform = new ScaleTransform(1, 1);
@@ -59,7 +59,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             while (true)
             {
-                DependencyObject parent = VisualTreeHelper.GetParent(obj);
+                var parent = VisualTreeHelper.GetParent(obj);
                 if (parent == null) return null;
                 if (parent is Grid grid && grid.Name == "OuterBorder") return grid;
                 obj = parent;
@@ -107,7 +107,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             if (e.ChangedButton == MouseButton.Right || e.ChangedButton == MouseButton.Left)
             {
                 // если нажата была клавиша мыши, то сбрасываем выделение
-                foreach (ISchemeElementViewModel item in this.TabViewModel.ElementCollection)
+                foreach (var item in this.TabViewModel.ElementCollection)
                     item.IsSelected = false;
             }
             if (e.ChangedButton == MouseButton.Left)
@@ -130,10 +130,10 @@ namespace Unicon2.Fragments.Programming.Behaviors
             // иначе делаем рамку
             if (this.RubberbandSelectionStartPoint.HasValue)
             {
-                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
+                var adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
                 if (adornerLayer != null)
                 {
-                    RubberbandAdorner adorner = new RubberbandAdorner(this);
+                    var adorner = new RubberbandAdorner(this);
                     adornerLayer.Add(adorner);
                 }
             }
@@ -144,30 +144,32 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             if (e.AllowedEffects != DragDropEffects.Copy) return;
 
-            DragElement dragObject = e.Data.GetData(typeof(DragElement)) as DragElement;
-            if (dragObject == null) return;
-            ILogicElementViewModel dragItem = dragObject.Item;
+            var dragObject = e.Data.GetData(typeof(DragElement)) as DragElement;
+            if (dragObject == null)
+                return;
+
+            var dragItem = dragObject.Item;
             this.TabViewModel.ElementCollection.Add(dragItem);
             // округление до чисел кратных 5
-            double param = e.GetPosition(this.DesignerCanvas).X;
+            var param = e.GetPosition(this.DesignerCanvas).X;
             if (param % 5 > 0)
             {
-                int i = (int)param / 5;
-                double delta = param - i * 5;
+                var i = (int)param / 5;
+                var delta = param - i * 5;
                 param = delta >= 2.5 ? param + 5 - delta : param - delta;
             }
             dragItem.X = param;
             param = e.GetPosition(this.DesignerCanvas).Y;
             if (param % 5 > 0)
             {
-                int i = (int)param / 5;
-                double delta = param - i * 5;
+                var i = (int)param / 5;
+                var delta = param - i * 5;
                 param = delta >= 2.5 ? param + 5 - delta : param - delta;
             }
             dragItem.Y = param;
 
             // Получение ContentPresenter и Thumb соответствующего итема для выравнивания координат
-            ContentPresenter contentPresenter = this.DesignerCanvas.Children.OfType<ContentPresenter>()
+            var contentPresenter = this.DesignerCanvas.Children.OfType<ContentPresenter>()
                 .First(cp => cp.Content.Equals(dragItem));
             contentPresenter.Loaded += this.ContentPresenterOnLoaded;
 
@@ -182,15 +184,15 @@ namespace Unicon2.Fragments.Programming.Behaviors
         // Выравнивание координат элемента,чтобы он был ровно по сетке
         private void ContentPresenterOnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            ContentPresenter presenter = sender as ContentPresenter;
+            var presenter = sender as ContentPresenter;
 
-            ILogicElementViewModel item = presenter?.Content as ILogicElementViewModel;
+            var item = presenter?.Content as ILogicElementViewModel;
             if (item == null)
                 return;
 
-            Thumb thumb = CommonHelper.GetThumbOfPresenter(presenter);
-            Rect boundsRect = VisualTreeHelper.GetDescendantBounds(thumb);
-            Rect thumbRect = thumb.TransformToAncestor(this.DesignerCanvas).TransformBounds(boundsRect);
+            var thumb = CommonHelper.GetThumbOfPresenter(presenter);
+            var boundsRect = VisualTreeHelper.GetDescendantBounds(thumb);
+            var thumbRect = thumb.TransformToAncestor(this.DesignerCanvas).TransformBounds(boundsRect);
             if (thumbRect.X % 5 > 0)
             {
                 item.X += 5 - thumbRect.X % 5;

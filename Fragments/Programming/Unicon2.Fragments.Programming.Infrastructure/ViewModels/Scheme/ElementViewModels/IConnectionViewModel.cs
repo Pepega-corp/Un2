@@ -9,7 +9,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
 {
     public interface IConnectionViewModel :IViewModel<IConnection>, ISchemeElementViewModel
     {
-        //void UpdateConnector(IConnectorViewModel connector);
         string Name { get; }
         PathGeometry Path { get; set; }
         IConnector SourceConnector { get; }
