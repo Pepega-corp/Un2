@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
@@ -8,13 +9,14 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
 {
     public interface IConnectionViewModel :IViewModel<IConnection>, ISchemeElementViewModel
     {
-        void UpdateConnector(IConnectorViewModel connector);
+        //void UpdateConnector(IConnectorViewModel connector);
         string Name { get; }
         PathGeometry Path { get; set; }
-        IConnectorViewModel Source { get; set; }
-        IConnectorViewModel Sink { get; set; }
+        IConnector SourceConnector { get; }
+        ObservableCollection<IConnector> SinkConnectors { get; }
         ushort CurrentValue { get; set; }
         bool GotValue { get; set; }
+        bool DebugMode { get; set; }
         Point LabelPosition { get; set; }
         DoubleCollection StrokeDashArray { get; set; }
         double Value { get; }

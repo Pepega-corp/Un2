@@ -57,12 +57,12 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             if (this._hitConnector != null)
             {
-                this._connection.Sink = this._hitConnector;
+                //this._connection.Sink = this._hitConnector;
                 this._hitConnector.IsDragConnection = false;
             }
 
             if (IsMouseCaptured) ReleaseMouseCapture();
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
+            var adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             if (adornerLayer != null)
             {
                 adornerLayer.Remove(this);
@@ -91,12 +91,12 @@ namespace Unicon2.Fragments.Programming.Adorners
 
             List<Point> pathPoints;
 
-            PathFinder.ConnectorInfo sourceInfo = new PathFinder.ConnectorInfo
+            var sourceInfo = new PathFinder.ConnectorInfo
             {
-                ConnectorPoint = this._connection.Source.ConnectorPoint,
-                Orientation = this._connection.Source.Orientation,
-                ConnectorParentX = this._connection.Source.ParentViewModel.X,
-                ConnectorParentY = this._connection.Source.ParentViewModel.Y
+                //ConnectorPoint = this._connection.Source.ConnectorPoint,
+                //Orientation = this._connection.Source.Orientation,
+                //ConnectorParentX = this._connection.Source.ParentViewModel.X,
+                //ConnectorParentY = this._connection.Source.ParentViewModel.Y
             };
 
             if (this._hitConnector == null)
@@ -105,7 +105,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             }
             else
             {
-                PathFinder.ConnectorInfo hitInfo = new PathFinder.ConnectorInfo
+                var hitInfo = new PathFinder.ConnectorInfo
                 {
                     ConnectorPoint = this._hitConnector.ConnectorPoint,
                     Orientation = this._hitConnector.Orientation,
@@ -119,7 +119,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             if (pathPoints.Count > 0)
             {
                 this._currentPath.Figures.Clear();
-                PathFigure figure = new PathFigure();
+                var figure = new PathFigure();
                 figure.StartPoint = pathPoints[0];
                 pathPoints.Remove(pathPoints[0]);
                 figure.Segments.Add(new PolyLineSegment(pathPoints, true));
@@ -129,22 +129,22 @@ namespace Unicon2.Fragments.Programming.Adorners
 
         private void HitTesting(Point hitPoint)
         {
-            DependencyObject hitObject = this._designerCanvas.InputHitTest(hitPoint) as DependencyObject;
+            var hitObject = this._designerCanvas.InputHitTest(hitPoint) as DependencyObject;
             if (hitObject == null || !(hitObject is Border || hitObject is Ellipse))
             {
                 this.HitConnector = null;
                 return;
             }
-            FrameworkElement fe = (FrameworkElement)hitObject;
-            ConnectorViewModel cvm = fe.DataContext as ConnectorViewModel;
-            if (cvm == null || cvm.Model.Orientation == this._connection.Source.Orientation)
+            var fe = (FrameworkElement)hitObject;
+            var cvm = fe.DataContext as ConnectorViewModel;
+            if (cvm == null /*|| cvm.Model.Orientation == this._connection.Source.Orientation*/)
             {
                 this.HitConnector = null;
                 return;
             }
             //нахождение точки присоединения элементу
-            Rect itemRect = VisualTreeHelper.GetDescendantBounds(fe);
-            Rect itemBounds =
+            var itemRect = VisualTreeHelper.GetDescendantBounds(fe);
+            var itemBounds =
                 fe.TransformToAncestor(this._designerCanvas).TransformBounds(itemRect);
             cvm.ConnectorPoint = new Point(itemBounds.X + (itemBounds.Right - itemBounds.X) / 2, itemBounds.Y + (itemBounds.Bottom - itemBounds.Y) / 2);
             this.HitConnector = cvm;

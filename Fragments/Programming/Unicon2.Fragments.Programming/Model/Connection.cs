@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Windows.Media;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model
@@ -10,6 +11,7 @@ namespace Unicon2.Fragments.Programming.Model
         private readonly List<IConnector> _connectors;
 
         [DataMember] public int ConnectionNumber { get; set; }
+        [DataMember] public PathGeometry Path { get; set; }
         public IConnector[] Connectors => this._connectors.ToArray();
 
         public Connection()
@@ -33,6 +35,11 @@ namespace Unicon2.Fragments.Programming.Model
                 connector.Connection = null;
                 this._connectors.Remove(connector);
             }
+        }
+
+        public void Clear()
+        {
+            this._connectors.Clear();
         }
     }
 }
