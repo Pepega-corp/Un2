@@ -66,8 +66,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnSaveInFileExecute()
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = " XML файл (*.xml)|*.xml" + "|Все файлы (*.*)|*.* ";
-            sfd.DefaultExt = ".xml";
+            sfd.Filter = " JSON файл (*.json)|*.json" + "|Все файлы (*.*)|*.* ";
+            sfd.DefaultExt = ".json";
             sfd.FileName = ResultingDeviceViewModel.DeviceName;
             sfd.InitialDirectory = _currentFolder;
             if (sfd.ShowDialog() == true)
@@ -103,7 +103,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
-            ofd.Filter = " XML файл (*.xml)|*.xml" + "|Все файлы (*.*)|*.* ";
+            ofd.Filter = " JSON файл (*.json)|*.json" + "|Все файлы (*.*)|*.* ";
             ofd.CheckFileExists = true;
             ofd.InitialDirectory = _currentFolder;
             if (ofd.ShowDialog() == true)

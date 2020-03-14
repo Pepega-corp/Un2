@@ -45,7 +45,7 @@ namespace Unicon2.Formatting.Editor.Factories
 
         public IUshortsFormatterViewModel VisitDirectUshortFormatter(IUshortsFormatter formatter)
         {
-            return new DictionaryMatchingFormatterViewModel();
+            return new DirectFormatterViewModel();
         }
 
         public IUshortsFormatterViewModel VisitFormulaFormatter(IUshortsFormatter formatter)

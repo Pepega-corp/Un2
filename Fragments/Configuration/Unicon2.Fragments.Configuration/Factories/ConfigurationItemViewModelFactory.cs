@@ -86,16 +86,18 @@ namespace Unicon2.Fragments.Configuration.Factories
 
             var localValue = _container.Resolve<IFormattingService>().FormatValue(property.UshortsFormatter,
                 InitDefaultUshortsValue(property.NumberOfPoints));
-            var editableValue = _container.Resolve<IValueViewModelFactory>().CreateEditableValueViewModel(localValue);
-            var editSubscription = new LocalDataEditedSubscription(editableValue, _deviceMemory, property);
+            var editableValue = _container.Resolve<IValueViewModelFactory>().CreateEditableValueViewModel(new FormattedValueInfo(localValue,property,property.UshortsFormatter,property));
+            var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(editableValue, _deviceMemory,
+                property.Address, property.NumberOfPoints);
+
+            var editSubscription = new LocalDataEditedSubscription(editableValue, _deviceMemory, property, setUnchangedSuscription);
 
             res.LocalValue = editableValue;
             editableValue.InitDispatcher(_deviceEventsDispatcher);
             _deviceEventsDispatcher.AddSubscriptionById(editSubscription
                 , res.LocalValue.Id);
 
-            var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(editableValue, _deviceMemory,
-                property.Address, property.NumberOfPoints);
+            
 
             _deviceEventsDispatcher.AddDeviceAddressSubscription(property.Address, property.NumberOfPoints,
                 setUnchangedSuscription);

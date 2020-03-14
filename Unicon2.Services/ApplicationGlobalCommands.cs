@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Threading;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Unity.Interfaces;
 

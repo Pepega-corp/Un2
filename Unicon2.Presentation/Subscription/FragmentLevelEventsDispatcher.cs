@@ -89,9 +89,12 @@ namespace Unicon2.Presentation.Subscription
                 new List<IMemorySubscription>();
             for (var i = triggeredAddress; i < triggeredAddress + numberOfPoints; i++)
             {
-                deviceDataMemorySubscriptions.AddRange(memoryDataObservers[i].Collection);
+                if (memoryDataObservers.ContainsKey(i))
+                {
+                    deviceDataMemorySubscriptions.AddRange(memoryDataObservers[i].Collection);
+                }
             }
-
+            
             deviceDataMemorySubscriptions.Distinct().ToList().ForEach(subscription => subscription.Execute());
             return Result.Create(true);
         }

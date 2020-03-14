@@ -34,6 +34,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 range.RangeTo = double.Parse(editorViewModel.RangeViewModel.RangeTo);
                 range.RangeFrom = double.Parse(editorViewModel.RangeViewModel.RangeFrom);
                 property.Range = range;
+                property.IsRangeEnabled = editorViewModel.IsRangeEnabled;
             }
 
             if (editorViewModel.FormatterParametersViewModel != null)

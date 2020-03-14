@@ -73,7 +73,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                     break;
                 case IProperty property:
                     await ProcessAddressRange(_configuration.DataProvider, property.Address,
-                        (ushort) (property.Address + offset + property.NumberOfPoints + offset), _memory);
+                        (ushort) (property.Address + property.NumberOfPoints + offset), _memory);
                     break;
             }
         }
@@ -131,57 +131,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         {
             switch (_memoryAccessEnum)
             {
-                case MemoryAccessEnum.Read:
-                {
-                    if (IfMemoryContainsRange(memory.DeviceMemoryValues, rangeFrom, rangeTo))
-                    {
-                        return;
-                    }
-
-                    var res = await dataProvider.ReadHoldingResgistersAsync(rangeFrom,
-                        (ushort) (rangeTo - rangeFrom + 1), ConfigurationKeys.READING_CONFIGURATION_QUERY);
-                    if (res.IsSuccessful)
-                    {
-                        for (var i = rangeFrom; i < rangeTo; i++)
-                        {
-                            memory.DeviceMemoryValues[i] = res.Result[i - rangeFrom];
-                        }
-                    }
-
-                    _deviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
-                        (ushort) (rangeTo - rangeFrom));
-                    break;
-                }
-                case MemoryAccessEnum.Write:
-                {
-                    var valuesToWrite = new List<ushort>();
-                    for (var i = rangeFrom; i < rangeTo; i++)
-                    {
-                        valuesToWrite.Add(memory.LocalMemoryValues[i]);
-                    }
-
-                    var res = await dataProvider.WriteMultipleRegistersAsync(rangeFrom,
-                        valuesToWrite.ToArray(), ConfigurationKeys.WRITING_CONFIGURATION_QUERY);
-                    if (res.IsSuccessful)
-                    {
-                        for (var i = rangeFrom; i < rangeTo; i++)
-                        {
-                            if (memory.LocalMemoryValues.ContainsKey(i))
-                            {
-                                memory.DeviceMemoryValues[i] = memory.LocalMemoryValues[i];
-                            }
-                            else
-                            {
-                                memory.DeviceMemoryValues[i] = 0;
-                            }
-                        }
-
-                        _deviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
-                            (ushort) (rangeTo - rangeFrom));
-                    }
-
-                    break;
-                }
+               
                 case MemoryAccessEnum.TransferFromDeviceToLocal:
                     for (var i = rangeFrom; i < rangeTo; i++)
                     {

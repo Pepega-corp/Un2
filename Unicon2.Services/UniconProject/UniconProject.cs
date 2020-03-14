@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Xml;
 using Newtonsoft.Json;
-using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.UniconProject;
@@ -60,24 +56,13 @@ namespace Unicon2.Services.UniconProject
 
         public bool GetIsProjectChanged()
         {
-            return true;
             if ((ProjectPath != null) && (Name != null))
             {
                 if (File.Exists(ProjectPath + "\\" + Name + ".uniproj"))
                 {
                     try
                     {
-                        StringBuilder stringBuilder = new StringBuilder();
-
-                        //using (XmlWriter fs = XmlWriter.Create(stringBuilder, new XmlWriterSettings() { Indent = true, Encoding = Encoding.UTF8 }))
-                        //{
-                        //    DataContractSerializer ds = new DataContractSerializer(typeof(UniconProject),
-                        //        _serializerService.GetTypesForSerialiation());
-
-                        //    ds.WriteObject(fs, this, _serializerService.GetNamespacesAttributes());
-                        //}
-                        _serializerService.SerializeInFile(this, stringBuilder.ToString());
-                        string existing = stringBuilder.ToString();
+                        string existing = _serializerService.SerializeInString(this);
                         string xmlString = File.ReadAllText(ProjectPath + "\\" + Name + ".uniproj");
 
                         string existing1 = existing.Remove(0, existing.IndexOf("UniconProject"));

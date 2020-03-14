@@ -81,6 +81,8 @@
     <Compile Include="Factories\ConfigurationItemFactory.cs" />
     <Compile Include="Factories\ConfigurationItemViewModelFactory.cs" />
     <Compile Include="MemoryAccess\ConfigurationMemoryAccessor.cs" />
+    <Compile Include="MemoryAccess\MemoryReaderVisitor.cs" />
+    <Compile Include="MemoryAccess\MemoryWriterVisitor.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\EditableValueSetUnchangedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalDataEditedSubscription.cs" />

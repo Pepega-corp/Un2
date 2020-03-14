@@ -50,6 +50,7 @@ namespace Unicon2.Presentation.Factories
 				formattedValueViewModel.IsRangeEnabled = false;
 			}
 		    formattedValueViewModel.FormattedValue = formattedValue;
+            formattedValueViewModel.RefreshBaseValueToCompare();
 			return formattedValueViewModel;
 		}
 

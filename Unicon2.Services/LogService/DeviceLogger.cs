@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Unicon2.Infrastructure.Services.LogService;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Services.LogService
 {

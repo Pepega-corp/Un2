@@ -16,6 +16,7 @@ using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Model.FragmentSettings;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model
@@ -26,6 +27,7 @@ namespace Unicon2.Fragments.Configuration.Model
         public DefaultDeviceConfiguration()
         {
             RootConfigurationItemList = new List<IConfigurationItem>();
+            FragmentSettings=new DefaultFragmentSettings();
         }
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;

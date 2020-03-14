@@ -31,6 +31,7 @@ namespace Unicon2.Presentation.Values.Editable
             {
                 _selectedItem = value;
                 RaisePropertyChanged();
+
                 SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitial != value);
             }
         }

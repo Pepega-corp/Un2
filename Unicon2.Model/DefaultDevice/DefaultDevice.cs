@@ -17,6 +17,7 @@ using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.LogService;
+using Unicon2.Model.Connection;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Model.DefaultDevice
@@ -24,16 +25,12 @@ namespace Unicon2.Model.DefaultDevice
     [JsonObject(MemberSerialization.OptIn)]
     public class DefaultDevice : Disposable, IDevice
     {
-        private ILogService _logService;
 
-        private IDeviceConnection _deviceConnection;
-
-        public DefaultDevice(IConnectionState connectionState, ILogService logService, IDeviceSharedResources deviceSharedResources)
+        public DefaultDevice()
         {
-            ConnectionState = connectionState;
-            _logService = logService;
+            ConnectionState = new DeviceConnectionState();
             DeviceFragments = new List<IDeviceFragment>();
-            DeviceSharedResources = deviceSharedResources;
+            DeviceSharedResources = new DeviceSharedResources();
         }
         [JsonProperty]
         public string Name { get; set; }
@@ -41,10 +38,8 @@ namespace Unicon2.Model.DefaultDevice
         public IConnectionState ConnectionState { get; set; }
         [JsonProperty]
         public IDeviceLogger DeviceLogger { get; set; }
-        public IDeviceConnection DeviceConnection
-        {
-            get { return _deviceConnection; }
-        }
+        public IDeviceConnection DeviceConnection { get; private set; }
+
         [JsonProperty]
         public IEnumerable<IDeviceFragment> DeviceFragments { get; set; }
         [JsonProperty]
@@ -57,8 +52,8 @@ namespace Unicon2.Model.DefaultDevice
 
         public void InitializeConnection(IDeviceConnection deviceConnection)
         {
-            _deviceConnection = deviceConnection;
-            _logService.AddLogger(DeviceLogger, Name);
+            DeviceConnection = deviceConnection;
+            StaticContainer.Container.Resolve<ILogService>().AddLogger(DeviceLogger,Name);
             ConnectionState.Initialize(deviceConnection, DeviceLogger);
             if (deviceConnection is IDataProvider)
             {
@@ -73,8 +68,8 @@ namespace Unicon2.Model.DefaultDevice
         }
         protected override void OnDisposing()
         {
-            _logService?.DeleteLogger(DeviceLogger);
-            _deviceConnection?.Dispose();
+            StaticContainer.Container.Resolve<ILogService>().DeleteLogger(DeviceLogger);
+            DeviceConnection?.Dispose();
             base.OnDisposing();
         }
     }

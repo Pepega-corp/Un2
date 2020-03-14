@@ -44,8 +44,8 @@ namespace Unicon2.Presentation.Values.Editable
         }
         protected override void OnValidate()
         {
-            // FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator(_localizerService, this._ushortsFormatter).Validate(this);
-            // SetValidationErrors(res);
+            FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator().Validate(this);
+            SetValidationErrors(res);
         }
         
         public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)

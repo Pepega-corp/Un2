@@ -115,6 +115,7 @@ namespace Unicon2.Formatting.Visitors
             iterationDefinition.ArgumentValues = new List<double>();
             iterationDefinition.ArgumentNames.Add("x");
             iterationDefinition.ArgumentValues.Add(_ushortsPayload[0]);
+            iterationDefinition.NumberOfSimbolsAfterComma = formulaFormatter.NumberOfSimbolsAfterComma;
             if (formulaFormatter.UshortFormattables != null)
             {
                 int index = 1;

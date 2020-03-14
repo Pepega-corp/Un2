@@ -42,21 +42,21 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
         private IEditorConfigurationItemViewModel _bufferConfigurationItem;
-        private string _deviceName;
 
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
-            IFormatterEditorFactory formatterEditorFactory
+            IFormatterEditorFactory formatterEditorFactory,IFragmentSettingsViewModel fragmentSettingsViewModel
         )
         {
             _allRows = new ObservableCollection<IConfigurationItemViewModel>();
             _applicationGlobalCommands = applicationGlobalCommands;
             _formatterEditorFactory = formatterEditorFactory;
+            FragmentSettingsViewModel = fragmentSettingsViewModel;
             RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
             ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
             AddRootElementCommand = new RelayCommand(OnAddRootElement);
-
+            
             AddRootGroupElementCommand = new RelayCommand(OnAddRootGroupElementExecute);
             IElementAddingCommand command = elementAddingCommandAddingFunc();
             command.Name = "AddChildElement";
@@ -220,14 +220,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnOpenConfigurationSettingsExecute()
         {
-            //IFragmentSettingsViewModel configurationSettingsViewModel =
-            //    this._container.Resolve<IFragmentSettingsViewModel>();
-            //if (this._deviceConfiguration.FragmentSettings == null)
-            //{
-            //    this._deviceConfiguration.FragmentSettings = this._container.Resolve<IFragmentSettings>();
-            //}
-            //configurationSettingsViewModel.Model = this._deviceConfiguration.FragmentSettings;
-            //this._applicationGlobalCommands.ShowWindowModal(() => new ConfigurationSettingsView(), configurationSettingsViewModel);
+            this._applicationGlobalCommands.ShowWindowModal(() => new ConfigurationSettingsView(), FragmentSettingsViewModel);
         }
 
         private bool CanExecuteAddChildGroupElement()
@@ -547,6 +540,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
 
+        public IFragmentSettingsViewModel FragmentSettingsViewModel { get; }
+        
         public void Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IDeviceConfiguration deviceConfiguration)
@@ -559,8 +554,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                         member.Accept(ConfigurationItemEditorViewModelFactory.Create());
                     RootConfigurationItemViewModels.Add(itemEditorViewModel);
                 }
+                FragmentSettingsViewModel.Model = deviceConfiguration.FragmentSettings;
             }
-
             InitRows(RootConfigurationItemViewModels, AllRows);
         }
 

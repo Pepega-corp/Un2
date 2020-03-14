@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Xml;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -33,6 +31,30 @@ namespace Unicon2.Services.SerializerService
                 throw e;
             }
         }
+        public string SerializeInString<T>(T objectToSerialize)
+        {
+            try
+            {
+                var res = string.Empty;
+                using (StringWriter writer = new StringWriter())
+                {
+                    var jsonSerializerSettings = new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All,
+                        PreserveReferencesHandling = PreserveReferencesHandling.All,
+                        Formatting = Formatting.Indented
+                    };
+                    writer.Write(JsonConvert.SerializeObject(objectToSerialize, jsonSerializerSettings));
+                    res = writer.ToString();
+                }
+
+                return res;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
         public T DeserializeFromFile<T>(string path)
         {
@@ -40,13 +62,19 @@ namespace Unicon2.Services.SerializerService
             {
                 using (StreamReader reader = new StreamReader(path))
                 {
-                    return JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
+                    var jsonSerializerSettings = new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All,
+                        PreserveReferencesHandling = PreserveReferencesHandling.All,
+                        Formatting = Formatting.Indented
+                    };
+                    return JsonConvert.DeserializeObject<T>(reader.ReadToEnd(), jsonSerializerSettings);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw new SerializationException();
+                throw e;
             }
         }
     }

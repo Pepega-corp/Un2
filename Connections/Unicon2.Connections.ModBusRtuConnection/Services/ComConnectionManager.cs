@@ -29,7 +29,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
             _comPortConfigurationFactory = comPortConfigurationFactory;
             _serializerService = serializerService;
             ComPortConfigurationsDictionary = new Dictionary<string, IComPortConfiguration>();
-            if (File.Exists(StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".xml"))
+            if (File.Exists(StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json"))
             {
                 try
                 {

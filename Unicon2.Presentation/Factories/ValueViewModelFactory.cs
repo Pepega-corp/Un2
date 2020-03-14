@@ -14,10 +14,10 @@ namespace Unicon2.Presentation.Factories
                 formattedValue as IMeasurable));
         }
 
-        public IEditableValueViewModel CreateEditableValueViewModel(IFormattedValue formattedValue)
+        public IEditableValueViewModel CreateEditableValueViewModel(FormattedValueInfo formattedValueInfo)
         {
-            return formattedValue.Accept(new EditableValueViewModelFactory(formattedValue as IRangeable,
-                formattedValue as IMeasurable));
+            return formattedValueInfo.FormattedValue.Accept(new EditableValueViewModelFactory(formattedValueInfo.Rangeable,
+                formattedValueInfo.Measurable));
 
         }
     }

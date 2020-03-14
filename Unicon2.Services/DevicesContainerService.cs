@@ -101,7 +101,7 @@ namespace Unicon2.Services
                 {
                     device= _serializerService.DeserializeFromFile<IDevice>(deviceCreator.DeviceDescriptionFilePath);
                     deviceCreator.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
-                    device.Dispose();
+                    
                     deviceCreator.DeviceName = Path.GetFileNameWithoutExtension(name);
                     Creators.Add(deviceCreator);
                 }

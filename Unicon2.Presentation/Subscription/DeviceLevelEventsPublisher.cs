@@ -16,6 +16,7 @@ namespace Unicon2.Presentation.Subscription
         public DeviceLevelEventsPublisher(Func<IFragmentViewModel> getActiveFragment)
         {
             _getActiveFragment = getActiveFragment;
+            _fragmentAwareDispatchers = new Dictionary<IFragmentViewModel, IDeviceEventsDispatcher>();
         }
 
         public void AddFragmentDispatcher(IFragmentViewModel fragmentViewModel,
@@ -39,6 +40,7 @@ namespace Unicon2.Presentation.Subscription
 
         public Result TriggerDeviceAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
         {
+            
             return _fragmentAwareDispatchers[_getActiveFragment()]
                 .TriggerDeviceAddressSubscription(triggeredAddress, numberOfPoints);
         }

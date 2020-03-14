@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using GongSolutions.Wpf.DragDrop;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.ViewModel;
@@ -28,7 +29,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         private void OnExecuteImportFromSharedTables()
         {
-
+            var t=DragDrop.DataFormat;
         }
         public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
         {

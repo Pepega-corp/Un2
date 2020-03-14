@@ -79,6 +79,10 @@ namespace Unicon2.Presentation.FragmentSettings
 
         private void SetModel(object value)
         {
+            if (value == null)
+            {
+                value = _container.Resolve<IFragmentSettings>();
+            }
             if (value is IFragmentSettings)
             {
                 _configurationSettings = value as IFragmentSettings;

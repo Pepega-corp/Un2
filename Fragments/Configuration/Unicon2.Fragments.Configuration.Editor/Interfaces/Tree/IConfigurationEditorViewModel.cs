@@ -6,6 +6,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.ElementAdding;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentSettings;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
@@ -26,5 +27,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
         ICommand AddSelectedElementAsResourceCommand { get; }
         ICommand EditDescriptionCommand { get; }
         ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollection { get; set; }
+        IFragmentSettingsViewModel FragmentSettingsViewModel { get; }
     }
 }

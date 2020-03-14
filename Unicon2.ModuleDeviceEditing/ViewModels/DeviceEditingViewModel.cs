@@ -73,13 +73,13 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
-            ofd.Filter = " XML файл (*.xml)|*.xml" + "|Все файлы (*.*)|*.* ";
+            ofd.Filter = " JSON файл (*.json)|*.json" + "|Все файлы (*.*)|*.* ";
             ofd.CheckFileExists = true;
             if (ofd.ShowDialog() == true)
             {
                 IDeviceCreator deviceCreator = _container.Resolve<IDeviceCreator>();
                 deviceCreator.DeviceDescriptionFilePath = ofd.FileName;
-                deviceCreator.DeviceName = ofd.SafeFileName.Replace(".xml", "");
+                deviceCreator.DeviceName = ofd.SafeFileName.Replace(".json", "");
                 IDeviceDefinitionViewModel deviceDefinition = _deviceDefinitionCreator();
                 deviceDefinition.Model = deviceCreator;
                 SelectedDevice = deviceDefinition;

@@ -14,7 +14,9 @@ namespace Unicon2.Presentation.Visitors
 
         public IFormattedValue VisitChosenFromListViewModel(IChosenFromListValueViewModel chosenFromListValueViewModel)
         {
-            throw new System.NotImplementedException();
+            var chosenFromListValue = (chosenFromListValueViewModel as IEditableValueViewModel)?.FormattedValue as IChosenFromListValue;
+            chosenFromListValue.SelectedItem = chosenFromListValueViewModel.SelectedItem;
+            return chosenFromListValue;
         }
 
         public IFormattedValue VisitMatrixViewModel(IMatrixValueViewModel matrixValueViewModel)

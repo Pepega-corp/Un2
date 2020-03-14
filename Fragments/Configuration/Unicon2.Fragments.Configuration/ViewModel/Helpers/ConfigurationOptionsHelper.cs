@@ -142,10 +142,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteReadConfiguration()
         {
-            var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,
-                _runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.Read,
-                _runtimeConfigurationViewModel.DeviceMemory);
-            await memoryAccessor.Process();
+            await new MemoryReaderVisitor(_deviceConfiguration,
+                _runtimeConfigurationViewModel.DeviceEventsDispatcher,
+                _runtimeConfigurationViewModel.DeviceMemory).ExecuteRead();
         }
 
         private bool ExpandLevelByIndex(List<IConfigurationItemViewModel> configurationItemViewModels,
@@ -269,10 +268,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteWriteLocalValuesToDevice()
         {
-            var memoryAccessorWrite = new ConfigurationMemoryAccessor(_deviceConfiguration,
-                _runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.Write,
-                _runtimeConfigurationViewModel.DeviceMemory);
-            await memoryAccessorWrite.Process();
+            await new MemoryWriterVisitor(_deviceConfiguration,
+                _runtimeConfigurationViewModel.DeviceEventsDispatcher,
+                _runtimeConfigurationViewModel.DeviceMemory, new List<ushort>()).ExecuteWrite();
         }
 
         private async void OnExecuteEditLocalValues()

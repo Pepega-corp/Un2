@@ -88,8 +88,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             {
                 IRangeViewModel rangeViewModel = _container.Resolve<IRangeViewModel>();
                 rangeViewModel.RangeFrom = property.Range.RangeFrom.ToString();
-                rangeViewModel.RangeFrom = property.Range.RangeTo.ToString();
-
+                rangeViewModel.RangeTo = property.Range.RangeTo.ToString();
                 editorPropertyViewModel.RangeViewModel = rangeViewModel;
             }
             editorPropertyViewModel.Address = property.Address.ToString();
@@ -118,6 +117,18 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                         sharedResourcesGlobalViewModel.GetResourceViewModel(property.UshortsFormatter.Name) as
                             IFormatterParametersViewModel;
                 }
+            }
+            else
+            {
+                var formatterViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+                    .CreateFormatterViewModel(property.UshortsFormatter);
+                var formatterParametersViewModel = new FormatterParametersViewModel()
+                {
+                    Name = property.UshortsFormatter.Name,
+                    IsFromSharedResources = true,
+                    RelatedUshortsFormatterViewModel = formatterViewModel
+                };
+                editorPropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
             }
 
 

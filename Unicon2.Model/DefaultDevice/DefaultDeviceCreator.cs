@@ -46,10 +46,8 @@ namespace Unicon2.Model.DefaultDevice
 
         public IDevice Create()
         {
-            IDevice newDevice = _deviceGettingFunc();
-            _serializerService.DeserializeFromFile<IDevice>(DeviceDescriptionFilePath);
-            newDevice.Name = DeviceName;
-            newDevice.DeviceSignature = DeviceName;
+            IDevice newDevice = _serializerService.DeserializeFromFile<IDevice>(DeviceDescriptionFilePath);
+            
             newDevice.DeviceLogger = _deviceLoggerGettingFunc();
             _logService.AddLogger(newDevice.DeviceLogger, newDevice.Name);
             return newDevice;
