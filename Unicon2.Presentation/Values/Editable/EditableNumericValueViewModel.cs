@@ -11,48 +11,39 @@ using Unicon2.Presentation.Values.Validators;
 
 namespace Unicon2.Presentation.Values.Editable
 {
-    public class EditableNumericValueViewModel : EditableValueViewModelBase, INumericValueViewModel
-    {
-        private string _numValueString;
-        private double _baseDoubleToCompareInitial;
+	public class EditableNumericValueViewModel : EditableValueViewModelBase, INumericValueViewModel
+	{
+		private string _numValueString;
 
-        public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
-                                             PresentationKeys.NUMERIC_VALUE_KEY +
-                                             ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+		public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
+		                                     PresentationKeys.NUMERIC_VALUE_KEY +
+		                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-      
-        public string NumValue
-        {
-            get { return _numValueString; }
-            set
-            {
 
-                _numValueString = value;
-                FireErrorsChanged();
-                if (!HasErrors)
-                {
-                    SetIsChangedProperty(nameof(NumValue),
-                        Math.Abs(_baseDoubleToCompareInitial - double.Parse(value)) > 0.0001);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-        public override void RefreshBaseValueToCompare()
-        {
-            _baseDoubleToCompareInitial = double.Parse(NumValue);
-            base.RefreshBaseValueToCompare();
-        }
-        protected override void OnValidate()
-        {
-            FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator().Validate(this);
-            SetValidationErrors(res);
-        }
-        
-        public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
-        {
-            return visitor.VisitNumericValueViewModel(this);
-        }
-    }
+		public string NumValue
+		{
+			get { return _numValueString; }
+			set
+			{
+
+				_numValueString = value;
+				FireErrorsChanged();
+				SetIsChangedProperty();
+				RaisePropertyChanged();
+			}
+		}
+
+		protected override void OnValidate()
+		{
+			FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator().Validate(this);
+			SetValidationErrors(res);
+		}
+
+		public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
+		{
+			return visitor.VisitNumericValueViewModel(this);
+		}
+	}
 }
 
 

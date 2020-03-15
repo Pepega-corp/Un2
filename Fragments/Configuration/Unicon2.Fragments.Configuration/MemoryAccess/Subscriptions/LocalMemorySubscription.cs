@@ -18,15 +18,17 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         private readonly ushort _numberOfPoints;
         private readonly IUshortsFormatter _ushortsFormatter;
         private readonly IDeviceMemory _deviceMemory;
+        private readonly EditableValueSetUnchangedSubscription _dependency;
 
         public LocalMemorySubscription(IEditableValueViewModel editableValueViewModel,
-            ushort address, ushort numberOfPoints, IUshortsFormatter ushortsFormatter, IDeviceMemory deviceMemory)
+            ushort address, ushort numberOfPoints, IUshortsFormatter ushortsFormatter, IDeviceMemory deviceMemory, EditableValueSetUnchangedSubscription dependency)
         {
             _editableValueViewModel = editableValueViewModel;
             _address = address;
             _numberOfPoints = numberOfPoints;
             _ushortsFormatter = ushortsFormatter;
             _deviceMemory = deviceMemory;
+            _dependency = dependency;
         }
 
         public void Execute()
@@ -34,7 +36,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             var localValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(_ushortsFormatter,
                 MemoryAccessor.GetUshortsFromMemory(_deviceMemory, _address, _numberOfPoints, true));
             _editableValueViewModel.Accept(new EditableValueSetFromLocalVisitor(localValue));
-            _editableValueViewModel.RefreshBaseValueToCompare();
+            _dependency.Execute();
         }
     }
 }

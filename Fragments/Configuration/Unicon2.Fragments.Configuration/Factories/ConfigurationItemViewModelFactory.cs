@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
@@ -23,7 +24,19 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Factories
 {
-    public class RuntimeConfigurationItemViewModelFactory : IRuntimeConfigurationItemViewModelFactory
+
+	public static class RuntimeConfigurationItemViewModelFactoryExtension
+	{
+		public static RuntimeConfigurationItemViewModelFactory WithParent(
+			this RuntimeConfigurationItemViewModelFactory factory, IConfigurationItemViewModel parent)
+		{
+			var newFactory = factory.Clone() as RuntimeConfigurationItemViewModelFactory;
+			newFactory.Parent = parent;
+			return newFactory;
+		}
+	}
+
+	public class RuntimeConfigurationItemViewModelFactory : IRuntimeConfigurationItemViewModelFactory,ICloneable
     {
         private readonly ITypesContainer _container;
         private IDeviceEventsDispatcher _deviceEventsDispatcher;
@@ -37,12 +50,19 @@ namespace Unicon2.Fragments.Configuration.Factories
             _deviceEventsDispatcher = deviceEventsDispatcher;
         }
 
+        public IConfigurationItemViewModel Parent { get; set; }
+
         private void InitializeBaseProperties(IConfigurationItemViewModel configurationViewModel,
             IConfigurationItem configurationItem)
         {
             configurationViewModel.Description = configurationItem.Description;
             configurationViewModel.Header = configurationItem.Name;
-        }
+            if (Parent != null)
+            {
+	            configurationViewModel.Parent = Parent;
+	            configurationViewModel.Level = Parent.Level + 1;
+            }
+		}
 
         private void InitializeProperty(IRuntimePropertyViewModel runtimePropertyViewModel, IProperty property)
         {
@@ -66,7 +86,7 @@ namespace Unicon2.Fragments.Configuration.Factories
             res.ChildStructItemViewModels.Clear();
             foreach (IConfigurationItem configurationItem in itemsGroup.ConfigurationItemList)
             {
-                res.ChildStructItemViewModels.Add(configurationItem.Accept(this));
+	            res.ChildStructItemViewModels.Add(configurationItem.Accept(this.WithParent(res)));
             }
 
             res.IsMain = itemsGroup.IsMain ?? false;
@@ -103,7 +123,7 @@ namespace Unicon2.Fragments.Configuration.Factories
                 setUnchangedSuscription);
 
             var localDataSubscription = new LocalMemorySubscription(res.LocalValue, property.Address,
-                property.NumberOfPoints, property.UshortsFormatter, _deviceMemory);
+                property.NumberOfPoints, property.UshortsFormatter, _deviceMemory, setUnchangedSuscription);
             _deviceEventsDispatcher.AddLocalAddressSubscription(property.Address, property.NumberOfPoints,
                 localDataSubscription);
             return res;
@@ -159,6 +179,12 @@ namespace Unicon2.Fragments.Configuration.Factories
         public void Initialize(IDeviceEventsDispatcher deviceEventsDispatcher)
         {
             _deviceEventsDispatcher = deviceEventsDispatcher;
+        }
+
+        public object Clone()
+        {
+	        return new RuntimeConfigurationItemViewModelFactory(_container,_deviceMemory,_deviceEventsDispatcher);
+
         }
     }
 }

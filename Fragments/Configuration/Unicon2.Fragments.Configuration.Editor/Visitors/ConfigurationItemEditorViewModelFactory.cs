@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
+﻿using System;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -18,12 +19,13 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         public static ConfigurationItemEditorViewModelFactory WithParent(
             this ConfigurationItemEditorViewModelFactory factory, IEditorConfigurationItemViewModel parent)
         {
-            factory.Parent = parent;
-            return factory;
-        }
+			var newFactory = factory.Clone() as ConfigurationItemEditorViewModelFactory;
+			newFactory.Parent = parent;
+			return newFactory;
+		}
     }
 
-    public class ConfigurationItemEditorViewModelFactory : IConfigurationItemEditorViewModelFactory
+    public class ConfigurationItemEditorViewModelFactory : IConfigurationItemEditorViewModelFactory, ICloneable
     {
         private readonly ITypesContainer _container;
         internal IEditorConfigurationItemViewModel Parent { get; set; }
@@ -194,6 +196,12 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         public IEditorConfigurationItemViewModel VisitSubProperty(ISubProperty dependentPropertyViewModel)
         {
             throw new System.NotImplementedException();
+        }
+
+        public object Clone()
+        {
+	        return new ConfigurationItemEditorViewModelFactory();
+
         }
     }
 }

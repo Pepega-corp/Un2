@@ -42,7 +42,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             var newUshorts = (new MatrixViewModelTableParser()).GetUshortsFromTable(Table, _matrix);
             if (!newUshorts.SequenceEqual(_initialUshortsToCompare))
             {
-                SetIsChangedProperty(nameof(_initialUshortsToCompare), _initialUshortsToCompare != newUshorts);
+                SetIsChangedProperty();
             }
         }
 

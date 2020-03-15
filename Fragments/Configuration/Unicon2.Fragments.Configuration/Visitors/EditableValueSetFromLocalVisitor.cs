@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Configuration.Visitors
 
         public Result VisitNumericValueViewModel(INumericValueViewModel numericValueViewModel)
         {
-            numericValueViewModel.NumValue = (_formattedValue as INumericValue).NumValue.ToString();
+            numericValueViewModel.NumValue = (_formattedValue as INumericValue).NumValue.ToString(); 
             return Result.Create(true);
         }
 

@@ -268,9 +268,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteWriteLocalValuesToDevice()
         {
-            await new MemoryWriterVisitor(_deviceConfiguration,
-                _runtimeConfigurationViewModel.DeviceEventsDispatcher,
-                _runtimeConfigurationViewModel.DeviceMemory, new List<ushort>()).ExecuteWrite();
+	        if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_runtimeConfigurationViewModel
+		        .RootConfigurationItemViewModels))
+	        {
+		        await new MemoryWriterVisitor(_deviceConfiguration,
+			        _runtimeConfigurationViewModel.DeviceEventsDispatcher,
+			        _runtimeConfigurationViewModel.DeviceMemory, new List<ushort>()).ExecuteWrite();
+	        }
         }
 
         private async void OnExecuteEditLocalValues()

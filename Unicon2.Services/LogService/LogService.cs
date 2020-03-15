@@ -101,7 +101,7 @@ namespace Unicon2.Services.LogService
         public void LogMessage(string messageKey, LogMessageTypeEnum messageType = LogMessageTypeEnum.Info)
         {
             ILogMessage logMessage = _logMessageGettingFunc();
-            logMessage.LogMessageType = LogMessageTypeEnum.Info;
+            logMessage.LogMessageType = messageType;
             logMessage.MessageSubject =_localizerService.GetLocalizedString(ApplicationGlobalNames.GENERAL);
             string localizedString = String.Empty;
             if (!_localizerService.TryGetLocalizedString(messageKey, out localizedString))
