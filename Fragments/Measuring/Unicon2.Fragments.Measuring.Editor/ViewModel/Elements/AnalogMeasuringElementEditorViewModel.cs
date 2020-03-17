@@ -4,7 +4,7 @@ using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
@@ -25,7 +25,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
         private void OnShowFormatterParametersExecute()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this._measuringElement as IUshortFormattable);
+            this._formatterEditorFactory.EditFormatterByUser(this);
             this.RaisePropertyChanged(nameof(this.FormatterString));
         }
 
@@ -102,5 +102,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         }
 
         public override string NameForUiKey => MeasuringKeys.ANALOG_MEASURING_ELEMENT;
+        public string Name { get; set; }
+        public IFormatterParametersViewModel FormatterParametersViewModel { get; set; }
     }
 }

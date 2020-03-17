@@ -6,30 +6,9 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 {
     public abstract class MeasuringElementEditorViewModelBase : ViewModelBase, IMeasuringElementEditorViewModel
     {
-        protected IMeasuringElement _measuringElement;
         private string _header;
 
         public abstract string StrongName { get; }
-
-        public object Model
-        {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
-        }
-
-        protected virtual void SetModel(object value)
-        {
-            this._measuringElement = value as IMeasuringElement;
-            this._header = this._measuringElement.Name;
-            this.RaisePropertyChanged(nameof(this.Header));
-        }
-
-        protected virtual IMeasuringElement GetModel()
-        {
-            this._measuringElement.Name = this.Header;
-            return this._measuringElement;
-        }
-
 
         public string Header
         {

@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements
 {
-    public interface IMeasuringElementEditorViewModel:IViewModel
+    public interface IMeasuringElementEditorViewModel
     {
         string Header { get; set; }
         string NameForUiKey { get; }
