@@ -9,6 +9,9 @@ using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
@@ -57,7 +60,6 @@ namespace Unicon2.Fragments.Measuring.ViewModel
                     this._measuringMonitor.SetSelectedGroups(
                         new List<IMeasuringGroup>() { this._selectedMeasuringGroupViewModel.Model as IMeasuringGroup });
                 }
-                await this._measuringMonitor.Load();
             });
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
@@ -70,11 +72,9 @@ namespace Unicon2.Fragments.Measuring.ViewModel
                 {
                     if (isCycleLoadingEnabled.Value)
                     {
-                        this.StartCycleLoading();
                     }
                     else
                     {
-                        this.StopCycleLoading();
                     }
                 }
             });
@@ -96,13 +96,10 @@ namespace Unicon2.Fragments.Measuring.ViewModel
                 {
                     if (this._isQueriesStarted)
                     {
-                        this.StopCycleLoading();
                         this.IsListViewSelected = isAllSelected.Value;
-                        this.StartCycleLoading();
                     }
                     else
                     {
-                        this.StopCycleLoading();
                         this.IsListViewSelected = isAllSelected.Value;
                     }
                 }
@@ -113,27 +110,22 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
         }
 
-        private void StopCycleLoading()
-        {
-            this._isQueriesStarted = false;
-            this._measuringMonitor.StopLoadingCycle();
-        }
+      
 
 
-        private void StartCycleLoading()
-        {
-            this._isQueriesStarted = true;
-            if (this.IsListViewSelected)
-            {
-                this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
-            }
-            else
-            {
-                this._measuringMonitor.SetSelectedGroups(
-                    new List<IMeasuringGroup>() { this._selectedMeasuringGroupViewModel.Model as IMeasuringGroup });
-            }
-            this._measuringMonitor.StartLoadingCycle();
-        }
+        //private void StartCycleLoading()
+        //{
+        //    this._isQueriesStarted = true;
+        //    if (this.IsListViewSelected)
+        //    {
+        //        this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
+        //    }
+        //    else
+        //    {
+        //        this._measuringMonitor.SetSelectedGroups(
+        //            new List<IMeasuringGroup>() { this._selectedMeasuringGroupViewModel.Model as IMeasuringGroup });
+        //    }
+        //}
 
 
         public string StrongName => MeasuringKeys.MEASURING_MONITOR +
@@ -189,9 +181,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             {
                 if (this._isQueriesStarted)
                 {
-                    this.StopCycleLoading();
                     this._selectedMeasuringGroupViewModel = value;
-                    this.StartCycleLoading();
                 }
                 else
                 {
@@ -227,8 +217,22 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
         protected override void OnDisposing()
         {
-            this.StopCycleLoading();
             base.OnDisposing();
+        }
+
+        public void Initialize(IDeviceFragment deviceFragment)
+        {
+	        throw new NotImplementedException();
+        }
+
+        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher, IDeviceMemory deviceMemory)
+        {
+	        throw new NotImplementedException();
+        }
+
+        public string GetDeviceName()
+        {
+	        throw new NotImplementedException();
         }
     }
 }

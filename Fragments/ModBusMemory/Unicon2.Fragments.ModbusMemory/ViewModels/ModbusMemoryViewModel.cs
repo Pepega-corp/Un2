@@ -150,6 +150,8 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 						new ModbusMemoryEntityViewModel(_memoryBitViewModelGettingFunc,
 							_modbusMemoryEntityGettingFunc,
 							_modbusConversionParametersViewModels[i]);
+					modbusMemoryEntityViewModel.SetViewSetOption(modbusMemorySettings.IsDiscretOption);
+					modbusMemoryEntityViewModel.SetAddress(modbusMemorySettings.BaseAdress + i);
 					ModbusMemoryEntityViewModels.Add(modbusMemoryEntityViewModel);
 				}
 				else

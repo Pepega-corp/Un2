@@ -51,7 +51,6 @@
     <Compile Include="Model\Elements\IControlSignal.cs" />
     <Compile Include="Model\Elements\IDiscretMeasuringElement.cs" />
     <Compile Include="Model\Elements\IMeasuringElement.cs" />
-    <Compile Include="Model\ILoadableCycle.cs" />
     <Compile Include="Model\IMeasuringGroup.cs" />
     <Compile Include="Model\IMeasuringMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,7 +4,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Infrastructure.Model
 {
-    public interface IMeasuringMonitor:ILoadableCycle,IDeviceFragment,IInitializableFromContainer
+    public interface IMeasuringMonitor: IDeviceFragment
     {
         List<IMeasuringGroup> MeasuringGroups { get; set; }
         void SetSelectedGroups(List<IMeasuringGroup> measuringGroup);

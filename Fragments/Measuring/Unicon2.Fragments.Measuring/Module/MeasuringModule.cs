@@ -45,15 +45,15 @@ namespace Unicon2.Fragments.Measuring.Module
             container.Register<IMeasuringElementFactory, MeasuringElementFactory>();
             container.Register<IMeasuringGroupViewModelFactory, MeasuringGroupViewModelFactory>();
         
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerializationRange(new[] { typeof(MeasuringMonitor), typeof(MeasuringGroup), typeof(AnalogMeasuringElement), typeof(DescretMeasuringElement), typeof(AddressOfBit), typeof(AddressOfBit), typeof(ControlSignal), typeof(WritingValueContext) });
-            serializerService.AddNamespaceAttribute("measuringMonitor", "MeasuringMonitorNS");
-            serializerService.AddNamespaceAttribute("measuringGroup", "MeasuringGroupNS");
-            serializerService.AddNamespaceAttribute("analogMeasuringElement", "AnalogMeasuringElementNS");
-            serializerService.AddNamespaceAttribute("descretMeasuringElement", "DescretMeasuringElementNS");
-            serializerService.AddNamespaceAttribute("addressOfBit", "AddressOfBitNS");
-            serializerService.AddNamespaceAttribute("controlSignal", "ControlSignalNS");
-            serializerService.AddNamespaceAttribute("writingValueContext", "WritingValueContextNS");
+            //ISerializerService serializerService = container.Resolve<ISerializerService>();
+            //serializerService.AddKnownTypeForSerializationRange(new[] { typeof(MeasuringMonitor), typeof(MeasuringGroup), typeof(AnalogMeasuringElement), typeof(DescretMeasuringElement), typeof(AddressOfBit), typeof(AddressOfBit), typeof(ControlSignal), typeof(WritingValueContext) });
+            //serializerService.AddNamespaceAttribute("measuringMonitor", "MeasuringMonitorNS");
+            //serializerService.AddNamespaceAttribute("measuringGroup", "MeasuringGroupNS");
+            //serializerService.AddNamespaceAttribute("analogMeasuringElement", "AnalogMeasuringElementNS");
+            //serializerService.AddNamespaceAttribute("descretMeasuringElement", "DescretMeasuringElementNS");
+            //serializerService.AddNamespaceAttribute("addressOfBit", "AddressOfBitNS");
+            //serializerService.AddNamespaceAttribute("controlSignal", "ControlSignalNS");
+            //serializerService.AddNamespaceAttribute("writingValueContext", "WritingValueContextNS");
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml",
                 this.GetType().Assembly);
