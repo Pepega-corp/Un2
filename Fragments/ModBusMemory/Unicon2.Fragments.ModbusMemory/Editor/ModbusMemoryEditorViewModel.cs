@@ -1,5 +1,6 @@
 ﻿using Unicon2.Fragments.ModbusMemory.Infrastructure.Model;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 
@@ -16,15 +17,17 @@ namespace Unicon2.Fragments.ModbusMemory.Editor
 
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.MODBUSMEMORY + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        public object Model
+		
+        public string NameForUiKey => ApplicationGlobalNames.FragmentInjectcionStrings.MODBUSMEMORY;
+        public IDeviceFragment BuildDeviceFragment()
         {
-            get { return this._model; }
-            set { this._model = value as IModbusMemory; }
+	        return _model;
         }
 
-        public string NameForUiKey => ApplicationGlobalNames.FragmentInjectcionStrings.MODBUSMEMORY;
-
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
+        public void Initialize(IDeviceFragment deviceFragment)
+        {
+	       
+        }
     }
 }

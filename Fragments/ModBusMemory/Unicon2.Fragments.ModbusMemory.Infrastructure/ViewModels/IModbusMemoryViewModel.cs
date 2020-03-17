@@ -6,7 +6,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.ModbusMemory.Infrastructure.ViewModels
 {
-    public interface IModbusMemoryViewModel:IFragmentViewModel, IDataProviderContaining,IDisposable
+    public interface IModbusMemoryViewModel:IFragmentViewModel,IDisposable,IDeviceDataProvider,IStronglyNamed
     {
         ObservableCollection<IModbusMemoryEntityViewModel> ModbusMemoryEntityViewModels { get; set; }
         IModbusMemorySettingsViewModel ModbusMemorySettingsViewModel { get; set; }

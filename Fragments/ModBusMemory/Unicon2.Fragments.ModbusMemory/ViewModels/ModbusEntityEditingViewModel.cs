@@ -8,6 +8,7 @@ using Unicon2.Fragments.ModbusMemory.ViewModels.Validators;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Unity.Commands;
 
@@ -16,7 +17,6 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
     public class ModbusEntityEditingViewModel : ValidatableBindableBase, IModbusEntityEditingViewModel
     {
         private readonly ILocalizerService _localizerService;
-        private IDataProvider _dataProvider;
         private ushort _resultedValueUshort;
         private string _valueDec;
         private string _valueHex;
@@ -61,7 +61,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
         private void OnExecuteWrite(object obj)
         {
-            this._dataProvider.WriteMultipleRegistersAsync(ushort.Parse(this.ModbusMemoryEntityViewModelToEdit.AdressDec), new[] { this._resultedValueUshort }, ApplicationGlobalNames.QueriesNames.WRITE_MODBUS_MEMORY_QUERY_KEY);
+            DataProviderContaining.DataProvider.WriteMultipleRegistersAsync(ushort.Parse(this.ModbusMemoryEntityViewModelToEdit.AdressDec), new[] { this._resultedValueUshort }, ApplicationGlobalNames.QueriesNames.WRITE_MODBUS_MEMORY_QUERY_KEY);
             if (obj is Window)
             {
                 ((Window)obj).Close();
@@ -144,10 +144,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             }
         }
 
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._dataProvider = dataProvider;
-        }
+        public IDataProviderContaining DataProviderContaining { get; set; }
 
         protected override void OnValidate()
         {

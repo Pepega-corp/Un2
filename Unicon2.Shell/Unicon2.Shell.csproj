@@ -250,6 +250,10 @@
       <Project>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fragments\ModBusMemory\Unicon2.Fragments.ModbusMemory\Unicon2.Fragments.ModbusMemory.csproj">
+      <Project>{3C34747B-D562-4900-880D-67E8574544AE}</Project>
+      <Name>Unicon2.Fragments.ModbusMemory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicon2.DeviceEditorUtilityModule\Unicon2.DeviceEditorUtilityModule.csproj">
       <Project>{E263B732-5DC2-4237-9C45-2B655C51A033}</Project>
       <Name>Unicon2.DeviceEditorUtilityModule</Name>

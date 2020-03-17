@@ -14,6 +14,7 @@ using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -196,12 +197,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 
 
-        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher,
-            IDeviceMemory deviceMemory)
+        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher, IDeviceMemory deviceMemory)
         {
-            DeviceEventsDispatcher = deviceEventsDispatcher;
-            DeviceMemory = deviceMemory;
-            _deviceName = deviceName;
+	        DeviceEventsDispatcher = deviceEventsDispatcher;
+	        DeviceMemory = deviceMemory;
+	        _deviceName = deviceName;
         }
 
         public IDeviceMemory DeviceMemory { get; set; }

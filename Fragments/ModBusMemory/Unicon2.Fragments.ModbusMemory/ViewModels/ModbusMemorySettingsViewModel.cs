@@ -74,8 +74,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
         {
             get { return this._baseAdress.ToString(); }
             set
-            {
-                this._baseAdress = int.Parse(value);
+            { this._baseAdress = int.Parse(value);
                 this.RaisePropertyChanged();
                 this.RaisePropertyChanged(nameof(this.BaseAdressHex));
                 this.ModbusMemorySettingsChanged?.Invoke(this.GetModbusMemorySettings());

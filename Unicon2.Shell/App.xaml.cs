@@ -26,7 +26,7 @@ using Unicon2.Fragments.Configuration.Module;
 //using Unicon2.Fragments.Journals.Module;
 //using Unicon2.Fragments.Measuring.Editor.Module;
 //using Unicon2.Fragments.Measuring.Module;
-//using Unicon2.Fragments.ModbusMemory.Module;
+using Unicon2.Fragments.ModbusMemory.Module;
 //using Unicon2.Fragments.Oscilliscope.Editor.Module;
 //using Unicon2.Fragments.Oscilliscope.Module;
 //using Unicon2.Fragments.Programming.Editor.Module;
@@ -165,7 +165,7 @@ namespace Unicon2.Shell
             //container.Register<IUnityModule, UniconDateTimeModule>(nameof(UniconDateTimeModule));
             //container.Register<IUnityModule, UniconDateTimeEditorModule>(nameof(UniconDateTimeEditorModule)); 
             //container.Register<IUnityModule, MatrixConfigurationModule>(nameof(MatrixConfigurationModule));
-            //container.Register<IUnityModule, ModbusMemoryModule>(nameof(ModbusMemoryModule));
+            container.Register<IUnityModule, ModbusMemoryModule>(nameof(ModbusMemoryModule));
             //container.Register<IUnityModule, JournaEditorModule>(nameof(JournaEditorModule));
             //container.Register<IUnityModule, UniconJournalModule>(nameof(UniconJournalModule));
             //container.Register<IUnityModule, MeasuringModule>(nameof(MeasuringModule));
