@@ -1,6 +1,8 @@
 ﻿using Unicon2.Fragments.Measuring.Infrastructure.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
+using Unicon2.Fragments.Measuring.Model.Elements;
+using Unicon2.Fragments.Measuring.ViewModel.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Interfaces;
 
@@ -21,9 +23,36 @@ namespace Unicon2.Fragments.Measuring.Factories
                 this._container.Resolve<IMeasuringElementViewModel>(measuringElement.StrongName +
                                                                ApplicationGlobalNames.CommonInjectionStrings
                                                                    .VIEW_MODEL);
-            measuringElementViewModel.Model = measuringElement;
+            switch (measuringElement)
+            {
+	            case AnalogMeasuringElement analogMeasuringElement:
+		            return CreateAnalogMeasuringElementViewModel(analogMeasuringElement);
+	            case ControlSignal controlSignal:
+					return CreateControlSignalViewModelViewModel(controlSignal);
+				case DescretMeasuringElement descretMeasuringElement:
+					return CreateDiscretMeasuringElementViewModel(descretMeasuringElement);
+			}
+
             measuringElementViewModel.GroupName = gruopName;
             return measuringElementViewModel;
         }
-    }
+
+        private AnalogMeasuringElementViewModel CreateAnalogMeasuringElementViewModel(
+	        AnalogMeasuringElement analogMeasuringElement)
+        {
+			return new AnalogMeasuringElementViewModel();
+        }
+
+        private AnalogMeasuringElementViewModel CreateControlSignalViewModelViewModel(
+	        ControlSignal controlSignal)
+        {
+			return new AnalogMeasuringElementViewModel();
+        }
+
+        private DiscretMeasuringElementViewModel CreateDiscretMeasuringElementViewModel(
+	        DescretMeasuringElement discretMeasuringElement)
+        {
+			return new DiscretMeasuringElementViewModel();
+        }
+	}
 }

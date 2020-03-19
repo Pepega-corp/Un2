@@ -57,6 +57,7 @@
     <Compile Include="Factories\MeasuringElementFactory.cs" />
     <Compile Include="Factories\MeasuringElementViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringGroupViewModelFactory.cs" />
+    <Compile Include="MemoryAccess\MeasuringLoader.cs" />
     <Compile Include="Model\Address\AddressOfBit.cs" />
     <Compile Include="Model\Address\WritingValueContext.cs" />
     <Compile Include="Model\Elements\AnalogMeasuringElement.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Model\MeasuringMonitor.cs" />
     <Compile Include="Module\MeasuringModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subscriptions\DeviceDataChangedSubscription.cs" />
     <Compile Include="ViewModel\Elements\AnalogMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\ControlSignalViewModel.cs" />
     <Compile Include="ViewModel\Elements\DiscretMeasuringElementViewModel.cs" />
