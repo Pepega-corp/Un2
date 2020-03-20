@@ -32,28 +32,23 @@ namespace Unicon2.Model.DefaultDevice
             DeviceFragments = new List<IDeviceFragment>();
             DeviceSharedResources = new DeviceSharedResources();
         }
-        [JsonProperty]
-        public string Name { get; set; }
-        [JsonProperty]
-        public IConnectionState ConnectionState { get; set; }
-        [JsonProperty]
-        public IDeviceLogger DeviceLogger { get; set; }
+
+        [JsonProperty] public string Name { get; set; }
+        [JsonProperty] public IConnectionState ConnectionState { get; set; }
+        [JsonProperty] public IDeviceLogger DeviceLogger { get; set; }
         public IDeviceConnection DeviceConnection { get; private set; }
 
-        [JsonProperty]
-        public IEnumerable<IDeviceFragment> DeviceFragments { get; set; }
-        [JsonProperty]
-        public IDeviceSharedResources DeviceSharedResources { get; set; }
-        [JsonProperty]
-        public string DeviceSignature { get; set; }
+        [JsonProperty] public IEnumerable<IDeviceFragment> DeviceFragments { get; set; }
+        [JsonProperty] public IDeviceSharedResources DeviceSharedResources { get; set; }
+        [JsonProperty] public string DeviceSignature { get; set; }
 
-		public IDeviceMemory DeviceMemory { get; set; }
+        public IDeviceMemory DeviceMemory { get; set; }
 
 
         public void InitializeConnection(IDeviceConnection deviceConnection)
         {
             DeviceConnection = deviceConnection;
-            StaticContainer.Container.Resolve<ILogService>().AddLogger(DeviceLogger,Name);
+            StaticContainer.Container.Resolve<ILogService>().AddLogger(DeviceLogger, Name);
             ConnectionState.Initialize(deviceConnection, DeviceLogger);
             if (deviceConnection is IDataProvider)
             {
@@ -66,6 +61,7 @@ namespace Unicon2.Model.DefaultDevice
                 }
             }
         }
+
         protected override void OnDisposing()
         {
             StaticContainer.Container.Resolve<ILogService>().DeleteLogger(DeviceLogger);
@@ -73,6 +69,5 @@ namespace Unicon2.Model.DefaultDevice
             base.OnDisposing();
         }
     }
-
 
 }

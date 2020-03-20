@@ -46,7 +46,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
-            IFormatterEditorFactory formatterEditorFactory,IFragmentSettingsViewModel fragmentSettingsViewModel
+            IFormatterEditorFactory formatterEditorFactory, IFragmentSettingsViewModel fragmentSettingsViewModel
         )
         {
             _allRows = new ObservableCollection<IConfigurationItemViewModel>();

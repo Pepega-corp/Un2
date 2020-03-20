@@ -25,18 +25,18 @@ using Unicon2.Unity.Interfaces;
 namespace Unicon2.Fragments.Configuration.Factories
 {
 
-	public static class RuntimeConfigurationItemViewModelFactoryExtension
-	{
-		public static RuntimeConfigurationItemViewModelFactory WithParent(
-			this RuntimeConfigurationItemViewModelFactory factory, IConfigurationItemViewModel parent)
-		{
-			var newFactory = factory.Clone() as RuntimeConfigurationItemViewModelFactory;
-			newFactory.Parent = parent;
-			return newFactory;
-		}
-	}
+    public static class RuntimeConfigurationItemViewModelFactoryExtension
+    {
+        public static RuntimeConfigurationItemViewModelFactory WithParent(
+            this RuntimeConfigurationItemViewModelFactory factory, IConfigurationItemViewModel parent)
+        {
+            var newFactory = factory.Clone() as RuntimeConfigurationItemViewModelFactory;
+            newFactory.Parent = parent;
+            return newFactory;
+        }
+    }
 
-	public class RuntimeConfigurationItemViewModelFactory : IRuntimeConfigurationItemViewModelFactory,ICloneable
+    public class RuntimeConfigurationItemViewModelFactory : IRuntimeConfigurationItemViewModelFactory, ICloneable
     {
         private readonly ITypesContainer _container;
         private IDeviceEventsDispatcher _deviceEventsDispatcher;
@@ -59,10 +59,10 @@ namespace Unicon2.Fragments.Configuration.Factories
             configurationViewModel.Header = configurationItem.Name;
             if (Parent != null)
             {
-	            configurationViewModel.Parent = Parent;
-	            configurationViewModel.Level = Parent.Level + 1;
+                configurationViewModel.Parent = Parent;
+                configurationViewModel.Level = Parent.Level + 1;
             }
-		}
+        }
 
         private void InitializeProperty(IRuntimePropertyViewModel runtimePropertyViewModel, IProperty property)
         {
@@ -86,7 +86,7 @@ namespace Unicon2.Fragments.Configuration.Factories
             res.ChildStructItemViewModels.Clear();
             foreach (IConfigurationItem configurationItem in itemsGroup.ConfigurationItemList)
             {
-	            res.ChildStructItemViewModels.Add(configurationItem.Accept(this.WithParent(res)));
+                res.ChildStructItemViewModels.Add(configurationItem.Accept(this.WithParent(res)));
             }
 
             res.IsMain = itemsGroup.IsMain ?? false;
@@ -106,18 +106,21 @@ namespace Unicon2.Fragments.Configuration.Factories
 
             var localValue = _container.Resolve<IFormattingService>().FormatValue(property.UshortsFormatter,
                 InitDefaultUshortsValue(property.NumberOfPoints));
-            var editableValue = _container.Resolve<IValueViewModelFactory>().CreateEditableValueViewModel(new FormattedValueInfo(localValue,property,property.UshortsFormatter,property));
+            var editableValue = _container.Resolve<IValueViewModelFactory>()
+                .CreateEditableValueViewModel(new FormattedValueInfo(localValue, property, property.UshortsFormatter,
+                    property));
             var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(editableValue, _deviceMemory,
                 property.Address, property.NumberOfPoints);
 
-            var editSubscription = new LocalDataEditedSubscription(editableValue, _deviceMemory, property, setUnchangedSuscription);
+            var editSubscription =
+                new LocalDataEditedSubscription(editableValue, _deviceMemory, property, setUnchangedSuscription);
 
             res.LocalValue = editableValue;
             editableValue.InitDispatcher(_deviceEventsDispatcher);
             _deviceEventsDispatcher.AddSubscriptionById(editSubscription
                 , res.LocalValue.Id);
 
-            
+
 
             _deviceEventsDispatcher.AddDeviceAddressSubscription(property.Address, property.NumberOfPoints,
                 setUnchangedSuscription);
@@ -183,7 +186,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 
         public object Clone()
         {
-	        return new RuntimeConfigurationItemViewModelFactory(_container,_deviceMemory,_deviceEventsDispatcher);
+            return new RuntimeConfigurationItemViewModelFactory(_container, _deviceMemory, _deviceEventsDispatcher);
 
         }
     }

@@ -8,15 +8,19 @@ using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Model.Elements;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Measuring.MemoryAccess
 {
 	public class MeasuringLoader
 	{
 		private IDataProviderContaining _dataProviderContaining;
-		public MeasuringLoader(IDataProviderContaining dataProviderContaining)
+		private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
+
+		public MeasuringLoader(IDataProviderContaining dataProviderContaining, IDeviceEventsDispatcher deviceEventsDispatcher)
 		{
 			_dataProviderContaining = dataProviderContaining;
+			_deviceEventsDispatcher = deviceEventsDispatcher;
 		}
 
 		public void StartLoading()
@@ -42,15 +46,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 					await _dataProviderContaining.DataProvider.ReadHoldingResgistersAsync(descretMeasuringElement.AddressOfBit.Address, 1, "Read");
 				if (queryResult.IsSuccessful)
 				{
-					if ((descretMeasuringElement.AddressOfBit.NumberOfFunction == 3) || (descretMeasuringElement.AddressOfBit.NumberOfFunction == 4))
-					{
-						BitArray bitarr = new BitArray(new[] { (int)(queryResult.Result)[0] });
-						bool bitResult = bitarr[(descretMeasuringElement.AddressOfBit).BitAddressInWord];
-						if (bitResult == descretMeasuringElement.DeviceValue) return;
-						descretMeasuringElement.DeviceValue = bitResult;
-						descretMeasuringElement.ElementChangedAction?.Invoke();
-					}
-
+					_deviceEventsDispatcher.
 				}
 			}
 			else if ((this.AddressOfBit.NumberOfFunction == 1) || (this.AddressOfBit.NumberOfFunction == 2))

@@ -12,6 +12,5 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
         [DataMember]
         public string Name { get; set; }
 
-        public Action ElementChangedAction { get; set; }
     }
 }

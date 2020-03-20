@@ -16,14 +16,16 @@ namespace Unicon2.Presentation.Subscription
             _fragmentLevelEventsDispatcher = fragmentLevelEventsDispatcher;
         }
 
-        public Result TriggerDeviceAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
+        public Result TriggerDeviceAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
+            MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
-            return _deviceLevelEventsPublisher.TriggerDeviceAddressSubscription(triggeredAddress, numberOfPoints);
+            return _deviceLevelEventsPublisher.TriggerDeviceAddressSubscription(triggeredAddress, numberOfPoints, memoryKind);
         }
 
-        public Result TriggerLocalAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
+        public Result TriggerLocalAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
+            MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
-            return _deviceLevelEventsPublisher.TriggerLocalAddressSubscription(triggeredAddress, numberOfPoints);
+            return _deviceLevelEventsPublisher.TriggerLocalAddressSubscription(triggeredAddress, numberOfPoints, memoryKind);
         }
 
         public Result TriggerSubscriptionById(Guid id)
@@ -38,17 +40,17 @@ namespace Unicon2.Presentation.Subscription
         }
 
         public Result AddDeviceAddressSubscription(ushort address, ushort numberOfPoints,
-            IMemorySubscription memorySubscription)
+            IMemorySubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
             return _fragmentLevelEventsDispatcher.AddDeviceAddressSubscription(address, numberOfPoints,
-                memorySubscription);
+                memorySubscription, memoryKind);
         }
 
         public Result AddLocalAddressSubscription(ushort address, ushort numberOfPoints,
-            IMemorySubscription memorySubscription)
+            IMemorySubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
             return _fragmentLevelEventsDispatcher.AddLocalAddressSubscription(address, numberOfPoints,
-                memorySubscription);
+                memorySubscription, memoryKind);
         }
 
         public Result AddSubscriptionById(IMemorySubscription subscription, Guid id)

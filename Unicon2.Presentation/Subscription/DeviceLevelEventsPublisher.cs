@@ -30,19 +30,21 @@ namespace Unicon2.Presentation.Subscription
             _fragmentAwareDispatchers.ForEach(pair => pair.Value.Dispose());
         }
 
-        public Result TriggerLocalAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
+        public Result TriggerLocalAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
+            MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
             return _fragmentAwareDispatchers[_getActiveFragment()]
-                .TriggerLocalAddressSubscription(triggeredAddress, numberOfPoints);
+                .TriggerLocalAddressSubscription(triggeredAddress, numberOfPoints, memoryKind);
         }
 
 
 
-        public Result TriggerDeviceAddressSubscription(ushort triggeredAddress, ushort numberOfPoints)
+        public Result TriggerDeviceAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
+            MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
-            
+
             return _fragmentAwareDispatchers[_getActiveFragment()]
-                .TriggerDeviceAddressSubscription(triggeredAddress, numberOfPoints);
+                .TriggerDeviceAddressSubscription(triggeredAddress, numberOfPoints, memoryKind);
         }
 
         public Result TriggerSubscriptionById(Guid id)
