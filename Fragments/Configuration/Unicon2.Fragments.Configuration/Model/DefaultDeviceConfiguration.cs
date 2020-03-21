@@ -99,7 +99,5 @@ namespace Unicon2.Fragments.Configuration.Model
 
             return true;
         }
-
-        public IDataProvider DataProvider { get; set; }
     }
 }

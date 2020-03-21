@@ -6,7 +6,9 @@ using Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -76,7 +78,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
 
         private void OnShowFormatterParametersExecute()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this.SelectedJournalParameterEditorViewModel.Model as IJournalParameter);
+            this._formatterEditorFactory.EditFormatterByUser(SelectedJournalParameterEditorViewModel);
             this.SelectedJournalParameterEditorViewModel.StopEditElement();
         }
 
@@ -246,5 +248,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
             get { return this.GetModel(); }
             set { this.SetModel(value); }
         }
+        
     }
 }

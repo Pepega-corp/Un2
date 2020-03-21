@@ -5,6 +5,6 @@ namespace Unicon2.Presentation.Infrastructure.Factories
 {
     public interface IFormatterViewModelFactory
     {
-        IUshortsFormatterViewModel CreateFormatterViewModel(IUshortsFormatter ushortsFormatter);
+        IFormatterParametersViewModel CreateFormatterViewModel(IUshortsFormatter ushortsFormatter);
     }
 }

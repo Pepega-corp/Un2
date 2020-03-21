@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="Services\SaveFormatterService.cs" />
     <Compile Include="ViewModels\DefaultBitMaskFormatterViewModel.cs" />
+    <Compile Include="ViewModels\FormatterParameters\FormatterParametersViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFormatterViewModelVisitable.cs" />
     <Compile Include="ViewModels\StringFormatter1251ViewModel.cs" />
     <Compile Include="ViewModels\UshortToIntegerFormatterViewModel.cs" />

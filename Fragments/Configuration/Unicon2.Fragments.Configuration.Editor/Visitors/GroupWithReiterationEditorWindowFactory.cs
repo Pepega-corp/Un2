@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
+﻿using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.View;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 
-namespace Unicon2.Fragments.Configuration.Editor.Factories
+namespace Unicon2.Fragments.Configuration.Editor.Visitors
 {
     public class GroupWithReiterationEditorWindowFactory
     {

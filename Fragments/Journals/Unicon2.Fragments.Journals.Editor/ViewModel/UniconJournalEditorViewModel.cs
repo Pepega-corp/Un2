@@ -7,6 +7,7 @@ using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
 using Unicon2.Fragments.Journals.Infrastructure.ViewModel.LoadingSequence;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Journals.Editor.ViewModel
@@ -66,28 +67,10 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
         public string StrongName => JournalKeys.UNICON_JOURNAL +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-        public object Model
-        {
-            get => this.GetModel();
-            set => this.SetModel(value);
-        }
+      
 
-        private void SetModel(object value)
-        {
-            IUniconJournal settingJournal = value as IUniconJournal;
-            if (value == null) return;
-            this._uniconJournal = settingJournal;
-            this.Name = settingJournal.Name;
-            this.JournalRecordTemplateEditorViewModel.Model = this._uniconJournal.RecordTemplate;
-            if (this._uniconJournal.JournalLoadingSequence != null)
-            {
-                this.SelectedJournalLoadingSequenceEditorViewModel = this.JournalLoadingSequenceEditorViewModels
-                    .First((model => model.StrongName.Contains(this._uniconJournal.JournalLoadingSequence.StrongName)));
-                this.SelectedJournalLoadingSequenceEditorViewModel.Model = this._uniconJournal.JournalLoadingSequence;
-            }
-        }
-
-        private object GetModel()
+        public string NameForUiKey => JournalKeys.UNICON_JOURNAL;
+        public IDeviceFragment BuildDeviceFragment()
         {
             this._uniconJournal.Name = this.Name;
             this._uniconJournal.RecordTemplate = this.JournalRecordTemplateEditorViewModel.Model as IRecordTemplate;
@@ -99,8 +82,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
             return this._uniconJournal;
         }
 
-        public string NameForUiKey => JournalKeys.UNICON_JOURNAL;
-
         public string Name
         {
             get { return this._name; }
@@ -108,6 +89,21 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
             {
                 this._name = value;
                 this.RaisePropertyChanged();
+            }
+        }
+
+        public void Initialize(IDeviceFragment deviceFragment)
+        {
+            IUniconJournal settingJournal = deviceFragment as IUniconJournal;
+            if (deviceFragment == null) return;
+            this._uniconJournal = settingJournal;
+            this.Name = settingJournal.Name;
+            this.JournalRecordTemplateEditorViewModel.Model = this._uniconJournal.RecordTemplate;
+            if (this._uniconJournal.JournalLoadingSequence != null)
+            {
+                this.SelectedJournalLoadingSequenceEditorViewModel = this.JournalLoadingSequenceEditorViewModels
+                    .First((model => model.StrongName.Contains(this._uniconJournal.JournalLoadingSequence.StrongName)));
+                this.SelectedJournalLoadingSequenceEditorViewModel.Model = this._uniconJournal.JournalLoadingSequence;
             }
         }
     }

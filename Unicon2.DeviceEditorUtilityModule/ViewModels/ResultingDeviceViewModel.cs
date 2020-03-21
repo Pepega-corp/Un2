@@ -83,7 +83,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
             else
             {
-                // this.FragmentEditorViewModels.Add(this._container.Resolve<IFragmentEditorViewModel>(fragmentEditorViewModel.StrongName));
+                FragmentEditorViewModels.Add(this._container.Resolve<IFragmentEditorViewModel>(fragmentEditorViewModel.StrongName));
             }
         }
 

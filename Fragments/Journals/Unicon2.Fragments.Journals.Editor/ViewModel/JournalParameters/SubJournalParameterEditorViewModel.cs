@@ -4,12 +4,12 @@ using System.Windows.Input;
 using Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
 {
-    public class SubJournalParameterEditorViewModel : JournalParameterEditorViewModel, ISubJournalParameterEditorViewModel
+    public class SubJournalParameterEditorViewModel : JournalParameterEditorViewModel, ISubJournalParameterEditorViewModel, IUshortFormattableEditorViewModel
     {
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         public SubJournalParameterEditorViewModel(ISubJournalParameter journalParameter, IFormatterEditorFactory formatterEditorFactory) : base(journalParameter)
@@ -21,7 +21,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
 
         private void OnShowFormatterParametersExecute()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this._journalParameter);
+            this._formatterEditorFactory.EditFormatterByUser(this);
             this.RaisePropertyChanged(nameof(this.FormatterString));
         }
 
@@ -57,5 +57,8 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             }
             base.SaveModel();
         }
+
+        public string Name { get; set; }
+        public IFormatterParametersViewModel FormatterParametersViewModel { get; set; }
     }
 }

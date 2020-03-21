@@ -250,6 +250,14 @@
       <Project>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fragments\Journals\Unicon2.Fragments.Journals.Editor\Unicon2.Fragments.Journals.Editor.csproj">
+      <Project>{7F407E3A-51F9-4D5F-8014-3C371E45BAA9}</Project>
+      <Name>Unicon2.Fragments.Journals.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Journals\Unicon2.Fragments.Journals\Unicon2.Fragments.Journals.csproj">
+      <Project>{91D9AFB4-A011-4DF9-8BB7-C730009FB48A}</Project>
+      <Name>Unicon2.Fragments.Journals</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicon2.DeviceEditorUtilityModule\Unicon2.DeviceEditorUtilityModule.csproj">
       <Project>{E263B732-5DC2-4237-9C45-2B655C51A033}</Project>
       <Name>Unicon2.DeviceEditorUtilityModule</Name>

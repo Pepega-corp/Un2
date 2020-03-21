@@ -2,6 +2,10 @@
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
@@ -63,10 +67,14 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this.MeasureUnit = this._journalParameter.MeasureUnit;
             this.IsMeasureUnitEnabled = this._journalParameter.IsMeasureUnitEnabled;
             this.RaisePropertyChanged(nameof(this.FormatterString));
+            FormatterParametersViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+                .CreateFormatterViewModel(_journalParameter.UshortsFormatter);
         }
 
         private object GetModel()
         {
+            _journalParameter.UshortsFormatter = StaticContainer.Container.Resolve<ISaveFormatterService>()
+                .CreateUshortsParametersFormatter(FormatterParametersViewModel);
             return this._journalParameter;
         }
 
@@ -124,9 +132,9 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             }
         }
 
-        public string FormatterString
-        {
-            get => this._journalParameter?.UshortsFormatter?.StrongName;
-        }
+        public string FormatterString => FormatterParametersViewModel?.RelatedUshortsFormatterViewModel?.StrongName;
+
+        public string Name { get; set; }
+        public IFormatterParametersViewModel FormatterParametersViewModel { get; set; }
     }
 }

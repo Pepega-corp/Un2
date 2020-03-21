@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
 using Unicon2.Infrastructure.Interfaces;
@@ -7,53 +7,25 @@ using Unicon2.Infrastructure.Interfaces.Dependancy;
 
 namespace Unicon2.Fragments.Journals.Model.JournalParameters
 {
-    [DataContract(Namespace = "JournalParameterDependancyConditionNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class JournalParameterDependancyCondition : IJournalCondition
     {
-        [DataMember]
+        [JsonProperty]
         public ConditionsEnum ConditionsEnum { get; set; }
-        [DataMember]
+        [JsonProperty]
         public ushort UshortValueToCompare { get; set; }
-        [DataMember]
+        [JsonProperty]
         public IUshortsFormatter UshortsFormatter { get; set; }
-        [DataMember]
+        [JsonProperty]
         public IJournalParameter BaseJournalParameter { get; set; }
-
-        public bool GetConditionResult(ushort[] recordUshorts)
-        {
-            if (ConditionsEnum == ConditionsEnum.HaveTrueBitAt)
-            {
-                BitArray bitArray = new BitArray(new int[] { recordUshorts[BaseJournalParameter.StartAddress] });
-                if (BaseJournalParameter is ISubJournalParameter)
-                {
-                    bitArray = new BitArray(new int[] { (BaseJournalParameter as ISubJournalParameter).GetParameterUshortInRecord(recordUshorts) });
-                }
-                return bitArray[UshortValueToCompare];
-            }
-            if (ConditionsEnum == ConditionsEnum.HaveFalseBitAt)
-            {
-                BitArray bitArray = new BitArray(new int[] { recordUshorts[BaseJournalParameter.StartAddress] });
-                if (BaseJournalParameter is ISubJournalParameter)
-                {
-                    bitArray = new BitArray(new int[] { (BaseJournalParameter as ISubJournalParameter).GetParameterUshortInRecord(recordUshorts) });
-                }
-                return !bitArray[UshortValueToCompare];
-            }
-            if (ConditionsEnum == ConditionsEnum.Equal)
-            {
-                ushort resUshort = recordUshorts[BaseJournalParameter.StartAddress];
-                if (BaseJournalParameter is ISubJournalParameter)
-                {
-                    resUshort = (BaseJournalParameter as ISubJournalParameter).GetParameterUshortInRecord(recordUshorts);
-                }
-                return resUshort == UshortValueToCompare;
-            }
-            return false;
-        }
-
         public string StrongName => nameof(JournalParameterDependancyCondition);
 
-        [DataMember]
+        [JsonProperty]
         public string Name { get; set; }
+
+        public object Clone()
+        {
+            return new JournalParameterDependancyCondition();
+        }
     }
 }

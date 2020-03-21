@@ -10,6 +10,7 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Infrastructure.Functional;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
@@ -17,15 +18,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
     public class MemoryReaderVisitor : IConfigurationItemVisitor<Task>
     {
         private readonly IDeviceConfiguration _configuration;
-        private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
-        private readonly IDeviceMemory _memory;
-        public MemoryReaderVisitor(IDeviceConfiguration configuration,
-            IDeviceEventsDispatcher deviceEventsDispatcher,
-            IDeviceMemory deviceMemory)
+        private readonly DeviceContext _deviceContext;
+        public MemoryReaderVisitor(IDeviceConfiguration configuration,DeviceContext deviceContext)
         {
             _configuration = configuration;
-            _deviceEventsDispatcher = deviceEventsDispatcher;
-            _memory = deviceMemory;
+            _deviceContext = deviceContext;
         }
 
         public async Task ExecuteRead()
@@ -47,7 +44,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort)range.RangeFrom;
                     ushort rangeTo = (ushort)range.RangeTo;
-                    return ReadRange(_configuration.DataProvider, rangeFrom, rangeTo, _memory);
+                    return ReadRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo, _deviceContext.DeviceMemory);
                 };
 
             Task applySettingByKey = _configuration.FragmentSettings?.ApplySettingByKey(
@@ -69,8 +66,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task VisitProperty(IProperty property)
         {
-            await ReadRange(_configuration.DataProvider, property.Address,
-                (ushort) (property.Address + property.NumberOfPoints), _memory);
+            await ReadRange(_deviceContext.DataProviderContaining.DataProvider, property.Address,
+                (ushort) (property.Address + property.NumberOfPoints), _deviceContext.DeviceMemory);
         }
 
         public async Task VisitComplexProperty(IComplexProperty property)
@@ -111,7 +108,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 }
             }
 
-            _deviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
+            _deviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
                 (ushort) (rangeTo - rangeFrom));
 
         }

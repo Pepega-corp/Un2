@@ -1,6 +1,7 @@
 ﻿using Unicon2.Formatting.Editor.Factories;
 using Unicon2.Formatting.Editor.Services;
 using Unicon2.Formatting.Editor.ViewModels;
+using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Editor.ViewModels.InnerMembers;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.ViewModel;
@@ -45,6 +46,7 @@ namespace Unicon2.Formatting.Editor.Module
             container.Register(typeof(IFormatterEditorFactory), typeof(FormatterEditorFactory));
             container.Register(typeof(ISaveFormatterService), typeof(SaveFormatterService));
             container.Register(typeof(IFormatterViewModelFactory), typeof(FormatterViewModelFactory));
+            container.Register<IFormatterParametersViewModel, FormatterParametersViewModel>();
 
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();
             xamlResourcesService.AddResourceAsGlobal("Resources/FormattersTemplates.xaml", GetType().Assembly);

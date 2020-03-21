@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Unicon2.Formatting.Editor.ViewModels;
+using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
@@ -99,9 +100,42 @@ namespace Unicon2.Formatting.Editor.Factories
             throw new System.NotImplementedException();
         }
 
-        public IUshortsFormatterViewModel CreateFormatterViewModel(IUshortsFormatter ushortsFormatter)
+        IFormatterParametersViewModel IFormatterViewModelFactory.CreateFormatterViewModel(
+            IUshortsFormatter ushortsFormatter)
         {
-            return ushortsFormatter.Accept(this);
+
+            var sharedResourcesGlobalViewModel = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+            if (sharedResourcesGlobalViewModel
+                .CheckDeviceSharedResourcesContainsModel(ushortsFormatter))
+            {
+                if (!sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(
+                    ushortsFormatter))
+                {
+                    var formatterViewModel = ushortsFormatter.Accept(this);
+                    var formatterParametersViewModel = new FormatterParametersViewModel()
+                    {
+                        Name = ushortsFormatter.Name,
+                        IsFromSharedResources = true,
+                        RelatedUshortsFormatterViewModel = formatterViewModel
+                    };
+                    sharedResourcesGlobalViewModel.AddSharedResourceViewModel(formatterParametersViewModel);
+                    return formatterParametersViewModel;
+                }
+
+                return sharedResourcesGlobalViewModel.GetResourceViewModel(ushortsFormatter.Name) as
+                    IFormatterParametersViewModel;
+            }
+
+            {
+                var formatterViewModel = ushortsFormatter.Accept(this);
+                var formatterParametersViewModel = new FormatterParametersViewModel()
+                {
+                    Name = ushortsFormatter.Name,
+                    IsFromSharedResources = true,
+                    RelatedUshortsFormatterViewModel = formatterViewModel
+                };
+                return formatterParametersViewModel;
+            }
         }
     }
 }

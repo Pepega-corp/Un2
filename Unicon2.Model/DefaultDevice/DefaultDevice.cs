@@ -55,15 +55,9 @@ namespace Unicon2.Model.DefaultDevice
             DeviceConnection = deviceConnection;
             StaticContainer.Container.Resolve<ILogService>().AddLogger(DeviceLogger,Name);
             ConnectionState.Initialize(deviceConnection, DeviceLogger);
-            if (deviceConnection is IDataProvider)
+            if (deviceConnection is IDataProvider dataProvider)
             {
-                foreach (IDeviceFragment fragment in DeviceFragments)
-                {
-                    if (fragment is IDataProviderContaining dataProviderContaining)
-                    {
-                        dataProviderContaining.DataProvider = ((IDataProvider) deviceConnection);
-                    }
-                }
+                DataProvider = dataProvider;
             }
         }
         protected override void OnDisposing()
@@ -72,6 +66,8 @@ namespace Unicon2.Model.DefaultDevice
             DeviceConnection?.Dispose();
             base.OnDisposing();
         }
+
+        public IDataProvider DataProvider { get; set; }
     }
 
 

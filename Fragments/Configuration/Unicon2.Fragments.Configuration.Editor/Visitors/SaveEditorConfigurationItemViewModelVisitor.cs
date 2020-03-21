@@ -7,6 +7,7 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
@@ -39,21 +40,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 
             if (editorViewModel.FormatterParametersViewModel != null)
             {
-	            if (_container.Resolve<ISharedResourcesGlobalViewModel>()
-		            .CheckDeviceSharedResourcesContainsViewModel(editorViewModel.FormatterParametersViewModel))
-	            {
-		            property.UshortsFormatter = _container.Resolve<ISharedResourcesGlobalViewModel>()
-			            .GetOrAddResourceModelFromCache(editorViewModel.FormatterParametersViewModel.Name, () =>
-				            _container.Resolve<ISaveFormatterService>()
-					            .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel
-						            .RelatedUshortsFormatterViewModel)) as IUshortsFormatter;
-	            }
-	            else
-	            {
-		            property.UshortsFormatter = _container.Resolve<ISaveFormatterService>()
-			            .CreateUshortsFormatter(editorViewModel.FormatterParametersViewModel
-				            .RelatedUshortsFormatterViewModel);
-	            }
+                StaticContainer.Container.Resolve<ISaveFormatterService>()
+                    .CreateUshortsParametersFormatter(editorViewModel.FormatterParametersViewModel);
             }
 
             return InitDefaults(property, editorViewModel);

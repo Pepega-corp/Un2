@@ -7,7 +7,7 @@ using Unicon2.Infrastructure.Interfaces.DataOperations;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces
 {
-    public interface IDeviceConfiguration : IDeviceFragment, IDisposable, IDataProviderContaining
+    public interface IDeviceConfiguration : IDeviceFragment, IDisposable
     {
         List<IConfigurationItem> RootConfigurationItemList { get; set; }
         bool CheckEquality(IDeviceConfiguration deviceConfigurationToCheck);

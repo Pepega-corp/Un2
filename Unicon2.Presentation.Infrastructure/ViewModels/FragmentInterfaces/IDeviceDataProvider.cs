@@ -8,9 +8,8 @@ using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
 {
-    public interface IDeviceDataProvider
+    public interface IDeviceContextConsumer
     {
-        void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher, IDeviceMemory deviceMemory);
-        string GetDeviceName();
+        DeviceContext.DeviceContext DeviceContext { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
@@ -17,16 +18,13 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
     public class MemoryWriterVisitor : IConfigurationItemVisitor<Task>
     {
         private readonly IDeviceConfiguration _configuration;
-        private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
-        private readonly IDeviceMemory _memory;
+        private readonly DeviceContext _deviceContext;
         private List<ushort> _writtenAddresses;
-        public MemoryWriterVisitor(IDeviceConfiguration configuration,
-            IDeviceEventsDispatcher deviceEventsDispatcher,
-            IDeviceMemory deviceMemory, List<ushort> writtenAddresses)
+        public MemoryWriterVisitor(DeviceContext deviceContext, List<ushort> writtenAddresses,
+            IDeviceConfiguration configuration)
         {
             _configuration = configuration;
-            _deviceEventsDispatcher = deviceEventsDispatcher;
-            _memory = deviceMemory;
+            _deviceContext = deviceContext;
             _writtenAddresses = writtenAddresses;
         }
 
@@ -48,7 +46,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort)range.RangeFrom;
                     ushort rangeTo = (ushort)range.RangeTo;
-                    return WriteRange(_configuration.DataProvider, rangeFrom, rangeTo, _memory);
+                    return WriteRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo, _deviceContext.DeviceMemory);
                 };
 
             Task applySettingByKey = _configuration.FragmentSettings?.ApplySettingByKey(
@@ -68,8 +66,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task VisitProperty(IProperty property)
         {
-            await WriteRange(_configuration.DataProvider, property.Address,
-                (ushort)(property.Address + property.NumberOfPoints), _memory);
+            await WriteRange(_deviceContext.DataProviderContaining.DataProvider, property.Address,
+                (ushort)(property.Address + property.NumberOfPoints), _deviceContext.DeviceMemory);
         }
 
         public Task VisitComplexProperty(IComplexProperty property)
@@ -135,7 +133,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                     _writtenAddresses.Add(i);
                 }
 
-                _deviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
+                _deviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
                     (ushort) (rangeTo - rangeFrom));
             }
         }

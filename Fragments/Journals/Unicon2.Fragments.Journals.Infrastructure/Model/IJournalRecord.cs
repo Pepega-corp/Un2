@@ -6,7 +6,6 @@ namespace Unicon2.Fragments.Journals.Infrastructure.Model
     public interface IJournalRecord 
     {
         int NumberOfRecord { get; set; }
-        bool IsLoaded { get; set; }
         List<IFormattedValue> FormattedValues { get; set; }
     }
 }

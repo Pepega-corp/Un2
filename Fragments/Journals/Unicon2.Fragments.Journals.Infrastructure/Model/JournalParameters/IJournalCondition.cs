@@ -8,6 +8,5 @@ namespace Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters
         ConditionsEnum ConditionsEnum { get; set; }
         ushort UshortValueToCompare { get; set; }
         IJournalParameter BaseJournalParameter { get; set; }
-        bool GetConditionResult(ushort[] recordUshorts);
     }
 }

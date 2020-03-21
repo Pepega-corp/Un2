@@ -1,27 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Presentation.Infrastructure.Services;
-using Unicon2.Presentation.Infrastructure.ViewModels;
-using Unicon2.Unity.Commands;
+﻿using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.ViewModels;
 
-namespace Unicon2.Fragments.Configuration.Editor.ViewModels
+namespace Unicon2.Formatting.Editor.ViewModels.FormatterParameters
 {
 	public class FormatterParametersViewModel : ViewModelBase, IFormatterParametersViewModel
 	{
 		private IUshortsFormatterViewModel _relatedUshortsFormatterViewModel;
 		private bool _isFromSharedResources;
 		private string _name;
-
-		public FormatterParametersViewModel()
-		{
-		}
 
 		
 

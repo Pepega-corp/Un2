@@ -8,18 +8,22 @@ using Unicon2.Fragments.Journals.Editor.Views;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
 {
     public class DependentJournalParameterEditorViewModel : JournalParameterEditorViewModel,
-        IDependentJournalParameterEditorViewModel
+        IDependentJournalParameterEditorViewModel, IUshortFormattableEditorViewModel
     {
         private readonly IJournalConditionEditorViewModelFactory _journalConditionEditorViewModelFactory;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         private List<IJournalParameter> _availableJournalParameters;
+        private IFormatterParametersViewModel _formatterParametersViewModel;
 
         public DependentJournalParameterEditorViewModel(IDependentJournalParameter journalParameter,
             IJournalConditionEditorViewModelFactory journalConditionEditorViewModelFactory,
@@ -39,7 +43,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
 
         private void OnShowFormatterParameters()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this._journalParameter);
+            this._formatterEditorFactory.EditFormatterByUser(this);
             this.RaisePropertyChanged(nameof(this.FormatterString));
         }
 
@@ -106,6 +110,9 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
                 (this._journalParameter as IDependentJournalParameter).JournalParameterDependancyConditions.Add(
                     journalConditionEditorViewModel.Model as IJournalCondition);
             }
+
+            _journalParameter.UshortsFormatter = StaticContainer.Container.Resolve<ISaveFormatterService>()
+                .CreateUshortsParametersFormatter(FormatterParametersViewModel);
             base.SaveModel();
         }
 
@@ -120,6 +127,21 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
                         journalParameterDependancyCondition, this._availableJournalParameters));
             }
 
+            FormatterParametersViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+                .CreateFormatterViewModel(_journalParameter.UshortsFormatter);
+
+        }
+
+        public string Name { get; set; }
+
+        public IFormatterParametersViewModel FormatterParametersViewModel
+        {
+            get => _formatterParametersViewModel;
+            set
+            {
+                _formatterParametersViewModel = value; 
+                RaisePropertyChanged();
+            }
         }
     }
 }
