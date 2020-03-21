@@ -77,7 +77,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 this._model.X = value;
                 RaisePropertyChanged();
 
-                UpdateConnectorsPosition();
+                this.UpdateConnectorsPosition();
             }
         }
 
@@ -89,6 +89,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 if (Math.Abs(this._model.Y - value) < 0.01) return;
                 this._model.Y = value;
                 RaisePropertyChanged();
+
+                this.UpdateConnectorsPosition();
             }
         }
 
@@ -102,7 +104,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         protected abstract ILogicElement GetModel();
         protected abstract void SetModel(object modelObj);
-
         public abstract object Clone();
 
         public virtual void OpenPropertyWindow()

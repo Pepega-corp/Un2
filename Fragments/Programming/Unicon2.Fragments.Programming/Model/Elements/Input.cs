@@ -38,7 +38,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public Input()
         {
-            this.Connectors = new IConnector[] { new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT) };
+            this.Connectors = new IConnector[] { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
             this.Bases = new List<string> {"Base0"};
 
             this.AllInputSignals =
@@ -70,14 +70,6 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 var copiedDictionary = inputSource.AllInputSignals[i];
                 this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
             }
-
-            //this.Connectors = new IConnector[inputSource.Connectors.Length];
-            //for (int i = 0; i < inputSource.Connectors.Length; i++)
-            //{
-            //    var connector = inputSource.Connectors[i];
-            //    this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
-            //    this.Connectors[i].ConnectionNumber = connector.ConnectionNumber;
-            //}
         }
 
         public void CopyValues(ILibraryElement source)

@@ -129,7 +129,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public void UpdateConnectorPosition()
         {
-            this._connectorBehaviour.UpdateConnectorPosition();
+            this._connectorBehaviour?.UpdateConnectorPosition();
         }
     }
 }

@@ -20,7 +20,9 @@ namespace Unicon2.Fragments.Programming.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
-            if (AssociatedObject.Visibility == Visibility.Collapsed) return;
+
+            if (AssociatedObject.Visibility == Visibility.Collapsed)
+                return;
 
             this._isDrag = false;
             AssociatedObject.MouseLeftButtonDown += this.OnPreviewMouseLeftButtonDown;
@@ -38,6 +40,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
         protected override void OnDetaching()
         {
             base.OnDetaching();
+
             AssociatedObject.PreviewMouseLeftButtonDown -= this.OnPreviewMouseLeftButtonDown;
             AssociatedObject.MouseMove -= this.OnMouseMove;
             AssociatedObject.MouseLeftButtonUp -= this.OnMouseLeftButtonUp;
@@ -81,10 +84,10 @@ namespace Unicon2.Fragments.Programming.Behaviors
         // Получение позиции точки начала линии относительно Canvas, в котором расположены все элементы
         public Point GetConnectorPoint()
         {
-            return this._designerCanvas == null 
-                ? new Point() 
-                : AssociatedObject.TransformToAncestor(this._designerCanvas).Transform(new Point(AssociatedObject.Width / 2, AssociatedObject.Height / 2));
+            var pointInGlobalCanvas = AssociatedObject.TransformToAncestor(this._designerCanvas)
+                .Transform(new Point(AssociatedObject.Width / 2, AssociatedObject.Height / 2));
+
+            return pointInGlobalCanvas;
         }
-        
     }
 }

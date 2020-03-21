@@ -18,9 +18,14 @@ namespace Unicon2.Fragments.Programming
             while (true)
             {
                 DependencyObject parent = VisualTreeHelper.GetParent(dObject);
-                if (parent == null) return null;
+
+                if (parent == null)
+                    return null;
+
                 Canvas canvas = parent as Canvas;
-                if (canvas?.DataContext is SchemeTabViewModel) return canvas;
+                if (canvas?.DataContext is SchemeTabViewModel)
+                    return canvas;
+
                 dObject = parent;
             }
         }
@@ -35,9 +40,13 @@ namespace Unicon2.Fragments.Programming
             while (true)
             {
                 DependencyObject parent = VisualTreeHelper.GetParent(dObject);
-                if (parent == null) return null;
+                if (parent == null)
+                    return null;
+
                 Window window = parent as Window;
-                if (window != null) return window;
+                if (window != null)
+                    return window;
+
                 dObject = parent;
             }
         }

@@ -1,13 +1,11 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Adorners;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.ViewModels;
 
@@ -28,7 +26,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             base.OnAttached();
             this.DesignerCanvas = AssociatedObject;
-
+            
             this.TabViewModel = this.DesignerCanvas.DataContext as SchemeTabViewModel;
             if (this.TabViewModel != null)
             {
