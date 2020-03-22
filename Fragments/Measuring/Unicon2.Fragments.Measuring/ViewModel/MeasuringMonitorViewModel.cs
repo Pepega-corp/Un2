@@ -52,13 +52,14 @@ namespace Unicon2.Fragments.Measuring.ViewModel
                 if (this._isQueriesStarted) return;
                 if (this.IsListViewSelected)
                 {
-                    this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
+					//todo
+                    //this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
                 }
                 else
                 {
-                    if (this._selectedMeasuringGroupViewModel == null) return;
-                    this._measuringMonitor.SetSelectedGroups(
-                        new List<IMeasuringGroup>() { this._selectedMeasuringGroupViewModel.Model as IMeasuringGroup });
+                    //if (this._selectedMeasuringGroupViewModel == null) return;
+                    //this._measuringMonitor.SetSelectedGroups(
+                    //    new List<IMeasuringGroup>() { this._selectedMeasuringGroupViewModel.Model as IMeasuringGroup });
                 }
             });
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
@@ -156,7 +157,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             this.MeasuringElementListCollectionView = new ListCollectionView(this.MeasuringElementViewModels.ToList());
             this.MeasuringElementListCollectionView.GroupDescriptions.Add(
                 new PropertyGroupDescription(nameof(IMeasuringElementViewModel.GroupName)));
-            this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
+        //    this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
         }
 
         private object GetModel()

@@ -11,84 +11,61 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Address
         private int _functionNumber;
         private ushort _address;
         private ushort _bitNumberInWord;
-        private IAddressOfBit _model;
         private bool _isBitNumberInWordActual;
 
-        public BitAddressEditorViewModel(IAddressOfBit addressOfBit)
-        {
-            this._model = addressOfBit;
-        }
 
         public int FunctionNumber
         {
-            get { return this._functionNumber; }
+            get { return _functionNumber; }
             set
             {
-                this._functionNumber = value;
-                if ((this._functionNumber == 3) || (this._functionNumber == 4))
+                _functionNumber = value;
+                if ((_functionNumber == 3) || (_functionNumber == 4))
                 {
-                    this.IsBitNumberInWordActual = true;
+                    IsBitNumberInWordActual = true;
 
                 }
                 else
                 {
-                    this.IsBitNumberInWordActual = false;
+                    IsBitNumberInWordActual = false;
                 }
 
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
         public ushort Address
         {
-            get { return this._address; }
+            get { return _address; }
             set
             {
-                this._address = value;
-                this.RaisePropertyChanged();
+                _address = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsBitNumberInWordActual
         {
-            get { return this._isBitNumberInWordActual; }
+            get { return _isBitNumberInWordActual; }
             set
             {
-                this._isBitNumberInWordActual = value;
-                this.RaisePropertyChanged();
+                _isBitNumberInWordActual = value;
+                RaisePropertyChanged();
             }
         }
 
         public ushort BitNumberInWord
         {
-            get { return this._bitNumberInWord; }
+            get { return _bitNumberInWord; }
             set
             {
-                this._bitNumberInWord = value;
-                this.RaisePropertyChanged();
+                _bitNumberInWord = value;
+                RaisePropertyChanged();
             }
         }
 
         public string StrongName => MeasuringKeys.BIT_ADDRESS +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        public object Model
-        {
-            get
-            {
-                this._model.Address = this.Address;
-                this._model.BitAddressInWord = this.BitNumberInWord;
-                this._model.NumberOfFunction = this.FunctionNumber;
-                return this._model;
-
-            }
-            set
-            {
-                this._model = value as IAddressOfBit;
-                this.BitNumberInWord = this._model.BitAddressInWord;
-                this.Address = this._model.Address;
-                this.FunctionNumber = this._model.NumberOfFunction;
-            }
-        }
+		
     }
 }

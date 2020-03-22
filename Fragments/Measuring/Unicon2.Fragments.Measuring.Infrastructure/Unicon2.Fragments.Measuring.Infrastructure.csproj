@@ -53,6 +53,9 @@
     <Compile Include="Model\Elements\IMeasuringElement.cs" />
     <Compile Include="Model\IMeasuringGroup.cs" />
     <Compile Include="Model\IMeasuringMonitor.cs" />
+    <Compile Include="Model\PresentationSettings\IMeasuringElementPresentationInfo.cs" />
+    <Compile Include="Model\PresentationSettings\IMeasuringPresentationElement.cs" />
+    <Compile Include="Model\PresentationSettings\IPresentationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\Elements\IAnalogMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\IControlSignalViewModel.cs" />

@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+﻿using System;
+using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Unity.ViewModels;
 
@@ -12,15 +13,20 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
         public string Header
         {
-            get { return this._header; }
+            get { return _header; }
 
             set
             {
-                this._header = value;
-                this.RaisePropertyChanged();
+                _header = value;
+                RaisePropertyChanged();
             }
         }
 
         public abstract string NameForUiKey { get; }
+        public Guid Id { get; private set; }
+        public void SetId(Guid id)
+        {
+	        Id = id;
+        }
     }
 }

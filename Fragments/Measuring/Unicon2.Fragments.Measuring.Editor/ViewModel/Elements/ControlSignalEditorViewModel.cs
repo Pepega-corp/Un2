@@ -12,37 +12,22 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         private IWritingValueContextViewModel _writingValueContextViewModel;
         public ControlSignalEditorViewModel(IWritingValueContextViewModel writingValueContextViewModel)
         {
-            this._writingValueContextViewModel = writingValueContextViewModel;
+            _writingValueContextViewModel = writingValueContextViewModel;
         }
 
 
         public override string StrongName => MeasuringKeys.CONTROL_SIGNAL +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-
-        protected override IMeasuringElement GetModel()
-        {
-            (this._measuringElement as IControlSignal).WritingValueContext = this._writingValueContextViewModel.Model as IWritingValueContext;
-            return base.GetModel();
-        }
-
-
-        protected override void SetModel(object value)
-        {
-            base.SetModel(value);
-            this._writingValueContextViewModel.Model = (this._measuringElement as IControlSignal).WritingValueContext;
-        }
-
-
         public override string NameForUiKey => MeasuringKeys.CONTROL_SIGNAL;
 
         public IWritingValueContextViewModel WritingValueContextViewModel
         {
-            get { return this._writingValueContextViewModel; }
+            get { return _writingValueContextViewModel; }
             set
             {
-                this._writingValueContextViewModel = value;
-                this.RaisePropertyChanged();
+                _writingValueContextViewModel = value;
+                RaisePropertyChanged();
             }
         }
     }

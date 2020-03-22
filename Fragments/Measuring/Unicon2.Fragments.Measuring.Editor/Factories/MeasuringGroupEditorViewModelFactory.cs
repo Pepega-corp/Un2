@@ -11,13 +11,13 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 
         public MeasuringGroupEditorViewModelFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel(IMeasuringGroup measuringGroup)
         {
             IMeasuringGroupEditorViewModel measuringGroupEditorViewModel =
-                this._container.Resolve<IMeasuringGroupEditorViewModel>();
+                _container.Resolve<IMeasuringGroupEditorViewModel>();
             measuringGroupEditorViewModel.Model = measuringGroup;
             return measuringGroupEditorViewModel;
         }
@@ -25,8 +25,8 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
         public IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel()
         {
             IMeasuringGroupEditorViewModel measuringGroupEditorViewModel =
-                this._container.Resolve<IMeasuringGroupEditorViewModel>();
-            IMeasuringGroup measuringGroup = this._container.Resolve<IMeasuringGroup>();
+                _container.Resolve<IMeasuringGroupEditorViewModel>();
+            IMeasuringGroup measuringGroup = _container.Resolve<IMeasuringGroup>();
             measuringGroupEditorViewModel.Model = measuringGroup;
             measuringGroupEditorViewModel.Header = "Group";
             return measuringGroupEditorViewModel;

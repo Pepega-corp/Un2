@@ -15,23 +15,23 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
         private bool _isWritingEnabled;
         private IDataProvider _dataProvider;
 
-        public DiscretMeasuringElementViewModel(IValueViewModelFactory valueViewModelFactory, IBoolValue boolValue)
+        public DiscretMeasuringElementViewModel()
         {
-            this.FormattedValueViewModel = valueViewModelFactory.CreateFormattedValueViewModel(boolValue);
+           // this.FormattedValueViewModel = valueViewModelFactory.CreateFormattedValueViewModel(boolValue);
         }
 
         public override string StrongName => MeasuringKeys.DISCRET_MEASURING_ELEMENT +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
 
-        protected override void SetModel(object model)
-        {
-            base.SetModel(model);
-            this._measuringElement.ElementChangedAction += () =>
-            {
-                (this.FormattedValueViewModel as IBoolValueViewModel).BoolValueProperty = (this._measuringElement as IDiscretMeasuringElement).DeviceValue;
-            };
+        //protected override void SetModel(object model)
+        //{
+        //    base.SetModel(model);
+        //    this._measuringElement.ElementChangedAction += () =>
+        //    {
+        //        (this.FormattedValueViewModel as IBoolValueViewModel).BoolValueProperty = (this._measuringElement as IDiscretMeasuringElement).DeviceValue;
+        //    };
 
-        }
+        //}
     }
 }

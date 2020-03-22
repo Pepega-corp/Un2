@@ -17,6 +17,8 @@ using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;
 using Unicon2.Fragments.Configuration.Matrix.Module;
 using Unicon2.Fragments.Configuration.Module;
+using Unicon2.Fragments.Measuring.Editor.Module;
+using Unicon2.Fragments.Measuring.Module;
 //using Unicon2.Fragments.DateTime.Module;
 //using Unicon2.Fragments.DateTime.Editor.Module;
 //using Unicon2.Fragments.Configuration.Exporter.Module;
@@ -166,18 +168,18 @@ namespace Unicon2.Shell
             //container.Register<IUnityModule, UniconDateTimeEditorModule>(nameof(UniconDateTimeEditorModule)); 
             //container.Register<IUnityModule, MatrixConfigurationModule>(nameof(MatrixConfigurationModule));
             container.Register<IUnityModule, ModbusMemoryModule>(nameof(ModbusMemoryModule));
-            //container.Register<IUnityModule, JournaEditorModule>(nameof(JournaEditorModule));
-            //container.Register<IUnityModule, UniconJournalModule>(nameof(UniconJournalModule));
-            //container.Register<IUnityModule, MeasuringModule>(nameof(MeasuringModule));
-            //container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));
-            //container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
-            //container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));
-            //container.Register<IUnityModule, FileOperationsModule>(nameof(FileOperationsModule));
-            //container.Register<IUnityModule, FileOperationsEditorModule>(nameof(FileOperationsEditorModule));
-       
-            //container.Register<IUnityModule, ProgrammingModule>(nameof(ProgrammingModule));
-            //container.Register<IUnityModule, ProgrammingEditorModule>(nameof(ProgrammingEditorModule));
-        }
+			//container.Register<IUnityModule, JournaEditorModule>(nameof(JournaEditorModule));
+			//container.Register<IUnityModule, UniconJournalModule>(nameof(UniconJournalModule));
+			container.Register<IUnityModule, MeasuringModule>(nameof(MeasuringModule));
+			container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));
+			//container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
+			//container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));
+			//container.Register<IUnityModule, FileOperationsModule>(nameof(FileOperationsModule));
+			//container.Register<IUnityModule, FileOperationsEditorModule>(nameof(FileOperationsEditorModule));
+
+			//container.Register<IUnityModule, ProgrammingModule>(nameof(ProgrammingModule));
+			//container.Register<IUnityModule, ProgrammingEditorModule>(nameof(ProgrammingEditorModule));
+		}
 
         protected override void InitializeModules()
         {

@@ -11,22 +11,22 @@ namespace Unicon2.Fragments.Measuring.Factories
 
         public MeasuringElementFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
-        public IMeasuringElement CreateAnalogMeasuringElement()
+        public IAnalogMeasuringElement CreateAnalogMeasuringElement()
         {
-            return this._container.Resolve<IMeasuringElement>(MeasuringKeys.ANALOG_MEASURING_ELEMENT);
+            return _container.Resolve<IAnalogMeasuringElement>();
         }
 
-        public IMeasuringElement CreateDiscretMeasuringElement()
+        public IDiscretMeasuringElement CreateDiscretMeasuringElement()
         {
-            return this._container.Resolve<IMeasuringElement>(MeasuringKeys.DISCRET_MEASURING_ELEMENT);
+            return _container.Resolve<IDiscretMeasuringElement>();
         }
 
-        public IMeasuringElement CreateControlSignal()
+        public IControlSignal CreateControlSignal()
         {
-            return this._container.Resolve<IMeasuringElement>(MeasuringKeys.CONTROL_SIGNAL);
+            return _container.Resolve<IControlSignal>();
         }
     }
 }

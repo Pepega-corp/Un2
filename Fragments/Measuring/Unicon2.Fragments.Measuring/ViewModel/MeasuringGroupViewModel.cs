@@ -46,7 +46,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             this._measuringGroup.MeasuringElements.Clear();
             foreach (IMeasuringElementViewModel measuringElementViewModel in this.MeasuringElementViewModels)
             {
-                this._measuringGroup.MeasuringElements.Add(measuringElementViewModel.Model as IMeasuringElement);
+	            //this._measuringGroup.MeasuringElements.Add(measuringElementViewModel.Model as IMeasuringElement);
             }
             return this._measuringGroup;
         }

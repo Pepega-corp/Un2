@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Model.Elements;
 using Unicon2.Infrastructure.Connection;
@@ -34,41 +29,62 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 		}
 
 
-		private Task ExecuteLoadAllElements()
-		{
+		//private Task ExecuteLoadAllElements()
+		//{
 
-		}
-		private async Task ExecuteLoadDescretMeasuringElement(DescretMeasuringElement descretMeasuringElement)
-		{
-			if ((descretMeasuringElement.AddressOfBit.NumberOfFunction == 3) || (descretMeasuringElement.AddressOfBit.NumberOfFunction == 4))
-			{
-				IQueryResult<ushort[]> queryResult =
-					await _dataProviderContaining.DataProvider.ReadHoldingResgistersAsync(descretMeasuringElement.AddressOfBit.Address, 1, "Read");
-				if (queryResult.IsSuccessful)
-				{
-					_deviceEventsDispatcher.
-				}
-			}
-			else if ((this.AddressOfBit.NumberOfFunction == 1) || (this.AddressOfBit.NumberOfFunction == 2))
-			{
-				IQueryResult<bool> boolQueryResult =
-					await this._dataProvider.ReadCoilStatusAsync(this.AddressOfBit.Address, MeasuringKeys.READ_SINGLE_BIT_QUERY);
-				if (boolQueryResult.IsSuccessful)
-				{
+		//}
+		//private async Task ExecuteLoadDescretMeasuringElement(DescretMeasuringElement descretMeasuringElement)
+		//{
+		//	if ((descretMeasuringElement.AddressOfBit.NumberOfFunction == 3) || (descretMeasuringElement.AddressOfBit.NumberOfFunction == 4))
+		//	{
+		//		IQueryResult<ushort[]> queryResult =
+		//			await _dataProviderContaining.DataProvider.ReadHoldingResgistersAsync(descretMeasuringElement.AddressOfBit.Address, 1, "Read");
+		//		if (queryResult.IsSuccessful)
+		//		{
+		//			_deviceEventsDispatcher.
+		//		}
+		//	}
+		//	else if ((this.AddressOfBit.NumberOfFunction == 1) || (this.AddressOfBit.NumberOfFunction == 2))
+		//	{
+		//		IQueryResult<bool> boolQueryResult =
+		//			await this._dataProvider.ReadCoilStatusAsync(this.AddressOfBit.Address, MeasuringKeys.READ_SINGLE_BIT_QUERY);
+		//		if (boolQueryResult.IsSuccessful)
+		//		{
 
-					if (boolQueryResult.Result == this.DeviceValue) return;
-					this.DeviceValue = boolQueryResult.Result;
-					this.ElementChangedAction?.Invoke();
-				}
-			}
-		}
-		private Task ExecuteLoadAllElements()
-		{
+		//			if (boolQueryResult.Result == this.DeviceValue) return;
+		//			this.DeviceValue = boolQueryResult.Result;
+		//			this.ElementChangedAction?.Invoke();
+		//		}
+		//	}
+		//}
+		//private Task ExecuteWriteControlSignal()
+		//{
+		//IQueryResult queryResult = null;
+		//	if (this.WritingValueContext.NumberOfFunction == 16)
 
-		}
-		private Task ExecuteLoadAllElements()
-		{
+		//{
+		//	queryResult = await this._dataProvider.WriteMultipleRegistersAsync(this.WritingValueContext.Address,
+		//		new[] { this.WritingValueContext.ValueToWrite }, "Write");
 
-		}
+		//}
+		//else if (this.WritingValueContext.NumberOfFunction == 5)
+
+		//{
+		//	queryResult = await this._dataProvider.WriteSingleCoilAsync(this.WritingValueContext.Address,
+		//		this.WritingValueContext.ValueToWrite != 0, "Write");
+
+		//}
+		//if (queryResult != null)
+		//{
+		//	return queryResult.IsSuccessful;
+		//}
+		//return false;
+		//}
+		//private Task ExecuteLoadAllElements()
+		//{
+
+		//}
+
+
 	}
 }

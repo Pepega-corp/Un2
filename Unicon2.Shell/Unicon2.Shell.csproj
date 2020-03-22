@@ -250,6 +250,14 @@
       <Project>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fragments\Measuring\Unicon2.Fragments.Measuring.Editor\Unicon2.Fragments.Measuring.Editor.csproj">
+      <Project>{2D4814E6-8345-4DF7-8623-824AB20F1CE3}</Project>
+      <Name>Unicon2.Fragments.Measuring.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Measuring\Unicon2.Fragments.Measuring\Unicon2.Fragments.Measuring.csproj">
+      <Project>{AC3F6D9F-5D07-495B-BE6A-4F1E6CE4C392}</Project>
+      <Name>Unicon2.Fragments.Measuring</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fragments\ModBusMemory\Unicon2.Fragments.ModbusMemory\Unicon2.Fragments.ModbusMemory.csproj">
       <Project>{3C34747B-D562-4900-880D-67E8574544AE}</Project>
       <Name>Unicon2.Fragments.ModbusMemory</Name>

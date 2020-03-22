@@ -1,16 +1,29 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Measuring.Model.Elements
 {
-    [DataContract(Namespace = "MeasuringElementNS")]
-    public abstract class MeasuringElementBase : IMeasuringElement
-    {
-        public abstract string StrongName { get; }
+	[JsonObject(MemberSerialization.OptIn)]
+	public abstract class MeasuringElementBase : IMeasuringElement
+	{
+		private Guid _id;
+		public abstract string StrongName { get; }
 
-        [DataMember]
-        public string Name { get; set; }
+		[JsonProperty] public string Name { get; set; }
 
-    }
+		[JsonProperty]
+		public Guid Id
+		{
+			get
+			{
+				if (_id == Guid.Empty)
+				{
+					_id = Guid.NewGuid();
+				}
+				return _id;
+			}
+			set => _id = value;
+		}
+	}
 }

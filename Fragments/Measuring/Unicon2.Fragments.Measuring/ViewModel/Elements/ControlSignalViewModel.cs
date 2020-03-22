@@ -15,13 +15,13 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
         public ICommand WriteValueCommand { get; set; }
 
 
-        protected override void SetModel(object model)
-        {
-            this.WriteValueCommand = new RelayCommand((() =>
-             {
-                 (model as IControlSignal).Write();
-             }));
-            base.SetModel(model);
-        }
+        //protected override void SetModel(object model)
+        //{
+        //    this.WriteValueCommand = new RelayCommand((() =>
+        //     {
+        //         (model as IControlSignal).Write();
+        //     }));
+        //    base.SetModel(model);
+        //}
     }
 }

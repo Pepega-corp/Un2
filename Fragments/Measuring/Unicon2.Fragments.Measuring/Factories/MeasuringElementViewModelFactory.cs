@@ -43,10 +43,10 @@ namespace Unicon2.Fragments.Measuring.Factories
 			return new AnalogMeasuringElementViewModel();
         }
 
-        private AnalogMeasuringElementViewModel CreateControlSignalViewModelViewModel(
+        private ControlSignalViewModel CreateControlSignalViewModelViewModel(
 	        ControlSignal controlSignal)
         {
-			return new AnalogMeasuringElementViewModel();
+			return new ControlSignalViewModel();
         }
 
         private DiscretMeasuringElementViewModel CreateDiscretMeasuringElementViewModel(

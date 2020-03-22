@@ -1,7 +1,5 @@
 ﻿using System;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
-using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.ViewModels;
 
@@ -11,10 +9,9 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
     {
         private IFormattedValueViewModel _formattedValueViewModel;
         private string _groupName;
-		private Lazy<Guid> _idLazy=new Lazy<Guid>(Guid.NewGuid);
 
-		
-		public abstract string StrongName { get; }
+
+        public abstract string StrongName { get; }
 
         public string Header { get; private set; }
 
@@ -39,6 +36,11 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
         }
 
 
-        public Guid Id => _idLazy.Value;
+        public Guid Id { get; private set; }
+
+        public void SetId(Guid id)
+        {
+	        Id = id;
+        }
     }
 }

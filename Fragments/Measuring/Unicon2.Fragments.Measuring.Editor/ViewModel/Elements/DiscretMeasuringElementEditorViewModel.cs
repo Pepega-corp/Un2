@@ -13,7 +13,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
         public DiscretMeasuringElementEditorViewModel(IBitAddressEditorViewModel bitAddressEditorViewModel)
         {
-            this._bitAddressEditorViewModel = bitAddressEditorViewModel;
+            _bitAddressEditorViewModel = bitAddressEditorViewModel;
         }
 
         public override string NameForUiKey => MeasuringKeys.DISCRET_MEASURING_ELEMENT;
@@ -25,28 +25,12 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
         public IBitAddressEditorViewModel BitAddressEditorViewModel
         {
-            get { return this._bitAddressEditorViewModel; }
+            get { return _bitAddressEditorViewModel; }
             set
             {
-                this._bitAddressEditorViewModel = value;
-                this.RaisePropertyChanged();
+                _bitAddressEditorViewModel = value;
+                RaisePropertyChanged();
             }
-        }
-
-
-        protected override void SetModel(object value)
-        {
-            base.SetModel(value);
-            if ((this._measuringElement as IDiscretMeasuringElement).AddressOfBit != null)
-            {
-                this.BitAddressEditorViewModel.Model = (this._measuringElement as IDiscretMeasuringElement).AddressOfBit;
-            }
-        }
-
-        protected override IMeasuringElement GetModel()
-        {
-            (this._measuringElement as IDiscretMeasuringElement).AddressOfBit = this.BitAddressEditorViewModel.Model as IAddressOfBit;
-            return base.GetModel();
         }
     }
 }

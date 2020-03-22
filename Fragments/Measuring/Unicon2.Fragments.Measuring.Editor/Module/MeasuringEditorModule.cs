@@ -31,7 +31,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Module
             container.Register<IMeasuringGroupEditorViewModelFactory, MeasuringGroupEditorViewModelFactory>();
             container.Register<IWritingValueContextViewModel, WritingValueContextViewModel>();
 
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml", this.GetType().Assembly);
+            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml", GetType().Assembly);
         }
     }
 }

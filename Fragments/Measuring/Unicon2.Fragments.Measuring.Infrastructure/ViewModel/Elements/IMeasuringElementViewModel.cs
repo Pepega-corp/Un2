@@ -6,7 +6,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements
 {
-	public interface IMeasuringElementViewModel : IStronglyNamed, IUniqueId
+	public interface IMeasuringElementViewModel : IStronglyNamed, IUniqueIdWithSet
 	{
 		string Header { get; }
 		string GroupName { get; set; }

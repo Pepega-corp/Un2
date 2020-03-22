@@ -19,34 +19,34 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
         public AnalogMeasuringElementEditorViewModel(IFormatterEditorFactory formatterEditorFactory)
         {
-            this._formatterEditorFactory = formatterEditorFactory;
-            this.ShowFormatterParametersCommand = new RelayCommand(this.OnShowFormatterParametersExecute);
+            _formatterEditorFactory = formatterEditorFactory;
+            ShowFormatterParametersCommand = new RelayCommand(OnShowFormatterParametersExecute);
         }
 
         private void OnShowFormatterParametersExecute()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this);
-            this.RaisePropertyChanged(nameof(this.FormatterString));
+            _formatterEditorFactory.EditFormatterByUser(this);
+           // this.RaisePropertyChanged(nameof(this.FormatterString));
         }
 
 
         public string MeasureUnit
         {
-            get { return this._measureUnit; }
+            get { return _measureUnit; }
             set
             {
-                this._measureUnit = value;
-                this.RaisePropertyChanged();
+                _measureUnit = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsMeasureUnitEnabled
         {
-            get { return this._isMeasureUnitEnabled; }
+            get { return _isMeasureUnitEnabled; }
             set
             {
-                this._isMeasureUnitEnabled = value;
-                this.RaisePropertyChanged();
+                _isMeasureUnitEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -54,52 +54,30 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
         public ushort Address
         {
-            get { return this._address; }
+            get { return _address; }
             set
             {
-                this._address = value;
-                this.RaisePropertyChanged();
+                _address = value;
+                RaisePropertyChanged();
             }
         }
 
         public ushort NumberOfPoints
         {
-            get { return this._numberOfPoints; }
+            get { return _numberOfPoints; }
             set
             {
-                this._numberOfPoints = value;
-                this.RaisePropertyChanged();
+                _numberOfPoints = value;
+                RaisePropertyChanged();
             }
         }
+		//todo
+		public string FormatterString { get; }
 
-        public string FormatterString
-        {
-            get { return (this._measuringElement as IAnalogMeasuringElement)?.UshortsFormatter?.StrongName; }
-        }
-
-        public override string StrongName => MeasuringKeys.ANALOG_MEASURING_ELEMENT +
+		public override string StrongName => MeasuringKeys.ANALOG_MEASURING_ELEMENT +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-
-        protected override void SetModel(object value)
-        {
-            base.SetModel(value);
-            this.Address = (this._measuringElement as IAnalogMeasuringElement).Address;
-            this.NumberOfPoints = (this._measuringElement as IAnalogMeasuringElement).NumberOfPoints;
-            this.MeasureUnit = (this._measuringElement as IAnalogMeasuringElement).MeasureUnit;
-            this.IsMeasureUnitEnabled = (this._measuringElement as IAnalogMeasuringElement).IsMeasureUnitEnabled;
-        }
-
-
-
-        protected override IMeasuringElement GetModel()
-        {
-            (this._measuringElement as IAnalogMeasuringElement).Address = this.Address;
-            (this._measuringElement as IAnalogMeasuringElement).NumberOfPoints = this.NumberOfPoints;
-            (this._measuringElement as IAnalogMeasuringElement).MeasureUnit = this.MeasureUnit;
-            (this._measuringElement as IAnalogMeasuringElement).IsMeasureUnitEnabled = this.IsMeasureUnitEnabled;
-            return base.GetModel();
-        }
+		
 
         public override string NameForUiKey => MeasuringKeys.ANALOG_MEASURING_ELEMENT;
         public string Name { get; set; }
