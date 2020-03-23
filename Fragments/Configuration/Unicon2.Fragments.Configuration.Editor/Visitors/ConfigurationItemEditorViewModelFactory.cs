@@ -95,45 +95,9 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             }
             editorPropertyViewModel.Address = property.Address.ToString();
             editorPropertyViewModel.NumberOfPoints = property.NumberOfPoints.ToString();
-            var sharedResourcesGlobalViewModel = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
-            if (sharedResourcesGlobalViewModel
-                .CheckDeviceSharedResourcesContainsModel(property.UshortsFormatter))
-            {
-                if (!sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(
-                    property.UshortsFormatter))
-                {
-                    var formatterViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
-                        .CreateFormatterViewModel(property.UshortsFormatter);
-                    var formatterParametersViewModel = new FormatterParametersViewModel()
-                    {
-                        Name = property.UshortsFormatter.Name,
-                        IsFromSharedResources = true,
-                        RelatedUshortsFormatterViewModel = formatterViewModel
-                    };
-                    sharedResourcesGlobalViewModel.AddSharedResourceViewModel(formatterParametersViewModel);
-                    editorPropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
-                }
-                else
-                {
-                    editorPropertyViewModel.FormatterParametersViewModel =
-                        sharedResourcesGlobalViewModel.GetResourceViewModel(property.UshortsFormatter.Name) as
-                            IFormatterParametersViewModel;
-                }
-            }
-            else
-            {
-                var formatterViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
-                    .CreateFormatterViewModel(property.UshortsFormatter);
-                var formatterParametersViewModel = new FormatterParametersViewModel()
-                {
-                    Name = property.UshortsFormatter.Name,
-                    IsFromSharedResources = true,
-                    RelatedUshortsFormatterViewModel = formatterViewModel
-                };
-                editorPropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
-            }
-
-
+            var formatterParametersViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+                .CreateFormatterViewModel(property.UshortsFormatter);
+            editorPropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
             InitializeBaseProperties(editorPropertyViewModel, property);
         }
 

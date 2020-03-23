@@ -76,7 +76,6 @@
     <Compile Include="CustomControls\WrapPanelWithRowsOrColumnsCount.cs" />
     <Compile Include="Factories\ConfigurationFragmentFactory.cs" />
     <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
-    <Compile Include="ViewModels\FormatterParametersViewModel.cs" />
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
     <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />

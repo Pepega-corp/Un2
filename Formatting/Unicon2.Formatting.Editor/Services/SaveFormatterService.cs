@@ -1,14 +1,23 @@
 ﻿using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.Services
 {
     public class SaveFormatterService : ISaveFormatterService
     {
-        public IUshortsFormatter CreateUshortsFormatter(IUshortsFormatterViewModel ushortsFormatterViewModel)
+        private readonly ITypesContainer _container;
+
+        public SaveFormatterService(ITypesContainer container)
+        {
+            _container = container;
+        }
+
+        private IUshortsFormatter CreateUshortsFormatter(IUshortsFormatterViewModel ushortsFormatterViewModel)
         {
             if (ushortsFormatterViewModel is UshortsFormatterViewModelBase ushortsFormatterViewModelBase)
             {
@@ -16,6 +25,21 @@ namespace Unicon2.Formatting.Editor.Services
             }
 
             return null;
+        }
+
+        public IUshortsFormatter CreateUshortsParametersFormatter(IFormatterParametersViewModel formatterParametersViewModel)
+        {
+            if (_container.Resolve<ISharedResourcesGlobalViewModel>()
+                .CheckDeviceSharedResourcesContainsViewModel(formatterParametersViewModel))
+            {
+                return _container.Resolve<ISharedResourcesGlobalViewModel>()
+                    .GetOrAddResourceModelFromCache(formatterParametersViewModel.Name, () =>
+                        CreateUshortsFormatter(formatterParametersViewModel
+                            .RelatedUshortsFormatterViewModel)) as IUshortsFormatter;
+            }
+
+            return CreateUshortsFormatter(formatterParametersViewModel
+                .RelatedUshortsFormatterViewModel);
         }
     }
 }

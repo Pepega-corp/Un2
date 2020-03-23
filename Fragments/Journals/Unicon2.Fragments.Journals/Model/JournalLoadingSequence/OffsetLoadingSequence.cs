@@ -1,68 +1,28 @@
-﻿using System.Runtime.Serialization;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
-using Unicon2.Infrastructure.Connection;
-using Unicon2.Infrastructure.DeviceInterfaces;
 
 namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
 {
-    [DataContract(Namespace = "OffsetLoadingSequenceNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class OffsetLoadingSequence : IOffsetLoadingSequence
     {
-        private IDataProvider _dataProvider;
-        private int _currentRecordIndex = 0;
-
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._dataProvider = dataProvider;
-        }
-
-        public void Initialize(IJournalSequenceInitializingParameters journalSequenceInitializingParameters)
-        {
-
-        }
-
-        public async Task<bool> GetIsNextRecordAvailable()
-        {
-            return this._currentRecordIndex < this.NumberOfRecords;
-
-        }
-
-        public async Task<ushort[]> GetNextRecordUshorts()
-        {
-
-            ushort readingAddress = (ushort)(this._currentRecordIndex * this.NumberOfPointsInRecord + this.JournalStartAddress);
-            if (this.IsWordFormatNotForTheWholeRecord) readingAddress += this.WordFormatFrom;
-
-            IQueryResult<ushort[]> queryResult = await this._dataProvider.ReadHoldingResgistersAsync(readingAddress,
-                (ushort)(this.WordFormatTo + 1 - this.WordFormatFrom),
-                JournalKeys.JOURNAL_RECORD_READING_QUERY);
-            this._currentRecordIndex++;
-            return queryResult.Result;
-        }
-
-        public void ResetSequence()
-        {
-            this._currentRecordIndex = 0;
-        }
-
-        [DataMember]
+        [JsonProperty]
         public int NumberOfRecords { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public ushort JournalStartAddress { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public ushort NumberOfPointsInRecord { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public ushort WordFormatFrom { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public ushort WordFormatTo { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsWordFormatNotForTheWholeRecord { get; set; }
 
         public string StrongName => JournalKeys.OFFSET_LOADING_SEQUENCE;

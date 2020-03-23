@@ -143,8 +143,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         private async void OnExecuteReadConfiguration()
         {
             await new MemoryReaderVisitor(_deviceConfiguration,
-                _runtimeConfigurationViewModel.DeviceEventsDispatcher,
-                _runtimeConfigurationViewModel.DeviceMemory).ExecuteRead();
+                _runtimeConfigurationViewModel.DeviceContext).ExecuteRead();
         }
 
         private bool ExpandLevelByIndex(List<IConfigurationItemViewModel> configurationItemViewModels,
@@ -271,9 +270,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 	        if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_runtimeConfigurationViewModel
 		        .RootConfigurationItemViewModels))
 	        {
-		        await new MemoryWriterVisitor(_deviceConfiguration,
-			        _runtimeConfigurationViewModel.DeviceEventsDispatcher,
-			        _runtimeConfigurationViewModel.DeviceMemory, new List<ushort>()).ExecuteWrite();
+            await new MemoryWriterVisitor(_runtimeConfigurationViewModel.DeviceContext, new List<ushort>(),_deviceConfiguration).ExecuteWrite();
 	        }
         }
 
@@ -285,8 +282,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         private async void OnExecuteTransferFromDeviceToLocal()
         {
             var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,
-                _runtimeConfigurationViewModel.DeviceEventsDispatcher, MemoryAccessEnum.TransferFromDeviceToLocal,
-                _runtimeConfigurationViewModel.DeviceMemory);
+                _runtimeConfigurationViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal);
             await memoryAccessor.Process();
         }
     }

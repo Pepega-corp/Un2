@@ -43,7 +43,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
                 ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
             container.Register<IConditionViewModel, ConditionViewModel>();
-            container.Register<IFormatterParametersViewModel, FormatterParametersViewModel>();
 
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",

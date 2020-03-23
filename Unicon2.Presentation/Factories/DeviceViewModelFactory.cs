@@ -2,7 +2,6 @@
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
@@ -40,13 +39,13 @@ namespace Unicon2.Presentation.Factories
                         _container.Resolve<IFragmentViewModel>(deviceFragment.StrongName +
                                                                ApplicationGlobalNames.CommonInjectionStrings
                                                                    .VIEW_MODEL);
-                    if (fragmentViewModel is IDeviceDataProvider deviceDataProvider)
+                    if (fragmentViewModel is IDeviceContextConsumer deviceContextConsumer)
                     {
                         var fragmentLevelDispatcher = new FragmentLevelEventsDispatcher();
                         deviceLevelPublisher.AddFragmentDispatcher(fragmentViewModel, fragmentLevelDispatcher);
-                        deviceDataProvider.SetDeviceData(device.Name,
-                            new FragmentEventsDispatcher(deviceLevelPublisher, fragmentLevelDispatcher),
-                            device.DeviceMemory);
+                        deviceContextConsumer.DeviceContext=new DeviceContext(device.DeviceMemory,
+                            new FragmentEventsDispatcher(deviceLevelPublisher, fragmentLevelDispatcher), device.Name,
+                            device);
                     }
                     fragmentViewModel.Initialize(deviceFragment);
 
@@ -59,6 +58,6 @@ namespace Unicon2.Presentation.Factories
             return deviceViewModel;
         }
 
-      
+
     }
 }

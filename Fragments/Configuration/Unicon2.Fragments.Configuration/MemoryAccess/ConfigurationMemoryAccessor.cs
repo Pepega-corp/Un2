@@ -8,32 +8,29 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
 {
     public class ConfigurationMemoryAccessor
     {
-        private readonly IDeviceMemory _memory;
-        private readonly IDeviceConfiguration _configuration;
-        private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
         private readonly MemoryAccessEnum _memoryAccessEnum;
+        private readonly IDeviceConfiguration _configuration;
+        private readonly DeviceContext _deviceContext;
 
-        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration,
-            IDeviceEventsDispatcher deviceEventsDispatcher, MemoryAccessEnum memoryAccessEnum,
-            IDeviceMemory deviceMemory)
+        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration,DeviceContext deviceContext, MemoryAccessEnum memoryAccessEnum)
         {
             _configuration = configuration;
-            _deviceEventsDispatcher = deviceEventsDispatcher;
+            _deviceContext = deviceContext;
             _memoryAccessEnum = memoryAccessEnum;
-            _memory = deviceMemory;
         }
 
         public async Task Process()
         {
             if (_memoryAccessEnum == MemoryAccessEnum.Read)
             {
-                _memory.DeviceMemoryValues.Clear();
+                _deviceContext.DeviceMemory.DeviceMemoryValues.Clear();
             }
 
             await ApplyMemorySettings();
@@ -72,8 +69,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                     await ProcessComplexProperty(complexProperty, offset);
                     break;
                 case IProperty property:
-                    await ProcessAddressRange(_configuration.DataProvider, property.Address,
-                        (ushort) (property.Address + property.NumberOfPoints + offset), _memory);
+                    await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, property.Address,
+                        (ushort) (property.Address + property.NumberOfPoints + offset), _deviceContext.DeviceMemory);
                     break;
             }
         }
@@ -112,7 +109,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
-                    return ProcessAddressRange(_configuration.DataProvider, rangeFrom, rangeTo, _memory);
+                    return ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo, _deviceContext.DeviceMemory);
                 };
 
 
@@ -145,7 +142,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                         }
                     }
 
-                    _deviceEventsDispatcher.TriggerLocalAddressSubscription(rangeFrom,
+                    _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(rangeFrom,
                         (ushort) (rangeTo - rangeFrom));
                     break;
                 default:
@@ -153,19 +150,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             }
         }
 
-
-        private bool IfMemoryContainsRange(Dictionary<ushort, ushort> memorySet, ushort rangeFrom, ushort rangeTo)
-        {
-            for (var i = rangeFrom; i <= rangeTo; i++)
-            {
-                if (!memorySet.ContainsKey(i))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
     }
 
     public enum MemoryAccessEnum

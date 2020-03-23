@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 
 namespace Unicon2.Fragments.Journals.Model
 {
-    [DataContract(Namespace = "RecordTemplateNS",IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class RecordTemplate : IRecordTemplate
     {
         public RecordTemplate()
@@ -12,8 +12,7 @@ namespace Unicon2.Fragments.Journals.Model
             JournalParameters = new List<IJournalParameter>();
         }
 
-
-        [DataMember(Name = nameof(JournalParameters))]
+        [JsonProperty]
         public List<IJournalParameter> JournalParameters { get; set; }
     }
 }

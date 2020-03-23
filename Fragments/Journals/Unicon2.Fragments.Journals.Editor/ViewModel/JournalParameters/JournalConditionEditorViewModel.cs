@@ -5,8 +5,11 @@ using System.Windows.Input;
 using Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -35,7 +38,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
 
         private void OnShowFormatterParameters()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this._journalCondition);
+            this._formatterEditorFactory.EditFormatterByUser(this);
             this.RaisePropertyChanged(nameof(this.UshortFormatterString));
         }
 
@@ -114,10 +117,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             }
         }
 
-        public string UshortFormatterString
-        {
-            get { return this._journalCondition.UshortsFormatter?.StrongName; }
-        }
+        public string UshortFormatterString => FormatterParametersViewModel.Name;
 
         public ICommand ShowFormatterParameters { get; }
 
@@ -127,6 +127,8 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
         {
             get
             {
+                _journalCondition.UshortsFormatter= StaticContainer.Container.Resolve<ISaveFormatterService>()
+                    .CreateUshortsParametersFormatter(FormatterParametersViewModel);
                 return this._journalCondition;
 
             }
@@ -135,7 +137,8 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
                 this._journalCondition = value as IJournalCondition;
                 this.SelectedJournalParameter = this._journalCondition.BaseJournalParameter.Name;
                 this.SelectedCondition = this._journalCondition.ConditionsEnum.ToString();
-                this._journalCondition.UshortsFormatter = this._journalCondition.UshortsFormatter;
+                FormatterParametersViewModel=StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+                    .CreateFormatterViewModel(_journalCondition.UshortsFormatter);
                 this.UshortValueToCompare = this._journalCondition.UshortValueToCompare;
                 this.RaisePropertyChanged(nameof(this.UshortFormatterString));
             }
@@ -174,5 +177,8 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             this._journalCondition.UshortsFormatter = this._journalCondition.UshortsFormatter;
             this._journalCondition.UshortValueToCompare = this.UshortValueToCompare;
         }
+
+        public string Name { get; set; }
+        public IFormatterParametersViewModel FormatterParametersViewModel { get; set; }
     }
 }
