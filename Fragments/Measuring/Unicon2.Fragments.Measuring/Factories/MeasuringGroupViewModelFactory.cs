@@ -11,13 +11,13 @@ namespace Unicon2.Fragments.Measuring.Factories
 
         public MeasuringGroupViewModelFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
 
         public IMeasuringGroupViewModel CreateMeasuringGroupViewModel(IMeasuringGroup measuringGroup)
         {
-            IMeasuringGroupViewModel measuringGroupViewModel = this._container.Resolve<IMeasuringGroupViewModel>();
+            IMeasuringGroupViewModel measuringGroupViewModel = _container.Resolve<IMeasuringGroupViewModel>();
             measuringGroupViewModel.Model = measuringGroup;
             return measuringGroupViewModel;
         }

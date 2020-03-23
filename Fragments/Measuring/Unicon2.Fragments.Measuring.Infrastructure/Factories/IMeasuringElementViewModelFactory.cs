@@ -5,6 +5,7 @@ namespace Unicon2.Fragments.Measuring.Infrastructure.Factories
 {
     public interface IMeasuringElementViewModelFactory
     {
-        IMeasuringElementViewModel CreateMeasuringElementViewModel(IMeasuringElement measuringElement,string groupName);
+        IMeasuringElementViewModel
+            CreateMeasuringElementViewModel(IMeasuringElement measuringElement, string groupName);
     }
 }

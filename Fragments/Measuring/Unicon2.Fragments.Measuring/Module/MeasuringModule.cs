@@ -59,7 +59,7 @@ namespace Unicon2.Fragments.Measuring.Module
             //serializerService.AddNamespaceAttribute("writingValueContext", "WritingValueContextNS");
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml",
-                this.GetType().Assembly);
+                GetType().Assembly);
         }
     }
 }

@@ -14,13 +14,13 @@ namespace Unicon2.Fragments.Measuring.Factories
 
         public MeasuringElementViewModelFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public IMeasuringElementViewModel CreateMeasuringElementViewModel(IMeasuringElement measuringElement, string gruopName)
         {
             IMeasuringElementViewModel measuringElementViewModel =
-                this._container.Resolve<IMeasuringElementViewModel>(measuringElement.StrongName +
+                _container.Resolve<IMeasuringElementViewModel>(measuringElement.StrongName +
                                                                ApplicationGlobalNames.CommonInjectionStrings
                                                                    .VIEW_MODEL);
             switch (measuringElement)

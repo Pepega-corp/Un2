@@ -19,7 +19,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
     {
         private readonly IDeviceConfiguration _configuration;
         private readonly DeviceContext _deviceContext;
-        public MemoryReaderVisitor(IDeviceConfiguration configuration,DeviceContext deviceContext)
+
+        public MemoryReaderVisitor(IDeviceConfiguration configuration, DeviceContext deviceContext)
         {
             _configuration = configuration;
             _deviceContext = deviceContext;
@@ -42,9 +43,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             quickAccessMemoryApplyingContext.OnFillAddressRange =
                 (range) =>
                 {
-                    ushort rangeFrom = (ushort)range.RangeFrom;
-                    ushort rangeTo = (ushort)range.RangeTo;
-                    return ReadRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo, _deviceContext.DeviceMemory);
+                    ushort rangeFrom = (ushort) range.RangeFrom;
+                    ushort rangeTo = (ushort) range.RangeTo;
+                    return ReadRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo,
+                        _deviceContext.DeviceMemory);
                 };
 
             Task applySettingByKey = _configuration.FragmentSettings?.ApplySettingByKey(
@@ -54,7 +56,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             if (applySettingByKey != null)
                 await applySettingByKey;
         }
-     
+
 
         public async Task VisitItemsGroup(IItemsGroup itemsGroup)
         {

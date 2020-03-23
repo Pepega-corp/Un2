@@ -11,6 +11,7 @@ using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Icons;
@@ -37,10 +38,10 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc,
             Func<IFragmentOptionToggleCommandViewModel> fragmentOptionToggleCommandViewModelgetFunc)
         {
-            this._measuringGroupViewModelFactory = measuringGroupViewModelFactory;
-            this.MeasuringGroupViewModels = new ObservableCollection<IMeasuringGroupViewModel>();
-            this.FragmentOptionsViewModel = fragmentOptionsViewModel;
-            this.MeasuringElementViewModels = new ObservableCollection<IMeasuringElementViewModel>();
+            _measuringGroupViewModelFactory = measuringGroupViewModelFactory;
+            MeasuringGroupViewModels = new ObservableCollection<IMeasuringGroupViewModel>();
+            FragmentOptionsViewModel = fragmentOptionsViewModel;
+            MeasuringElementViewModels = new ObservableCollection<IMeasuringElementViewModel>();
 
             IFragmentOptionGroupViewModel fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
             fragmentOptionGroupViewModel.NameKey = "Loading";
@@ -49,8 +50,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             fragmentOptionCommandViewModel.TitleKey = "Load";
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(async () =>
             {
-                if (this._isQueriesStarted) return;
-                if (this.IsListViewSelected)
+                if (_isQueriesStarted) return;
+                if (IsListViewSelected)
                 {
 					//todo
                     //this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
@@ -84,7 +85,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
 
 
-            this.FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+            FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
 
             fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
@@ -95,19 +96,19 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             {
                 if (isAllSelected.HasValue)
                 {
-                    if (this._isQueriesStarted)
+                    if (_isQueriesStarted)
                     {
-                        this.IsListViewSelected = isAllSelected.Value;
+                        IsListViewSelected = isAllSelected.Value;
                     }
                     else
                     {
-                        this.IsListViewSelected = isAllSelected.Value;
+                        IsListViewSelected = isAllSelected.Value;
                     }
                 }
             });
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconAlignJustify;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
-            this.FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+            FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
         }
 
@@ -132,44 +133,6 @@ namespace Unicon2.Fragments.Measuring.ViewModel
         public string StrongName => MeasuringKeys.MEASURING_MONITOR +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public object Model
-        {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
-        }
-
-        private void SetModel(object value)
-        {
-            this._measuringMonitor = value as IMeasuringMonitor;
-            this.MeasuringGroupViewModels.Clear();
-            this.MeasuringElementViewModels.Clear();
-
-            foreach (IMeasuringGroup measuringGroup in this._measuringMonitor.MeasuringGroups)
-            {
-                IMeasuringGroupViewModel group = this._measuringGroupViewModelFactory.CreateMeasuringGroupViewModel(measuringGroup);
-                this.MeasuringGroupViewModels.Add(group);
-                this.MeasuringElementViewModels.AddCollection(group.MeasuringElementViewModels);
-            }
-            if (this.MeasuringGroupViewModels.Count > 0)
-            {
-                this.SelectedMeasuringGroupViewModel = this.MeasuringGroupViewModels[0];
-            }
-            this.MeasuringElementListCollectionView = new ListCollectionView(this.MeasuringElementViewModels.ToList());
-            this.MeasuringElementListCollectionView.GroupDescriptions.Add(
-                new PropertyGroupDescription(nameof(IMeasuringElementViewModel.GroupName)));
-        //    this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
-        }
-
-        private object GetModel()
-        {
-            this._measuringMonitor.MeasuringGroups.Clear();
-            foreach (IMeasuringGroupViewModel measuringGroupViewModel in this.MeasuringGroupViewModels)
-            {
-                this._measuringMonitor.MeasuringGroups.Add(measuringGroupViewModel.Model as IMeasuringGroup);
-            }
-            return this._measuringMonitor;
-        }
-
         public string NameForUiKey => MeasuringKeys.MEASURING_MONITOR;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
 
@@ -177,18 +140,18 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
         public IMeasuringGroupViewModel SelectedMeasuringGroupViewModel
         {
-            get { return this._selectedMeasuringGroupViewModel; }
+            get { return _selectedMeasuringGroupViewModel; }
             set
             {
-                if (this._isQueriesStarted)
+                if (_isQueriesStarted)
                 {
-                    this._selectedMeasuringGroupViewModel = value;
+                    _selectedMeasuringGroupViewModel = value;
                 }
                 else
                 {
-                    this._selectedMeasuringGroupViewModel = value;
+                    _selectedMeasuringGroupViewModel = value;
                 }
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -196,44 +159,48 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
         public CollectionView MeasuringElementListCollectionView
         {
-            get { return this._measuringElementListCollectionView; }
+            get { return _measuringElementListCollectionView; }
             set
             {
 
-                this._measuringElementListCollectionView = value;
+                _measuringElementListCollectionView = value;
 
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
         public bool IsListViewSelected
         {
-            get { return this._isListViewSelected; }
+            get { return _isListViewSelected; }
             set
             {
-                this._isListViewSelected = value;
-                this.RaisePropertyChanged();
+                _isListViewSelected = value;
+                RaisePropertyChanged();
             }
-        }
-
-        protected override void OnDisposing()
-        {
-            base.OnDisposing();
         }
 
         public void Initialize(IDeviceFragment deviceFragment)
         {
-	        throw new NotImplementedException();
+            _measuringMonitor = deviceFragment as IMeasuringMonitor;
+            MeasuringGroupViewModels.Clear();
+            MeasuringElementViewModels.Clear();
+
+            foreach (IMeasuringGroup measuringGroup in _measuringMonitor.MeasuringGroups)
+            {
+                IMeasuringGroupViewModel group = _measuringGroupViewModelFactory.CreateMeasuringGroupViewModel(measuringGroup);
+                MeasuringGroupViewModels.Add(group);
+                MeasuringElementViewModels.AddCollection(group.MeasuringElementViewModels);
+            }
+            if (MeasuringGroupViewModels.Count > 0)
+            {
+                SelectedMeasuringGroupViewModel = MeasuringGroupViewModels[0];
+            }
+            MeasuringElementListCollectionView = new ListCollectionView(MeasuringElementViewModels.ToList());
+            MeasuringElementListCollectionView.GroupDescriptions.Add(
+                new PropertyGroupDescription(nameof(IMeasuringElementViewModel.GroupName)));
+            //    this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
         }
 
-        public void SetDeviceData(string deviceName, IDeviceEventsDispatcher deviceEventsDispatcher, IDeviceMemory deviceMemory)
-        {
-	        throw new NotImplementedException();
-        }
-
-        public string GetDeviceName()
-        {
-	        throw new NotImplementedException();
-        }
+        public DeviceContext DeviceContext { get; set; }
     }
 }

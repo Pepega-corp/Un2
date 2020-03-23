@@ -4,8 +4,9 @@ using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements
 {
-    public interface IAnalogMeasuringElementEditorViewModel: IMeasuringElementEditorViewModel,IMeasurable, IUshortFormattableEditorViewModel
-	{
+    public interface IAnalogMeasuringElementEditorViewModel : IMeasuringElementEditorViewModel, IMeasurable,
+        IUshortFormattableEditorViewModel
+    {
         ICommand ShowFormatterParametersCommand { get; }
         ushort Address { get; set; }
         ushort NumberOfPoints { get; set; }

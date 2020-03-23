@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Journals.Editor.Interfaces.LoadingSequence
 {
-  public interface IOffsetLoadingSequenceEditorViewModel: IJournalLoadingSequenceEditorViewModel
+    public interface IOffsetLoadingSequenceEditorViewModel : IJournalLoadingSequenceEditorViewModel
     {
         int NumberOfRecords { get; set; }
         ushort JournalStartAddress { get; set; }

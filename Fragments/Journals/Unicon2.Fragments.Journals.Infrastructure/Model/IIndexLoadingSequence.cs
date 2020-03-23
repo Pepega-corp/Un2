@@ -1,6 +1,6 @@
 ﻿namespace Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence
 {
-    public interface IIndexLoadingSequence: IJournalLoadingSequence
+    public interface IIndexLoadingSequence : IJournalLoadingSequence
     {
         ushort JournalStartAddress { get; set; }
         ushort NumberOfPointsInRecord { get; set; }

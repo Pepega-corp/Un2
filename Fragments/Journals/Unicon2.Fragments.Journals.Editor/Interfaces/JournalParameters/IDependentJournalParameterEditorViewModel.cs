@@ -6,7 +6,7 @@ using Unicon2.Infrastructure.Interfaces.EditOperations;
 
 namespace Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters
 {
-    public interface IDependentJournalParameterEditorViewModel : IJournalParameterEditorViewModel,IEditable
+    public interface IDependentJournalParameterEditorViewModel : IJournalParameterEditorViewModel, IEditable
     {
         ICommand AddConditionCommand { get; }
         ICommand DeleteConditionCommand { get; }
@@ -15,6 +15,6 @@ namespace Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters
         ICommand CancelCommand { get; }
 
         ObservableCollection<IJournalConditionEditorViewModel> JournalConditionEditorViewModels { get; }
-     void   SetAvaliableJournalParameters( List<IJournalParameter> availableJournalParameters);
+        void SetAvaliableJournalParameters(List<IJournalParameter> availableJournalParameters);
     }
 }

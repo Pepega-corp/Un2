@@ -17,6 +17,8 @@ using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;
 using Unicon2.Fragments.Configuration.Matrix.Module;
 using Unicon2.Fragments.Configuration.Module;
+using Unicon2.Fragments.Journals.Editor.Module;
+using Unicon2.Fragments.Journals.Module;
 using Unicon2.Fragments.Measuring.Editor.Module;
 using Unicon2.Fragments.Measuring.Module;
 //using Unicon2.Fragments.DateTime.Module;

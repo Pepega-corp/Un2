@@ -17,21 +17,21 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
 
         public string GroupName
         {
-            get { return this._groupName; }
+            get { return _groupName; }
             set
             {
-                this._groupName = value;
-                this.RaisePropertyChanged();
+                _groupName = value;
+                RaisePropertyChanged();
             }
         }
 
         public IFormattedValueViewModel FormattedValueViewModel
         {
-            get { return this._formattedValueViewModel; }
+            get { return _formattedValueViewModel; }
             set
             {
-                this._formattedValueViewModel = value;
-                this.RaisePropertyChanged();
+                _formattedValueViewModel = value;
+                RaisePropertyChanged();
             }
         }
 

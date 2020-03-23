@@ -19,7 +19,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         private readonly IDeviceConfiguration _configuration;
         private readonly DeviceContext _deviceContext;
 
-        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration,DeviceContext deviceContext, MemoryAccessEnum memoryAccessEnum)
+        public ConfigurationMemoryAccessor(IDeviceConfiguration configuration, DeviceContext deviceContext,
+            MemoryAccessEnum memoryAccessEnum)
         {
             _configuration = configuration;
             _deviceContext = deviceContext;
@@ -28,11 +29,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task Process()
         {
-            if (_memoryAccessEnum == MemoryAccessEnum.Read)
-            {
-                _deviceContext.DeviceMemory.DeviceMemoryValues.Clear();
-            }
-
             await ApplyMemorySettings();
             await ProcessProperties();
         }
@@ -109,7 +105,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
-                    return ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo, _deviceContext.DeviceMemory);
+                    return ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo,
+                        _deviceContext.DeviceMemory);
                 };
 
 
@@ -128,7 +125,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         {
             switch (_memoryAccessEnum)
             {
-               
+
                 case MemoryAccessEnum.TransferFromDeviceToLocal:
                     for (var i = rangeFrom; i < rangeTo; i++)
                     {
@@ -154,8 +151,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
     public enum MemoryAccessEnum
     {
-        Read,
-        Write,
         TransferFromDeviceToLocal
     }
 }

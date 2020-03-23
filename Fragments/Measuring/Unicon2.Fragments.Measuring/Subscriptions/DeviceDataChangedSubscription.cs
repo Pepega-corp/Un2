@@ -3,14 +3,14 @@ using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Measuring.Subscriptions
 {
-	public class DeviceDataChangedSubscription: IMemorySubscription
+	public class DeviceDataChangedSubscription : IMemorySubscription
 	{
 		//private IDeviceMemory _deviceMemory;
 		//private 
 
 		//public DeviceDataChangedSubscription()
 		//{
-			
+
 		//}
 		//public void Execute()
 		//{

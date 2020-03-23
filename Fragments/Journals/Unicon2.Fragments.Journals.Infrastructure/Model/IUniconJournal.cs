@@ -5,7 +5,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Journals.Infrastructure.Model
 {
-    public interface IUniconJournal: IDeviceFragment,INameable
+    public interface IUniconJournal : IDeviceFragment, INameable
     {
         IRecordTemplate RecordTemplate { get; set; }
         IJournalLoadingSequence JournalLoadingSequence { get; set; }

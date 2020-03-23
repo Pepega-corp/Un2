@@ -68,7 +68,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
             }
             catch (Exception e)
             {
-                _applicationGlobalCommands.ShowErrorMessage(e.ToString(),this);
+                _applicationGlobalCommands.ShowErrorMessage(e.ToString(), this);
                 _applicationGlobalCommands.ShowErrorMessage(ApplicationGlobalNames.StatusMessages.JOURNAL_READING_ERROR,
                     this);
             }
@@ -76,7 +76,8 @@ namespace Unicon2.Fragments.Journals.ViewModel
         }
 
 
-        public string StrongName => JournalKeys.UNICON_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+        public string StrongName =>
+            JournalKeys.UNICON_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
 
         public List<string> JournalParametersNameList
@@ -111,8 +112,11 @@ namespace Unicon2.Fragments.Journals.ViewModel
             }
         }
 
-        public string NameForUiKey => _localizerService.GetLocalizedString(JournalKeys.UNICON_JOURNAL) + "(" + _uniconJournal.Name + ")";
+        public string NameForUiKey => _localizerService.GetLocalizedString(JournalKeys.UNICON_JOURNAL) + "(" +
+                                      _uniconJournal.Name + ")";
+
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
+
         public void Initialize(IDeviceFragment deviceFragment)
         {
             IUniconJournal uniconJournal = deviceFragment as IUniconJournal;
@@ -122,7 +126,8 @@ namespace Unicon2.Fragments.Journals.ViewModel
             {
                 if (journalParameter is IComplexJournalParameter)
                 {
-                    foreach (ISubJournalParameter subJournalParameter in (journalParameter as IComplexJournalParameter).ChildJournalParameters)
+                    foreach (ISubJournalParameter subJournalParameter in (journalParameter as IComplexJournalParameter)
+                        .ChildJournalParameters)
                     {
                         JournalParametersNameList.Add(subJournalParameter.Name);
                     }
@@ -132,6 +137,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
                     JournalParametersNameList.Add(journalParameter.Name);
                 }
             }
+
             Table = new DynamicDataTable(JournalParametersNameList, null, true);
             RaisePropertyChanged(nameof(Table));
             RaisePropertyChanged(nameof(JournalParametersNameList));

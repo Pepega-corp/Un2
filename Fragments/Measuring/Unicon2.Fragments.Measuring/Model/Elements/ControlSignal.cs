@@ -14,7 +14,7 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
 
         public ControlSignal()
         {
-            this.WritingValueContext = new WritingValueContext();
+            WritingValueContext = new WritingValueContext();
         }
 
         public override string StrongName => MeasuringKeys.CONTROL_SIGNAL;

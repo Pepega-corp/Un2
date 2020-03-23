@@ -6,11 +6,12 @@
     xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-    xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+   
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel"
+    xmlns:dd="urn:gong-wpf-dragdrop"
     d:DesignHeight="500"
     d:DesignWidth="900"
     dialogs:DialogParticipation.Register="{Binding}"
@@ -411,10 +412,10 @@
                         <ListBox
                             Name="elementsListBox"
                             Grid.Row="1"
-                            dragDrop:DragDrop.CanDragWithMouseRightButton="False"
-                            dragDrop:DragDrop.DragHandler="{Binding}"
-                            dragDrop:DragDrop.IsDragSource="True"
-                            dragDrop:DragDrop.IsDropTarget="True"
+                            dd:DragDrop.CanDragWithMouseRightButton="False"
+                            dd:DragDrop.DragHandler="{Binding}"
+                            dd:DragDrop.IsDragSource="True"
+                            dd:DragDrop.IsDropTarget="True"
                             IsHitTestVisible="True"
                             ItemsSource="{Binding MeasuringElementEditorViewModels}">
                             <i:Interaction.Triggers>

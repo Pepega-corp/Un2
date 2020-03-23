@@ -6,7 +6,7 @@ using Unicon2.SharedResources.Behaviors;
 
 namespace Unicon2.Fragments.Journals.Infrastructure.ViewModel
 {
-    public interface IUniconJournalViewModel : IStronglyNamed,IDeviceContextConsumer
+    public interface IUniconJournalViewModel : IStronglyNamed, IDeviceContextConsumer
     {
         List<string> JournalParametersNameList { get; set; }
 

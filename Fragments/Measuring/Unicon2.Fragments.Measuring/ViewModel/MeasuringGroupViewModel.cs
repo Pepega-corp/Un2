@@ -17,8 +17,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
         public MeasuringGroupViewModel(IMeasuringElementViewModelFactory measuringElementViewModelFactory)
         {
-            this._measuringElementViewModelFactory = measuringElementViewModelFactory;
-            this.MeasuringElementViewModels = new ObservableCollection<IMeasuringElementViewModel>();
+            _measuringElementViewModelFactory = measuringElementViewModelFactory;
+            MeasuringElementViewModels = new ObservableCollection<IMeasuringElementViewModel>();
         }
 
         public string StrongName => MeasuringKeys.MEASURING_GROUP +
@@ -26,29 +26,29 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
         public object Model
         {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
+            get { return GetModel(); }
+            set { SetModel(value); }
         }
 
         private void SetModel(object value)
         {
-            this._measuringGroup = value as IMeasuringGroup;
-            this.Header = this._measuringGroup.Name;
-            this.MeasuringElementViewModels.Clear();
-            foreach (IMeasuringElement measuringElement in this._measuringGroup.MeasuringElements)
+            _measuringGroup = value as IMeasuringGroup;
+            Header = _measuringGroup.Name;
+            MeasuringElementViewModels.Clear();
+            foreach (IMeasuringElement measuringElement in _measuringGroup.MeasuringElements)
             {
-                this.MeasuringElementViewModels.Add(this._measuringElementViewModelFactory.CreateMeasuringElementViewModel(measuringElement, this.Header));
+                MeasuringElementViewModels.Add(_measuringElementViewModelFactory.CreateMeasuringElementViewModel(measuringElement, Header));
             }
         }
 
         private object GetModel()
         {
-            this._measuringGroup.MeasuringElements.Clear();
-            foreach (IMeasuringElementViewModel measuringElementViewModel in this.MeasuringElementViewModels)
+            _measuringGroup.MeasuringElements.Clear();
+            foreach (IMeasuringElementViewModel measuringElementViewModel in MeasuringElementViewModels)
             {
 	            //this._measuringGroup.MeasuringElements.Add(measuringElementViewModel.Model as IMeasuringElement);
             }
-            return this._measuringGroup;
+            return _measuringGroup;
         }
 
         public ObservableCollection<IMeasuringElementViewModel> MeasuringElementViewModels { get; set; }

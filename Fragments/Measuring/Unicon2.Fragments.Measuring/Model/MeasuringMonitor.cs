@@ -11,7 +11,7 @@ namespace Unicon2.Fragments.Measuring.Model
     {
         public MeasuringMonitor()
         {
-            this.MeasuringGroups = new List<IMeasuringGroup>();
+            MeasuringGroups = new List<IMeasuringGroup>();
         }
 
         public string StrongName => MeasuringKeys.MEASURING_MONITOR;

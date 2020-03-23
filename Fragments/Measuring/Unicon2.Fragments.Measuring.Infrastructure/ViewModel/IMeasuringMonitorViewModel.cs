@@ -7,13 +7,14 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Measuring.Infrastructure.ViewModel
 {
-    public interface IMeasuringMonitorViewModel:IFragmentViewModel,IDisposable, IDeviceDataProvider, IStronglyNamed
+	public interface IMeasuringMonitorViewModel : IFragmentViewModel, IDisposable, IDeviceContextConsumer,
+		IStronglyNamed
 	{
-        ObservableCollection<IMeasuringGroupViewModel> MeasuringGroupViewModels { get; set; }
-        IMeasuringGroupViewModel SelectedMeasuringGroupViewModel { get; set; }
-        ObservableCollection<IMeasuringElementViewModel> MeasuringElementViewModels { get; set; }
-        CollectionView MeasuringElementListCollectionView { get; set; }
+		ObservableCollection<IMeasuringGroupViewModel> MeasuringGroupViewModels { get; set; }
+		IMeasuringGroupViewModel SelectedMeasuringGroupViewModel { get; set; }
+		ObservableCollection<IMeasuringElementViewModel> MeasuringElementViewModels { get; set; }
+		CollectionView MeasuringElementListCollectionView { get; set; }
 
-       bool IsListViewSelected { get; set; }
-    }
+		bool IsListViewSelected { get; set; }
+	}
 }

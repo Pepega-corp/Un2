@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters
 {
-    public interface ISubJournalParameter:IJournalParameter
+    public interface ISubJournalParameter : IJournalParameter
     {
         List<int> BitNumbersInWord { get; set; }
     }

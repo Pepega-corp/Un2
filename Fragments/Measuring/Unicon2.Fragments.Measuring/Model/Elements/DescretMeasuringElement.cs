@@ -14,7 +14,7 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
 
 		[JsonProperty] public IAddressOfBit AddressOfBit { get; set; }
 
-		public ushort Address => this.AddressOfBit.Address;
+		public ushort Address => AddressOfBit.Address;
 
 		public ushort NumberOfPoints => 1;
 	}

@@ -20,20 +20,20 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
 
         public string MeasureUnit
         {
-            get { return this._measureUnit; }
+            get { return _measureUnit; }
             set
             {
-                this._measureUnit = value;
+                _measureUnit = value;
                 RaisePropertyChanged();
             }
         }
 
         public bool IsMeasureUnitEnabled
         {
-            get { return this._isMeasureUnitEnabled; }
+            get { return _isMeasureUnitEnabled; }
             set
             {
-                this._isMeasureUnitEnabled = value;
+                _isMeasureUnitEnabled = value;
                 RaisePropertyChanged();
             }
         }

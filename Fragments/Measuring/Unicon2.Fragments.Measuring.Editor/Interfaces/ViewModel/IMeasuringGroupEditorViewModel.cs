@@ -5,7 +5,7 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel
 {
-    public interface IMeasuringGroupEditorViewModel:IViewModel
+    public interface IMeasuringGroupEditorViewModel : IViewModel
     {
         string Header { get; set; }
         ObservableCollection<IMeasuringElementEditorViewModel> MeasuringElementEditorViewModels { get; set; }

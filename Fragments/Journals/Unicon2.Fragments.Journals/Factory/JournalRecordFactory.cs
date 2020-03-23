@@ -62,7 +62,8 @@ namespace Unicon2.Fragments.Journals.Factory
                     foreach (IJournalCondition journalParameterDependancyCondition in dependentJournalParameter
                         .JournalParameterDependancyConditions)
                     {
-                        if (GetConditionResult(recordUshorts, journalParameterDependancyCondition, dependentJournalParameter))
+                        if (GetConditionResult(recordUshorts, journalParameterDependancyCondition,
+                            dependentJournalParameter))
                         {
                             //Task loadingTask = (journalParameterDependancyCondition.UshortsFormatter as ILoadable)?.Load();
                             //if (loadingTask != null)
@@ -84,35 +85,50 @@ namespace Unicon2.Fragments.Journals.Factory
             return formattedValues;
         }
 
-        private bool GetConditionResult(ushort[] recordUshorts, IJournalCondition journalParameterDependancyCondition, DependentJournalParameter dependentJournalParameter)
+        private bool GetConditionResult(ushort[] recordUshorts, IJournalCondition journalParameterDependancyCondition,
+            DependentJournalParameter dependentJournalParameter)
         {
             if (journalParameterDependancyCondition.ConditionsEnum == ConditionsEnum.HaveTrueBitAt)
             {
-                BitArray bitArray = new BitArray(new int[] { recordUshorts[journalParameterDependancyCondition.BaseJournalParameter.StartAddress] });
-                if (journalParameterDependancyCondition.BaseJournalParameter is ISubJournalParameter subJournalParameter)
+                BitArray bitArray = new BitArray(new int[]
+                    {recordUshorts[journalParameterDependancyCondition.BaseJournalParameter.StartAddress]});
+                if (journalParameterDependancyCondition.BaseJournalParameter is ISubJournalParameter subJournalParameter
+                )
                 {
-                    bitArray = new BitArray(new int[] { GetParameterUshortInRecord(recordUshorts,dependentJournalParameter, subJournalParameter) });
+                    bitArray = new BitArray(new int[]
+                        {GetParameterUshortInRecord(recordUshorts, dependentJournalParameter, subJournalParameter)});
                 }
+
                 return bitArray[journalParameterDependancyCondition.UshortValueToCompare];
             }
+
             if (journalParameterDependancyCondition.ConditionsEnum == ConditionsEnum.HaveFalseBitAt)
             {
-                BitArray bitArray = new BitArray(new int[] { recordUshorts[journalParameterDependancyCondition.BaseJournalParameter.StartAddress] });
-                if (journalParameterDependancyCondition.BaseJournalParameter is ISubJournalParameter subJournalParameter)
+                BitArray bitArray = new BitArray(new int[]
+                    {recordUshorts[journalParameterDependancyCondition.BaseJournalParameter.StartAddress]});
+                if (journalParameterDependancyCondition.BaseJournalParameter is ISubJournalParameter subJournalParameter
+                )
                 {
-                    bitArray = new BitArray(new int[] { GetParameterUshortInRecord(recordUshorts, dependentJournalParameter, subJournalParameter) });
+                    bitArray = new BitArray(new int[]
+                        {GetParameterUshortInRecord(recordUshorts, dependentJournalParameter, subJournalParameter)});
                 }
+
                 return !bitArray[journalParameterDependancyCondition.UshortValueToCompare];
             }
+
             if (journalParameterDependancyCondition.ConditionsEnum == ConditionsEnum.Equal)
             {
                 ushort resUshort = recordUshorts[journalParameterDependancyCondition.BaseJournalParameter.StartAddress];
-                if (journalParameterDependancyCondition.BaseJournalParameter is ISubJournalParameter subJournalParameter)
+                if (journalParameterDependancyCondition.BaseJournalParameter is ISubJournalParameter subJournalParameter
+                )
                 {
-                    resUshort = GetParameterUshortInRecord(recordUshorts, dependentJournalParameter, subJournalParameter);
+                    resUshort = GetParameterUshortInRecord(recordUshorts, dependentJournalParameter,
+                        subJournalParameter);
                 }
+
                 return resUshort == journalParameterDependancyCondition.UshortValueToCompare;
             }
+
             return false;
         }
 

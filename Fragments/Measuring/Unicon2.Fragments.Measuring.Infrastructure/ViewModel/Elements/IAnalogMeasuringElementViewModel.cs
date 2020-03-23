@@ -2,8 +2,8 @@
 
 namespace Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements
 {
-    public interface IAnalogMeasuringElementViewModel:IMeasuringElementViewModel,IMeasurable
+    public interface IAnalogMeasuringElementViewModel : IMeasuringElementViewModel, IMeasurable
     {
-        
+
     }
 }

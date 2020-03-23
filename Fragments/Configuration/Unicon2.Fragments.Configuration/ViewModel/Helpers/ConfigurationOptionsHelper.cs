@@ -267,11 +267,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteWriteLocalValuesToDevice()
         {
-	        if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_runtimeConfigurationViewModel
-		        .RootConfigurationItemViewModels))
-	        {
-            await new MemoryWriterVisitor(_runtimeConfigurationViewModel.DeviceContext, new List<ushort>(),_deviceConfiguration).ExecuteWrite();
-	        }
+            if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_runtimeConfigurationViewModel
+                .RootConfigurationItemViewModels))
+            {
+                await new MemoryWriterVisitor(_runtimeConfigurationViewModel.DeviceContext, new List<ushort>(),
+                    _deviceConfiguration).ExecuteWrite();
+            }
         }
 
         private async void OnExecuteEditLocalValues()

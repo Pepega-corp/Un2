@@ -18,7 +18,8 @@ namespace Unicon2.Fragments.Measuring.Editor.View.PresentationSettings
 	/// <summary>
 	/// Логика взаимодействия для PresentationSettingsWindow.xaml
 	/// </summary>
-	public partial class PresentationSettingsWindow : UserControl
+	public partial class PresentationSettingsWindow
+
 	{
 		public PresentationSettingsWindow()
 		{

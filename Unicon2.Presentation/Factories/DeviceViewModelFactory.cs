@@ -2,6 +2,7 @@
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
@@ -43,10 +44,11 @@ namespace Unicon2.Presentation.Factories
                     {
                         var fragmentLevelDispatcher = new FragmentLevelEventsDispatcher();
                         deviceLevelPublisher.AddFragmentDispatcher(fragmentViewModel, fragmentLevelDispatcher);
-                        deviceContextConsumer.DeviceContext=new DeviceContext(device.DeviceMemory,
+                        deviceContextConsumer.DeviceContext = new DeviceContext(device.DeviceMemory,
                             new FragmentEventsDispatcher(deviceLevelPublisher, fragmentLevelDispatcher), device.Name,
                             device);
                     }
+
                     fragmentViewModel.Initialize(deviceFragment);
 
 
