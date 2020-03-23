@@ -1,6 +1,7 @@
 ﻿using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
+using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Editor.Factories
@@ -8,28 +9,34 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
     public class MeasuringGroupEditorViewModelFactory : IMeasuringGroupEditorViewModelFactory
     {
         private readonly ITypesContainer _container;
+        private readonly IMeasuringElementEditorViewModelFactory _measuringElementEditorViewModelFactory;
 
-        public MeasuringGroupEditorViewModelFactory(ITypesContainer container)
+        public MeasuringGroupEditorViewModelFactory(ITypesContainer container,
+            IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory)
         {
             _container = container;
+            _measuringElementEditorViewModelFactory = measuringElementEditorViewModelFactory;
         }
 
-        public IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel(IMeasuringGroup measuringGroup)
+        public IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel(IMeasuringGroup measuringGroup = null)
         {
+            if (measuringGroup == null)
+            {
+                measuringGroup = _container.Resolve<IMeasuringGroup>();
+            }
+
             IMeasuringGroupEditorViewModel measuringGroupEditorViewModel =
                 _container.Resolve<IMeasuringGroupEditorViewModel>();
-            measuringGroupEditorViewModel.Model = measuringGroup;
+
+            foreach (IMeasuringElement measuringElement in measuringGroup.MeasuringElements)
+            {
+                measuringGroupEditorViewModel.MeasuringElementEditorViewModels.Add(
+                    _measuringElementEditorViewModelFactory.CreateMeasuringElementEditorViewModel(measuringElement));
+            }
+
+            measuringGroupEditorViewModel.Header = measuringGroup.Name;
             return measuringGroupEditorViewModel;
         }
 
-        public IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel()
-        {
-            IMeasuringGroupEditorViewModel measuringGroupEditorViewModel =
-                _container.Resolve<IMeasuringGroupEditorViewModel>();
-            IMeasuringGroup measuringGroup = _container.Resolve<IMeasuringGroup>();
-            measuringGroupEditorViewModel.Model = measuringGroup;
-            measuringGroupEditorViewModel.Header = "Group";
-            return measuringGroupEditorViewModel;
-        }
     }
 }

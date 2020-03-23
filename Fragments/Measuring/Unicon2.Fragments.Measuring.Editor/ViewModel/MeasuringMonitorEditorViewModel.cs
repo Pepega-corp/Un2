@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unicon2.Fragments.Measuring.Editor.Helpers;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
 using Unicon2.Fragments.Measuring.Editor.View;
@@ -124,7 +125,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 			_measuringMonitor.MeasuringGroups.Clear();
 			foreach (IMeasuringGroupEditorViewModel measuringGroupEditorViewModel in MeasuringGroupEditorViewModels)
 			{
-				_measuringMonitor.MeasuringGroups.Add(measuringGroupEditorViewModel.Model as IMeasuringGroup);
+				_measuringMonitor.MeasuringGroups.Add(new MeasuringGroupsSaver().CreateMeasuringGroup(measuringGroupEditorViewModel));
 			}
 			return _measuringMonitor;
 		}

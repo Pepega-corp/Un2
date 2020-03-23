@@ -97,36 +97,8 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
         public string StrongName => MeasuringKeys.MEASURING_GROUP;
 
-        public object Model
-        {
-            get { return GetModel(); }
-            set { SetModel(value as IMeasuringGroup); }
-        }
-
-        private void SetModel(IMeasuringGroup measuringGroup)
-        {
-            _measuringGroup = measuringGroup;
-            MeasuringElementEditorViewModels.Clear();
-            foreach (IMeasuringElement measuringElement in _measuringGroup.MeasuringElements)
-            {
-                MeasuringElementEditorViewModels.Add(_measuringElementEditorViewModelFactory.CreateMeasuringElementEditorViewModel(measuringElement));
-            }
-            Header = _measuringGroup.Name;
-        }
-
-        private IMeasuringGroup GetModel()
-        {
-
-            _measuringGroup.Name = Header;
-            _measuringGroup.MeasuringElements.Clear();
-			var saver=new MeasuringElementSaver();
-            foreach (IMeasuringElementEditorViewModel measuringElementEditorViewModel in MeasuringElementEditorViewModels)
-            {
-				_measuringGroup.MeasuringElements.Add(saver.SaveMeasuringElement(measuringElementEditorViewModel));
-            }
-            return _measuringGroup;
-        }
-
+     
+     
 
         public string Header
         {

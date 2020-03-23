@@ -4,11 +4,13 @@ using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Address;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
+using Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Model;
 using Unicon2.Fragments.Measuring.Model.Address;
 using Unicon2.Fragments.Measuring.Model.Elements;
+using Unicon2.Fragments.Measuring.Model.PresentationSettings;
 using Unicon2.Fragments.Measuring.ViewModel;
 using Unicon2.Fragments.Measuring.ViewModel.Elements;
 using Unicon2.Infrastructure;
@@ -42,6 +44,11 @@ namespace Unicon2.Fragments.Measuring.Module
             container.Register<IMeasuringElement, ControlSignal>(MeasuringKeys.CONTROL_SIGNAL);
 
 
+            container.Register<IPresentationSettings, MeasuringPresentationSettings>();
+            container.Register<IMeasuringPresentationGroup, MeasuringPresentationGroup>();
+            container.Register<IMeasuringElementPresentationInfo, MeasuringElementPresentationInfo>();
+            
+            
             container.Register<IWritingValueContext, WritingValueContext>();
             container.Register<IAddressOfBit, AddressOfBit>();
             container.Register<IMeasuringElementViewModelFactory, MeasuringElementViewModelFactory>();

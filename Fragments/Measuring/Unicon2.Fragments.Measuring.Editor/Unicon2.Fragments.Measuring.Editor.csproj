@@ -66,6 +66,7 @@
     <Compile Include="Factories\WritingValueContextViewModelFactory.cs" />
     <Compile Include="Helpers\BitAddressSaver.cs" />
     <Compile Include="Helpers\MeasuringElementSaver.cs" />
+    <Compile Include="Helpers\MeasuringGroupsSaver.cs" />
     <Compile Include="Helpers\WritingValueContextSaver.cs" />
     <Compile Include="Interfaces\Factories\IMeasuringElementEditorViewModelFactory.cs" />
     <Compile Include="Interfaces\Factories\IMeasuringGroupEditorViewModelFactory.cs" />

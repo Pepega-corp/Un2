@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel
 {
-    public interface IMeasuringGroupEditorViewModel : IViewModel
+    public interface IMeasuringGroupEditorViewModel : IStronglyNamed
     {
         string Header { get; set; }
         ObservableCollection<IMeasuringElementEditorViewModel> MeasuringElementEditorViewModels { get; set; }
