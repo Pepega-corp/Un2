@@ -6,17 +6,17 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
 {
     public interface IConnectorViewModel
     {
-        string Symbol {get;}
-
-        Point ConnectorPosition { get; set; }
-        ILogicElementViewModel ParentViewModel { get; }
-        ObservableCollection<IConnectionViewModel> Connections { get; }
         IConnector Model { get; set; }
         ConnectorType ConnectorType { get; set; }
         ConnectorOrientation Orientation { get; }
+        string Symbol {get;}
+        Point ConnectorPosition { get; set; }
+        ILogicElementViewModel ParentViewModel { get; }
+
+        IConnectionViewModel Connection { get; set; }
+        int ConnectionNumber { get; }
         bool Connected { get; }
 
-        void UpdateConnectorPositionX(double deltaX);
-        void UpdateConnectorPositionY(double deltaY);
+        void UpdateConnectorPosition(Point deltaPosition);
     }
 }

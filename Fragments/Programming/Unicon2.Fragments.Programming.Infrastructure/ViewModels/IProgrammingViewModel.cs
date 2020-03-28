@@ -12,6 +12,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels
         ObservableCollection<IConnectionViewModel> ConnectionCollection { get; }
         void AddConnection(IConnectionViewModel connectionVoewModel);
         void RemoveConnection(IConnectionViewModel connectionVoewModel);
+        int GetNewConnectionNumber();
 
         int SelectedTabIndex { get; set; }
 

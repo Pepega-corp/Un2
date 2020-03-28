@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Windows;
-using Unicon2.Fragments.Programming.Behaviors;
+﻿using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
@@ -10,11 +6,12 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
-    public class ConnectorViewModel : ViewModelBase, IConnectorViewModel, IDisposable
+    public class ConnectorViewModel : ViewModelBase, IConnectorViewModel
     {
         private bool _isDragConnection;
         private string _symbol;
         private IConnector _modelConnector;
+        private IConnectionViewModel _connectionViewModel;
 
         public ConnectorViewModel(ILogicElementViewModel parent, IConnector model)
         {
@@ -22,15 +19,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.Model = model;
             this.IsDragConnection = false;
             this._symbol = string.Empty;
-            this.Connections = new ObservableCollection<IConnectionViewModel>();
-            this.Connections.CollectionChanged += this.ConnectionsOnCollectionChanged;
         }
-
-        public void Dispose()
-        {
-            this.Connections.CollectionChanged -= this.ConnectionsOnCollectionChanged;
-        }
-
+       
         /// <summary>
         /// Точка расположения коннектора в DesignerCanvas
         /// </summary>
@@ -45,13 +35,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
         }
 
         public ILogicElementViewModel ParentViewModel { get; }
-
-        public ObservableCollection<IConnectionViewModel> Connections { get; }
-
         
         public IConnector Model
         {
-            get { return this._modelConnector; }
+            get
+            {
+                this._modelConnector.ConnectionNumber = this.ConnectionNumber;
+                return this._modelConnector;
+            }
             set
             {
                 if (value == null)
@@ -98,10 +89,27 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
+
+        public IConnectionViewModel Connection
+        {
+            get => this._connectionViewModel;
+            set
+            {
+                if(this._connectionViewModel == value)
+                    return;
+                this._connectionViewModel = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(this.Connected));
+                RaisePropertyChanged(nameof(this.ConnectionNumber));
+            }
+        }
+
+        public int ConnectionNumber => this._connectionViewModel?.ConnectionNumber ?? -1;
+
         /// <summary>
         /// Флаг того, что вывод подключен
         /// </summary>
-        public bool Connected => this.Connections.Count > 0;
+        public bool Connected => this._connectionViewModel != null;
 
         /// <summary>
         /// Символ-подпись вывода
@@ -117,23 +125,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public void UpdateConnectorPositionX(double deltaX)
-        {
-            var position =  this.ConnectorPosition;
-            position.X += deltaX;
-            this.ConnectorPosition = position;
-        }
-
-        public void UpdateConnectorPositionY(double deltaY)
+        public void UpdateConnectorPosition(Point deltaPosition)
         {
             var position = this.ConnectorPosition;
-            position.Y += deltaY;
+            position.X += deltaPosition.X;
+            position.Y += deltaPosition.Y;
             this.ConnectorPosition = position;
-        }
-
-        private void ConnectionsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
-        {
-            RaisePropertyChanged(nameof(this.Connected));
         }
     }
 }

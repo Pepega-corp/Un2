@@ -80,6 +80,18 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
+        public int GetNewConnectionNumber()
+        {
+            var number = 0;
+
+            while (this.ConnectionCollection.Any(c => c.ConnectionNumber == number))
+            {
+                number++;
+            }
+
+            return number;
+        }
+
         #region NewSchemeCommand
         public ICommand NewSchemeCommand { get; }
 

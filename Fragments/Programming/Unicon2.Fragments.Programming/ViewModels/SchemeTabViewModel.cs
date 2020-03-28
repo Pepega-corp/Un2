@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
@@ -10,7 +9,6 @@ using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
-using Unicon2.Fragments.Programming.Model;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
@@ -21,21 +19,23 @@ namespace Unicon2.Fragments.Programming.ViewModels
     // Вью модель одной схемы
     public class SchemeTabViewModel : ViewModelBase, ISchemeTabViewModel
     {
-        #region Fields
         private readonly IProgrammingViewModel _programmingViewModel;
         private readonly ILogicElementFactory _factory;
         public const int CELL_SIZE = 5;
         private ISchemeModel _model;
-        #endregion
-
-        #region Events
         /// <summary>
         /// Событие закрытия вкладки схемы
         /// </summary>
         public event Action CloseTabEvent;
-        #endregion
 
-        #region Properties
+        public ISchemeModel Model
+        {
+            get => this.GetModel();
+            set => this.SetModel(value);
+        }
+
+        public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
         /// <summary>
         /// Ссылка на поведение
         /// </summary>
@@ -80,8 +80,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public double RectX => CELL_SIZE;
 
         public double RectY => CELL_SIZE;
-
-        #endregion Properties
+        public ICommand ZoomIncrementCommand { get; }
+        public ICommand ZoomDecrementCommand { get; }
+        public ICommand CloseTabCommand { get; }
+        public ICommand DeleteCommand { get; }
 
         public SchemeTabViewModel(ISchemeModel model, IProgrammingViewModel programmingViewModel, ILogicElementFactory factory) : this(factory)
         {
@@ -98,80 +100,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.CloseTabCommand = new RelayCommand(this.CloseTab);
             this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
         }
-        
-        #region ZoomCommands
-        public ICommand ZoomIncrementCommand { get; }
 
-        private void IncrementZoom()
-        {
-            this.SelfBehavior.IncrementZoom();
-        }
-
-        public ICommand ZoomDecrementCommand { get; }
-
-        private void DecrementZoom()
-        {
-            this.SelfBehavior.DecrementZoom();
-        }
-        #endregion
-
-        #region CloseTabCommand
-        public ICommand CloseTabCommand { get; }
-
-        private void CloseTab()
-        {
-            this.CloseTabEvent?.Invoke();
-        }
-        #endregion
-
-        #region DeleteCommand
-        public ICommand DeleteCommand { get; }
-
-        public void DeleteSelectedElements()
-        {
-            var selectedConnections = this.ElementCollection.Where(e => e is IConnectionViewModel && e.IsSelected).Cast<IConnectionViewModel>().ToList();
-            foreach (IConnectionViewModel connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
-            {
-                this._programmingViewModel.RemoveConnection(connectionViewModel);
-                this.ElementCollection.Remove(connectionViewModel);
-            }
-
-            var selectedElements = this.ElementCollection.Where(e =>e is ILogicElementViewModel && e.IsSelected).Cast<ILogicElementViewModel>().ToList();
-            foreach (ILogicElementViewModel element in selectedElements)
-            {
-                var removingConnections = new List<IConnectionViewModel>();
-                var connectedConnectors = element.ConnectorViewModels.Where(c => c.Connected && c.Connections.Count != 0).ToList();
-                foreach (var connector in connectedConnectors)
-                {
-                    removingConnections.AddRange(connector.Connections);
-                }
-                foreach (var removingConnection in removingConnections)
-                {
-                    this._programmingViewModel.RemoveConnection(removingConnection);
-                    if (this.ElementCollection.Contains(removingConnection))
-                    {
-                        this.ElementCollection.Remove(removingConnection);
-                    }
-                }
-                this.ElementCollection.Remove(element);
-            }
-        }
-
-        public bool CanDelete()
-        {
-            List<ISchemeElementViewModel> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
-            return selectedElements.Count > 0;
-        }
-        #endregion
-
-        #region IFragmentViewModel
-        public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-        public ISchemeModel Model
-        {
-            get => this.GetModel();
-            set => this.SetModel(value);
-        }
-        
         private ISchemeModel GetModel()
         {
             var logicElemenViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel).Cast<ILogicElementViewModel>().ToArray();
@@ -187,11 +116,70 @@ namespace Unicon2.Fragments.Programming.ViewModels
             //todo get connection and add to ElementCollection
         }
 
-        #endregion IFragmentViewModel
-
         public void AddConnectionToProgramm(IConnectionViewModel connectionViewModel)
         {
             this._programmingViewModel.AddConnection(connectionViewModel);
         }
+
+        public int GetNextConnectionNumber()
+        {
+            return this._programmingViewModel.GetNewConnectionNumber();
+        }
+
+        private void IncrementZoom()
+        {
+            this.SelfBehavior.IncrementZoom();
+        }
+        
+        private void DecrementZoom()
+        {
+            this.SelfBehavior.DecrementZoom();
+        }
+
+        private void CloseTab()
+        {
+            this.CloseTabEvent?.Invoke();
+        }
+
+        private void DeleteSelectedElements()
+        {
+            var selectedConnections = this.ElementCollection.Where(e => e is IConnectionViewModel && e.IsSelected).Cast<IConnectionViewModel>().ToList();
+            foreach (var connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
+            {
+                this._programmingViewModel.RemoveConnection(connectionViewModel);
+                this.ElementCollection.Remove(connectionViewModel);
+            }
+
+            var selectedElements = this.ElementCollection.Where(e =>e is ILogicElementViewModel && e.IsSelected).Cast<ILogicElementViewModel>().ToList();
+            foreach (var element in selectedElements)
+            {
+                var removingConnections = new List<IConnectionViewModel>();
+                var connectedConnectors = element.ConnectorViewModels.Where(c => c.Connected).ToList();
+                foreach (var connector in connectedConnectors)
+                {
+                    if (!removingConnections.Contains(connector.Connection))
+                    {
+                        removingConnections.Add(connector.Connection);
+                    }
+                }
+                foreach (var removingConnection in removingConnections)
+                {
+                    this._programmingViewModel.RemoveConnection(removingConnection);
+                    if (this.ElementCollection.Contains(removingConnection))
+                    {
+                        this.ElementCollection.Remove(removingConnection);
+                    }
+                }
+                this.ElementCollection.Remove(element);
+            }
+        }
+
+        private bool CanDelete()
+        {
+            var selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
+            return selectedElements.Count > 0;
+        }
+
+
     }
 }

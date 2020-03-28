@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Views;
@@ -23,7 +24,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.StrongName = strongName;
             this._globalCommands = globalCommands;
         }
-        
+
         public string ElementName { get; protected set; }
 
         public bool IsSelected
@@ -68,18 +69,28 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
 
+        private Point _deltaPosition;
+        private bool xChanged;
+        private bool yChanged;
+
         public double X
         {
             get { return this._model.X; }
             set
             {
-                if (Math.Abs(this._model.X - value) < 0.01)
-                    return;
+                this._deltaPosition.X = value - this._model.X;
+                if (this.yChanged)
+                {
+                    this.yChanged = false;
+                    this.xChanged = false;
+                    this.UpdateConnectorsPosition(this._deltaPosition);
+                }
+                else
+                {
+                    this.xChanged = true;
+                }
 
-                var delta = value - this._model.X;
                 this._model.X = value;
-
-                this.UpdateConnectorsPositionX(delta);
                 RaisePropertyChanged();
             }
         }
@@ -89,30 +100,28 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             get { return this._model.Y; }
             set
             {
-                if (Math.Abs(this._model.Y - value) < 0.01)
-                    return;
+                this._deltaPosition.Y = value - this._model.Y;
+                if (this.xChanged)
+                {
+                    this.yChanged = false;
+                    this.xChanged = false;
+                    this.UpdateConnectorsPosition(this._deltaPosition);
+                }
+                else
+                {
+                    this.yChanged = true;
+                }
 
-                var delta = value - this._model.Y;
                 this._model.Y = value;
-
-                this.UpdateConnectorsPositionY(delta);
                 RaisePropertyChanged();
             }
         }
 
-        private void UpdateConnectorsPositionX(double deltaX)
+        private void UpdateConnectorsPosition(Point deltaPosition)
         {
             foreach (var connectorViewModel in this.ConnectorViewModels)
             {
-                connectorViewModel.UpdateConnectorPositionX(deltaX);
-            }
-        }
-
-        private void UpdateConnectorsPositionY(double deltaY)
-        {
-            foreach (var connectorViewModel in this.ConnectorViewModels)
-            {
-                connectorViewModel.UpdateConnectorPositionY(deltaY);
+                connectorViewModel.UpdateConnectorPosition(deltaPosition);
             }
         }
 
@@ -122,7 +131,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public virtual void OpenPropertyWindow()
         {
-            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(), new LogicElementSettingsViewModel(this));
+            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(),
+                new LogicElementSettingsViewModel(this));
         }
     }
 }

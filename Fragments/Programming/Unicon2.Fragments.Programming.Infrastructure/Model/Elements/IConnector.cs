@@ -7,7 +7,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         ConnectorOrientation Orientation { get; }
         ConnectorType Type { get; set; }
         Point ConnectorPoint { get; set; }
-        IConnection Connection { get; set; }
         int ConnectionNumber { get; set; }
     }
 }

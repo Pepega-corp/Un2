@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Infrastructure;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.ViewModels;
 
@@ -55,22 +56,31 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             if (this._hitConnector != null)
             {
-                //TODO сделать проверку на наличие уже существующей связи и добавлять выводы к ней
-                if (this._sourceConnector.Orientation == ConnectorOrientation.RIGHT && this._sourceConnector.Model.ConnectionNumber != -1
-                    || this._hitConnector.Orientation == ConnectorOrientation.RIGHT && this._hitConnector.Model.ConnectionNumber != -1)
+                IConnectorViewModel rigtConnector, leftConnector;
+                if (this._sourceConnector.Orientation == ConnectorOrientation.RIGHT)
+                {
+                    rigtConnector = this._sourceConnector;
+                    leftConnector = this._hitConnector;
+                }
+                else
+                {
+                    rigtConnector = this._hitConnector;
+                    leftConnector = this._sourceConnector;
+                }
+
+                if (!rigtConnector.Connected)
                 {
                     var newConnection = new Connection();
-                    newConnection.AddConnector(this._sourceConnector.Model);
-                    newConnection.AddConnector(this._hitConnector.Model);
                     newConnection.Path = this._pathGeometry;
-                    var connectionViewModel = new ConnectionViewModel(newConnection);
+                    newConnection.ConnectionNumber = this._schemeTabViewModel.GetNextConnectionNumber();
+                    var connectionViewModel = new ConnectionViewModel(newConnection, rigtConnector, leftConnector);
 
                     this._schemeTabViewModel.AddConnectionToProgramm(connectionViewModel);
                     this._schemeTabViewModel.ElementCollection.Add(connectionViewModel);
                 }
                 else
                 {
-                    
+                    //find connection and add left connector
                 }
 
                 this._hitConnector.IsDragConnection = false;
@@ -136,12 +146,19 @@ namespace Unicon2.Fragments.Programming.Adorners
 
             if (pathPoints.Count > 0)
             {
+                var pathFigure = new PathFigure {StartPoint = pathPoints[0]};
+                for (int i = 1; i < pathPoints.Count; i++)
+                {
+                    var lineSegment = new LineSegment(pathPoints[i], true);
+                    pathFigure.Segments.Add(lineSegment);
+                }
+                //var figure = new PathFigure();
+                //figure.StartPoint = pathPoints[0];
+                //pathPoints.Remove(pathPoints[0]);
+                //figure.Segments.Add(new PolyLineSegment(pathPoints, true));
+
                 this._pathGeometry.Figures.Clear();
-                var figure = new PathFigure();
-                figure.StartPoint = pathPoints[0];
-                pathPoints.Remove(pathPoints[0]);
-                figure.Segments.Add(new PolyLineSegment(pathPoints, true));
-                this._pathGeometry.Figures.Add(figure);
+                this._pathGeometry.Figures.Add(pathFigure);
             }
         }
 

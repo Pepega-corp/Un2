@@ -23,7 +23,6 @@ namespace Unicon2.Fragments.Programming.Model
         {
             if (!this._connectors.Contains(connector))
             {
-                connector.Connection = this;
                 this._connectors.Add(connector);
             }
         }
@@ -32,7 +31,6 @@ namespace Unicon2.Fragments.Programming.Model
         {
             if (this._connectors.Contains(connector))
             {
-                connector.Connection = null;
                 this._connectors.Remove(connector);
             }
         }

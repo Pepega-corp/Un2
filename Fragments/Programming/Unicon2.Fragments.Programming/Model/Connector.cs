@@ -18,27 +18,6 @@ namespace Unicon2.Fragments.Programming.Model
         /// </summary>
         [DataMember] public ConnectorType Type { get; set; }
         [DataMember] public Point ConnectorPoint { get; set; }
-
-        /// <summary>
-        /// Линия связи с данным выводом
-        /// </summary>
-        public IConnection Connection
-        {
-            get => this._connection;
-            set
-            {
-                if (value == null)
-                {
-                    this.ConnectionNumber = -1;
-                }
-                else
-                {
-                    this.ConnectionNumber = value.ConnectionNumber;
-                }
-
-                this._connection = value;
-            }
-        }
         /// <summary>
         /// Номер связи
         /// </summary>

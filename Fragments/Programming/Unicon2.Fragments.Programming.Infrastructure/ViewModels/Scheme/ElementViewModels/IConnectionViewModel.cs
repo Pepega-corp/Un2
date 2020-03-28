@@ -11,8 +11,9 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
     {
         string Name { get; }
         PathGeometry Path { get; set; }
-        IConnector SourceConnector { get; }
-        ObservableCollection<IConnector> SinkConnectors { get; }
+        int ConnectionNumber { get; }
+        IConnectorViewModel SourceConnector { get; }
+        ObservableCollection<IConnectorViewModel> SinkConnectors { get; }
         ushort CurrentValue { get; set; }
         bool GotValue { get; set; }
         bool DebugMode { get; set; }
