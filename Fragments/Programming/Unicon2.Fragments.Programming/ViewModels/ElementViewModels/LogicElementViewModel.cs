@@ -73,11 +73,14 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             get { return this._model.X; }
             set
             {
-                if (Math.Abs(this._model.X - value) < 0.01) return;
-                this._model.X = value;
-                RaisePropertyChanged();
+                if (Math.Abs(this._model.X - value) < 0.01)
+                    return;
 
-                this.UpdateConnectorsPosition();
+                var delta = value - this._model.X;
+                this._model.X = value;
+
+                this.UpdateConnectorsPositionX(delta);
+                RaisePropertyChanged();
             }
         }
 
@@ -86,19 +89,30 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             get { return this._model.Y; }
             set
             {
-                if (Math.Abs(this._model.Y - value) < 0.01) return;
-                this._model.Y = value;
-                RaisePropertyChanged();
+                if (Math.Abs(this._model.Y - value) < 0.01)
+                    return;
 
-                this.UpdateConnectorsPosition();
+                var delta = value - this._model.Y;
+                this._model.Y = value;
+
+                this.UpdateConnectorsPositionY(delta);
+                RaisePropertyChanged();
             }
         }
 
-        private void UpdateConnectorsPosition()
+        private void UpdateConnectorsPositionX(double deltaX)
         {
             foreach (var connectorViewModel in this.ConnectorViewModels)
             {
-                connectorViewModel.UpdateConnectorPosition();
+                connectorViewModel.UpdateConnectorPositionX(deltaX);
+            }
+        }
+
+        private void UpdateConnectorsPositionY(double deltaY)
+        {
+            foreach (var connectorViewModel in this.ConnectorViewModels)
+            {
+                connectorViewModel.UpdateConnectorPositionY(deltaY);
             }
         }
 

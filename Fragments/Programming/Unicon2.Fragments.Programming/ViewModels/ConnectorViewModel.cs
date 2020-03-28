@@ -15,7 +15,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private bool _isDragConnection;
         private string _symbol;
         private IConnector _modelConnector;
-        private ConnectorBehavior _connectorBehaviour;
 
         public ConnectorViewModel(ILogicElementViewModel parent, IConnector model)
         {
@@ -103,6 +102,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// Флаг того, что вывод подключен
         /// </summary>
         public bool Connected => this.Connections.Count > 0;
+
         /// <summary>
         /// Символ-подпись вывода
         /// </summary>
@@ -117,19 +117,23 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
+        public void UpdateConnectorPositionX(double deltaX)
+        {
+            var position =  this.ConnectorPosition;
+            position.X += deltaX;
+            this.ConnectorPosition = position;
+        }
+
+        public void UpdateConnectorPositionY(double deltaY)
+        {
+            var position = this.ConnectorPosition;
+            position.Y += deltaY;
+            this.ConnectorPosition = position;
+        }
+
         private void ConnectionsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
             RaisePropertyChanged(nameof(this.Connected));
-        }
-
-        public void SetBehaviour(ConnectorBehavior connectorBehavior)
-        {
-            _connectorBehaviour = connectorBehavior;
-        }
-
-        public void UpdateConnectorPosition()
-        {
-            this._connectorBehaviour?.UpdateConnectorPosition();
         }
     }
 }

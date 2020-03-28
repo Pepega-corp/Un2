@@ -16,6 +16,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         ConnectorOrientation Orientation { get; }
         bool Connected { get; }
 
-        void UpdateConnectorPosition();
+        void UpdateConnectorPositionX(double deltaX);
+        void UpdateConnectorPositionY(double deltaY);
     }
 }

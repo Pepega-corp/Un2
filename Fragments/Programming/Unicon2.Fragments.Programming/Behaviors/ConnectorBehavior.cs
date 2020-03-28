@@ -28,13 +28,12 @@ namespace Unicon2.Fragments.Programming.Behaviors
             AssociatedObject.MouseLeftButtonDown += this.OnPreviewMouseLeftButtonDown;
             AssociatedObject.MouseMove += this.OnMouseMove;
             AssociatedObject.MouseLeftButtonUp += this.OnMouseLeftButtonUp;
+            AssociatedObject.Loaded += this.OnBorderLoaded;
 
             this._designerCanvas = CommonHelper.GetDesignerCanvas(AssociatedObject);
             this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
 
             this._connectorViewModel = (ConnectorViewModel)AssociatedObject.DataContext;
-            this._connectorViewModel.SetBehaviour(this);
-            this.UpdateConnectorPosition();
         }
 
         protected override void OnDetaching()
@@ -44,6 +43,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             AssociatedObject.PreviewMouseLeftButtonDown -= this.OnPreviewMouseLeftButtonDown;
             AssociatedObject.MouseMove -= this.OnMouseMove;
             AssociatedObject.MouseLeftButtonUp -= this.OnMouseLeftButtonUp;
+            AssociatedObject.Loaded -= this.OnBorderLoaded;
         }
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
@@ -77,7 +77,12 @@ namespace Unicon2.Fragments.Programming.Behaviors
             e.Handled = true;
         }
 
-        public void UpdateConnectorPosition()
+        private void OnBorderLoaded(object sender, RoutedEventArgs args)
+        {
+            this.SetStartConnectorPosition();
+        }
+
+        private void SetStartConnectorPosition()
         {
             this._connectorViewModel.ConnectorPosition = this.GetConnectorPoint();
         }
