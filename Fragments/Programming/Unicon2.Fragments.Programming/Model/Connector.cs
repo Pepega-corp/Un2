@@ -8,7 +8,6 @@ namespace Unicon2.Fragments.Programming.Model
     [DataContract(Namespace = "ConnectorNS")]
     public class Connector: IConnector
     {
-        private IConnection _connection;
         /// <summary>
         /// Ориентация вывода по отношению к элементу: расположение справа или слева
         /// </summary>
@@ -17,7 +16,7 @@ namespace Unicon2.Fragments.Programming.Model
         /// Тип вывода: прямой или инверсный
         /// </summary>
         [DataMember] public ConnectorType Type { get; set; }
-        [DataMember] public Point ConnectorPoint { get; set; }
+        [DataMember] public Point ConnectorPosition { get; set; }
         /// <summary>
         /// Номер связи
         /// </summary>

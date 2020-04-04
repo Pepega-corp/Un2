@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -13,10 +15,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private IConnector _modelConnector;
         private IConnectionViewModel _connectionViewModel;
 
+        public event Action<Point> ConnectorPositionChanged;
+
         public ConnectorViewModel(ILogicElementViewModel parent, IConnector model)
         {
             this.ParentViewModel = parent;
-            this.Model = model;
+            this._modelConnector = new Connector(model.Orientation, model.Type);
             this.IsDragConnection = false;
             this._symbol = string.Empty;
         }
@@ -26,11 +30,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// </summary>
         public Point ConnectorPosition
         {
-            get { return this._modelConnector.ConnectorPoint; }
+            get { return this._modelConnector.ConnectorPosition; }
             set
             {
-                this._modelConnector.ConnectorPoint = value;
+                this._modelConnector.ConnectorPosition = value;
                 RaisePropertyChanged();
+                ConnectorPositionChanged?.Invoke(this._modelConnector.ConnectorPosition);
             }
         }
 
@@ -38,19 +43,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
         
         public IConnector Model
         {
-            get
-            {
-                this._modelConnector.ConnectionNumber = this.ConnectionNumber;
-                return this._modelConnector;
-            }
-            set
-            {
-                if (value == null)
-                    return;
-                this._modelConnector = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(this.ConnectorType));
-            }
+            get => GetModel();
+            set => SetModel(value);
         }
         /// <summary>
         /// Тип вывода: прямой или инверсный
@@ -123,6 +117,24 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this._symbol = value;
                 RaisePropertyChanged();
             }
+        }
+
+        private IConnector GetModel()
+        {
+            this._modelConnector.ConnectionNumber = this.ConnectionNumber;
+            return this._modelConnector;
+        }
+
+        private void SetModel(IConnector model)
+        {
+            if (model == null)
+                return;
+            
+            this._modelConnector.ConnectorPosition = model.ConnectorPosition;
+            RaisePropertyChanged(nameof(ConnectorPosition));
+
+            _modelConnector.Type = model.Type;
+            RaisePropertyChanged(nameof(this.ConnectorType));
         }
 
         public void UpdateConnectorPosition(Point deltaPosition)

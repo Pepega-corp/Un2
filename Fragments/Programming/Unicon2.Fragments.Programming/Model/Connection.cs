@@ -12,32 +12,32 @@ namespace Unicon2.Fragments.Programming.Model
 
         [DataMember] public int ConnectionNumber { get; set; }
         [DataMember] public PathGeometry Path { get; set; }
-        public IConnector[] Connectors => this._connectors.ToArray();
+        //public IConnector[] Connectors => this._connectors.ToArray();
 
         public Connection()
         {
             this._connectors = new List<IConnector>();
         }
 
-        public void AddConnector(IConnector connector)
-        {
-            if (!this._connectors.Contains(connector))
-            {
-                this._connectors.Add(connector);
-            }
-        }
+        //public void AddConnector(IConnector connector)
+        //{
+        //    if (!this._connectors.Contains(connector))
+        //    {
+        //        this._connectors.Add(connector);
+        //    }
+        //}
 
-        public void RemoveConnector(IConnector connector)
-        {
-            if (this._connectors.Contains(connector))
-            {
-                this._connectors.Remove(connector);
-            }
-        }
+        //public void RemoveConnector(IConnector connector)
+        //{
+        //    if (this._connectors.Contains(connector))
+        //    {
+        //        this._connectors.Remove(connector);
+        //    }
+        //}
 
-        public void Clear()
-        {
-            this._connectors.Clear();
-        }
+        //public void Clear()
+        //{
+        //    this._connectors.Clear();
+        //}
     }
 }

@@ -6,9 +6,9 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
     {
         int ConnectionNumber { get; set; }
         PathGeometry Path { get; set; }
-        IConnector[] Connectors { get; }
-        void AddConnector(IConnector connector);
-        void RemoveConnector(IConnector connector);
-        void Clear();
+        //IConnector[] Connectors { get; }
+        //void AddConnector(IConnector connector);
+        //void RemoveConnector(IConnector connector);
+        //void Clear();
     }
 }

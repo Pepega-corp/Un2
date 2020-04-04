@@ -14,7 +14,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
     // Поведение на нажатие на вывод элемента со связью
     public class ConnectionBehavior : Behavior<Ellipse>
     {
-        private ConnectionViewModel _connection;
+        private ConnectionViewModel _connectionViewModel;
         private Canvas _designerCanvas;
         private SchemeTabViewModel _tabViewModel;
         private Ellipse _sinkArea;
@@ -28,14 +28,13 @@ namespace Unicon2.Fragments.Programming.Behaviors
             this._sinkArea.MouseLeftButtonDown += this.SinkAreaOnMouseLeftButtonDown;
             this._sinkArea.MouseMove += this.SinkAreaOnMouseMove;
             this._sinkArea.MouseLeftButtonUp += this.SinkAreaOnMouseLeftButtonUp;
-            this._connection = AssociatedObject.DataContext as ConnectionViewModel;
+            this._connectionViewModel = AssociatedObject.DataContext as ConnectionViewModel;
             this._designerCanvas = CommonHelper.GetDesignerCanvas(this._sinkArea);
             this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
             
             this._dragEnter = false;
 
-            Canvas parent = VisualTreeHelper.GetParent(this._sinkArea) as Canvas;
-            if (parent != null)
+            if (VisualTreeHelper.GetParent(this._sinkArea) is Canvas parent)
             {
                 this._connectionPath = parent.Children.OfType<Path>().First(p => p.Name == ConnectionViewModel.PATH_NAME);
                 if (this._connectionPath != null)
@@ -56,10 +55,15 @@ namespace Unicon2.Fragments.Programming.Behaviors
 
         private void SinkAreaOnMouseLeftButtonDown(object sender, MouseButtonEventArgs args)
         {
-            if(args.ButtonState == MouseButtonState.Released) return;
+            if(args.ButtonState == MouseButtonState.Released)
+                return;
+
             foreach (ISelectable item in this._tabViewModel.ElementCollection)
+            {
                 item.IsSelected = false;
-            this._connection.IsSelected = true;
+            }
+
+            this._connectionViewModel.IsSelected = true;
             this._dragEnter = true;
             args.Handled = true;
         }
@@ -75,7 +79,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             if (adornerLayer != null)
             {
-                ConnectionAdorner connectorAdorner = new ConnectionAdorner(this._designerCanvas, this._connection);
+                ConnectionAdorner connectorAdorner = new ConnectionAdorner(this._designerCanvas, this._connectionViewModel);
                 adornerLayer.Add(connectorAdorner);
                 args.Handled = true;
             }
@@ -85,13 +89,13 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
             {
-                this._connection.IsSelected = !this._connection.IsSelected;
+                this._connectionViewModel.IsSelected = !this._connectionViewModel.IsSelected;
             }
-            else if (!this._connection.IsSelected)
+            else if (!this._connectionViewModel.IsSelected)
             {
                 foreach (ISelectable item in this._tabViewModel.ElementCollection)
                     item.IsSelected = false;
-                this._connection.IsSelected = true;
+                this._connectionViewModel.IsSelected = true;
             }
         }
     }

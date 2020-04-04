@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Infrastructure;
@@ -15,7 +17,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
     {
         public const string PATH_NAME = "ConnectionPath"; // должно полностью совпадать с Name у Path в XAML
 
-        #region Private fields
         private IConnection _model;
         private IConnectorViewModel _source;
         private Point _labelPosition;
@@ -27,10 +28,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private double _value;
         private double _x;
         private double _y;
-        
-        #endregion
-
-        #region Constructors
 
         public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel sink)
         {
@@ -42,15 +39,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
             this._source = source;
             this._source.Connection = this;
+            this._source.ConnectorPositionChanged += OnConnectorPositionChanged;
 
-            this.SinkConnectors = new ObservableCollection<IConnectorViewModel> {sink};
-            sink.Connection = this;
+            this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
+            SinkConnectors.CollectionChanged += SinkCollectionChanged;
+            SinkConnectors.Add(sink);
         }
-
-        #endregion
-
-        #region Properties
-
+        
         public string Name { get; private set; }
 
         public bool IsSelected
@@ -93,7 +88,18 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 if(value.Orientation != ConnectorOrientation.RIGHT)
                     return;
 
+                if (_source != null)
+                {
+                    _source.ConnectorPositionChanged -= OnConnectorPositionChanged;
+                }
+
                 this._source = value;
+
+                if(_source != null)
+                {
+                    _source.ConnectorPositionChanged += OnConnectorPositionChanged;
+                }
+
                 this.UpdatePathGeometry();
                 RaisePropertyChanged();
             }
@@ -196,33 +202,53 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public string StrongName => ProgrammingKeys.CONNECTION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
         public IConnection Model
         {
             get { return this.GetModel(); }
             set { this.SetModel(value); }
         }
-
-        #endregion Properties
-
-        #region Methods
-
+                
         private IConnection GetModel()
         {
-            this._model.Clear();
-
-            foreach (var sinkConnector in this.SinkConnectors)
-            {
-                this._model.AddConnector(sinkConnector.Model);
-            }
-
-            this._model.AddConnector(this._source.Model);
-
             return this._model;
         }
 
         private void SetModel(IConnection model)
         {
             this._model = model;
+        }
+
+        private void SinkCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        foreach (var item in args.NewItems.Cast<IConnectorViewModel>())
+                        {
+                            item.ConnectorPositionChanged += OnConnectorPositionChanged;
+                            item.Connection = this;
+                        }
+
+                        break;
+                    }
+                case NotifyCollectionChangedAction.Remove:
+                case NotifyCollectionChangedAction.Reset:
+                    {
+                        foreach (var item in args.OldItems.Cast<IConnectorViewModel>())
+                        {
+                            item.ConnectorPositionChanged -= OnConnectorPositionChanged;
+                            item.Connection = null;
+                        }
+                        break;
+                    }
+            }
+        }
+
+        private void OnConnectorPositionChanged(Point position)
+        {
+            UpdatePathGeometry();
         }
         
         private void UpdatePathGeometry()
@@ -234,7 +260,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 var sourceInfo = new PathFinder.ConnectorInfo
                 {
-                    ConnectorPoint = this.SourceConnector.Model.ConnectorPoint,
+                    ConnectorPoint = this.SourceConnector.Model.ConnectorPosition,
                     Orientation = this.SourceConnector.Orientation,
                     ConnectorParentX = this.SourceConnector.ParentViewModel.X,
                     ConnectorParentY = this.SourceConnector.ParentViewModel.Y
@@ -243,7 +269,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 var sink = this.SinkConnectors[0];
                 var sinkInfo = new PathFinder.ConnectorInfo
                 {
-                    ConnectorPoint = sink.Model.ConnectorPoint,
+                    ConnectorPoint = sink.Model.ConnectorPosition,
                     Orientation = sink.Orientation,
                     ConnectorParentX = sink.ParentViewModel.X,
                     ConnectorParentY = sink.ParentViewModel.Y
@@ -259,18 +285,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
                         var lineSegment = new LineSegment(linePoints[i], true);
                         pathFigure.Segments.Add(lineSegment);
                     }
-                    //var figure = new PathFigure();
-                    //figure.StartPoint = pathPoints[0];
-                    //pathPoints.Remove(pathPoints[0]);
-                    //figure.Segments.Add(new PolyLineSegment(pathPoints, true));
-
+                    
                     this.Path.Figures.Clear();
                     this.Path.Figures.Add(pathFigure);
                     RaisePropertyChanged(nameof(this.Path));
                 }
             }
         }
-
-        #endregion
     }
 }
