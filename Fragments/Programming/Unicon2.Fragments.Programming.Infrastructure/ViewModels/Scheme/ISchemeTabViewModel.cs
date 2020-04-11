@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Infrastructure.ViewModel;
@@ -14,6 +15,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
         double SchemeWidth { get; }
         double Scale { get; set; }
         string ScaleStr { get; }
+        ObservableCollection<ISchemeElementViewModel> ElementCollection { get; }
 
         ICommand ZoomIncrementCommand { get; }
         ICommand ZoomDecrementCommand { get; }

@@ -60,13 +60,25 @@
                     Command="{Binding NewSchemeCommand}"
                     Header="New File"
                     InputGestureText="Ctrl+N" />
-                <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" />
+                <Separator/>
+                <MenuItem Command="{Binding SaveProjectCommand}" 
+                          Header="Save Project" 
+                          InputGestureText="Ctrl+S"/>
+                <MenuItem Command="{Binding LoadProjectCommand}" 
+                          Header="Load Project"
+                          InputGestureText="Ctrl+L"/>
+                <!-- <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" /> -->
             </MenuItem>
         </Menu>
         <GroupBox
             Grid.Row="1"
             Grid.Column="0"
-            Header="Схемы">
+            Header="{Binding ProjectName}">
+            <GroupBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Rename"/>
+                </ContextMenu>
+            </GroupBox.ContextMenu>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

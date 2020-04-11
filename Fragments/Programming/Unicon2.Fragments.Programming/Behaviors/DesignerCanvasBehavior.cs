@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -48,27 +49,16 @@ namespace Unicon2.Fragments.Programming.Behaviors
             }
             this.DesignerCanvas.MouseDown += this.OnMouseDown;
             this.DesignerCanvas.MouseMove += this.OnMouseMove;
-            this.DesignerCanvas.Drop += this.OnDrop;
-            
+            this.DesignerCanvas.MouseUp += this.OnMouseUp;
+            this.DesignerCanvas.Drop += this.OnDrop;      
         }
 
-        //На случай, если вместо Barder использовать Canvas
-        private Grid GetOuterGrid(DependencyObject obj)
-        {
-            while (true)
-            {
-                var parent = VisualTreeHelper.GetParent(obj);
-                if (parent == null) return null;
-                if (parent is Grid grid && grid.Name == "OuterBorder") return grid;
-                obj = parent;
-            }
-        }
-
-        protected override void OnDetaching()
+                protected override void OnDetaching()
         {
             base.OnDetaching();
             this.DesignerCanvas.MouseDown -= this.OnMouseDown;
             this.DesignerCanvas.MouseMove -= this.OnMouseMove;
+            this.DesignerCanvas.MouseUp -= this.OnMouseUp;
             this.DesignerCanvas.Drop -= this.OnDrop;                 
         }
 
@@ -82,6 +72,28 @@ namespace Unicon2.Fragments.Programming.Behaviors
             this.TabViewModel.Scale += SCALE_STEP;
             this._scaleTransform.ScaleX = this.TabViewModel.Scale;
             this._scaleTransform.ScaleY = this.TabViewModel.Scale;
+        }
+
+        private void OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            TabViewModel.OnSelectChanged();
+        }
+
+        //На случай, если вместо Barder использовать Canvas
+        private Grid GetOuterGrid(DependencyObject obj)
+        {
+            while (true)
+            {
+                var parent = VisualTreeHelper.GetParent(obj);
+
+                if (parent == null) 
+                    return null;
+
+                if (parent is Grid grid && grid.Name == "OuterBorder")
+                    return grid;
+
+                obj = parent;
+            }
         }
 
         public void DecrementZoom()
@@ -106,7 +118,9 @@ namespace Unicon2.Fragments.Programming.Behaviors
             {
                 // если нажата была клавиша мыши, то сбрасываем выделение
                 foreach (var item in this.TabViewModel.ElementCollection)
+                {
                     item.IsSelected = false;
+                }
             }
             if (e.ChangedButton == MouseButton.Left)
             {
@@ -131,7 +145,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
                 var adornerLayer = AdornerLayer.GetAdornerLayer(this.DesignerCanvas);
                 if (adornerLayer != null)
                 {
-                    var adorner = new RubberbandAdorner(this);
+                    var adorner = new RubberbandAdorner(this, TabViewModel);
                     adornerLayer.Add(adorner);
                 }
             }
@@ -176,6 +190,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
                 element.IsSelected = false;
             }
             dragItem.IsSelected = true;
+            TabViewModel.OnSelectChanged();
             CommandManager.InvalidateRequerySuggested();
         }
 

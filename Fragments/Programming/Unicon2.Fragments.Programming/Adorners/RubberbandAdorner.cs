@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
+using Unicon2.Fragments.Programming.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Adorners
 {
@@ -14,11 +15,13 @@ namespace Unicon2.Fragments.Programming.Adorners
         private Point? _startPoint;
         private Point? _endPoint;
         private readonly Pen _rubberbandPen;
-        private DesignerCanvasBehavior _designerCanvasBehavior;
+        private readonly DesignerCanvasBehavior _designerCanvasBehavior;
+        private readonly SchemeTabViewModel _schemeTabViewModel;
 
-        public RubberbandAdorner(DesignerCanvasBehavior dcb): base(dcb.DesignerCanvas)
+        public RubberbandAdorner(DesignerCanvasBehavior dcb, SchemeTabViewModel schemeTabViewModel) : base(dcb.DesignerCanvas)
         {
             this._designerCanvasBehavior = dcb;
+            this._schemeTabViewModel = schemeTabViewModel;
             this._startPoint = dcb.RubberbandSelectionStartPoint;
             this._rubberbandPen = new Pen(Brushes.LightSlateGray, 1) {DashStyle = new DashStyle(new double[] {2}, 1)};
         }
@@ -45,10 +48,14 @@ namespace Unicon2.Fragments.Programming.Adorners
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             // release mouse capture
-            if (IsMouseCaptured) ReleaseMouseCapture();
+            if (IsMouseCaptured)
+                ReleaseMouseCapture();
             // remove this adorner from adorner layer
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvasBehavior.DesignerCanvas);
             adornerLayer?.Remove(this);
+
+            _schemeTabViewModel.OnSelectChanged();
+
             e.Handled = true;
         }
 

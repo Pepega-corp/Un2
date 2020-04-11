@@ -48,6 +48,7 @@
       <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -68,7 +69,7 @@
     <Compile Include="Model\Connector.cs" />
     <Compile Include="Model\Elements\Input.cs" />
     <Compile Include="Model\Elements\Output.cs" />
-    <Compile Include="Model\ProgrammModel.cs" />
+    <Compile Include="Model\ProgramModel.cs" />
     <Compile Include="Model\SchemeModel.cs" />
     <Compile Include="Module\ProgrammingModule.cs" />
     <Compile Include="PathFinder.cs" />

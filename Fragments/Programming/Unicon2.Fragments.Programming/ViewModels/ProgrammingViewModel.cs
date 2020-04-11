@@ -1,7 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
@@ -21,39 +24,47 @@ namespace Unicon2.Fragments.Programming.ViewModels
     {
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly ILogicElementFactory _factory;
-        private IProgrammModel _programmModel;
+        private IProgramModel _programModel;
         
-        #region Constructor
-        public ProgrammingViewModel(IProgrammModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory factory)
+        public ProgrammingViewModel(IProgramModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory factory)
         {
-            this._programmModel = model;
+            this._programModel = model;
             this._applicationGlobalCommands = globalCommands;
             this._factory = factory;
-
+            
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
             this.ElementsLibrary = new ObservableCollection<ILogicElementViewModel>();
             this.ConnectionCollection = new ObservableCollection<IConnectionViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
-            this.CloseTabCommand = new RelayCommand(this.CloseTab, this.CanCloseTab);
+            this.SaveProjectCommand = new RelayCommand(this.SaveProject);
+            this.LoadProjectCommand = new RelayCommand(this.LoadProject);
             this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
             this.ZoomIncrementCommand = new RelayCommand(this.ZoomIncrement, this.CanZooming);
             this.ZoomDecrementCommand = new RelayCommand(this.ZoomDecrement, this.CanZooming);
         }
 
-        #endregion
+        public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
+        public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
 
-        #region Properties
         public string ProjectName
         {
-            get => this._programmModel.ProjectName;
+            get => this._programModel.ProjectName;
             set
             {
-                if (string.Equals(this._programmModel.ProjectName, value, System.StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(this._programModel.ProjectName, value, System.StringComparison.InvariantCultureIgnoreCase))
                     return;
-                this._programmModel.ProjectName = value;
+                this._programModel.ProjectName = value;
                 RaisePropertyChanged();
             }
+        }
+        public string StrongName => ProgrammingKeys.PROGRAMMING +
+                                    ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
+        public object Model
+        {
+            get { return this.GetModel(); }
+            set { this.SetModel(value); }
         }
 
         public int SelectedTabIndex { get; set; }
@@ -62,11 +73,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ObservableCollection<ILogicElementViewModel> ElementsLibrary { get; }
         public ObservableCollection<IConnectionViewModel> ConnectionCollection { get; }
 
-        #endregion
+        public ICommand NewSchemeCommand { get; }
+        public ICommand SaveProjectCommand { get; }
+        public ICommand LoadProjectCommand { get; }
+        public ICommand ZoomIncrementCommand { get; }
+        public ICommand ZoomDecrementCommand { get; }
 
         public void AddConnection(IConnectionViewModel connectionViewModel)
         {
-            if(this.ConnectionCollection.Contains(connectionViewModel))
+            if (this.ConnectionCollection.Contains(connectionViewModel))
                 return;
 
             this.ConnectionCollection.Add(connectionViewModel);
@@ -92,9 +107,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             return number;
         }
 
-        #region NewSchemeCommand
-        public ICommand NewSchemeCommand { get; }
-
         private void CreateNewScheme()
         {
             var schemeViewModel = new NewSchemeViewModel();
@@ -103,32 +115,28 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 SchemeModel scemeMoedel = new SchemeModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
                 SchemeTabViewModel tabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
-                tabViewModel.CloseTabEvent += this.CloseTab;
 
                 this.SchemesCollection.Add(tabViewModel);
             }
         }
-        #endregion
 
-        #region CloseTabCommand
-        public ICommand CloseTabCommand { get; }
-
-        private bool CanCloseTab()
+        private void SaveProject()
         {
-            return this.SchemesCollection.Count != 0;
+            var projectPath = Path.Combine(this._programModel.ProjectPath, this._programModel.ProjectName + ProgramModel.EXTENSION);
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = projectPath;
+            sfd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
+            if (sfd.ShowDialog() == true)
+            {
+                
+            }
         }
 
-        private void CloseTab()
+        private void LoadProject()
         {
-            ISchemeTabViewModel tab = this.SchemesCollection[this.SelectedTabIndex];
-            //TODO предложить сохранять схему или отменять закрытие
-
-            tab.CloseTabEvent -= this.CloseTab;
-            this.SchemesCollection.Remove(tab);
+            
         }
-        #endregion
 
-        #region DeleteCommand
         public ICommand DeleteCommand { get; }
 
         private void DeleteSelectedElements()
@@ -143,10 +151,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             ISchemeTabViewModel selectedTab = this.SchemesCollection[this.SelectedTabIndex];
             return selectedTab.DeleteCommand.CanExecute(null);
         }
-        #endregion
-
-        #region ZoomCommand
-        public ICommand ZoomIncrementCommand { get; }
 
         private bool CanZooming()
         {
@@ -157,44 +161,37 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             this.SchemesCollection[this.SelectedTabIndex].ZoomIncrementCommand.Execute(this.SchemesCollection[this.SelectedTabIndex]);
         }
-        
-        public ICommand ZoomDecrementCommand { get; }
 
         private void ZoomDecrement()
         {
             this.SchemesCollection[this.SelectedTabIndex].ZoomDecrementCommand.Execute(this.SchemesCollection[this.SelectedTabIndex]);
         }
-        #endregion
-
-        #region Implementation of IStronglyNamed
-
-        public string StrongName => ProgrammingKeys.PROGRAMMING +
-                                    ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        #endregion
-
-        #region Implementation of IViewModel
-
-        public object Model
-        {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
-        }
 
         private void SetModel(object value)
         {
-            if (value is IProgrammModel model)
+            if (value is IProgramModel model)
             {
-                this._programmModel.Schemes = model.Schemes;
+                this._programModel.Schemes = model.Schemes;
 
-                foreach(var sceme in this._programmModel.Schemes)
+                foreach(var sceme in this._programModel.Schemes)
                 {
                     this.SchemesCollection.Add(new SchemeTabViewModel(sceme, this, this._factory));
                 }
 
-                //get all contactors
+                var connectors = new List<IConnectorViewModel>();
 
-                foreach (var connection in this._programmModel.Connections)
+                foreach (var schemeTabViewModel in SchemesCollection)
+                {
+                    foreach (var logicElementViewModel in schemeTabViewModel.ElementCollection.Cast<ILogicElementViewModel>())   
+                    {
+                        foreach (var connectorViewModel in logicElementViewModel.ConnectorViewModels.Where(c=>c.ConnectionNumber != -1))
+                        {
+                            connectors.Add(connectorViewModel);
+                        }
+                    }
+                }
+
+                foreach (var connection in this._programModel.Connections)
                 {
                     // get connectors with same connection number
 
@@ -210,21 +207,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        private IProgrammModel GetModel()
+        private IProgramModel GetModel()
         {
-            this._programmModel.Schemes = this.SchemesCollection.Select(sc => sc.Model).ToArray();
+            this._programModel.Schemes = this.SchemesCollection.Select(sc => sc.Model).ToArray();
+            this._programModel.Connections = ConnectionCollection.Select(cc => cc.Model).ToArray();
 
-            return this._programmModel;
-        }
-
-        #endregion
-
-        #region Implementation of IFragmentViewModel
-
-        public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
-        public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-        #endregion
-
-        
+            return this._programModel;
+        }    
     }
 }

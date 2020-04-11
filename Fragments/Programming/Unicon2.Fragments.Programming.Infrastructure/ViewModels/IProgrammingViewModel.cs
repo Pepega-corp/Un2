@@ -10,14 +10,15 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels
     {
         ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
         ObservableCollection<IConnectionViewModel> ConnectionCollection { get; }
-        void AddConnection(IConnectionViewModel connectionVoewModel);
-        void RemoveConnection(IConnectionViewModel connectionVoewModel);
+        void AddConnection(IConnectionViewModel connectionViewModel);
+        void RemoveConnection(IConnectionViewModel connectionViewModel);
         int GetNewConnectionNumber();
 
         int SelectedTabIndex { get; set; }
 
         ICommand NewSchemeCommand { get; }
-        ICommand CloseTabCommand { get; }
+        ICommand SaveProjectCommand { get; }
+        ICommand LoadProjectCommand { get; }
         ICommand DeleteCommand { get; }
         ICommand ZoomIncrementCommand { get; }
         ICommand ZoomDecrementCommand { get; }

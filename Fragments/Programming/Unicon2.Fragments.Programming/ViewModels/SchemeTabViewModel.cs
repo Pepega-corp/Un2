@@ -103,8 +103,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private ISchemeModel GetModel()
         {
-            var logicElemenViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel).Cast<ILogicElementViewModel>().ToArray();
-            this._model.LogicElements = logicElemenViewModels.Select(lvm => lvm.Model).ToArray();
+            var logicElementViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel)
+                .Cast<ILogicElementViewModel>().ToArray();
+            this._model.LogicElements = logicElementViewModels.Select(lvm => lvm.Model).ToArray();
             return this._model;
         }
 
@@ -113,7 +114,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._model = objModel;
             var logicElementsViewModels = this._factory.GetAllElementsViewModels(this._model.LogicElements);
             this.ElementCollection.AddCollection(logicElementsViewModels);
-            //todo get connection and add to ElementCollection
         }
 
         public void AddConnectionToProgramm(IConnectionViewModel connectionViewModel)
@@ -172,6 +172,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 }
                 this.ElementCollection.Remove(element);
             }
+
+            OnSelectChanged();
         }
 
         private bool CanDelete()
@@ -180,6 +182,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
             return selectedElements.Count > 0;
         }
 
-
+        public void OnSelectChanged()
+        {
+            (DeleteCommand as RelayCommand)?.RaiseCanExecuteChanged();
+        }
     }
 }

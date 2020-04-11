@@ -19,7 +19,7 @@ namespace Unicon2.Fragments.Programming.Module
     {
         public void Initialize(ITypesContainer container)
         {
-            container.Register<IProgrammModel, ProgrammModel>();
+            container.Register<IProgramModel, ProgramModel>();
 
             container.Register<IFragmentViewModel, ProgrammingViewModel>(ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ISchemeTabViewModel, SchemeTabViewModel>(ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
@@ -34,8 +34,8 @@ namespace Unicon2.Fragments.Programming.Module
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
 
             ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(ProgrammModel));
-            serializerService.AddNamespaceAttribute("programmModel", "ProgrammModelEditorNS");
+            serializerService.AddKnownTypeForSerialization(typeof(ProgramModel));
+            serializerService.AddNamespaceAttribute("programModel", "ProgrammModelEditorNS");
             serializerService.AddKnownTypeForSerialization(typeof(SchemeModel));
             serializerService.AddNamespaceAttribute("schemeModel", "SchemeModelNS");
             serializerService.AddKnownTypeForSerialization(typeof(Input));

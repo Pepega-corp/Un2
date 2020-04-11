@@ -80,7 +80,9 @@ namespace Unicon2.Fragments.Programming.Behaviors
                     item.IsSelected = false;
                 this._currentItemContent.IsSelected = true;
             }
-            //this._deltaHorizontal = this._deltaVertical = 0;
+
+            _tabViewModel.OnSelectChanged();
+            
             this._dragPoint = e.GetPosition(this._designerCanvas);
             // перетаскивать будем все выделенные контролы относительно того, который тащим мышкой
             this._contentPresenters.Clear();
