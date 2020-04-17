@@ -83,6 +83,9 @@
     <Compile Include="MemoryAccess\ConfigurationMemoryAccessor.cs" />
     <Compile Include="MemoryAccess\MemoryReaderVisitor.cs" />
     <Compile Include="MemoryAccess\MemoryWriterVisitor.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\DeviceDataComplexPropertySubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalComplexPropertyMemorySubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalDataComplexPropertyEditedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\EditableValueSetUnchangedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalDataEditedSubscription.cs" />
@@ -189,5 +192,6 @@
       <Name>Unicon2.SharedResources</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

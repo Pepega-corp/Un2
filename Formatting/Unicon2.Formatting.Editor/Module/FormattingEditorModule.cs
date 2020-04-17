@@ -41,7 +41,7 @@ namespace Unicon2.Formatting.Editor.Module
             //container.Register(typeof(IViewModel), typeof(DirectFormatterViewModel), StringKeys.DIRECT_USHORT_FORMATTER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             ////containerRegistry.Register(typeof(IViewModel), typeof(BitGroupFormatterViewModel), StringKeys.BITS_GROUP_FORMATTER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             //container.Register(typeof(IViewModel), typeof(BoolFormatterViewModel), StringKeys.BOOL_FORMATTER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            //container.Register(typeof(ISharedBitViewModel), typeof(SharedBitViewModel));
+            container.Register(typeof(ISharedBitViewModel), typeof(SharedBitViewModel));
             container.Register(typeof(IArgumentViewModel), typeof(ArgumentViewModel));
             container.Register(typeof(IFormatterEditorFactory), typeof(FormatterEditorFactory));
             container.Register(typeof(ISaveFormatterService), typeof(SaveFormatterService));

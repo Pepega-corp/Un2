@@ -99,7 +99,11 @@ namespace Unicon2.Presentation.Values
 
         public object Clone()
         {
-            return new RangeViewModel(_range.Clone() as IRange, _localizerService);
+	        return new RangeViewModel(_range.Clone() as IRange, _localizerService)
+	        {
+		        RangeFrom = RangeFrom,
+		        RangeTo = RangeTo
+	        };
         }
     }
 }

@@ -13,33 +13,21 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
     public class GroupWithReiterationEditorViewModel : ViewModelBase
     {
         private readonly Action _closeWindow;
-        private readonly Func<string, IReiterationSubGroupInfo> _reiterationSubGroupInfoFactory;
         private string _name;
         private int _addressStep;
-        private readonly IItemsGroup _model;
-        private IGroupWithReiterationInfo _groupWithReiterationInfo;
         private StringWrapper _selectedSubGroupName;
 
-        public GroupWithReiterationEditorViewModel(IConfigurationGroupEditorViewModel parent, Action closeWindow,
-            Func<IReiterationSubGroupInfo> reiterationSubGroupInfoFactory)
+        public GroupWithReiterationEditorViewModel(IConfigurationGroupEditorViewModel parent, Action closeWindow)
         {
             _closeWindow = closeWindow;
-            _reiterationSubGroupInfoFactory = name =>
-            {
-                var res = reiterationSubGroupInfoFactory();
-                res.Name = name;
-                return res;
-            };
-           // _model = parent.Model as IItemsGroup;
             Parent = parent;
             SubmitCommand = new RelayCommand(OnSubmit);
             CancelCommand = new RelayCommand(OnCancel);
             Name = Parent.Header;
-            _groupWithReiterationInfo = ((IGroupWithReiterationInfo) _model.GroupInfo);
-            AddressStep = _groupWithReiterationInfo.ReiterationStep;
+            AddressStep = Parent.ReiterationStep;
             SubGroupNames =
                 new ObservableCollection<StringWrapper>(
-                    _groupWithReiterationInfo.SubGroups.Select(info => new StringWrapper(info.Name)));
+                    Parent.SubGroupNames.Select(info => new StringWrapper(info.StringValue)));
             AddSubGroupCommand = new RelayCommand(OnAddSubGroup);
             RemoveSubGroupCommand = new RelayCommand(OnRemoveSubGroup, CanExecuteRemoveSubGroup);
 
@@ -70,9 +58,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private void OnSubmit()
         {
             Parent.Header = Name;
-            _groupWithReiterationInfo.ReiterationStep = AddressStep;
-            _groupWithReiterationInfo.SubGroups =
-                SubGroupNames.Select((wrapper => _reiterationSubGroupInfoFactory(wrapper.StringValue))).ToList();
+            Parent.ReiterationStep = AddressStep;
+            Parent.SubGroupNames.Clear();
+		
+                SubGroupNames.ForEach(wrapper => Parent.SubGroupNames.Add(new StringWrapper(wrapper.StringValue)));
             Parent.StopEditElement();
             _closeWindow();
         }

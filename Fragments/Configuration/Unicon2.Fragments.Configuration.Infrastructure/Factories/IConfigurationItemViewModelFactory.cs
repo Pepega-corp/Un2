@@ -10,6 +10,5 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.Factories
     public interface
         IRuntimeConfigurationItemViewModelFactory : IConfigurationItemVisitor<IRuntimeConfigurationItemViewModel>
     {
-        void Initialize(IDeviceEventsDispatcher deviceEventsDispatcher);
     }
 }

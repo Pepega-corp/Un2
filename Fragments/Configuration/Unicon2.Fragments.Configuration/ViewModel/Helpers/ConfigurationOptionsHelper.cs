@@ -143,7 +143,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         private async void OnExecuteReadConfiguration()
         {
             await new MemoryReaderVisitor(_deviceConfiguration,
-                _runtimeConfigurationViewModel.DeviceContext).ExecuteRead();
+                _runtimeConfigurationViewModel.DeviceContext,0).ExecuteRead();
         }
 
         private bool ExpandLevelByIndex(List<IConfigurationItemViewModel> configurationItemViewModels,
@@ -271,7 +271,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                 .RootConfigurationItemViewModels))
             {
                 await new MemoryWriterVisitor(_runtimeConfigurationViewModel.DeviceContext, new List<ushort>(),
-                    _deviceConfiguration).ExecuteWrite();
+                    _deviceConfiguration,0).ExecuteWrite();
             }
         }
 

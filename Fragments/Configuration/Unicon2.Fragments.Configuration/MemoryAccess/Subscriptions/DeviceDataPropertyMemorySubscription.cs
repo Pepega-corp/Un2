@@ -22,7 +22,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
         public DeviceDataPropertyMemorySubscription(IProperty property,
             ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
-            IValueViewModelFactory valueViewModelFactory, IDeviceMemory deviceMemory, ushort offset = 0)
+            IValueViewModelFactory valueViewModelFactory, IDeviceMemory deviceMemory, ushort offset)
         {
             _property = property;
             _localAndDeviceValueContainingViewModel = localAndDeviceValueContainingViewModel;

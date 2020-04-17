@@ -15,15 +15,21 @@ using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
 {
+
+
+
     public class MemoryReaderVisitor : IConfigurationItemVisitor<Task>
     {
         private readonly IDeviceConfiguration _configuration;
         private readonly DeviceContext _deviceContext;
+        private readonly int _offset;
 
-        public MemoryReaderVisitor(IDeviceConfiguration configuration, DeviceContext deviceContext)
+
+        public MemoryReaderVisitor(IDeviceConfiguration configuration, DeviceContext deviceContext, int offset)
         {
             _configuration = configuration;
             _deviceContext = deviceContext;
+            _offset = offset;
         }
 
         public async Task ExecuteRead()
@@ -60,21 +66,38 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task VisitItemsGroup(IItemsGroup itemsGroup)
         {
-            foreach (var configurationItemInGroup in itemsGroup.ConfigurationItemList)
-            {
-                await configurationItemInGroup.Accept(this);
-            }
+	        if (itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo &&
+	            groupWithReiterationInfo.IsReiterationEnabled)
+	        {
+		        int offset = _offset;
+		        foreach (var subGroup in groupWithReiterationInfo.SubGroups)
+		        {
+			        foreach (var configurationItemInGroup in itemsGroup.ConfigurationItemList)
+			        {
+				        await configurationItemInGroup.Accept(new MemoryReaderVisitor(_configuration,_deviceContext, offset));
+			        }
+			        offset += groupWithReiterationInfo.ReiterationStep;
+		        }
+	        }
+	        else
+	        {
+		        foreach (var configurationItemInGroup in itemsGroup.ConfigurationItemList)
+		        {
+			        await configurationItemInGroup.Accept(this);
+		        }
+	        }
         }
 
         public async Task VisitProperty(IProperty property)
         {
-            await ReadRange(_deviceContext.DataProviderContaining.DataProvider, property.Address,
-                (ushort) (property.Address + property.NumberOfPoints), _deviceContext.DeviceMemory);
+	        await ReadRange(_deviceContext.DataProviderContaining.DataProvider, (ushort) (property.Address + _offset),
+		        (ushort) (property.Address
+		                  + _offset + property.NumberOfPoints), _deviceContext.DeviceMemory);
         }
 
         public async Task VisitComplexProperty(IComplexProperty property)
         {
-            throw new NotImplementedException();
+	        await VisitProperty(property);
         }
 
         public async Task VisitMatrix(IAppointableMatrix appointableMatrixViewModel)
@@ -87,10 +110,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             throw new NotImplementedException();
         }
 
-        public async Task VisitSubProperty(ISubProperty dependentPropertyViewModel)
+        public async Task VisitSubProperty(ISubProperty subProperty)
         {
-            throw new NotImplementedException();
-        }
+	        throw new NotImplementedException();
+		}
 
         private async Task ReadRange(IDataProvider dataProvider, ushort rangeFrom, ushort rangeTo,
             IDeviceMemory memory)

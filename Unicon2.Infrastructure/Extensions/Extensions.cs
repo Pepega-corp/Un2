@@ -63,7 +63,11 @@ namespace Unicon2.Infrastructure.Extensions
 
         }
 
-        public static ushort BoolArrayToUshort(this bool[] arr)
+        public static ushort BoolArrayToUshort(this List<bool> arr)
+        {
+	        return (ushort)GetIntFromBitArray(new BitArray(arr.ToArray()));
+        }
+		public static ushort BoolArrayToUshort(this bool[] arr)
         {
             return (ushort) GetIntFromBitArray(new BitArray(arr));
         }

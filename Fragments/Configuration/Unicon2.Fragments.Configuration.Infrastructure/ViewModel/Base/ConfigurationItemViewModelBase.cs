@@ -93,5 +93,10 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base
                 RaisePropertyChanged();
             }
         }
-    }
+        protected override void OnDisposing()
+        {
+	        Parent = null;
+	        base.OnDisposing();
+        }
+	}
 }

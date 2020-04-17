@@ -11,6 +11,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         TOutPut VisitComplexProperty(IComplexPropertyEditorViewModel property);
         TOutPut VisitMatrix(IEditorConfigurationItemViewModel appointableMatrixViewModel);
         TOutPut VisitDependentProperty(IDependentPropertyEditorViewModel dependentPropertyViewModel);
-        TOutPut VisitSubProperty(IEditorConfigurationItemViewModel dependentPropertyViewModel);
+        TOutPut VisitSubProperty(ISubPropertyEditorViewModel dependentPropertyViewModel);
     }
 }

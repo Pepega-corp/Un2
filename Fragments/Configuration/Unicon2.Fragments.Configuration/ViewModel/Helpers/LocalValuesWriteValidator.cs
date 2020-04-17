@@ -29,7 +29,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 		public static bool ValidateConfigItem(IConfigurationItemViewModel configurationViewModel, bool initial)
 		{
 			bool res = initial;
-			if (configurationViewModel is ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel && localAndDeviceValueContainingViewModel.LocalValue.HasErrors)
+			if (configurationViewModel is ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel && localAndDeviceValueContainingViewModel.LocalValue!=null && localAndDeviceValueContainingViewModel.LocalValue.HasErrors)
 			{
 				var errorMes =
 					$"{StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR)}: {BuildItemPath(configurationViewModel)}";

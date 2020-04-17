@@ -100,9 +100,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             SubProperties.ForEach((property =>
             {
                 ISubProperty subProperty = property.Clone() as ISubProperty;
-                subProperty.SetParent(complexProperty);
                 complexProperty.SubProperties.Add(subProperty);
-
             }));
             complexProperty.UshortsFormatter = UshortsFormatter;
             complexProperty.Address = Address;

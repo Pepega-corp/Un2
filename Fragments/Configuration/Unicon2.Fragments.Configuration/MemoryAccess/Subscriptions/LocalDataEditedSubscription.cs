@@ -17,13 +17,15 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         private readonly IDeviceMemory _deviceMemory;
         private readonly IProperty _property;
         private readonly EditableValueSetUnchangedSubscription _dependancy;
+        private readonly int _offset;
 
         public LocalDataEditedSubscription(IEditableValueViewModel editableValueViewModel,
-            IDeviceMemory deviceMemory, IProperty property, EditableValueSetUnchangedSubscription dependancy)
+            IDeviceMemory deviceMemory, IProperty property, EditableValueSetUnchangedSubscription dependancy,int offset)
         {
             _deviceMemory = deviceMemory;
             _property = property;
             _dependancy = dependancy;
+            _offset = offset;
             EditableValueViewModel = editableValueViewModel;
         }
 
@@ -34,7 +36,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
             var ushorts = formattingService.FormatBack(_property?.UshortsFormatter, EditableValueViewModel.Accept(fetchingFromViewModelVisitor));
             
-            MemoryAccessor.GetUshortsInMemory(_deviceMemory, _property.Address, ushorts, true);
+            MemoryAccessor.GetUshortsInMemory(_deviceMemory, (ushort)(_property.Address + _offset), ushorts, true);
             _dependancy?.Execute();
         }
 

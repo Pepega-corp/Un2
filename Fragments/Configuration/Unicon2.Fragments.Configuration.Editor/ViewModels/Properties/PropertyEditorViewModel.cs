@@ -17,13 +17,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 {
 	public class PropertyEditorViewModel : EditorConfigurationItemViewModelBase, IPropertyEditorViewModel
 	{
-		private readonly ITypesContainer _container;
-		private readonly ILocalizerService _localizerService;
+		protected readonly ITypesContainer _container;
+		protected readonly ILocalizerService _localizerService;
 		protected bool _isInEditMode;
 		private string _address;
 		private string _numberOfPoints;
 		private string _measureUnit;
-		private IRangeViewModel _rangeViewModel;
+		protected IRangeViewModel _rangeViewModel;
 		private bool _isRangeEnabled;
 		private bool _isMeasureUnitEnabled;
 		private ushort _addressIteratorValue;
@@ -84,9 +84,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 		{
 			if (Parent != null)
 			{
-				if (Parent is IChildItemRemovable)
-				{
-					//   (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
+				if (Parent is IChildItemRemovable removable)
+				{ 
+					removable.RemoveChildItem(this);
 				}
 			}
 		}
@@ -166,10 +166,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 			{
 				Address = Address,
 				IsMeasureUnitEnabled = IsMeasureUnitEnabled,
+				NumberOfPoints = NumberOfPoints,
 				IsRangeEnabled = IsRangeEnabled,
 				FormatterParametersViewModel = FormatterParametersViewModel?.Clone() as IFormatterParametersViewModel,
 				Header = Header,
-				Name = Name
+				Name = Name,
+				MeasureUnit = MeasureUnit,
+				
 			};
 
 			return cloneEditorViewModel;

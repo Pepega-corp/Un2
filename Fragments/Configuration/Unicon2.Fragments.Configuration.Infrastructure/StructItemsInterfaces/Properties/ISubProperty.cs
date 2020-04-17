@@ -5,8 +5,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.P
 {
     public interface ISubProperty : IProperty
     {
-        void SetParent(IComplexProperty complexProperty);
         List<int> BitNumbersInWord { get; set; }
-        Action LocalValueChanged { get; set; }
     }
 }

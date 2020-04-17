@@ -282,12 +282,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private void PrepareAdding()
         {
             SelectedRow.IsCheckable = true;
+            SelectedRow?.Checked?.Invoke(false);
             SelectedRow?.Checked?.Invoke(true);
-        }
+
+		}
 
 
 
-        private void CompleteAdding()
+		private void CompleteAdding()
         {
             OnEditElementExecute();
         }

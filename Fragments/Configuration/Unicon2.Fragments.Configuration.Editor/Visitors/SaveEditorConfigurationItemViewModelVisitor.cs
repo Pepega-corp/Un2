@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
+using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
@@ -32,15 +34,17 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             if (editorViewModel.IsRangeEnabled)
             {
                 IRange range = _container.Resolve<IRange>();
-                range.RangeTo = double.Parse(editorViewModel.RangeViewModel.RangeTo);
-                range.RangeFrom = double.Parse(editorViewModel.RangeViewModel.RangeFrom);
+                if (editorViewModel.RangeViewModel.RangeTo != null)
+	                range.RangeTo = double.Parse(editorViewModel.RangeViewModel.RangeTo);
+                if (editorViewModel.RangeViewModel.RangeFrom != null)
+	                range.RangeFrom = double.Parse(editorViewModel.RangeViewModel.RangeFrom);
                 property.Range = range;
                 property.IsRangeEnabled = editorViewModel.IsRangeEnabled;
             }
 
             if (editorViewModel.FormatterParametersViewModel != null)
             {
-                StaticContainer.Container.Resolve<ISaveFormatterService>()
+                property.UshortsFormatter=StaticContainer.Container.Resolve<ISaveFormatterService>()
                     .CreateUshortsParametersFormatter(editorViewModel.FormatterParametersViewModel);
             }
 
@@ -66,6 +70,21 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 }
             }
 
+            IConfigurationItemFactory factory = _container.Resolve<IConfigurationItemFactory>();
+
+			if (itemsGroup.IsGroupWithReiteration)
+            {
+	            var groupWithReiterationInfo= factory.ResolveGroupWithReiterationInfo();
+	            groupWithReiterationInfo.IsReiterationEnabled = true;
+	            groupWithReiterationInfo.ReiterationStep = itemsGroup.ReiterationStep;
+				itemsGroup.SubGroupNames.ForEach(wrapper =>
+				{
+					var subGroupInfo = factory.ResolveReiterationSubGroupInfo();
+					subGroupInfo.Name = wrapper.StringValue;
+					groupWithReiterationInfo.SubGroups.Add(subGroupInfo);
+				} );
+				group.GroupInfo = groupWithReiterationInfo;
+            }
             group.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
             group.IsMain = itemsGroup.IsMain;
             return InitDefaults(group, itemsGroup);
@@ -79,9 +98,21 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             return InitializeProperty(propertyViewModel, property);
         }
 
-        public IConfigurationItem VisitComplexProperty(IComplexPropertyEditorViewModel property)
+        public IConfigurationItem VisitComplexProperty(IComplexPropertyEditorViewModel propertyViewModel)
         {
-            throw new NotImplementedException();
+			var complexProperty = _container.Resolve<IComplexProperty>();
+			complexProperty.Address = ushort.Parse(propertyViewModel.Address ?? "0");
+			complexProperty.NumberOfPoints = ushort.Parse(propertyViewModel.NumberOfPoints ?? "0");
+			foreach (var childStructItemViewModel in propertyViewModel.SubPropertyEditorViewModels)
+			{
+				if (childStructItemViewModel is ISubPropertyEditorViewModel subPropertyEditorViewModel)
+				{
+					complexProperty.SubProperties.Add(subPropertyEditorViewModel.Accept(this) as ISubProperty);
+				}
+			}
+
+			complexProperty.IsGroupedProperty = propertyViewModel.IsGroupedProperty;
+			return InitializeProperty(propertyViewModel, complexProperty); 
         }
 
         public IConfigurationItem VisitMatrix(IEditorConfigurationItemViewModel appointableMatrixViewModel)
@@ -94,9 +125,14 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             throw new NotImplementedException();
         }
 
-        public IConfigurationItem VisitSubProperty(IEditorConfigurationItemViewModel dependentPropertyViewModel)
+        public IConfigurationItem VisitSubProperty(ISubPropertyEditorViewModel subPropertyEditorViewModel)
         {
-            throw new NotImplementedException();
-        }
+	        var subProperty = _container.Resolve<ISubProperty>();
+	        subProperty.BitNumbersInWord = subPropertyEditorViewModel.BitNumbersInWord.Where(model => model.Value&&model.Owner==subPropertyEditorViewModel)
+		        .Select(model => model.NumberOfBit).ToList();
+	        subProperty.Address = ushort.Parse(subPropertyEditorViewModel.Address ?? "0");
+	        subProperty.NumberOfPoints = ushort.Parse(subPropertyEditorViewModel.NumberOfPoints ?? "0");
+			return InitializeProperty(subPropertyEditorViewModel, subProperty);
+		}
     }
 }

@@ -8,6 +8,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 
@@ -29,38 +30,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             throw new NotImplementedException();
         }
 
-
-        //protected override void SetModel(object model)
-        //{
-        //    base.SetModel(model);
-        //    if (model is ISubProperty)
-        //    {
-        //        this.BitNumbersInWord.Where((viewModel => viewModel.Owner == this)).ForEach(viewModel =>
-        //        {
-        //            if (viewModel.Value) viewModel.ChangeValueByOwnerCommand?.Execute(this);
-
-        //        });
-        //        foreach (int bitNum in (model as ISubProperty).BitNumbersInWord)
-        //        {
-        //            this.BitNumbersInWord.First((viewModel => viewModel.NumberOfBit == bitNum)).ChangeValueByOwnerCommand
-        //                ?.Execute(this);
-        //        }
-        //    }
-        //}
-
-
-        //protected override void SaveModel()
-        //{
-        //    //ISubProperty subProperty = this._model as ISubProperty;
-        //    //subProperty.BitNumbersInWord.Clear();
-        //    //foreach (ISharedBitViewModel sharedBitViewModel in this.BitNumbersInWord)
-        //    //{
-        //    //    if ((sharedBitViewModel.Owner == this) && (sharedBitViewModel.Value))
-        //    //        subProperty.BitNumbersInWord.Add(sharedBitViewModel.NumberOfBit);
-        //    //}
-        //    //base.SaveModel();
-        //}
-
         public override string StrongName => ConfigurationKeys.SUB_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
@@ -81,11 +50,32 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             }
         }
 
-
-        public override string NumberOfPoints
+        public override T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor)
+        {
+	        return visitor.VisitSubProperty(this);
+        }
+		public override string NumberOfPoints
         {
             get { return (Parent as PropertyEditorViewModel)?.NumberOfPoints; }
             set => RaisePropertyChanged();
         }
-    }
+
+		public override object Clone()
+		{
+			var cloneEditorViewModel = new SubPropertyEditorViewModel(_container,
+				_rangeViewModel.Clone() as IRangeViewModel, _localizerService)
+			{
+				Address = Address,
+				IsMeasureUnitEnabled = IsMeasureUnitEnabled,
+				NumberOfPoints = NumberOfPoints,
+				IsRangeEnabled = IsRangeEnabled,
+				FormatterParametersViewModel = FormatterParametersViewModel?.Clone() as IFormatterParametersViewModel,
+				Header = Header,
+				Name = Name,
+				MeasureUnit = MeasureUnit,
+			};
+
+			return cloneEditorViewModel;
+		}
+	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
@@ -6,6 +7,8 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
@@ -72,8 +75,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         //}
         private void InitializeBaseProperties(IConfigurationItemViewModel configurationViewModel, IConfigurationItem configurationItem)
         {
-            configurationViewModel.Description = configurationItem.Description;
-            configurationViewModel.Header = configurationItem.Name;
+            configurationViewModel.Description = configurationItem?.Description;
+            configurationViewModel.Header = configurationItem?.Name;
             if (Parent != null)
             {
                 configurationViewModel.Parent = Parent;
@@ -113,6 +116,14 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                     res.ChildStructItemViewModels.Add(configurationItem.Accept(this.WithParent(res)));
                 }
 
+                if (itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo)
+                {
+	                res.SetIsGroupWithReiteration(true);
+	                res.ReiterationStep = groupWithReiterationInfo.ReiterationStep;
+	                groupWithReiterationInfo.SubGroups.ForEach(info =>
+		                res.SubGroupNames.Add(new StringWrapper(info.Name)));
+                }
+
                 res.IsMain = itemsGroup.IsMain ?? false;
                 res.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
                 InitializeBaseProperties(res, itemsGroup);
@@ -134,17 +145,32 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         {
             var res = _container.Resolve<IComplexPropertyEditorViewModel>();
             res.ChildStructItemViewModels.Clear();
-            if (property == null) return res;
-            foreach (ISubProperty configurationItem in property.SubProperties)
+            res.NumberOfPoints = "1";
+            if (property == null)
             {
-                res.ChildStructItemViewModels.Add(configurationItem.Accept(this));
+				InitializeBaseProperties(res,property);
+	            return res;
             }
-            InitializeProperty(res, property);
+            foreach (ISubProperty subProperty in property.SubProperties)
+            {
+	            var subPropertyViewModel = subProperty.Accept(this.WithParent(res));
+	            (subPropertyViewModel as ISubPropertyEditorViewModel).BitNumbersInWord =
+		            res.MainBitNumbersInWordCollection;
 
+	            foreach (var bitNumber in subProperty.BitNumbersInWord)
+	            {
+		            var sharedBit = (subPropertyViewModel as ISubPropertyEditorViewModel).BitNumbersInWord
+			            .First((viewModel => viewModel.NumberOfBit == bitNumber));
+		            sharedBit.Refresh();
+		            sharedBit.ChangeValueByOwnerCommand
+			            ?.Execute(subPropertyViewModel);
+	            }
+				res.SubPropertyEditorViewModels.Add(subPropertyViewModel as ISubPropertyEditorViewModel);
+				res.ChildStructItemViewModels.Add(subPropertyViewModel as ISubPropertyEditorViewModel);
+				res.IsCheckable = true;
+            }
+			InitializeProperty(res, property);
             return res;
-
-            //container.Register < IDependentPropertyEditorViewModel,
-            //container.Register < ISubPropertyEditorViewModel
         }
 
         public IEditorConfigurationItemViewModel VisitMatrix(IAppointableMatrix appointableMatrixViewModel)
@@ -157,10 +183,18 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             throw new System.NotImplementedException();
         }
 
-        public IEditorConfigurationItemViewModel VisitSubProperty(ISubProperty dependentPropertyViewModel)
+        public IEditorConfigurationItemViewModel VisitSubProperty(ISubProperty subProperty)
         {
-            throw new System.NotImplementedException();
-        }
+	        var res = _container.Resolve<ISubPropertyEditorViewModel>();
+	        if (subProperty == null)
+	        {
+		        InitializeBaseProperties(res, subProperty);
+				return res;
+			} 
+	        InitializeProperty(res,subProperty);
+			return res;
+			//res.BitNumbersInWord = subProperty.BitNumbersInWord
+		}
 
         public object Clone()
         {

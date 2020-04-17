@@ -17,18 +17,12 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
     public class SubProperty : DefaultProperty, ISubProperty
     {
-        private IComplexProperty _complexProperty;
 
         public SubProperty()
         {
             BitNumbersInWord = new List<int>();
         }
 
-
-        public void SetParent(IComplexProperty complexProperty)
-        {
-            _complexProperty = complexProperty;
-        }
 
         private ushort[] GetUshortValueFromParentsValue(ushort[] parentUshorts)
         {
@@ -46,7 +40,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         [JsonProperty]
         public List<int> BitNumbersInWord { get; set; }
 
-        public Action LocalValueChanged { get; set; }
         
         protected override IConfigurationItem OnCloning()
         {

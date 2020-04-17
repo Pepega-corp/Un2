@@ -62,13 +62,15 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
                     break;
                 case IComplexProperty complexProperty:
-                    await ProcessComplexProperty(complexProperty, offset);
-                    break;
-                case IProperty property:
-                    await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, property.Address,
+					await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, (ushort)(complexProperty.Address + offset),
+						(ushort)(complexProperty.Address + complexProperty.NumberOfPoints + offset), _deviceContext.DeviceMemory);
+					break;
+				case IProperty property:
+					await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, (ushort)(property.Address + offset),
                         (ushort) (property.Address + property.NumberOfPoints + offset), _deviceContext.DeviceMemory);
                     break;
-            }
+               
+			}
         }
 
         private async Task ProcessGroupWithreiteration(IItemsGroup itemsGroup,
@@ -86,13 +88,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             }
         }
 
-        private async Task ProcessComplexProperty(IComplexProperty complexProperty, ushort offset)
-        {
-            foreach (var configurationItemInGroup in complexProperty.SubProperties)
-            {
-                await ProcessConfigurationItem(configurationItemInGroup, offset);
-            }
-        }
+    
 
         private async Task ApplyMemorySettings()
         {

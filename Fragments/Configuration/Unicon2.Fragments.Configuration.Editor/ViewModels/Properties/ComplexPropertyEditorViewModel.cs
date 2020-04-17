@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.View;
+using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -16,6 +17,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -25,6 +27,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
     public class ComplexPropertyEditorViewModel : PropertyEditorViewModel, IComplexPropertyEditorViewModel
     {
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
+        private readonly Func<ISharedBitViewModel> _sharedBitViewModelGettingFunc;
         private bool _isGroupedProperty;
 
         public ComplexPropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
@@ -32,11 +35,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             Func<ISharedBitViewModel> sharedBitViewModelGettingFunc) : base(container, rangeViewModel, localizerService)
         {
             _applicationGlobalCommands = applicationGlobalCommands;
+            _sharedBitViewModelGettingFunc = sharedBitViewModelGettingFunc;
             SubPropertyEditorViewModels = new ObservableCollection<ISubPropertyEditorViewModel>();
             SubmitCommand = new RelayCommand<object>(OnSubmit);
             CancelCommand = new RelayCommand<object>(OnCancel);
             MainBitNumbersInWordCollection = new ObservableCollection<ISharedBitViewModel>();
-            for (int i = 0; i < 16; i++)
+            for (int i = 15; i >= 0; i--)
             {
                 ISharedBitViewModel sharedBitViewModel = sharedBitViewModelGettingFunc();
                 sharedBitViewModel.NumberOfBit = i;
@@ -75,37 +79,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
 
        
-            //base.SetModel(model);
-            //if (model is IComplexProperty)
-            //{
-            //    this.SubPropertyEditorViewModels.Clear();
-            //    this.ChildStructItemViewModels.Clear();
-            //    foreach (ISubProperty subProperty in (model as IComplexProperty).SubProperties)
-            //    {
-            //        ISubPropertyEditorViewModel subPropertyEditorViewModel =
-            //            this._configurationItemEditorViewModelFactory.ResolveSubPropertyEditorViewModel(subProperty,
-            //                this.MainBitNumbersInWordCollection, this) as ISubPropertyEditorViewModel;
-            //        this.SubPropertyEditorViewModels.Add(subPropertyEditorViewModel);
-            //        this.ChildStructItemViewModels.Add(subPropertyEditorViewModel);
-            //        this.IsCheckable = true;
-            //    }
-
-            //    this.IsGroupedProperty = (model as IComplexProperty).IsGroupedProperty;
-            //}
-        
-
-       
-            //IComplexProperty complexProperty = this._model as IComplexProperty;
-            //complexProperty.SubProperties.Clear();
-            //foreach (ISubPropertyEditorViewModel subPropertyEditorViewModel in this.SubPropertyEditorViewModels)
-            //{
-            //    subPropertyEditorViewModel.StopEditElement();
-            //    complexProperty.SubProperties.Add(subPropertyEditorViewModel.Model as ISubProperty);
-            //}
-
-            //complexProperty.IsGroupedProperty = this.IsGroupedProperty;
-            //base.SaveModel();
-        
+      
 
         public override string StrongName => ConfigurationKeys.COMPLEX_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
@@ -174,45 +148,64 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
 
 
-        //public IConfigurationItemViewModel AddSubProperty()
-        //{
-        //    IConfigurationItem subProperty = this._configurationItemFactory.ResolveSubPropertyItem();
-        //    (this._model as IComplexProperty).SubProperties.Add(subProperty as ISubProperty);
-        //    IEditorConfigurationItemViewModel subPropertyViewModel =
-        //        this._configurationItemEditorViewModelFactory
-        //            .ResolveConfigurationItemEditorViewModel(subProperty, this);
-        //    (subPropertyViewModel as ISubPropertyEditorViewModel).BitNumbersInWord =
-        //        this.MainBitNumbersInWordCollection;
-        //    this.SubPropertyEditorViewModels.Add(subPropertyViewModel as ISubPropertyEditorViewModel);
-        //    this.ChildStructItemViewModels.Add(subPropertyViewModel);
-        //    return subPropertyViewModel;
-        //}
+		public IConfigurationItemViewModel AddSubProperty()
+		{
+			IEditorConfigurationItemViewModel subPropertyViewModel =
+				ConfigurationItemEditorViewModelFactory.Create().WithParent(this).VisitSubProperty(null);
+			(subPropertyViewModel as ISubPropertyEditorViewModel).BitNumbersInWord =
+				this.MainBitNumbersInWordCollection;
+
+			this.SubPropertyEditorViewModels.Add(subPropertyViewModel as ISubPropertyEditorViewModel);
+			this.ChildStructItemViewModels.Add(subPropertyViewModel);
+			return subPropertyViewModel;
+		}
 
 
-        //public void RemoveChildItem(IConfigurationItem configurationItemToRemove)
-        //{
-        //    ISubProperty subPropertyToRemove = configurationItemToRemove as ISubProperty;
-        //    (this._model as IComplexProperty).SubProperties.Remove(
-        //        (this._model as IComplexProperty).SubProperties.First((property =>
-        //            property.Name == configurationItemToRemove.Name)));
-        //    ISubPropertyEditorViewModel subPropertyEditorViewModelToRemove =
-        //        this.SubPropertyEditorViewModels.First((model =>
-        //            (model.Model as ISubProperty).Name == configurationItemToRemove.Name));
-        //    this.SubPropertyEditorViewModels.Remove(subPropertyEditorViewModelToRemove);
-        //    this.ChildStructItemViewModels.Remove(subPropertyEditorViewModelToRemove);
-        //}
-
-        public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
+		public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
         {
-            throw new NotImplementedException();
-        }
+			ISubPropertyEditorViewModel subPropertyEditorViewModelToRemove= configurationItemViewModelToRemove as ISubPropertyEditorViewModel;
+			this.SubPropertyEditorViewModels.Remove(subPropertyEditorViewModelToRemove);
+			this.ChildStructItemViewModels.Remove(subPropertyEditorViewModelToRemove);
+		}
 
-        public IConfigurationItemViewModel AddSubProperty()
-        {
-            throw new NotImplementedException();
-        }
+		public override object Clone()
+		{
+			var cloneEditorViewModel = new ComplexPropertyEditorViewModel(_container,
+				_rangeViewModel.Clone() as IRangeViewModel, _localizerService,_applicationGlobalCommands,_sharedBitViewModelGettingFunc)
+			{
+				Address = Address,
+				IsMeasureUnitEnabled = IsMeasureUnitEnabled,
+				NumberOfPoints = NumberOfPoints,
+				IsRangeEnabled = IsRangeEnabled,
+				FormatterParametersViewModel = FormatterParametersViewModel?.Clone() as IFormatterParametersViewModel,
+				Header = Header,
+				Name = Name,
+				MeasureUnit = MeasureUnit,
 
-        public override T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor)
+			};
+
+			foreach (var subPropertyEditorViewModel in SubPropertyEditorViewModels)
+			{
+				var subPropertyEditorViewModelClone = subPropertyEditorViewModel.Clone() as ISubPropertyEditorViewModel;
+				subPropertyEditorViewModelClone.BitNumbersInWord = cloneEditorViewModel.MainBitNumbersInWordCollection;
+				foreach (var bitViewModel in subPropertyEditorViewModel.BitNumbersInWord)
+				{
+					if (bitViewModel.Owner == subPropertyEditorViewModel && bitViewModel.Value)
+					{
+						subPropertyEditorViewModel.BitNumbersInWord.First(model => model.NumberOfBit==bitViewModel.NumberOfBit).ChangeValueByOwnerCommand.Execute(subPropertyEditorViewModelClone);
+					}
+				}
+
+				subPropertyEditorViewModelClone.Parent = cloneEditorViewModel;
+				cloneEditorViewModel.SubPropertyEditorViewModels.Add(subPropertyEditorViewModelClone);
+				cloneEditorViewModel.ChildStructItemViewModels.Add(subPropertyEditorViewModelClone);
+				cloneEditorViewModel.IsCheckable = true;
+			}
+
+			return cloneEditorViewModel;
+		}
+
+		public override T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor)
         {
             return visitor.VisitComplexProperty(this);
         }

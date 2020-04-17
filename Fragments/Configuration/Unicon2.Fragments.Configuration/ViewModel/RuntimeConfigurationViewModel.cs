@@ -38,7 +38,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private ObservableCollection<MainConfigItemViewModel> _mainRows;
         private object _selectedConfigDetails;
         private string _nameForUiKey;
-        private DeviceContext _deviceContext;
 
         public RuntimeConfigurationViewModel(ITypesContainer container)
         {
@@ -140,8 +139,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             }
         }
 
-        public IDeviceEventsDispatcher DeviceEventsDispatcher { get; set; }
-
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL;
 
         public string NameForUiKey => _nameForUiKey;
@@ -170,8 +167,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                 {
                     RootConfigurationItemViewModels.Add(
                         configurationItem.Accept(
-                            new RuntimeConfigurationItemViewModelFactory(_container, DeviceContext.DeviceMemory,
-                                DeviceEventsDispatcher)));
+                            new RuntimeConfigurationItemViewModelFactory(_container, DeviceContext)));
                 }
             }
 

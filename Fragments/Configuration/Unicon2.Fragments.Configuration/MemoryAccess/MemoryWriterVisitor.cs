@@ -20,10 +20,13 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         private readonly IDeviceConfiguration _configuration;
         private readonly DeviceContext _deviceContext;
         private List<ushort> _writtenAddresses;
+        private int _offset;
+
         public MemoryWriterVisitor(DeviceContext deviceContext, List<ushort> writtenAddresses,
-            IDeviceConfiguration configuration)
+            IDeviceConfiguration configuration, int offset)
         {
             _configuration = configuration;
+            _offset = offset;
             _deviceContext = deviceContext;
             _writtenAddresses = writtenAddresses;
         }
@@ -58,22 +61,41 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         }
         public async Task VisitItemsGroup(IItemsGroup itemsGroup)
         {
-            foreach (var configurationItemInGroup in itemsGroup.ConfigurationItemList)
-            {
-                await configurationItemInGroup.Accept(this);
-            }
+	        if (itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo &&
+	            groupWithReiterationInfo.IsReiterationEnabled)
+	        {
+		        int offset = _offset;
+
+		        foreach (var subGroup in groupWithReiterationInfo.SubGroups)
+		        {
+			        foreach (var configurationItemInGroup in itemsGroup.ConfigurationItemList)
+			        {
+				        await configurationItemInGroup.Accept(new MemoryWriterVisitor(_deviceContext, _writtenAddresses,
+					        _configuration, offset));
+			        }
+			        offset += groupWithReiterationInfo.ReiterationStep;
+		        }
+
+	        }
+	        else
+	        {
+		        foreach (var configurationItemInGroup in itemsGroup.ConfigurationItemList)
+		        {
+			        await configurationItemInGroup.Accept(this);
+		        }
+	        }
         }
 
         public async Task VisitProperty(IProperty property)
         {
-            await WriteRange(_deviceContext.DataProviderContaining.DataProvider, property.Address,
-                (ushort)(property.Address + property.NumberOfPoints), _deviceContext.DeviceMemory);
+	        await WriteRange(_deviceContext.DataProviderContaining.DataProvider, (ushort) (property.Address + _offset),
+		        (ushort) (property.Address + _offset + property.NumberOfPoints), _deviceContext.DeviceMemory);
         }
 
-        public Task VisitComplexProperty(IComplexProperty property)
+        public async Task VisitComplexProperty(IComplexProperty property)
         {
-            throw new System.NotImplementedException();
-        }
+	        await VisitProperty(property);
+		}
 
         public Task VisitMatrix(IAppointableMatrix appointableMatrixViewModel)
         {
@@ -85,10 +107,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             throw new System.NotImplementedException();
         }
 
-        public Task VisitSubProperty(ISubProperty dependentPropertyViewModel)
+        public async Task VisitSubProperty(ISubProperty subProperty)
         {
-            throw new System.NotImplementedException();
-        }
+	        throw new System.NotImplementedException();
+		}
 
         private async Task WriteRange(IDataProvider dataProvider, ushort rangeFrom, ushort rangeTo,
             IDeviceMemory memory)

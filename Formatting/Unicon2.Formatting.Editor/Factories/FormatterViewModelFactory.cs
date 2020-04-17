@@ -103,7 +103,7 @@ namespace Unicon2.Formatting.Editor.Factories
         IFormatterParametersViewModel IFormatterViewModelFactory.CreateFormatterViewModel(
             IUshortsFormatter ushortsFormatter)
         {
-
+	        if (ushortsFormatter == null) return null;
             var sharedResourcesGlobalViewModel = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
             if (sharedResourcesGlobalViewModel
                 .CheckDeviceSharedResourcesContainsModel(ushortsFormatter))

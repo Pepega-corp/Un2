@@ -14,6 +14,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -26,7 +27,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private bool _isTableViewAllowed;
         private bool _isMain;
         private bool _isGroupWithReiteration;
-		
+
+        public ConfigurationGroupEditorViewModel()
+        {
+	        SubGroupNames=new ObservableCollection<StringWrapper>();
+        }
 
         public bool IsInEditMode
         {
@@ -43,7 +48,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             IsInEditMode = true;
             if (IsGroupWithReiteration)
             {
-               // GroupWithReiterationEditorWindowFactory.StartEditingGroupWithReiteration(this, _configurationItemFactory);
+                GroupWithReiterationEditorWindowFactory.StartEditingGroupWithReiteration(this);
             }
         }
 
@@ -56,7 +61,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public void DeleteElement()
         {
-           // (this.Parent as IChildItemRemovable)?.RemoveChildItem(this.Model as IConfigurationItem);
+            (this.Parent as IChildItemRemovable)?.RemoveChildItem(this);
+
             Dispose();
         }
 
@@ -174,17 +180,32 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         
         public void PasteAsChild(object itemToPaste)
         {
-            if (itemToPaste is IEditorConfigurationItemViewModel)
+            if (itemToPaste is IEditorConfigurationItemViewModel editorConfigurationItemViewModel)
             {
-                ChildStructItemViewModels.Add(itemToPaste as IEditorConfigurationItemViewModel);
+                ChildStructItemViewModels.Add(editorConfigurationItemViewModel);
+                editorConfigurationItemViewModel.Parent = this;
+
             }
         }
 
         public override object Clone()
         {
-            ConfigurationGroupEditorViewModel cloneEditorViewModel = new ConfigurationGroupEditorViewModel();
-            //object buffModel = (this.Model as IItemsGroup).Clone();
-            //cloneEditorViewModel.Model = buffModel;
+            ConfigurationGroupEditorViewModel cloneEditorViewModel = new ConfigurationGroupEditorViewModel()
+            {
+				IsGroupWithReiteration = IsGroupWithReiteration,
+				IsMain = IsMain,
+	            IsTableViewAllowed = IsTableViewAllowed,
+				Header = Header
+            };
+            ChildStructItemViewModels.ForEach(model =>
+            {
+	            var child = (model as ICloneable).Clone() as IConfigurationItemViewModel;
+	            child.Parent = cloneEditorViewModel;
+				cloneEditorViewModel.IsCheckable = true;
+	            cloneEditorViewModel.ChildStructItemViewModels.Add(
+		            child);
+            });
+        
             return cloneEditorViewModel;
         }
 
@@ -192,9 +213,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             return visitor.VisitItemsGroup(this);
         }
-
-        public ICommand IncreaseAddressCommand { get; }
-        public ICommand DecreaseAddressCommand { get; }
 
 
         public bool IsTableViewAllowed
@@ -222,17 +240,22 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 {
                     StartEditElement();
                 }
-                //if ((_model as IItemsGroup)?.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo)
-                //{
-                //    groupWithReiterationInfo.IsReiterationEnabled = value;
-                //}
 
             }
         }
 
-        #endregion
+        public ObservableCollection<StringWrapper> SubGroupNames { get; }
+        public int ReiterationStep { get; set; }
+        public void SetIsGroupWithReiteration(bool value)
+        {
+			SetProperty(ref _isGroupWithReiteration, value);
+			RaisePropertyChanged(nameof(TypeName));
 
-        public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
+		}
+
+		#endregion
+
+		public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
         {
             ChildStructItemViewModels.Remove(
                 ChildStructItemViewModels.First((model => model == configurationItemViewModelToRemove)));
@@ -245,5 +268,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 				(childStructItemViewModel as IAddressChangeable)?.ChangeAddress(addressOffset, isIncrease);
 			}
 		}
+
+     
     }
 }
