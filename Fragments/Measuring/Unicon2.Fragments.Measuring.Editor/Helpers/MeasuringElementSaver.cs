@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Presentation.Infrastructure.Services;
 
 namespace Unicon2.Fragments.Measuring.Editor.Helpers
 {
@@ -29,6 +30,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Helpers
 		private void InitDefaults(IMeasuringElementEditorViewModel measuringElementEditorViewModel, IMeasuringElement measuringElement)
 		{
 			measuringElement.Name= measuringElementEditorViewModel.Header;
+			measuringElement.SetId(measuringElementEditorViewModel.Id);
 		}
 
 		private IAnalogMeasuringElement CreateAnalogMeasuringElement(
@@ -41,6 +43,12 @@ namespace Unicon2.Fragments.Measuring.Editor.Helpers
 			analogMeasuringElement.MeasureUnit = analogMeasuringElementEditorViewModel.MeasureUnit;
 			analogMeasuringElement.IsMeasureUnitEnabled = analogMeasuringElementEditorViewModel.IsMeasureUnitEnabled;
 			InitDefaults(analogMeasuringElementEditorViewModel, analogMeasuringElement);
+			if (analogMeasuringElementEditorViewModel.FormatterParametersViewModel != null)
+			{
+				analogMeasuringElement.UshortsFormatter = StaticContainer.Container.Resolve<ISaveFormatterService>()
+					.CreateUshortsParametersFormatter(analogMeasuringElementEditorViewModel.FormatterParametersViewModel);
+			}
+
 			return analogMeasuringElement;
 		}
 		private IControlSignal CreateControlSignal(

@@ -24,6 +24,7 @@ namespace Unicon2.Model.Module
         public void Initialize(ITypesContainer container)
         {
             container.Register<IConnectionState, DeviceConnectionState>();
+            container.Register<IResourceContainer, ResourceContainer>();
 
             container.Register<IBoolValue, BoolValue>();
             container.Register<INumericValue, NumericValue>();

@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Unicon2.Unity.ViewModels;
+
+namespace Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings
+{
+	public class PresentationGroupViewModel:ViewModelBase
+	{
+		private string _header;
+
+		public string Header
+		{
+			get => _header;
+			set
+			{
+				_header = value;
+				RaisePropertyChanged();
+			}
+		}
+	}
+}

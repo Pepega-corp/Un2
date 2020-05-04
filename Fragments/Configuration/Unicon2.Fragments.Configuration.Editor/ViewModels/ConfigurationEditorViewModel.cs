@@ -39,19 +39,22 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
     {
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly IFormatterEditorFactory _formatterEditorFactory;
+        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
         private IEditorConfigurationItemViewModel _bufferConfigurationItem;
+        private ushort _addressIteratorValue;
 
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
-            IFormatterEditorFactory formatterEditorFactory, IFragmentSettingsViewModel fragmentSettingsViewModel
+            IFormatterEditorFactory formatterEditorFactory, IFragmentSettingsViewModel fragmentSettingsViewModel,ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel
         )
         {
             _allRows = new ObservableCollection<IConfigurationItemViewModel>();
             _applicationGlobalCommands = applicationGlobalCommands;
             _formatterEditorFactory = formatterEditorFactory;
+            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             FragmentSettingsViewModel = fragmentSettingsViewModel;
             RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
             ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
@@ -107,6 +110,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 CanExecuteAddSelectedElementAsResource);
             EditDescriptionCommand =
                 new RelayCommand(OnEditDescriptionExecute, CanExecuteEditDescription);
+			IncreaseAddressCommand=new RelayCommand(()=>OnChangeAddress(true),()=>SelectedRow is IAddressChangeable);
+			DecreaseAddressCommand = new RelayCommand(() => OnChangeAddress(false), () => SelectedRow is IAddressChangeable);
+			AddressIteratorValue = 1;
+        }
+
+		private void OnChangeAddress(bool isIncreasing)
+		{ 
+			(SelectedRow as IAddressChangeable).ChangeAddress(AddressIteratorValue,isIncreasing);
         }
 
         private void OnAddMatrixExecute()
@@ -176,13 +187,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanExecuteAddSelectedElementAsResource()
         {
-            return false;
-            // return (this._selectedRow != null) && !this._deviceSharedResources.IsItemReferenced(this._selectedRow.);
+	        return
+		        _selectedRow is IPropertyEditorViewModel && !_sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(_selectedRow.Name);
         }
 
         private void OnAddSelectedElementAsResourceExecute()
         {
-            // this._sharedResourcesViewModelFactory.AddSharedResource(this._selectedRow.Model as INameable);
+             _sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(_selectedRow);
         }
 
         private bool CanPasteAsChildElementElement()
@@ -300,27 +311,30 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             get { return _selectedRow; }
             set
             {
-                if (_selectedRow is IEditable)
-                {
-                    (_selectedRow as IEditable).StopEditElement();
-                }
+	            if (_selectedRow is IEditable)
+	            {
+		            (_selectedRow as IEditable).StopEditElement();
+	            }
 
-                _selectedRow = value;
-                foreach (IElementAddingCommand elementAddingCommand in ElementsAddingCommandCollection)
-                {
-                    (elementAddingCommand.AddingCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                }
+	            _selectedRow = value;
+	            foreach (IElementAddingCommand elementAddingCommand in ElementsAddingCommandCollection)
+	            {
+		            (elementAddingCommand.AddingCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            }
 
-                (EditDescriptionCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (AddSelectedElementAsResourceCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (EditElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (DeleteElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (SetElementDownCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (SetElementUpCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (CopyElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                (PasteAsChildElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                RaisePropertyChanged();
+	            (EditDescriptionCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (AddSelectedElementAsResourceCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (EditElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (DeleteElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (SetElementDownCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (SetElementUpCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (CopyElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (PasteAsChildElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (IncreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
+	            (DecreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
+
+	            RaisePropertyChanged();
             }
         }
 
@@ -348,6 +362,20 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ICommand PasteAsChildElementCommand { get; }
         public ICommand AddSelectedElementAsResourceCommand { get; }
         public ICommand EditDescriptionCommand { get; }
+        public ICommand DecreaseAddressCommand { get; }
+        public ICommand IncreaseAddressCommand { get; }
+
+        public ushort AddressIteratorValue
+        {
+	        get => _addressIteratorValue;
+	        set
+	        {
+		        _addressIteratorValue = value; 
+				RaisePropertyChanged();
+	        }
+        }
+
+
         public ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollection { get; set; }
 
 
@@ -442,7 +470,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 if (isElementSetted)
                 {
 
-                    SelectedRow.Parent.Checked?.Invoke(true);
+                    SelectedRow?.Parent?.Checked?.Invoke(true);
                 }
             }
 
@@ -468,7 +496,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
                 if (isElementSetted)
                 {
-                    SelectedRow.Parent.Checked?.Invoke(true);
+                    SelectedRow?.Parent?.Checked?.Invoke(true);
                 }
             }
 

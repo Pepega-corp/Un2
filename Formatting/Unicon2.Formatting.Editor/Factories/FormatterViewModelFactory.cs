@@ -109,7 +109,7 @@ namespace Unicon2.Formatting.Editor.Factories
                 .CheckDeviceSharedResourcesContainsModel(ushortsFormatter))
             {
                 if (!sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(
-                    ushortsFormatter))
+                    ushortsFormatter.Name))
                 {
                     var formatterViewModel = ushortsFormatter.Accept(this);
                     var formatterParametersViewModel = new FormatterParametersViewModel()
@@ -118,7 +118,7 @@ namespace Unicon2.Formatting.Editor.Factories
                         IsFromSharedResources = true,
                         RelatedUshortsFormatterViewModel = formatterViewModel
                     };
-                    sharedResourcesGlobalViewModel.AddSharedResourceViewModel(formatterParametersViewModel);
+                    sharedResourcesGlobalViewModel.AddSharedResourceViewModel(formatterParametersViewModel, ushortsFormatter.Name);
                     return formatterParametersViewModel;
                 }
 

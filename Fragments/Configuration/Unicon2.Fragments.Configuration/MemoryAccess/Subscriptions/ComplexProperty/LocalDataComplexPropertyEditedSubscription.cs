@@ -11,6 +11,7 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Services.Formatting;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Infrastructure.Visitors;
@@ -20,20 +21,16 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 	class LocalDataComplexPropertyEditedSubscription : ILocalDataMemorySubscription
 	{
 		private readonly IRuntimeComplexPropertyViewModel _complexPropertyViewModel;
-		private readonly IDeviceMemory _deviceMemory;
-		private readonly ISubProperty _subProperty;
+		private readonly DeviceContext _deviceContext;
 		private readonly IComplexProperty _complexProperty;
-		private readonly EditableValueSetUnchangedSubscription _dependancy;
 		private readonly int _offset;
 
 		public LocalDataComplexPropertyEditedSubscription(IRuntimeComplexPropertyViewModel complexPropertyViewModel,
-			IDeviceMemory deviceMemory, ISubProperty subProperty, IComplexProperty complexProperty, EditableValueSetUnchangedSubscription dependancy,int offset)
+			DeviceContext deviceContext, IComplexProperty complexProperty,int offset)
 		{
 			_complexPropertyViewModel = complexPropertyViewModel;
-			_deviceMemory = deviceMemory;
-			_subProperty = subProperty;
+			_deviceContext = deviceContext;
 			_complexProperty = complexProperty;
-			_dependancy = dependancy;
 			_offset = offset;
 		}
 
@@ -58,12 +55,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 					counterInner++;
 				}
 			}
-
-		
-
-
-			MemoryAccessor.GetUshortsInMemory(_deviceMemory, (ushort)(_complexProperty.Address+_offset), new ushort[]{ resultBitArray.BoolArrayToUshort() }, true);
-			_dependancy?.Execute();
+			var resUshorts = new ushort[] {resultBitArray.BoolArrayToUshort()};
+			MemoryAccessor.GetUshortsInMemory(_deviceContext.DeviceMemory, (ushort)(_complexProperty.Address+_offset), resUshorts, true);
+			_deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
+				(ushort) (_complexProperty.Address + _offset), (ushort) resUshorts.Length);
 		}
 
 	}

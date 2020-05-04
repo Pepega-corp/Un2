@@ -145,6 +145,11 @@ namespace Unicon2.Presentation.Subscription
             return Result.Create(true);
         }
 
+        public void RemoveSubscriptionById(Guid id)
+        {
+	        _idObservers.Remove(id);
+        }
+
         public Result TriggerLocalAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
             MemoryKind memoryKind = MemoryKind.UshortMemory)
         {

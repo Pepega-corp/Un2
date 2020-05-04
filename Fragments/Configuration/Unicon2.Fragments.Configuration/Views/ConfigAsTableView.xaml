@@ -93,7 +93,7 @@
                                                 <Border
                                                     BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
                                                     BorderThickness="1"
-                                                    ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue, Converter={StaticResource PropertyTooltipConverter}}">
+                                                    ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}}">
                                                     <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
                                                         <ContentPresenter.ContentTemplateSelector>
                                                             <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />

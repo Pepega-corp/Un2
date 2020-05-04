@@ -9,5 +9,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
         ObservableCollection<string> AvailableItemsList { get; }
         string SelectedItem { get; set; }
         void InitList(IEnumerable<string> stringEnumerable);
+        void SetValue(string value);
     }
 }

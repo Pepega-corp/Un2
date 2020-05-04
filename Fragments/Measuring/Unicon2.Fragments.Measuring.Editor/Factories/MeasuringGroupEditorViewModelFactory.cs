@@ -23,6 +23,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
             if (measuringGroup == null)
             {
                 measuringGroup = _container.Resolve<IMeasuringGroup>();
+                measuringGroup.Name = "New";
             }
 
             IMeasuringGroupEditorViewModel measuringGroupEditorViewModel =
@@ -33,7 +34,8 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
                 measuringGroupEditorViewModel.MeasuringElementEditorViewModels.Add(
                     _measuringElementEditorViewModelFactory.CreateMeasuringElementEditorViewModel(measuringElement));
             }
-
+            measuringGroupEditorViewModel.PresentationSettingsViewModel = new PresentationSettingsViewModelFactory()
+	            .CreatePresentationSettingsViewModel(measuringGroup, measuringGroupEditorViewModel);
             measuringGroupEditorViewModel.Header = measuringGroup.Name;
             return measuringGroupEditorViewModel;
         }

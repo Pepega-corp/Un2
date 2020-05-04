@@ -30,7 +30,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnSubmitExecute()
         {
             if (StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>()
-                .CheckDeviceSharedResourcesContainsViewModel(ResourceViewModel))
+                .CheckDeviceSharedResourcesContainsViewModel(ResourceViewModel.Name))
             { 
                 return;
             }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
+using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
 
 namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence

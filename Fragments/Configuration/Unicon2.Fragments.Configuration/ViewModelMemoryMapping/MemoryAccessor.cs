@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -6,7 +7,21 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 {
     public static class MemoryAccessor
     {
-        public static ushort[] GetUshortsFromMemory(IDeviceMemory deviceMemory, ushort address,
+	    public static bool IsMemoryContainsAddresses(IDeviceMemory deviceMemory, ushort address,
+		    ushort numberOfPoints, bool isLocal)
+	    {
+		    if (isLocal)
+		    {
+			    return IsMemoryDictionaryContainsAddresses(deviceMemory.LocalMemoryValues, address, numberOfPoints);
+		    }
+		    else
+		    {
+			    return IsMemoryDictionaryContainsAddresses(deviceMemory.DeviceMemoryValues, address, numberOfPoints);
+		    }
+		}
+
+
+		public static ushort[] GetUshortsFromMemory(IDeviceMemory deviceMemory, ushort address,
             ushort numberOfPoints, bool isLocal)
         {
             if (isLocal)
@@ -51,19 +66,41 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
             }
         }
 
-
-        private static ushort[] GetUshortsFromMemoryDictionary(Dictionary<ushort, ushort> configurationMemoryValues,
+        private static bool IsMemoryDictionaryContainsAddresses(Dictionary<ushort, ushort> configurationMemoryValues,
+	        ushort address, ushort numberOfPoints)
+        {
+	        for (var i = address; i < address + numberOfPoints; i++)
+	        {
+		        if (!configurationMemoryValues.ContainsKey(i))
+		        {
+			        return false;
+		        }
+	        }
+	        return true;
+        }
+		private static ushort[] GetUshortsFromMemoryDictionary(Dictionary<ushort, ushort> configurationMemoryValues,
             ushort address, ushort numberOfPoints)
         {
             var result = new ushort[numberOfPoints];
             var counter = 0;
             for (var i = address; i < address + numberOfPoints; i++)
             {
-                result[counter++] = configurationMemoryValues[i];
+	            try
+	            {
+		            result[counter++] = configurationMemoryValues[i];
+				}
+	            catch (Exception e)
+	            {
+		            Console.WriteLine(e);
+		            throw;
+	            }
+                
             }
 
             return result;
         }
+
+
 
     }
 }

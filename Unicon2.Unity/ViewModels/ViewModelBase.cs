@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Unicon2.Unity.Annotations;
+using Unicon2.Unity.Properties;
 
 namespace Unicon2.Unity.ViewModels
 {

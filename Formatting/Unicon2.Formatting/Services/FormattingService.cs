@@ -40,6 +40,10 @@ namespace Unicon2.Formatting.Services
 
         private IFormattedValue TryFormat(IUshortsFormatter ushortsFormatter, ushort[] ushorts)
         {
+	        if (ushortsFormatter == null)
+	        {
+		        return null;
+	        }
             return ushortsFormatter.Accept(new FormatterFormatVisitor(ushorts, _typesContainer,
                 _iterationDefinitionsCache));
         }

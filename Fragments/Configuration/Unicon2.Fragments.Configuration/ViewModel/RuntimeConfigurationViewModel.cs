@@ -56,19 +56,21 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private void OnShowTable(object obj)
         {
             if (!(obj is MainConfigItemViewModel mainItem)) return;
-            if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails)
+            if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails && obj !=
+	            SelectedConfigDetails)
             {
-                selectedConfigDetails.IsSelected = false;
-                selectedConfigDetails.IsTableSelected = false;
+	            selectedConfigDetails.IsSelected = false;
+	            selectedConfigDetails.IsTableSelected = false;
             }
 
-            mainItem.IsTableSelected = true;
+            mainItem.IsTableSelected = !mainItem.IsTableSelected;
             if (mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
             {
-                tableViewModel.IsTableView = true;
+                tableViewModel.IsTableView = mainItem.IsTableSelected;
             }
 
             mainItem.IsSelected = true;
+            SelectedConfigDetails = null;
             SelectedConfigDetails = mainItem;
 
         }
@@ -163,12 +165,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             _nameForUiKey = deviceConfiguration.StrongName;
             if (deviceConfiguration.RootConfigurationItemList != null)
             {
-                foreach (IConfigurationItem configurationItem in deviceConfiguration.RootConfigurationItemList)
-                {
-                    RootConfigurationItemViewModels.Add(
-                        configurationItem.Accept(
-                            new RuntimeConfigurationItemViewModelFactory(_container, DeviceContext)));
-                }
+	            foreach (IConfigurationItem configurationItem in deviceConfiguration.RootConfigurationItemList)
+	            {
+
+		            configurationItem.Accept(
+				            new RuntimeConfigurationItemViewModelFactory(_container, DeviceContext))
+			            .OnAddingNeeded(RootConfigurationItemViewModels.Add);
+	            }
             }
 
             AllRows.AddCollection(RootConfigurationItemViewModels);

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Services;
@@ -17,7 +19,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
 {
-    public class ConditionViewModel : PropertyEditorViewModel, IConditionViewModel, IUshortFormattableEditorViewModel
+    public class ConditionViewModel : PropertyEditorViewModel, IConditionViewModel
     {
 
         private IDependancyCondition _dependancyCondition;
@@ -26,6 +28,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
         private ushort _ushortValueToCompare;
         private string _selectedConditionResult;
         private string _selectedCondition;
+        private string _referencedResourcePropertyName;
 
         public ConditionViewModel(IDependancyCondition dependancyCondition,
             ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,
@@ -38,27 +41,32 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
             SelectPropertyFromResourceCommand = new RelayCommand(OnSelectPropertyFromResourceExecute);
             ConditionResultList = new List<string>(Enum.GetNames(typeof(ConditionResultEnum)));
             ConditionsList = new List<string>(Enum.GetNames(typeof(ConditionsEnum)));
-            ShowFormatterParameters = new RelayCommand(OnShowFormatterParameters);
-        }
+            ShowFormatterParameters=new RelayCommand(() =>
+            {
+	            _formatterEditorFactory.EditFormatterByUser(this);
+			});
+
+		}
 
 
-        private void OnShowFormatterParameters()
-        {
-            _formatterEditorFactory.EditFormatterByUser(this);
-            RaisePropertyChanged(nameof(UshortFormatterString));
-        }
 
         private void OnSelectPropertyFromResourceExecute()
         {
-           // this._dependancyCondition.LocalAndDeviceValuesContaining = this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(ILocalAndDeviceValuesContaining)) as ILocalAndDeviceValuesContaining;
-            RaisePropertyChanged(nameof(ReferencedResorcePropertyName));
+	        ReferencedResourcePropertyName = _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelectingString<IPropertyEditorViewModel>();
         }
 
+        public ICommand ShowFormatterParameters { get; }
 
         public ICommand SelectPropertyFromResourceCommand { get; }
-        public string ReferencedResorcePropertyName
+
+        public string ReferencedResourcePropertyName
         {
-            get { return ""; /* return this._dependancyCondition?.LocalAndDeviceValuesContaining?.Name;*/ }
+	        get => _referencedResourcePropertyName;
+	        set
+	        {
+		        _referencedResourcePropertyName = value;
+				RaisePropertyChanged();
+	        }
         }
 
         public List<string> ConditionsList { get; set; }
@@ -93,31 +101,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
                 _selectedConditionResult = value;
                 RaisePropertyChanged();
             }
-        }
-          public string UshortFormatterString =>"";
+        } 
 
-        //  public string UshortFormatterString => this._dependancyCondition?.UshortsFormatter?.StrongName;
-        public ICommand ShowFormatterParameters { get; }
-
-        public string StrongName => ConfigurationKeys.DEPENDANCY_CONDITION +
+        public override string StrongName => ConfigurationKeys.DEPENDANCY_CONDITION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        public object Model
-        {
-            get { return GetModel(); }
-            set { SetModel(value as IDependancyCondition); }
-        }
-
-        private void SetModel(IDependancyCondition dependancyCondition)
-        {
-            _dependancyCondition = dependancyCondition;
-            SelectedCondition = _dependancyCondition.ConditionsEnum.ToString();
-            SelectedConditionResult = _dependancyCondition.ConditionResult.ToString();
-            UshortValueToCompare = _dependancyCondition.UshortValueToCompare;
-            RaisePropertyChanged(nameof(UshortFormatterString));
-        }
-
-
+		
         private IDependancyCondition GetModel()
         {
             _dependancyCondition.UshortValueToCompare = UshortValueToCompare;

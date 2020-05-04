@@ -1,15 +1,20 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Unicon2.Fragments.Measuring.Editor.Factories;
 using Unicon2.Fragments.Measuring.Editor.Helpers;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+using Unicon2.Fragments.Measuring.Editor.View.PresentationSettings;
+using Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
+using Unicon2.Infrastructure;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -18,24 +23,28 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
     public class MeasuringGroupEditorViewModel : ViewModelBase, IMeasuringGroupEditorViewModel, IDropTarget
     {
         private readonly IMeasuringElementEditorViewModelFactory _measuringElementEditorViewModelFactory;
+        private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private string _header;
-        private IMeasuringGroup _measuringGroup;
         private int _discretGroupElementsCount;
         private string _discretGroupName;
         private ushort _discretGroupStartAddress;
         private ushort _discretGroupStartingBit;
 
         private static int FUNCTION_CODE = 3;
+        private PresentationSettingsViewModel _presentationSettingsViewModel;
 
-        public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory)
+        public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory,IApplicationGlobalCommands applicationGlobalCommands)
         {
             _measuringElementEditorViewModelFactory = measuringElementEditorViewModelFactory;
+            _applicationGlobalCommands = applicationGlobalCommands;
             MeasuringElementEditorViewModels = new ObservableCollection<IMeasuringElementEditorViewModel>();
             AddDiscretMeasuringElementCommand = new RelayCommand(OnAddDiscretMeasuringElementExecute);
             AddDiscretMeasuringElementGroupCommand = new RelayCommand(OnAddDiscretMeasuringElementGroupCommandExecute);
             AddAnalogMeasuringElementCommand = new RelayCommand(OnAddAnalogMeasuringElementExecute);
             DeleteMeasuringElementCommand = new RelayCommand<object>(OnDeleteMeasuringElementExecute);
             AddControlSignalCommand = new RelayCommand(OnAddControlSignalExecute);
+            OpenPresentationSettingsCommand = new RelayCommand(OnOpenPresentationSettingsCommand);
+            PresentationSettingsViewModel = new PresentationSettingsViewModel(this,new Dictionary<Guid, PositioningInfoViewModel>());
         }
 
         private void OnAddControlSignalExecute()
@@ -51,7 +60,12 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
                 MeasuringElementEditorViewModels.Remove(obj as IMeasuringElementEditorViewModel);
             }
         }
-
+        private void OnOpenPresentationSettingsCommand()
+        {
+            PresentationSettingsViewModel.UpdateMeasuringElements();
+            _applicationGlobalCommands.ShowWindowModal(() => new PresentationSettingsWindow(),
+		        PresentationSettingsViewModel);
+        }
 
         private void OnAddAnalogMeasuringElementExecute()
         {
@@ -148,12 +162,21 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             }
         }
 
-
+        public PresentationSettingsViewModel PresentationSettingsViewModel
+        {
+	        get => _presentationSettingsViewModel;
+	        set
+	        {
+		        _presentationSettingsViewModel = value;
+		        RaisePropertyChanged();
+	        }
+        }
         public ObservableCollection<IMeasuringElementEditorViewModel> MeasuringElementEditorViewModels { get; set; }
         public ICommand AddAnalogMeasuringElementCommand { get; }
         public ICommand AddDiscretMeasuringElementCommand { get; }
         public ICommand AddDiscretMeasuringElementGroupCommand { get; }
         public ICommand AddControlSignalCommand { get; }
+        public ICommand OpenPresentationSettingsCommand { get; }
 
         public ICommand DeleteMeasuringElementCommand { get; }
 

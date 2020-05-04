@@ -1,5 +1,6 @@
 ﻿using Unicon2.Fragments.Journals.Editor.Interfaces.LoadingSequence;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
+using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;

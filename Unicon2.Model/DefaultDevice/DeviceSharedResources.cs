@@ -19,10 +19,12 @@ namespace Unicon2.Model.DefaultDevice
         public DeviceSharedResources()
         {
             SharedResources = new List<INameable>();
+			SharedResourcesInContainers=new List<IResourceContainer>();
         }
 
         [JsonProperty]
         public List<INameable> SharedResources { get; set; }
-
+		[JsonProperty]
+        public List<IResourceContainer> SharedResourcesInContainers { get; set; }
     }
 }

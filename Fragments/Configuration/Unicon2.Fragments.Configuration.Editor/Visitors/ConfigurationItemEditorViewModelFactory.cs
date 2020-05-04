@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
@@ -101,7 +103,16 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             var formatterParametersViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
                 .CreateFormatterViewModel(property.UshortsFormatter);
             editorPropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
-            InitializeBaseProperties(editorPropertyViewModel, property);
+
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
+	            StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+            if (sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesWithContainersContainsModel(property))
+            {
+	            sharedResourcesGlobalViewModel.AddExistingResourceWithContainer(editorPropertyViewModel, property);
+
+			}
+
+			InitializeBaseProperties(editorPropertyViewModel, property);
         }
 
         public IEditorConfigurationItemViewModel VisitItemsGroup(IItemsGroup itemsGroup)
@@ -178,9 +189,30 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             throw new System.NotImplementedException();
         }
 
-        public IEditorConfigurationItemViewModel VisitDependentProperty(IDependentProperty dependentPropertyViewModel)
+        public IEditorConfigurationItemViewModel VisitDependentProperty(IDependentProperty dependentProperty)
         {
-            throw new System.NotImplementedException();
+	        var res = _container.Resolve<IDependentPropertyEditorViewModel>();
+	        if (dependentProperty == null)
+	        {
+		        InitializeBaseProperties(res, dependentProperty);
+		        return res;
+	        }
+
+	        InitializeProperty(res, dependentProperty);
+
+
+	        foreach (IDependancyCondition condition in dependentProperty.DependancyConditions)
+	        {
+		        IConditionViewModel conditionViewModel = _container.Resolve<IConditionViewModel>();
+		        conditionViewModel.SelectedCondition = condition.ConditionsEnum.ToString();
+		        conditionViewModel.SelectedConditionResult = condition.ConditionResult.ToString();
+		        conditionViewModel.UshortValueToCompare = condition.UshortValueToCompare;
+		        conditionViewModel.ReferencedResourcePropertyName = condition.ReferencedPropertyResourceName;
+				res.ConditionViewModels.Add(conditionViewModel);
+	        }
+			InitializeProperty(res,dependentProperty);
+	        return res;
+
         }
 
         public IEditorConfigurationItemViewModel VisitSubProperty(ISubProperty subProperty)

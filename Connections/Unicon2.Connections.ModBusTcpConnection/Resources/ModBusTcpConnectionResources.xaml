@@ -7,40 +7,44 @@
     <DataTemplate DataType="{x:Type viewModel:ModbusTcpConnectionViewModel}">
 
 
-            <UniformGrid Rows="2" Columns="3" VerticalAlignment="Top" Height="Auto">
-                <Label
-                    Margin="2"
-                    Content="{lex:Loc Port}"
-                    Target="portTextBox" />
-                <Label Margin="2" Content=" "/>
-                <TextBox
-                    Name="portTextBox"
-                    Margin="2"
-                    Text="{Binding Port}" />
-                <Label
-                    Margin="2"
-                    Content="{lex:Loc IpAddress}"
-                    Target="ipTextBox" />
-            <Button 
-                    Margin="2" 
-                    Content="Ping"
-                    Command="{Binding PingDeviceCommand}">
+        <UniformGrid
+            Height="Auto"
+            VerticalAlignment="Top"
+            Columns="3"
+            Rows="2">
+            <Label
+                Margin="2"
+                Content="{lex:Loc Port}"
+                Target="portTextBox" />
+            <Label Margin="2" Content=" " />
+            <TextBox
+                Name="portTextBox"
+                Margin="2"
+                Text="{Binding Port}" />
+            <Label
+                Margin="2"
+                Content="{lex:Loc IpAddress}"
+                Target="ipTextBox" />
+            <Button
+                Margin="2"
+                Command="{Binding PingDeviceCommand}"
+                Content="Ping">
                 <Button.Style>
                     <Style TargetType="Button">
-                        <Setter Property="Background" Value="DarkRed"/>
+                        <Setter Property="Background" Value="DarkRed" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsPinging}" Value="True">
-                                <Setter Property="Background" Value="LightGreen"/>
+                                <Setter Property="Background" Value="LightGreen" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
             </Button>
-                <TextBox
-                    Name="ipTextBox"
-                    Margin="2"
-                    Text="{Binding IpAddress}" />
-            </UniformGrid>
+            <TextBox
+                Name="ipTextBox"
+                Margin="2"
+                Text="{Binding IpAddress}" />
+        </UniformGrid>
 
 
     </DataTemplate>

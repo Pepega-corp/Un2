@@ -1,4 +1,6 @@
-﻿namespace Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence
+﻿using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
+
+namespace Unicon2.Fragments.Journals.Infrastructure.Model
 {
     public interface IIndexLoadingSequence : IJournalLoadingSequence
     {

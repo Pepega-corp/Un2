@@ -26,7 +26,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 		protected IRangeViewModel _rangeViewModel;
 		private bool _isRangeEnabled;
 		private bool _isMeasureUnitEnabled;
-		private ushort _addressIteratorValue;
 	    private IFormatterParametersViewModel _formatterParametersViewModel;
 
 	    public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,

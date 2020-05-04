@@ -57,5 +57,10 @@ namespace Unicon2.Presentation.Subscription
         {
             return _fragmentLevelEventsDispatcher.AddSubscriptionById(subscription, id);
         }
+
+        public void RemoveSubscriptionById(Guid id)
+        {
+	        _fragmentLevelEventsDispatcher.RemoveSubscriptionById(id);
+        }
     }
 }

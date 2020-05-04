@@ -100,13 +100,25 @@ namespace Unicon2.Infrastructure.Extensions
             return arrayToReaturn;
         }
 
+        public static bool[] GetBoolArrayFromUshort(this ushort ushortToProcess)
+        {
+	        bool[] arrayToReaturn = new bool[16];
+
+	        BitArray bitArray = new BitArray(new int[] {(int) ushortToProcess});
+	        for (int bitIndex = 0; bitIndex < 16; bitIndex++)
+	        {
+		        arrayToReaturn[bitIndex] = bitArray[bitIndex];
+	        }
+	        return arrayToReaturn;
+        }
+
         /// <summary>
-        /// Конвертирует 2 байта в слово
-        /// </summary>
-        /// <param name="highByte">Ст.байт</param>
-        /// <param name="lowByte">Мл.байт</param>
-        /// <returns>Слово.</returns>
-        public static ushort TwoBytesToUshort(byte highByte, byte lowByte)
+		/// Конвертирует 2 байта в слово
+		/// </summary>
+		/// <param name="highByte">Ст.байт</param>
+		/// <param name="lowByte">Мл.байт</param>
+		/// <returns>Слово.</returns>
+		public static ushort TwoBytesToUshort(byte highByte, byte lowByte)
         {
             ushort ret = highByte;
             return (ushort) ((ushort) (ret << 8) + (ushort) lowByte);
@@ -213,5 +225,25 @@ namespace Unicon2.Infrastructure.Extensions
             ushort ret = high;
             return (ushort) ((ushort) (ret << 8) + (ushort) low);
         }
+
+        public static bool IsEqual(this ushort[] first, ushort[] second)
+        {
+	        const bool iseq = true;
+	        if (first.Length != second.Length)
+	        {
+		        return false;
+	        }
+
+	        if (!iseq) return true;
+	        for (int i = 0; i < first.Length; i++)
+	        {
+		        if (first[i] != second[i])
+		        {
+			        return false;
+		        }
+	        }
+
+	        return true;
+		}
     }
 }

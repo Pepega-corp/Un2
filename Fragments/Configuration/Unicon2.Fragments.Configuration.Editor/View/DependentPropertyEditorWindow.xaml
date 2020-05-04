@@ -45,6 +45,61 @@
             <TextBox Margin="5" Text="{Binding NumberOfPoints}" />
             <TextBlock Margin="5" Text="{lex:Loc Address}" />
             <TextBox Margin="5" Text="{Binding Address}" />
+
+            <CheckBox
+                Margin="3"
+                Content="{lex:Loc MeasureUnit}"
+                IsChecked="{Binding IsMeasureUnitEnabled}" />
+            <Grid>
+                <TextBox
+                    Style="{DynamicResource EditableFieldBoxStyle}"
+                    Text="{Binding MeasureUnit}"
+                    Visibility="{Binding IsMeasureUnitEnabled, Converter={converter:BoolToVisConverter}}" />
+            </Grid>
+            <CheckBox
+                Margin="3"
+                Content="{lex:Loc Range}"
+                IsChecked="{Binding IsRangeEnabled}" />
+            <Grid>
+                <Grid Visibility="{Binding IsRangeEnabled, Converter={converter:BoolToVisConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Width="auto"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Text="[" />
+                    <TextBox
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Style="{DynamicResource EditableFieldBoxStyle}"
+                        Text="{Binding RangeViewModel.RangeFrom, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Text=":" />
+                    <TextBox
+                        Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        Style="{DynamicResource EditableFieldBoxStyle}"
+                        Text="{Binding RangeViewModel.RangeTo, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock
+                        Grid.Column="4"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Text="]" />
+                </Grid>
+            </Grid>
         </UniformGrid>
         <Grid Grid.Row="0" Grid.Column="1">
             <Grid.RowDefinitions>
@@ -53,7 +108,7 @@
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="5" Text="{lex:Loc DefaultFormatter}" />
-                <lex:LocProxy Name="formatterProxy" Source="{Binding SelectedUshortFormatterName, TargetNullValue=NotSet}" />
+                <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterParametersViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
                 <TextBlock
                     MinWidth="150"
                     Margin="5"
@@ -101,7 +156,7 @@
                             <StackPanel Grid.Column="0" Margin="10">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Margin="5" Text="{lex:Loc ReferencedProperty}" />
-                                    <lex:LocProxy Name="propProxy" Source="{Binding ReferencedResorcePropertyName, TargetNullValue=NotSet}" />
+                                    <lex:LocProxy Name="propProxy" Source="{Binding ReferencedResourcePropertyName, TargetNullValue=NotSet}" />
                                     <TextBlock
                                         MinWidth="150"
                                         Margin="5"
@@ -147,7 +202,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding SelectedConditionResult, Converter={StaticResource IsDependentResultFormattableToVisConverter}}">
                                     <TextBlock Margin="5" Text="{lex:Loc ConditionFormatter}" />
-                                    <lex:LocProxy Name="formatterCondProxy" Source="{Binding UshortFormatterString, TargetNullValue=NotSet}" />
+                                    <lex:LocProxy Name="formatterCondProxy" Source="{Binding FormatterParametersViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
                                     <TextBlock
                                         MinWidth="150"
                                         Margin="5"

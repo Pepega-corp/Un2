@@ -19,5 +19,10 @@ namespace Unicon2.Presentation.Values
                 RaisePropertyChanged();
             }
         }
+
+        public void SetBoolValueProperty(bool value)
+        {
+	        BoolValueProperty = value;
+        }
     }
 }

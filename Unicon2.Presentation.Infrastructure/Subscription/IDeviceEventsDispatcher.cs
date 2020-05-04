@@ -28,6 +28,8 @@ namespace Unicon2.Presentation.Infrastructure.Subscription
             IMemorySubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory);
 
         Result AddSubscriptionById(IMemorySubscription subscription, Guid id);
+        void RemoveSubscriptionById(Guid id);
+
     }
 
     public enum MemoryKind

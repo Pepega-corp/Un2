@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unicon2.Fragments.Measuring.Editor.Factories;
 using Unicon2.Fragments.Measuring.Editor.Helpers;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
 using Unicon2.Fragments.Measuring.Editor.View;
+using Unicon2.Fragments.Measuring.Editor.View.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Infrastructure;
@@ -24,6 +26,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private bool _isContextMenuOpen;
         private bool _isListViewSelected;
+        private PresentationSettingsViewModel _presentationSettingsViewModel;
 
         public MeasuringMonitorEditorViewModel(ITypesContainer container,
             IMeasuringGroupEditorViewModelFactory measuringGroupEditorViewModelFactory,
@@ -46,6 +49,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             });
 			var r=new GongSolutions.Wpf.DragDrop.DefaultDragHandler();
             OpenConfigurationSettingsCommand = new RelayCommand(OnOpenConfigurationSettingsExecute);
+
         }
 
         private void OnOpenConfigurationSettingsExecute()
@@ -111,15 +115,12 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             MeasuringGroupEditorViewModels.Add(
                 _measuringGroupEditorViewModelFactory.CreateMeasuringGroupEditorViewModel());
         }
-
-
+        
         public string StrongName => MeasuringKeys.MEASURING_MONITOR +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-       
-		
-
+        
         public string NameForUiKey => MeasuringKeys.MEASURING_MONITOR;
+
         public IDeviceFragment BuildDeviceFragment()
         {
 			_measuringMonitor.MeasuringGroups.Clear();
@@ -128,6 +129,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 				_measuringMonitor.MeasuringGroups.Add(new MeasuringGroupsSaver().CreateMeasuringGroup(measuringGroupEditorViewModel));
 			}
 			return _measuringMonitor;
+
 		}
 
         public ICommand OpenConfigurationSettingsCommand { get; }
@@ -136,9 +138,13 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         public ICommand SetElementRightCommand { get; }
         public ICommand DeleteGroupCommand { get; }
         public ICommand CheckElementsPositionCommand { get; set; }
+        public ICommand OpenPresentationSettingsCommand { get; }
 
 
         public ObservableCollection<IMeasuringGroupEditorViewModel> MeasuringGroupEditorViewModels { get; set; }
+
+       
+
         public void Initialize(IDeviceFragment deviceFragment)
         {
 			_measuringMonitor = deviceFragment as IMeasuringMonitor;
@@ -148,6 +154,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 				MeasuringGroupEditorViewModels.Add(_measuringGroupEditorViewModelFactory
 					.CreateMeasuringGroupEditorViewModel(measuringGroup));
 			}
-		}
+
+        }
     }
 }

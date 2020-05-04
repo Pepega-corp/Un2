@@ -10,13 +10,17 @@ namespace Unicon2.Presentation.Factories
     {
         public IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue)
         {
+	        if (formattedValue == null)
+	        {
+		        return null;
+	        }
             return formattedValue.Accept(new FormattedValueViewModelFactory(formattedValue as IRangeable,
                 formattedValue as IMeasurable));
         }
 
         public IEditableValueViewModel CreateEditableValueViewModel(FormattedValueInfo formattedValueInfo)
         {
-            return formattedValueInfo.FormattedValue.Accept(new EditableValueViewModelFactory(formattedValueInfo.Rangeable,
+            return formattedValueInfo.FormattedValue.Accept(new EditableValueViewModelFactory(formattedValueInfo.IsEditingEnabled,formattedValueInfo.Rangeable,
                 formattedValueInfo.Measurable));
 
         }

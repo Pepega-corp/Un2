@@ -11,6 +11,7 @@ using NModbus4.Serial;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces.Factories;
 using Unicon2.Connections.ModBusRtuConnection.Keys;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 
@@ -23,19 +24,18 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
         private readonly IComPortConfigurationFactory _comPortConfigurationFactory;
         private readonly ISerializerService _serializerService;
 
-        public ComConnectionManager(IComPortConfigurationFactory comPortConfigurationFactory,
-            ISerializerService serializerService)
+        public ComConnectionManager()
         {
-            _comPortConfigurationFactory = comPortConfigurationFactory;
-            _serializerService = serializerService;
+            _comPortConfigurationFactory = StaticContainer.Container.Resolve<IComPortConfigurationFactory>();
+            _serializerService = StaticContainer.Container.Resolve<ISerializerService>();
             ComPortConfigurationsDictionary = new Dictionary<string, IComPortConfiguration>();
             if (File.Exists(StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json"))
             {
                 try
                 {
                     ComPortConfigurationsDictionary =
-                        _serializerService.DeserializeFromFile<ComConnectionManager>(
-                            StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json").ComPortConfigurationsDictionary;
+                        _serializerService.DeserializeFromFile<Dictionary<string, IComPortConfiguration>>(
+                            StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json");
                 }
                 catch (Exception e)
                 {

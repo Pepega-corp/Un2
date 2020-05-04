@@ -65,6 +65,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 					await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, (ushort)(complexProperty.Address + offset),
 						(ushort)(complexProperty.Address + complexProperty.NumberOfPoints + offset), _deviceContext.DeviceMemory);
 					break;
+				case IDependentProperty dependentProperty:
+					await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, (ushort)(dependentProperty.Address + offset),
+						(ushort)(dependentProperty.Address + dependentProperty.NumberOfPoints + offset), _deviceContext.DeviceMemory);
+					break;
 				case IProperty property:
 					await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, (ushort)(property.Address + offset),
                         (ushort) (property.Address + property.NumberOfPoints + offset), _deviceContext.DeviceMemory);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 

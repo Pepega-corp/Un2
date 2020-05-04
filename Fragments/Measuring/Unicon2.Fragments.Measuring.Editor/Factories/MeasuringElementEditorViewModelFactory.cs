@@ -1,11 +1,12 @@
 ﻿using System;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
-using Unicon2.Fragments.Measuring.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Editor.Factories
@@ -69,6 +70,9 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 			analogMeasuringElementEditorViewModel.MeasureUnit = analogMeasuringElement.MeasureUnit;
 			analogMeasuringElementEditorViewModel.IsMeasureUnitEnabled = analogMeasuringElement.IsMeasureUnitEnabled;
 			InitDefaults(analogMeasuringElementEditorViewModel, analogMeasuringElement);
+			var formatterParametersViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+				.CreateFormatterViewModel(analogMeasuringElement.UshortsFormatter);
+			analogMeasuringElementEditorViewModel.FormatterParametersViewModel = formatterParametersViewModel;
 			return analogMeasuringElementEditorViewModel;
 		}
 

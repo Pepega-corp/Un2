@@ -23,16 +23,15 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 		private readonly IRuntimeComplexPropertyViewModel _runtimeComplexPropertyViewModel;
 		private readonly IComplexProperty _complexProperty;
 		private readonly IDeviceMemory _deviceMemory;
-		private readonly List<EditableValueSetUnchangedSubscription> _dependencies;
 		private readonly int _offset;
+		private ushort[] _prevUshorts=new ushort[0];
 
 
-		public LocalComplexPropertyMemorySubscription(IRuntimeComplexPropertyViewModel runtimeComplexPropertyViewModel,IComplexProperty complexProperty, IDeviceMemory deviceMemory, List<EditableValueSetUnchangedSubscription> dependencies,int offset)
+		public LocalComplexPropertyMemorySubscription(IRuntimeComplexPropertyViewModel runtimeComplexPropertyViewModel,IComplexProperty complexProperty, IDeviceMemory deviceMemory,int offset)
 		{
 			_runtimeComplexPropertyViewModel = runtimeComplexPropertyViewModel;
 			_complexProperty = complexProperty;
 			_deviceMemory = deviceMemory;
-			_dependencies = dependencies;
 			_offset = offset;
 		}
 
@@ -40,6 +39,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 		{
 			var ushortsFromDevice = MemoryAccessor.GetUshortsFromMemory(_deviceMemory, (ushort)(_complexProperty.Address + _offset),
 				_complexProperty.NumberOfPoints, true);
+			if (_prevUshorts.IsEqual(ushortsFromDevice))
+			{
+				return;
+			}
+			_prevUshorts = ushortsFromDevice;
 			foreach (var subProperty in _complexProperty.SubProperties)
 			{
 				var boolArray = ushortsFromDevice.GetBoolArrayFromUshortArray();
@@ -62,7 +66,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 				(subPropertyViewModel as ILocalAndDeviceValueContainingViewModel).LocalValue.Accept(new EditableValueSetFromLocalVisitor(subPropertyValue));
 			}
 
-			_dependencies.ForEach(subscription => subscription.Execute());
 		}
 	}
 }

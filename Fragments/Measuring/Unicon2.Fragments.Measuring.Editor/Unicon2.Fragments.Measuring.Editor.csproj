@@ -60,13 +60,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\FilterStringToGroupAddRemoveVisiblityConverter.cs" />
+    <Compile Include="Converters\PresentationElementNameConverter.cs" />
     <Compile Include="Factories\BitAddressEditorViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringElementEditorViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringGroupEditorViewModelFactory.cs" />
+    <Compile Include="Factories\PresentationSettingsViewModelFactory.cs" />
     <Compile Include="Factories\WritingValueContextViewModelFactory.cs" />
     <Compile Include="Helpers\BitAddressSaver.cs" />
     <Compile Include="Helpers\MeasuringElementSaver.cs" />
     <Compile Include="Helpers\MeasuringGroupsSaver.cs" />
+    <Compile Include="Helpers\PresentationSettingsSaver.cs" />
     <Compile Include="Helpers\WritingValueContextSaver.cs" />
     <Compile Include="Interfaces\Factories\IMeasuringElementEditorViewModelFactory.cs" />
     <Compile Include="Interfaces\Factories\IMeasuringGroupEditorViewModelFactory.cs" />
@@ -89,12 +93,18 @@
     <Compile Include="ViewModel\MeasuringGroupEditorViewModel.cs" />
     <Compile Include="ViewModel\MeasuringMonitorEditorViewModel.cs" />
     <Compile Include="ViewModel\PresentationSettingsViewModel.cs" />
+    <Compile Include="ViewModel\PresentationSettings\PositioningInfoViewModel.cs" />
+    <Compile Include="ViewModel\PresentationSettings\PresentationElementViewModel.cs" />
+    <Compile Include="ViewModel\PresentationSettings\PresentationGroupViewModel.cs" />
     <Compile Include="View\MeasuringSettingsView.xaml.cs">
       <DependentUpon>MeasuringSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MeasuringMonitorEditorView.xaml.cs">
       <DependentUpon>MeasuringMonitorEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PresentationSettings\AdornedControl.cs" />
+    <Compile Include="View\PresentationSettings\AdornerPlacement.cs" />
+    <Compile Include="View\PresentationSettings\FrameworkElementAdorner.cs" />
     <Compile Include="View\PresentationSettings\PresentationSettingsWindow.xaml.cs">
       <DependentUpon>PresentationSettingsWindow.xaml</DependentUpon>
     </Compile>

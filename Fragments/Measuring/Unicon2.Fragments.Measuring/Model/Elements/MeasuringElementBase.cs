@@ -25,5 +25,9 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
 			}
 			set => _id = value;
 		}
+		public void SetId(Guid id)
+		{
+			_id = id;
+		}
 	}
 }

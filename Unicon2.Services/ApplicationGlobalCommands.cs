@@ -66,7 +66,7 @@ namespace Unicon2.Services
         {
             Window windowToShow = getWindow.Invoke();
             windowToShow.Owner = _owner==null ? Application.Current.MainWindow : (_owner as Window);
-            windowToShow.Topmost = true;
+           // windowToShow.Topmost = true;
             windowToShow.DataContext = dataContext;
             windowToShow.ShowDialog();
             return windowToShow;

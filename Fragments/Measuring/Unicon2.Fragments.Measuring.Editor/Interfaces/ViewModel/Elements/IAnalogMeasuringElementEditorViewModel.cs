@@ -10,6 +10,5 @@ namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements
         ICommand ShowFormatterParametersCommand { get; }
         ushort Address { get; set; }
         ushort NumberOfPoints { get; set; }
-        string FormatterString { get; }
     }
 }

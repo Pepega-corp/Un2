@@ -18,5 +18,10 @@ namespace Unicon2.Presentation.Values
                 RaisePropertyChanged();
             }
         }
+
+        public void SetNumValue(string value)
+        {
+	        NumValue = value;
+        }
     }
 }

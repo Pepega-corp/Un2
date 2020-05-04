@@ -11,18 +11,20 @@ using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
-using Unicon2.Unity.Annotations;
+using Unicon2.Unity.Properties;
 
 namespace Unicon2.Presentation.Factories
 {
 	public class EditableValueViewModelFactory : IValueVisitor<IEditableValueViewModel>
 	{
-	    [CanBeNull] private IRangeable _rangeable;
+		private readonly bool _isEditingEnabled;
+		[CanBeNull] private IRangeable _rangeable;
 		[CanBeNull] private IMeasurable _measurable;
 
-		public EditableValueViewModelFactory([CanBeNull] IRangeable rangeable = null, [CanBeNull] IMeasurable measurable = null)
+		public EditableValueViewModelFactory(bool isEditingEnabled,[CanBeNull] IRangeable rangeable = null, [CanBeNull] IMeasurable measurable = null)
 		{
-		    _rangeable = rangeable;
+			_isEditingEnabled = isEditingEnabled;
+			_rangeable = rangeable;
 			_measurable = measurable;
 		}
 
@@ -30,6 +32,7 @@ namespace Unicon2.Presentation.Factories
 			IEditableValueViewModel formattedValueViewModel)
 		{
 			formattedValueViewModel.Header = formattedValue.Header;
+			
 			if (_measurable != null)
 			{
 				formattedValueViewModel.IsMeasureUnitEnabled = _measurable.IsMeasureUnitEnabled;
@@ -49,7 +52,13 @@ namespace Unicon2.Presentation.Factories
 			{
 				formattedValueViewModel.IsRangeEnabled = false;
 			}
+
+			if (formattedValueViewModel.IsMeasureUnitEnabled)
+			{
+
+			}
 		    formattedValueViewModel.FormattedValue = formattedValue;
+		    formattedValueViewModel.IsEditEnabled = _isEditingEnabled;
 			return formattedValueViewModel;
 		}
 

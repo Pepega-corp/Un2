@@ -164,27 +164,21 @@
                     <UniformGrid Columns="2" Rows="2">
                         <Button
                             Margin="3"
-                            Command="{Binding SelectedRow.IncreaseAddressCommand}"
+                            Command="{Binding IncreaseAddressCommand}"
                             Content="{lex:Loc IncreaseAddress}"
-                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}"
                             Style="{DynamicResource UniconButtonStyle}" />
 
                         <Button
                             Margin="3"
-                            Command="{Binding SelectedRow.DecreaseAddressCommand}"
+                            Command="{Binding DecreaseAddressCommand}"
                             Content="{lex:Loc DecreaseAddress}"
-                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IItemGroupViewModel}"
                             Style="{DynamicResource UniconButtonStyle}" />
                         <TextBlock
                             Margin="3"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
                             Text="{lex:Loc AddressIterator}" />
-                        <TextBox
-                            Margin="3"
-                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
-                            Text="{Binding SelectedRow.AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Margin="3" Text="{Binding AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
                     <UniformGrid
                         Columns="2"

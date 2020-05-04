@@ -7,6 +7,8 @@ using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Infrastructure.Visitors;
 
@@ -14,17 +16,15 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
     public class LocalDataEditedSubscription : ILocalDataMemorySubscription
     {
-        private readonly IDeviceMemory _deviceMemory;
-        private readonly IProperty _property;
-        private readonly EditableValueSetUnchangedSubscription _dependancy;
+	    private readonly DeviceContext _deviceContext;
+	    private readonly IProperty _property;
         private readonly int _offset;
 
         public LocalDataEditedSubscription(IEditableValueViewModel editableValueViewModel,
-            IDeviceMemory deviceMemory, IProperty property, EditableValueSetUnchangedSubscription dependancy,int offset)
+            DeviceContext deviceContext, IProperty property,int offset)
         {
-            _deviceMemory = deviceMemory;
-            _property = property;
-            _dependancy = dependancy;
+	        _deviceContext = deviceContext;
+	        _property = property;
             _offset = offset;
             EditableValueViewModel = editableValueViewModel;
         }
@@ -36,8 +36,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
             var ushorts = formattingService.FormatBack(_property?.UshortsFormatter, EditableValueViewModel.Accept(fetchingFromViewModelVisitor));
             
-            MemoryAccessor.GetUshortsInMemory(_deviceMemory, (ushort)(_property.Address + _offset), ushorts, true);
-            _dependancy?.Execute();
+            MemoryAccessor.GetUshortsInMemory(_deviceContext.DeviceMemory, (ushort)(_property.Address + _offset), ushorts, true);
+            _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
+	            (ushort) (_property.Address + _offset), (ushort) ushorts.Length);
         }
 
         public IEditableValueViewModel EditableValueViewModel { get; }

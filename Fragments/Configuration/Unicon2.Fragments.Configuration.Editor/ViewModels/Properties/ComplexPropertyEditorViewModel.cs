@@ -109,42 +109,36 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
         public bool SetElement(IConfigurationItemViewModel element, bool isUp)
         {
-            //if (this.ChildStructItemViewModels.Contains(element))
-            //{
-            //    int moveIndexFrom =
-            //        this.ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel);
-            //    int moveIndexTo;
-            //    bool valid = false;
-            //    if (isUp)
-            //    {
-            //        moveIndexTo = moveIndexFrom - 1;
-            //        valid = (moveIndexTo >= 0) && (moveIndexFrom > 0);
-            //    }
-            //    else
-            //    {
-            //        moveIndexTo = moveIndexFrom + 1;
-            //        valid = moveIndexFrom < this.ChildStructItemViewModels.Count - 1;
-            //    }
+			if (this.ChildStructItemViewModels.Contains(element))
+			{
+				int moveIndexFrom =
+					this.ChildStructItemViewModels.IndexOf(element as IEditorConfigurationItemViewModel);
+				int moveIndexTo;
+				bool valid = false;
+				if (isUp)
+				{
+					moveIndexTo = moveIndexFrom - 1;
+					valid = (moveIndexTo >= 0) && (moveIndexFrom > 0);
+				}
+				else
+				{
+					moveIndexTo = moveIndexFrom + 1;
+					valid = moveIndexFrom < this.ChildStructItemViewModels.Count - 1;
+				}
 
-            //    if (valid)
-            //    {
-            //        this.ChildStructItemViewModels.Move(moveIndexFrom, moveIndexTo);
-            //        List<ISubProperty> modelItems = new List<ISubProperty>();
-            //        foreach (IConfigurationItemViewModel propViewModel in this.ChildStructItemViewModels)
-            //        {
-            //            modelItems.Add(propViewModel.Model as ISubProperty);
-            //        }
+				if (valid)
+				{
+					this.ChildStructItemViewModels.Move(moveIndexFrom, moveIndexTo);
+					this.SubPropertyEditorViewModels.Move(moveIndexFrom, moveIndexTo);
+					return true;
+				}
+				else
+				{
+					throw new Exception("invalid data input");
+				}
+			}
 
-            //        (this._model as IComplexProperty).SubProperties = modelItems;
-            //        return true;
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("invalid data input");
-            //    }
-            //}
-
-            return false;
+			return false;
         }
 
 
@@ -181,7 +175,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 				Header = Header,
 				Name = Name,
 				MeasureUnit = MeasureUnit,
-
+				IsGroupedProperty = IsGroupedProperty
 			};
 
 			foreach (var subPropertyEditorViewModel in SubPropertyEditorViewModels)
@@ -192,7 +186,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 				{
 					if (bitViewModel.Owner == subPropertyEditorViewModel && bitViewModel.Value)
 					{
-						subPropertyEditorViewModel.BitNumbersInWord.First(model => model.NumberOfBit==bitViewModel.NumberOfBit).ChangeValueByOwnerCommand.Execute(subPropertyEditorViewModelClone);
+						subPropertyEditorViewModelClone.BitNumbersInWord.First(model => model.NumberOfBit==bitViewModel.NumberOfBit).ChangeValueByOwnerCommand.Execute(subPropertyEditorViewModelClone);
 					}
 				}
 

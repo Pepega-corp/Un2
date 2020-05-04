@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
+using Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 
 namespace Unicon2.Fragments.Measuring.Model
@@ -21,7 +22,7 @@ namespace Unicon2.Fragments.Measuring.Model
 
         [JsonProperty]
         public List<IMeasuringGroup> MeasuringGroups { get; set; }
-     
-
+        [JsonProperty]
+        public IPresentationSettings PresentationSettings { get; set; }
     }
 }

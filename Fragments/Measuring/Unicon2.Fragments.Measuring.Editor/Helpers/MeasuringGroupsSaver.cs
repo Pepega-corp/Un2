@@ -21,6 +21,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Helpers
             {
                 res.MeasuringElements.Add(saver.SaveMeasuringElement(measuringElementEditorViewModel));
             }
+            res.PresentationSettings = new PresentationSettingsSaver().SavePresentationSettings(measuringGroupEditorViewModel.PresentationSettingsViewModel);
 
             return res;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unicon2.Fragments.Measuring.Editor.ViewModel;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel
@@ -13,6 +14,5 @@ namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel
         ICommand DeleteGroupCommand { get; }
         ICommand CheckElementsPositionCommand { get; set; }
         ObservableCollection<IMeasuringGroupEditorViewModel> MeasuringGroupEditorViewModels { get; set; }
-
     }
 }

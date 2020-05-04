@@ -6,7 +6,7 @@ using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Infrastructure.Visitors;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values;
-using Unicon2.Unity.Annotations;
+using Unicon2.Unity.Properties;
 
 namespace Unicon2.Presentation.Factories
 {

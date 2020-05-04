@@ -92,6 +92,7 @@
     <Compile Include="DeviceInterfaces\IDeviceCreator.cs" />
     <Compile Include="Connection\IQueryResult.cs" />
     <Compile Include="DeviceInterfaces\SharedResources\IDeviceSharedResources.cs" />
+    <Compile Include="DeviceInterfaces\SharedResources\IResourceContainer.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\StringWrapper.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSetting.cs" />

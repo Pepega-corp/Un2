@@ -16,8 +16,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
     [JsonObject(MemberSerialization.OptIn)]
     public class DependentProperty : DefaultProperty, IDependentProperty
     {
-        private IProperty _relatedProperty;
-        private IUshortsFormatter _defaultUshortsFormatter;
 
         public DependentProperty()
         {
@@ -27,8 +25,6 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         [JsonProperty] public List<IDependancyCondition> DependancyConditions { get; set; }
         [JsonProperty] public ConditionResultEnum ActualConditionResult { get; set; }
 
-        public IUshortsFormatter DeviceValueUshortsFormatter { get; set; }
-        public IUshortsFormatter LocalValueUshortsFormatter { get; set; }
 
         public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
         {

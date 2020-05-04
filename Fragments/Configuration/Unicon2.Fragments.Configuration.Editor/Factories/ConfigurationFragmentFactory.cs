@@ -9,6 +9,7 @@ using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
+using Unicon2.Presentation.Infrastructure.Factories;
 
 namespace Unicon2.Fragments.Configuration.Editor.Factories
 {
@@ -17,7 +18,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Factories
 		public static IDeviceConfiguration CreateConfiguration(IConfigurationEditorViewModel configurationEditorViewModel)
 		{
 			var deviceConfiguration = StaticContainer.Container.Resolve<IDeviceConfiguration>();
-
+			StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>().ClearCaches();
 
 			deviceConfiguration.RootConfigurationItemList = configurationEditorViewModel.RootConfigurationItemViewModels
 				.Select(model =>

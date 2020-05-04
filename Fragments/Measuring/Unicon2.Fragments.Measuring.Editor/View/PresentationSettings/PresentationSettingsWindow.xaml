@@ -1,13 +1,160 @@
-﻿<mah:MetroWindow x:Class="Unicon2.Fragments.Measuring.Editor.View.PresentationSettings.PresentationSettingsWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Unicon2.Fragments.Measuring.Editor.View.PresentationSettings"
-             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<mah:MetroWindow
+    x:Class="Unicon2.Fragments.Measuring.Editor.View.PresentationSettings.PresentationSettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Unicon2.Fragments.Measuring.Editor.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:Unicon2.Fragments.Measuring.Editor.View.PresentationSettings"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel"
+    d:DataContext="{d:DesignInstance viewModel:PresentationSettingsViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <mah:MetroWindow.Resources>
+        <converters:PresentationElementNameConverter x:Key="PresentationElementNameConverter" />
+        <converters:FilterStringToGroupAddRemoveVisibilityConverter x:Key="StringToGroupAddRemoveVisibilityConverter" />
+    </mah:MetroWindow.Resources>
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" MinWidth="200" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <ItemsControl ItemsSource="{Binding PresentationElementViewModels}">
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="FrameworkElement">
+                        <Setter Property="Canvas.Left" Value="{Binding Path=PositioningInfoViewModel.OffsetLeft}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Path=PositioningInfoViewModel.OffsetTop}" />
+                        <Setter Property="Canvas.Width" Value="{Binding Path=PositioningInfoViewModel.SizeWidth}" />
+                        <Setter Property="Canvas.Height" Value="{Binding Path=PositioningInfoViewModel.SizeHeight}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:AdornedControl
+                            AdornerOffsetY="15"
+                            HorizontalAdornerPlacement="Outside"
+                            IsAdornerVisible="{Binding IsSelected}"
+                            VerticalAdornerPlacement="Outside">
+                            <ContentPresenter Content="{Binding TemplatedViewModelToShowOnCanvas}" />
+                            <local:AdornedControl.AdornerContent>
+                                <Rectangle
+                                    Width="5"
+                                    Height="{Binding Path=PositioningInfoViewModel.SizeHeight}"
+                                    HorizontalAlignment="Left"
+                                    Fill="Green"
+                                    Stroke="Green" />
+                            </local:AdornedControl.AdornerContent>
+
+                        </local:AdornedControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ComboBox
+                    Grid.Row="0"
+                    ItemsSource="{Binding FilterList}"
+                    SelectedItem="{Binding SelectedFilterString}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <lex:LocProxy Name="NameForUiKeyProxy" Source="{Binding .}" />
+                                <TextBlock Text="{Binding Result, ElementName=NameForUiKeyProxy}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <StackPanel
+                    Grid.Row="1"
+                    Orientation="Horizontal"
+                    Visibility="{Binding SelectedFilterString, Converter={StaticResource StringToGroupAddRemoveVisibilityConverter}}">
+                    <Button
+                        Margin="1"
+                        Command="{Binding AddGroupCommand}"
+                        Content="{lex:Loc Add}" />
+                    <Button
+                        Margin="1"
+                        Command="{Binding DeleteGroupCommand}"
+                        Content="{lex:Loc Delete}" />
+                </StackPanel>
+                <ListBox
+                    Grid.Row="2"
+                    ItemsSource="{Binding PresentationElementViewModels}"
+                    SelectedItem="{Binding SelectedElementViewModel}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource PresentationElementNameConverter}}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{lex:Loc SelectedElement}" />
+                <UniformGrid
+                    Grid.Row="1"
+                    Margin="5"
+                    Columns="2">
+                    <TextBlock Text="{lex:Loc Name}" />
+                    <TextBox Text="{Binding SelectedElementViewModel.TemplatedViewModelToShowOnCanvas.Header, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="{lex:Loc OffsetLeft}" />
+                    <mah:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        InterceptArrowKeys="True"
+                        InterceptMouseWheel="True"
+                        Interval="5"
+                        Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.OffsetLeft}" />
+                    <TextBlock Text="{lex:Loc OffsetTop}" />
+                    <mah:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        InterceptArrowKeys="True"
+                        InterceptMouseWheel="True"
+                        Interval="5"
+                        Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.OffsetTop}" />
+                    <TextBlock Text="{lex:Loc Width}" />
+                    <mah:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        InterceptArrowKeys="True"
+                        InterceptMouseWheel="True"
+                        Interval="5"
+                        Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.SizeWidth}" />
+                    <TextBlock Text="{lex:Loc Height}" />
+                    <mah:NumericUpDown
+                        Width="80"
+                        Margin="3"
+                        InterceptArrowKeys="True"
+                        InterceptMouseWheel="True"
+                        Interval="5"
+                        Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.SizeHeight}" />
+                </UniformGrid>
+            </Grid>
+        </Grid>
     </Grid>
+
 </mah:MetroWindow>

@@ -7,10 +7,12 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
@@ -47,6 +49,14 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 property.UshortsFormatter=StaticContainer.Container.Resolve<ISaveFormatterService>()
                     .CreateUshortsParametersFormatter(editorViewModel.FormatterParametersViewModel);
             }
+
+            var sharedResourcesGlobalViewModel= _container.Resolve<ISharedResourcesGlobalViewModel>();
+            if (sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(editorViewModel))
+            {
+	            sharedResourcesGlobalViewModel.AddResourceFromViewModel(editorViewModel, property);
+            }
+
+
 
             return InitDefaults(property, editorViewModel);
         }
@@ -122,8 +132,40 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 
         public IConfigurationItem VisitDependentProperty(IDependentPropertyEditorViewModel dependentPropertyViewModel)
         {
-            throw new NotImplementedException();
+	        var dependentProperty = _container.Resolve<IDependentProperty>();
+
+	        dependentProperty.DependancyConditions = dependentPropertyViewModel.ConditionViewModels.Select(
+		        conditionViewModel =>
+		        {
+			        IDependancyCondition dependancyCondition = _container.Resolve<IDependancyCondition>();
+			        dependancyCondition.UshortValueToCompare = conditionViewModel.UshortValueToCompare;
+			        ConditionsEnum cond;
+			        Enum.TryParse(conditionViewModel.SelectedCondition, out cond);
+			        dependancyCondition.ConditionsEnum = cond;
+			        ConditionResultEnum condRes;
+			        Enum.TryParse(conditionViewModel.SelectedConditionResult, out condRes);
+			        dependancyCondition.ConditionResult = condRes;
+			        if ((conditionViewModel as IPropertyEditorViewModel).FormatterParametersViewModel != null)
+			        {
+				        dependancyCondition.UshortsFormatter = StaticContainer.Container
+					        .Resolve<ISaveFormatterService>()
+					        .CreateUshortsParametersFormatter((conditionViewModel as IPropertyEditorViewModel)
+						        .FormatterParametersViewModel);
+			        }
+
+			        if (!string.IsNullOrEmpty(conditionViewModel.ReferencedResourcePropertyName))
+			        {
+				        dependancyCondition.ReferencedPropertyResourceName =
+					        conditionViewModel.ReferencedResourcePropertyName;
+			        }
+
+			        return dependancyCondition;
+		        }).ToList();
+	        dependentProperty.Address = ushort.Parse(dependentPropertyViewModel.Address ?? "0");
+	        dependentProperty.NumberOfPoints = ushort.Parse(dependentPropertyViewModel.NumberOfPoints ?? "0");
+			return InitializeProperty(dependentPropertyViewModel,dependentProperty);
         }
+
 
         public IConfigurationItem VisitSubProperty(ISubPropertyEditorViewModel subPropertyEditorViewModel)
         {

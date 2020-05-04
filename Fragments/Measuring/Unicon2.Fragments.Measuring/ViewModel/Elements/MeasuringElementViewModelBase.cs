@@ -13,7 +13,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
 
         public abstract string StrongName { get; }
 
-        public string Header { get; private set; }
+        public string Header { get; set; }
 
         public string GroupName
         {
@@ -36,7 +36,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
         }
 
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         public void SetId(Guid id)
         {

@@ -12,9 +12,11 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProperty;
+using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentProperty;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Infrastructure.Values.Matrix;
@@ -89,7 +91,7 @@ namespace Unicon2.Fragments.Configuration.Factories
             InitializeBaseProperties(runtimePropertyViewModel, property);
         }
 
-        public IRuntimeConfigurationItemViewModel VisitItemsGroup(IItemsGroup itemsGroup)
+        public FactoryResult<IRuntimeConfigurationItemViewModel> VisitItemsGroup(IItemsGroup itemsGroup)
         {
             var res = _container.Resolve<IRuntimeItemGroupViewModel>();
             res.ChildStructItemViewModels.Clear();
@@ -112,8 +114,11 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 		            foreach (IConfigurationItem configurationItem in itemsGroup.ConfigurationItemList)
 		            {
-			            subGroup.ChildStructItemViewModels.Add(configurationItem.Accept(this.WithParent(subGroup)
-				            .WithOffset(offset)));
+			            configurationItem.Accept(this.WithParent(subGroup)
+				            .WithOffset(offset)).OnAddingNeeded(subGroup.ChildStructItemViewModels.Add);
+
+
+
 		            }
 
 		            res.ChildStructItemViewModels.Add(subGroup);
@@ -124,7 +129,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 			{
 				foreach (IConfigurationItem configurationItem in itemsGroup.ConfigurationItemList)
 				{
-					res.ChildStructItemViewModels.Add(configurationItem.Accept(this.WithParent(res)));
+					configurationItem.Accept(this.WithParent(res)).OnAddingNeeded(res.ChildStructItemViewModels.Add);
 				}
 			}
          
@@ -132,10 +137,11 @@ namespace Unicon2.Fragments.Configuration.Factories
             res.IsMain = itemsGroup.IsMain ?? false;
             res.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
             InitializeBaseProperties(res, itemsGroup);
-            return res;
-        }
+			return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
 
-        public IRuntimeConfigurationItemViewModel VisitProperty(IProperty property)
+		}
+
+		public FactoryResult<IRuntimeConfigurationItemViewModel> VisitProperty(IProperty property)
         {
             var res = _container.Resolve<IRuntimePropertyViewModel>();
             InitializeProperty(res, property);
@@ -153,7 +159,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 				(ushort)(property.Address + AddressOffset), property.NumberOfPoints);
 
             var editSubscription =
-                new LocalDataEditedSubscription(editableValue, _deviceContext.DeviceMemory, property, setUnchangedSuscription,AddressOffset);
+                new LocalDataEditedSubscription(editableValue, _deviceContext, property,AddressOffset);
 
             res.LocalValue = editableValue;
             editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
@@ -164,15 +170,18 @@ namespace Unicon2.Fragments.Configuration.Factories
 
             _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription((ushort)(property.Address + AddressOffset), property.NumberOfPoints,
                 setUnchangedSuscription);
+            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription((ushort)(property.Address + AddressOffset), property.NumberOfPoints,
+	            setUnchangedSuscription);
 
-            var localDataSubscription = new LocalMemorySubscription(res.LocalValue, (ushort)(property.Address + AddressOffset),
-                property.NumberOfPoints, property.UshortsFormatter, _deviceContext.DeviceMemory, setUnchangedSuscription);
+			var localDataSubscription = new LocalMemorySubscription(res.LocalValue, (ushort)(property.Address + AddressOffset),
+                property.NumberOfPoints, property.UshortsFormatter, _deviceContext.DeviceMemory);
             _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription((ushort)(property.Address + AddressOffset), property.NumberOfPoints,
                 localDataSubscription);
-            return res;
-        }
+			return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
 
-        private ushort[] InitDefaultUshortsValue(ushort numOfPoints)
+		}
+
+		private ushort[] InitDefaultUshortsValue(ushort numOfPoints)
         {
             var res = new ushort[numOfPoints];
             for (int i = 0; i < numOfPoints; i++)
@@ -183,7 +192,7 @@ namespace Unicon2.Fragments.Configuration.Factories
             return res;
         }
 
-        public IRuntimeConfigurationItemViewModel VisitComplexProperty(IComplexProperty complexProperty)
+        public FactoryResult<IRuntimeConfigurationItemViewModel> VisitComplexProperty(IComplexProperty complexProperty)
         {
             var res = _container.Resolve<IRuntimeComplexPropertyViewModel>();
 
@@ -192,74 +201,137 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 			List<EditableValueSetUnchangedSubscription> setUnchangedSuscriptions=new List<EditableValueSetUnchangedSubscription>();
 			foreach (ISubProperty subProperty in complexProperty.SubProperties)
-            {
-	            IRuntimeSubPropertyViewModel subPropertyViewModel = subProperty.Accept(this) as IRuntimeSubPropertyViewModel;
+			{
+				IRuntimeSubPropertyViewModel subPropertyViewModel =
+					subProperty.Accept(this).Item as IRuntimeSubPropertyViewModel;
 
-                var localValue = _container.Resolve<IFormattingService>().FormatValue(subProperty.UshortsFormatter,
-	                InitDefaultUshortsValue(subProperty.NumberOfPoints));
-
-
-                var editableValue = _container.Resolve<IValueViewModelFactory>()
-	                .CreateEditableValueViewModel(new FormattedValueInfo(localValue, subProperty, subProperty.UshortsFormatter,
-		                subProperty));
+				var localValue = _container.Resolve<IFormattingService>().FormatValue(subProperty.UshortsFormatter,
+					InitDefaultUshortsValue(subProperty.NumberOfPoints));
 
 
-                var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(editableValue, _deviceContext.DeviceMemory,
-					(ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints);
-                setUnchangedSuscriptions.Add(setUnchangedSuscription);
+				var editableValue = _container.Resolve<IValueViewModelFactory>()
+					.CreateEditableValueViewModel(new FormattedValueInfo(localValue, subProperty,
+						subProperty.UshortsFormatter,
+						subProperty));
+
+
+				var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(editableValue,
+					_deviceContext.DeviceMemory,
+					(ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints);
+				setUnchangedSuscriptions.Add(setUnchangedSuscription);
 				var editSubscription =
-	                new LocalDataComplexPropertyEditedSubscription(res, _deviceContext.DeviceMemory, subProperty,complexProperty, setUnchangedSuscription,AddressOffset);
+					new LocalDataComplexPropertyEditedSubscription(res, _deviceContext,
+						complexProperty, AddressOffset);
 
 
-                subPropertyViewModel.LocalValue = editableValue;
-                editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
-                _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
-	                , subPropertyViewModel.LocalValue.Id);
+				subPropertyViewModel.LocalValue = editableValue;
+				editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
+				_deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
+					, subPropertyViewModel.LocalValue.Id);
 
 
-                _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription((ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
-	                setUnchangedSuscription);
+				_deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(
+					(ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
+					setUnchangedSuscription);
+
+				_deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
+					(ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
+					setUnchangedSuscription);
 
 
 				res.ChildStructItemViewModels.Add(subPropertyViewModel);
-                res.IsCheckable = true;
-            }
+				res.IsCheckable = true;
+				if (!complexProperty.IsGroupedProperty)
+				{
+
+					Parent.ChildStructItemViewModels.Add(subPropertyViewModel);
+					Parent.IsCheckable = true;
+				}
+			}
 
 
 
 			var localDataSubscription = new 
-				LocalComplexPropertyMemorySubscription(res,complexProperty, _deviceContext.DeviceMemory, setUnchangedSuscriptions,AddressOffset);
+				LocalComplexPropertyMemorySubscription(res,complexProperty, _deviceContext.DeviceMemory,AddressOffset);
 			_deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription((ushort)(complexProperty.Address + AddressOffset), complexProperty.NumberOfPoints,
 				localDataSubscription);
 
+
+
 			res.IsGroupedProperty = complexProperty.IsGroupedProperty;
             InitializeProperty(res, complexProperty);
-            return res;
+            return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res,complexProperty.IsGroupedProperty);
         }
 
-        public IRuntimeConfigurationItemViewModel VisitMatrix(IAppointableMatrix appointableMatrix)
+        public FactoryResult<IRuntimeConfigurationItemViewModel> VisitMatrix(IAppointableMatrix appointableMatrix)
         {
             var res = _container.Resolve<IRuntimeAppointableMatrixViewModel>();
             InitializeProperty(res, appointableMatrix);
-            return res;
+            return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
         }
 
-        public IRuntimeConfigurationItemViewModel VisitDependentProperty(IDependentProperty dependentProperty)
+        public FactoryResult<IRuntimeConfigurationItemViewModel> VisitDependentProperty(
+	        IDependentProperty dependentProperty)
         {
-            var res = _container.Resolve<IRuntimeDependentPropertyViewModel>();
-            InitializeProperty(res, dependentProperty);
-            return res;
+	        var formattingService = StaticContainer.Container.Resolve<IFormattingService>();
+
+			var res = _container.Resolve<IRuntimeDependentPropertyViewModel>();
+	        InitializeProperty(res, dependentProperty);
+
+	        AddSubscriptionForConditions(dependentProperty, (ushort address, ushort numOfPoints) =>
+		        _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
+			        new DeviceDataDependentPropertyMemorySubscription(dependentProperty, res,
+				        _container.Resolve<IValueViewModelFactory>(),
+				        _deviceContext, (ushort) AddressOffset, formattingService)));
+
+			
+	        AddSubscriptionForConditions(dependentProperty, (ushort address, ushort numOfPoints) =>
+		        _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
+					 new LocalDependentPropertyMemorySubscription(res, dependentProperty,
+						 _deviceContext, formattingService,
+						 AddressOffset)));
+
+
+	        AddSubscriptionForConditions(dependentProperty, (ushort address, ushort numOfPoints) =>
+		        _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
+					new EditableDependentValueSetUnchangedSubscription(res,
+						_deviceContext.DeviceMemory,
+						(ushort)(dependentProperty.Address + AddressOffset), dependentProperty.NumberOfPoints)));
+
+	        AddSubscriptionForConditions(dependentProperty, (ushort address, ushort numOfPoints) =>
+		        _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
+					new EditableDependentValueSetUnchangedSubscription(res,
+						_deviceContext.DeviceMemory,
+						(ushort)(dependentProperty.Address + AddressOffset), dependentProperty.NumberOfPoints)));
+
+			return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
+
         }
 
-        public IRuntimeConfigurationItemViewModel VisitSubProperty(ISubProperty subProperty)
+        private void AddSubscriptionForConditions(IDependentProperty dependentProperty,
+			Action<ushort, ushort> memoryOperationAction)
+		{
+			memoryOperationAction.Invoke((ushort) (dependentProperty.Address + AddressOffset),
+				dependentProperty.NumberOfPoints);
+			foreach (var condition in dependentProperty.DependancyConditions)
+			{
+				var relatedProperty =
+					_deviceContext.DeviceSharedResources.SharedResourcesInContainers.First(container =>
+						container.ResourceName == condition.ReferencedPropertyResourceName).Resource as IProperty;
+				memoryOperationAction.Invoke(relatedProperty.Address,
+					relatedProperty.NumberOfPoints);
+			}
+		}
+
+		public FactoryResult<IRuntimeConfigurationItemViewModel> VisitSubProperty(ISubProperty subProperty)
         {
             var res = _container.Resolve<IRuntimeSubPropertyViewModel>();
             InitializeProperty(res, subProperty);
-			
-			return res;
-        }
+            return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
 
-        public object Clone()
+		}
+
+		public object Clone()
         {
             return new RuntimeConfigurationItemViewModelFactory(_container, _deviceContext)
             {

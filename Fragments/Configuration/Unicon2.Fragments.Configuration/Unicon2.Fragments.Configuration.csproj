@@ -86,6 +86,11 @@
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\DeviceDataComplexPropertySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalComplexPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalDataComplexPropertyEditedSubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\DependentProperty\DependentLocalDataEditedSubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\DependentProperty\DependentSubscriptionHelpers.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\DependentProperty\DeviceDataPropertyMemorySubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\DependentProperty\EditableDependentValueSetUnchangedSubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\DependentProperty\LocalDependentPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\EditableValueSetUnchangedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalDataEditedSubscription.cs" />
@@ -100,6 +105,7 @@
     <Compile Include="Model\DependentProperty\DependentProperty.cs" />
     <Compile Include="Model\DependentProperty\DependancyCondition.cs" />
     <Compile Include="Model\Properties\SubProperty.cs" />
+    <Compile Include="Model\PropertyResourceContainer.cs" />
     <Compile Include="Model\ReiterationSubGroupInfo.cs" />
     <Compile Include="Module\ConfigurationModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

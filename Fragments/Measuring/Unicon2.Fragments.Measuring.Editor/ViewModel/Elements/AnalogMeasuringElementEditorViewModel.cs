@@ -16,6 +16,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         private bool _isMeasureUnitEnabled;
         private ushort _address;
         private ushort _numberOfPoints;
+        private IFormatterParametersViewModel _formatterParametersViewModel;
 
         public AnalogMeasuringElementEditorViewModel(IFormatterEditorFactory formatterEditorFactory)
         {
@@ -71,8 +72,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
                 RaisePropertyChanged();
             }
         }
-		//todo
-		public string FormatterString { get; }
 
 		public override string StrongName => MeasuringKeys.ANALOG_MEASURING_ELEMENT +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
@@ -81,6 +80,14 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
         public override string NameForUiKey => MeasuringKeys.ANALOG_MEASURING_ELEMENT;
         public string Name { get; set; }
-        public IFormatterParametersViewModel FormatterParametersViewModel { get; set; }
+        public IFormatterParametersViewModel FormatterParametersViewModel
+        {
+	        get => _formatterParametersViewModel;
+	        set
+	        {
+		        _formatterParametersViewModel = value;
+		        RaisePropertyChanged();
+	        }
+        }
     }
 }

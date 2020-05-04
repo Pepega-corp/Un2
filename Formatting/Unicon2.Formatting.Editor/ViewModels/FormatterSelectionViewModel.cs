@@ -45,7 +45,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             if (ushortFormattableViewModel.FormatterParametersViewModel != null)
             {
                 if (_sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(
-                    ushortFormattableViewModel.FormatterParametersViewModel))
+                    ushortFormattableViewModel.FormatterParametersViewModel.Name))
                 {
                     CurrentResourceString = ushortFormattableViewModel.FormatterParametersViewModel.Name;
                     _isFormatterFromResource = true;
@@ -92,6 +92,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             _sharedResourcesGlobalViewModel.AddAsSharedResource(formatterParametersViewModel);
             CurrentResourceString = formatterParametersViewModel.Name;
+
             IsFormatterFromResource = true;
         }
 

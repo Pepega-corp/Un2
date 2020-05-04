@@ -33,6 +33,13 @@ namespace Unicon2.Presentation.Values.Editable
 			}
 		}
 
+		public void SetNumValue(string value)
+		{
+			_numValueString = value;
+			FireErrorsChanged();
+			SetIsChangedProperty();
+		}
+
 		protected override void OnValidate()
 		{
 			FluentValidation.Results.ValidationResult res = new NumericValueViewModelValidator().Validate(this);

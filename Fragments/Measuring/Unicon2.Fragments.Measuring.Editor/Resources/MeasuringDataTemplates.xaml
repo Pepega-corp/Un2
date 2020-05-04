@@ -5,6 +5,7 @@
     xmlns:elements1="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel.Elements"
     xmlns:interfaces="clr-namespace:Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:presentationSettings="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings"
     xmlns:view="clr-namespace:Unicon2.Fragments.Measuring.Editor.View">
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -13,6 +14,9 @@
     </DataTemplate>
 
 
+    <DataTemplate DataType="{x:Type presentationSettings:PresentationGroupViewModel}">
+        <GroupBox Header="{Binding Header}" />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements1:AnalogMeasuringElementEditorViewModel}">
         <Grid>
@@ -42,7 +46,7 @@
                     <TextBlock Margin="5" Text="{lex:Loc Formatting}" />
                     <TextBlock Margin="5" Text=":" />
                     <TextBlock Margin="20,5,5,5" Text="{Binding ElementName=formatterCondProxy, Path=Result}" />
-                    <lex:LocProxy Name="formatterCondProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
+                    <lex:LocProxy Name="formatterCondProxy" Source="{Binding FormatterParametersViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
                     <Button
                         Width="200"
                         Height="30"

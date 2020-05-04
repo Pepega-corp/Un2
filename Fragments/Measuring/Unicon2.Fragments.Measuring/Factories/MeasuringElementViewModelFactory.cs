@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Measuring.Factories
             _container = container;
         }
 
-        public IMeasuringElementViewModel CreateMeasuringElementViewModel(IMeasuringElement measuringElement, string gruopName)
+        public IMeasuringElementViewModel CreateMeasuringElementViewModel(IMeasuringElement measuringElement, string groupName)
         {
             IMeasuringElementViewModel measuringElementViewModel =
                 _container.Resolve<IMeasuringElementViewModel>(measuringElement.StrongName +
@@ -26,21 +26,28 @@ namespace Unicon2.Fragments.Measuring.Factories
             switch (measuringElement)
             {
 	            case AnalogMeasuringElement analogMeasuringElement:
-		            return CreateAnalogMeasuringElementViewModel(analogMeasuringElement);
+		            return CreateAnalogMeasuringElementViewModel(analogMeasuringElement, groupName);
 	            case ControlSignal controlSignal:
 					return CreateControlSignalViewModelViewModel(controlSignal);
 				case DescretMeasuringElement descretMeasuringElement:
 					return CreateDiscretMeasuringElementViewModel(descretMeasuringElement);
 			}
 
-            measuringElementViewModel.GroupName = gruopName;
+            measuringElementViewModel.GroupName = groupName;
             return measuringElementViewModel;
         }
 
         private AnalogMeasuringElementViewModel CreateAnalogMeasuringElementViewModel(
-	        AnalogMeasuringElement analogMeasuringElement)
+	        AnalogMeasuringElement analogMeasuringElement, string groupName)
         {
-			return new AnalogMeasuringElementViewModel();
+			var res=new AnalogMeasuringElementViewModel();
+			res.IsMeasureUnitEnabled = analogMeasuringElement.IsMeasureUnitEnabled;
+			res.MeasureUnit = analogMeasuringElement.MeasureUnit;
+			res.Id = analogMeasuringElement.Id;
+			res.Header = analogMeasuringElement.Name;
+			res.GroupName = groupName;
+            return res;
+
         }
 
         private ControlSignalViewModel CreateControlSignalViewModelViewModel(

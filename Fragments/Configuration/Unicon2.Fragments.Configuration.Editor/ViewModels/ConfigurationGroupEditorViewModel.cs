@@ -148,20 +148,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 }
                 if (valid)
                 {
+					element.Checked?.Invoke(false);
                     ChildStructItemViewModels.Move(moveIndexFrom, moveIndexTo);
-                    //List<IConfigurationItem> modelItems = (this._model as IItemsGroup).ConfigurationItemList.ToList();
-                    //if (modelItems.Count == this.ChildStructItemViewModels.Count)
-                    //{
-                    //    modelItems.Clear();
-                    //    foreach (IConfigurationItemViewModel propViewModel in this.ChildStructItemViewModels)
-                    //    {
-                    //        modelItems.Add(propViewModel.Model as IConfigurationItem);
-                    //    }
-                    //    (this._model as IItemsGroup).ConfigurationItemList = modelItems;
-                    //    return true;
                     //}
-                }
-                else
+					this.Checked?.Invoke(false);
+					this.Checked?.Invoke(true);
+					return true;
+				}
+				else
                 {
                     throw new Exception("invalid data input");
                 }

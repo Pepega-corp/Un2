@@ -32,6 +32,13 @@ namespace Unicon2.Presentation.Values.Editable
             }
         }
 
+        public void SetBoolValueProperty(bool value)
+        {
+	        _boolValueProperty = value;
+	        RaisePropertyChanged(nameof(BoolValueProperty));
+		}
+
+
         public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
         {
             return visitor.VisitBoolValueViewModel(this);

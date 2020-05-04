@@ -9,8 +9,10 @@ namespace Unicon2.Presentation.Visitors
     {
         public IFormattedValue VisitBoolValueViewModel(IBoolValueViewModel boolValueViewModel)
         {
-            throw new System.NotImplementedException();
-        }
+			var boolValue = (boolValueViewModel as IEditableValueViewModel)?.FormattedValue as IBoolValue;
+			boolValue.BoolValueProperty = boolValueViewModel.BoolValueProperty;
+			return boolValue;
+		}
 
         public IFormattedValue VisitChosenFromListViewModel(IChosenFromListValueViewModel chosenFromListValueViewModel)
         {

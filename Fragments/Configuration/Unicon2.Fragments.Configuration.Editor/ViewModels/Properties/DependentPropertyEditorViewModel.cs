@@ -10,6 +10,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Depen
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -20,18 +21,27 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
     {
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly Func<IConditionViewModel> _conditionViewModelGettingFunc;
+        private readonly IFormatterEditorFactory _formatterEditorFactory;
         private IConditionViewModel _selectedConditionViewModel;
 
-        public DependentPropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel, ILocalizerService localizerService, IApplicationGlobalCommands applicationGlobalCommands, Func<IConditionViewModel> conditionViewModelGettingFunc) : base(container, rangeViewModel, localizerService)
+        public DependentPropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel, ILocalizerService localizerService,
+	        IApplicationGlobalCommands applicationGlobalCommands, Func<IConditionViewModel> conditionViewModelGettingFunc,IFormatterEditorFactory formatterEditorFactory) : base(container, rangeViewModel, localizerService)
         {
             _applicationGlobalCommands = applicationGlobalCommands;
             _conditionViewModelGettingFunc = conditionViewModelGettingFunc;
+            _formatterEditorFactory = formatterEditorFactory;
             SubmitCommand = new RelayCommand<object>(OnSubmitExecute);
             CancelCommand = new RelayCommand<object>(OnCancelExecute);
             ConditionViewModels = new ObservableCollection<IConditionViewModel>();
             AddConditionCommand = new RelayCommand(OnAddConditionExecute);
             DeleteConditionCommand = new RelayCommand(OnDeleteConditionExecute, CanExecuteDeleteCondition);
-        }
+            ShowFormatterParameters = new RelayCommand(() =>
+            {
+	            _formatterEditorFactory.EditFormatterByUser(this);
+            });
+		}
+
+        public RelayCommand ShowFormatterParameters { get; }
 
         private bool CanExecuteDeleteCondition()
         {
@@ -61,47 +71,21 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             return visitor.VisitDependentProperty(this);
         }
 
-        public override void StopEditElement()
-        {
-            //IDependentProperty depProperty = this._model as IDependentProperty;
-            //depProperty.DependancyConditions.Clear();
-            //foreach (IConditionViewModel conditionViewModel in this.ConditionViewModels)
-            //{
-            //    depProperty.DependancyConditions.Add(conditionViewModel.Model as IDependancyCondition);
-            //}
-            //base.StopEditElement();
-        }
-
         private void OnCancelExecute(object obj)
         {
-          //  this.Model = this._model;
-          //  (obj as Window)?.Close();
+	        (obj as Window)?.Close();
         }
 
 
         public override string StrongName => ConfigurationKeys.DEPENDENT_PROPERTY +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
-        //protected override void SetModel(object model)
-        //{
-        //    if (model is IDependentProperty)
-        //    {
-        //        IDependentProperty depProperty = model as IDependentProperty;
-        //        foreach (IDependancyCondition condition in depProperty.DependancyConditions)
-        //        {
-        //            IConditionViewModel conditionViewModel = this._conditionViewModelGettingFunc();
-        //            conditionViewModel.Model = condition;
-        //            this.ConditionViewModels.Add(conditionViewModel);
-        //        }
-        //    }
-        //    base.SetModel(model);
-        //}
 
 
 
         protected override string GetTypeName()
         {
-            return ConfigurationKeys.DEFAULT_PROPERTY;
+            return ConfigurationKeys.DEPENDENT_PROPERTY;
         }
 
 

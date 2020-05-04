@@ -9,7 +9,7 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {
-    public interface IEditableValueViewModel : IFormattedValueViewModel, IUniqueId, INotifyDataErrorInfo
+    public interface IEditableValueViewModel : IFormattedValueViewModel, IUniqueId, INotifyDataErrorInfo,IDisposable
     {
         bool IsFormattedValueChanged { get; set; }
         bool IsEditEnabled { get; set; }

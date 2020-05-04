@@ -29,8 +29,12 @@ namespace Unicon2.Formatting.Editor.Services
 
         public IUshortsFormatter CreateUshortsParametersFormatter(IFormatterParametersViewModel formatterParametersViewModel)
         {
+	        if (formatterParametersViewModel == null)
+	        {
+		        return null;
+	        }
             if (_container.Resolve<ISharedResourcesGlobalViewModel>()
-                .CheckDeviceSharedResourcesContainsViewModel(formatterParametersViewModel))
+                .CheckDeviceSharedResourcesContainsViewModel(formatterParametersViewModel.Name))
             {
                 return _container.Resolve<ISharedResourcesGlobalViewModel>()
                     .GetOrAddResourceModelFromCache(formatterParametersViewModel.Name, () =>

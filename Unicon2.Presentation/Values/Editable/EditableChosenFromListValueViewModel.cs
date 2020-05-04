@@ -37,6 +37,13 @@ namespace Unicon2.Presentation.Values.Editable
         {
             _availableItemsList = new ObservableCollection<string>(stringEnumerable);
         }
+
+        public void SetValue(string value)
+        {
+	        _selectedItem = value;
+	        RaisePropertyChanged(nameof(SelectedItem));
+		}
+
         public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
         {
             return visitor.VisitChosenFromListViewModel(this);

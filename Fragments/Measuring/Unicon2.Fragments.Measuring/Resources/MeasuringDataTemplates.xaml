@@ -17,18 +17,24 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements:AnalogMeasuringElementViewModel}">
-        <StackPanel Orientation="Horizontal">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
             <ContentPresenter
                 Margin="10"
+                HorizontalAlignment="Left"
                 Content="{Binding FormattedValueViewModel}"
                 ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" />
             <TextBlock
+                Grid.Column="1"
                 Margin="2"
-                Text="{Binding MeasureUnit}"
-                VerticalAlignment="Center"
                 HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding MeasureUnit}"
                 Visibility="{Binding IsMeasureUnitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        </StackPanel>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements:DiscretMeasuringElementViewModel}">

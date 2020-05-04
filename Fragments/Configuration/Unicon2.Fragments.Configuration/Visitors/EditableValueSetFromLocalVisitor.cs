@@ -15,13 +15,13 @@ namespace Unicon2.Fragments.Configuration.Visitors
         }
         public Result VisitBoolValueViewModel(IBoolValueViewModel boolValueViewModel)
         {
-            boolValueViewModel.BoolValueProperty = (_formattedValue as IBoolValue).BoolValueProperty;
+            boolValueViewModel.SetBoolValueProperty((_formattedValue as IBoolValue).BoolValueProperty);
             return Result.Create(true);
         }
 
         public Result VisitChosenFromListViewModel(IChosenFromListValueViewModel chosenFromListValueViewModel)
         {
-            chosenFromListValueViewModel.SelectedItem = (_formattedValue as IChosenFromListValue).SelectedItem;
+            chosenFromListValueViewModel.SetValue((_formattedValue as IChosenFromListValue).SelectedItem);
             return Result.Create(true);
         }
 

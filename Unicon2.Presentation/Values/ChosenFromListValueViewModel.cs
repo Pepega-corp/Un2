@@ -34,5 +34,10 @@ namespace Unicon2.Presentation.Values
         {
             _availableItemsList = new ObservableCollection<string>(stringEnumerable);
         }
+
+        public void SetValue(string value)
+        {
+	        SelectedItem = value;
+        }
     }
 }
