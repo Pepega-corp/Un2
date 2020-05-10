@@ -5,13 +5,13 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model
 {
-    [DataContract(Namespace = "ConnectorNS")]
+    [DataContract(Name = "connector",Namespace = "ConnectorNS")]
     public class Connector: IConnector
     {
         /// <summary>
         /// Ориентация вывода по отношению к элементу: расположение справа или слева
         /// </summary>
-        [DataMember] public ConnectorOrientation Orientation { get; }
+        [DataMember] public ConnectorOrientation Orientation { get; set; }
         /// <summary>
         /// Тип вывода: прямой или инверсный
         /// </summary>

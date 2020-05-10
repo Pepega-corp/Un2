@@ -30,13 +30,18 @@ namespace Unicon2.Fragments.Programming.Model
             this.ProjectName = "New Logic Program";
             
             this.ProjectPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
+
+            if (!Directory.Exists(ProjectPath))
+            {
+                Directory.CreateDirectory(ProjectPath);
+            }
         }
 
         [DataMember] public string ProjectName { get; set; }
         [DataMember] public ISchemeModel[] Schemes { get; set; }
         [DataMember] public IConnection[] Connections { get; set; }
         public string StrongName => ProgrammingKeys.PROGRAMMING;
-        [DataMember] public IFragmentSettings FragmentSettings { get; set; }
+        public IFragmentSettings FragmentSettings { get; set; }
         public string ProjectPath { get; }
         
         public void SetDataProvider(IDataProvider dataProvider)
@@ -44,11 +49,11 @@ namespace Unicon2.Fragments.Programming.Model
             this._dataProvider = dataProvider;
         }
 
-        public void SerializeInFile(string elementName, bool isDefaultSaving)
+        public void SerializeInFile(string path, bool isDefaultSaving)
         {
             try
             {
-                using (XmlWriter fs = XmlWriter.Create(elementName, new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 }))
+                using (XmlWriter fs = XmlWriter.Create(path, new XmlWriterSettings { Indent = true, Encoding = Encoding.UTF8 }))
                 {
                     DataContractSerializer ds = new DataContractSerializer(typeof(ProgramModel), this._serializerService.GetTypesForSerialiation());
                     ds.WriteObject(fs, this, this._serializerService.GetNamespacesAttributes());

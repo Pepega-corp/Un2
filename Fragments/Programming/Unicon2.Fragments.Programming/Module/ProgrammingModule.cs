@@ -38,6 +38,10 @@ namespace Unicon2.Fragments.Programming.Module
             serializerService.AddNamespaceAttribute("programModel", "ProgrammModelEditorNS");
             serializerService.AddKnownTypeForSerialization(typeof(SchemeModel));
             serializerService.AddNamespaceAttribute("schemeModel", "SchemeModelNS");
+            serializerService.AddKnownTypeForSerialization(typeof(Connection));
+            serializerService.AddNamespaceAttribute("connection", "ConnectionNS");
+            serializerService.AddKnownTypeForSerialization(typeof(Connector));
+            serializerService.AddNamespaceAttribute("connector", "ConnectorNS");
             serializerService.AddKnownTypeForSerialization(typeof(Input));
             serializerService.AddNamespaceAttribute("input", "InputNS");
             serializerService.AddKnownTypeForSerialization(typeof(Output));

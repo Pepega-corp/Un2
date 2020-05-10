@@ -8,7 +8,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
 {
     public interface ISchemeTabViewModel : IViewModel<ISchemeModel>
     {
-        event Action CloseTabEvent;
+        event Action<ISchemeTabViewModel> CloseTabEvent;
 
         string SchemeName { get; set; }
         double SchemeHeight { get;  }

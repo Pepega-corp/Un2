@@ -37,7 +37,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.ConnectionCollection = new ObservableCollection<IConnectionViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
-            this.SaveProjectCommand = new RelayCommand(this.SaveProject);
+            this.SaveProjectCommand = new RelayCommand(this.SaveProject, CanSaveProject);
             this.LoadProjectCommand = new RelayCommand(this.LoadProject);
             this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
             this.ZoomIncrementCommand = new RelayCommand(this.ZoomIncrement, this.CanZooming);
@@ -115,21 +115,38 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 SchemeModel scemeMoedel = new SchemeModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
                 SchemeTabViewModel tabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
-
+                tabViewModel.CloseTabEvent += OnCloseTab;
                 this.SchemesCollection.Add(tabViewModel);
             }
+
+            (SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
+        }
+
+        private void OnCloseTab(ISchemeTabViewModel schemeTab)
+        {
+            schemeTab.CloseTabEvent -= OnCloseTab;
+            SchemesCollection.Remove(schemeTab);
+
+            (SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
         }
 
         private void SaveProject()
         {
             var projectPath = Path.Combine(this._programModel.ProjectPath, this._programModel.ProjectName + ProgramModel.EXTENSION);
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = projectPath;
+            sfd.InitialDirectory = _programModel.ProjectPath;
+            sfd.FileName = ProjectName;
             sfd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
             if (sfd.ShowDialog() == true)
             {
-                
+                var model = GetModel();
+                model.SerializeInFile(sfd.FileName, false);
             }
+        }
+
+        private bool CanSaveProject()
+        {
+            return SchemesCollection.Count > 0;
         }
 
         private void LoadProject()

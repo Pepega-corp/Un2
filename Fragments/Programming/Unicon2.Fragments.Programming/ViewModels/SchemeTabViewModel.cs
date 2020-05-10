@@ -26,7 +26,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// <summary>
         /// Событие закрытия вкладки схемы
         /// </summary>
-        public event Action CloseTabEvent;
+        public event Action<ISchemeTabViewModel> CloseTabEvent;
 
         public ISchemeModel Model
         {
@@ -106,6 +106,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
             var logicElementViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel)
                 .Cast<ILogicElementViewModel>().ToArray();
             this._model.LogicElements = logicElementViewModels.Select(lvm => lvm.Model).ToArray();
+
+            var connectionsViewModels = this.ElementCollection.Where(ec => ec is IConnectionViewModel)
+                .Cast<IConnectionViewModel>().ToArray();
+            this._model.ConnectionNumbers = connectionsViewModels.Select(c => c.ConnectionNumber).ToArray();
+
             return this._model;
         }
 
@@ -114,6 +119,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._model = objModel;
             var logicElementsViewModels = this._factory.GetAllElementsViewModels(this._model.LogicElements);
             this.ElementCollection.AddCollection(logicElementsViewModels);
+
+            //get ConnectionViewModel from ProjectViewModel
         }
 
         public void AddConnectionToProgramm(IConnectionViewModel connectionViewModel)
@@ -138,7 +145,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void CloseTab()
         {
-            this.CloseTabEvent?.Invoke();
+            this.CloseTabEvent?.Invoke(this);
         }
 
         private void DeleteSelectedElements()

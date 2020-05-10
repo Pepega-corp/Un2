@@ -48,11 +48,6 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 };
         }
 
-        private Input(Input cloneable) : this()
-        {
-            this.CopyValues(cloneable);
-        }
-
         public void CopyValues(ILogicElement source)
         {
             if (!(source is Input inputSource))

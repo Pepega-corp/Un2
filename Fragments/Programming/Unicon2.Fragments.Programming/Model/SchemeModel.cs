@@ -19,14 +19,14 @@ namespace Unicon2.Fragments.Programming.Model
         [DataMember]
         public string SchemeName { get; set; }
         [DataMember]
-        public double SchemeHeight { get; }
+        public double SchemeHeight { get; set; }
         [DataMember]
-        public double SchemeWidth { get; }
+        public double SchemeWidth { get; set; }
         [DataMember]
         public double Scale { get; set; }
         [DataMember]
         public ILogicElement[] LogicElements { get ; set; }
         [DataMember]
-        public IConnection[] Connections { get; set; }
+        public int[] ConnectionNumbers { get; set; }
     }
 }

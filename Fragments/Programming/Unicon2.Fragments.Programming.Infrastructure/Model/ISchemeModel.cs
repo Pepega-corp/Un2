@@ -8,7 +8,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
         double SchemeHeight { get; }
         double SchemeWidth { get; }
         double Scale { get; set; }
-
-        ILogicElement[] LogicElements {get;set;}
+        ILogicElement[] LogicElements {get; set; }
+        int[] ConnectionNumbers { get; set; }
     }
 }

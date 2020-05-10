@@ -275,14 +275,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     ConnectorParentY = sink.ParentViewModel.Y
                 };
 
-                var linePoints = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
+                _model.Points = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
 
-                if (linePoints.Count > 1)
+                if (_model.Points.Count > 1)
                 {
-                    var pathFigure = new PathFigure { StartPoint = linePoints[0] };
-                    for (int i = 1; i < linePoints.Count; i++)
+                    var pathFigure = new PathFigure { StartPoint = _model.Points[0] };
+                    for (int i = 1; i < _model.Points.Count; i++)
                     {
-                        var lineSegment = new LineSegment(linePoints[i], true);
+                        var lineSegment = new LineSegment(_model.Points[i], true);
                         pathFigure.Segments.Add(lineSegment);
                     }
                     
