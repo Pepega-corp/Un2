@@ -32,7 +32,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private readonly ISerializerService _serializerService;
         private string _deviceName;
         private ObservableCollection<IFragmentEditorViewModel> _fragmentEditorViewModels;
-        private ObservableCollection<IFragmentEditorViewModel> _availableEditorFragments;
+        private IFragmentEditorViewModel _selectedFragmentEditorViewModel;
 
         public ResultingDeviceViewModel(IDevice device, ITypesContainer container, ILocalizerService localizerService,
             IDeviceSharedResources deviceSharedResources, IApplicationGlobalCommands applicationGlobalCommands,
@@ -48,14 +48,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             _fragmentEditorViewModelFactory = fragmentEditorViewModelFactory;
             _connectionStateViewModelFactory = connectionStateViewModelFactory;
             _serializerService = serializerService;
-            _availableEditorFragments = new ObservableCollection<IFragmentEditorViewModel>();
-            AddFragmentCommand = new RelayCommand<IFragmentEditorViewModel>(OnExecuteAddFragment);
-
-            IEnumerable<IFragmentEditorViewModel> fragments = _container.ResolveAll<IFragmentEditorViewModel>();
-            foreach (IFragmentEditorViewModel fragment in fragments)
-            {
-                AvailableEditorFragments.Add(fragment);
-            }
 
             DeviceName =
                 localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.NEW_DEVICE_STRING);
@@ -72,33 +64,18 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         }
 
 
-        private void OnExecuteAddFragment(IFragmentEditorViewModel fragmentEditorViewModel)
+
+        public IFragmentEditorViewModel SelectedFragmentEditorViewModel
         {
-            if (fragmentEditorViewModel == null) return;
-            if (!(fragmentEditorViewModel is INameable))
-            {
-                if (FragmentEditorViewModels.Any((model => model.NameForUiKey == fragmentEditorViewModel.NameForUiKey)))
-                    return;
-                FragmentEditorViewModels.Add(fragmentEditorViewModel);
-            }
-            else
-            {
-                FragmentEditorViewModels.Add(this._container.Resolve<IFragmentEditorViewModel>(fragmentEditorViewModel.StrongName));
-            }
+	        get => _selectedFragmentEditorViewModel;
+	        set
+	        {
+		        _selectedFragmentEditorViewModel = value;
+		        RaisePropertyChanged();
+	        }
         }
-
-
         public ICommand NavigateToConnectionTestingCommand { get; }
 
-        public ObservableCollection<IFragmentEditorViewModel> AvailableEditorFragments
-        {
-            get { return _availableEditorFragments; }
-            set
-            {
-                _availableEditorFragments = value;
-                RaisePropertyChanged();
-            }
-        }
 
         public void OpenSharedResources()
         {
@@ -130,6 +107,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
 
+            SelectedFragmentEditorViewModel = FragmentEditorViewModels.FirstOrDefault();
             _deviceSharedResources = _device.DeviceSharedResources;
             DeviceName = _device.Name;
         }
@@ -176,6 +154,5 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
-        public ICommand AddFragmentCommand { get; }
     }
 }

@@ -1368,4 +1368,52 @@
   <data name="Step" xml:space="preserve">
     <value>@Step</value>
   </data>
+  <data name="Groups" xml:space="preserve">
+    <value>@Groups</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>@Height</value>
+  </data>
+  <data name="OffsetLeft" xml:space="preserve">
+    <value>@OffsetLeft</value>
+  </data>
+  <data name="OffsetTop" xml:space="preserve">
+    <value>@OffsetTop</value>
+  </data>
+  <data name="PasteSizeOnly" xml:space="preserve">
+    <value>@PasteSizeOnly</value>
+  </data>
+  <data name="PresentationSettings" xml:space="preserve">
+    <value>@PresentationSettings</value>
+  </data>
+  <data name="SelectedElement" xml:space="preserve">
+    <value>@SelectedElement</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>@Width</value>
+  </data>
+  <data name="MoveWithChildren" xml:space="preserve">
+    <value>@MoveWithChildren</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>@ZoomIn</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>@ZoomOut</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>@Block</value>
+  </data>
+  <data name="AddBoolToAddressDependency" xml:space="preserve">
+    <value>@AddBoolToAddressDependency</value>
+  </data>
+  <data name="AddressIfFalse" xml:space="preserve">
+    <value>@AddressIfFalse</value>
+  </data>
+  <data name="AddressIfTrue" xml:space="preserve">
+    <value>@AddressIfTrue</value>
+  </data>
+  <data name="Dependencies" xml:space="preserve">
+    <value>@Dependencies</value>
+  </data>
 </root>

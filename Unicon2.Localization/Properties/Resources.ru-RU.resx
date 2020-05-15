@@ -1377,4 +1377,52 @@
   <data name="Step" xml:space="preserve">
     <value>Шаг</value>
   </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Группы</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Высота</value>
+  </data>
+  <data name="OffsetLeft" xml:space="preserve">
+    <value>Отступ справа</value>
+  </data>
+  <data name="OffsetTop" xml:space="preserve">
+    <value>Отступ сверху</value>
+  </data>
+  <data name="PasteSizeOnly" xml:space="preserve">
+    <value>Вставить только размер</value>
+  </data>
+  <data name="PresentationSettings" xml:space="preserve">
+    <value>Настройки отображения</value>
+  </data>
+  <data name="SelectedElement" xml:space="preserve">
+    <value>Выбранный элемент</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Ширина</value>
+  </data>
+  <data name="MoveWithChildren" xml:space="preserve">
+    <value>Двигать с подэлементами</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>Увеличить масштаб</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>Уменьшить масштаб</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Блок</value>
+  </data>
+  <data name="AddBoolToAddressDependency" xml:space="preserve">
+    <value>Добавить зависимость адреса от значения дискрета</value>
+  </data>
+  <data name="AddressIfFalse" xml:space="preserve">
+    <value>Адрес при значении "нет"</value>
+  </data>
+  <data name="AddressIfTrue" xml:space="preserve">
+    <value>Адрес при значении "да"</value>
+  </data>
+  <data name="Dependencies" xml:space="preserve">
+    <value>Зависимости</value>
+  </data>
 </root>

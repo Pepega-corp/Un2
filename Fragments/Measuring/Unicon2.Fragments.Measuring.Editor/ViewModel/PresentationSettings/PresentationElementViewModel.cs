@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings
 		public PresentationElementViewModel(object templatedViewModelToShowOnCanvas)
 		{
 			TemplatedViewModelToShowOnCanvas = templatedViewModelToShowOnCanvas;
-			PositioningInfoViewModel = new PositioningInfoViewModel();
+			PositioningInfoViewModel = new PositioningInfoViewModel(0,0,100,35);
 		}
 
 		public object TemplatedViewModelToShowOnCanvas { get; }

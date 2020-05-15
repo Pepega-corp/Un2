@@ -6,6 +6,7 @@
     xmlns:elements="clr-namespace:Unicon2.Fragments.Measuring.ViewModel.Elements"
     xmlns:interfaces="clr-namespace:Unicon2.Fragments.Measuring.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Measuring.Infrastructure"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:presentation="clr-namespace:Unicon2.Fragments.Measuring.ViewModel.Presentation"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:views="clr-namespace:Unicon2.Fragments.Measuring.Views">
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -19,16 +20,24 @@
     <DataTemplate DataType="{x:Type elements:AnalogMeasuringElementViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ContentPresenter
-                Margin="10"
+            <TextBlock
+                Grid.Column="0"
+                Margin="2"
                 HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding Header}" />
+            <ContentPresenter
+                Grid.Column="1"
+                Margin="5"
+                HorizontalAlignment="Right"
                 Content="{Binding FormattedValueViewModel}"
                 ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" />
             <TextBlock
-                Grid.Column="1"
+                Grid.Column="2"
                 Margin="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -38,20 +47,40 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements:DiscretMeasuringElementViewModel}">
-        <ContentPresenter
-            Margin="10"
-            Content="{Binding FormattedValueViewModel}"
-            ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ContentPresenter
+                Margin="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{Binding FormattedValueViewModel}"
+                ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" />
+            <TextBlock
+                Grid.Column="1"
+                Margin="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding Header}" />
+        </Grid>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements:ControlSignalViewModel}">
         <Button
-            Width="100"
-            HorizontalAlignment="Right"
+            Margin="2"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
             Command="{Binding WriteValueCommand}"
-            Content="{lex:Loc Write}"
+            Content="{Binding Header}"
             Style="{DynamicResource UniconButtonStyle}" />
     </DataTemplate>
 
-
+    <DataTemplate DataType="{x:Type presentation:PresentationGroupViewModel}">
+        <GroupBox
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Header="{Binding Header}" />
+    </DataTemplate>
 </ResourceDictionary>

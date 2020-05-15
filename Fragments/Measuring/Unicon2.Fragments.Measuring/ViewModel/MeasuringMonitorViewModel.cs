@@ -31,6 +31,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
         private CollectionView _measuringElementListCollectionView;
         private IMeasuringGroupViewModel _selectedMeasuringGroupViewModel;
+        private double _scale;
 
         public MeasuringMonitorViewModel(IMeasuringGroupViewModelFactory measuringGroupViewModelFactory,
             IFragmentOptionsViewModel fragmentOptionsViewModel,
@@ -108,11 +109,39 @@ namespace Unicon2.Fragments.Measuring.ViewModel
             });
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconAlignJustify;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
-            FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
+
+
+
+
+
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = "ZoomIn";
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(async () => { Scale += 0.1; });
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconMagnifyAdd;
+
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = "ZoomOut";
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(async () => { Scale -= 0.1; });
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconMagnifyMinus;
+
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
+            FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+            Scale = 1;
         }
 
-      
+        public double Scale
+        {
+	        get => _scale;
+	        set
+	        {
+		        _scale = value; 
+                RaisePropertyChanged();
+	        }
+        }
 
 
         //private void StartCycleLoading()

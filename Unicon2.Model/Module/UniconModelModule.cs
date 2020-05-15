@@ -1,5 +1,6 @@
 ﻿using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
@@ -10,6 +11,7 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Model.Connection;
 using Unicon2.Model.DefaultDevice;
+using Unicon2.Model.Dependencies;
 using Unicon2.Model.FragmentSettings;
 using Unicon2.Model.Memory;
 using Unicon2.Model.Progress;
@@ -37,6 +39,7 @@ namespace Unicon2.Model.Module
             container.Register<ITimeValue, TimeValue>();
             container.Register<IFragmentSettings, DefaultFragmentSettings>();
             container.Register<IBitMaskValue, BitMaskValue>();
+            container.Register<IBoolToAddressDependency, BoolToAddressDependency>();
 
             container.Register<IQuickAccessMemoryApplyingContext, QuickAccessMemoryApplyingContext>();
             container.Register<IFragmentSetting, QuickMemoryAccessSetting>(ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING);

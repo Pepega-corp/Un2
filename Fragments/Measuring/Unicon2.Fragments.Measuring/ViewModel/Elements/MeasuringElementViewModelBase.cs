@@ -1,4 +1,5 @@
 ﻿using System;
+using Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.ViewModels;
@@ -34,6 +35,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
                 RaisePropertyChanged();
             }
         }
+
+  
 
 
         public Guid Id { get; set; }

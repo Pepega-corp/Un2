@@ -84,6 +84,8 @@
     <Compile Include="ViewModel\Elements\MeasuringElementViewModelBase.cs" />
     <Compile Include="ViewModel\MeasuringGroupViewModel.cs" />
     <Compile Include="ViewModel\MeasuringMonitorViewModel.cs" />
+    <Compile Include="ViewModel\Presentation\PresentationGroupViewModel.cs" />
+    <Compile Include="ViewModel\Presentation\PresentationMeasuringElementViewModel.cs" />
     <Compile Include="Views\MeasuringMonitorView.xaml.cs">
       <DependentUpon>MeasuringMonitorView.xaml</DependentUpon>
     </Compile>
@@ -122,6 +124,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Dependencies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

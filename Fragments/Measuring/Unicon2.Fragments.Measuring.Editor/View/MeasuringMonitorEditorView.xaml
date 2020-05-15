@@ -42,243 +42,47 @@
                         Command="{Binding OpenConfigurationSettingsCommand}"
                         Content="{lex:Loc Settings}"
                         Style="{DynamicResource UniconButtonStyle}" />
-
-                    <!--<Separator/>-->
-
-
-                    <!--<Button
-                                Margin="5"
-                                Command="{Binding AddAnalogMeasuringElementCommand}"
-                                Content="{lex:Loc AddAnalogSignal}"
-                                Style="{DynamicResource UniconButtonStyle}" />
-                    <Button
-                                Margin="5"
-                                Command="{Binding AddDiscretMeasuringElementCommand}"
-                                Content="{lex:Loc AddDiscretSignal}"
-                                Style="{DynamicResource UniconButtonStyle}" />
-                    <Button
-                                Margin="5"
-                                Command="{Binding AddControlSignalCommand}"
-                                Content="{lex:Loc AddControlSignal}"
-                                Style="{DynamicResource UniconButtonStyle}" />-->
-
-                    <!--<Separator/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="5"
-                            Width="100"
-                            Text="{lex:Loc Name}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            />
-                        <TextBox
-                                    Margin="5"
-                                    Height="25"
-                                    Width="100"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Text="{Binding DiscretGroupName}">
-                            <TextBox.Style>
-                                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-                                    <Style.Resources>
-                                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                                            <VisualBrush.Visual>
-                                                <Label Content="{lex:Loc Name}" Foreground="LightGray" />
-                                            </VisualBrush.Visual>
-                                        </VisualBrush>
-                                    </Style.Resources>
-                                    <Style.Triggers>
-                                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="Text" Value="{x:Null}">
-                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" Value="True">
-                                            <Setter Property="Background" Value="White" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBox.Style>
-                        </TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="5"
-                            Width="100"
-                            Text="{lex:Loc StartAddress}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            />
-                        <TextBox
-                                    Margin="5"
-                                    Height="25"
-                                    Width="100"
-                                    HorizontalAlignment="Left"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Text="{Binding DiscretGroupStartAddress}">
-                            <TextBox.Style>
-                                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-                                    <Style.Resources>
-                                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                                            <VisualBrush.Visual>
-                                                <Label Content="{lex:Loc StartAddress}" Foreground="LightGray" />
-                                            </VisualBrush.Visual>
-                                        </VisualBrush>
-                                    </Style.Resources>
-                                    <Style.Triggers>
-                                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="Text" Value="{x:Null}">
-                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" Value="True">
-                                            <Setter Property="Background" Value="White" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBox.Style>
-                        </TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                            Margin="5"
-                            Width="100"
-                            Text="{lex:Loc StartingBit}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            />
-                    <TextBox
-                                    Margin="5"
-                                    Height="25"
-                                    Width="100"
-                                    HorizontalAlignment="Left"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Text="{Binding DiscretGroupStartingBit}">
-                        <TextBox.Style>
-                            <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-                                <Style.Resources>
-                                    <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                                        <VisualBrush.Visual>
-                                            <Label Content="{lex:Loc StartingBit}" Foreground="LightGray" />
-                                        </VisualBrush.Visual>
-                                    </VisualBrush>
-                                </Style.Resources>
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="{x:Null}">
-                                        <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                    </Trigger>
-                                    <Trigger Property="IsKeyboardFocused" Value="True">
-                                        <Setter Property="Background" Value="White" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="5"
-                            Width="100"
-                            Text="{lex:Loc ElementsCount}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            />
-                        <TextBox
-                                    Margin="5"
-                                    Height="25"
-                                    Width="100"
-                                    HorizontalAlignment="Left"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Text="{Binding DiscretGroupElementsCount}">
-                            <TextBox.Style>
-                                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-                                    <Style.Resources>
-                                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                                            <VisualBrush.Visual>
-                                                <Label Content="{lex:Loc ElementsCount}" Foreground="LightGray" />
-                                            </VisualBrush.Visual>
-                                        </VisualBrush>
-                                    </Style.Resources>
-                                    <Style.Triggers>
-                                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="Text" Value="{x:Null}">
-                                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocused" Value="True">
-                                            <Setter Property="Background" Value="White" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBox.Style>
-                        </TextBox>
-                    </StackPanel>
-                    <Button
-                                        Margin="5"
-                                        Command="{Binding AddDiscretMeasuringElementGroupCommand}"
-                                        Content="{lex:Loc AddDiscretSignalGroup}"
-                                        Style="{DynamicResource UniconButtonStyle}" />-->
-
-
                 </StackPanel>
-
-
-
-
+            </GroupBox>
+            <GroupBox
+                Margin="0"
+                DataContext="{Binding SelectedMeasuringGroupEditorViewModel}"
+                Header="{lex:Loc SelectedElement}">
+                <StackPanel Orientation="Vertical">
+                    <Button
+                        Margin="5"
+                        Command="{Binding AddAnalogMeasuringElementCommand}"
+                        Content="{lex:Loc AddAnalogSignal}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                    <Button
+                        Margin="5"
+                        Command="{Binding AddDiscretMeasuringElementCommand}"
+                        Content="{lex:Loc AddDiscretSignal}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                    <Button
+                        Margin="5"
+                        Command="{Binding AddControlSignalCommand}"
+                        Content="{lex:Loc AddControlSignal}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                    <Button
+                        Margin="3"
+                        Command="{Binding OpenPresentationSettingsCommand}"
+                        Content="{lex:Loc PresentationSettings}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                </StackPanel>
             </GroupBox>
         </StackPanel>
 
         <Grid Grid.Column="1">
-            <controls:MetroAnimatedSingleRowTabControl
-                Name="groupsTabControl"
-                Grid.Column="1"
-                ItemsSource="{Binding MeasuringGroupEditorViewModels}">
-                <TabControl.ContentTemplate>
-                    <DataTemplate DataType="viewModel:IMeasuringGroupEditorViewModel">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            <StackPanel
-                                Grid.Row="0"
-                                HorizontalAlignment="Left"
-                                Orientation="Horizontal">
-
-                                <Button
-                                    Margin="5"
-                                    Command="{Binding AddAnalogMeasuringElementCommand}"
-                                    Content="{lex:Loc AddAnalogSignal}"
-                                    Style="{DynamicResource UniconButtonStyle}" />
-                                <Button
-                                    Margin="5"
-                                    Command="{Binding AddDiscretMeasuringElementCommand}"
-                                    Content="{lex:Loc AddDiscretSignal}"
-                                    Style="{DynamicResource UniconButtonStyle}" />
-                                <Button
-                                    Margin="5"
-                                    Command="{Binding AddControlSignalCommand}"
-                                    Content="{lex:Loc AddControlSignal}"
-                                    Style="{DynamicResource UniconButtonStyle}" />
-                                <Button
-                                    Margin="3"
-                                    Command="{Binding OpenPresentationSettingsCommand}"
-                                    Content="{lex:Loc PresentationSettings}"
-                                    Style="{DynamicResource UniconButtonStyle}" />
-                            </StackPanel>
-                            <StackPanel
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <controls:MetroAnimatedSingleRowTabControl
+                    Name="groupsTabControl"
+                    ItemsSource="{Binding MeasuringGroupEditorViewModels}"
+                    SelectedItem="{Binding SelectedMeasuringGroupEditorViewModel}">
+                    <TabControl.ContentTemplate>
+                        <DataTemplate DataType="viewModel:IMeasuringGroupEditorViewModel">
+                            <Grid>
+                                <!--<StackPanel
                                 Grid.Row="0"
                                 HorizontalAlignment="Right"
                                 Orientation="Horizontal">
@@ -428,139 +232,140 @@
                                     Command="{Binding AddDiscretMeasuringElementGroupCommand}"
                                     Content="{lex:Loc AddDiscretSignalGroup}"
                                     Style="{DynamicResource UniconButtonStyle}" />
-                            </StackPanel>
+                            </StackPanel>-->
 
 
-                            <ListBox
-                                Name="elementsListBox"
-                                Grid.Row="1"
-                                dd:DragDrop.CanDragWithMouseRightButton="False"
-                                dd:DragDrop.DragHandler="{Binding}"
-                                dd:DragDrop.IsDragSource="True"
-                                dd:DragDrop.IsDropTarget="True"
-                                IsHitTestVisible="True"
-                                ItemsSource="{Binding MeasuringElementEditorViewModels}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseEnter">
-                                        <i:InvokeCommandAction Command="{Binding CheckElementsPositionCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem">
-                                        <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}" />
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem
-                                                        Command="{Binding PlacementTarget.Tag.DeleteMeasuringElementCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                        CommandParameter="{Binding}"
-                                                        Header="{lex:Loc Delete}" />
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border
-                                            Margin="5"
-                                            BorderBrush="{DynamicResource AccentColorBrush}"
-                                            BorderThickness="1">
-                                            <Grid Margin="5">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel Grid.Column="0">
-                                                    <lex:LocProxy Name="NameForUiKeyProxy" Source="{Binding NameForUiKey}" />
-                                                    <TextBlock Text="{Binding Result, ElementName=NameForUiKeyProxy}" />
-                                                    <UniformGrid Columns="2">
-                                                        <TextBlock Margin="5" Text="{lex:Loc Name}" />
-                                                        <TextBox
-                                                            Height="30"
-                                                            MinWidth="100"
-                                                            Margin="5"
-                                                            VerticalAlignment="Top"
-                                                            Text="{Binding Header}" />
-                                                    </UniformGrid>
-                                                </StackPanel>
-                                                <ContentPresenter Grid.Column="1" Content="{Binding}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                                <ListBox.Template>
-                                    <ControlTemplate>
-                                        <ItemsPresenter />
-                                    </ControlTemplate>
-                                </ListBox.Template>
-                            </ListBox>
-                        </Grid>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-                <TabControl.ItemTemplate>
-                    <DataTemplate DataType="viewModel:IMeasuringGroupEditorViewModel">
-                        <TextBlock Text="{Binding Header}">
-                            <TextBlock.ContextMenu>
-                                <ContextMenu>
+                                <ListBox
+                                    Name="elementsListBox"
+                                    Grid.Row="1"
+                                    dd:DragDrop.CanDragWithMouseRightButton="False"
+                                    dd:DragDrop.DragHandler="{Binding}"
+                                    dd:DragDrop.IsDragSource="True"
+                                    dd:DragDrop.IsDropTarget="True"
+                                    IsHitTestVisible="True"
+                                    ItemsSource="{Binding MeasuringElementEditorViewModels}">
                                     <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Opened">
-                                            <i:InvokeCommandAction Command="{Binding DataContext.CheckElementsPositionCommand, Source={x:Reference Name=groupsTabControl}}" />
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:InvokeCommandAction Command="{Binding CheckElementsPositionCommand}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-                                    <MenuItem Header="{lex:Loc Name}">
-                                        <TextBox Margin="10" Text="{Binding Header, UpdateSourceTrigger=LostFocus}" />
-                                    </MenuItem>
-                                    <MenuItem
-                                        Command="{Binding DataContext.DeleteGroupCommand, Source={x:Reference Name=groupsTabControl}}"
-                                        CommandParameter="{Binding .}"
-                                        Header="{lex:Loc Delete}" />
-                                    <MenuItem Header="{lex:Loc Placement}">
-                                        <StackPanel Margin="0">
-                                            <Grid HorizontalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <Button
-                                                    Grid.Column="0"
-                                                    Margin="3"
-                                                    Command="{Binding DataContext.SetElementLeftCommand, Source={x:Reference Name=groupsTabControl}}"
-                                                    CommandParameter="{Binding .}"
-                                                    Style="{DynamicResource UniconButtonStyle}">
-                                                    <Rectangle
-                                                        Width="18"
-                                                        Height="15"
-                                                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_left}" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Button>
-                                                <Button
-                                                    Grid.Column="1"
-                                                    Margin="3"
-                                                    Command="{Binding DataContext.SetElementRightCommand, Source={x:Reference Name=groupsTabControl}}"
-                                                    CommandParameter="{Binding .}"
-                                                    Style="{DynamicResource UniconButtonStyle}">
-                                                    <Rectangle
-                                                        Width="18"
-                                                        Height="15"
-                                                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}">
-                                                        <Rectangle.OpacityMask>
-                                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
-                                                        </Rectangle.OpacityMask>
-                                                    </Rectangle>
-                                                </Button>
-                                            </Grid>
-                                        </StackPanel>
-                                    </MenuItem>
-                                </ContextMenu>
-                            </TextBlock.ContextMenu>
-                        </TextBlock>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-            </controls:MetroAnimatedSingleRowTabControl>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                                            <Setter Property="ContextMenu">
+                                                <Setter.Value>
+                                                    <ContextMenu>
+                                                        <MenuItem
+                                                            Command="{Binding PlacementTarget.Tag.DeleteMeasuringElementCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                            CommandParameter="{Binding}"
+                                                            Header="{lex:Loc Delete}" />
+                                                    </ContextMenu>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border
+                                                Margin="5"
+                                                BorderBrush="{DynamicResource AccentColorBrush}"
+                                                BorderThickness="1">
+                                                <Grid Margin="5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Grid.Column="0">
+                                                        <lex:LocProxy Name="NameForUiKeyProxy" Source="{Binding NameForUiKey}" />
+                                                        <TextBlock Text="{Binding Result, ElementName=NameForUiKeyProxy}" />
+                                                        <UniformGrid Columns="2">
+                                                            <TextBlock Margin="5" Text="{lex:Loc Name}" />
+                                                            <TextBox
+                                                                Height="30"
+                                                                MinWidth="100"
+                                                                Margin="5"
+                                                                VerticalAlignment="Top"
+                                                                Text="{Binding Header}" />
+                                                        </UniformGrid>
+                                                    </StackPanel>
+                                                    <ContentPresenter Grid.Column="1" Content="{Binding}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.Template>
+                                        <ControlTemplate>
+                                            <ItemsPresenter />
+                                        </ControlTemplate>
+                                    </ListBox.Template>
+                                </ListBox>
+                            </Grid>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                    <TabControl.ItemTemplate>
+                        <DataTemplate DataType="viewModel:IMeasuringGroupEditorViewModel">
+                            <TextBlock Text="{Binding Header}">
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Opened">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.CheckElementsPositionCommand, Source={x:Reference Name=groupsTabControl}}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <MenuItem Header="{lex:Loc Name}">
+                                            <TextBox Margin="10" Text="{Binding Header, UpdateSourceTrigger=LostFocus}" />
+                                        </MenuItem>
+                                        <MenuItem
+                                            Command="{Binding DataContext.DeleteGroupCommand, Source={x:Reference Name=groupsTabControl}}"
+                                            CommandParameter="{Binding .}"
+                                            Header="{lex:Loc Delete}" />
+                                        <MenuItem Header="{lex:Loc Placement}">
+                                            <StackPanel Margin="0">
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button
+                                                        Grid.Column="0"
+                                                        Margin="3"
+                                                        Command="{Binding DataContext.SetElementLeftCommand, Source={x:Reference Name=groupsTabControl}}"
+                                                        CommandParameter="{Binding .}"
+                                                        Style="{DynamicResource UniconButtonStyle}">
+                                                        <Rectangle
+                                                            Width="18"
+                                                            Height="15"
+                                                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_left}" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Button>
+                                                    <Button
+                                                        Grid.Column="1"
+                                                        Margin="3"
+                                                        Command="{Binding DataContext.SetElementRightCommand, Source={x:Reference Name=groupsTabControl}}"
+                                                        CommandParameter="{Binding .}"
+                                                        Style="{DynamicResource UniconButtonStyle}">
+                                                        <Rectangle
+                                                            Width="18"
+                                                            Height="15"
+                                                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Button>
+                                                </Grid>
+                                            </StackPanel>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </TextBlock.ContextMenu>
+                            </TextBlock>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                </controls:MetroAnimatedSingleRowTabControl>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

@@ -11,13 +11,9 @@ namespace Unicon2.Model.Memory
         {
             DeviceMemoryValues = new Dictionary<ushort, ushort>();
             LocalMemoryValues = new Dictionary<ushort, ushort>();
-            DeviceMemoryBoolValues = new Dictionary<ushort, bool>();
-            LocalMemoryBoolValues = new Dictionary<ushort, bool>();
         }
 
         [JsonProperty] public Dictionary<ushort, ushort> DeviceMemoryValues { get; set; }
         [JsonProperty] public Dictionary<ushort, ushort> LocalMemoryValues { get; set; }
-        [JsonProperty] public Dictionary<ushort, bool> DeviceMemoryBoolValues { get; set; }
-        [JsonProperty] public Dictionary<ushort, bool> LocalMemoryBoolValues { get; set; }
     }
 }

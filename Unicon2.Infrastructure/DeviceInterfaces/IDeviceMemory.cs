@@ -6,8 +6,6 @@ namespace Unicon2.Infrastructure.DeviceInterfaces
     {
         Dictionary<ushort, ushort> DeviceMemoryValues { get; set; }
         Dictionary<ushort, ushort> LocalMemoryValues { get; set; }
-        Dictionary<ushort, bool> DeviceMemoryBoolValues { get; set; }
-        Dictionary<ushort, bool> LocalMemoryBoolValues { get; set; }
 
     }
 }

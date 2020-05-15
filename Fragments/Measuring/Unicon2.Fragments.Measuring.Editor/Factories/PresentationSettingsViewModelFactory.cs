@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
+using Unicon2.Fragments.Measuring.Editor.Subscriptions;
 using Unicon2.Fragments.Measuring.Editor.ViewModel;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
@@ -21,13 +22,15 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 			if (measuringGroup?.PresentationSettings != null)
 				foreach (var groupsOfElement in measuringGroup?.PresentationSettings?.GroupsOfElements)
 				{
-					res.PresentationElementViewModels.Add(new PresentationElementViewModel(
-						new PresentationGroupViewModel()
-						{
-							Header = groupsOfElement.Name
-						})
+					var presentationGroupViewModel = new PresentationGroupViewModel()
 					{
-						PositioningInfoViewModel = InitializePositioningInfo(groupsOfElement.PositioningInfo)
+						Header = groupsOfElement.Name
+					};
+					res.PresentationElementViewModels.Add(new PresentationElementViewModel(
+						presentationGroupViewModel)
+					{
+						PositioningInfoViewModel = InitializePositioningInfo(groupsOfElement.PositioningInfo,
+							new PresentationPositionChangedSubscription(presentationGroupViewModel, res))
 					});
 				}
 
@@ -39,7 +42,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 		{
 			var res = new Dictionary<Guid, PositioningInfoViewModel>();
 
-			if (presentationSettings.Elements != null)
+			if (presentationSettings?.Elements != null)
 				foreach (var element in presentationSettings.Elements)
 				{
 					res.Add(element.RelatedMeasuringElementId, InitializePositioningInfo(element.PositioningInfo));
@@ -48,16 +51,12 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 			return res;
 		}
 
-		private PositioningInfoViewModel InitializePositioningInfo(IPositioningInfo positioningInfo)
+		private PositioningInfoViewModel InitializePositioningInfo(IPositioningInfo positioningInfo,
+			PresentationPositionChangedSubscription presentationPositionChangedSubscription = null)
 		{
 
-			return new PositioningInfoViewModel()
-			{
-				OffsetLeft = positioningInfo.OffsetLeft,
-				OffsetTop = positioningInfo.OffsetTop,
-				SizeHeight = positioningInfo.SizeHeight,
-				SizeWidth = positioningInfo.SizeWidth
-			};
+			return new PositioningInfoViewModel(positioningInfo.OffsetLeft, positioningInfo.OffsetTop,
+				positioningInfo.SizeWidth, positioningInfo.SizeHeight, presentationPositionChangedSubscription);
 		}
 	}
 }

@@ -1,4 +1,6 @@
-﻿using Unicon2.Infrastructure.Interfaces;
+﻿using System.Collections.ObjectModel;
+using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Dependencies;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements
@@ -7,5 +9,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements
     {
         string Header { get; set; }
         string NameForUiKey { get; }
+         ObservableCollection<IDependencyViewModel> DependencyViewModels
+        { get; }
     }
 }

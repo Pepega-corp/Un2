@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
+using Unicon2.Infrastructure.Dependencies;
 
 namespace Unicon2.Fragments.Measuring.Model.Elements
 {
@@ -29,5 +31,7 @@ namespace Unicon2.Fragments.Measuring.Model.Elements
 		{
 			_id = id;
 		}
+		[JsonProperty]
+		public List<IDependency> Dependencies { get; set; }=new List<IDependency>();
 	}
 }

@@ -28,9 +28,9 @@ namespace Unicon2.Fragments.Measuring.Factories
 	            case AnalogMeasuringElement analogMeasuringElement:
 		            return CreateAnalogMeasuringElementViewModel(analogMeasuringElement, groupName);
 	            case ControlSignal controlSignal:
-					return CreateControlSignalViewModelViewModel(controlSignal);
+					return CreateControlSignalViewModelViewModel(controlSignal,groupName);
 				case DescretMeasuringElement descretMeasuringElement:
-					return CreateDiscretMeasuringElementViewModel(descretMeasuringElement);
+					return CreateDiscretMeasuringElementViewModel(descretMeasuringElement, groupName);
 			}
 
             measuringElementViewModel.GroupName = groupName;
@@ -51,15 +51,23 @@ namespace Unicon2.Fragments.Measuring.Factories
         }
 
         private ControlSignalViewModel CreateControlSignalViewModelViewModel(
-	        ControlSignal controlSignal)
+	        ControlSignal controlSignal, string groupName)
         {
-			return new ControlSignalViewModel();
+	        var res = new ControlSignalViewModel();
+	        res.Id = controlSignal.Id;
+	        res.Header = controlSignal.Name;
+	        res.GroupName = groupName;
+	        return res;
         }
 
         private DiscretMeasuringElementViewModel CreateDiscretMeasuringElementViewModel(
-	        DescretMeasuringElement discretMeasuringElement)
+	        DescretMeasuringElement discretMeasuringElement, string groupName)
         {
-			return new DiscretMeasuringElementViewModel();
+	        var res = new DiscretMeasuringElementViewModel();
+	        res.Id = discretMeasuringElement.Id;
+	        res.Header = discretMeasuringElement.Name;
+	        res.GroupName = groupName;
+            return res;
         }
 	}
 }

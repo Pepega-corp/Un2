@@ -1,4 +1,5 @@
 ﻿using System;
+using Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.Subscription;

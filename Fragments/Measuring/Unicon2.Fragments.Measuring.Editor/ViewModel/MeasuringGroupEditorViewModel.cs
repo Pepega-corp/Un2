@@ -66,7 +66,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             _applicationGlobalCommands.ShowWindowModal(() => new PresentationSettingsWindow(),
 		        PresentationSettingsViewModel);
         }
-
+        
         private void OnAddAnalogMeasuringElementExecute()
         {
             MeasuringElementEditorViewModels.Add(_measuringElementEditorViewModelFactory.CreateAnalogMeasuringElementEditorViewModel());

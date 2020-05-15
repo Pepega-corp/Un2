@@ -7,15 +7,13 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.D
 {
     public interface IDependancyCondition : IUshortFormattable
     {
-
-        /// <summary>
-        /// Ссылаемое свойство
+	    /// <summary>
+        /// Ссылаемый ресурс
         /// </summary>
         string ReferencedPropertyResourceName { get; set; }
         ConditionsEnum ConditionsEnum { get; set; }
         ushort UshortValueToCompare { get; set; }
         ConditionResultEnum ConditionResult { get; set; }
-        Action<ConditionResultChangingEventArgs> ConditionResultChangedAction { get; set; }
 
        
     }

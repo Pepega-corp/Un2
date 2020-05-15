@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
+using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Dependencies;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 {
-    public abstract class MeasuringElementEditorViewModelBase : ViewModelBase, IMeasuringElementEditorViewModel
+    public abstract class MeasuringElementEditorViewModelBase : ViewModelBase, IMeasuringElementEditorViewModel,INameable
     {
         private string _header;
 
@@ -28,5 +31,13 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
         {
 	        Id = id;
         }
+
+        public string Name
+        {
+	        get => Header;
+	        set => Header = value;
+        }
+        public ObservableCollection<IDependencyViewModel> DependencyViewModels
+        { get; }=new ObservableCollection<IDependencyViewModel>();
     }
 }

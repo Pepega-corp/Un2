@@ -1,21 +1,21 @@
 ﻿using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
+using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Model.Elements;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Measuring.MemoryAccess
 {
 	public class MeasuringLoader
 	{
-		private IDataProviderContaining _dataProviderContaining;
-		private readonly IDeviceEventsDispatcher _deviceEventsDispatcher;
+		private DeviceContext _deviceContext;
 
-		public MeasuringLoader(IDataProviderContaining dataProviderContaining, IDeviceEventsDispatcher deviceEventsDispatcher)
+		public MeasuringLoader(DeviceContext deviceContext,IMeasuringMonitor measuringMonitor)
 		{
-			_dataProviderContaining = dataProviderContaining;
-			_deviceEventsDispatcher = deviceEventsDispatcher;
+			_deviceContext = deviceContext;
 		}
 
 		public void StartLoading()

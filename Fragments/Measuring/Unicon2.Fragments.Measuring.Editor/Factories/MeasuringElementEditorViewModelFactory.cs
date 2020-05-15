@@ -1,11 +1,13 @@
 ﻿using System;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+using Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies;
 using Unicon2.Fragments.Measuring.Infrastructure.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Interfaces;
 
@@ -15,12 +17,14 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 	{
 		private readonly ITypesContainer _container;
 		private readonly IMeasuringElementFactory _measuringElementFactory;
+		private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
 
 		public MeasuringElementEditorViewModelFactory(ITypesContainer container,
-			IMeasuringElementFactory measuringElementFactory)
+			IMeasuringElementFactory measuringElementFactory,ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
 		{
 			_container = container;
 			_measuringElementFactory = measuringElementFactory;
+			_sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
 		}
 
 		private void InitDefaults(IMeasuringElementEditorViewModel measuringElementEditorViewModel,
@@ -29,8 +33,32 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 
 			measuringElementEditorViewModel.Header = measuringElement.Name;
 			measuringElementEditorViewModel.SetId(measuringElement.Id);
+			if (_sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesWithContainersContainsModel(measuringElement))
+			{
+				_sharedResourcesGlobalViewModel.AddExistingResourceWithContainer(measuringElementEditorViewModel, measuringElement);
+
+			}
+
+			foreach (var dependency in measuringElement.Dependencies)
+			{
+				if (dependency is IBoolToAddressDependency boolToAddressDependency)
+				{
+					measuringElementEditorViewModel.DependencyViewModels.Add(CreateBoolToAddressDependencyViewModel(boolToAddressDependency));
+				}
+				
+			}
 		}
 
+		private BoolToAddressDependencyViewModel CreateBoolToAddressDependencyViewModel(
+			IBoolToAddressDependency boolToAddressDependency)
+		{
+			return new BoolToAddressDependencyViewModel()
+			{
+				RelatedResourceName = boolToAddressDependency.RelatedResourceName,
+				ResultingAddressIfTrue = boolToAddressDependency.ResultingAddressIfTrue,
+				ResultingAddressIfFalse = boolToAddressDependency.ResultingAddressIfFalse
+			};
+		}
 
 
 		public IMeasuringElementEditorViewModel CreateMeasuringElementEditorViewModel(

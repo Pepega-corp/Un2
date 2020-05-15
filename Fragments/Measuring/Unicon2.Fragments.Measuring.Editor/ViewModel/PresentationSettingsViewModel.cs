@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using Unicon2.Fragments.Measuring.Editor.Helpers;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
+using Unicon2.Fragments.Measuring.Editor.Subscriptions;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
@@ -27,12 +29,14 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 		private PresentationElementViewModel _selectedElementViewModel;
 		private readonly string _allString = "All";
 		private readonly string _groupsString = "Groups";
-
+		private PositioningInfoViewModel _bufferPositioningInfoViewModel;
 		private string _selectedFilterString;
 		private List<PresentationElementViewModel> _filteredPresentationElementViewModels;
 		private IMeasuringElementViewModelFactory _measuringElementViewModelFactory;
 		private Dictionary<Guid, PositioningInfoViewModel> _positioningInfosDictionary;
-		public PresentationSettingsViewModel(IMeasuringGroupEditorViewModel measuringGroupEditorViewModel, Dictionary<Guid, PositioningInfoViewModel> positioningInfosDictionary)
+
+		public PresentationSettingsViewModel(IMeasuringGroupEditorViewModel measuringGroupEditorViewModel,
+			Dictionary<Guid, PositioningInfoViewModel> positioningInfosDictionary)
 		{
 			_measuringGroupEditorViewModel = measuringGroupEditorViewModel;
 			_positioningInfosDictionary = positioningInfosDictionary;
@@ -50,6 +54,41 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 			};
 			SelectedFilterString = _allString;
 			_measuringElementViewModelFactory = StaticContainer.Container.Resolve<IMeasuringElementViewModelFactory>();
+			CopySelectedPositionInfo = new RelayCommand(() =>
+			{
+				_bufferPositioningInfoViewModel = SelectedElementViewModel.PositioningInfoViewModel;
+				(PasteSelectedPositionInfo as RelayCommand)?.RaiseCanExecuteChanged();
+				(PasteOnlySizeSelectedPositionInfo as RelayCommand)?.RaiseCanExecuteChanged();
+			});
+			PasteSelectedPositionInfo=new RelayCommand(() =>
+				{
+					SelectedElementViewModel.PositioningInfoViewModel.OffsetLeft =
+						_bufferPositioningInfoViewModel.OffsetLeft;
+					SelectedElementViewModel.PositioningInfoViewModel.OffsetTop =
+						_bufferPositioningInfoViewModel.OffsetTop;
+					SelectedElementViewModel.PositioningInfoViewModel.SizeHeight =
+						_bufferPositioningInfoViewModel.SizeHeight;
+					SelectedElementViewModel.PositioningInfoViewModel.SizeWidth =
+						_bufferPositioningInfoViewModel.SizeWidth;
+				},() => _bufferPositioningInfoViewModel!=null);
+
+			PasteOnlySizeSelectedPositionInfo = new RelayCommand(() =>
+				{
+					SelectedElementViewModel.PositioningInfoViewModel.SizeHeight =
+						_bufferPositioningInfoViewModel.SizeHeight;
+					SelectedElementViewModel.PositioningInfoViewModel.SizeWidth =
+						_bufferPositioningInfoViewModel.SizeWidth;
+				},() => _bufferPositioningInfoViewModel!=null);
+
+
+
+			SelectElement=new RelayCommand<object>((o =>
+			{
+				if (o is PresentationElementViewModel presentationElementViewModel)
+				{
+					SelectedElementViewModel = presentationElementViewModel;
+				}
+			} ));
 		}
 
 		public void UpdateMeasuringElements()
@@ -80,6 +119,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
 				PresentationElementViewModels.Add(presentationElementViewModel);
 			}
+			UpdateFilter();
 		}
 
 		private void InitializePositionInto(PresentationElementViewModel presentationElementViewModel, IMeasuringElementViewModel measuringElementViewModel)
@@ -104,6 +144,12 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 				value.NumValue = "1000";
 				analogMeasuringElement.FormattedValueViewModel = value;
 			}
+			if (measuringElementViewModel is IDiscretMeasuringElementViewModel discretMeasuringElement)
+			{
+				var value = StaticContainer.Container.Resolve<IBoolValueViewModel>();
+				discretMeasuringElement.FormattedValueViewModel = value;
+			}
+
 			return measuringElementViewModel;
 		}
 
@@ -115,12 +161,16 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 		private void OnDeleteGroup()
 		{
 			PresentationElementViewModels.Remove(SelectedElementViewModel);
+			SelectedElementViewModel.PositioningInfoViewModel.Dispose();
 			SelectedElementViewModel = null;
 		}
 
 		private void OnAddGroup()
 		{
-			var newOne= new PresentationElementViewModel(new PresentationGroupViewModel());
+			var group = new PresentationGroupViewModel();
+			var newOne= new PresentationElementViewModel(group);
+			newOne.PositioningInfoViewModel = new PositioningInfoViewModel(0, 0, 200, 200,
+				new PresentationPositionChangedSubscription(group, this));
 			SelectedElementViewModel = newOne;
 			PresentationElementViewModels.Add(newOne);
 			UpdateFilter();
@@ -159,9 +209,25 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 			}
 			else if (SelectedFilterString == _groupsString)
 			{
-				FilteredPresentationElementViewModels = PresentationElementViewModels.Where(model => model.TemplatedViewModelToShowOnCanvas is PresentationGroupViewModel).ToList();
+				FilteredPresentationElementViewModels = PresentationElementViewModels
+					.Where(model => model.TemplatedViewModelToShowOnCanvas is PresentationGroupViewModel).ToList();
 			}
-			
+			else if (SelectedFilterString == MeasuringKeys.CONTROL_SIGNAL)
+			{
+				FilteredPresentationElementViewModels = PresentationElementViewModels
+					.Where(model => model.TemplatedViewModelToShowOnCanvas is IControlSignalViewModel).ToList();
+			}
+			else if (SelectedFilterString == MeasuringKeys.ANALOG_MEASURING_ELEMENT)
+			{
+				FilteredPresentationElementViewModels = PresentationElementViewModels
+					.Where(model => model.TemplatedViewModelToShowOnCanvas is IAnalogMeasuringElementViewModel).ToList();
+			}
+			else if (SelectedFilterString == MeasuringKeys.DISCRET_MEASURING_ELEMENT)
+			{
+				FilteredPresentationElementViewModels = PresentationElementViewModels
+					.Where(model => model.TemplatedViewModelToShowOnCanvas is IDiscretMeasuringElementViewModel).ToList();
+			}
+		
 		}
 
 		public List<string> FilterList { get; }
@@ -178,6 +244,12 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 				DeleteGroupCommand?.RaiseCanExecuteChanged();
 			}
 		}
+		public ICommand PasteSelectedPositionInfo { get; }
+		public ICommand CopySelectedPositionInfo { get; }
+		public ICommand PasteOnlySizeSelectedPositionInfo { get; }
+
+		public ICommand SelectElement { get; }
+
 	}
 	
 }

@@ -59,6 +59,7 @@
     <Compile Include="Model\PresentationSettings\IPositioningInfo.cs" />
     <Compile Include="Model\PresentationSettings\IPresentationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Dependencies\IDependencyViewModel.cs" />
     <Compile Include="ViewModel\Elements\IAnalogMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\IControlSignalViewModel.cs" />
     <Compile Include="ViewModel\Elements\IDiscretMeasuringElementViewModel.cs" />
@@ -76,5 +77,6 @@
       <Name>Unicon2.Presentation.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

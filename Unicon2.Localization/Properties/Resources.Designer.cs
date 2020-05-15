@@ -19,7 +19,7 @@ namespace Unicon2.Localization.Properties {
     // с помощью такого средства, как ResGen или Visual Studio.
     // Чтобы добавить или удалить член, измените файл .ResX и снова запустите ResGen
     // с параметром /str или перестройте свой проект VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -111,6 +111,15 @@ namespace Unicon2.Localization.Properties {
         public static string AddBlock {
             get {
                 return ResourceManager.GetString("AddBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddBoolToAddressDependency.
+        /// </summary>
+        public static string AddBoolToAddressDependency {
+            get {
+                return ResourceManager.GetString("AddBoolToAddressDependency", resourceCulture);
             }
         }
         
@@ -363,6 +372,24 @@ namespace Unicon2.Localization.Properties {
         public static string AddressHex {
             get {
                 return ResourceManager.GetString("AddressHex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddressIfFalse.
+        /// </summary>
+        public static string AddressIfFalse {
+            get {
+                return ResourceManager.GetString("AddressIfFalse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddressIfTrue.
+        /// </summary>
+        public static string AddressIfTrue {
+            get {
+                return ResourceManager.GetString("AddressIfTrue", resourceCulture);
             }
         }
         
@@ -660,6 +687,15 @@ namespace Unicon2.Localization.Properties {
         public static string BitwiseIndicatorFormatterDescription {
             get {
                 return ResourceManager.GetString("BitwiseIndicatorFormatterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @Block.
+        /// </summary>
+        public static string Block {
+            get {
+                return ResourceManager.GetString("Block", resourceCulture);
             }
         }
         
@@ -1191,6 +1227,15 @@ namespace Unicon2.Localization.Properties {
         public static string Deleting {
             get {
                 return ResourceManager.GetString("Deleting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @Dependencies.
+        /// </summary>
+        public static string Dependencies {
+            get {
+                return ResourceManager.GetString("Dependencies", resourceCulture);
             }
         }
         
@@ -1735,6 +1780,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @Groups.
+        /// </summary>
+        public static string Groups {
+            get {
+                return ResourceManager.GetString("Groups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @GroupWithReiteration.
         /// </summary>
         public static string GroupWithReiteration {
@@ -1758,6 +1812,15 @@ namespace Unicon2.Localization.Properties {
         public static string HaveTrueBitAt {
             get {
                 return ResourceManager.GetString("HaveTrueBitAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @Height.
+        /// </summary>
+        public static string Height {
+            get {
+                return ResourceManager.GetString("Height", resourceCulture);
             }
         }
         
@@ -2347,6 +2410,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @MoveWithChildren.
+        /// </summary>
+        public static string MoveWithChildren {
+            get {
+                return ResourceManager.GetString("MoveWithChildren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @MultipleAssignmentAllowed.
         /// </summary>
         public static string MultipleAssignmentAllowed {
@@ -2518,11 +2590,29 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @OffsetLeft.
+        /// </summary>
+        public static string OffsetLeft {
+            get {
+                return ResourceManager.GetString("OffsetLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @OffsetLoadingSequence.
         /// </summary>
         public static string OffsetLoadingSequence {
             get {
                 return ResourceManager.GetString("OffsetLoadingSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @OffsetTop.
+        /// </summary>
+        public static string OffsetTop {
+            get {
+                return ResourceManager.GetString("OffsetTop", resourceCulture);
             }
         }
         
@@ -2752,6 +2842,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @PasteSizeOnly.
+        /// </summary>
+        public static string PasteSizeOnly {
+            get {
+                return ResourceManager.GetString("PasteSizeOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Placement.
         /// </summary>
         public static string Placement {
@@ -2793,6 +2892,15 @@ namespace Unicon2.Localization.Properties {
         public static string Presentation {
             get {
                 return ResourceManager.GetString("Presentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @PresentationSettings.
+        /// </summary>
+        public static string PresentationSettings {
+            get {
+                return ResourceManager.GetString("PresentationSettings", resourceCulture);
             }
         }
         
@@ -3126,6 +3234,15 @@ namespace Unicon2.Localization.Properties {
         public static string SelectedDeviceNullMessage {
             get {
                 return ResourceManager.GetString("SelectedDeviceNullMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @SelectedElement.
+        /// </summary>
+        public static string SelectedElement {
+            get {
+                return ResourceManager.GetString("SelectedElement", resourceCulture);
             }
         }
         
@@ -3706,6 +3823,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @Width.
+        /// </summary>
+        public static string Width {
+            get {
+                return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Windows.
         /// </summary>
         public static string Windows {
@@ -3810,6 +3936,24 @@ namespace Unicon2.Localization.Properties {
         public static string ZeroOrMoreTimesQuantifierDescription {
             get {
                 return ResourceManager.GetString("ZeroOrMoreTimesQuantifierDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @ZoomIn.
+        /// </summary>
+        public static string ZoomIn {
+            get {
+                return ResourceManager.GetString("ZoomIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @ZoomOut.
+        /// </summary>
+        public static string ZoomOut {
+            get {
+                return ResourceManager.GetString("ZoomOut", resourceCulture);
             }
         }
     }

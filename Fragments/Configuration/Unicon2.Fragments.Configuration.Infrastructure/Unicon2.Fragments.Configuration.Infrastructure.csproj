@@ -55,7 +55,6 @@
     <Compile Include="StructItemsInterfaces\Properties\ISubProperty.cs" />
     <Compile Include="Keys\ConfigurationKeys.cs" />
     <Compile Include="StructItemsInterfaces\ConfigurationSettings\IActivatedSetting.cs" />
-    <Compile Include="StructItemsInterfaces\DependentProperty\ConditionResultChangingEventArgs.cs" />
     <Compile Include="StructItemsInterfaces\DependentProperty\IDependancyCondition.cs" />
     <Compile Include="StructItemsInterfaces\Properties\IComplexProperty.cs" />
     <Compile Include="StructItemsInterfaces\Properties\IDependentProperty.cs" />

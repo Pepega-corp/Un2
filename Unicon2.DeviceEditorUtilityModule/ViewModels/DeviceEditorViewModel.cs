@@ -3,7 +3,9 @@ using Microsoft.Win32;
 using System.IO;
 using System.Reflection;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
+using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -20,26 +22,33 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private readonly IDialogCoordinator _dialogCoordinator;
         private IResultingDeviceViewModel _resultingDeviceViewModel;
         private readonly IDevicesContainerService _devicesContainerService;
+        private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private bool _isOpen;
 
         private string _currentFolder;
 
 
         public DeviceEditorViewModel(ILocalizerService localizerService, IDialogCoordinator dialogCoordinator,
-            IResultingDeviceViewModel resultingDeviceViewModel, IDevicesContainerService devicesContainerService)
+            IResultingDeviceViewModel resultingDeviceViewModel, IDevicesContainerService devicesContainerService, IApplicationGlobalCommands applicationGlobalCommands)
         {
             _localizerService = localizerService;
             _dialogCoordinator = dialogCoordinator;
             _resultingDeviceViewModel = resultingDeviceViewModel;
             _devicesContainerService = devicesContainerService;
+            _applicationGlobalCommands = applicationGlobalCommands;
             LoadExistingDevice = new RelayCommand(OnLoadExistingDevice);
             CreateDeviceCommand = new RelayCommand(OnCreateDeviceExecute);
             SaveInFileCommand = new RelayCommand(OnSaveInFileExecute);
             OpenSharedResourcesCommand = new RelayCommand(OnOpenSharedResourcesExecute);
             DeleteFragmentCommand = new RelayCommand<object>(OnDeleteFragmentExecute);
-
+            OpenAddFragmentWindowCommand=new RelayCommand(OnOpenAddFragmentWindowCommand);
             _currentFolder =
                 Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
+        }
+
+        private void OnOpenAddFragmentWindowCommand()
+        {
+	        _applicationGlobalCommands.ShowWindowModal(()=>new AddFragmentView(), new AddFragmentViewModel(ResultingDeviceViewModel));
         }
 
         private void OnDeleteFragmentExecute(object obj)
@@ -113,10 +122,10 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
-
         public ICommand LoadExistingDevice { get; }
         public ICommand CreateDeviceCommand { get; }
         public ICommand SaveInFileCommand { get; }
+        public ICommand OpenAddFragmentWindowCommand { get; }
 
         public ICommand OpenSharedResourcesCommand { get; }
 
@@ -134,6 +143,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+   
 
         public IResultingDeviceViewModel ResultingDeviceViewModel
         {

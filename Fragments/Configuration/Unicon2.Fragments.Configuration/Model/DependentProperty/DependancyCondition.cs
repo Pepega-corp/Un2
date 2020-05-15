@@ -50,9 +50,7 @@ namespace Unicon2.Fragments.Configuration.Model.DependentProperty
         public ushort UshortValueToCompare { get; set; }
         [JsonProperty]
         public ConditionResultEnum ConditionResult { get; set; }
-
-        public Action<ConditionResultChangingEventArgs> ConditionResultChangedAction { get; set; }
-
+		
         public string StrongName => ConfigurationKeys.DEPENDANCY_CONDITION;
 
         [JsonProperty]

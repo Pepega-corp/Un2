@@ -10,6 +10,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings
 	public class PresentationGroupViewModel:ViewModelBase
 	{
 		private string _header;
+		private bool _isMoveWithChildren;
 
 		public string Header
 		{
@@ -17,6 +18,16 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings
 			set
 			{
 				_header = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public bool IsMoveWithChildren
+		{
+			get => _isMoveWithChildren;
+			set
+			{
+				_isMoveWithChildren = value;
 				RaisePropertyChanged();
 			}
 		}

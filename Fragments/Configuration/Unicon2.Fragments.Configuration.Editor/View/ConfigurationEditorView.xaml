@@ -231,7 +231,6 @@
 
             <ListView
                 Name="ConfigListView"
-                MaxHeight="800"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 AlternationCount="2"

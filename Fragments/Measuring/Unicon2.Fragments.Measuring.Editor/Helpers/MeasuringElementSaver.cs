@@ -4,14 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+using Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Dependencies;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
 
 namespace Unicon2.Fragments.Measuring.Editor.Helpers
 {
 	public class MeasuringElementSaver
 	{
+		private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel=StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+
 		public IMeasuringElement SaveMeasuringElement(IMeasuringElementEditorViewModel measuringElementEditorViewModel)
 		{
 			switch (measuringElementEditorViewModel)
@@ -31,6 +36,29 @@ namespace Unicon2.Fragments.Measuring.Editor.Helpers
 		{
 			measuringElement.Name= measuringElementEditorViewModel.Header;
 			measuringElement.SetId(measuringElementEditorViewModel.Id);
+			if (_sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(measuringElementEditorViewModel))
+			{
+				_sharedResourcesGlobalViewModel.AddResourceFromViewModel(measuringElementEditorViewModel, measuringElement);
+			}
+
+			foreach (var dependencyViewModel in measuringElementEditorViewModel.DependencyViewModels)
+			{
+				if(dependencyViewModel is BoolToAddressDependencyViewModel boolToAddressDependencyViewModel)
+				{
+					measuringElement.Dependencies.Add(GetBoolToAddressDependency(boolToAddressDependencyViewModel));
+				}
+			}
+		}
+
+
+		private IDependency GetBoolToAddressDependency(BoolToAddressDependencyViewModel boolToAddressDependencyViewModel)
+		{
+			var res = StaticContainer.Container.Resolve<IBoolToAddressDependency>();
+			res.RelatedResourceName = boolToAddressDependencyViewModel.RelatedResourceName;
+			res.ResultingAddressIfFalse = boolToAddressDependencyViewModel.ResultingAddressIfFalse;
+			res.ResultingAddressIfTrue = boolToAddressDependencyViewModel.ResultingAddressIfTrue;
+
+			return res;
 		}
 
 		private IAnalogMeasuringElement CreateAnalogMeasuringElement(
@@ -48,7 +76,6 @@ namespace Unicon2.Fragments.Measuring.Editor.Helpers
 				analogMeasuringElement.UshortsFormatter = StaticContainer.Container.Resolve<ISaveFormatterService>()
 					.CreateUshortsParametersFormatter(analogMeasuringElementEditorViewModel.FormatterParametersViewModel);
 			}
-
 			return analogMeasuringElement;
 		}
 		private IControlSignal CreateControlSignal(

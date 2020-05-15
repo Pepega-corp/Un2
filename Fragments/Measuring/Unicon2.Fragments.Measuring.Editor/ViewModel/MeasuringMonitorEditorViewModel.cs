@@ -27,6 +27,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         private bool _isContextMenuOpen;
         private bool _isListViewSelected;
         private PresentationSettingsViewModel _presentationSettingsViewModel;
+        private IMeasuringGroupEditorViewModel _selectedMeasuringGroupEditorViewModel;
 
         public MeasuringMonitorEditorViewModel(ITypesContainer container,
             IMeasuringGroupEditorViewModelFactory measuringGroupEditorViewModelFactory,
@@ -143,7 +144,16 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
         public ObservableCollection<IMeasuringGroupEditorViewModel> MeasuringGroupEditorViewModels { get; set; }
 
-       
+        public IMeasuringGroupEditorViewModel SelectedMeasuringGroupEditorViewModel
+        {
+	        get => _selectedMeasuringGroupEditorViewModel;
+	        set
+	        {
+		        _selectedMeasuringGroupEditorViewModel = value;
+		        RaisePropertyChanged();
+	        }
+        }
+
 
         public void Initialize(IDeviceFragment deviceFragment)
         {
