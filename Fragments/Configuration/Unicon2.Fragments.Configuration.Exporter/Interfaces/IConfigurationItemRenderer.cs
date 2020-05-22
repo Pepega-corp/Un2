@@ -5,14 +5,16 @@ using System.Web.Mvc;
 using Unicon2.Fragments.Configuration.Exporter.Utils;
 using Unicon2.Fragments.Configuration.Infrastructure.Export;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Functional;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 
 namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
 {
     public interface IConfigurationItemRenderer
     {
-        Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem,
+        Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItemViewModel configurationItem,
             SelectorForItemsGroup selectorForItemsGroup, int depthLevel = 0);
     }
  

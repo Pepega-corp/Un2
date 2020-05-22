@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Factories\IMeasuringElementFactory.cs" />
     <Compile Include="Factories\IMeasuringElementViewModelFactory.cs" />
-    <Compile Include="Factories\IMeasuringGroupViewModelFactory.cs" />
     <Compile Include="Keys\MeasuringKeys.cs" />
     <Compile Include="Model\Address\IAddressOfBit.cs" />
     <Compile Include="Model\Address\IWritingValueContext.cs" />

@@ -9,6 +9,8 @@ using Unicon2.Fragments.Configuration.Exporter.ItemRenderers;
 using Unicon2.Fragments.Configuration.Infrastructure.Export;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Unity.Interfaces;
 
@@ -18,14 +20,13 @@ namespace Unicon2.Fragments.Configuration.Exporter.Module
     {
         public void Initialize(ITypesContainer container)
         {
-            container.Register<IHtmlRenderer<IDeviceConfiguration, ConfigurationExportSelector>,ConfigurationHtmlRenderer>();
-            container.Register<IConfigurationItemRenderer,DefaultPropertyRenderer>(ConfigurationKeys.DEFAULT_PROPERTY);
-            container.Register<IConfigurationItemRenderer, ComplexPropertyRenderer>(ConfigurationKeys.COMPLEX_PROPERTY);
-            container.Register<IConfigurationItemRenderer, DefaultPropertyRenderer>(ConfigurationKeys.SUB_PROPERTY);
-            container.Register<IConfigurationItemRenderer, DefaultPropertyRenderer>(ConfigurationKeys.DEPENDENT_PROPERTY);
-            container.Register<IConfigurationItemRenderer, MatrixRenderer>(ConfigurationKeys.APPOINTABLE_MATRIX);
+            container.Register<IHtmlRenderer<IRuntimeConfigurationViewModel, ConfigurationExportSelector>,ConfigurationHtmlRenderer>();
+            container.Register<IConfigurationItemRenderer,DefaultPropertyRenderer>(ConfigurationKeys.RUNTIME_DEFAULT_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<IConfigurationItemRenderer, ComplexPropertyRenderer>(ConfigurationKeys.RUNTIME + ConfigurationKeys.COMPLEX_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<IConfigurationItemRenderer, MatrixRenderer>(ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
-            container.Register<IConfigurationItemRenderer, ItemsGroupPropertyRenderer>(ConfigurationKeys.DEFAULT_ITEM_GROUP);
+            container.Register<IConfigurationItemRenderer, ItemsGroupPropertyRenderer>(ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
+                                                                                       ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<IItemRendererFactory, ItemRendererFactory>();
 
         }

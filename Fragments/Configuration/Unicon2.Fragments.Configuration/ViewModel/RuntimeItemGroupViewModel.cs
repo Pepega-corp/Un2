@@ -47,7 +47,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public override string TypeName => ConfigurationKeys.DEFAULT_ITEM_GROUP;
 
-        public virtual string StrongName => ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
+        public override string StrongName => ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
 

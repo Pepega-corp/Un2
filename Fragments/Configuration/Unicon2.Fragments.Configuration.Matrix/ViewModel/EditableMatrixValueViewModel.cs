@@ -63,6 +63,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
                                              MatrixKeys.MATRIX_VALUE +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
+        public override string AsString()
+        {
+	        return "Matrix";
+        }
+
         //public override void InitFromValue(IMatrixValue value)
         //{
         //    _matrix = value;

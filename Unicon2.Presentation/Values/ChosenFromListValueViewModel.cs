@@ -17,6 +17,11 @@ namespace Unicon2.Presentation.Values
         public override string StrongName => PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
+        public override string AsString()
+        {
+	        return SelectedItem;
+        }
+
 
         public ObservableCollection<string> AvailableItemsList => _availableItemsList;
 

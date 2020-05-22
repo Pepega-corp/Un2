@@ -49,7 +49,7 @@
     <DataTemplate DataType="{x:Type elements:DiscretMeasuringElementViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ContentPresenter
@@ -61,7 +61,7 @@
             <TextBlock
                 Grid.Column="1"
                 Margin="2"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Text="{Binding Header}" />
         </Grid>

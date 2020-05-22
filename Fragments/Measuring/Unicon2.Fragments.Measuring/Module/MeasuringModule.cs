@@ -47,6 +47,7 @@ namespace Unicon2.Fragments.Measuring.Module
 			container.Register<IMeasuringGroupViewModel, MeasuringGroupViewModel>();
 			container.Register<IMeasuringElement, ControlSignal>(MeasuringKeys.CONTROL_SIGNAL);
 
+			container.Register<MeasuringMemorySubscriptionFactory>();
 
 			container.Register<IPresentationSettings, MeasuringPresentationSettings>();
 			container.Register<IMeasuringPresentationGroup, MeasuringPresentationGroup>();

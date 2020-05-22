@@ -98,5 +98,7 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base
 	        Parent = null;
 	        base.OnDisposing();
         }
-	}
+
+        public abstract string StrongName { get; }
+    }
 }

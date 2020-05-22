@@ -28,7 +28,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             return visitor.VisitMatrix(this);
         }
 
-        public virtual string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
+        public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
 
         public bool IsInEditMode { get; set; }
         public void StartEditElement()

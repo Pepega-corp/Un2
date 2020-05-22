@@ -1,8 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Model.Elements;
+using Unicon2.Fragments.Measuring.Subscriptions;
+using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Subscription;
@@ -12,20 +18,154 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	public class MeasuringLoader
 	{
 		private DeviceContext _deviceContext;
-
-		public MeasuringLoader(DeviceContext deviceContext,IMeasuringMonitor measuringMonitor)
+		private MeasuringSubscriptionSet _measuringSubscriptionSet;
+		private readonly IMeasuringMonitor _measuringMonitor;
+		private string _groupName;
+		private bool _isQueriesStarted = false;
+		public MeasuringLoader(DeviceContext deviceContext, MeasuringSubscriptionSet measuringSubscriptionSet,IMeasuringMonitor measuringMonitor)
 		{
 			_deviceContext = deviceContext;
+			_measuringSubscriptionSet = measuringSubscriptionSet;
+			_measuringMonitor = measuringMonitor;
 		}
 
 		public void StartLoading()
 		{
-
+			_isQueriesStarted = true;
 		}
 
 		public void StopLoading()
 		{
+			_isQueriesStarted = false;
+		}
 
+		private async void CheckCycle()
+		{
+			if (_isQueriesStarted)
+				await Load();
+		}
+
+
+		public void SetCurrentGroup(string groupName=null)
+		{
+			_groupName = groupName;
+		}
+
+
+		public async void ExecuteLoad()
+		{
+			await Load();
+		}
+
+		private async Task Load()
+		{
+			await LoadMemory();
+			foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
+			{
+				if (_groupName != null && discreteSubscription.GroupName != _groupName)
+				{
+					continue;
+				}
+
+				await discreteSubscription.Execute();
+			}
+			CheckCycle();
+		}
+
+		private async Task LoadMemory()
+		{
+			List<ushort> addressesToLoadFun3=new List<ushort>();
+			foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
+			{
+				if (_groupName != null && discreteSubscription.GroupName != _groupName)
+				{
+					continue;
+				}
+				if (discreteSubscription.DiscretMeasuringElement.AddressOfBit.NumberOfFunction == 3)
+				{
+					addressesToLoadFun3.Add(discreteSubscription.DiscretMeasuringElement.Address);
+				}
+			}
+			ClearExistingAddressesInMemory(_deviceContext.DeviceMemory.DeviceMemoryValues,addressesToLoadFun3);
+			await LoadSettings(addressesToLoadFun3);
+			await LoadAddresses(_deviceContext.DeviceMemory.DeviceMemoryValues,addressesToLoadFun3);
+		}
+
+		private async Task LoadAddresses(Dictionary<ushort, ushort> memoryDictionary,
+			List<ushort> addressesToLoadFun3)
+		{
+			foreach (var addressUshort in addressesToLoadFun3)
+			{
+				if (!memoryDictionary.ContainsKey(addressUshort))
+				{
+					var res = await _deviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
+						addressUshort, 1, "Read measuring");
+					if (res.IsSuccessful)
+					{
+						memoryDictionary.Add(addressUshort,res.Result.First());
+					}
+				}
+			}
+		}
+
+		private void ClearExistingAddressesInMemory(Dictionary<ushort, ushort> memoryDictionary, List<ushort> addressesToLoadFun3)
+		{
+			foreach (var addressUshort in addressesToLoadFun3)
+			{
+				if (memoryDictionary.ContainsKey(addressUshort))
+				{
+					memoryDictionary.Remove(addressUshort);
+				}
+			}
+		}
+
+		private async Task LoadSettings(List<ushort> addressesToLoadFun3)
+		{
+			IQuickAccessMemoryApplyingContext quickAccessMemoryApplyingContext =
+				StaticContainer.Container.Resolve<IQuickAccessMemoryApplyingContext>();
+
+
+			quickAccessMemoryApplyingContext.OnFillAddressRange =
+				(range) =>
+				{
+					ushort rangeFrom = (ushort)range.RangeFrom;
+					ushort rangeTo = (ushort)range.RangeTo;
+					
+						return ReadSettingsAddresses(rangeFrom, rangeTo,addressesToLoadFun3);
+					
+				};
+
+
+			Task applySettingByKey = _measuringMonitor.FragmentSettings?.ApplySettingByKey(
+				ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING,
+				quickAccessMemoryApplyingContext);
+
+			if (applySettingByKey != null)
+				await applySettingByKey;
+
+		}
+
+		private async Task ReadSettingsAddresses(ushort rangeFrom, ushort rangeTo, List<ushort> addressesToLoadFun3)
+		{
+			if (addressesToLoadFun3.Any(arg => rangeFrom <= arg && rangeTo >= arg))
+			{
+				var res = await _deviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(rangeFrom,
+					(ushort) (rangeTo - rangeFrom), "Read measuring");
+				if (res.IsSuccessful)
+				{
+					for (var i = rangeFrom; i < rangeTo; i++)
+					{
+						if (_deviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(i))
+						{
+							_deviceContext.DeviceMemory.DeviceMemoryValues[i] = res.Result[i - rangeFrom];
+						}
+						else
+						{
+							_deviceContext.DeviceMemory.DeviceMemoryValues.Add(i, res.Result[i - rangeFrom]);
+						}
+					}
+				}
+			}
 		}
 
 

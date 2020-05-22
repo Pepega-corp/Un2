@@ -53,8 +53,11 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock   Grid.Row="0"
-                                 Grid.Column="0" Margin="5" Text="{lex:Loc Dependencies}" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="5"
+                        Text="{lex:Loc Dependencies}" />
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="1"

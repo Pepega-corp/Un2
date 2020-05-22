@@ -17,6 +17,7 @@ using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Icons;
@@ -237,18 +238,24 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             ofd.CheckFileExists = true;
             if (ofd.ShowDialog() == true)
             {
-                //  IDeviceMemory loadedConfigMemory = _container.Resolve<ISerializerService>()
-                //      .DeserializeFromFile<IDeviceMemory>(ofd.FileName);
-                // (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).DeviceMemory =
-                //      loadedConfigMemory;
+                var loadedLoaclMemory = _container.Resolve<ISerializerService>()
+                      .DeserializeFromFile<Dictionary<ushort, ushort>>(ofd.FileName);
+                _runtimeConfigurationViewModel.DeviceContext.DeviceMemory.LocalMemoryValues = loadedLoaclMemory;
+                var addresses = loadedLoaclMemory.Keys.ToArray();
+                foreach (var address in addresses)
+                {
+	                _runtimeConfigurationViewModel.DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
+		                address, 1, MemoryKind.UshortMemory);
+                }
+                
             }
         }
 
         private void OnExecuteExportConfiguration()
         {
-            // ConfigurationExportHelper.ExportConfiguration(
-            //      _runtimeConfigurationViewModel.Model as IDeviceConfiguration, _container,
-            //      _runtimeConfigurationViewModel.GetDeviceName(), _runtimeConfigurationViewModel.NameForUiKey);
+            ConfigurationExportHelper.ExportConfiguration(
+                 _runtimeConfigurationViewModel, _container,
+                 _runtimeConfigurationViewModel.DeviceContext.DeviceName, _runtimeConfigurationViewModel.NameForUiKey);
         }
 
         private void OnExecuteSaveConfiguration()
@@ -259,9 +266,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             sfd.FileName = _runtimeConfigurationViewModel.NameForUiKey;
             if (sfd.ShowDialog() == true)
             {
-                //   _container.Resolve<ISerializerService>().SerializeInFile(
-                //       (_runtimeConfigurationViewModel.Model as IDeviceConfiguration).DeviceMemory,
-                //       sfd.FileName);
+                _container.Resolve<ISerializerService>().SerializeInFile(
+                    _runtimeConfigurationViewModel.DeviceContext.DeviceMemory.LocalMemoryValues,
+                    sfd.FileName);
             }
         }
 

@@ -9,6 +9,11 @@ namespace Unicon2.Presentation.Values
         private string _numValue;
 
         public override string StrongName => nameof(NumericValueViewModel);
+        public override string AsString()
+        {
+	        return NumValue;
+        }
+
         public string NumValue
         {
             get { return _numValue; }

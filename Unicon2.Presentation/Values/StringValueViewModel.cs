@@ -10,6 +10,10 @@ namespace Unicon2.Presentation.Values
         private string _stringValue;
 
         public override string StrongName => nameof(StringValueViewModel);
+        public override string AsString()
+        {
+	        return StringValue;
+        }
 
         public string StringValue
         {

@@ -15,6 +15,7 @@ using Unicon2.Connections.OfflineConnection;
 using Unicon2.Formatting.Editor.Module;
 using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;
+using Unicon2.Fragments.Configuration.Exporter.Module;
 using Unicon2.Fragments.Configuration.Matrix.Module;
 using Unicon2.Fragments.Configuration.Module;
 using Unicon2.Fragments.Journals.Editor.Module;
@@ -164,7 +165,7 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, FormattingModule>(nameof(FormattingModule));
             container.Register<IUnityModule, FormattingEditorModule>(nameof(FormattingEditorModule));
             container.Register<IUnityModule, ConfigurationModule>(nameof(ConfigurationModule));
-           // container.Register<IUnityModule, ConfigurationExporterModule>(nameof(ConfigurationExporterModule));
+            container.Register<IUnityModule, ConfigurationExporterModule>(nameof(ConfigurationExporterModule));
             container.Register<IUnityModule, ConfigurationEditorModule>(nameof(ConfigurationEditorModule));
             //container.Register<IUnityModule, UniconDateTimeModule>(nameof(UniconDateTimeModule));
             //container.Register<IUnityModule, UniconDateTimeEditorModule>(nameof(UniconDateTimeEditorModule)); 

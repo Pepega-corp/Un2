@@ -167,7 +167,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public override string TypeName => IsGroupWithReiteration ? ConfigurationKeys.GROUP_WITH_REITERATION : ConfigurationKeys.DEFAULT_ITEM_GROUP;
 
-        public virtual string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP +
+        public override string StrongName => ConfigurationKeys.DEFAULT_ITEM_GROUP +
                                              ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 

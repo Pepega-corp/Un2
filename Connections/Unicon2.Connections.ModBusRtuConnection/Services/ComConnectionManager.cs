@@ -106,7 +106,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
 
             try
             {
-                _serializerService.SerializeInFile(this, StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json");
+                _serializerService.SerializeInFile(ComPortConfigurationsDictionary, StringKeys.COMPORT_CONFIGURATION_SETTINGS + ".json");
             }
             catch (Exception e)
             {

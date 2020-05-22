@@ -18,7 +18,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         {
             return ConfigurationKeys.COMPLEX_PROPERTY;
         }
-        
+
+        public override string StrongName => ConfigurationKeys.RUNTIME+ConfigurationKeys.COMPLEX_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
         public bool IsGroupedProperty
         {
             get { return _isGroupedProperty; }

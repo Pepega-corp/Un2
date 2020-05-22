@@ -24,6 +24,9 @@ namespace Unicon2.Presentation.Values.Base
                 RaisePropertyChanged();
             }
         }
+
+        public abstract string AsString();
+
         public bool IsRangeEnabled { get; set; }
         public IRange Range { get; set; }
 

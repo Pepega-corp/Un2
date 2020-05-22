@@ -24,7 +24,7 @@
         <TreeView ItemsSource="{Binding Selectors}">
             <ItemsControl.ItemTemplate>
                 <HierarchicalDataTemplate DataType="viewModel:SelectorForItemsGroupViewModel" ItemsSource="{Binding Selectors}">
-                    <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding RelatedItemsGroup.Name}"></CheckBox>
+                    <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding RelatedItemsGroup.Header}"></CheckBox>
                 </HierarchicalDataTemplate>
             </ItemsControl.ItemTemplate>
         </TreeView>

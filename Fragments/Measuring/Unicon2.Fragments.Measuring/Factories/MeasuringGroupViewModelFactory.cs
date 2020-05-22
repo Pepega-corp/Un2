@@ -4,8 +4,10 @@ using Unicon2.Fragments.Measuring.Infrastructure.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel;
+using Unicon2.Fragments.Measuring.Subscriptions;
 using Unicon2.Fragments.Measuring.ViewModel;
 using Unicon2.Fragments.Measuring.ViewModel.Presentation;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Factories
@@ -14,16 +16,20 @@ namespace Unicon2.Fragments.Measuring.Factories
 	{
 		private readonly ITypesContainer _container;
 		private readonly IMeasuringElementViewModelFactory _measuringElementViewModelFactory;
+		private readonly MeasuringMemorySubscriptionFactory _measuringMemorySubscriptionFactory;
 
 		public MeasuringGroupViewModelFactory(ITypesContainer container,
-			IMeasuringElementViewModelFactory measuringElementViewModelFactory)
+			IMeasuringElementViewModelFactory measuringElementViewModelFactory,
+			MeasuringMemorySubscriptionFactory measuringMemorySubscriptionFactory)
 		{
 			_container = container;
 			_measuringElementViewModelFactory = measuringElementViewModelFactory;
+			_measuringMemorySubscriptionFactory = measuringMemorySubscriptionFactory;
 		}
 
 
-		public IMeasuringGroupViewModel CreateMeasuringGroupViewModel(IMeasuringGroup measuringGroup)
+		public IMeasuringGroupViewModel CreateMeasuringGroupViewModel(IMeasuringGroup measuringGroup,
+			MeasuringSubscriptionSet measuringSubscriptionSet,DeviceContext deviceContext)
 		{
 			MeasuringGroupViewModel measuringGroupViewModel =
 				_container.Resolve<IMeasuringGroupViewModel>() as MeasuringGroupViewModel;
@@ -51,6 +57,7 @@ namespace Unicon2.Fragments.Measuring.Factories
 					measuringGroupViewModel.PresentationMeasuringElements.Add(
 						new PresentationMeasuringElementViewModel(positioningInfo.PositioningInfo, elementViewModel));
 				}
+				_measuringMemorySubscriptionFactory.AddSubscription(measuringSubscriptionSet, elementViewModel, measuringElement,measuringGroup.Name,deviceContext);
 
 				measuringGroupViewModel.MeasuringElementViewModels.Add(elementViewModel);
 			}

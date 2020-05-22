@@ -9,6 +9,10 @@ namespace Unicon2.Presentation.Values
         private bool _boolValueProperty;
 
         public override string StrongName => nameof(BoolValueViewModel);
+        public override string AsString()
+        {
+	        return BoolValueProperty.ToString();
+        }
 
         public bool BoolValueProperty
         {

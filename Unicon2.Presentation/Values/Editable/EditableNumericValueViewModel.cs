@@ -19,6 +19,11 @@ namespace Unicon2.Presentation.Values.Editable
 		                                     PresentationKeys.NUMERIC_VALUE_KEY +
 		                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
+		public override string AsString()
+		{
+			return NumValue;
+		}
+
 
 		public string NumValue
 		{
