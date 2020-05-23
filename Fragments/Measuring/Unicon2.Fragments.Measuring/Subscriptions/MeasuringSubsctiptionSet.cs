@@ -11,7 +11,9 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 		public MeasuringSubscriptionSet()
 		{
 			DiscreteSubscriptions =new List<DiscreteSubscription>();
+		    this.AnalogSubscriptions=new List<AnalogSubscription>();
 		}
+		public List<AnalogSubscription> AnalogSubscriptions { get; }
 
 		public List<DiscreteSubscription> DiscreteSubscriptions { get; }
 

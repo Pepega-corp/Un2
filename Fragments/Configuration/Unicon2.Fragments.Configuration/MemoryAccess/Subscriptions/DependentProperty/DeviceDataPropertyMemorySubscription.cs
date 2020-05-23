@@ -51,11 +51,20 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 			{
 				if (condition.ConditionResult == ConditionResultEnum.ApplyingFormatter)
 				{
-					if (DependentSubscriptionHelpers.CheckCondition(condition, condition.UshortValueToCompare,
-						_deviceContext, _formattingService,false))
-					{
-						formatterForDependentProperty = condition.UshortsFormatter;
-					}
+				    var checkResult = DependentSubscriptionHelpers.CheckCondition(condition, condition.UshortValueToCompare,
+				        _deviceContext, _formattingService, false);
+				    if (checkResult.IsSuccess)
+				    {
+				        if (checkResult.IsSuccess)
+				        {
+				            formatterForDependentProperty = condition.UshortsFormatter;
+                        }
+
+                    }
+				    else
+				    {
+				        return;
+				    }
 				}
 			}
 

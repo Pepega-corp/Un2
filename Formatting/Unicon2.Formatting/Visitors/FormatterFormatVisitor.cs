@@ -208,7 +208,11 @@ namespace Unicon2.Formatting.Visitors
 
             chosenFromListValue.InitList(dictionaryMatchingFormatter.StringDictionary.Values);
 
-            if (!dictionaryMatchingFormatter.StringDictionary.Any((pair => pair.Key == _ushortsPayload[0]))) throw new ArgumentException();
+            if (!dictionaryMatchingFormatter.StringDictionary.Any((pair => pair.Key == _ushortsPayload[0])))
+            {
+                chosenFromListValue.SelectedItem = this._ushortsPayload[0].ToString();
+                return chosenFromListValue;
+            };
             if (dictionaryMatchingFormatter.IsKeysAreNumbersOfBits)
             {
                 BitArray bitArray = new BitArray(new int[] { _ushortsPayload[0] });

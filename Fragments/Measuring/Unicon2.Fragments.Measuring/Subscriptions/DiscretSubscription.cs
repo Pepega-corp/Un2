@@ -87,12 +87,23 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
 			if (DiscretMeasuringElement.AddressOfBit.NumberOfFunction == 1)
 			{
-				var res = await _deviceContext.DataProviderContaining.DataProvider.ReadCoilStatusAsync(
-					DiscretMeasuringElement.AddressOfBit.Address, "Read discret: " + DiscretMeasuringElement.Name);
-				if (res.IsSuccessful)
-				{
-					ApplyValue(res.Result);
-				}
+			    if (_deviceContext.DeviceMemory.DeviceBitMemoryValues.ContainsKey(DiscretMeasuringElement.AddressOfBit
+			        .Address))
+			    {
+			        ApplyValue(_deviceContext.DeviceMemory.DeviceBitMemoryValues[DiscretMeasuringElement.AddressOfBit
+			            .Address]);
+                }
+			    else
+			    {
+
+			        var res = await _deviceContext.DataProviderContaining.DataProvider.ReadCoilStatusAsync(
+			            DiscretMeasuringElement.AddressOfBit.Address, "Read discret: " + DiscretMeasuringElement.Name);
+			        if (res.IsSuccessful)
+			        {
+			            ApplyValue(res.Result);
+			        }
+                }
+
 			}
 		}
 

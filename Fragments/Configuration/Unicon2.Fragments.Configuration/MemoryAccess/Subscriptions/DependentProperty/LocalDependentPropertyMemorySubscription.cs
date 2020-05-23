@@ -64,16 +64,40 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 			{
 				if (condition.ConditionResult == ConditionResultEnum.ApplyingFormatter)
 				{
-					if (DependentSubscriptionHelpers.CheckCondition(condition, condition.UshortValueToCompare, _deviceContext, _formattingService, true))
+				    var checkResult = DependentSubscriptionHelpers.CheckCondition(condition, condition.UshortValueToCompare,
+				        _deviceContext, _formattingService, true);
+
+                    if (checkResult.IsSuccess)
 					{
-						formatterForDependentProperty = condition.UshortsFormatter;
+					    if (checkResult.Item)
+					    {
+					        formatterForDependentProperty = condition.UshortsFormatter;
+					    }
 					}
+                    else
+                    {
+                        return;
+                    }
 				}
 
 				if (condition.ConditionResult == ConditionResultEnum.DisableInteraction && !isInteractionBlocked)
 				{
-					isInteractionBlocked = DependentSubscriptionHelpers.CheckCondition(condition,
-						condition.UshortValueToCompare, _deviceContext, _formattingService, true);
+				    var checkResult = DependentSubscriptionHelpers.CheckCondition(condition, condition.UshortValueToCompare,
+				        _deviceContext, _formattingService, true);
+
+
+				    if (checkResult.IsSuccess)
+				    {
+				        if (checkResult.Item)
+				        {
+				            isInteractionBlocked = checkResult.Item;
+                        }
+				    }
+				    else
+				    {
+				        return;
+				    }
+                    
 				}
 			}
 

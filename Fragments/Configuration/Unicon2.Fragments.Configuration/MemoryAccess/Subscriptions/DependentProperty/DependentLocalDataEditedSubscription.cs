@@ -38,20 +38,29 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 				StaticContainer.Container.Resolve<IEditableValueFetchingFromViewModelVisitor>();
 
 			var formatterForDependentProperty = _dependentProperty.UshortsFormatter;
-			foreach (var condition in _dependentProperty.DependancyConditions)
-			{
-				if (condition.ConditionResult == ConditionResultEnum.ApplyingFormatter)
-				{
-					if (DependentSubscriptionHelpers.CheckCondition(condition, condition.UshortValueToCompare,
-						_deviceContext, formattingService, true))
-					{
-						formatterForDependentProperty = condition.UshortsFormatter;
-					}
-				}
-			}
+		    foreach (var condition in _dependentProperty.DependancyConditions)
+		    {
+		        if (condition.ConditionResult == ConditionResultEnum.ApplyingFormatter)
+		        {
+		            var checkResult = DependentSubscriptionHelpers.CheckCondition(condition, condition.UshortValueToCompare,
+		                _deviceContext, formattingService, true);
+
+		            if (checkResult.IsSuccess)
+		            {
+		                if (checkResult.Item)
+		                {
+		                    formatterForDependentProperty = condition.UshortsFormatter;
+		                }
+		            }
+		            else
+		            {
+		                return;
+		            }
+		        }
+		    }
 
 
-			var ushorts = formattingService.FormatBack(formatterForDependentProperty,
+		    var ushorts = formattingService.FormatBack(formatterForDependentProperty,
 				EditableValueViewModel.Accept(fetchingFromViewModelVisitor));
 
 			MemoryAccessor.GetUshortsInMemory(_deviceContext.DeviceMemory,

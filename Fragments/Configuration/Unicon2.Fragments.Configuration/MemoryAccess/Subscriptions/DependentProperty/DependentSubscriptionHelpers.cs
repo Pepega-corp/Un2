@@ -7,6 +7,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Depen
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -15,46 +16,58 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 {
 	public class DependentSubscriptionHelpers
 	{
-		public static bool CheckCondition(IDependancyCondition dependancyCondition, ushort ushortToCompare,DeviceContext deviceContext,IFormattingService formattingService,bool isLocal)
+		public static Result<bool> CheckCondition(IDependancyCondition dependancyCondition, ushort ushortToCompare,DeviceContext deviceContext,IFormattingService formattingService,bool isLocal)
 		{
-			var conditionUshort = GetConditionPropertyUshort(dependancyCondition,deviceContext,formattingService,isLocal);
+			var conditionUshortResult = GetConditionPropertyUshort(dependancyCondition,deviceContext,formattingService,isLocal);
+		    if (!conditionUshortResult.IsSuccess)
+		    {
+		        return Result<bool>.Create(false);
+		    }
+		    var conditionUshort = conditionUshortResult.Item;
 
-			switch (dependancyCondition.ConditionsEnum)
+            switch (dependancyCondition.ConditionsEnum)
 			{
 				case ConditionsEnum.Equal:
-					return conditionUshort == ushortToCompare;
+					return Result<bool>.Create(conditionUshort == ushortToCompare,true);
 					break;
 				case ConditionsEnum.HaveFalseBitAt:
-					return !conditionUshort.GetBoolArrayFromUshort()[ushortToCompare];
+					return Result<bool>.Create(!conditionUshort.GetBoolArrayFromUshort()[ushortToCompare], true);
 					break;
 				case ConditionsEnum.NotEqual:
-					return conditionUshort != ushortToCompare;
+					return Result<bool>.Create(conditionUshort != ushortToCompare, true);
 					break;
 				case ConditionsEnum.More:
-					return conditionUshort > ushortToCompare;
+					return Result<bool>.Create(conditionUshort > ushortToCompare, true);
 					break;
 				case ConditionsEnum.Less:
-					return conditionUshort < ushortToCompare;
+					return Result<bool>.Create(conditionUshort < ushortToCompare, true);
 					break;
 				case ConditionsEnum.LessOrEqual:
-					return conditionUshort <= ushortToCompare;
+					return Result<bool>.Create(conditionUshort <= ushortToCompare, true);
 					break;
 				case ConditionsEnum.MoreOrEqual:
-					return conditionUshort >= ushortToCompare;
+					return Result<bool>.Create(conditionUshort >= ushortToCompare, true);
 					break;
 				case ConditionsEnum.HaveTrueBitAt:
-					return conditionUshort.GetBoolArrayFromUshort()[ushortToCompare];
+					return Result<bool>.Create(conditionUshort.GetBoolArrayFromUshort()[ushortToCompare], true);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
 		}
 
-		private static ushort GetConditionPropertyUshort(IDependancyCondition dependancyCondition,DeviceContext deviceContext,IFormattingService formattingService,bool isLocal)
+		private static Result<ushort> GetConditionPropertyUshort(IDependancyCondition dependancyCondition,DeviceContext deviceContext,IFormattingService formattingService,bool isLocal)
 		{
 			var resourceProperty = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
 				container =>
 					container.ResourceName == dependancyCondition.ReferencedPropertyResourceName).Resource as IProperty;
+
+		    if (!MemoryAccessor.IsMemoryContainsAddresses(deviceContext.DeviceMemory,
+		        (ushort) (resourceProperty.Address), resourceProperty.NumberOfPoints, isLocal))
+		    {
+		        return Result<ushort>.Create(false);
+		    }
+
 
 			var propertyUshorts = MemoryAccessor.GetUshortsFromMemory(
 				deviceContext.DeviceMemory,
@@ -66,14 +79,14 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 
 				if (double.TryParse(value.AsString(), out double conditionNumber))
 				{
-					return (ushort)conditionNumber;
+				    return Result<ushort>.Create((ushort)conditionNumber, true);
 				}
 				else
 				{
-					return propertyUshorts.First();
+				    return Result<ushort>.Create(propertyUshorts.First(), true);
 				}
 			}
-			return propertyUshorts.First();
+			return Result<ushort>.Create(propertyUshorts.First(),true);
 		}
 	}
 }

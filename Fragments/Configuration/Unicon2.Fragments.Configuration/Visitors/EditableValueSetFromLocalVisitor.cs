@@ -1,4 +1,5 @@
-﻿using Unicon2.Infrastructure.Functional;
+﻿using System;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Infrastructure.Visitors;
@@ -21,8 +22,17 @@ namespace Unicon2.Fragments.Configuration.Visitors
 
         public Result VisitChosenFromListViewModel(IChosenFromListValueViewModel chosenFromListValueViewModel)
         {
-            chosenFromListValueViewModel.SetValue((_formattedValue as IChosenFromListValue).SelectedItem);
+            try
+            {
+  chosenFromListValueViewModel.SetValue((_formattedValue as IChosenFromListValue).SelectedItem);
             return Result.Create(true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+          
         }
 
         public Result VisitMatrixViewModel(IMatrixValueViewModel matrixValueViewModel)

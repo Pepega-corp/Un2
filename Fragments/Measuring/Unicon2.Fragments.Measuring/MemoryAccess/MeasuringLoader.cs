@@ -31,20 +31,15 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 
 		public void StartLoading()
 		{
+            if(this._isQueriesStarted)return;
 			_isQueriesStarted = true;
+            this.Load();
 		}
 
 		public void StopLoading()
 		{
 			_isQueriesStarted = false;
 		}
-
-		private async void CheckCycle()
-		{
-			if (_isQueriesStarted)
-				await Load();
-		}
-
 
 		public void SetCurrentGroup(string groupName=null)
 		{
@@ -59,23 +54,40 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 
 		private async Task Load()
 		{
-			await LoadMemory();
-			foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
-			{
-				if (_groupName != null && discreteSubscription.GroupName != _groupName)
-				{
-					continue;
-				}
+		    while (true)
+		    {
+		        await LoadMemory();
+		        foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
+		        {
+		            if (_groupName != null && discreteSubscription.GroupName != _groupName)
+		            {
+		                continue;
+		            }
 
-				await discreteSubscription.Execute();
-			}
-			CheckCycle();
+		            await discreteSubscription.Execute();
+		        }
+		        foreach (var analogSubscription in _measuringSubscriptionSet.AnalogSubscriptions)
+		        {
+		            if (_groupName != null && analogSubscription.GroupName != _groupName)
+		            {
+		                continue;
+		            }
+
+		            await analogSubscription.Execute();
+		        }
+		        if (!this._isQueriesStarted)
+		        {
+		            return;
+		        }
+		    }
 		}
 
 		private async Task LoadMemory()
 		{
 			List<ushort> addressesToLoadFun3=new List<ushort>();
-			foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
+		    List<ushort> addressesToLoadFun1 = new List<ushort>();
+
+            foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
 			{
 				if (_groupName != null && discreteSubscription.GroupName != _groupName)
 				{
@@ -85,30 +97,65 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 				{
 					addressesToLoadFun3.Add(discreteSubscription.DiscretMeasuringElement.Address);
 				}
-			}
-			ClearExistingAddressesInMemory(_deviceContext.DeviceMemory.DeviceMemoryValues,addressesToLoadFun3);
+			    if (discreteSubscription.DiscretMeasuringElement.AddressOfBit.NumberOfFunction == 1)
+			    {
+			        addressesToLoadFun1.Add(discreteSubscription.DiscretMeasuringElement.Address);
+			    }
+
+            }
+		    foreach (var discreteSubscription in _measuringSubscriptionSet.AnalogSubscriptions)
+		    {
+		        if (_groupName != null && discreteSubscription.GroupName != _groupName)
+		        {
+		            continue;
+		        }
+		        addressesToLoadFun3.Add(discreteSubscription.AnalogMeasuringElement.Address);
+		    }
+		    ClearExistingAddressesInMemory(_deviceContext.DeviceMemory.DeviceMemoryValues, _deviceContext.DeviceMemory.DeviceBitMemoryValues, addressesToLoadFun3,addressesToLoadFun1);
 			await LoadSettings(addressesToLoadFun3);
-			await LoadAddresses(_deviceContext.DeviceMemory.DeviceMemoryValues,addressesToLoadFun3);
+			await LoadAddresses(_deviceContext.DeviceMemory.DeviceMemoryValues,this._deviceContext.DeviceMemory.DeviceBitMemoryValues,addressesToLoadFun3,addressesToLoadFun1);
 		}
 
-		private async Task LoadAddresses(Dictionary<ushort, ushort> memoryDictionary,
-			List<ushort> addressesToLoadFun3)
-		{
-			foreach (var addressUshort in addressesToLoadFun3)
-			{
-				if (!memoryDictionary.ContainsKey(addressUshort))
-				{
-					var res = await _deviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
-						addressUshort, 1, "Read measuring");
-					if (res.IsSuccessful)
-					{
-						memoryDictionary.Add(addressUshort,res.Result.First());
-					}
-				}
-			}
-		}
+	    private async Task LoadAddresses(Dictionary<ushort, ushort> memoryDictionaryUshort, Dictionary<ushort, bool> memoryDictionaryBit,
+            List<ushort> addressesToLoadFun3, List<ushort> addressesToLoadFun1)
+	    {
+	        if (!(addressesToLoadFun3.Any() && addressesToLoadFun1.Any()))
+	        {
+	            await Task.Delay(1000);
+	        }
 
-		private void ClearExistingAddressesInMemory(Dictionary<ushort, ushort> memoryDictionary, List<ushort> addressesToLoadFun3)
+	        foreach (var addressUshort in addressesToLoadFun3)
+	        {
+	            if (!memoryDictionaryUshort.ContainsKey(addressUshort))
+	            {
+	                var res = await _deviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
+	                    addressUshort, 1, "Read measuring");
+	                if (res.IsSuccessful)
+	                {
+	                    memoryDictionaryUshort.Add(addressUshort, res.Result.First());
+	                }
+	            }
+	        }
+
+	        if (addressesToLoadFun1.Any())
+	        {
+	            foreach (var addressUshort in addressesToLoadFun1)
+	            {
+	                if (!memoryDictionaryBit.ContainsKey(addressUshort))
+	                {
+	                    var res = await _deviceContext.DataProviderContaining.DataProvider.ReadCoilStatusAsync(
+	                        addressUshort, "Read measuring");
+	                    if (res.IsSuccessful)
+	                    {
+	                        memoryDictionaryBit.Add(addressUshort, res.Result);
+	                    }
+	                }
+	            }
+
+	        }
+	    }
+
+	    private void ClearExistingAddressesInMemory(Dictionary<ushort, ushort> memoryDictionary, Dictionary<ushort, bool> memoryBitDictionary, List<ushort> addressesToLoadFun3, List<ushort> addressesToLoadFun1)
 		{
 			foreach (var addressUshort in addressesToLoadFun3)
 			{
@@ -116,8 +163,15 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 				{
 					memoryDictionary.Remove(addressUshort);
 				}
-			}
-		}
+		    }
+		    foreach (var addressUshort in addressesToLoadFun1)
+		    {
+		        if (memoryBitDictionary.ContainsKey(addressUshort))
+		        {
+		            memoryBitDictionary.Remove(addressUshort);
+		        }
+		    }
+        }
 
 		private async Task LoadSettings(List<ushort> addressesToLoadFun3)
 		{

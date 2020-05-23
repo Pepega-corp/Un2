@@ -131,10 +131,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     memory.DeviceMemoryValues[i] = res.Result[i - rangeFrom];
                 }
+                _deviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
+                    (ushort)(rangeTo - rangeFrom));
             }
 
-            _deviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
-                (ushort) (rangeTo - rangeFrom));
+          
 
         }
 
