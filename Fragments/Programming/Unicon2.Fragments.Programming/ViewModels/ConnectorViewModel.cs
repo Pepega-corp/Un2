@@ -20,7 +20,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ConnectorViewModel(ILogicElementViewModel parent, IConnector model)
         {
             this.ParentViewModel = parent;
-            this._modelConnector = new Connector(model.Orientation, model.Type);
+            this._modelConnector = model;
+            this.IsDragConnection = false;
+            this._symbol = string.Empty;
+        }
+
+        public ConnectorViewModel(ILogicElementViewModel parent, ConnectorOrientation orientation, ConnectorType type)
+        {
+            this.ParentViewModel = parent;
+            this._modelConnector = new Connector(orientation, type);
             this.IsDragConnection = false;
             this._symbol = string.Empty;
         }
@@ -91,14 +99,18 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 if(this._connectionViewModel == value)
                     return;
+
                 this._connectionViewModel = value;
+
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(this.Connected));
+
+                _modelConnector.ConnectionNumber = _connectionViewModel == null ? -1 : _connectionViewModel.ConnectionNumber;
                 RaisePropertyChanged(nameof(this.ConnectionNumber));
             }
         }
 
-        public int ConnectionNumber => this._connectionViewModel?.ConnectionNumber ?? -1;
+        public int ConnectionNumber => _modelConnector.ConnectionNumber;
 
         /// <summary>
         /// Флаг того, что вывод подключен

@@ -88,7 +88,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public SchemeTabViewModel(ISchemeModel model, IProgrammingViewModel programmingViewModel, ILogicElementFactory factory) : this(factory)
         {
             this._programmingViewModel = programmingViewModel;
-            this.Model = model;
+            this._model = model;
         }
 
         private SchemeTabViewModel(ILogicElementFactory factory)
@@ -118,9 +118,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             this._model = objModel;
             var logicElementsViewModels = this._factory.GetAllElementsViewModels(this._model.LogicElements);
+            this.ElementCollection.Clear();
             this.ElementCollection.AddCollection(logicElementsViewModels);
-
-            //get ConnectionViewModel from ProjectViewModel
         }
 
         public void AddConnectionToProgramm(IConnectionViewModel connectionViewModel)
@@ -150,14 +149,32 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void DeleteSelectedElements()
         {
+            RemoveSelectedConnection();
+
+            RemoveSelectedElements();
+
+            OnSelectChanged();
+        }
+
+        private void RemoveSelectedConnection()
+        {
             var selectedConnections = this.ElementCollection.Where(e => e is IConnectionViewModel && e.IsSelected).Cast<IConnectionViewModel>().ToList();
             foreach (var connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
             {
+                connectionViewModel.SourceConnector.Connection = null;
+                foreach(var sink in connectionViewModel.SinkConnectors)
+                {
+                    sink.Connection = null;
+                }
+
                 this._programmingViewModel.RemoveConnection(connectionViewModel);
                 this.ElementCollection.Remove(connectionViewModel);
             }
+        }
 
-            var selectedElements = this.ElementCollection.Where(e =>e is ILogicElementViewModel && e.IsSelected).Cast<ILogicElementViewModel>().ToList();
+        private void RemoveSelectedElements()
+        {
+            var selectedElements = this.ElementCollection.Where(e => e is ILogicElementViewModel && e.IsSelected).Cast<ILogicElementViewModel>().ToList();
             foreach (var element in selectedElements)
             {
                 var removingConnections = new List<IConnectionViewModel>();
@@ -171,6 +188,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 }
                 foreach (var removingConnection in removingConnections)
                 {
+                    removingConnection.SourceConnector.Connection = null;
+                    foreach (var sink in removingConnection.SinkConnectors)
+                    {
+                        sink.Connection = null;
+                    }
+
                     this._programmingViewModel.RemoveConnection(removingConnection);
                     if (this.ElementCollection.Contains(removingConnection))
                     {
@@ -179,8 +202,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 }
                 this.ElementCollection.Remove(element);
             }
-
-            OnSelectChanged();
         }
 
         private bool CanDelete()

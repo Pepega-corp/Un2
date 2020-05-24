@@ -8,6 +8,8 @@ namespace Unicon2.Fragments.Programming
 {
     internal class PathFinder
     {
+        private static List<Point> _linePoints = new List<Point>();
+
         public struct ConnectorInfo
         {
             public Point ConnectorPoint;
@@ -22,24 +24,24 @@ namespace Unicon2.Fragments.Programming
         /// <param name="sink">Целевой вывод</param>
         internal static List<Point> GetConnectionLine(ConnectorInfo source, ConnectorInfo sink)
         {
-            List<Point> linePoints = new List<Point>();
+            _linePoints.Clear();
 
             Rect sourceRect = GetElementRect(source);
             Rect sinkRect = GetElementRect(sink);
 
-            linePoints.Add(source.ConnectorPoint);
+            _linePoints.Add(source.ConnectorPoint);
 
             if (!sinkRect.Contains(source.ConnectorPoint) && !sourceRect.Contains(sink.ConnectorPoint))
             {
-                AddOtherPoints(linePoints, source, sink, sourceRect, sinkRect);
+                AddOtherPoints(_linePoints, source, sink, sourceRect, sinkRect);
             }
             else
             {
-                linePoints.Add(sink.ConnectorPoint);
-                OptimizeLine(linePoints, sourceRect);
+                _linePoints.Add(sink.ConnectorPoint);
+                OptimizeLine(_linePoints, sourceRect);
             }
 
-            return linePoints;
+            return _linePoints;
         }
 
         private static void AddOtherPoints(List<Point> linePoints, ConnectorInfo source, ConnectorInfo sink, Rect sourceRect, Rect sinkRect)
@@ -137,21 +139,22 @@ namespace Unicon2.Fragments.Programming
 
         internal static List<Point> GetConnectionLine(ConnectorInfo source, Point sinkPoint, ConnectorOrientation preferredOrientation)
         {
-            List<Point> linePoints = new List<Point>();
+            _linePoints.Clear();
+
             Rect sourceRect = GetElementRect(source);
             Point startPoint = source.ConnectorPoint;
-            linePoints.Add(startPoint);
+            _linePoints.Add(startPoint);
             if (!sourceRect.Contains(sinkPoint))
             {
-                AddOtherPoints(linePoints, source, sinkPoint, sourceRect);
+                AddOtherPoints(_linePoints, source, sinkPoint, sourceRect);
             }
             else
             {
-                linePoints.Add(sinkPoint);
+                _linePoints.Add(sinkPoint);
             }
             // задание изломов линии на сегменты под 90 градусов
-            OptimizeLine(linePoints, sourceRect);
-            return linePoints;
+            OptimizeLine(_linePoints, sourceRect);
+            return _linePoints;
         }
 
         // При необходимости, добавляем дополнительные точки, чтобы линия не пересекала элемент

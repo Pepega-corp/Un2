@@ -68,8 +68,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             for (var i = 0; i < this.ConnectorViewModels.Count; i++)
             {
                 var sourceConnector = this.ConnectorViewModels[i].Model;
-                var connector = new Connector(sourceConnector.Orientation, sourceConnector.Type);
-                ret.ConnectorViewModels.Add(new ConnectorViewModel(ret, connector));
+                ret.ConnectorViewModels.Add(new ConnectorViewModel(ret, sourceConnector.Orientation, sourceConnector.Type));
             }
 
             return ret;

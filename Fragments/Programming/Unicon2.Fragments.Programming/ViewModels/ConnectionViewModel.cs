@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private IConnection _model;
         private IConnectorViewModel _source;
         private Point _labelPosition;
+        private PathGeometry _path;
         private DoubleCollection _strokeDashArray;
         private ushort _currentValue;
         private bool _gotValue;
@@ -36,6 +38,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._gotValue = false;
 
             this._model = model;
+            _path = new PathGeometry();
 
             this._source = source;
             this._source.Connection = this;
@@ -44,6 +47,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
             SinkConnectors.CollectionChanged += SinkCollectionChanged;
             SinkConnectors.Add(sink);
+
+            UpdatePathGeometry(_model.Points);
         }
         
         public string Name { get; private set; }
@@ -70,12 +75,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public PathGeometry Path
         {
-            get { return this._model.Path; }
+            get { return this._path; }
             set
             {
-                if (Equals(this._model.Path, value))
+                if (Equals(this._path, value))
                     return;
-                this._model.Path = value;
+                this._path = value;
                 RaisePropertyChanged();
             }
         }
@@ -216,7 +221,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void SetModel(IConnection model)
         {
-            this._model = model;
+            this._model.ConnectionNumber = model.ConnectionNumber;
+            this._model.Points = new List<Point>(model.Points);
+
+            UpdatePathGeometry(_model.Points);
         }
 
         private void SinkCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -277,20 +285,29 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
                 _model.Points = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
 
-                if (_model.Points.Count > 1)
-                {
-                    var pathFigure = new PathFigure { StartPoint = _model.Points[0] };
-                    for (int i = 1; i < _model.Points.Count; i++)
-                    {
-                        var lineSegment = new LineSegment(_model.Points[i], true);
-                        pathFigure.Segments.Add(lineSegment);
-                    }
-                    
-                    this.Path.Figures.Clear();
-                    this.Path.Figures.Add(pathFigure);
-                    RaisePropertyChanged(nameof(this.Path));
-                }
+                UpdatePathGeometry(_model.Points);
             }
+        }
+
+        private void UpdatePathGeometry(List<Point> points)
+        {
+            if (this.SourceConnector == null || this.SinkConnectors.Count == 0)
+                return;
+
+            if (points.Count > 1)
+            {
+                var pathFigure = new PathFigure { StartPoint = points[0] };
+                for (int i = 1; i < points.Count; i++)
+                {
+                    var lineSegment = new LineSegment(points[i], true);
+                    pathFigure.Segments.Add(lineSegment);
+                }
+
+                this.Path.Figures.Clear();
+                this.Path.Figures.Add(pathFigure);
+                RaisePropertyChanged(nameof(this.Path));
+            }
+            
         }
     }
 }

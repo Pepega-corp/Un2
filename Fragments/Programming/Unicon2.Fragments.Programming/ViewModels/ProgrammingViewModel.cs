@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
+using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
@@ -132,15 +133,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void SaveProject()
         {
-            var projectPath = Path.Combine(this._programModel.ProjectPath, this._programModel.ProjectName + ProgramModel.EXTENSION);
-            SaveFileDialog sfd = new SaveFileDialog();
+            var sfd = new SaveFileDialog();
             sfd.InitialDirectory = _programModel.ProjectPath;
             sfd.FileName = ProjectName;
             sfd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
             if (sfd.ShowDialog() == true)
             {
-                var model = GetModel();
-                model.SerializeInFile(sfd.FileName, false);
+                _programModel = GetModel();
+                _programModel.SerializeInFile(sfd.FileName, false);
             }
         }
 
@@ -151,7 +151,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void LoadProject()
         {
-            
+            var ofd = new OpenFileDialog();
+            ofd.InitialDirectory = _programModel.ProjectPath;
+            ofd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
+            if(ofd.ShowDialog() == true)
+            {
+                _programModel.DeserializeFromFile(ofd.FileName);
+                UpdateCollections(_programModel);
+            }
         }
 
         public ICommand DeleteCommand { get; }
@@ -190,30 +197,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 this._programModel.Schemes = model.Schemes;
 
-                foreach(var sceme in this._programModel.Schemes)
-                {
-                    this.SchemesCollection.Add(new SchemeTabViewModel(sceme, this, this._factory));
-                }
-
-                var connectors = new List<IConnectorViewModel>();
-
-                foreach (var schemeTabViewModel in SchemesCollection)
-                {
-                    foreach (var logicElementViewModel in schemeTabViewModel.ElementCollection.Cast<ILogicElementViewModel>())   
-                    {
-                        foreach (var connectorViewModel in logicElementViewModel.ConnectorViewModels.Where(c=>c.ConnectionNumber != -1))
-                        {
-                            connectors.Add(connectorViewModel);
-                        }
-                    }
-                }
-
-                foreach (var connection in this._programModel.Connections)
-                {
-                    // get connectors with same connection number
-
-                    //this.ConnectionCollection.Add(new ConnectionViewModel());
-                }
+                UpdateCollections(_programModel);
+                
                 return;
             }
 
@@ -230,6 +215,45 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._programModel.Connections = ConnectionCollection.Select(cc => cc.Model).ToArray();
 
             return this._programModel;
-        }    
+        }
+
+        private void UpdateCollections(IProgramModel model)
+        {
+            SchemesCollection.Clear();
+            ConnectionCollection.Clear();
+
+            foreach (var schemeModel in model.Schemes)
+            {
+                var logicElementsVM = _factory.GetAllElementsViewModels(schemeModel.LogicElements);
+
+                var connections = new List<IConnectionViewModel>();
+                var connectors = new List<IConnectorViewModel>();
+
+                foreach (var logicElementVM in logicElementsVM)
+                {
+                    foreach (var connectorVM in logicElementVM.ConnectorViewModels.Where(c => c.ConnectionNumber != -1))
+                    {
+                        connectors.Add(connectorVM);
+                    }
+                }
+
+                foreach (var connection in model.Connections)
+                {
+                    // get connectors with same connection number
+                    var source = connectors.First(c => c.ConnectionNumber == connection.ConnectionNumber && c.Orientation == ConnectorOrientation.RIGHT);
+                    var sink = connectors.First(c => c.ConnectionNumber == connection.ConnectionNumber && c.Orientation == ConnectorOrientation.LEFT);
+                    connections.Add(new ConnectionViewModel(connection, source, sink));
+                }
+
+                ConnectionCollection.AddCollection(connections);
+
+                var schemeVM = new SchemeTabViewModel(schemeModel, this, _factory);
+                schemeVM.CloseTabEvent += OnCloseTab;
+                schemeVM.ElementCollection.AddCollection(logicElementsVM);
+                schemeVM.ElementCollection.AddCollection(connections);
+
+                SchemesCollection.Add(schemeVM);
+            }
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
 {
@@ -8,6 +7,5 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
     {
         int ConnectionNumber { get; set; }
         List<Point> Points { get; set; }
-        PathGeometry Path { get; set; }
     }
 }

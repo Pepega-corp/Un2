@@ -20,6 +20,7 @@ namespace Unicon2.Fragments.Programming.Adorners
         private readonly Pen _drawingPen;
         private readonly ConnectorViewModel _sourceConnector;
         private ConnectorViewModel _hitConnector;
+        private List<Point> _pathPoints;
 
         public ConnectorAdorner(Canvas designer, ConnectorViewModel sourceConnectorViewModel) : base(designer)
         {
@@ -34,6 +35,7 @@ namespace Unicon2.Fragments.Programming.Adorners
 
             Cursor = Cursors.Cross;
             this._pathGeometry = new PathGeometry();
+            _pathPoints = new List<Point>();
         }
 
         private ConnectorViewModel HitConnector
@@ -72,7 +74,7 @@ namespace Unicon2.Fragments.Programming.Adorners
                 {
                     var newConnection = new Connection
                     {
-                        Path = this._pathGeometry,
+                        Points = _pathPoints,
                         ConnectionNumber = this._schemeTabViewModel.GetNextConnectionNumber()
                     };
                     var connectionViewModel = new ConnectionViewModel(newConnection, rigtConnector, leftConnector);
@@ -129,9 +131,11 @@ namespace Unicon2.Fragments.Programming.Adorners
                 ConnectorParentY = this._sourceConnector.ParentViewModel.Y
             };
 
+            _pathPoints.Clear();
+
             if (this._hitConnector == null)
             {
-                pathPoints = PathFinder.GetConnectionLine(sourceInfo, position, ConnectorOrientation.NONE);
+                _pathPoints.AddRange(PathFinder.GetConnectionLine(sourceInfo, position, ConnectorOrientation.NONE));
             }
             else
             {
@@ -143,21 +147,17 @@ namespace Unicon2.Fragments.Programming.Adorners
                     ConnectorParentY = this._hitConnector.ParentViewModel.Y
                 };
 
-                pathPoints = PathFinder.GetConnectionLine(sourceInfo, hitInfo);
+                _pathPoints.AddRange(PathFinder.GetConnectionLine(sourceInfo, hitInfo));
             }
 
-            if (pathPoints.Count > 0)
+            if (_pathPoints.Count > 0)
             {
-                var pathFigure = new PathFigure {StartPoint = pathPoints[0]};
-                for (int i = 1; i < pathPoints.Count; i++)
+                var pathFigure = new PathFigure {StartPoint = _pathPoints[0]};
+                for (int i = 1; i < _pathPoints.Count; i++)
                 {
-                    var lineSegment = new LineSegment(pathPoints[i], true);
+                    var lineSegment = new LineSegment(_pathPoints[i], true);
                     pathFigure.Segments.Add(lineSegment);
                 }
-                //var figure = new PathFigure();
-                //figure.StartPoint = pathPoints[0];
-                //pathPoints.Remove(pathPoints[0]);
-                //figure.Segments.Add(new PolyLineSegment(pathPoints, true));
 
                 this._pathGeometry.Figures.Clear();
                 this._pathGeometry.Figures.Add(pathFigure);

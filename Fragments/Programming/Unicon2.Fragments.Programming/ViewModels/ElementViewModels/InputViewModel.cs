@@ -111,8 +111,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             for (var i = 0; i < this.ConnectorViewModels.Count; i++)
             {
                 var sourceConnector = this.ConnectorViewModels[i].Model;
-                var connector = new Connector(sourceConnector.Orientation, sourceConnector.Type);
-                cloneInput.ConnectorViewModels.Add(new ConnectorViewModel(cloneInput, connector));
+                cloneInput.ConnectorViewModels.Add(new ConnectorViewModel(cloneInput, sourceConnector.Orientation, sourceConnector.Type));
             }
 
             return cloneInput;
