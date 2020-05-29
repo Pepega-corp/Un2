@@ -80,6 +80,11 @@
             Style="{DynamicResource UniconButtonStyle}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type elements:DateTimeMeasuringElementViewModel}">
+        <Grid />
+    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type presentation:PresentationGroupViewModel}">
         <GroupBox
             HorizontalAlignment="Stretch"

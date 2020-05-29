@@ -70,6 +70,7 @@
     <Compile Include="Model\Address\WritingValueContext.cs" />
     <Compile Include="Model\Elements\AnalogMeasuringElement.cs" />
     <Compile Include="Model\Elements\ControlSignal.cs" />
+    <Compile Include="Model\Elements\DateTimeMeasuringElement.cs" />
     <Compile Include="Model\Elements\DescretMeasuringElement.cs" />
     <Compile Include="Model\Elements\MeasuringElementBase.cs" />
     <Compile Include="Model\MeasuringGroup.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Subscriptions\MeasuringSubsctiptionSet.cs" />
     <Compile Include="ViewModel\Elements\AnalogMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\ControlSignalViewModel.cs" />
+    <Compile Include="ViewModel\Elements\DateTimeMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\DiscretMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\MeasuringElementViewModelBase.cs" />
     <Compile Include="ViewModel\MeasuringGroupViewModel.cs" />

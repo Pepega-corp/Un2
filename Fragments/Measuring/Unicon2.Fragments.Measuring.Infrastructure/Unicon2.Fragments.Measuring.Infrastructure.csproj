@@ -48,6 +48,7 @@
     <Compile Include="Model\Address\IWritingValueContext.cs" />
     <Compile Include="Model\Elements\IAnalogMeasuringElement.cs" />
     <Compile Include="Model\Elements\IControlSignal.cs" />
+    <Compile Include="Model\Elements\IDateTimeMeasuringElement.cs" />
     <Compile Include="Model\Elements\IDiscretMeasuringElement.cs" />
     <Compile Include="Model\Elements\IMeasuringElement.cs" />
     <Compile Include="Model\IMeasuringGroup.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="ViewModel\Dependencies\IDependencyViewModel.cs" />
     <Compile Include="ViewModel\Elements\IAnalogMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\IControlSignalViewModel.cs" />
+    <Compile Include="ViewModel\Elements\IDateTimeMeasuringElement.cs" />
     <Compile Include="ViewModel\Elements\IDiscretMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\IMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\IMeasuringGroupViewModel.cs" />

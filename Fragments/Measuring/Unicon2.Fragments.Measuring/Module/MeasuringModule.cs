@@ -28,8 +28,11 @@ namespace Unicon2.Fragments.Measuring.Module
 			container.Register<IFragmentViewModel, MeasuringMonitorViewModel>(
 				MeasuringKeys.MEASURING_MONITOR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 			container.Register<IAnalogMeasuringElement, AnalogMeasuringElement>();
+			container.Register<IDateTimeMeasuringElement, DateTimeMeasuringElement>();
+
 			container.Register<IDiscretMeasuringElement, DescretMeasuringElement>();
 			container.Register<IControlSignal, ControlSignal>();
+			container.Register<IMeasuringElement, DateTimeMeasuringElement>(MeasuringKeys.DATE_TIME_ELEMENT);
 
 			container.Register<IMeasuringGroup, MeasuringGroup>();
 			container.Register<IMeasuringElement, DescretMeasuringElement>(MeasuringKeys.DISCRET_MEASURING_ELEMENT);
