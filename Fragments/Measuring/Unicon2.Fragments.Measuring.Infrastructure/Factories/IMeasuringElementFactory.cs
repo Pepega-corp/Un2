@@ -7,6 +7,7 @@ namespace Unicon2.Fragments.Measuring.Infrastructure.Factories
 	    IAnalogMeasuringElement CreateAnalogMeasuringElement();
         IDiscretMeasuringElement CreateDiscretMeasuringElement();
         IControlSignal CreateControlSignal();
+        IDateTimeMeasuringElement CreateDateTimeMeasuringElement();
 
     }
 }

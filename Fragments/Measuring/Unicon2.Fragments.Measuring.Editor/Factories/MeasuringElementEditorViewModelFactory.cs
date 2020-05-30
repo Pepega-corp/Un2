@@ -72,7 +72,9 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 					return CreateControlSignalEditorViewModel(controlSignal);
 				case IDiscretMeasuringElement discretMeasuringElement:
 					return CreateDiscretMeasuringElementEditorViewModel(discretMeasuringElement);
-			}
+			    case IDateTimeMeasuringElement dateTimeMeasuringElement:
+			        return this.CreateDateTimeEditorViewModel(dateTimeMeasuringElement);
+            }
 
 			throw new Exception();
 
@@ -144,5 +146,24 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 			InitDefaults(controlSignalEditorViewModel, controlSignal);
 			return controlSignalEditorViewModel;
 		}
+
+	    public IMeasuringElementEditorViewModel CreateDateTimeEditorViewModel(
+	        IDateTimeMeasuringElement dateTimeMeasuringElement = null)
+	    {
+	        if (dateTimeMeasuringElement == null)
+	        {
+	            dateTimeMeasuringElement = _measuringElementFactory.CreateDateTimeMeasuringElement();
+	        }
+
+	        IDateTimeMeasuringEditorViewModel res =
+	            _container.Resolve<IMeasuringElementEditorViewModel>(MeasuringKeys.DATE_TIME_ELEMENT +
+	                                                                 ApplicationGlobalNames.CommonInjectionStrings
+	                                                                     .EDITOR_VIEWMODEL) as
+	                IDateTimeMeasuringEditorViewModel;
+
+	        res.StartAddress = dateTimeMeasuringElement.StartAddress;
+	        InitDefaults(res, dateTimeMeasuringElement);
+	        return res;
+        }
 	}
 }

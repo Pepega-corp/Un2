@@ -69,7 +69,14 @@ namespace Unicon2.Fragments.Measuring.Factories
 			        var vm = elementViewModel as IControlSignalViewModel;
                     vm.WriteValueCommand=new WriteDiscretCommand(deviceContext,controlSignal,vm);
 			    }
-			}
+			    if (measuringElement is IDateTimeMeasuringElement dateTimeMeasuringElement)
+			    {
+			        var vm = elementViewModel as IDateTimeMeasuringElementViewModel;
+			        vm.SetTimeCommand = new WriteDateTimeCommand(vm,dateTimeMeasuringElement,deviceContext,false);
+			        vm.SetSystemDateTimeCommand = new WriteDateTimeCommand(vm, dateTimeMeasuringElement, deviceContext, true);
+
+                }
+            }
 
 			return measuringGroupViewModel;
 		}

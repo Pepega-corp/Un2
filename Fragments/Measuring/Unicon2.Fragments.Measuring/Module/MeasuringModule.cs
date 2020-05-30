@@ -43,7 +43,8 @@ namespace Unicon2.Fragments.Measuring.Module
 				MeasuringKeys.ANALOG_MEASURING_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 			container.Register<IMeasuringElementViewModel, ControlSignalViewModel>(
 				MeasuringKeys.CONTROL_SIGNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-
+	container.Register<IMeasuringElementViewModel, DateTimeMeasuringElementViewModel>(
+				MeasuringKeys.DATE_TIME_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 			container.Register<IAddressOfBit, AddressOfBit>();
 			container.Register<IMeasuringElementViewModelFactory, MeasuringElementViewModelFactory>();
 			container.Register<IMeasuringElementFactory, MeasuringElementFactory>();

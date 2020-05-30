@@ -36,7 +36,7 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
 
             IQueryResult<ushort[]> queryResult = await _dataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
                 readingAddress,
-                (ushort) (_offsetLoadingSequence.WordFormatTo + 1 - _offsetLoadingSequence.WordFormatFrom),
+                (ushort) (_offsetLoadingSequence.WordFormatTo - _offsetLoadingSequence.WordFormatFrom),
                 JournalKeys.JOURNAL_RECORD_READING_QUERY);
             _currentRecordIndex++;
             return queryResult.Result;

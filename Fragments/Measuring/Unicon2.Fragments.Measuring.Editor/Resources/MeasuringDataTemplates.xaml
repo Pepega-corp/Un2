@@ -149,4 +149,17 @@
         </UniformGrid>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type elements1:DateTimeMeasuringEditorViewModel}">
+        <UniformGrid HorizontalAlignment="Left" Columns="2">
+            <TextBlock Margin="2" Text="{lex:Loc Address}" />
+            <TextBox
+                Height="30"
+                Margin="2"
+                VerticalAlignment="Top"
+                Text="{Binding StartAddress}" />
+        </UniformGrid>
+    </DataTemplate>
+
+
+
 </ResourceDictionary>

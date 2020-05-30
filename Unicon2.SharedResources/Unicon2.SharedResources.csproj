@@ -120,6 +120,7 @@
     <Compile Include="Converter\IsConnectedToIconConverter.cs" />
     <Compile Include="Converter\IsInterfaceImplementedToVisibilityConverter.cs" />
     <Compile Include="Converter\IsInterfaceImplementedToBoolConverter.cs" />
+    <Compile Include="Converter\IsNullToVisibilityConverter.cs" />
     <Compile Include="Converter\LevelToMarginConverter.cs" />
     <Compile Include="Converter\LogMessageTypeToIconConverter.cs" />
     <Compile Include="Converter\ObjectEqualityDescriptionNullToVisibilityConverter.cs" />

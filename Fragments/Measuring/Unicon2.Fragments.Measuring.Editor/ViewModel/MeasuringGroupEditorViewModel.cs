@@ -45,6 +45,12 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             AddControlSignalCommand = new RelayCommand(OnAddControlSignalExecute);
             OpenPresentationSettingsCommand = new RelayCommand(OnOpenPresentationSettingsCommand);
             PresentationSettingsViewModel = new PresentationSettingsViewModel(this,new Dictionary<Guid, PositioningInfoViewModel>());
+            AddDateTimeCommand=new RelayCommand(OnAddDateTimeExecute);
+        }
+
+        private void OnAddDateTimeExecute()
+        {
+            MeasuringElementEditorViewModels.Add(_measuringElementEditorViewModelFactory.CreateDateTimeEditorViewModel());
         }
 
         private void OnAddControlSignalExecute()
@@ -175,6 +181,8 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         public ICommand AddAnalogMeasuringElementCommand { get; }
         public ICommand AddDiscretMeasuringElementCommand { get; }
         public ICommand AddDiscretMeasuringElementGroupCommand { get; }
+        public ICommand AddDateTimeCommand { get; }
+
         public ICommand AddControlSignalCommand { get; }
         public ICommand OpenPresentationSettingsCommand { get; }
 

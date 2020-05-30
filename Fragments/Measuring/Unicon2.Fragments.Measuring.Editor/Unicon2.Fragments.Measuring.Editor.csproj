@@ -79,6 +79,7 @@
     <Compile Include="Interfaces\ViewModel\Address\IWritingValueConrextViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Elements\IAnalogMeasuringElementEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Elements\IControlSignalEditorViewModel.cs" />
+    <Compile Include="Interfaces\ViewModel\Elements\IDateTimeMeasuringEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Elements\IDiscretMeasuringElementEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Elements\IMeasuringElementEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\IMeasuringGroupEditorViewModel.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="ViewModel\Dependencies\DependenciesViewModel.cs" />
     <Compile Include="ViewModel\Elements\AnalogMeasuringElementEditorViewModel.cs" />
     <Compile Include="ViewModel\Elements\ControlSignalEditorViewModel.cs" />
+    <Compile Include="ViewModel\Elements\DateTimeMeasuringEditorViewModel.cs" />
     <Compile Include="ViewModel\Elements\DiscretMeasuringElementEditorViewModel.cs" />
     <Compile Include="ViewModel\Elements\MeasuringElementEditorViewModelBase.cs" />
     <Compile Include="ViewModel\MeasuringGroupEditorViewModel.cs" />

@@ -28,7 +28,9 @@ namespace Unicon2.Fragments.Measuring.Editor.Helpers
 
 				case IDiscretMeasuringElementEditorViewModel discretMeasuringElementEditorViewModel:
 					return CreateDiscretMeasuringElement(discretMeasuringElementEditorViewModel);
-			}
+			    case IDateTimeMeasuringEditorViewModel dateTimeMeasuringEditorViewModel:
+			        return this.CreateDateTimeMeasuringElement(dateTimeMeasuringEditorViewModel);
+            }
 			throw new Exception();
 		}
 
@@ -97,5 +99,15 @@ namespace Unicon2.Fragments.Measuring.Editor.Helpers
 
 			return discretMeasuringElement;
 		}
-	}
+	    private IDateTimeMeasuringElement CreateDateTimeMeasuringElement(
+	        IDateTimeMeasuringEditorViewModel dateTimeMeasuringEditorViewModel)
+	    {
+	        IDateTimeMeasuringElement dateTimeMeasuringElement =
+	            StaticContainer.Container.Resolve<IDateTimeMeasuringElement>();
+	        InitDefaults(dateTimeMeasuringEditorViewModel, dateTimeMeasuringElement);
+	        dateTimeMeasuringElement.StartAddress = dateTimeMeasuringEditorViewModel.StartAddress;
+
+	        return dateTimeMeasuringElement;
+	    }
+    }
 }

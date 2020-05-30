@@ -2,6 +2,6 @@
 {
 	public interface IDateTimeMeasuringElement : IMeasuringElement
 	{
-		
+		ushort StartAddress { get; set; }
 	}
 }

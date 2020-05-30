@@ -13,6 +13,7 @@
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converter:BoolToColorBrushConverter x:Key="BoolToColorBrushConverter" />
     <converter:BoolToVisConverter x:Key="BoolToVisConverter" />
+
     <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector x:Key="ViewModelByStrongNameDataTemplateSelector" />
     <DataTemplate x:Key="MeasuringMonitorViewModelDataTemplate" DataType="interfaces:IMeasuringMonitorViewModel">
         <views:MeasuringMonitorView />
@@ -70,18 +71,88 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements:ControlSignalViewModel}">
-        <Button
-            Margin="2"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            Background="{Binding IsCommandSucceed, Converter={StaticResource CommandSuccessToColorConverter}}"
-            Command="{Binding WriteValueCommand}"
-            Content="{Binding Header}"
-            Style="{DynamicResource UniconButtonStyle}" />
+        <Border Background="{Binding IsCommandSucceed, Converter={StaticResource CommandSuccessToColorConverter}}">
+            <Button
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                Command="{Binding WriteValueCommand}"
+                Content="{Binding Header}"
+                Style="{DynamicResource UniconButtonStyle}" />
+        </Border>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type elements:DateTimeMeasuringElementViewModel}">
-        <Grid />
+        <GroupBox Header="{Binding Header}">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="1"
+                        Text="{lex:Loc Date}" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="1"
+                        IsEnabled="{Binding IsInEditMode}"
+                        Text="{Binding Date}" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="1"
+                        Text="{lex:Loc Time}" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="1"
+                        IsEnabled="{Binding IsInEditMode}"
+                        Text="{Binding Time}" />
+
+                </Grid>
+                <CheckBox
+                    Grid.Row="1"
+                    Margin="10"
+                    Content="{lex:Loc Edit}"
+                    IsChecked="{Binding IsInEditMode}" />
+                <Button
+                    Grid.Row="2"
+                    MaxWidth="200"
+                    Margin="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Command="{Binding SetTimeCommand}"
+                    Content="{lex:Loc Set}"
+                    IsEnabled="{Binding IsInEditMode}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+                <Button
+                    Grid.Row="3"
+                    MaxWidth="200"
+                    Margin="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Command="{Binding SetSystemDateTimeCommand}"
+                    Content="{lex:Loc SetSystem}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+            </Grid>
+        </GroupBox>
     </DataTemplate>
 
 

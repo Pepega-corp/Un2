@@ -10,6 +10,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Interfaces.Factories
         IMeasuringElementEditorViewModel CreateDiscretMeasuringElementEditorViewModel(IDiscretMeasuringElement discretMeasuringElement = null);
 
         IMeasuringElementEditorViewModel CreateControlSignalEditorViewModel(IControlSignal controlSignal = null);
+        IMeasuringElementEditorViewModel CreateDateTimeEditorViewModel(IDateTimeMeasuringElement dateTimeMeasuringElement = null);
 
     }
 

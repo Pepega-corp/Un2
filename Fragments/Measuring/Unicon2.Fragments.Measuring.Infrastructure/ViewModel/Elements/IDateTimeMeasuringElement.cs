@@ -6,8 +6,9 @@ namespace Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements
 	{
 		string Date { get; set; }
 		string Time { get; set; }
-		ICommand SetSystemDateTimeCommand { get; }
-		ICommand SetTimeCommand { get; }
+	    void SetDateTime(string date, string time);
+		ICommand SetSystemDateTimeCommand { get; set; }
+		ICommand SetTimeCommand { get; set; }
 		bool IsInEditMode { get; set; }
 	}
 }

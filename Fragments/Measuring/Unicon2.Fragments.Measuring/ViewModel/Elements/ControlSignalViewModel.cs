@@ -27,12 +27,13 @@ namespace Unicon2.Fragments.Measuring.ViewModel.Elements
                 {
                     this.ResetDelayed();
                 }
+                RaisePropertyChanged();
             }
         }
 
         private async void ResetDelayed()
         {
-            await Task.Delay(2000);
+            await Task.Delay(700);
             this.IsCommandSucceed = null;
         }
 

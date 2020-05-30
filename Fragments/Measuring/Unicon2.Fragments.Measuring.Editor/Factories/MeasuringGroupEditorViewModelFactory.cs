@@ -36,6 +36,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
             }
             measuringGroupEditorViewModel.PresentationSettingsViewModel = new PresentationSettingsViewModelFactory()
 	            .CreatePresentationSettingsViewModel(measuringGroup, measuringGroupEditorViewModel);
+            measuringGroupEditorViewModel.PresentationSettingsViewModel.UpdateMeasuringElements();
             measuringGroupEditorViewModel.Header = measuringGroup.Name;
             return measuringGroupEditorViewModel;
         }

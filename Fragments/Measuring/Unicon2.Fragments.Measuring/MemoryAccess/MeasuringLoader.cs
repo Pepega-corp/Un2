@@ -75,7 +75,16 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 
 		            await analogSubscription.Execute();
 		        }
-		        if (!this._isQueriesStarted)
+		        foreach (var dateTimeSubscription in _measuringSubscriptionSet.DateTimeSubscriptions)
+		        {
+		            if (_groupName != null && dateTimeSubscription.GroupName != _groupName)
+		            {
+		                continue;
+		            }
+
+		            await dateTimeSubscription.Execute();
+		        }
+                if (!this._isQueriesStarted)
 		        {
 		            return;
 		        }

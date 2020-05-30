@@ -144,13 +144,20 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 				value.NumValue = "1000";
 				analogMeasuringElement.FormattedValueViewModel = value;
 			}
-			if (measuringElementViewModel is IDiscretMeasuringElementViewModel discretMeasuringElement)
+			else if (measuringElementViewModel is IDiscretMeasuringElementViewModel discretMeasuringElement)
 			{
 				var value = StaticContainer.Container.Resolve<IBoolValueViewModel>();
 				discretMeasuringElement.FormattedValueViewModel = value;
 			}
+			else if (measuringElementViewModel is IDateTimeMeasuringElementViewModel dateTimeMeasuringElement)
+			{
+			    var now = DateTime.Now;
+			    dateTimeMeasuringElement.Date = $"{(now.Year-2000)}.{now.Month}.{now.Day}";
+			    dateTimeMeasuringElement.Time = $"{now.Hour}:{now.Minute}:{now.Second},{now.Millisecond.ToString().Substring(0,2)}";
 
-			return measuringElementViewModel;
+            }
+
+            return measuringElementViewModel;
 		}
 
 		private bool CanExecuteDeleteGroup()
@@ -227,8 +234,12 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 				FilteredPresentationElementViewModels = PresentationElementViewModels
 					.Where(model => model.TemplatedViewModelToShowOnCanvas is IDiscretMeasuringElementViewModel).ToList();
 			}
-		
-		}
+			else if (SelectedFilterString == MeasuringKeys.DATE_TIME_ELEMENT)
+			{
+			    FilteredPresentationElementViewModels = PresentationElementViewModels
+			        .Where(model => model.TemplatedViewModelToShowOnCanvas is IDateTimeMeasuringElementViewModel).ToList();
+			}
+        }
 
 		public List<string> FilterList { get; }
 

@@ -28,5 +28,10 @@ namespace Unicon2.Fragments.Measuring.Factories
         {
             return _container.Resolve<IControlSignal>();
         }
+
+        public IDateTimeMeasuringElement CreateDateTimeMeasuringElement()
+        {
+            return _container.Resolve<IDateTimeMeasuringElement>();
+        }
     }
 }

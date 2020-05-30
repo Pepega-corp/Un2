@@ -28,15 +28,16 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
 
         public async Task<ushort[]> GetNextRecordUshorts()
         {
-            await _dataProviderContaining.DataProvider.WriteSingleRegisterAsync(
-                _indexLoadingSequence.JournalStartAddress, _currentRecordIndex, "Write");
+           var res= await _dataProviderContaining.DataProvider.WriteSingleRegisterAsync(
+                _indexLoadingSequence.IndexWritingAddress, _currentRecordIndex, "Write");
             _currentRecordIndex++;
 
+            
             IQueryResult<ushort[]> queryResult = await _dataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
                 _indexLoadingSequence.JournalStartAddress,
                 _indexLoadingSequence.NumberOfPointsInRecord,
                 JournalKeys.JOURNAL_RECORD_READING_QUERY);
-            _lastQueryErrorCode = queryResult.Result[queryResult.Result.Length - 1];
+            _lastQueryErrorCode = queryResult.Result[0];
             return queryResult.Result;
         }
     }

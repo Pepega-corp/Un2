@@ -23,6 +23,9 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
         [JsonProperty]
         public bool IsWordFormatNotForTheWholeRecord { get; set; }
 
+        [JsonProperty]
+        public ushort IndexWritingAddress { get; set; }
+
         public string StrongName => JournalKeys.INDEX_LOADING_SEQUENCE;
     }
 }

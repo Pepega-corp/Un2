@@ -1,6 +1,4 @@
-﻿using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
-
-namespace Unicon2.Fragments.Journals.Infrastructure.Model
+﻿namespace Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence
 {
     public interface IIndexLoadingSequence : IJournalLoadingSequence
     {
@@ -9,5 +7,6 @@ namespace Unicon2.Fragments.Journals.Infrastructure.Model
         ushort WordFormatFrom { get; set; }
         ushort WordFormatTo { get; set; }
         bool IsWordFormatNotForTheWholeRecord { get; set; }
+        ushort IndexWritingAddress { get; set; }
     }
 }

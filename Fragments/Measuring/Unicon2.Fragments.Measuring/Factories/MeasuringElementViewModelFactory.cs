@@ -31,7 +31,9 @@ namespace Unicon2.Fragments.Measuring.Factories
 					return CreateControlSignalViewModelViewModel(controlSignal,groupName);
 				case DescretMeasuringElement descretMeasuringElement:
 					return CreateDiscretMeasuringElementViewModel(descretMeasuringElement, groupName);
-			}
+                case DateTimeMeasuringElement dateTimeMeasuringElement:
+                    return this.CreateDateTimeMeasuringElementViewModel(dateTimeMeasuringElement, groupName);
+            }
 
             measuringElementViewModel.GroupName = groupName;
             return measuringElementViewModel;
@@ -55,7 +57,7 @@ namespace Unicon2.Fragments.Measuring.Factories
         {
 	        var res = new ControlSignalViewModel();
 	        res.Id = controlSignal.Id;
-	        res.Header = controlSignal.Name;
+	        res.Header = controlSignal.Name.ToUpper();
 	        res.GroupName = groupName;
 	        return res;
         }
@@ -69,5 +71,14 @@ namespace Unicon2.Fragments.Measuring.Factories
 	        res.GroupName = groupName;
             return res;
         }
-	}
+        private DateTimeMeasuringElementViewModel CreateDateTimeMeasuringElementViewModel(
+            DateTimeMeasuringElement dateTimeMeasuringElement, string groupName)
+        {
+            var res = new DateTimeMeasuringElementViewModel();
+            res.Id = dateTimeMeasuringElement.Id;
+            res.Header = dateTimeMeasuringElement.Name;
+            res.GroupName = groupName;
+            return res;
+        }
+    }
 }

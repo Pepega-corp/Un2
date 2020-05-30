@@ -17,6 +17,14 @@ namespace Unicon2.Fragments.Measuring.Converters
             {
                 return Brushes.Transparent;
             }
+            if (value.Equals(true))
+            {
+                return Brushes.Green;
+            }
+            if (value.Equals(false))
+            {
+                return Brushes.Crimson;
+            }
             return Brushes.Transparent;
         }
 

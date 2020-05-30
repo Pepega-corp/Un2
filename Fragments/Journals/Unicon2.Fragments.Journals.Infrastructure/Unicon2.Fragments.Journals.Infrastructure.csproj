@@ -44,7 +44,7 @@
     <Compile Include="Factories\IJournalRecordViewModelFactory.cs" />
     <Compile Include="Factories\IJournalSequenceEditorViewModelFactory.cs" />
     <Compile Include="Keys\JournalKeys.cs" />
-    <Compile Include="Model\IIndexLoadingSequence.cs" />
+    <Compile Include="Model\LoadingSequence\IIndexLoadingSequence.cs" />
     <Compile Include="Model\JournalParameters\IComplexJournalParameter.cs" />
     <Compile Include="Model\JournalParameters\IDependentJournalParameter.cs" />
     <Compile Include="Model\IJournalParameter.cs" />

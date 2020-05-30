@@ -65,6 +65,11 @@
                         Content="{lex:Loc AddControlSignal}"
                         Style="{DynamicResource UniconButtonStyle}" />
                     <Button
+                        Margin="5"
+                        Command="{Binding AddDateTimeCommand}"
+                        Content="{lex:Loc AddDateTime}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                    <Button
                         Margin="3"
                         Command="{Binding OpenPresentationSettingsCommand}"
                         Content="{lex:Loc PresentationSettings}"
