@@ -18,6 +18,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         IConnectionViewModel Connection { get; set; }
         int ConnectionNumber { get; }
         bool Connected { get; }
+        bool IsDragConnection { get; set; }
 
         void UpdateConnectorPosition(Point deltaPosition);
     }

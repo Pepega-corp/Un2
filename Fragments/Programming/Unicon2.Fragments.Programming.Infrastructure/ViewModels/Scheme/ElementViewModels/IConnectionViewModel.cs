@@ -20,5 +20,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         Point LabelPosition { get; set; }
         DoubleCollection StrokeDashArray { get; set; }
         double Value { get; }
+        IConnectorViewModel GetNearConnector(IConnectorViewModel startConnector);
     }
 }

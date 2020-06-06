@@ -91,7 +91,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-
         public IConnectionViewModel Connection
         {
             get => this._connectionViewModel;

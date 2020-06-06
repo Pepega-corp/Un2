@@ -35,9 +35,10 @@
                 </Path.RenderTransform>
             </Path>
             <Ellipse
+                DataContext="{Binding SinkConnectors[0]}"
                 Name="AreaArrow"
-                Canvas.Left="{Binding SinkConnectors[0].ConnectorPosition.X}"
-                Canvas.Top="{Binding SinkConnectors[0].ConnectorPosition.Y}"
+                Canvas.Left="{Binding ConnectorPosition.X}"
+                Canvas.Top="{Binding ConnectorPosition.Y}"
                 Width="10"
                 Height="10"
                 Fill="Transparent"

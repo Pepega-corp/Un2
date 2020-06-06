@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -7,19 +8,23 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Adorners;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
-using Unicon2.Fragments.Programming.ViewModels;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors
 {
     // Поведение на нажатие на вывод элемента со связью
     public class ConnectionBehavior : Behavior<Ellipse>
     {
-        private ConnectionViewModel _connectionViewModel;
+        private const string PATH_NAME = "ConnectionPath"; // должно полностью совпадать с Name у Path в XAML
+
+        private IConnectionViewModel _connectionViewModel;
         private Canvas _designerCanvas;
-        private SchemeTabViewModel _tabViewModel;
+        private ISchemeTabViewModel _tabViewModel;
         private Ellipse _sinkArea;
         private Path _connectionPath;
         private bool _dragEnter;
+
+        public IConnectorViewModel Connector { get; private set; }
 
         protected override void OnAttached()
         {
@@ -28,15 +33,19 @@ namespace Unicon2.Fragments.Programming.Behaviors
             this._sinkArea.MouseLeftButtonDown += this.SinkAreaOnMouseLeftButtonDown;
             this._sinkArea.MouseMove += this.SinkAreaOnMouseMove;
             this._sinkArea.MouseLeftButtonUp += this.SinkAreaOnMouseLeftButtonUp;
-            this._connectionViewModel = AssociatedObject.DataContext as ConnectionViewModel;
+
+            this.Connector = AssociatedObject.DataContext as IConnectorViewModel;
+            this._connectionViewModel = Connector.Connection;
+
             this._designerCanvas = CommonHelper.GetDesignerCanvas(this._sinkArea);
-            this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
+
+            this._tabViewModel = this._designerCanvas.DataContext as ISchemeTabViewModel;
             
             this._dragEnter = false;
 
             if (VisualTreeHelper.GetParent(this._sinkArea) is Canvas parent)
             {
-                this._connectionPath = parent.Children.OfType<Path>().First(p => p.Name == ConnectionViewModel.PATH_NAME);
+                this._connectionPath = parent.Children.OfType<Path>().First(p => p.Name == PATH_NAME);
                 if (this._connectionPath != null)
                 {
                     this._connectionPath.PreviewMouseLeftButtonDown += this.OnPreviewLeftMouseDown;
@@ -51,6 +60,11 @@ namespace Unicon2.Fragments.Programming.Behaviors
             this._sinkArea.MouseMove -= this.SinkAreaOnMouseMove;
             this._sinkArea.MouseLeftButtonUp -= this.SinkAreaOnMouseLeftButtonUp;
             this._connectionPath.PreviewMouseLeftButtonDown -= this.OnPreviewLeftMouseDown;
+        }
+
+        internal void UpdateConnector(IConnectorViewModel hitConnector)
+        {
+            Connector = hitConnector;
         }
 
         private void SinkAreaOnMouseLeftButtonDown(object sender, MouseButtonEventArgs args)
@@ -75,11 +89,13 @@ namespace Unicon2.Fragments.Programming.Behaviors
 
         private void SinkAreaOnMouseMove(object sender, MouseEventArgs args)
         {
-            if(!this._dragEnter || args.LeftButton != MouseButtonState.Pressed) return;
+            if(!this._dragEnter || args.LeftButton != MouseButtonState.Pressed)
+                return;
+
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             if (adornerLayer != null)
             {
-                ConnectionAdorner connectorAdorner = new ConnectionAdorner(this._designerCanvas, this._connectionViewModel);
+                ConnectionAdorner connectorAdorner = new ConnectionAdorner(this._designerCanvas, this);
                 adornerLayer.Add(connectorAdorner);
                 args.Handled = true;
             }
@@ -94,7 +110,10 @@ namespace Unicon2.Fragments.Programming.Behaviors
             else if (!this._connectionViewModel.IsSelected)
             {
                 foreach (ISelectable item in this._tabViewModel.ElementCollection)
+                {
                     item.IsSelected = false;
+                }
+
                 this._connectionViewModel.IsSelected = true;
             }
         }

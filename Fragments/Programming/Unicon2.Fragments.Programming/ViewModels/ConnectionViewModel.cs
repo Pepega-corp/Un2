@@ -16,8 +16,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
 {
     public class ConnectionViewModel : ViewModelBase, IConnectionViewModel
     {
-        public const string PATH_NAME = "ConnectionPath"; // должно полностью совпадать с Name у Path в XAML
-
         private IConnection _model;
         private IConnectorViewModel _source;
         private Point _labelPosition;
@@ -47,8 +45,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
             SinkConnectors.CollectionChanged += SinkCollectionChanged;
             SinkConnectors.Add(sink);
-
-            UpdatePathGeometry(_model.Points);
         }
         
         public string Name { get; private set; }
@@ -237,6 +233,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                         {
                             item.ConnectorPositionChanged += OnConnectorPositionChanged;
                             item.Connection = this;
+                            UpdatePathGeometry();
                         }
 
                         break;
@@ -308,6 +305,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 RaisePropertyChanged(nameof(this.Path));
             }
             
+        }
+
+        public IConnectorViewModel GetNearConnector(IConnectorViewModel startConnector)
+        {
+            //TODO get near point in line segment
+            return SinkConnectors.First();
         }
     }
 }

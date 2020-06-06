@@ -5,24 +5,32 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure;
-using Unicon2.Fragments.Programming.ViewModels;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.Adorners
 {
     public class ConnectionAdorner : Adorner
     {
         private Canvas _designerCanvas;
-        private ConnectionViewModel _connection;
+        private ConnectionBehavior _behavior;
+        private IConnectionViewModel _connection;
+        private IConnectorViewModel _connector;
         private Pen _drawingPen; // перо мнимой линии
-        private ConnectorViewModel _hitConnector;
+        private IConnectorViewModel _hitConnector;
         private PathGeometry _currentPath;
 
-        public ConnectionAdorner(Canvas designerCanvas, ConnectionViewModel connection) : base(designerCanvas)
+        public ConnectionAdorner(Canvas designerCanvas, ConnectionBehavior connectionBehavior) : base(designerCanvas)
         {
             this._designerCanvas = designerCanvas;
-            this._connection = connection;
+
+            this._behavior = connectionBehavior;
+
+            this._connector = _behavior.Connector;
+            this._connection = _connector.Connection;
             this._connection.StrokeDashArray = new DoubleCollection(new double[] { 4, 2 });
+
             this._drawingPen = new Pen(Brushes.LightSlateGray, 1);
             this._drawingPen.LineJoin = PenLineJoin.Round;
             this._drawingPen.DashStyle = DashStyles.Solid;
@@ -30,7 +38,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             Cursor = Cursors.Cross;
         }
 
-        private ConnectorViewModel HitConnector
+        private IConnectorViewModel HitConnector
         {
             set
             {
@@ -57,16 +65,23 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             if (this._hitConnector != null)
             {
-                //this._connection.Sink = this._hitConnector;
+                _connection.SinkConnectors.Remove(_connector);
+                _connection.SinkConnectors.Add(_hitConnector);
+
+                _behavior.UpdateConnector(_hitConnector);
+
                 this._hitConnector.IsDragConnection = false;
             }
 
-            if (IsMouseCaptured) ReleaseMouseCapture();
+            if (IsMouseCaptured) 
+                ReleaseMouseCapture();
+
             var adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             if (adornerLayer != null)
             {
                 adornerLayer.Remove(this);
             }
+
             this._connection.StrokeDashArray = DashStyles.Solid.Dashes;
         }
 
@@ -74,7 +89,9 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if (!IsMouseCaptured) CaptureMouse();
+                if (!IsMouseCaptured) 
+                    CaptureMouse();
+
                 this.HitTesting(e.GetPosition(this));
                 this.GetPathGeometry(e.GetPosition(this));
                 InvalidateVisual();
@@ -93,10 +110,10 @@ namespace Unicon2.Fragments.Programming.Adorners
 
             var sourceInfo = new PathFinder.ConnectorInfo
             {
-                //ConnectorPoint = this._connection.Source.ConnectorPoint,
-                //Orientation = this._connection.Source.Orientation,
-                //ConnectorParentX = this._connection.Source.ParentViewModel.X,
-                //ConnectorParentY = this._connection.Source.ParentViewModel.Y
+                ConnectorPoint = this._connection.SourceConnector.ConnectorPosition,
+                Orientation = this._connection.SourceConnector.Orientation,
+                ConnectorParentX = this._connection.SourceConnector.ParentViewModel.X,
+                ConnectorParentY = this._connection.SourceConnector.ParentViewModel.Y
             };
 
             if (this._hitConnector == null)
@@ -136,17 +153,13 @@ namespace Unicon2.Fragments.Programming.Adorners
                 return;
             }
             var fe = (FrameworkElement)hitObject;
-            var cvm = fe.DataContext as ConnectorViewModel;
+            var cvm = fe.DataContext as IConnectorViewModel;
             if (cvm == null || cvm.Model.Orientation == this._connection.SourceConnector.Orientation)
             {
                 this.HitConnector = null;
                 return;
             }
-            //нахождение точки присоединения элементу
-            //var itemRect = VisualTreeHelper.GetDescendantBounds(fe);
-            //var itemBounds =
-            //    fe.TransformToAncestor(this._designerCanvas).TransformBounds(itemRect);
-            //cvm.ConnectorPosition = new Point(itemBounds.X + (itemBounds.Right - itemBounds.X) / 2, itemBounds.Y + (itemBounds.Bottom - itemBounds.Y) / 2);
+            
             this.HitConnector = cvm;
         }
     }
