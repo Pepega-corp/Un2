@@ -144,6 +144,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void CloseTab()
         {
+            var connections = ElementCollection.Where(ec => ec is IConnectionViewModel).Cast<IConnectionViewModel>();
+            foreach(var c in connections)
+            {
+                _programmingViewModel.RemoveConnection(c);
+            }
+            ElementCollection.Clear();
             this.CloseTabEvent?.Invoke(this);
         }
 
