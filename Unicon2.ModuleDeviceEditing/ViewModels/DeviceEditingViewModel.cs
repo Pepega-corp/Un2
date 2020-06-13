@@ -182,14 +182,14 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
                 }
 
                 if (connectingDevice == null) return;
-
+                connectingDevice.DeviceSignature = DeviceSignature;
                 //модель выбранного подключения клонируется, что не создавать устройства с ссылкой на одно и то же подключкение
                 //попытка подключения, при неудаче вывод сообщения и прекращение создания устройства
                 if (!await ConnectDevice(connectingDevice,
                     (SelectedDeviceConnection.Model as IDeviceConnection)?.Clone() as IDeviceConnection)) return;
 
 
-                connectingDevice.DeviceSignature = DeviceSignature;
+                
 
                 //закрытие представления
                 IsFlyOutOpen = false;

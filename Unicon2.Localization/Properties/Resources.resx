@@ -1416,4 +1416,28 @@
   <data name="Dependencies" xml:space="preserve">
     <value>@Dependencies</value>
   </data>
+  <data name="AddDateTime" xml:space="preserve">
+    <value>@AddDateTime</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>@Date</value>
+  </data>
+  <data name="DateTimeMeasuringElement" xml:space="preserve">
+    <value>@DateTimeMeasuringElement</value>
+  </data>
+  <data name="IndexWritingAddress" xml:space="preserve">
+    <value>@IndexWritingAddress</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>@Set</value>
+  </data>
+  <data name="SetSystem" xml:space="preserve">
+    <value>@SetSystem</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>@Time</value>
+  </data>
+  <data name="SaveForPrint" xml:space="preserve">
+    <value>@SaveForPrint</value>
+  </data>
 </root>

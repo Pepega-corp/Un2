@@ -45,7 +45,7 @@ namespace Unicon2.Presentation.Factories
                         var fragmentLevelDispatcher = new FragmentLevelEventsDispatcher();
                         deviceLevelPublisher.AddFragmentDispatcher(fragmentViewModel, fragmentLevelDispatcher);
                         deviceContextConsumer.DeviceContext = new DeviceContext(device.DeviceMemory,
-                            new FragmentEventsDispatcher(deviceLevelPublisher, fragmentLevelDispatcher), device.Name,
+                            new FragmentEventsDispatcher(deviceLevelPublisher, fragmentLevelDispatcher), device.DeviceSignature,
                             device,device.DeviceSharedResources);
                     }
 

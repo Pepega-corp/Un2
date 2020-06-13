@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Microsoft.Win32;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
@@ -19,6 +20,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Fragment
 using Unicon2.SharedResources.Behaviors;
 using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Journals.ViewModel
@@ -27,6 +29,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
     {
         private readonly ILocalizerService _localizerService;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
+        private readonly ITypesContainer _typesContainer;
         private List<string> _journalParametersNameList;
         private IUniconJournal _uniconJournal;
         private DynamicDataTable _table;
@@ -38,10 +41,11 @@ namespace Unicon2.Fragments.Journals.ViewModel
             IFragmentOptionsViewModel fragmentOptionsViewModel,
             Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelgetFunc,
             Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc,
-            IApplicationGlobalCommands applicationGlobalCommands)
+            IApplicationGlobalCommands applicationGlobalCommands,ITypesContainer typesContainer)
         {
             _localizerService = localizerService;
             _applicationGlobalCommands = applicationGlobalCommands;
+            _typesContainer = typesContainer;
             IFragmentOptionGroupViewModel fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
             fragmentOptionGroupViewModel.NameKey = "Device";
             IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
@@ -51,8 +55,63 @@ namespace Unicon2.Fragments.Journals.ViewModel
             LoadCommand = new RelayCommand(OnLoadJournal, CanLoadExecute);
             fragmentOptionCommandViewModel.OptionCommand = LoadCommand;
             fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = "Load";
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscUpload;
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteLoadJournal);
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = "Save";
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscDownload;
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteSaveJournal);
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = ApplicationGlobalNames.UiCommandStrings.SAVE_FOR_PRINT;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconPrintText;
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteExportJournal);
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
+
             FragmentOptionsViewModel = fragmentOptionsViewModel;
             CanExecuteJournalLoading = true;
+        }
+
+        private void OnExecuteExportJournal()
+        {
+	        throw new NotImplementedException();
+        }
+
+        private void OnExecuteSaveJournal()
+        {
+	        SaveFileDialog sfd = new SaveFileDialog();
+	        sfd.Filter = " UJR файл (*.ujr)|*.ujr" + "|Все файлы (*.*)|*.* ";
+	        sfd.DefaultExt = ".ujr";
+	        var localizer = _typesContainer.Resolve<ILocalizerService>();
+	        sfd.FileName = NameForUiKey + " " + DeviceContext.DeviceName;
+	        if (sfd.ShowDialog() == true)
+	        {
+		        _typesContainer.Resolve<ISerializerService>().SerializeInFile(
+			        _uniconJournal,
+			        sfd.FileName);
+	        }
+        }
+
+        private async void OnExecuteLoadJournal()
+        {
+	        OpenFileDialog ofd = new OpenFileDialog();
+	        ofd.Multiselect = false;
+	        ofd.Filter = " UJR файл (*.ujr)|*.ujr" + "|Все файлы (*.*)|*.* ";
+	        ofd.CheckFileExists = true;
+	        if (ofd.ShowDialog() == true)
+	        {
+                var loadedJournal = _typesContainer.Resolve<ISerializerService>()
+			        .DeserializeFromFile<IUniconJournal>(ofd.FileName);
+                await new JournalLoader(this, this.DeviceContext.DataProviderContaining, _uniconJournal)
+	                .LoadFromReadyModelList(loadedJournal.JournalRecords);
+	        }
         }
 
         private bool CanLoadExecute()

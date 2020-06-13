@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unicon2.Fragments.Measuring.MemoryAccess
+namespace Unicon2.Fragments.Journals.Infrastructure.Export
 {
-	public class ControlSignalWriter
+	public class JournalExportSelector
 	{
 	}
 }

@@ -69,7 +69,6 @@
     <Compile Include="Factories\MeasuringElementViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringGroupViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringMemorySubscriptionFactory.cs" />
-    <Compile Include="MemoryAccess\ControlSignalWriter.cs" />
     <Compile Include="MemoryAccess\MeasuringLoader.cs" />
     <Compile Include="Model\Address\AddressOfBit.cs" />
     <Compile Include="Model\Address\WritingValueContext.cs" />

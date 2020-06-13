@@ -34,6 +34,8 @@
             ///    строка read
             /// </summary>
             public const string READ_STRING_KEY = "Read";
+  
+            public const string SAVE_FOR_PRINT = "SaveForPrint";
         }
         
         public static class WindowsStrings

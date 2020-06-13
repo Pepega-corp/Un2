@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Journals.Factory;
 using Unicon2.Fragments.Journals.Infrastructure.Factories;
@@ -33,6 +34,17 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
 
         }
 
+        public async Task LoadFromReadyModelList(List<IJournalRecord> journalRecords)
+        {
+	        _uniconJournal.JournalRecords.Clear();
+            foreach (var journalRecord in journalRecords)
+	        {
+		        _uniconJournal.JournalRecords.Add(journalRecord);
+		        _uniconJournalViewModel.Table.AddFormattedValueViewModel(journalRecord.FormattedValues
+			        .Select((formattedValue =>
+				        _valueViewModelFactory.CreateFormattedValueViewModel(formattedValue))).ToList());
+            }
+        }
 
         public async Task Load()
         {

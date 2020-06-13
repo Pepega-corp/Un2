@@ -21,9 +21,8 @@ namespace Unicon2.Fragments.Configuration.Views
     /// </summary>
     public partial class ExportSelectionWindow 
     {
-        public ExportSelectionWindow(ExportSelectionViewModel exportSelectionViewModel)
+        public ExportSelectionWindow()
         {
-            DataContext = exportSelectionViewModel;
             InitializeComponent();
         }
     }

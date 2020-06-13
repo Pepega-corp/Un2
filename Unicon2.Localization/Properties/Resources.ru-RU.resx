@@ -1425,4 +1425,28 @@
   <data name="Dependencies" xml:space="preserve">
     <value>Зависимости</value>
   </data>
+  <data name="AddDateTime" xml:space="preserve">
+    <value>Добавить Дату-Время</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="DateTimeMeasuringElement" xml:space="preserve">
+    <value>Элемент Дата-Время</value>
+  </data>
+  <data name="IndexWritingAddress" xml:space="preserve">
+    <value>Адрес записи индекса</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>Установить</value>
+  </data>
+  <data name="SetSystem" xml:space="preserve">
+    <value>Установить системное</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="SaveForPrint" xml:space="preserve">
+    <value>Сохранить для печати</value>
+  </data>
 </root>

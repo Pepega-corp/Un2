@@ -262,8 +262,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = " CNF файл (*.cnf)|*.cnf" + "|Все файлы (*.*)|*.* ";
-            sfd.DefaultExt = ".cnf";
-            sfd.FileName = _runtimeConfigurationViewModel.NameForUiKey;
+            sfd.DefaultExt = ".cnf"; 
+            var localizer = _container.Resolve<ILocalizerService>();
+            var nameForUiLocalized = _runtimeConfigurationViewModel.NameForUiKey;
+            localizer.TryGetLocalizedString(_runtimeConfigurationViewModel.NameForUiKey, out nameForUiLocalized);
+            sfd.FileName = nameForUiLocalized+" "+ _runtimeConfigurationViewModel.DeviceContext.DeviceName;
             if (sfd.ShowDialog() == true)
             {
                 _container.Resolve<ISerializerService>().SerializeInFile(

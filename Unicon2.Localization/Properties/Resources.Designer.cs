@@ -187,6 +187,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @AddDateTime.
+        /// </summary>
+        public static string AddDateTime {
+            get {
+                return ResourceManager.GetString("AddDateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @AddDependentParameter.
         /// </summary>
         public static string AddDependentParameter {
@@ -1060,11 +1069,29 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @DateTime.
         /// </summary>
         public static string DateTime {
             get {
                 return ResourceManager.GetString("DateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @DateTimeMeasuringElement.
+        /// </summary>
+        public static string DateTimeMeasuringElement {
+            get {
+                return ResourceManager.GetString("DateTimeMeasuringElement", resourceCulture);
             }
         }
         
@@ -1884,6 +1911,15 @@ namespace Unicon2.Localization.Properties {
         public static string IndexLoadingSequence {
             get {
                 return ResourceManager.GetString("IndexLoadingSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @IndexWritingAddress.
+        /// </summary>
+        public static string IndexWritingAddress {
+            get {
+                return ResourceManager.GetString("IndexWritingAddress", resourceCulture);
             }
         }
         
@@ -3157,6 +3193,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @SaveForPrint.
+        /// </summary>
+        public static string SaveForPrint {
+            get {
+                return ResourceManager.GetString("SaveForPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @SaveInDefaultDirectory.
         /// </summary>
         public static string SaveInDefaultDirectory {
@@ -3265,6 +3310,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @Set.
+        /// </summary>
+        public static string Set {
+            get {
+                return ResourceManager.GetString("Set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @SetFalseBit.
         /// </summary>
         public static string SetFalseBit {
@@ -3288,6 +3342,15 @@ namespace Unicon2.Localization.Properties {
         public static string SetLogFile {
             get {
                 return ResourceManager.GetString("SetLogFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @SetSystem.
+        /// </summary>
+        public static string SetSystem {
+            get {
+                return ResourceManager.GetString("SetSystem", resourceCulture);
             }
         }
         
@@ -3558,6 +3621,15 @@ namespace Unicon2.Localization.Properties {
         public static string TestValueOfX {
             get {
                 return ResourceManager.GetString("TestValueOfX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @Time.
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
             }
         }
         
