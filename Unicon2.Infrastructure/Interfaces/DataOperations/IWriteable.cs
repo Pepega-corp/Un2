@@ -2,7 +2,7 @@
 
 namespace Unicon2.Infrastructure.Interfaces.DataOperations
 {
-    public interface IWriteable : IDataProviderContaining
+    public interface IWriteable : IDataProviderContainer
     {
         Task<bool> Write();
     }

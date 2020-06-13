@@ -25,7 +25,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 VerticalAlignment="Center"
-                Text="Название элемента" />
+                Text="Подпись элемента" />
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="0"
@@ -48,7 +48,7 @@
                 Width="100"
                 Margin="5"
                 VerticalAlignment="Center"
-                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox
                 Grid.Row="2"
                 Grid.Column="1"
@@ -89,7 +89,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 VerticalAlignment="Center"
-                Text="Название элемента" />
+                Text="Подпись элемента" />
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="0"
@@ -107,7 +107,7 @@
                 Width="100"
                 Margin="5"
                 VerticalAlignment="Center"
-                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox
                 Grid.Row="2"
                 Grid.Column="1"

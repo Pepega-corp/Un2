@@ -54,24 +54,29 @@
         public static class CommonInjectionStrings
         {
             /// <summary>
-            ///    строка вью-модель
+            /// строка вью-модель
             /// </summary>
             public const string VIEW_MODEL = "ViewModel";
 
             /// <summary>
-            /// строка  Editor
+            /// Строка Editor
             /// </summary>
-            public static string EDITOR_VIEWMODEL = "EditorViewModel";
+            public const string EDITOR = "Editor";
+
+            /// <summary>
+            /// строка  EditorViewModel
+            /// </summary>
+            public const string EDITOR_VIEWMODEL = "EditorViewModel";
 
             /// <summary>
             /// строка DataTemplate
             /// </summary>
-            public static string DATATEMPLATE = "DataTemplate";
+            public const string DATATEMPLATE = "DataTemplate";
 
             /// <summary>
             /// строка Editable
             /// </summary>
-            public static string EDITABLE = "Editable";
+            public const string EDITABLE = "Editable";
         }
 
         

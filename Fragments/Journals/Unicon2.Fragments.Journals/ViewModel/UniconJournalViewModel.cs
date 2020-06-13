@@ -109,7 +109,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
 	        {
                 var loadedJournal = _typesContainer.Resolve<ISerializerService>()
 			        .DeserializeFromFile<IUniconJournal>(ofd.FileName);
-                await new JournalLoader(this, this.DeviceContext.DataProviderContaining, _uniconJournal)
+                await new JournalLoader(this, this.DeviceContext.DataProviderContainer, _uniconJournal)
 	                .LoadFromReadyModelList(loadedJournal.JournalRecords);
 	        }
         }
@@ -123,7 +123,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
         {
             try
             {
-                await new JournalLoader(this, this.DeviceContext.DataProviderContaining, _uniconJournal).Load();
+                await new JournalLoader(this, this.DeviceContext.DataProviderContainer, _uniconJournal).Load();
             }
             catch (Exception e)
             {

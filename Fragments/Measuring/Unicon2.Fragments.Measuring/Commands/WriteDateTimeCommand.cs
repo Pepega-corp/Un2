@@ -65,7 +65,7 @@ namespace Unicon2.Fragments.Measuring.Commands
                 ushortstoWrite[6] = ushort.Parse(timeParts[3]);
 
             }
-            this._deviceContext.DataProviderContaining.DataProvider.WriteMultipleRegistersAsync(
+            this._deviceContext.DataProviderContainer.DataProvider.WriteMultipleRegistersAsync(
                 this._dateTimeMeasuringElement.StartAddress, ushortstoWrite, "Set date time");
         }
 

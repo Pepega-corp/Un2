@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using Unicon2.Fragments.Programming.Infrastructure;
+using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model;
+using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Common;
 
@@ -17,12 +19,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ElementName = "Выход";
             Description = "Елемент выходного дискретного сигнала";
             Symbol = "Out";
-
-            Connectors = new ObservableCollection<IConnectorViewModel>
-            {
-                new ConnectorViewModel(this, ConnectorOrientation.LEFT, ConnectorType.DIRECT)
-            };
-
+            ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
             this.OutputSignals = new ObservableCollection<string>();
         }
 
@@ -37,22 +34,12 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-
-        public string Name
-        {
-            get => _model.Name;
-            set
-            {
-                _model.Name = value;
-                RaisePropertyChanged();
-            }
-        }
-
+        
         protected override ILogicElement GetModel()
         {
             var output = (IOutput) _model;
             output.OutputSignalNum = this.OutputSignals.IndexOf(this.SelectedSignal);
-            output.ConnectionNumber = Connectors[0].ConnectionNumber;
+            output.Connectors[0] = ConnectorViewModels[0].Model;
 
             return output;
         }
@@ -66,22 +53,22 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
             this.OutputSignals.AddCollection(output.OutputSignals);
             this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
-            Connectors[0].ConnectionNumber = output.ConnectionNumber;
+            ConnectorViewModels.Clear();
+            ConnectorViewModels.Add(new ConnectorViewModel(this, _model.Connectors.First()));
         }
 
         public override object Clone()
         {
-            OutputViewModel ret =
-                new OutputViewModel(_globalCommands)
-                {
-                    Model = (this.Model as ILogicElement)?.Clone(),
-                    Caption = this.Caption
-                };
+            var ret = new OutputViewModel(_globalCommands);
+            var newModel = new Output();
+            newModel.CopyValues(_model);
+            ret.Model = newModel;
+            ret.Caption = this.Caption;
 
-            for (int i = 0; i < Connectors.Count; i++)
+            for (var i = 0; i < this.ConnectorViewModels.Count; i++)
             {
-                var connector = Connectors[i];
-                ret.Connectors.Add(new ConnectorViewModel(connector.ParentViewModel, connector.Orientation, connector.ConnectorType));
+                var sourceConnector = this.ConnectorViewModels[i].Model;
+                ret.ConnectorViewModels.Add(new ConnectorViewModel(ret, sourceConnector.Orientation, sourceConnector.Type));
             }
 
             return ret;

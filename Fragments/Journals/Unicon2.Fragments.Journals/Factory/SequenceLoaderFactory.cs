@@ -9,14 +9,14 @@ namespace Unicon2.Fragments.Journals.Factory
     public class SequenceLoaderFactory
     {
         public ISequenceLoader CreateSequenceLoader(IJournalLoadingSequence journalLoadingSequence,
-            IDataProviderContaining dataProviderContaining)
+            IDataProviderContainer dataProviderContainer)
         {
             switch (journalLoadingSequence)
             {
                 case IndexLoadingSequence indexLoadingSequence:
-                    return new IndexLoadingSequenceLoader(indexLoadingSequence, dataProviderContaining);
+                    return new IndexLoadingSequenceLoader(indexLoadingSequence, dataProviderContainer);
                 case OffsetLoadingSequence offsetLoadingSequence:
-                    return new OffsetLoadingSequenceLoader(offsetLoadingSequence, dataProviderContaining);
+                    return new OffsetLoadingSequenceLoader(offsetLoadingSequence, dataProviderContainer);
             }
 
             throw new Exception();

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -19,30 +20,30 @@ namespace Unicon2.Fragments.Programming.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
-            if (AssociatedObject.Visibility == Visibility.Collapsed) return;
+
+            if (AssociatedObject.Visibility == Visibility.Collapsed)
+                return;
 
             this._isDrag = false;
             AssociatedObject.MouseLeftButtonDown += this.OnPreviewMouseLeftButtonDown;
             AssociatedObject.MouseMove += this.OnMouseMove;
             AssociatedObject.MouseLeftButtonUp += this.OnMouseLeftButtonUp;
-            this._connectorViewModel = AssociatedObject.DataContext as ConnectorViewModel;
-            //if (this._connectorViewModel != null && this._connectorViewModel.SelfBehavior == null)
-            //    this._connectorViewModel.SetBehavior(this);
+            AssociatedObject.Loaded += this.OnBorderLoaded;
 
             this._designerCanvas = CommonHelper.GetDesignerCanvas(AssociatedObject);
-            if (this._designerCanvas != null)
-            {
-                this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
-                this.GetConnectorPoint();
-            }
+            this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
+
+            this._connectorViewModel = (ConnectorViewModel)AssociatedObject.DataContext;
         }
 
         protected override void OnDetaching()
         {
             base.OnDetaching();
+
             AssociatedObject.PreviewMouseLeftButtonDown -= this.OnPreviewMouseLeftButtonDown;
             AssociatedObject.MouseMove -= this.OnMouseMove;
             AssociatedObject.MouseLeftButtonUp -= this.OnMouseLeftButtonUp;
+            AssociatedObject.Loaded -= this.OnBorderLoaded;
         }
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
@@ -53,10 +54,10 @@ namespace Unicon2.Fragments.Programming.Behaviors
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (!this._isDrag || e.LeftButton != MouseButtonState.Pressed) return;
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
+            var adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             if (adornerLayer != null)
             {
-                ConnectorAdorner connectorAdorner = new ConnectorAdorner(this._designerCanvas, this._connectorViewModel);
+                var connectorAdorner = new ConnectorAdorner(this._designerCanvas, this._connectorViewModel);
                 adornerLayer.Add(connectorAdorner);
                 e.Handled = true;
             }
@@ -66,24 +67,32 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             if (this._tabViewModel != null)
             {
-                foreach (ILogicElementViewModel model in this._tabViewModel.ElementCollection)
+                foreach (var schemeElementViewModel in this._tabViewModel.ElementCollection.Where(ec=>ec is ILogicElementViewModel))
                 {
-                    model.IsSelected = false;
+                    var viewModel = (ILogicElementViewModel) schemeElementViewModel;
+                    viewModel.IsSelected = false;
                 }
             }
             this._isDrag = true;
-            this.GetConnectorPoint();
             e.Handled = true;
         }
-        
-        // Получение позиции точки начала линии относительно Canvas, в котором расположены все элементы
-        public void GetConnectorPoint()
+
+        private void OnBorderLoaded(object sender, RoutedEventArgs args)
         {
-            if(this._designerCanvas == null)return;
-            this._connectorViewModel.ConnectorPoint =
-                AssociatedObject.TransformToAncestor(this._designerCanvas)
-                    .Transform(new Point(AssociatedObject.Width / 2, AssociatedObject.Height / 2));
+            this.SetStartConnectorPosition();
         }
-        
+
+        private void SetStartConnectorPosition()
+        {
+            this._connectorViewModel.ConnectorPosition = this.GetConnectorPoint();
+        }
+        // Получение позиции точки начала линии относительно Canvas, в котором расположены все элементы
+        public Point GetConnectorPoint()
+        {
+            var pointInGlobalCanvas = AssociatedObject.TransformToAncestor(this._designerCanvas)
+                .Transform(new Point(AssociatedObject.Width / 2, AssociatedObject.Height / 2));
+
+            return pointInGlobalCanvas;
+        }
     }
 }

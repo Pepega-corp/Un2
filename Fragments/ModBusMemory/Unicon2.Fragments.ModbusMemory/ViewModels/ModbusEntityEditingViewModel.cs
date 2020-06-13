@@ -61,7 +61,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
         private void OnExecuteWrite(object obj)
         {
-            DataProviderContaining.DataProvider.WriteMultipleRegistersAsync(ushort.Parse(this.ModbusMemoryEntityViewModelToEdit.AdressDec), new[] { this._resultedValueUshort }, ApplicationGlobalNames.QueriesNames.WRITE_MODBUS_MEMORY_QUERY_KEY);
+            DataProviderContainer.DataProvider.WriteMultipleRegistersAsync(ushort.Parse(this.ModbusMemoryEntityViewModelToEdit.AdressDec), new[] { this._resultedValueUshort }, ApplicationGlobalNames.QueriesNames.WRITE_MODBUS_MEMORY_QUERY_KEY);
             if (obj is Window)
             {
                 ((Window)obj).Close();
@@ -144,7 +144,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
             }
         }
 
-        public IDataProviderContaining DataProviderContaining { get; set; }
+        public IDataProviderContainer DataProviderContainer { get; set; }
 
         protected override void OnValidate()
         {

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
+using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -17,39 +19,23 @@ namespace Unicon2.Fragments.Programming.ViewModels
     // Вью модель одной схемы
     public class SchemeTabViewModel : ViewModelBase, ISchemeTabViewModel
     {
+        private readonly IProgrammingViewModel _programmingViewModel;
+        private readonly ILogicElementFactory _factory;
         public const int CELL_SIZE = 5;
-        #region Events
+        private ISchemeModel _model;
         /// <summary>
         /// Событие закрытия вкладки схемы
         /// </summary>
-        public event Action CloseTabEvent;
-        #endregion
+        public event Action<ISchemeTabViewModel> CloseTabEvent;
 
-        #region Fields
-        private string _schemeName;
-        private double _schemeHeight;
-        private double _schemeWidth;
-        private double _scale;
-        #endregion
-
-        public SchemeTabViewModel(string name, Size size): this()
+        public ISchemeModel Model
         {
-            this.SchemeName = name;
-            this.SchemeHeight = size.Height;
-            this.SchemeWidth = size.Width;
+            get => this.GetModel();
+            set => this.SetModel(value);
         }
 
-        public SchemeTabViewModel()
-        {
-            this.ElementCollection = new ObservableCollection<ISchemeElement>();
+        public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-            this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
-            this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
-            this.CloseTabCommand = new RelayCommand(this.CloseTab);
-            this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
-        }
-
-        #region Properties
         /// <summary>
         /// Ссылка на поведение
         /// </summary>
@@ -57,113 +43,158 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// <summary>
         /// Список всех вью моделей эелементов, добавленных на схему
         /// </summary>
-        public ObservableCollection<ISchemeElement> ElementCollection { get; }
+        public ObservableCollection<ISchemeElementViewModel> ElementCollection { get; }
 
         public string SchemeName
         {
-            get { return this._schemeName; }
+            get { return this._model.SchemeName; }
             set
             {
-                if (this._schemeName == value) return;
-                this._schemeName = value;
+                if (this._model.SchemeName == value) return;
+                this._model.SchemeName = value;
                 RaisePropertyChanged();
             }
         }
 
-        public double SchemeHeight
-        {
-            get { return this._schemeHeight; }
-            set
-            {
-                if (Math.Abs(this._schemeHeight - value) < 0.0001) return;
-                this._schemeHeight = value;
-                RaisePropertyChanged();
-            }
-        }
+        public double SchemeHeight => this._model.SchemeHeight;
 
-        public double SchemeWidth
-        {
-            get { return this._schemeWidth; }
-            set
-            {
-                if (Math.Abs(this._schemeWidth - value) < 0.0001) return;
-                this._schemeWidth = value;
-                RaisePropertyChanged();
-            }
-        }
+        public double SchemeWidth => this._model.SchemeWidth;
 
         public double Scale
         {
-            get => this._scale;
+            get => this._model.Scale;
             set
             {
-                this._scale = value;
+                this._model.Scale = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(this.ScaleStr));
             }
         }
 
-        public string ScaleStr => $"{this._scale * 100}%";
+        public string ScaleStr => $"{this._model.Scale * 100}%";
 
-        public double RectHeight => (int) (this.SchemeHeight / this.RectY) * this.RectY- this.RectY;
+        public double RectHeight => (int)(this.SchemeHeight / this.RectY) * this.RectY - this.RectY;
 
         public double RectWidth => (int)(this.SchemeWidth / this.RectX) * this.RectX - this.RectX;
 
         public double RectX => CELL_SIZE;
-        
+
         public double RectY => CELL_SIZE;
-
-        #endregion Properties
-
-        #region ZoomCommands
         public ICommand ZoomIncrementCommand { get; }
+        public ICommand ZoomDecrementCommand { get; }
+        public ICommand CloseTabCommand { get; }
+        public ICommand DeleteCommand { get; }
+
+        public SchemeTabViewModel(ISchemeModel model, IProgrammingViewModel programmingViewModel, ILogicElementFactory factory) : this(factory)
+        {
+            this._programmingViewModel = programmingViewModel;
+            this._model = model;
+        }
+
+        private SchemeTabViewModel(ILogicElementFactory factory)
+        {
+            this._factory = factory;
+            this.ElementCollection = new ObservableCollection<ISchemeElementViewModel>();
+            this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
+            this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
+            this.CloseTabCommand = new RelayCommand(this.CloseTab);
+            this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
+        }
+
+        private ISchemeModel GetModel()
+        {
+            var logicElementViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel)
+                .Cast<ILogicElementViewModel>().ToArray();
+            this._model.LogicElements = logicElementViewModels.Select(lvm => lvm.Model).ToArray();
+
+            var connectionsViewModels = this.ElementCollection.Where(ec => ec is IConnectionViewModel)
+                .Cast<IConnectionViewModel>().ToArray();
+            this._model.ConnectionNumbers = connectionsViewModels.Select(c => c.ConnectionNumber).ToArray();
+
+            return this._model;
+        }
+
+        private void SetModel(ISchemeModel objModel)
+        {
+            this._model = objModel;
+            var logicElementsViewModels = this._factory.GetAllElementsViewModels(this._model.LogicElements);
+            this.ElementCollection.Clear();
+            this.ElementCollection.AddCollection(logicElementsViewModels);
+        }
+
+        public void AddConnectionToProgramm(IConnectionViewModel connectionViewModel)
+        {
+            this._programmingViewModel.AddConnection(connectionViewModel);
+        }
+
+        public int GetNextConnectionNumber()
+        {
+            return this._programmingViewModel.GetNewConnectionNumber();
+        }
 
         private void IncrementZoom()
         {
             this.SelfBehavior.IncrementZoom();
         }
-
-        public ICommand ZoomDecrementCommand { get; }
-
+        
         private void DecrementZoom()
         {
             this.SelfBehavior.DecrementZoom();
         }
-        #endregion
-
-        #region CloseTabCommand
-        public ICommand CloseTabCommand { get; }
 
         private void CloseTab()
         {
-            this.CloseTabEvent?.Invoke();
+            this.CloseTabEvent?.Invoke(this);
         }
-        #endregion
 
-        #region DeleteCommand
-        public ICommand DeleteCommand { get; }
+        private void DeleteSelectedElements()
+        {
+            RemoveSelectedConnection();
 
-        public void DeleteSelectedElements()
+            RemoveSelectedElements();
+
+            OnSelectChanged();
+        }
+
+        private void RemoveSelectedConnection()
         {
             var selectedConnections = this.ElementCollection.Where(e => e is IConnectionViewModel && e.IsSelected).Cast<IConnectionViewModel>().ToList();
-            foreach (IConnectionViewModel connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
+            foreach (var connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
             {
-                ConnectionViewModel.RemoveConnectionWithNumber(connectionViewModel);
+                connectionViewModel.SourceConnector.Connection = null;
+                foreach(var sink in connectionViewModel.SinkConnectors)
+                {
+                    sink.Connection = null;
+                }
+
+                this._programmingViewModel.RemoveConnection(connectionViewModel);
                 this.ElementCollection.Remove(connectionViewModel);
             }
+        }
 
-            var selectedElements = this.ElementCollection.Where(e =>e is ILogicElementViewModel && e.IsSelected).Cast<ILogicElementViewModel>().ToList();
-            foreach (ILogicElementViewModel element in selectedElements)
+        private void RemoveSelectedElements()
+        {
+            var selectedElements = this.ElementCollection.Where(e => e is ILogicElementViewModel && e.IsSelected).Cast<ILogicElementViewModel>().ToList();
+            foreach (var element in selectedElements)
             {
                 var removingConnections = new List<IConnectionViewModel>();
-                var connectedConnectors = element.Connectors.Where(c => c.Connected && c.Connections.Count != 0).ToList();
+                var connectedConnectors = element.ConnectorViewModels.Where(c => c.Connected).ToList();
                 foreach (var connector in connectedConnectors)
                 {
-                    removingConnections.AddRange(connector.Connections);
+                    if (!removingConnections.Contains(connector.Connection))
+                    {
+                        removingConnections.Add(connector.Connection);
+                    }
                 }
                 foreach (var removingConnection in removingConnections)
                 {
-                    ConnectionViewModel.RemoveConnectionWithNumber(removingConnection);
+                    removingConnection.SourceConnector.Connection = null;
+                    foreach (var sink in removingConnection.SinkConnectors)
+                    {
+                        sink.Connection = null;
+                    }
+
+                    this._programmingViewModel.RemoveConnection(removingConnection);
                     if (this.ElementCollection.Contains(removingConnection))
                     {
                         this.ElementCollection.Remove(removingConnection);
@@ -173,16 +204,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public bool CanDelete()
+        private bool CanDelete()
         {
-            List<ISchemeElement> selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
+            var selectedElements = this.ElementCollection.Where(e => e.IsSelected).ToList();
             return selectedElements.Count > 0;
         }
-        #endregion
 
-        #region IFragmentViewModel
-        public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-        public object Model { get; set; }
-        #endregion IFragmentViewModel
+        public void OnSelectChanged()
+        {
+            (DeleteCommand as RelayCommand)?.RaiseCanExecuteChanged();
+        }
     }
 }

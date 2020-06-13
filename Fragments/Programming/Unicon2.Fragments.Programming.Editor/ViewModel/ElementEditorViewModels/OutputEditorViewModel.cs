@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 {
     public class OutputEditorViewModel : ViewModelBase, IOutputEditorViewModel
     {
-        private IOutput _model;
+        private IOutputEditor _model;
         private EditableListItem _selectedOutputSignal;
 
         public string ElementName => "Выход";
@@ -25,7 +25,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public object Model
         {
-            get { return GetModel(); }
+            get { return this.GetModel(); }
             set { this.SetModel(value); }
         }
 
@@ -71,7 +71,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         private void SetModel(object value)
         {
-            if (!(value is IOutput model))
+            if (!(value is IOutputEditor model))
             {
                 return;
             }
@@ -122,8 +122,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public object Clone()
         {
-            OutputEditorViewModel clone = new OutputEditorViewModel {Model = this._model.Clone()};
-            return clone;
+            return new OutputEditorViewModel();
         }
     }
 }

@@ -17,17 +17,17 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
     public class JournalLoader
     {
         private readonly IUniconJournalViewModel _uniconJournalViewModel;
-        private readonly IDataProviderContaining _dataProviderContaining;
+        private readonly IDataProviderContainer _dataProviderContainer;
         private readonly IUniconJournal _uniconJournal;
         private readonly IJournalRecordFactory _journalRecordFactory;
         private readonly IValueViewModelFactory _valueViewModelFactory;
 
 
         public JournalLoader(IUniconJournalViewModel uniconJournalViewModel,
-            IDataProviderContaining dataProviderContaining, IUniconJournal uniconJournal)
+            IDataProviderContainer dataProviderContainer, IUniconJournal uniconJournal)
         {
             _uniconJournalViewModel = uniconJournalViewModel;
-            _dataProviderContaining = dataProviderContaining;
+            _dataProviderContainer = dataProviderContainer;
             _uniconJournal = uniconJournal;
             _journalRecordFactory = StaticContainer.Container.Resolve<IJournalRecordFactory>();
             _valueViewModelFactory = StaticContainer.Container.Resolve<IValueViewModelFactory>();
@@ -51,7 +51,7 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
             _uniconJournal.JournalRecords.Clear();
             var sequenceLoader =
                 new SequenceLoaderFactory().CreateSequenceLoader(_uniconJournal.JournalLoadingSequence,
-                    _dataProviderContaining);
+                    _dataProviderContainer);
             while (sequenceLoader.GetIsNextRecordAvailable())
             {
                 var recordValues = await sequenceLoader.GetNextRecordUshorts();

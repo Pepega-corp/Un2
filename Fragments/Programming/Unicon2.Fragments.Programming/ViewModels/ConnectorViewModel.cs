@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
@@ -10,81 +8,62 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
-    public class ConnectorViewModel : ViewModelBase, IConnectorViewModel, IDisposable
+    public class ConnectorViewModel : ViewModelBase, IConnectorViewModel
     {
         private bool _isDragConnection;
-        private bool _connected;
-        private Point _connPoint;
         private string _symbol;
+        private IConnector _modelConnector;
+        private IConnectionViewModel _connectionViewModel;
+
+        public event Action<Point> ConnectorPositionChanged;
+
+        public ConnectorViewModel(ILogicElementViewModel parent, IConnector model)
+        {
+            this.ParentViewModel = parent;
+            this._modelConnector = model;
+            this.IsDragConnection = false;
+            this._symbol = string.Empty;
+        }
 
         public ConnectorViewModel(ILogicElementViewModel parent, ConnectorOrientation orientation, ConnectorType type)
         {
             this.ParentViewModel = parent;
-            this.Connected = false;
-            this.Connector = new Connector(orientation, type);
+            this._modelConnector = new Connector(orientation, type);
             this.IsDragConnection = false;
             this._symbol = string.Empty;
-            this.Connections = new ObservableCollection<IConnectionViewModel>();
-            this.Connections.CollectionChanged += this.ConnectionsOnCollectionChanged;
         }
-
-        public ConnectorViewModel(ILogicElementViewModel parent, ConnectorOrientation orientation, ConnectorType type, string symbol) : this(parent, orientation, type)
-        {
-            this.Symbol = symbol;
-        }
-
-        public ConnectorViewModel(ILogicElementViewModel newParent, IConnectorViewModel copied)
-        {
-            this.CopyWithoutConnection(newParent, copied);
-            this.Connections = new ObservableCollection<IConnectionViewModel>();
-            this.Connections.CollectionChanged += this.ConnectionsOnCollectionChanged;
-        }
-
-        public void Dispose()
-        {
-            this.Connections.CollectionChanged -= this.ConnectionsOnCollectionChanged;
-        }
-
+       
         /// <summary>
         /// Точка расположения коннектора в DesignerCanvas
         /// </summary>
-        public Point ConnectorPoint
+        public Point ConnectorPosition
         {
-            get { return this._connPoint; }
+            get { return this._modelConnector.ConnectorPosition; }
             set
             {
-                if (this._connPoint == value) return;
-                this._connPoint = value;
+                this._modelConnector.ConnectorPosition = value;
                 RaisePropertyChanged();
+                ConnectorPositionChanged?.Invoke(this._modelConnector.ConnectorPosition);
             }
         }
 
-        public ILogicElementViewModel ParentViewModel { get; private set; }
-
-        public ObservableCollection<IConnectionViewModel> Connections { get; }
-
-        private IConnector _connector;
-        public IConnector Connector
+        public ILogicElementViewModel ParentViewModel { get; }
+        
+        public IConnector Model
         {
-            get { return this._connector; }
-            set
-            {
-                if (value == null || this._connector != null && this._connector.Equals(value)) return;
-                this._connector = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(this.ConnectorType));
-            }
+            get => GetModel();
+            set => SetModel(value);
         }
         /// <summary>
         /// Тип вывода: прямой или инверсный
         /// </summary>
         public ConnectorType ConnectorType
         {
-            get { return this.Connector.Type; }
+            get { return this.Model.Type; }
             set
             {
-                if (this.Connector.Type == value) return;
-                this.Connector.Type = value;
+                if (this.Model.Type == value) return;
+                this.Model.Type = value;
                 RaisePropertyChanged();
             }
         }
@@ -94,37 +73,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// </summary>
         public ConnectorOrientation Orientation
         {
-            get { return this.Connector.Orientation; }
+            get { return this.Model.Orientation; }
         }
-        /// <summary>
-        /// Номер связи
-        /// </summary>
-        public int ConnectionNumber
-        {
-            get { return this.Connector.ConnectionNumber; }
-            set
-            {
-                if (this.Connector.ConnectionNumber == value) return;
-                this.Connector.ConnectionNumber = value;
-                if (this.Connector.ConnectionNumber == -1 && this.Connections.Count > 0)
-                {
-                    foreach (var connection in this.Connections)
-                    {
-                        if (connection.Sink.Equals(this))
-                        {
-                            connection.Sink = null;
-                        }
-                        else
-                        {
-                            connection.Source = null;
-                        }
-                    }
-                    this.Connections.Clear();
-                }
-                RaisePropertyChanged(nameof(this.Connected));
-            }
-        }
-
+       
         /// <summary>
         /// Флаг того,что в процессе соединения линией двух коннекторов,
         /// данный вывод находится в допустимом радиусе для соединения 
@@ -140,35 +91,32 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
+
+        public IConnectionViewModel Connection
+        {
+            get => this._connectionViewModel;
+            set
+            {
+                if(this._connectionViewModel == value)
+                    return;
+
+                this._connectionViewModel = value;
+
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(this.Connected));
+
+                _modelConnector.ConnectionNumber = _connectionViewModel == null ? -1 : _connectionViewModel.ConnectionNumber;
+                RaisePropertyChanged(nameof(this.ConnectionNumber));
+            }
+        }
+
+        public int ConnectionNumber => _modelConnector.ConnectionNumber;
+
         /// <summary>
         /// Флаг того, что вывод подключен
         /// </summary>
-        public bool Connected
-        {
-            get { return this._connected; }
-            set
-            {
-                if (this._connected == value) return;
-                this._connected = value;
-                if (!this._connected)
-                {
-                    foreach (var connection in this.Connections)
-                    {
-                        if (connection.Sink.Equals(this))
-                        {
-                            connection.Sink = null;
-                        }
-                        else
-                        {
-                            connection.Source = null;
-                        }
-                    }
-                    this.Connections.Clear();
-                    this.Connector.ConnectionNumber = -1;
-                }
-                RaisePropertyChanged();
-            }
-        }
+        public bool Connected => this._connectionViewModel != null;
+
         /// <summary>
         /// Символ-подпись вывода
         /// </summary>
@@ -183,22 +131,30 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        private void ConnectionsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        private IConnector GetModel()
         {
-            this.Connected = this.Connections.Count > 0;
+            this._modelConnector.ConnectionNumber = this.ConnectionNumber;
+            return this._modelConnector;
         }
 
-        /// <summary>
-        /// Копирование общих свойств вывода, без информации о подключении и линии связи
-        /// </summary>
-        /// <param name="parent">Элемент, в котором находится данный вывод</param>
-        /// <param name="cvm">Копируемый объект вывода</param>
-        public void CopyWithoutConnection(ILogicElementViewModel parent, IConnectorViewModel cvm)
+        private void SetModel(IConnector model)
         {
-            this.ParentViewModel = parent;
-            this.Connector = new Connector(cvm.Connector.Orientation, cvm.Connector.Type);
-            this.IsDragConnection = false;
-            this.Symbol = cvm.Symbol;
+            if (model == null)
+                return;
+            
+            this._modelConnector.ConnectorPosition = model.ConnectorPosition;
+            RaisePropertyChanged(nameof(ConnectorPosition));
+
+            _modelConnector.Type = model.Type;
+            RaisePropertyChanged(nameof(this.ConnectorType));
+        }
+
+        public void UpdateConnectorPosition(Point deltaPosition)
+        {
+            var position = this.ConnectorPosition;
+            position.X += deltaPosition.X;
+            position.Y += deltaPosition.Y;
+            this.ConnectorPosition = position;
         }
     }
 }

@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using Unicon2.Fragments.Programming.Infrastructure;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
+using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
@@ -10,32 +15,31 @@ namespace Unicon2.Fragments.Programming.Model.Elements
     public class Output : IOutput
     {
         private const int BIN_SIZE = 3;
-        private const int DEFAULT_SIZE = 32;
 
+        [DataMember]
+        public IConnector[] Connectors { get; set; }
         [DataMember]
         public List<string> OutputSignals { get; set; }
         [DataMember]
         public int OutputSignalNum { get; set; }
         [DataMember]
-        public int ConnectionNumber { get; set; }
-
-        public string Name { get; set; }
+        public double X { get; set; }
+        [DataMember]
+        public double Y { get; set; }
+        public ElementType ElementType => ElementType.Out;
+        public string Name => this.ElementType.ToString();
+        public Functional Functional => Functional.BOOLEAN;
+        public Group Group => Group.INPUT_OUTPUT;
+        public int BinSize => BIN_SIZE;
 
         public Output()
         {
-            this.Functional = Functional.BOOLEAN;
-            this.Group = Group.INPUT_OUTPUT;
-
             this.OutputSignals = new List<string>();
-            for (int i = 0; i < DEFAULT_SIZE; i++)
-            {
-                this.OutputSignals.Add($"ССЛ{i + 1}");
-            }
+            this.Connectors = new IConnector[] {new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
         }
 
-        private Output(Output cloneable)
+        private Output(Output cloneable):this()
         {
-            this.OutputSignals = new List<string>();
             this.CopyValues(cloneable);
         }
 
@@ -45,41 +49,47 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             {
                 throw new ArgumentException("Copied source is not " + typeof(Output));
             }
-
-            this.Name = outputSource.Name;
-            this.Functional = outputSource.Functional;
-            this.Group = outputSource.Group;
-
+            
             this.OutputSignals.Clear();
             this.OutputSignals.AddRange(outputSource.OutputSignals);
+
+            //this.Connectors = new IConnector[outputSource.Connectors.Length];
+            //for (int i = 0; i < outputSource.Connectors.Length; i++)
+            //{
+            //    var connector = outputSource.Connectors[i];
+            //    this.Connectors[i] = new Connector(connector.Orientation, connector.Type);
+            //    this.Connectors[i].ConnectionNumber = connector.ConnectionNumber;
+            //}
         }
 
-        public Functional Functional { get; private set; }
-        public Group Group { get; private set; }
-        public int BinSize => BIN_SIZE;
+        public void CopyValues(ILibraryElement source)
+        {
+            if (!(source is IOutputEditor outputEditor))
+            {
+                throw new ArgumentException("Copied source is not " + typeof(IOutputEditor));
+            }
+
+            this.OutputSignals.Clear();
+            this.OutputSignals.AddRange(outputEditor.OutputSignals);
+        }
 
         public ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
             bindata[0] = 5;
             bindata[1] = (ushort)this.OutputSignalNum;
-            bindata[2] = (ushort)this.ConnectionNumber;
+            bindata[2] = (ushort)this.Connectors.First().ConnectionNumber;
             return bindata;
         }
 
         public void BinProgrammToProperty(ushort[] bin)
         {
             this.OutputSignalNum = bin[1];
-            this.ConnectionNumber = bin[2];
+            this.Connectors[0].ConnectionNumber = bin[2];
         }
 
         #region IStronglyName
         public string StrongName => ProgrammingKeys.OUTPUT;
         #endregion
-
-        public object Clone()
-        {
-            return new Output(this);
-        }
     }
 }

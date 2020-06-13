@@ -38,6 +38,9 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -48,6 +51,7 @@
       <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -64,10 +68,12 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="DesignerCanvasItemsControl.cs" />
     <Compile Include="DragElement.cs" />
+    <Compile Include="Model\Connection.cs" />
     <Compile Include="Model\Connector.cs" />
     <Compile Include="Model\Elements\Input.cs" />
     <Compile Include="Model\Elements\Output.cs" />
-    <Compile Include="Model\ProgrammModel.cs" />
+    <Compile Include="Model\ProgramModel.cs" />
+    <Compile Include="Model\SchemeModel.cs" />
     <Compile Include="Module\ProgrammingModule.cs" />
     <Compile Include="PathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,6 +201,8 @@
   <ItemGroup>
     <Resource Include="Resources\DeleteUnavalible.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\compileanddownload.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

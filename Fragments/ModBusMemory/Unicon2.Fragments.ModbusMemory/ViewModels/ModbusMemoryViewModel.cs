@@ -53,7 +53,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			ModbusMemorySettingsViewModel = modbusMemorySettingsViewModel;
 			ExecuteOneQueryCommand = new RelayCommand(async () =>
 			{
-				if (DeviceContext.DataProviderContaining == null) return;
+				if (DeviceContext.DataProviderContainer == null) return;
 				await OnExecuteOneQuery();
 			});
 			EditEntityCommand = new RelayCommand<IModbusMemoryEntityViewModel>(OnExecuteEditEntity);
@@ -65,7 +65,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 		private async void OnSetFalseBitExecute(object obj)
 		{
 			IMemoryBitViewModel memoryBitViewModel = obj as IMemoryBitViewModel;
-			await DeviceContext.DataProviderContaining.DataProvider.WriteSingleCoilAsync(memoryBitViewModel.Address, false,
+			await DeviceContext.DataProviderContainer.DataProvider.WriteSingleCoilAsync(memoryBitViewModel.Address, false,
 				ApplicationGlobalNames.QueriesNames.WRITE_MODBUS_MEMORY_QUERY_KEY);
 			await OnExecuteOneQuery();
 		}
@@ -73,7 +73,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 		private async void OnSetTrueBitExecute(object obj)
 		{
 			IMemoryBitViewModel memoryBitViewModel = obj as IMemoryBitViewModel;
-			await DeviceContext.DataProviderContaining.DataProvider.WriteSingleCoilAsync(memoryBitViewModel.Address, true,
+			await DeviceContext.DataProviderContainer.DataProvider.WriteSingleCoilAsync(memoryBitViewModel.Address, true,
 				ApplicationGlobalNames.QueriesNames.WRITE_MODBUS_MEMORY_QUERY_KEY);
 			await OnExecuteOneQuery();
 		}
@@ -83,7 +83,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
 			IModbusEntityEditingViewModel modbusEntityEditingViewModel =
 				_container.Resolve<IModbusEntityEditingViewModel>();
-			modbusEntityEditingViewModel.DataProviderContaining = DeviceContext.DataProviderContaining;
+			modbusEntityEditingViewModel.DataProviderContainer = DeviceContext.DataProviderContainer;
 			modbusEntityEditingViewModel.SetEntity(modbusMemoryEntityViewModel.Clone() as IModbusMemoryEntityViewModel);
 			_applicationGlobalCommands.ShowWindowModal(() => new ModbusEntityEditingView(),
 				modbusEntityEditingViewModel);
@@ -186,7 +186,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			get { return _isQueriesStarted; }
 			set
 			{
-				if (DeviceContext.DataProviderContaining.DataProvider == null) return;
+				if (DeviceContext.DataProviderContainer.DataProvider == null) return;
 				_isQueriesStarted = value;
 				if (value)
 				{
@@ -235,7 +235,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			IModbusMemorySettings modbusMemorySettings = _modbusMemorySettingsViewModel.GetModbusMemorySettings();
 			if (modbusMemorySettings.IsDiscretOption)
 			{
-				IQueryResult<bool[]> queryResult = await DeviceContext.DataProviderContaining.DataProvider.ReadCoilStatusAsync(
+				IQueryResult<bool[]> queryResult = await DeviceContext.DataProviderContainer.DataProvider.ReadCoilStatusAsync(
 					(ushort) modbusMemorySettings.BaseAdress,
 					ApplicationGlobalNames.QueriesNames.MODBUS_MEMORY_QUERY_KEY,
 					(ushort) (modbusMemorySettings.NumberOfPoints * 16));
@@ -243,7 +243,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			}
 			else
 			{
-				IQueryResult<ushort[]> queryResult = await DeviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
+				IQueryResult<ushort[]> queryResult = await DeviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
 					(ushort) modbusMemorySettings.BaseAdress,
 					(ushort) modbusMemorySettings.NumberOfPoints,
 					ApplicationGlobalNames.QueriesNames.MODBUS_MEMORY_QUERY_KEY);
@@ -257,7 +257,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			{
 				if (IsQueriesStarted)
 				{
-					if (!DeviceContext.DataProviderContaining.DataProvider.LastQuerySucceed)
+					if (!DeviceContext.DataProviderContainer.DataProvider.LastQuerySucceed)
 					{
 						IsQueriesStarted = false;
 						QueriesError = "Последний запрос не успешен!"; // Мои изменения

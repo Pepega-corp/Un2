@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces;
 
 namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping

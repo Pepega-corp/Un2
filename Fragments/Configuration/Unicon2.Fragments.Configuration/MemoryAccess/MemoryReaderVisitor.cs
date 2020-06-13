@@ -51,7 +51,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
-                    return ReadRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo,
+                    return ReadRange(_deviceContext.DataProviderContainer.DataProvider, rangeFrom, rangeTo,
                         _deviceContext.DeviceMemory);
                 };
 
@@ -90,7 +90,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task VisitProperty(IProperty property)
         {
-	        await ReadRange(_deviceContext.DataProviderContaining.DataProvider, (ushort) (property.Address + _offset),
+	        await ReadRange(_deviceContext.DataProviderContainer.DataProvider, (ushort) (property.Address + _offset),
 		        (ushort) (property.Address
 		                  + _offset + property.NumberOfPoints), _deviceContext.DeviceMemory);
         }

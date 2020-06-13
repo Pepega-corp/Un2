@@ -18,6 +18,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         {
             this._sourceViewModel = sourceViewModel;
             this.EditableEditorViewModel = (ILogicElementEditorViewModel)this._sourceViewModel.Clone();
+            this.EditableEditorViewModel.Model = this._sourceViewModel.Model;
 
             this.OkCommand = new RelayCommand<Window>(this.OnOkCommand);
             this.CancelCommand = new RelayCommand<Window>(this.OnCloseCommand);

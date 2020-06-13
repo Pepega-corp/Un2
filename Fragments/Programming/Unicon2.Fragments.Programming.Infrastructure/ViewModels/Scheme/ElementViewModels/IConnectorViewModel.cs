@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
@@ -6,15 +6,19 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
 {
     public interface IConnectorViewModel
     {
-        string Symbol {get;}
+        event Action<Point> ConnectorPositionChanged;
 
-        Point ConnectorPoint { get; set; }
-        ILogicElementViewModel ParentViewModel { get; }
-        ObservableCollection<IConnectionViewModel> Connections { get; }
-        IConnector Connector { get; }
+        IConnector Model { get; set; }
         ConnectorType ConnectorType { get; set; }
         ConnectorOrientation Orientation { get; }
-        int ConnectionNumber { get; set; }
-        bool Connected { get; set; }
+        string Symbol {get;}
+        Point ConnectorPosition { get; set; }
+        ILogicElementViewModel ParentViewModel { get; }
+
+        IConnectionViewModel Connection { get; set; }
+        int ConnectionNumber { get; }
+        bool Connected { get; }
+
+        void UpdateConnectorPosition(Point deltaPosition);
     }
 }

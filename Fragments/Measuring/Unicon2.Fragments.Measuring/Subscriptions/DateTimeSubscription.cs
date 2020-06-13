@@ -29,7 +29,7 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
         public async Task Execute()
         {
-            var res = await this._deviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
+            var res = await this._deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
                 this._dateTimeMeasuringElement.StartAddress, 16, "Read datetime");
             if (res.IsSuccessful)
             {

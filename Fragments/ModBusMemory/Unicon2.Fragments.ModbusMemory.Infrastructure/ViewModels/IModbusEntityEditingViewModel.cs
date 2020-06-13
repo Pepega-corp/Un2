@@ -13,7 +13,7 @@ namespace Unicon2.Fragments.ModbusMemory.Infrastructure.ViewModels
 
       string ValueHex { get; set; }
         string ValueDec { get; set; }
-        IDataProviderContaining DataProviderContaining { get; set; }
+        IDataProviderContainer DataProviderContainer { get; set; }
 
 	}
 

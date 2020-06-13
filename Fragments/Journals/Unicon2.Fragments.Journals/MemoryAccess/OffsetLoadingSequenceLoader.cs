@@ -9,13 +9,13 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
     public class OffsetLoadingSequenceLoader : ISequenceLoader
     {
         private readonly OffsetLoadingSequence _offsetLoadingSequence;
-        private readonly IDataProviderContaining _dataProviderContaining;
+        private readonly IDataProviderContainer _dataProviderContainer;
 
         public OffsetLoadingSequenceLoader(OffsetLoadingSequence offsetLoadingSequence,
-            IDataProviderContaining dataProviderContaining)
+            IDataProviderContainer dataProviderContainer)
         {
             _offsetLoadingSequence = offsetLoadingSequence;
-            _dataProviderContaining = dataProviderContaining;
+            _dataProviderContainer = dataProviderContainer;
         }
 
         private int _currentRecordIndex = 0;
@@ -34,7 +34,7 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
             if (_offsetLoadingSequence.IsWordFormatNotForTheWholeRecord)
                 readingAddress += _offsetLoadingSequence.WordFormatFrom;
 
-            IQueryResult<ushort[]> queryResult = await _dataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
+            IQueryResult<ushort[]> queryResult = await _dataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
                 readingAddress,
                 (ushort) (_offsetLoadingSequence.WordFormatTo - _offsetLoadingSequence.WordFormatFrom),
                 JournalKeys.JOURNAL_RECORD_READING_QUERY);

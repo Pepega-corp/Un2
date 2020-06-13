@@ -35,7 +35,7 @@ namespace Unicon2.Fragments.Measuring.Commands
         {
             if (this._controlSignal.WritingValueContext.NumberOfFunction == 5)
             {
-                var result = await this._deviceContext.DataProviderContaining.DataProvider.WriteSingleCoilAsync(
+                var result = await this._deviceContext.DataProviderContainer.DataProvider.WriteSingleCoilAsync(
                     _controlSignal.WritingValueContext.Address,
                     this._controlSignal.WritingValueContext.ValueToWrite == 1,
                     "Write control signal" + this._controlSignal.Name);

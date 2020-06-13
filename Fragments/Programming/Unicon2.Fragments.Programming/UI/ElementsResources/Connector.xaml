@@ -6,7 +6,7 @@
     xmlns:vm="clr-namespace:Unicon2.Fragments.Programming.ViewModels">
     <!--  CONNECTOR DATATYPE  -->
     <DataTemplate DataType="{x:Type vm:ConnectorViewModel}">
-        <Canvas Width="5">
+        <Canvas Name="ConnectorCanvas" Width="5">
             <Line
                 Canvas.Top="-0.5"
                 SnapsToDevicePixels="True"
@@ -49,6 +49,7 @@
             </Path>
             <Border
                 Name="RightArea"
+                Canvas.Left="0"
                 Canvas.Top="-5"
                 Width="10"
                 Height="10"
@@ -143,12 +144,12 @@
                 <Setter TargetName="LeftCross" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="RightCross" Property="Visibility" Value="Collapsed" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Connector.Orientation}" Value="LEFT">
+            <DataTrigger Binding="{Binding Model.Orientation}" Value="LEFT">
                 <Setter TargetName="RightCross" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="LeftConnectorType" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="RightArea" Property="Visibility" Value="Collapsed" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Connector.Orientation}" Value="RIGHT">
+            <DataTrigger Binding="{Binding Model.Orientation}" Value="RIGHT">
                 <Setter TargetName="LeftCross" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="RightConnectorType" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="LeftArea" Property="Visibility" Value="Collapsed" />
@@ -161,7 +162,7 @@
             </Trigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Connector.Orientation}" Value="LEFT" />
+                    <Condition Binding="{Binding Model.Orientation}" Value="LEFT" />
                     <Condition Binding="{Binding IsDragConnection}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
@@ -170,7 +171,7 @@
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Connector.Orientation}" Value="RIGHT" />
+                    <Condition Binding="{Binding Model.Orientation}" Value="RIGHT" />
                     <Condition Binding="{Binding IsDragConnection}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
@@ -180,7 +181,7 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Connector.Orientation}" Value="LEFT" />
+                    <Condition Binding="{Binding Model.Orientation}" Value="LEFT" />
                     <Condition Binding="{Binding Connected}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>

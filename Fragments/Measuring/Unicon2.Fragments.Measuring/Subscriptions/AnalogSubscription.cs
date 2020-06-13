@@ -59,7 +59,7 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
             }
             else
             {
-                var res = await _deviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
+                var res = await _deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
                     this.AnalogMeasuringElement.Address, this.AnalogMeasuringElement.NumberOfPoints,
                     "Read analog: " + this.AnalogMeasuringElement.Name);
                 if (res.IsSuccessful)

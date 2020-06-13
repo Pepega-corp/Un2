@@ -20,8 +20,8 @@
                 UseLayoutRounding="True" />
             <Path
                 Name="Arrow"
-                Canvas.Left="{Binding Sink.ConnectorPoint.X}"
-                Canvas.Top="{Binding Sink.ConnectorPoint.Y}"
+                Canvas.Left="{Binding SinkConnectors[0].ConnectorPosition.X}"
+                Canvas.Top="{Binding SinkConnectors[0].ConnectorPosition.Y}"
                 Data="M-0.5,0 L-0.5,-3 2.5,0 -0.5,3 Z"
                 Fill="Black"
                 IsHitTestVisible="False"
@@ -36,8 +36,8 @@
             </Path>
             <Ellipse
                 Name="AreaArrow"
-                Canvas.Left="{Binding Sink.ConnectorPoint.X}"
-                Canvas.Top="{Binding Sink.ConnectorPoint.Y}"
+                Canvas.Left="{Binding SinkConnectors[0].ConnectorPosition.X}"
+                Canvas.Top="{Binding SinkConnectors[0].ConnectorPosition.Y}"
                 Width="10"
                 Height="10"
                 Fill="Transparent"

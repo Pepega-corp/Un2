@@ -37,7 +37,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void OnOkCommand(Window window)
         {
-            this._sourceViewModel.Model = this._editableViewModel.Model;
+            this._sourceViewModel.Model.CopyValues(this._editableViewModel.Model);
 
             window?.Close();
         }

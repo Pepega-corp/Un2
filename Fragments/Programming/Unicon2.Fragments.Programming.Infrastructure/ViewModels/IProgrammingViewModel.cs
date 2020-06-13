@@ -6,15 +6,19 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels
 {
-    public interface IProgrammingViewModel: IFragmentViewModel
+    public interface IProgrammingViewModel: IFragmentViewModel, IDeviceContextConsumer
     {
         ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
-        ObservableCollection<ILogicElementViewModel> ElementCollection { get; }
+        ObservableCollection<IConnectionViewModel> ConnectionCollection { get; }
+        void AddConnection(IConnectionViewModel connectionViewModel);
+        void RemoveConnection(IConnectionViewModel connectionViewModel);
+        int GetNewConnectionNumber();
 
         int SelectedTabIndex { get; set; }
 
         ICommand NewSchemeCommand { get; }
-        ICommand CloseTabCommand { get; }
+        ICommand SaveProjectCommand { get; }
+        ICommand LoadProjectCommand { get; }
         ICommand DeleteCommand { get; }
         ICommand ZoomIncrementCommand { get; }
         ICommand ZoomDecrementCommand { get; }

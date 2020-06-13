@@ -137,7 +137,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	        {
 	            if (!memoryDictionaryUshort.ContainsKey(addressUshort))
 	            {
-	                var res = await _deviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
+	                var res = await _deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
 	                    addressUshort, 1, "Read measuring");
 	                if (res.IsSuccessful)
 	                {
@@ -152,7 +152,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	            {
 	                if (!memoryDictionaryBit.ContainsKey(addressUshort))
 	                {
-	                    var res = await _deviceContext.DataProviderContaining.DataProvider.ReadCoilStatusAsync(
+	                    var res = await _deviceContext.DataProviderContainer.DataProvider.ReadCoilStatusAsync(
 	                        addressUshort, "Read measuring");
 	                    if (res.IsSuccessful)
 	                    {
@@ -212,7 +212,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 		{
 			if (addressesToLoadFun3.Any(arg => rangeFrom <= arg && rangeTo >= arg))
 			{
-				var res = await _deviceContext.DataProviderContaining.DataProvider.ReadHoldingResgistersAsync(rangeFrom,
+				var res = await _deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(rangeFrom,
 					(ushort) (rangeTo - rangeFrom), "Read measuring");
 				if (res.IsSuccessful)
 				{
@@ -241,7 +241,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 		//	if ((descretMeasuringElement.AddressOfBit.NumberOfFunction == 3) || (descretMeasuringElement.AddressOfBit.NumberOfFunction == 4))
 		//	{
 		//		IQueryResult<ushort[]> queryResult =
-		//			await _dataProviderContaining.DataProvider.ReadHoldingResgistersAsync(descretMeasuringElement.AddressOfBit.Address, 1, "Read");
+		//			await _dataProviderContainer.DataProvider.ReadHoldingResgistersAsync(descretMeasuringElement.AddressOfBit.Address, 1, "Read");
 		//		if (queryResult.IsSuccessful)
 		//		{
 		//			_deviceEventsDispatcher.

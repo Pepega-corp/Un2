@@ -62,15 +62,15 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
                     break;
                 case IComplexProperty complexProperty:
-					await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, (ushort)(complexProperty.Address + offset),
+					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider, (ushort)(complexProperty.Address + offset),
 						(ushort)(complexProperty.Address + complexProperty.NumberOfPoints + offset), _deviceContext.DeviceMemory);
 					break;
 				case IDependentProperty dependentProperty:
-					await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, (ushort)(dependentProperty.Address + offset),
+					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider, (ushort)(dependentProperty.Address + offset),
 						(ushort)(dependentProperty.Address + dependentProperty.NumberOfPoints + offset), _deviceContext.DeviceMemory);
 					break;
 				case IProperty property:
-					await ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, (ushort)(property.Address + offset),
+					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider, (ushort)(property.Address + offset),
                         (ushort) (property.Address + property.NumberOfPoints + offset), _deviceContext.DeviceMemory);
                     break;
                
@@ -105,7 +105,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
-                    return ProcessAddressRange(_deviceContext.DataProviderContaining.DataProvider, rangeFrom, rangeTo,
+                    return ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider, rangeFrom, rangeTo,
                         _deviceContext.DeviceMemory);
                 };
 

@@ -2,7 +2,7 @@
 
 namespace Unicon2.Infrastructure.Interfaces
 {
-    public interface IDataProviderContaining
+    public interface IDataProviderContainer
     {
         IDataProvider DataProvider { get; set; }
     }

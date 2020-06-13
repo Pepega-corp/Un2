@@ -118,7 +118,7 @@
     <Compile Include="Interfaces\EditOperations\IDeletable.cs" />
     <Compile Include="Interfaces\EditOperations\IEditable.cs" />
     <Compile Include="Interfaces\IConnectable.cs" />
-    <Compile Include="Interfaces\IDataProviderContaining.cs" />
+    <Compile Include="Interfaces\IDataProviderContainer.cs" />
     <Compile Include="Interfaces\IDeviceConnectionFactory.cs" />
     <Compile Include="Interfaces\IMeasurable.cs" />
     <Compile Include="Interfaces\INameable.cs" />
@@ -129,7 +129,6 @@
     <Compile Include="Interfaces\IUniqueId.cs" />
     <Compile Include="Interfaces\Visitors\IFormatterVisitor.cs" />
     <Compile Include="Progress\ITaskProgressReport.cs" />
-    <Compile Include="Serializing\ISerializableObject.cs" />
     <Compile Include="Services\ApplicationSettingsService\IApplicationSettingsService.cs" />
     <Compile Include="Services\Formatting\IFormattingService.cs" />
     <Compile Include="Services\IHtmlExportService.cs" />

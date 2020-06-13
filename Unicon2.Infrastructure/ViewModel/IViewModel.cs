@@ -9,6 +9,6 @@ namespace Unicon2.Infrastructure.ViewModel
 
     public interface IViewModel<T> : IViewModel
     {
-        new T Model { get; set; }
+        T Model { get; set; }
     }
 }

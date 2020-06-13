@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
-using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model;
+using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Common;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class InputViewModel : LogicElementViewModel, IDisposable
+    public class InputViewModel : LogicElementViewModel
     {
         private List<Dictionary<int, string>> _allInputSignals;
         private string _selectedBase;
@@ -24,13 +23,9 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.Description = "Елемент входного дискретного сигнала";
             this.Symbol = "In";
 
-            this.Connectors = new ObservableCollection<IConnectorViewModel>
-            {
-                new ConnectorViewModel(this, ConnectorOrientation.RIGHT, ConnectorType.DIRECT)
-            };
+            this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
 
             this.Bases = new ObservableCollection<string>();
-            this.Bases.CollectionChanged += this.OnBaseChanged;
             this.Signals = new ObservableCollection<string>();
         }
 
@@ -45,6 +40,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 if(string.Equals(this._selectedBase, value))
                     return;
                 this._selectedBase = value;
+                this.SetSignalsCollection(Bases.IndexOf(_selectedBase));
+                this.SelectedSignal = this.Signals[0];
                 RaisePropertyChanged();
             }
         }
@@ -60,17 +57,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-
-        public string Name
-        {
-            get => _model.Name;
-            set
-            {
-                _model.Name = value;
-                RaisePropertyChanged();
-            }
-        }
-
+        
         protected override ILogicElement GetModel()
         {
             var inputModel = (IInput) _model;
@@ -78,7 +65,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             var baseIndex =  this.Bases.IndexOf(this.SelectedBase);
             inputModel.BaseNum = baseIndex;
             inputModel.InputSignalNum = this._allInputSignals[baseIndex].First(s => s.Value == this.SelectedSignal).Key;
-            inputModel.ConnectionNumber = Connectors[0].ConnectionNumber;
+            inputModel.Connectors[0] = ConnectorViewModels[0].Model;
 
             return inputModel;
         }
@@ -95,8 +82,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.SelectedBase = this.Bases[model.BaseNum];
             this.SetSignalsCollection(model.BaseNum);
             this.SelectedSignal = this.Signals[model.InputSignalNum];
-
-            Connectors[0].ConnectionNumber = model.ConnectionNumber;
+            ConnectorViewModels.Clear();
+            ConnectorViewModels.Add(new ConnectorViewModel(this,  model.Connectors.First()));
         }
 
         private void SetSignalsCollection(int index)
@@ -110,36 +97,24 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.Signals.AddCollection(selectedSignals);
         }
 
-        private void OnBaseChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var index = e.NewStartingIndex;
-            this.SetSignalsCollection(index);
-        }
-
         public override object Clone()
         {
-            InputViewModel ret =
-                new InputViewModel(this._globalCommands)
-                {
-                    Model = (this.Model as ILogicElement)?.Clone(),
-                    Caption = this.Caption
-                };
+            var cloneInputModel = new Input();
+            cloneInputModel.CopyValues(_model);
 
-            ret.Connectors.Clear();
-            for (int i = 0; i < this.Connectors.Count; i++)
+            var cloneInput = new InputViewModel(this._globalCommands)
             {
-                IConnectorViewModel connector = this.Connectors[i];
-                ret.Connectors.Add(new ConnectorViewModel(connector.ParentViewModel, connector.Orientation, connector.ConnectorType));
+                Model = cloneInputModel,
+                Caption = this.Caption
+            };
+
+            for (var i = 0; i < this.ConnectorViewModels.Count; i++)
+            {
+                var sourceConnector = this.ConnectorViewModels[i].Model;
+                cloneInput.ConnectorViewModels.Add(new ConnectorViewModel(cloneInput, sourceConnector.Orientation, sourceConnector.Type));
             }
 
-            return ret;
-        }
-
-        public void Dispose()
-        {
-            this.Bases.CollectionChanged -= this.OnBaseChanged;
-
-            GC.SuppressFinalize(this);
+            return cloneInput;
         }
     }
 }

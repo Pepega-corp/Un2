@@ -9,15 +9,15 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
     public class IndexLoadingSequenceLoader : ISequenceLoader
     {
         private readonly IndexLoadingSequence _indexLoadingSequence;
-        private readonly IDataProviderContaining _dataProviderContaining;
+        private readonly IDataProviderContainer _dataProviderContainer;
         private ushort _currentRecordIndex = 0;
         private int _lastQueryErrorCode = 1; // code "0" means last record
 
         public IndexLoadingSequenceLoader(IndexLoadingSequence indexLoadingSequence,
-            IDataProviderContaining dataProviderContaining)
+            IDataProviderContainer dataProviderContainer)
         {
             _indexLoadingSequence = indexLoadingSequence;
-            _dataProviderContaining = dataProviderContaining;
+            _dataProviderContainer = dataProviderContainer;
 
         }
 
@@ -28,12 +28,12 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
 
         public async Task<ushort[]> GetNextRecordUshorts()
         {
-           var res= await _dataProviderContaining.DataProvider.WriteSingleRegisterAsync(
+           var res= await _dataProviderContainer.DataProvider.WriteSingleRegisterAsync(
                 _indexLoadingSequence.IndexWritingAddress, _currentRecordIndex, "Write");
             _currentRecordIndex++;
 
             
-            IQueryResult<ushort[]> queryResult = await _dataProviderContaining.DataProvider.ReadHoldingResgistersAsync(
+            IQueryResult<ushort[]> queryResult = await _dataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
                 _indexLoadingSequence.JournalStartAddress,
                 _indexLoadingSequence.NumberOfPointsInRecord,
                 JournalKeys.JOURNAL_RECORD_READING_QUERY);
