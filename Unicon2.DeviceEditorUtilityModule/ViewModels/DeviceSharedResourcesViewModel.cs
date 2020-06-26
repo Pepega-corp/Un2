@@ -16,7 +16,9 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
+using Unicon2.Unity.Properties;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.DeviceEditorUtilityModule.ViewModels
@@ -32,8 +34,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		private readonly ITypesContainer _container;
 		private bool _isInitialized;
 
-		private string _lastPath;
-		private string _lastFileName;
+		//private string _lastPath;
+		//private string _lastFileName;
 		private Type _typeNeeded;
 		private IDeviceSharedResources _deviceSharedResources;
 		private const string DEFAULT_FOLDER = "SharedResources";
@@ -59,16 +61,16 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			SaveCommand = new RelayCommand(SaveResources);
 			LoadCommand = new RelayCommand(LoadResources);
 
-			_lastPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
-			_lastFileName = DEFAULT_FOLDER;
-			if (_lastPath != null && !Directory.Exists(_lastPath))
-			{
-				Directory.CreateDirectory(_lastPath);
-			}
-			else
-			{
-				//Load resources
-			}
+			//_lastPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
+			//_lastFileName = DEFAULT_FOLDER;
+			//if (_lastPath != null && !Directory.Exists(_lastPath))
+		//	{
+			//	Directory.CreateDirectory(_lastPath);
+		//	}
+		//	else
+		//	{
+		//		
+		//	}
 		}
 
 		public ICommand SaveCommand { get; }
@@ -78,14 +80,13 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		{
 			SaveFileDialog dialog = new SaveFileDialog
 			{
-				InitialDirectory = _lastPath,
-				FileName = Path.Combine(_lastPath, _lastFileName + EXTENSION)
+				Filter = $"Shared Resources (*{EXTENSION})|*{EXTENSION}",
 			};
 			if (dialog.ShowDialog() == true)
 			{
-				//_deviceSharedResources.SaveInFile(dialog.FileName, _serializerService);
-				_lastPath = Path.GetDirectoryName(dialog.FileName);
-				_lastFileName = Path.GetFileNameWithoutExtension(dialog.FileName);
+				_serializerService.SerializeInFile(_deviceSharedResources.SharedResources,dialog.FileName);
+			//	_lastPath = Path.GetDirectoryName(dialog.FileName);
+			//	_lastFileName = Path.GetFileNameWithoutExtension(dialog.FileName);
 			}
 		}
 
@@ -93,17 +94,16 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		{
 			OpenFileDialog dialog = new OpenFileDialog
 			{
-				InitialDirectory = _lastPath,
-				FileName = _lastFileName,
+	
 				Multiselect = false,
 				Filter = $"Shared Resources (*{EXTENSION})|*{EXTENSION}",
 				CheckFileExists = true
 			};
 			if (dialog.ShowDialog() == true)
 			{
-				// _deviceSharedResources.LoadFromFile(dialog.FileName, _serializerService);
-				_lastPath = Path.GetDirectoryName(dialog.FileName);
-				_lastFileName = Path.GetFileNameWithoutExtension(dialog.FileName);
+				var resourcesFromFile = _serializerService.DeserializeFromFile<List<INameable>>(dialog.FileName);
+				_deviceSharedResources.SharedResources.AddRange(resourcesFromFile);
+				UpdateResourcesViewModelCollection();
 			}
 		}
 
@@ -129,18 +129,18 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
 		private void OnDeleteExecute()
 		{
+			if (_resourceViewModelsInContainers.Contains(SelectedResourceViewModel))
+			{
+				_resourceViewModelsInContainers.Remove(SelectedResourceViewModel);
+			}
 			ResourcesCollection.Remove(SelectedResourceViewModel);
+		
 		}
 
 		private bool CanExecuteSelectResource(object arg)
 		{
 			return SelectedResourceViewModel != null &&
 			       SelectedResourceViewModel.RelatedEditorItemViewModel.GetType().GetInterfaces().Contains(_typeNeeded);
-		}
-
-		private bool CanExecuteOpenResourceForEditing(object _owner)
-		{
-			return SelectedResourceViewModel != null;
 		}
 
 		private void OnOpenResourceForEditingExecute(object _owner)
@@ -152,10 +152,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		{
 			(obj as Window)?.Close();
 		}
-
-		public string StrongName => nameof(DeviceSharedResourcesViewModel);
-
-
 
 		public ObservableCollection<IResourceViewModel> ResourcesCollection { get; }
 
@@ -199,7 +195,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
 		public void InitializeFromResources(IDeviceSharedResources deviceSharedResources)
 		{
-			ResourcesCollection.Clear();
 			_deviceSharedResources = deviceSharedResources;
 			_isInitialized = true;
 			ClearCaches();
@@ -209,35 +204,55 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		{
 			if (!_isInitialized) throw new Exception();
 			IsSelectingMode = false;
+			UpdateResourcesViewModelCollection();
 			_applicationGlobalCommands.ShowWindowModal(() => new DeviceSharedResourcesView(),
 				this);
 		}
+
+		private void UpdateResourcesViewModelCollection()
+		{
+			var resourcesViewModels = _deviceSharedResources.SharedResources.Select(nameable =>
+			{
+				IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
+				resourceViewModel.RelatedEditorItemViewModel = nameable;
+				resourceViewModel.Name = nameable.Name;
+				return resourceViewModel;
+			});
+			ResourcesCollection.Clear();
+			ResourcesCollection.AddCollection(_resourceViewModelsInContainers);
+			ResourcesCollection.AddCollection(resourcesViewModels);
+		}
+
+		private List<IResourceViewModel> _resourceViewModelsInContainers = new List<IResourceViewModel>();
 
 		public T OpenSharedResourcesForSelecting<T>()
 		{
 			if (!_isInitialized) throw new Exception();
 			IsSelectingMode = true;
+			UpdateResourcesViewModelCollection();
 			_typeNeeded = typeof(T);
-            (SelectResourceCommand as RelayCommand<object>).RaiseCanExecuteChanged();
+			(SelectResourceCommand as RelayCommand<object>).RaiseCanExecuteChanged();
 			_applicationGlobalCommands.ShowWindowModal((() => new DeviceSharedResourcesView()), this);
 			if (!CanExecuteSelectResource(null)) return default(T);
 			return (T) SelectedResourceViewModel.RelatedEditorItemViewModel;
 		}
+
 		public string OpenSharedResourcesForSelectingString<T>()
 		{
 			if (!_isInitialized) throw new Exception();
 			IsSelectingMode = true;
 			_typeNeeded = typeof(T);
+			UpdateResourcesViewModelCollection();
 			(SelectResourceCommand as RelayCommand<object>).RaiseCanExecuteChanged();
 			_applicationGlobalCommands.ShowWindowModal((() => new DeviceSharedResourcesView()), this);
 			if (!CanExecuteSelectResource(null)) return String.Empty;
 			return SelectedResourceViewModel.Name;
 		}
 
-		public bool CheckDeviceSharedResourcesContainsModel(INameable resource)
-		{
-            return _deviceSharedResources.SharedResources.Any(nameable => nameable == resource);
-		}
+		//public bool CheckDeviceSharedResourcesContainsModel(INameable resource)
+		//{
+		//          return _deviceSharedResources.SharedResources.Any(nameable => nameable == resource);
+		//}
 
 		public bool CheckDeviceSharedResourcesWithContainersContainsModel(object resource)
 		{
@@ -254,26 +269,19 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			return ResourcesCollection.Any(model => model.RelatedEditorItemViewModel == viewModel);
 		}
 
-		public INameable GetResourceViewModel(string name)
-		{
-			return ResourcesCollection.FirstOrDefault(model => model.RelatedEditorItemViewModel.Name == name)
-				?.RelatedEditorItemViewModel;
-		}
 
-		public void AddAsSharedResource(INameable resourceToAdd)
+		public void AddAsSharedResource(INameable resourceModelToAdd)
 		{
 			if (!_isInitialized) throw new Exception();
 			IResourcesAddingViewModel resourcesAddingViewModel = _container.Resolve<IResourcesAddingViewModel>();
-			resourcesAddingViewModel.ResourceViewModel = resourceToAdd;
+			resourcesAddingViewModel.ResourceWithName = resourceModelToAdd;
 			_applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
-		    if (resourcesAddingViewModel.IsResourceAdded)
-		    {
-		        IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
-		        resourceViewModel.RelatedEditorItemViewModel = resourceToAdd;
-		        resourceViewModel.Name = resourceToAdd.Name;
-                ResourcesCollection.Add(resourceViewModel);
-		    }
+			if (resourcesAddingViewModel.IsResourceAdded)
+			{
+				_deviceSharedResources.SharedResources.Add(resourceModelToAdd);
+			}
 		}
+
 		public void AddAsSharedResourceWithContainer(INameable resourceToAdd)
 		{
 			if (!_isInitialized) throw new Exception();
@@ -281,70 +289,53 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
 			resourceViewModel.RelatedEditorItemViewModel = resourceToAdd;
 			resourceViewModel.Name = resourceToAdd.Name;
-			resourcesAddingViewModel.ResourceViewModel = resourceViewModel;
+			resourcesAddingViewModel.ResourceWithName = resourceViewModel;
 			_applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
 			if (resourcesAddingViewModel.IsResourceAdded)
 			{
-				ResourcesCollection.Add(resourceViewModel);
+				_resourceViewModelsInContainers.Add(resourceViewModel);
 			}
 		}
 
-		public void AddSharedResourceViewModel(INameable resourceToAdd, string nameOfTheResource)
+		public IDeviceSharedResources GetSharedResources()
 		{
-			IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
-			resourceViewModel.RelatedEditorItemViewModel = resourceToAdd;
-			resourceViewModel.Name = nameOfTheResource;
-			ResourcesCollection.Add(resourceViewModel);
+			_deviceSharedResources.SharedResourcesInContainers = _resourcesWithContainers;
+			return _deviceSharedResources;
 		}
 
-		private Dictionary<string, INameable> _resourceModelCache = new Dictionary<string, INameable>();
-
-		public INameable GetOrAddResourceModelFromCache(string name, Func<INameable> factoryIfEmpty)
+		public INameable GetResourceByName(string name)
 		{
-			if (_resourceModelCache.ContainsKey(name))
-			{
-				return _resourceModelCache[name];
-			}
-
-			var model = factoryIfEmpty();
-		    model.Name = name;
-			_resourceModelCache.Add(name, model);
-			return model;
+			return _deviceSharedResources.SharedResources.First(nameable => nameable.Name == name);
 		}
 
-	    public IDeviceSharedResources GetSharedResources()
-	    {
-	        _deviceSharedResources.SharedResources = _resourceModelCache.Values.ToList();
-	        _deviceSharedResources.SharedResourcesInContainers = _resourcesWithContainers;
-	        return _deviceSharedResources;
-	    }
-
-	    public void AddExistingResourceWithContainer(object viewModel, object resourceModel)
-	    {
-		    var resourceWithContainer =
-			    _deviceSharedResources.SharedResourcesInContainers.First(container =>
-				    container.Resource == resourceModel);
-			ResourcesCollection.Add(new ResourceViewModel()
+		public void AddExistingResourceWithContainer(object viewModel, object resourceModel)
+		{
+			var resourceWithContainer =
+				_deviceSharedResources.SharedResourcesInContainers.First(container =>
+					container.Resource == resourceModel);
+			_resourceViewModelsInContainers.Add(new ResourceViewModel()
 			{
 				Name = resourceWithContainer.ResourceName,
 				RelatedEditorItemViewModel = viewModel as INameable
 			});
 
-	    }
+		}
 
-	    private List<IResourceContainer> _resourcesWithContainers=new List<IResourceContainer>();
-	    public void AddResourceFromViewModel(object viewModel, object resourceModel)
-	    {
-		    var resourceWithContainer = _container.Resolve<IResourceContainer>();
-		    resourceWithContainer.Resource = resourceModel;
-			resourceWithContainer.ResourceName=ResourcesCollection.First(model => model.RelatedEditorItemViewModel == viewModel).Name;
+		private List<IResourceContainer> _resourcesWithContainers = new List<IResourceContainer>();
+
+		public void AddResourceFromViewModel(object viewModel, object resourceModel)
+		{
+			var resourceWithContainer = _container.Resolve<IResourceContainer>();
+			resourceWithContainer.Resource = resourceModel;
+			resourceWithContainer.ResourceName =
+				_resourceViewModelsInContainers.First(model => model.RelatedEditorItemViewModel == viewModel).Name;
 			_resourcesWithContainers.Add(resourceWithContainer);
-	    }
+		}
 
-	    public void ClearCaches()
-	    {
-		    _resourcesWithContainers.Clear();
-			_resourceModelCache.Clear();
-	    }
+		public void ClearCaches()
+		{
+			_resourcesWithContainers.Clear();
+			_resourceViewModelsInContainers.Clear();
+		}
 	}
 }

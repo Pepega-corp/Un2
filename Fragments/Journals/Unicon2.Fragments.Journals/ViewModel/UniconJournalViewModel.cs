@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Input;
 using Microsoft.Win32;
+using Unicon2.Fragments.Journals.Infrastructure.Export;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
@@ -11,7 +13,9 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Subscription;
@@ -30,6 +34,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
         private readonly ILocalizerService _localizerService;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly ITypesContainer _typesContainer;
+        private readonly ILogService _logService;
         private List<string> _journalParametersNameList;
         private IUniconJournal _uniconJournal;
         private DynamicDataTable _table;
@@ -41,11 +46,12 @@ namespace Unicon2.Fragments.Journals.ViewModel
             IFragmentOptionsViewModel fragmentOptionsViewModel,
             Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelgetFunc,
             Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc,
-            IApplicationGlobalCommands applicationGlobalCommands,ITypesContainer typesContainer)
+            IApplicationGlobalCommands applicationGlobalCommands,ITypesContainer typesContainer,ILogService logService)
         {
             _localizerService = localizerService;
             _applicationGlobalCommands = applicationGlobalCommands;
             _typesContainer = typesContainer;
+            _logService = logService;
             IFragmentOptionGroupViewModel fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
             fragmentOptionGroupViewModel.NameKey = "Device";
             IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
@@ -79,9 +85,33 @@ namespace Unicon2.Fragments.Journals.ViewModel
             CanExecuteJournalLoading = true;
         }
 
-        private void OnExecuteExportJournal()
+        private async void OnExecuteExportJournal()
         {
-	        throw new NotImplementedException();
+	        var nameForUiLocalized = NameForUiKey;
+	        _localizerService.TryGetLocalizedString(NameForUiKey, out nameForUiLocalized);
+            var sfd = new SaveFileDialog
+	        {
+		        Filter = " HTML файл (*html)|*html" + "|Все файлы (*.*)|*.* ",
+		        DefaultExt = ".html",
+		        FileName = $"{nameForUiLocalized} {DeviceContext.DeviceName}"
+	        };
+	        if (sfd.ShowDialog() == true)
+	        {
+		        try
+		        {
+			        File.WriteAllText(sfd.FileName,
+				        await _typesContainer
+					        .Resolve<IHtmlRenderer<IUniconJournalViewModel, JournalExportSelector>>()
+					        .RenderHtmlString(this, new JournalExportSelector()));
+			        _logService.LogMessage(ApplicationGlobalNames.StatusMessages.FILE_EXPORT_SUCCESSFUL);
+			       
+		        }
+		        catch (Exception e)
+		        {
+			        _logService.LogMessage(e.Message + Environment.NewLine + e.StackTrace, LogMessageTypeEnum.Error);
+		        }
+
+	        }
         }
 
         private void OnExecuteSaveJournal()

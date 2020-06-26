@@ -11,21 +11,17 @@ namespace Unicon2.Presentation.Infrastructure.Factories
         T OpenSharedResourcesForSelecting<T>();
         string OpenSharedResourcesForSelectingString<T>();
 
-		bool CheckDeviceSharedResourcesContainsModel(INameable resource);
+		//bool CheckDeviceSharedResourcesContainsModel(INameable resource);
         bool CheckDeviceSharedResourcesWithContainersContainsModel(object resource);
+        bool CheckDeviceSharedResourcesContainsViewModel(string viewModelName);
+        bool CheckDeviceSharedResourcesContainsViewModel(object viewModelName);
 
-		bool CheckDeviceSharedResourcesContainsViewModel(string resourceName);
-        bool CheckDeviceSharedResourcesContainsViewModel(object viewModel);
-
-		INameable GetResourceViewModel(string name);
         void AddAsSharedResource(INameable resourceToAdd);
         void AddAsSharedResourceWithContainer(INameable resourceToAdd);
 
-		void AddSharedResourceViewModel(INameable resourceToAdd,string nameOfTheResource);
 
-        INameable GetOrAddResourceModelFromCache(string name, Func<INameable> factoryIfEmpty);
         IDeviceSharedResources GetSharedResources();
-
+        INameable GetResourceByName(string name);
         void AddExistingResourceWithContainer(object viewModel, object resourceModel);
         void AddResourceFromViewModel(object viewModel,object resourceModel);
         void ClearCaches();

@@ -47,14 +47,15 @@ namespace Unicon2.Fragments.Journals.Exporter
                 table.MergeAttribute("border", "1");
                 table.AddTagToInnerHtml(CreateHeaderRows(journalViewModel));
 
-
+                int numberOfRecord = 1;
                 foreach (var record in journalViewModel.Table.Values)
                 {
 
-	                _journalRecordRenderer.RenderRecord(record)
+	                _journalRecordRenderer.RenderRecord(numberOfRecord, record)
                         .OnNotEmpty(list => list
                             .ForEach(builder => table
                                 .AddTagToInnerHtml(builder)));
+	                numberOfRecord++;
                 }
 
                 body.AddTagToInnerHtml(table);
@@ -71,7 +72,9 @@ namespace Unicon2.Fragments.Journals.Exporter
         private TagBuilder CreateHeaderRows(IUniconJournalViewModel journalViewModel)
         {
             TagBuilder tableRowForHeaders = new TagBuilder("tr");
-
+            TagBuilder numTableHeader = new TagBuilder("th");
+            numTableHeader.AddToInnerHtml("№");
+            tableRowForHeaders.AddTagToInnerHtml(numTableHeader);
             foreach (var columnName in journalViewModel.Table.ColumnNamesStrings)
             {
 	            TagBuilder nameTableHeader = new TagBuilder("th");

@@ -162,22 +162,29 @@ namespace Unicon2.Fragments.Configuration.Factories
                 new LocalDataEditedSubscription(editableValue, _deviceContext, property,AddressOffset);
 
             res.LocalValue = editableValue;
-            editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
-            _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
-                , res.LocalValue.Id);
+            editableValue?.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
+            if (res.LocalValue != null)
+            {
+	            _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
+		            , res.LocalValue.Id);
 
 
+	            _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(
+		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
+		            setUnchangedSuscription);
+	            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
+		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
+		            setUnchangedSuscription);
 
-            _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription((ushort)(property.Address + AddressOffset), property.NumberOfPoints,
-                setUnchangedSuscription);
-            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription((ushort)(property.Address + AddressOffset), property.NumberOfPoints,
-	            setUnchangedSuscription);
+	            var localDataSubscription = new LocalMemorySubscription(res.LocalValue,
+		            (ushort) (property.Address + AddressOffset),
+		            property.NumberOfPoints, property.UshortsFormatter, _deviceContext.DeviceMemory);
+	            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
+		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
+		            localDataSubscription);
+            }
 
-			var localDataSubscription = new LocalMemorySubscription(res.LocalValue, (ushort)(property.Address + AddressOffset),
-                property.NumberOfPoints, property.UshortsFormatter, _deviceContext.DeviceMemory);
-            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription((ushort)(property.Address + AddressOffset), property.NumberOfPoints,
-                localDataSubscription);
-			return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
+            return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
 
 		}
 

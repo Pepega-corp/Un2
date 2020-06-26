@@ -52,7 +52,7 @@
                 Grid.Column="1"
                 Height="25"
                 Margin="10"
-                Text="{Binding ResourceViewModel.Name, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding ResourceWithName.Name, UpdateSourceTrigger=PropertyChanged}" />
             <Button
                 Grid.Column="2"
                 Height="25"

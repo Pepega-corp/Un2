@@ -20,9 +20,11 @@ namespace Unicon2.Presentation.Factories
 
         public IEditableValueViewModel CreateEditableValueViewModel(FormattedValueInfo formattedValueInfo)
         {
-            return formattedValueInfo.FormattedValue.Accept(new EditableValueViewModelFactory(formattedValueInfo.IsEditingEnabled,formattedValueInfo.Rangeable,
-                formattedValueInfo.Measurable));
-
+	        if (formattedValueInfo.FormattedValue != null)
+		        return formattedValueInfo.FormattedValue.Accept(new EditableValueViewModelFactory(
+			        formattedValueInfo.IsEditingEnabled, formattedValueInfo.Rangeable,
+			        formattedValueInfo.Measurable));
+	        return null;
         }
     }
 }

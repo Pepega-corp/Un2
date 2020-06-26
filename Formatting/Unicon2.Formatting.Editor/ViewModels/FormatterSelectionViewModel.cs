@@ -116,7 +116,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             if (CurrentResourceString != null)
             {
-                _ushortFormattableViewModel.FormatterParametersViewModel= _sharedResourcesGlobalViewModel.GetResourceViewModel(CurrentResourceString) as IFormatterParametersViewModel;
+                IUshortsFormatter resourceUshortsFormatter =
+	                _sharedResourcesGlobalViewModel.GetResourceByName(CurrentResourceString) as IUshortsFormatter;
+
+                _ushortFormattableViewModel.FormatterParametersViewModel =
+	               _container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(resourceUshortsFormatter) ;
             }
             else
             {

@@ -44,37 +44,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             return new ConfigurationItemEditorViewModelFactory();
         }
     
-        //public IEditorConfigurationItemViewModel ResolveConfigurationItemEditorViewModel(IConfigurationItem configurationItem, IEditorConfigurationItemViewModel parent = null)
-        //{
-
-        //    IEditorConfigurationItemViewModel configurationItemViewModel =
-        //        this._container.Resolve<IViewModel>(configurationItem.StrongName + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as IEditorConfigurationItemViewModel;
-        //    configurationItemViewModel.Model = configurationItem;
-        //    if (parent != null)
-        //    {
-        //        configurationItemViewModel.Parent = parent;
-        //        configurationItemViewModel.Level = parent.Level + 1;
-        //    }
-
-        //    return configurationItemViewModel;
-        //}
-
-        //public IEditorConfigurationItemViewModel ResolveSubPropertyEditorViewModel(IConfigurationItem configurationItem,
-        //    ObservableCollection<ISharedBitViewModel> mainBitViewModels, IEditorConfigurationItemViewModel parent = null)
-        //{
-
-        //    IEditorConfigurationItemViewModel configurationItemViewModel =
-        //        this._container.Resolve<IViewModel>(configurationItem.StrongName + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as IEditorConfigurationItemViewModel;
-        //    (configurationItemViewModel as ISubPropertyEditorViewModel).BitNumbersInWord = mainBitViewModels;
-        //    configurationItemViewModel.Model = configurationItem;
-        //    if (parent != null)
-        //    {
-        //        configurationItemViewModel.Parent = parent;
-        //        configurationItemViewModel.Level = parent.Level + 1;
-        //    }
-
-        //    return configurationItemViewModel;
-        //}
         private void InitializeBaseProperties(IConfigurationItemViewModel configurationViewModel, IConfigurationItem configurationItem)
         {
             configurationViewModel.Description = configurationItem?.Description;
@@ -109,7 +78,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             if (sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesWithContainersContainsModel(property))
             {
 	            sharedResourcesGlobalViewModel.AddExistingResourceWithContainer(editorPropertyViewModel, property);
-
 			}
 
 			InitializeBaseProperties(editorPropertyViewModel, property);

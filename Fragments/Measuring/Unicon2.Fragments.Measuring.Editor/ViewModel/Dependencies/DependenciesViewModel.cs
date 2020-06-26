@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Dependencies;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
@@ -19,6 +22,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 	{
 		private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
 		private IDependencyViewModel _selectedDependency;
+		private IMeasuringElementEditorViewModel _measuringElementEditorViewModel;
 
 		public DependenciesViewModel(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
 		{
@@ -27,11 +31,30 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 			RemoveSelectedDependencyCommand =
 				new RelayCommand(OnRemoveSelectedDependency, CanExecuteRemoveSelectedDependency);
 			SetResourceToSelectedDependencyCommand = new RelayCommand<object>(OnSetResourceToSelectedDependency);
+			SubmitCommand=new RelayCommand<object>(OnSubmit);
+			CancelCommand = new RelayCommand<object>(OnCancel);
+		}
+
+		private void OnCancel(object obj)
+		{
+			if (obj is Window window)
+			{
+				window.Close();
+			}
+		}
+
+		private void OnSubmit(object obj)
+		{
+			if (!(obj is Window window)) return;
+			_measuringElementEditorViewModel.DependencyViewModels.Clear();
+			_measuringElementEditorViewModel.DependencyViewModels.AddCollection(DependencyViewModels.CloneCollection());
+			window.Close();
 		}
 
 		public void Init(IMeasuringElementEditorViewModel measuringElementEditorViewModel)
 		{
-			DependencyViewModels = measuringElementEditorViewModel.DependencyViewModels;
+			_measuringElementEditorViewModel = measuringElementEditorViewModel;
+			DependencyViewModels = new ObservableCollection<IDependencyViewModel>(measuringElementEditorViewModel.DependencyViewModels.CloneCollection());
 		}
 
 		private void OnSetResourceToSelectedDependency(object o)
@@ -73,6 +96,10 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 		public ICommand AddBoolToAddressDependencyCommand { get; }
 		public RelayCommand RemoveSelectedDependencyCommand { get; }
 		public RelayCommand<object> SetResourceToSelectedDependencyCommand { get; }
+
+		public ICommand SubmitCommand { get; }
+
+		public ICommand CancelCommand { get; }
 
 	}
 }

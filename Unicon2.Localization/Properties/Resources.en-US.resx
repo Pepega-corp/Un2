@@ -1446,4 +1446,7 @@
   <data name="SaveForPrint" xml:space="preserve">
     <value>Save For Print</value>
   </data>
+  <data name="Recent" xml:space="preserve">
+    <value>Recent</value>
+  </data>
 </root>

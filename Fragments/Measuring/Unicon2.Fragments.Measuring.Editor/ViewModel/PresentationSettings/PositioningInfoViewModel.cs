@@ -16,7 +16,9 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings
 		private int _sizeWidth;
 		private int _sizeHeight;
 
-		public PositioningInfoViewModel(int initialOffsetLeft, int initialOffsetTop, int initialSizeWidth, int initialsSizeHeight,PresentationPositionChangedSubscription presentationPositionChangedSubscription=null)
+		public PositioningInfoViewModel(int initialOffsetLeft, int initialOffsetTop, int initialSizeWidth,
+			int initialsSizeHeight,
+			PresentationPositionChangedSubscription presentationPositionChangedSubscription = null)
 		{
 			_presentationPositionChangedSubscription = presentationPositionChangedSubscription;
 			_offsetLeft = initialOffsetLeft;
@@ -24,6 +26,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings
 			_sizeWidth = initialSizeWidth;
 			_sizeHeight = initialsSizeHeight;
 		}
+
 		public int OffsetLeft
 		{
 			get => _offsetLeft;

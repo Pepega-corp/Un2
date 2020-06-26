@@ -16,7 +16,6 @@ namespace Unicon2.Infrastructure.Services.UniconProject
         List<IConnectable> ConnectableItems { get; set; }
 
         bool IsProjectSaved { get; }
-        bool GetIsProjectChanged();
         string Name { get; set; }
         string ProjectPath { get; set; }
 

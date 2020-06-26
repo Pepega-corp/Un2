@@ -37,9 +37,7 @@ namespace Unicon2.Formatting.Editor.Services
                 .CheckDeviceSharedResourcesContainsViewModel(formatterParametersViewModel.Name))
             {
                 return _container.Resolve<ISharedResourcesGlobalViewModel>()
-                    .GetOrAddResourceModelFromCache(formatterParametersViewModel.Name, () =>
-                        CreateUshortsFormatter(formatterParametersViewModel
-                            .RelatedUshortsFormatterViewModel)) as IUshortsFormatter;
+                    .GetResourceByName(formatterParametersViewModel.Name) as IUshortsFormatter;
             }
 
             return CreateUshortsFormatter(formatterParametersViewModel

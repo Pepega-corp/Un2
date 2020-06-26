@@ -90,8 +90,9 @@ namespace Unicon2.Presentation.Factories
 		public IFormattedValueViewModel VisitChosenFromListValue(IChosenFromListValue chosenFromListValue)
 		{
             IChosenFromListValueViewModel chosenFromListValueViewModel=new ChosenFromListValueViewModel();
-            chosenFromListValueViewModel.InitList(chosenFromListValue.AvailableItemsList);
-		    chosenFromListValueViewModel.SelectedItem = chosenFromListValue.SelectedItem;
+            if (chosenFromListValue.AvailableItemsList != null)
+	            chosenFromListValueViewModel.InitList(chosenFromListValue.AvailableItemsList);
+            chosenFromListValueViewModel.SelectedItem = chosenFromListValue.SelectedItem;
             return InitDefaults(chosenFromListValue, chosenFromListValueViewModel); ;
 		}
 

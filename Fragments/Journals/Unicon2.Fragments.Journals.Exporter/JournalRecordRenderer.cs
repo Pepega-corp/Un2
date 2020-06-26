@@ -12,16 +12,19 @@ namespace Unicon2.Fragments.Journals.Exporter
 {
 	public class JournalRecordRenderer
 	{
-		public Maybe<List<TagBuilder>> RenderRecord(List<IFormattedValueViewModel> valueViewModels)
+		public Maybe<List<TagBuilder>> RenderRecord(int numberOfRecord, List<IFormattedValueViewModel> valueViewModels)
 		{
 			TagBuilder tableRowForItems = new TagBuilder("tr");
+			TagBuilder numberTag = new TagBuilder("td");
+			numberTag.AddToInnerHtml(numberOfRecord.ToString());
+			tableRowForItems.AddTagToInnerHtml(numberTag);
 			valueViewModels.ForEach(model =>
 			{
 				TagBuilder tag = new TagBuilder("td");
 				tag.AddToInnerHtml(model.AsString());
 				tableRowForItems.AddTagToInnerHtml(tag);
 			} );
-			return new Maybe<List<TagBuilder>>();
+			return Maybe<List<TagBuilder>>.FromValue(new List<TagBuilder>(){ tableRowForItems });
 		}
 	}
 }

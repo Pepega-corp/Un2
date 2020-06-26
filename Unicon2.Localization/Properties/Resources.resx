@@ -1440,4 +1440,7 @@
   <data name="SaveForPrint" xml:space="preserve">
     <value>@SaveForPrint</value>
   </data>
+  <data name="Recent" xml:space="preserve">
+    <value>@Recent</value>
+  </data>
 </root>

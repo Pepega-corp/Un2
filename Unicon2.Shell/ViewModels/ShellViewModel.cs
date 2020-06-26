@@ -1,9 +1,11 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -17,6 +19,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 using Unicon2.Presentation.ViewModels;
+using Unicon2.Shell.Factories;
 using Unicon2.Shell.ViewModels.Helpers;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -41,7 +44,7 @@ namespace Unicon2.Shell.ViewModels
         private readonly IDevicesContainerService _devicesContainerService;
         private ObservableCollection<IFragmentPaneViewModel> _fragmentsOpenedCollection;
         private IFragmentPaneViewModel _activeFragmentViewModel;
-
+        private RecentProjectsViewModelFactory _recentProjectsViewModelFactory;
 
         public ShellViewModel
         (ILogService logService,
@@ -54,7 +57,8 @@ namespace Unicon2.Shell.ViewModels
             IDeviceViewModelFactory deviceViewModelFactory,
             IFragmentPaneViewModelFactory fragmentPaneViewModelFactory,
             IProjectBrowserViewModel projectBrowserViewModel,
-            IUniconProjectService uniconProjectService, ToolBarViewModel toolBarViewModel)
+            IUniconProjectService uniconProjectService, ToolBarViewModel toolBarViewModel, 
+            RecentProjectsViewModelFactory recentProjectsViewModelFactory)
         {
             LogServiceViewModel = logServiceViewModel;
             ProjectBrowserViewModel = projectBrowserViewModel;
@@ -81,14 +85,41 @@ namespace Unicon2.Shell.ViewModels
                 ProjectBrowserViewModel, LogServiceViewModel
             };
             ToolBarViewModel = toolBarViewModel;
+            _recentProjectsViewModelFactory = recentProjectsViewModelFactory;
             StaticOptionsButtonsHelper.InitializeStaticButtons(this);
             NewProjectCommand = new RelayCommand(OnNewProjectExecute);
             SaveProjectCommand = new RelayCommand(OnSaveProjectExecute);
             SaveAsProjectCommand = new RelayCommand(OnSaveAsProjectExecute);
             OpenProjectCommand = new RelayCommand(OnOpenProjectExecute);
+            OpenRecentProjectCommand = new RelayCommand<object>(OnOpenRecentProjectExecute);
+
+            OnLoadedCommand = new RelayCommand(OnLoadedExecute);
+            _uniconProjectService.SetDialogContext(this);
         }
 
+        private async void OnOpenRecentProjectExecute(object project)
+        {
+	        if (project is RecentProjectViewModel recentProjectViewModel)
+	        {
+		       await _uniconProjectService.LoadProject(recentProjectViewModel.Path);
+	        }
+            OnProjectChanged();
+        }
 
+        private void OnLoadedExecute()
+        {
+	        _uniconProjectService.LoadDefaultProject();
+	        OnProjectChanged();
+        }
+
+        private async void OnProjectChanged()
+        {
+	        await Task.Run(() =>
+	        {
+		        RaisePropertyChanged(nameof(ShellTitle));
+		        RaisePropertyChanged(nameof(RecentProjects));
+	        });
+        }
 
         private void OnOpenOscillogramExecute()
         {
@@ -171,7 +202,7 @@ namespace Unicon2.Shell.ViewModels
 
         private bool CheckExiting()
         {
-            ProjectSaveCheckingResultEnum res = _uniconProjectService.CheckIfProjectSaved(this);
+            ProjectSaveCheckingResultEnum res = _uniconProjectService.CheckIfProjectSaved();
             if (res == ProjectSaveCheckingResultEnum.ProjectAlreadySaved)
             {
                 if (_dialogCoordinator.ShowModalMessageExternal(this,
@@ -337,29 +368,41 @@ namespace Unicon2.Shell.ViewModels
 
         public ICommand NewProjectCommand { get; }
         public ICommand SaveProjectCommand { get; }
+        public ICommand OnLoadedCommand { get; }
         public ICommand SaveAsProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
         public ICommand OpenOscillogramCommand { get; }
+        public ICommand OpenRecentProjectCommand { get; }
         public ToolBarViewModel ToolBarViewModel { get; }
+
+        public List<RecentProjectViewModel> RecentProjects => _recentProjectsViewModelFactory.CreateProjectViewModels();
+
+        public string ShellTitle => _uniconProjectService.GetProjectTitle();
 
         private void OnSaveAsProjectExecute()
         {
             _uniconProjectService.SaveProjectAs();
+            OnProjectChanged();
         }
 
         private void OnSaveProjectExecute()
         {
             _uniconProjectService.SaveProject();
+            OnProjectChanged();
         }
 
         private void OnNewProjectExecute()
         {
             _uniconProjectService.CreateNewProject();
+            OnProjectChanged();
         }
 
         private void OnOpenProjectExecute()
         {
-            _uniconProjectService.OpenProject("", this);
+
+	        _uniconProjectService.OpenProject();
+	        OnProjectChanged();
+
         }
 
         private void OnExecuteClosing(CancelEventArgs cancelEventArgs)

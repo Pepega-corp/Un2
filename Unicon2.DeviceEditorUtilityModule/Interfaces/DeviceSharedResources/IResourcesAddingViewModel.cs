@@ -10,6 +10,6 @@ namespace Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources
         bool IsResourceAdded { get; }
         ICommand SubmitCommand { get; }
         ICommand CloseCommand { get; }
-        INameable ResourceViewModel { get; set; }
+        INameable ResourceWithName { get; set; }
     }
 }

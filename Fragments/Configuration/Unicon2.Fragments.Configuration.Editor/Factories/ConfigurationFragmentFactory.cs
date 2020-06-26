@@ -18,7 +18,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Factories
 		public static IDeviceConfiguration CreateConfiguration(IConfigurationEditorViewModel configurationEditorViewModel)
 		{
 			var deviceConfiguration = StaticContainer.Container.Resolve<IDeviceConfiguration>();
-			StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>().ClearCaches();
 
 			deviceConfiguration.RootConfigurationItemList = configurationEditorViewModel.RootConfigurationItemViewModels
 				.Select(model =>

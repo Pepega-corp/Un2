@@ -117,6 +117,7 @@
     <Compile Include="Interfaces\EditOperations\IAsChlidPasteable.cs" />
     <Compile Include="Interfaces\EditOperations\IDeletable.cs" />
     <Compile Include="Interfaces\EditOperations\IEditable.cs" />
+    <Compile Include="Interfaces\ICloneable.cs" />
     <Compile Include="Interfaces\IConnectable.cs" />
     <Compile Include="Interfaces\IDataProviderContainer.cs" />
     <Compile Include="Interfaces\IDeviceConnectionFactory.cs" />

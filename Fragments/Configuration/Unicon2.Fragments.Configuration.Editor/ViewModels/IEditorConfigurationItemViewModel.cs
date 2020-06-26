@@ -6,6 +6,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
     public interface IEditorConfigurationItemViewModel : IConfigurationItemViewModel, ICloneable, INameable
     {
-        T Accept<T>(IConfigurationItemViewModelVisitor<T> visit);
+        T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor);
     }
 }

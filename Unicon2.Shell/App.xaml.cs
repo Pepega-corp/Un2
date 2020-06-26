@@ -19,6 +19,7 @@ using Unicon2.Fragments.Configuration.Exporter.Module;
 using Unicon2.Fragments.Configuration.Matrix.Module;
 using Unicon2.Fragments.Configuration.Module;
 using Unicon2.Fragments.Journals.Editor.Module;
+using Unicon2.Fragments.Journals.Exporter.Module;
 using Unicon2.Fragments.Journals.Module;
 using Unicon2.Fragments.Measuring.Editor.Module;
 using Unicon2.Fragments.Measuring.Module;
@@ -46,6 +47,7 @@ using Unicon2.Presentation.Module;
 using Unicon2.Presentation.ViewModels;
 using Unicon2.Services.Module;
 using Unicon2.Shell.ControlRegionAdapter;
+using Unicon2.Shell.Factories;
 using Unicon2.Shell.Services;
 using Unicon2.Shell.ViewModels;
 using Unicon2.Shell.Views;
@@ -124,6 +126,7 @@ namespace Unicon2.Shell
             containerRegistry.Register<IDeviceDefinitionViewModel, DeviceDefinitionViewModel>();
             containerRegistry.RegisterInstance<IApplicationSettingsService>(new ApplicationSettingsService());
             containerRegistry.RegisterInstance(new ShellSettingsViewModel(StaticContainer.Container));
+            containerRegistry.Register<RecentProjectsViewModelFactory>();
             //регистрация вью-моделей
             containerRegistry.Register<Views.Shell>();
             StaticContainer.Container.RegisterViewModel<Views.Shell, ShellViewModel>();
@@ -173,7 +176,9 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, ModbusMemoryModule>(nameof(ModbusMemoryModule));
             container.Register<IUnityModule, JournaEditorModule>(nameof(JournaEditorModule));
             container.Register<IUnityModule, UniconJournalModule>(nameof(UniconJournalModule));
-			container.Register<IUnityModule, MeasuringModule>(nameof(MeasuringModule));
+            container.Register<IUnityModule, JournalExporterModule>(nameof(JournalExporterModule));
+
+            container.Register<IUnityModule, MeasuringModule>(nameof(MeasuringModule));
 			container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));
 			//container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
 			//container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));

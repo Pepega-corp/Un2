@@ -37,6 +37,7 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
         public async Task LoadFromReadyModelList(List<IJournalRecord> journalRecords)
         {
 	        _uniconJournal.JournalRecords.Clear();
+	        _uniconJournalViewModel.Table.Values.Clear();
             foreach (var journalRecord in journalRecords)
 	        {
 		        _uniconJournal.JournalRecords.Add(journalRecord);

@@ -36,7 +36,7 @@ namespace Unicon2.Model.DefaultDevice
         [JsonProperty] public string Name { get; set; }
         [JsonProperty] public IConnectionState ConnectionState { get; set; }
         [JsonProperty] public IDeviceLogger DeviceLogger { get; set; }
-        public IDeviceConnection DeviceConnection { get; private set; }
+        [JsonProperty] public IDeviceConnection DeviceConnection { get; private set; }
 
         [JsonProperty] public IEnumerable<IDeviceFragment> DeviceFragments { get; set; }
         [JsonProperty] public IDeviceSharedResources DeviceSharedResources { get; set; }

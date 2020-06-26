@@ -784,7 +784,7 @@
     <value>Условие</value>
   </data>
   <data name="ConditionFormatter" xml:space="preserve">
-    <value>Форматирование при выполении условия</value>
+    <value>Форматирование при выполнении условия</value>
   </data>
   <data name="ConditionResult" xml:space="preserve">
     <value>Результат проверки</value>
@@ -1448,5 +1448,8 @@
   </data>
   <data name="SaveForPrint" xml:space="preserve">
     <value>Сохранить для печати</value>
+  </data>
+  <data name="Recent" xml:space="preserve">
+    <value>Последние</value>
   </data>
 </root>

@@ -30,7 +30,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnSubmitExecute()
         {
             if (StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>()
-                .CheckDeviceSharedResourcesContainsViewModel(ResourceViewModel.Name))
+                .CheckDeviceSharedResourcesContainsViewModel(ResourceWithName.Name))
             { 
                 return;
             }
@@ -44,7 +44,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         public ICommand SubmitCommand { get; }
 
         public ICommand CloseCommand { get; }
-        public INameable ResourceViewModel { get; set; }
+        public INameable ResourceWithName { get; set; }
 
 
         public string StrongName => nameof(ResourcesAddingViewModel);

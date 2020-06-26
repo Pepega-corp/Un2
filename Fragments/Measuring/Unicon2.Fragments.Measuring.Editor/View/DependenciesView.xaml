@@ -22,12 +22,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 <Button Command="{Binding AddBoolToAddressDependencyCommand}" Content="{lex:Loc AddBoolToAddressDependency}" />
                 <Button Command="{Binding RemoveSelectedDependencyCommand}" Content="{lex:Loc Delete}" />
-
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -61,6 +61,12 @@
                     </DataTemplate>
                 </ListBox.Resources>
             </ListBox>
+        </Grid>
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding SubmitCommand}" CommandParameter="{Binding ElementName=Window}" Content="{lex:Loc Ok}" />
+                <Button Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=Window}" Content="{lex:Loc Cancel}" />
+            </StackPanel>
         </Grid>
     </Grid>
 </mah:MetroWindow>
