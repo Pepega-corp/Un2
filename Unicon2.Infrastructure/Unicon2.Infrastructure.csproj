@@ -83,6 +83,7 @@
     <Compile Include="Common\StaticContainer.cs" />
     <Compile Include="Common\ValidatableBindableBase.cs" />
     <Compile Include="Connection\IConnectionState.cs" />
+    <Compile Include="Connection\IDeviceSubscription.cs" />
     <Compile Include="Connection\IQueryResultFactory.cs" />
     <Compile Include="Dependencies\IBoolToAddressDependency.cs" />
     <Compile Include="Dependencies\IDependency.cs" />

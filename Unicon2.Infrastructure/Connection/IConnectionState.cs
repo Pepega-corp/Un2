@@ -9,16 +9,8 @@ namespace Unicon2.Infrastructure.Connection
 {
     public interface IConnectionState : ICloneable
     {
-        bool IsConnected { get; }
-        bool GetIsExpectedValueMatchesDevice();
-        Action ConnectionStateChangedAction { get; set; }
-        Task CheckConnection();
-        IDataProvider DataProvider { get; }
-        IFormattedValue TestResultValue { get; set; }
-        IUshortFormattable DeviceValueContaining { get; set; }
+        string RelatedResourceString { get; set; }
         List<string> ExpectedValues { get; set; }
         IComPortConfiguration DefaultComPortConfiguration { get; set; }
-        void Initialize(IDeviceConnection deviceConnection, IDeviceLogger deviceLogger);
-        Task TryReconnect();
     }
 }

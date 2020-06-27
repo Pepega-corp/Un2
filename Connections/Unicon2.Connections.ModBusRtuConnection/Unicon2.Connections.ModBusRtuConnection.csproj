@@ -96,6 +96,7 @@
     <Compile Include="Keys\StringKeys.cs" />
     <Compile Include="Factories\ModBusRtuConnectionFactory.cs" />
     <Compile Include="Model\ComPortConfiguration.cs" />
+    <Compile Include="Model\ConnectionContainer.cs" />
     <Compile Include="ViewModels\ComPortConfigurationViewModel.cs" />
     <Compile Include="Model\ModBusRtuConnection.cs" />
     <Compile Include="Module\ModbusRtuConnectionModule.cs" />

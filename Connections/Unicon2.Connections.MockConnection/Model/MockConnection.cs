@@ -29,8 +29,7 @@ namespace Unicon2.Connections.MockConnection.Model
 
         private IDeviceLogger _currentDeviceLogger;
         private ITypesContainer _typesContainer;
-
-        public Action TransactionCompleteAction { get; set; }
+        
 
         [JsonProperty] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
@@ -108,6 +107,8 @@ namespace Unicon2.Connections.MockConnection.Model
         {
             return new DefaultQueryResult() {IsSuccessful = false};
         }
+
+        public IDeviceSubscription TransactionCompleteSubscription { get; set; }
 
         public bool LastQuerySucceed { get; } = true;
 

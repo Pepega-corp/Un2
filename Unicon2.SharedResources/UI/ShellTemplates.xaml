@@ -61,10 +61,7 @@
                             </ContextMenu>
                         </Image.ContextMenu>
                         <Image.ToolTip>
-                            <ContentControl
-                                Content="{Binding ConnectionStateViewModel.TestValueViewModel}"
-                                ContentTemplateSelector="{StaticResource ValuesDataTemplateSelector}"
-                                Visibility="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource BoolToVisConverter}}" />
+                            <TextBlock Text="{Binding ConnectionStateViewModel.TestValue}" Visibility="{Binding ConnectionStateViewModel.IsDeviceConnected, Converter={StaticResource BoolToVisConverter}}" />
                         </Image.ToolTip>
                     </Image>
                 </StackPanel>

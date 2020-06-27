@@ -4,6 +4,7 @@ using System.Threading;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Connection;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Commands;
@@ -14,14 +15,19 @@ namespace Unicon2.Presentation.Connection
     public class ConnectionStateViewModel : ViewModelBase, IConnectionStateViewModel
     {
         private readonly IValueViewModelFactory _valueViewModelFactory;
+        private readonly IConnectionService _connectionService;
         private IConnectionState _connectionState;
         private double _indicatorOpacity;
         private SemaphoreSlim _semaphoreSlim;
+        private bool _isDeviceConnected;
+        private string _testValueViewModel;
 
 
-        public ConnectionStateViewModel(IValueViewModelFactory valueViewModelFactory)
+        public ConnectionStateViewModel(IValueViewModelFactory valueViewModelFactory,
+            IConnectionService connectionService)
         {
             _valueViewModelFactory = valueViewModelFactory;
+            this._connectionService = connectionService;
             CheckConnectionCommand = new RelayCommand(OnCheckConnectionExecute);
 
             _semaphoreSlim = new SemaphoreSlim(1);
@@ -32,45 +38,23 @@ namespace Unicon2.Presentation.Connection
 
         private void OnCheckConnectionExecute()
         {
-            _connectionState.TryReconnect();
-            _connectionState.CheckConnection();
+
         }
 
-
-        public string StrongName { get; }
-
-        public object Model
+        public bool IsDeviceConnected
         {
-            get { return _connectionState; }
-            set { SetModel(value); }
-        }
-
-        private void SetModel(object value)
-        {
-            if (value is IConnectionState)
+            get { return this._isDeviceConnected; }
+            set
             {
-                IConnectionState connectionState = (value as IConnectionState);
-                _connectionState = connectionState;
-
-
-                _connectionState.ConnectionStateChangedAction += () =>
+                if (this._isDeviceConnected == value)
                 {
-                    if (_connectionState.DataProvider is IDataProvider)
-                        _connectionState.DataProvider.TransactionCompleteAction += () => { this?.BeginIndication(); };
-                    IsDeviceConnected = _connectionState.IsConnected;
-                    if (IsDeviceConnected)
-                    {
-                        TestValueViewModel =
-                            _valueViewModelFactory.CreateFormattedValueViewModel(_connectionState.TestResultValue);
-                    }
+                    return;
+                }
 
-                    RaisePropertyChanged(nameof(IsDeviceConnected));
-                };
-                _connectionState.ConnectionStateChangedAction?.Invoke();
+                this._isDeviceConnected = value;
+                RaisePropertyChanged();
             }
         }
-
-        public bool IsDeviceConnected { get; private set; }
 
         public double IndicatorOpacity
         {
@@ -82,7 +66,7 @@ namespace Unicon2.Presentation.Connection
             }
         }
 
-        private async Task BeginIndication()
+        public async Task BeginIndication()
         {
             try
             {
@@ -102,7 +86,16 @@ namespace Unicon2.Presentation.Connection
             }
         }
 
-        public IFormattedValueViewModel TestValueViewModel { get; set; }
+        public string TestValue
+        {
+            get { return this._testValueViewModel; }
+            set
+            {
+                this._testValueViewModel = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ICommand CheckConnectionCommand { get; }
     }
 }

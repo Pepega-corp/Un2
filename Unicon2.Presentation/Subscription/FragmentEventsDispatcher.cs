@@ -1,4 +1,5 @@
 using System;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.Subscription;
 
@@ -40,20 +41,20 @@ namespace Unicon2.Presentation.Subscription
         }
 
         public Result AddDeviceAddressSubscription(ushort address, ushort numberOfPoints,
-            IMemorySubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
+            IDeviceSubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
             return _fragmentLevelEventsDispatcher.AddDeviceAddressSubscription(address, numberOfPoints,
                 memorySubscription, memoryKind);
         }
 
         public Result AddLocalAddressSubscription(ushort address, ushort numberOfPoints,
-            IMemorySubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
+            IDeviceSubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
             return _fragmentLevelEventsDispatcher.AddLocalAddressSubscription(address, numberOfPoints,
                 memorySubscription, memoryKind);
         }
 
-        public Result AddSubscriptionById(IMemorySubscription subscription, Guid id)
+        public Result AddSubscriptionById(IDeviceSubscription subscription, Guid id)
         {
             return _fragmentLevelEventsDispatcher.AddSubscriptionById(subscription, id);
         }

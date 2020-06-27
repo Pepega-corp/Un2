@@ -1,6 +1,7 @@
 ﻿using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Fragments.Configuration.Visitors;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
@@ -12,7 +13,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
-    public class LocalMemorySubscription : IMemorySubscription
+    public class LocalMemorySubscription : IDeviceSubscription
     {
         private readonly IEditableValueViewModel _editableValueViewModel;
         private readonly ushort _address;

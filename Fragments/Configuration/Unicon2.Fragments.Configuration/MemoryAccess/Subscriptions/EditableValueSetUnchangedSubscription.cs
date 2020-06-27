@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
-	public class EditableValueSetUnchangedSubscription : IMemorySubscription
+	public class EditableValueSetUnchangedSubscription : IDeviceSubscription
 	{
 		private readonly IEditableValueViewModel _editableValueViewModel;
 		private readonly IDeviceMemory _deviceMemory;

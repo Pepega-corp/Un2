@@ -101,7 +101,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Services
             catch (Exception portExc)
             {
                 Debug.Write(portExc.Message);
-                return null;
+                throw portExc;
             }
 
             try

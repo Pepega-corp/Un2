@@ -1,9 +1,10 @@
-﻿using Unicon2.Infrastructure.DeviceInterfaces;
+﻿using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Measuring.Subscriptions
 {
-	public class DeviceDataChangedSubscription : IMemorySubscription
+	public class DeviceDataChangedSubscription : IDeviceSubscription
 	{
 		//private IDeviceMemory _deviceMemory;
 		//private 

@@ -24,7 +24,7 @@ namespace Unicon2.Connections.DataProvider.Model
         protected bool _lastQuerySucceed;
         private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        public Action TransactionCompleteAction { get; set; }
+        public IDeviceSubscription TransactionCompleteSubscription { get; set; }
 
         protected virtual bool CheckConnection(IQueryResult queryResult)
         {
@@ -51,7 +51,7 @@ namespace Unicon2.Connections.DataProvider.Model
             if (!CheckConnection(queryResult)) return queryResult;
             try
             {
-                TransactionCompleteAction?.Invoke();
+                TransactionCompleteSubscription?.Execute();
                 queryResult.Result =
                     await _currentModbusMaster.ReadHoldingRegistersAsync(_slaveId, startAddress, numberOfPoints);
                 List<string> results = queryResult.Result.Select((arg => arg.ToString())).ToList();
@@ -85,7 +85,7 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteAction?.Invoke();
+                TransactionCompleteSubscription?.Execute();
                 queryResult.Result = (await _currentModbusMaster.ReadCoilsAsync(_slaveId, coilAddress, 1))[0];
                 LogQuery(true, dataTitle,
                     "Fun:1" + " Addr:" + coilAddress + " Num:" + 1 + " Data:" + queryResult.Result);
@@ -110,7 +110,7 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteAction?.Invoke();
+                TransactionCompleteSubscription?.Execute();
                 queryResult.Result = await _currentModbusMaster.ReadCoilsAsync(_slaveId, coilAddress, numberOfPoints);
                 string resStr = "";
                 foreach (bool res in queryResult.Result)
@@ -149,7 +149,7 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteAction?.Invoke();
+                TransactionCompleteSubscription?.Execute();
                 await _currentModbusMaster.WriteMultipleRegistersAsync(_slaveId, startAddress, dataToWrite);
 
                 LogQuery(true, dataTitle, "Fun:16" + " Addr:" + startAddress + " Data:" + dataStr);
@@ -177,7 +177,7 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteAction?.Invoke();
+                TransactionCompleteSubscription?.Execute();
                 await _currentModbusMaster.WriteSingleCoilAsync(_slaveId, coilAddress, valueToWrite);
                 LogQuery(true, dataTitle, "Fun:5" + " Addr:" + coilAddress + " Data:" + valueToWrite);
                 queryResult.IsSuccessful = true;
@@ -201,7 +201,7 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteAction?.Invoke();
+                TransactionCompleteSubscription?.Execute();
                 await _currentModbusMaster.WriteSingleRegisterAsync(_slaveId, registerAddress, valueToWrite);
                 LogQuery(true, dataTitle, "Fun:6" + " Addr:" + registerAddress + " Data:" + valueToWrite);
                 queryResult.IsSuccessful = true;

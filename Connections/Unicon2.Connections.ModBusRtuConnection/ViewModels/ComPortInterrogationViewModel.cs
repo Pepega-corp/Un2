@@ -4,8 +4,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces.ComPortInterrogation;
+using Unicon2.Connections.ModBusRtuConnection.Model;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -18,6 +21,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private readonly IDevicesContainerService _devicesContainerService;
         private readonly IModbusRtuConnection _modbusRtuConnection;
         private readonly IComConnectionManager _comConnectionManager;
+        private readonly IConnectionService _connectionService;
         private bool _is1200Checked;
         private bool _is2400Checked;
         private bool _is4800Checked;
@@ -34,12 +38,13 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private bool _isInterrogationStopped;
 
         public ComPortInterrogationViewModel(Func<IDeviceDefinitionViewModel> deviceDefinitionCreator, IDevicesContainerService devicesContainerService,
-            IModbusRtuConnection modbusRtuConnection, IComConnectionManager comConnectionManager)
+            IModbusRtuConnection modbusRtuConnection, IComConnectionManager comConnectionManager, IConnectionService connectionService)
         {
             _deviceDefinitionCreator = deviceDefinitionCreator;
             _devicesContainerService = devicesContainerService;
             _modbusRtuConnection = modbusRtuConnection;
             _comConnectionManager = comConnectionManager;
+            this._connectionService = connectionService;
             InterrogateCommand = new RelayCommand(OnInterrogateExecute);
             DeviceDefinitionViewModels = new ObservableCollection<IDeviceDefinitionViewModel>();
             SlaveId = 1;
@@ -147,7 +152,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
                 _modbusRtuConnection.SlaveId = SlaveId;
                 _modbusRtuConnection.ComPortConfiguration.BaudRate = baudRate;
                 System.Collections.Generic.List<string> ports = _modbusRtuConnection.GetAvailablePorts();
-
+                var device=creator.Create();
                 foreach (string port in ports)
                 {
                     _modbusRtuConnection.PortName = port;
@@ -156,9 +161,9 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
                     {
                         try
                         {
-                            creator.ConnectionState.Initialize(_modbusRtuConnection, null);
-                            await creator.ConnectionState.CheckConnection();
-                            bool isMatches = creator.ConnectionState.GetIsExpectedValueMatchesDevice();
+                         
+                            var res=await this._connectionService.CheckConnection(creator.ConnectionState,new DeviceContext(null,null,"test",new ConnectionContainer(this._modbusRtuConnection),device.DeviceSharedResources ));
+                            bool isMatches = res.IsSuccess;
                             if (isMatches)
                             {
                                 IDeviceDefinitionViewModel deviceDefinitionViewModel = _deviceDefinitionCreator();

@@ -90,7 +90,11 @@ namespace Unicon2.Presentation.Factories
 
 		public IEditableValueViewModel VisitStringValue(IStringValue stringValue)
 		{
-			throw new NotImplementedException();
+			return new StringValueViewModel()
+			{
+			    IsEditEnabled = false,
+			    StringValue = stringValue.StrValue
+			};
 		}
 
 		public IEditableValueViewModel VisitTimeValue(ITimeValue timeValue)

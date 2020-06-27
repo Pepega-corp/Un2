@@ -48,7 +48,8 @@ namespace Unicon2.Fragments.Configuration.Visitors
 
         public Result VisitStringValueViewModel(IStringValueViewModel stringValueViewModel)
         {
-            throw new System.NotImplementedException();
+            stringValueViewModel.StringValue = (this._formattedValue as IStringValue).StrValue;
+            return Result.Create(true);
         }
     }
 }

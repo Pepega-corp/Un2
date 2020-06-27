@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Fragments.Configuration.Visitors;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
@@ -18,7 +19,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProperty
 {
-	public class LocalComplexPropertyMemorySubscription : IMemorySubscription
+	public class LocalComplexPropertyMemorySubscription : IDeviceSubscription
 	{
 		private readonly IRuntimeComplexPropertyViewModel _runtimeComplexPropertyViewModel;
 		private readonly IComplexProperty _complexProperty;

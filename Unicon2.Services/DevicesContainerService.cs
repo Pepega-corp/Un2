@@ -59,7 +59,10 @@ namespace Unicon2.Services
 
             //инициализация подключения (добавление логгеров, датапровайдеров)
             device.InitializeConnection(deviceConnection);
-            await device.ConnectionState.CheckConnection();
+            if (deviceConnection is IDataProvider dataProvider)
+            {
+                dataProvider.TransactionCompleteSubscription?.Execute();
+            }
             //ниже не работает как надо, запихивает девайс в любом случае, даже если переподключаться к одному и тому же устройству
             if (!ConnectableItems.Contains(device))
             {

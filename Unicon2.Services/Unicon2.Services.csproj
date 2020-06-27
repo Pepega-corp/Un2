@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="ApplicationGlobalCommands.cs" />
     <Compile Include="ApplicationResourcesService.cs" />
+    <Compile Include="ConnectionService.cs" />
     <Compile Include="DevicesContainerService.cs" />
     <Compile Include="GeneralFactories\GeneralViewModelFactory.cs" />
     <Compile Include="Keys\ServicesKeys.cs" />

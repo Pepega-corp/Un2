@@ -18,7 +18,8 @@ namespace Unicon2.Presentation.ViewModels.Device
         private ObservableCollection<IFragmentViewModel> _fragmentViewModels;
         private IDeviceLoggerViewModel _deviceLoggerViewModel;
 
-        public DeviceViewModel(IDevicesContainerService devicesContainerService, IConnectionStateViewModel connectionStateViewModel, IDeviceLoggerViewModel deviceLoggerViewModel)
+        public DeviceViewModel(IDevicesContainerService devicesContainerService, IConnectionStateViewModel connectionStateViewModel,
+            IDeviceLoggerViewModel deviceLoggerViewModel)
         {
             _devicesContainerService = devicesContainerService;
             _fragmentViewModels = new ObservableCollection<IFragmentViewModel>();
@@ -69,7 +70,6 @@ namespace Unicon2.Presentation.ViewModels.Device
         {
             _device = device;
             DeviceLoggerViewModel.Model = _device.DeviceLogger;
-            ConnectionStateViewModel.Model = _device.ConnectionState;
         }
 
 

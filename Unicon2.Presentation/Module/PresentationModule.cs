@@ -5,6 +5,7 @@ using Unicon2.Presentation.FragmentSettings;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.FragmentSettings;
 using Unicon2.Presentation.Infrastructure.Keys;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Connection;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
@@ -83,7 +84,7 @@ namespace Unicon2.Presentation.Module
             container.Register(typeof(IFragmentEditorViewModelFactory), typeof(FragmentEditorViewModelFactory));
             container.Register(typeof(IFragmentSettingsViewModel), typeof(FragmentSettingsViewModel));
             container.Register(typeof(IEditableValueFetchingFromViewModelVisitor), typeof(EditableValueFetchingFromViewModelVisitor));
-
+            container.Register<IConnectionService, ConnectionService>();
         }
     }
 }

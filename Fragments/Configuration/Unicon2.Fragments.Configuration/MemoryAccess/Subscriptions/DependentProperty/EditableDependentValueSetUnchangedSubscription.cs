@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels;
@@ -10,7 +11,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentProperty
 {
-	public class EditableDependentValueSetUnchangedSubscription : IMemorySubscription
+	public class EditableDependentValueSetUnchangedSubscription : IDeviceSubscription
 	{
 		private readonly ILocalAndDeviceValueContainingViewModel _localAndDeviceValueContainingViewModel;
 		private readonly IDeviceMemory _deviceMemory;

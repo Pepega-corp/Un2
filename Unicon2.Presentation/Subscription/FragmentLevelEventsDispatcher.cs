@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -9,24 +10,24 @@ namespace Unicon2.Presentation.Subscription
 {
     public class FragmentLevelEventsDispatcher : IDeviceEventsDispatcher
     {
-        private readonly Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+        private readonly Dictionary<ushort, MemorySubscriptionCollection<IDeviceSubscription>>
             _deviceMemoryObservers;
 
-        private readonly Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+        private readonly Dictionary<ushort, MemorySubscriptionCollection<IDeviceSubscription>>
             _localMemoryDataObservers;
 
-        private readonly Dictionary<Guid, MemorySubscriptionCollection<IMemorySubscription>>
+        private readonly Dictionary<Guid, MemorySubscriptionCollection<IDeviceSubscription>>
             _idObservers;
 
 
         public FragmentLevelEventsDispatcher()
         {
             _deviceMemoryObservers =
-                new Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>();
+                new Dictionary<ushort, MemorySubscriptionCollection<IDeviceSubscription>>();
             _localMemoryDataObservers =
-                new Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>();
+                new Dictionary<ushort, MemorySubscriptionCollection<IDeviceSubscription>>();
             _idObservers =
-                new Dictionary<Guid, MemorySubscriptionCollection<IMemorySubscription>>();
+                new Dictionary<Guid, MemorySubscriptionCollection<IDeviceSubscription>>();
         }
 
 
@@ -43,14 +44,14 @@ namespace Unicon2.Presentation.Subscription
         }
 
         private void AddDeviceSubscriptionToCollection(ushort address,
-            IMemorySubscription deviceDataMemorySubscription,
-            Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+            IDeviceSubscription deviceDataMemorySubscription,
+            Dictionary<ushort, MemorySubscriptionCollection<IDeviceSubscription>>
                 memoryDataObservers)
         {
             if (!memoryDataObservers.ContainsKey(address))
             {
                 memoryDataObservers.Add(address,
-                    new MemorySubscriptionCollection<IMemorySubscription>(deviceDataMemorySubscription));
+                    new MemorySubscriptionCollection<IDeviceSubscription>(deviceDataMemorySubscription));
             }
             else
             {
@@ -61,8 +62,8 @@ namespace Unicon2.Presentation.Subscription
         }
 
         private Result AddAddressSubscription(ushort start, ushort length,
-            IMemorySubscription memorySubscription,
-            Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+            IDeviceSubscription memorySubscription,
+            Dictionary<ushort, MemorySubscriptionCollection<IDeviceSubscription>>
                 memoryObservers)
         {
             var addresses = GetAddressesRelated(start,
@@ -84,11 +85,11 @@ namespace Unicon2.Presentation.Subscription
         }
 
         private Result TriggerAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
-            Dictionary<ushort, MemorySubscriptionCollection<IMemorySubscription>>
+            Dictionary<ushort, MemorySubscriptionCollection<IDeviceSubscription>>
                 memoryDataObservers)
         {
-            List<IMemorySubscription> deviceDataMemorySubscriptions =
-                new List<IMemorySubscription>();
+            List<IDeviceSubscription> deviceDataMemorySubscriptions =
+                new List<IDeviceSubscription>();
             for (var i = triggeredAddress; i < triggeredAddress + numberOfPoints; i++)
             {
                 if (memoryDataObservers.ContainsKey(i))
@@ -109,20 +110,20 @@ namespace Unicon2.Presentation.Subscription
         }
 
         public Result AddDeviceAddressSubscription(ushort start, ushort length,
-            IMemorySubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
+            IDeviceSubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
             return AddAddressSubscription(start, length,
                 memorySubscription, _deviceMemoryObservers);
         }
 
         public Result AddLocalAddressSubscription(ushort start, ushort length,
-            IMemorySubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
+            IDeviceSubscription memorySubscription, MemoryKind memoryKind = MemoryKind.UshortMemory)
         {
             return AddAddressSubscription(start, length,
                 memorySubscription, _localMemoryDataObservers);
         }
 
-        public Result AddSubscriptionById(IMemorySubscription subscription, Guid id)
+        public Result AddSubscriptionById(IDeviceSubscription subscription, Guid id)
         {
             if (_idObservers.ContainsKey(id))
             {
@@ -141,7 +142,7 @@ namespace Unicon2.Presentation.Subscription
             }
 
             _idObservers.Add(id,
-                new MemorySubscriptionCollection<IMemorySubscription>(subscription));
+                new MemorySubscriptionCollection<IDeviceSubscription>(subscription));
             return Result.Create(true);
         }
 

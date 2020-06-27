@@ -83,6 +83,7 @@
     <Compile Include="MemoryAccess\ConfigurationMemoryAccessor.cs" />
     <Compile Include="MemoryAccess\MemoryReaderVisitor.cs" />
     <Compile Include="MemoryAccess\MemoryWriterVisitor.cs" />
+    <Compile Include="MemoryAccess\PropertyValueService.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\DeviceDataComplexPropertySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalComplexPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalDataComplexPropertyEditedSubscription.cs" />

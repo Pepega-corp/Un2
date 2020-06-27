@@ -83,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection\ConnectionService.cs" />
     <Compile Include="Connection\ConnectionStateViewModel.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="DataTemplateSelectors\ToolbarButtonDataTemplateSelector.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Subscription\FragmentEventsDispatcher.cs" />
     <Compile Include="Subscription\DeviceLevelEventsPublisher.cs" />
     <Compile Include="Subscription\FragmentLevelEventsDispatcher.cs" />
+    <Compile Include="Subscription\TransactionCompleteSubscription.cs" />
     <Compile Include="Values\Base\EditableValueViewModelBase.cs" />
     <Compile Include="Values\Base\FormattableValueViewModelBase.cs" />
     <Compile Include="Values\BitMaskValueViewModel.cs" />

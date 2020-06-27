@@ -6,6 +6,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
+using Unicon2.Fragments.Configuration.MemoryAccess;
 using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Fragments.Configuration.Model.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Model.DependentProperty;
@@ -15,6 +16,7 @@ using Unicon2.Fragments.Configuration.ViewModel.Properties;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Unity.Interfaces;
 
@@ -49,7 +51,7 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register(typeof(IRuntimeComplexPropertyViewModel), typeof(RuntimeComplexPropertyViewModel));
             container.Register(typeof(IRuntimeSubPropertyViewModel), typeof(RuntimeSubPropertyViewModel));
             container.Register(typeof(IRuntimeConfigurationViewModel), typeof(RuntimeConfigurationViewModel));
-
+            container.Register<IPropertyValueService, PropertyValueService>();
             container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting),
                 ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
 

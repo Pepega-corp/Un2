@@ -88,11 +88,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\IConnectionService.cs" />
+    <Compile Include="Services\IPropertyValueService.cs" />
     <Compile Include="Services\ISaveFormatterService.cs" />
     <Compile Include="Services\IToolBarService.cs" />
     <Compile Include="SharedResources\IDeviceSharedResourcesViewModelContainer.cs" />
     <Compile Include="Subscription\IDeviceEventsDispatcher.cs" />
-    <Compile Include="Subscription\IMemorySubscription.cs" />
     <Compile Include="TreeGrid\IAsTableViewModel.cs" />
     <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />
     <Compile Include="TreeGrid\IGroupedConfigurationItemViewModel.cs" />

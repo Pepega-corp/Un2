@@ -9,6 +9,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Fragments.Configuration.Visitors;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
@@ -22,7 +23,7 @@ using Unicon2.Presentation.Infrastructure.Visitors;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentProperty
 {
-	public class LocalDependentPropertyMemorySubscription : IMemorySubscription
+	public class LocalDependentPropertyMemorySubscription : IDeviceSubscription
 	{
 		private readonly IRuntimeDependentPropertyViewModel _runtimeDependentPropertyViewModel;
 		private readonly IDependentProperty _dependentProperty;

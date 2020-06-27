@@ -32,6 +32,7 @@ namespace Unicon2.Presentation.Factories
             }
 
             var deviceLevelPublisher = new DeviceLevelEventsPublisher(getActiveFragment);
+            DeviceContext context = null;
             if (device.DeviceFragments != null)
             {
                 foreach (IDeviceFragment deviceFragment in device.DeviceFragments)
@@ -47,6 +48,7 @@ namespace Unicon2.Presentation.Factories
                         deviceContextConsumer.DeviceContext = new DeviceContext(device.DeviceMemory,
                             new FragmentEventsDispatcher(deviceLevelPublisher, fragmentLevelDispatcher), device.DeviceSignature,
                             device,device.DeviceSharedResources);
+                        context = deviceContextConsumer.DeviceContext;
                     }
 
                     fragmentViewModel.Initialize(deviceFragment);
@@ -55,7 +57,12 @@ namespace Unicon2.Presentation.Factories
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }
             }
-
+            if (context != null)
+            {
+                device.DataProvider.TransactionCompleteSubscription = new TransactionCompleteSubscription(context,
+                    device.ConnectionState, deviceViewModel.ConnectionStateViewModel, this._container);
+                device.DataProvider.TransactionCompleteSubscription.Execute();
+            }
             deviceViewModel.Model = device;
             return deviceViewModel;
         }

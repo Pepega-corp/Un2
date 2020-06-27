@@ -49,7 +49,6 @@ namespace Unicon2.Model.DefaultDevice
         {
             DeviceConnection = deviceConnection;
             StaticContainer.Container.Resolve<ILogService>().AddLogger(DeviceLogger, Name);
-            ConnectionState.Initialize(deviceConnection, DeviceLogger);
             if (deviceConnection is IDataProvider dataProvider)
             {
                 DataProvider = dataProvider;
