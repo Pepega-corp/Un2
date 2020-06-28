@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
@@ -11,24 +11,24 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
-    [DataContract(Namespace = "InputNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class Input : IInput
     {
         private const int BIN_SIZE = 3;
 
-        [DataMember]
+        [JsonProperty]
         public IConnector[] Connectors { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<Dictionary<int, string>> AllInputSignals { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int InputSignalNum { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<string> Bases { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int BaseNum { get; set; }
-        [DataMember]
+        [JsonProperty]
         public double X { get; set; }
-        [DataMember]
+        [JsonProperty]
         public double Y { get; set; }
         public ElementType ElementType => ElementType.In;
         public string Name => this.ElementType.ToString();

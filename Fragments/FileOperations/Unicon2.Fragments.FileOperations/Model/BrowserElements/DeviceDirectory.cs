@@ -3,15 +3,14 @@ using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.Keys;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.BrowserElements;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.Loaders;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
 {
     public class DeviceDirectory : BrowserElementBase, IDeviceDirectory
     {
         private IDirectoryLoader _directoryLoader;
-        private string _strongName;
 
         public DeviceDirectory(string directoryPath, IDirectoryLoader directoryLoader, string name, IDeviceDirectory deviceDirectory)
             : base(directoryPath, name, deviceDirectory)
@@ -52,11 +51,15 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
         }
 
 
-        public override void SetDataProvider(IDataProvider dataProvider)
+        public override DeviceContext DeviceContext
         {
-            this.BrowserElementsInDirectory?.ForEach((element => element.SetDataProvider(dataProvider)));
-            this._directoryLoader.SetDataProviderConnection(dataProvider);
-            base.SetDataProvider(dataProvider);
+            get => base.DeviceContext;
+            set
+            {
+                this.BrowserElementsInDirectory?.ForEach(element => element.DataProvider = value.DataProviderContainer.DataProvider);
+                this._directoryLoader.SetDeviceContext(value);
+                base.DeviceContext = value;
+            }
         }
     }
 }

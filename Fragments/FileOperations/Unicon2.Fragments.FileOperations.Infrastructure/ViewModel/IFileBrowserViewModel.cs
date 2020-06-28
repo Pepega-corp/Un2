@@ -1,12 +1,10 @@
 ﻿using System.Windows.Input;
-using Unicon2.Fragments.FileOperations.Infrastructure.Model;
 using Unicon2.Fragments.FileOperations.Infrastructure.ViewModel.BrowserElements;
-using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.FileOperations.Infrastructure.ViewModel
 {
-    public interface IFileBrowserViewModel : IFragmentViewModel
+    public interface IFileBrowserViewModel : IFragmentViewModel, IDeviceContextConsumer
     {
         IDeviceDirectoryViewModel RootDeviceDirectoryViewModel { get;}
         IDeviceDirectoryViewModel SelectedDirectoryViewModel { get; set; }

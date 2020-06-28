@@ -4,6 +4,7 @@ using Unicon2.Fragments.Programming.Editor.ViewModel;
 using Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
@@ -20,21 +21,15 @@ namespace Unicon2.Fragments.Programming.Editor.Module
 
             container.Register<IFragmentEditorViewModel, ProgrammingEditorViewModel>(ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             //All models
+            container.Register<IInputEditor, InputEditor>();
             container.Register<ILibraryElement, InputEditor>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
+            container.Register<IOutputEditor, OutputEditor>();
             container.Register<ILibraryElement, OutputEditor>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             //All view models
             container.Register<ILogicElementEditorViewModel, InputEditorViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<ILogicElementEditorViewModel, OutputEditorViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ProgrammingEditorTemplate.xaml", GetType().Assembly);
-
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(ProgrammModelEditor));
-            serializerService.AddNamespaceAttribute("programmModelEditor", "ProgrammModelNS");
-            serializerService.AddKnownTypeForSerialization(typeof(InputEditor));
-            serializerService.AddNamespaceAttribute("inputEditor", "InputEditorNS");
-            serializerService.AddKnownTypeForSerialization(typeof(OutputEditor));
-            serializerService.AddNamespaceAttribute("outputEditor", "OutputEditorNS");
         }
     }
 }

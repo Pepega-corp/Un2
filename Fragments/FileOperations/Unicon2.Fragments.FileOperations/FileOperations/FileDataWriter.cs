@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations
 {
@@ -12,18 +12,23 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
     {
         private readonly ICommandSender _commandSender;
         private readonly ICommandStateReader _commandStateReader;
-        private IDataProvider _dataProvider;
+        private DeviceContext _deviceContext;
+
         public FileDataWriter(ICommandSender commandSender, ICommandStateReader commandStateReader)
         {
             this._commandSender = commandSender;
             this._commandStateReader = commandStateReader;
         }
 
-        public void SetDataProvider(IDataProvider dataProvider)
+        public DeviceContext DeviceContext
         {
-            this._commandSender.SetDataProvider(dataProvider);
-            this._commandStateReader.SetDataProvider(dataProvider);
-            this._dataProvider = dataProvider;
+            get => _deviceContext;
+            set
+            {
+                _deviceContext = value;
+                this._commandSender.DeviceContext = _deviceContext;
+                this._commandStateReader.DeviceContext = _deviceContext;
+            }
         }
 
         public async Task<bool> WriteData(byte[] bytesToWrite, string descriptor)
@@ -54,7 +59,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 {
                     writeData[i] = buf[i];
                 }
-                await this._dataProvider.WriteMultipleRegistersAsync(0x5200,
+                await this.DeviceContext.DataProviderContainer.DataProvider.WriteMultipleRegistersAsync(0x5200,
                     writeData.ByteArrayToUshortArray(), "writingFile");
                 ushort crc = CRC16.CalcCrcFast(buf, buf.Length);
                 byte[] crcBytes = crc.UshortToBytes();
@@ -64,30 +69,27 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 currentCount++;
             }
 
-
-
-
             //for (int i = 0; i < lenght; i += iterator)
             //{
             //    int lenghtToTake = iterator;
-            //    if ((lenght-iterator- i ) < 0)
+            //    if ((lenght - iterator - i) < 0)
             //    {
-            //        lenghtToTake = lenght - i ;
+            //        lenghtToTake = lenght - i;
             //    }
             //    ushort[] dataToWrite = ushortsToWrite.Skip(i * iterator).Take(lenghtToTake).ToArray();
 
             //    ushort crc;
-            //    byte[] b= bytesToWrite.Skip(i*2).Take(lenghtToTake*2).ToArray();
+            //    byte[] b = bytesToWrite.Skip(i * 2).Take(lenghtToTake * 2).ToArray();
             //    crc = CRC16.CalcCrcFast(b, lenghtToTake);
             //    byte[] crcBytes = crc.UshortToBytes();
             //    crc = Extensions.ToUshort(crcBytes[1], crcBytes[0]);
 
 
-            //    //error = Convert.ToUInt16(stateStrings[1]);
-            //    //if (error != 0)
-            //    //{
-            //    //    return _messagesDictionary[error];
-            //    //}
+            //    error = Convert.ToUInt16(stateStrings[1]);
+            //    if (error != 0)
+            //    {
+            //        return _messagesDictionary[error];
+            //    }
             //}
 
 

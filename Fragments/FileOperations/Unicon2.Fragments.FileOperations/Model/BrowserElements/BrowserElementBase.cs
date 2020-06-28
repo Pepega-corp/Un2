@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.BrowserElements;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
 {
@@ -28,14 +29,16 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
 
         public string Name { get; }
 
-        public virtual void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._dataProvider = dataProvider;
-
-        }
+        public virtual DeviceContext DeviceContext { get; set; }
 
         public abstract Task Load();
 
         public abstract string StrongName { get; }
+
+        public IDataProvider DataProvider
+        {
+            get => _dataProvider;
+            set => _dataProvider = value;
+        }
     }
 }

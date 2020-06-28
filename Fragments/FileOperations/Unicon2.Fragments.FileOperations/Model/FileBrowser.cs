@@ -1,29 +1,22 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.Factories;
 using Unicon2.Fragments.FileOperations.Infrastructure.Keys;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.BrowserElements;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.FileOperations.Model
 {
-    [DataContract]
+    [JsonObject(MemberSerialization.OptIn)]
     public class FileBrowser : IFileBrowser
     {
         private IBrowserElementFactory _browserElementFactory;
-        private string _strongName;
 
         public FileBrowser(IBrowserElementFactory browserElementFactory)
         {
             this._browserElementFactory = browserElementFactory;
-        }
-
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._browserElementFactory.SetConnectionProvider(dataProvider);
         }
 
         public IDeviceDirectory RootDeviceDirectory { get; private set; }

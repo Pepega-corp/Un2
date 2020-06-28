@@ -254,6 +254,14 @@
       <Project>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fragments\FileOperations\Unicon2.Fragments.FileOperations.Editor\Unicon2.Fragments.FileOperations.Editor.csproj">
+      <Project>{DC9AD8EF-2C40-4E97-8F5A-FBBD14E30A5B}</Project>
+      <Name>Unicon2.Fragments.FileOperations.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\FileOperations\Unicon2.Fragments.FileOperations\Unicon2.Fragments.FileOperations.csproj">
+      <Project>{944258B7-607D-4DE3-B161-D80A89C825AD}</Project>
+      <Name>Unicon2.Fragments.FileOperations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fragments\Journals\Unicon2.Fragments.Journals.Editor\Unicon2.Fragments.Journals.Editor.csproj">
       <Project>{7F407E3A-51F9-4D5F-8014-3C371E45BAA9}</Project>
       <Name>Unicon2.Fragments.Journals.Editor</Name>
@@ -273,6 +281,14 @@
     <ProjectReference Include="..\Fragments\ModBusMemory\Unicon2.Fragments.ModbusMemory\Unicon2.Fragments.ModbusMemory.csproj">
       <Project>{3C34747B-D562-4900-880D-67E8574544AE}</Project>
       <Name>Unicon2.Fragments.ModbusMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Programming\Unicon2.Fragments.Programming.Editor\Unicon2.Fragments.Programming.Editor.csproj">
+      <Project>{1101E22E-FA58-4F20-AA4A-D62DFDFC5059}</Project>
+      <Name>Unicon2.Fragments.Programming.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Programming\Unicon2.Fragments.Programming\Unicon2.Fragments.Programming.csproj">
+      <Project>{1265EC7B-41C1-497C-A873-98A6836162F1}</Project>
+      <Name>Unicon2.Fragments.Programming</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unicon2.DeviceEditorUtilityModule\Unicon2.DeviceEditorUtilityModule.csproj">
       <Project>{E263B732-5DC2-4237-9C45-2B655C51A033}</Project>

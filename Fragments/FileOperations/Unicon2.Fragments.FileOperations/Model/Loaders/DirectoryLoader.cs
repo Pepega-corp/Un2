@@ -4,6 +4,7 @@ using Unicon2.Fragments.FileOperations.Infrastructure.Factories;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.BrowserElements;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.Loaders;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.Model.Loaders
 {
@@ -49,9 +50,6 @@ namespace Unicon2.Fragments.FileOperations.Model.Loaders
             return await this._fileDriver.WriteFile(fileBytes, directoryPath, $"{fileName}.{extension}");
         }
 
-        public void SetDataProviderConnection(object dataProvider)
-        {
-            this._browserElementFactory.SetConnectionProvider(dataProvider);
-        }
+        public void SetDeviceContext(DeviceContext deviceContext) => _fileDriver.DeviceContext = deviceContext;
     }
 }

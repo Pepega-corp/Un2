@@ -30,6 +30,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             {
                 ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
                     element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                element.InitializeDefault();
                 viewmodel.Model = element;
                 booleanElementViewModels.Add(viewmodel);
             }
@@ -46,6 +47,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             {
                 ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
                     element.StrongName +ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                element.InitializeDefault();
                 viewmodel.Model = element;
                 analogElementViewModels.Add(viewmodel);
             }
@@ -53,7 +55,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             return analogElementViewModels;
         }
 
-        public List<ILogicElementEditorViewModel> GetAllElementsEditorViewModels(ILibraryElement[] elements)
+        public List<ILogicElementEditorViewModel> GetAllElementsEditorViewModels(List<ILibraryElement> elements)
         {
             List<ILogicElementEditorViewModel> elementsViewModels = new List<ILogicElementEditorViewModel>();
             foreach (ILibraryElement element in elements)
@@ -100,7 +102,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             return analogElementViewModels;
         }
 
-        public List<ILogicElementViewModel> GetAllElementsViewModels(ILogicElement[] elements)
+        public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILogicElement> elements)
         {
             List<ILogicElementViewModel> elementsViewModels = new List<ILogicElementViewModel>();
             foreach (ILogicElement element in elements)
@@ -114,7 +116,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             return elementsViewModels;
         }
 
-        public List<ILogicElementViewModel> GetAllElementsViewModels(ILibraryElement[] libraryElements)
+        public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILibraryElement> libraryElements)
         {
             List<ILogicElementViewModel> elementsViewModels = new List<ILogicElementViewModel>();
 

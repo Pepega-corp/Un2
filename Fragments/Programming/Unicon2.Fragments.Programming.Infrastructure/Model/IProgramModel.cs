@@ -1,14 +1,14 @@
-﻿using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+﻿using System.Collections.Generic;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure.FragmentInterfaces;
-using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.Model
 {
-    public interface IProgramModel : IDeviceFragment //, IInitializableFromContainer, ILoadable, IDisposable, IWriteable
+    public interface IProgramModel : IDeviceFragment
     {
         string ProjectName { get; set; }
         string ProjectPath { get; }
-        ISchemeModel[] Schemes { get; set; }
-        IConnection[] Connections { get; set; }
+        List<ISchemeModel> Schemes { get; }
+        List<IConnection> Connections { get; }
     }
 }

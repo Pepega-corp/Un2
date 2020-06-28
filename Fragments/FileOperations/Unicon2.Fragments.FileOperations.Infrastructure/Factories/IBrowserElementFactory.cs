@@ -1,16 +1,13 @@
 ﻿using Unicon2.Fragments.FileOperations.Infrastructure.Model.BrowserElements;
-using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.FileOperations.Infrastructure.Factories
 {
-    public interface IBrowserElementFactory
+    public interface IBrowserElementFactory : IDeviceContextConsumer
     {
         IDeviceDirectory CreateRootDeviceDirectoryBrowserElement();
         IDeviceDirectory CreateDeviceDirectoryBrowserElement(string path,IDeviceDirectory parentDeviceDirectory);
         IDeviceFile CreateDeviceFileBrowserElement(string path, IDeviceDirectory parentDeviceDirectory);
-
         IDeviceBrowserElement CreateBrowserElement( string path, IDeviceDirectory parentDeviceDirectory);
-        void SetConnectionProvider(object dataProvider);
     }
 }

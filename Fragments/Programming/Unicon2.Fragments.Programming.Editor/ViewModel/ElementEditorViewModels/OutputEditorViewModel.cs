@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
+using Unicon2.Fragments.Programming.Editor.Models.LibraryElements;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
@@ -32,13 +33,16 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public ICommand AddOutputSignalCommand { get; }
         public ICommand RemoveOutputSignalCommand { get; }
 
-        public OutputEditorViewModel()
+        public OutputEditorViewModel(IOutputEditor model)
         {
             this.OutputSignals = new ObservableCollection<EditableListItem>();
             this.OutputSignals.CollectionChanged += this.OutputSignalsOnCollectionChanged;
 
             this.AddOutputSignalCommand = new RelayCommand(this.OnAddOutputSignal);
             this.RemoveOutputSignalCommand = new RelayCommand(this.OnRemoveOutputSignal, this.CanRemoveOutputSignal);
+
+            model.InitializeDefault();
+            SetModel(model);
         }
 
         private void OutputSignalsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs evArgs)
@@ -75,7 +79,16 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             {
                 return;
             }
-            this._model = model;
+            if(_model == null)
+            {
+                this._model = model;
+            }
+            else
+            {
+                _model.OutputSignals.Clear();
+                _model.OutputSignals.AddRange(model.OutputSignals);
+            }
+
             this.OutputSignals.Clear();
             var newValues = new EditableListItem[this._model.OutputSignals.Count];
             for (int i = 0; i < this._model.OutputSignals.Count; i++)
@@ -122,7 +135,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public object Clone()
         {
-            return new OutputEditorViewModel();
+            return new OutputEditorViewModel(new OutputEditor());
         }
     }
 }

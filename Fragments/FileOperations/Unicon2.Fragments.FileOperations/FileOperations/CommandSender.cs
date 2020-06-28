@@ -1,18 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations
 {
     public class CommandSender : ICommandSender
     {
-        private IDataProvider _dataProvider;
-
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._dataProvider = dataProvider;
-        }
+        public DeviceContext DeviceContext { get; set; }
 
         public async Task SetCommand(string command)
         {
@@ -30,7 +25,8 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                     bCmd[i] = (byte)cmdChar[i];
                 }
             }
-            await this._dataProvider.WriteMultipleRegistersAsync(0x5000, Extensions.ByteArrayToUshortArray(bCmd), "SetCmdFileDriver");
+
+            await DeviceContext.DataProviderContainer.DataProvider.WriteMultipleRegistersAsync(0x5000, Extensions.ByteArrayToUshortArray(bCmd), "SetCmdFileDriver");
         }
     }
 }

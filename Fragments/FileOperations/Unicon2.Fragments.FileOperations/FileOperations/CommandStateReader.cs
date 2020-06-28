@@ -3,49 +3,38 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Infrastructure.Connection;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations
 {
     public class CommandStateReader : ICommandStateReader
     {
-        private IDataProvider _dataProvider;
-        private int _lastCommandStatus;
-
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            _dataProvider = dataProvider;
-        }
-
         public async Task<string[]> ReadCommandStateStrings()
         {
-            IQueryResult<ushort[]> ushortQueryResult = null;
             for (int i = 0; i < 4; i++)
             {
                 try
                 {
-                    ushortQueryResult = await _dataProvider.ReadHoldingResgistersAsync(0x5100, 64, "ReadStateCmdFileDriver");
+                    IQueryResult<ushort[]> ushortQueryResult = await DeviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(0x5100, 64, "ReadStateCmdFileDriver");
                     if (ushortQueryResult.IsSuccessful)
                     {
                         CheckState(GetStatesStrings(ushortQueryResult.Result));
                     }
                     return GetStatesStrings(ushortQueryResult.Result);
                 }
-                catch (Exception e)
+                catch
                 {
                     continue;
                 }
 
             }
             return null;
-
         }
 
-        public int LastCommandStatus
-        {
-            get { return _lastCommandStatus; }
-        }
+        public int LastCommandStatus { get; private set; }
+
+        public DeviceContext DeviceContext { get; set; }
 
         private bool CheckState(string[] states)
         {
@@ -53,19 +42,16 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 int res;
                 if (int.TryParse(states[1], out res))
                 {
-                    _lastCommandStatus = res;
+                    LastCommandStatus = res;
                     return true;
                 }
                 else
                 {
-                    _lastCommandStatus = 255;
+                    LastCommandStatus = 255;
                 }
-       
 
             return false;
         }
-
-
 
         private string[] GetStatesStrings(ushort[] stateUshorts)
         {

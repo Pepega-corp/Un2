@@ -3,42 +3,28 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
-using Unicon2.Infrastructure.Connection;
-using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations
 {
     public class FileDriver : IFileDriver
     {
-        private readonly string _getDirCommandStr = "GETDIR";
-        private readonly string _getNumberCommandStr = "GETNUMBER";
-        private const string FILEWRITE_PATTERN = "FILEWRITE {0};{1};{2}"; // дескриптор;длина в байтах;CRC
-        private const string FILEOPEN_PATTERN = "FILEOPEN {0};{1};{2}{3}";
-        private readonly IQueryResultFactory _queryResultFactory;
         private readonly ICommandSender _commandSender;
         private readonly ICommandStateReader _commandStateReader;
         private readonly IFileDataReader _fileDataReader;
         private readonly IFileDataWriter _fileDataWriter;
-
-
-        //private Operator[] _allOperators;
-
         private Dictionary<int, string> _messagesDictionary;
-        private Dictionary<string, int> _openedFiles;
-        private byte[] _writeBytes;
 
-        private IDataProvider _dataProvider;
+        private DeviceContext _deviceContext;
 
 
-        public FileDriver(IQueryResultFactory queryResultFactory, ICommandSender commandSender,
-            ICommandStateReader commandStateReader, IFileDataReader fileDataReader, IFileDataWriter fileDataWriter)
+        public FileDriver(ICommandSender commandSender, ICommandStateReader commandStateReader, 
+            IFileDataReader fileDataReader, IFileDataWriter fileDataWriter)
         {
-            this._queryResultFactory = queryResultFactory;
             this._commandSender = commandSender;
             this._commandStateReader = commandStateReader;
             this._fileDataReader = fileDataReader;
             this._fileDataWriter = fileDataWriter;
-            this._openedFiles = new Dictionary<string, int>();
             this.InitErrorMessages();
         }
 
@@ -81,7 +67,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         private async Task<string> GetPassword()
         {
 
-            await this._commandSender.SetCommand(this._getNumberCommandStr);
+            await this._commandSender.SetCommand("GETNUMBER");
             string[] stateStrings = await this._commandStateReader.ReadCommandStateStrings();
 
             byte[] jj = await this._fileDataReader.GetDataBytes(Convert.ToUInt16(stateStrings[5]));
@@ -114,19 +100,18 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             return new string(list.ToArray());
         }
 
-
-        public void SetDataProvider(IDataProvider dataProvider)
+        public DeviceContext DeviceContext
         {
-            if ((this._dataProvider == null) || (this._dataProvider != dataProvider))
+            get => _deviceContext;
+            set
             {
-                this._dataProvider = dataProvider;
-                this._commandSender.SetDataProvider(dataProvider);
-                this._commandStateReader.SetDataProvider(dataProvider);
-                this._fileDataReader.SetDataProvider(dataProvider);
-                this._fileDataWriter.SetDataProvider(dataProvider);
+                _deviceContext = value;
+                this._commandSender.DeviceContext = _deviceContext;
+                this._commandStateReader.DeviceContext = _deviceContext;
+                this._fileDataReader.DeviceContext = _deviceContext;
+                this._fileDataWriter.DeviceContext = _deviceContext;
             }
         }
-
 
         public async Task<List<string>> GetDirectoryByPath(string directoryPath)
         {
@@ -158,8 +143,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 if (descriptor.IndexOf(';') == 0) break;
                 if (this.CheckDescroptor(descriptor))
                 {
-                    directoryList.Add(directoryPath + "\\" +
-                                      descriptor);
+                    directoryList.Add(directoryPath + "\\" + descriptor);
                 }
             }
             //await WriteFile(new byte[] {4, 2}, "0:\\cfg\\", "228.cfg");
@@ -192,9 +176,10 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
 
         public async Task<string> WriteFile(byte[] fileData, string directoryPath, string fileName)
         {
-            await this._commandSender.SetCommand("FILEOPEN " + await this.GetPassword() + ";" + 10 + ";" + directoryPath + "\\" +
-                                            fileName);
+            await this._commandSender.SetCommand("FILEOPEN " + await this.GetPassword() + ";" + 10 + ";" + directoryPath + "\\" + fileName);
+
             string[] stateStrings = await this._commandStateReader.ReadCommandStateStrings();
+
             int error = Convert.ToUInt16(stateStrings[1]);
             if (error != 0)
             {
@@ -226,5 +211,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             return this._messagesDictionary[error];
 
         }
+
+        public Task<byte[]> ReadFile(string directoryPath, string fileName) => throw new NotImplementedException();
     }
 }

@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model
 {
-    [DataContract(Name = "connection",Namespace = "ConnectionNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class Connection : IConnection
     {
-        [DataMember] public int ConnectionNumber { get; set; }
-        [DataMember] public List<Point> Points { get; set; }
+        [JsonProperty] public int ConnectionNumber { get; set; }
+        [JsonProperty] public List<Point> Points { get; set; }
     }
 }

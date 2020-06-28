@@ -32,20 +32,6 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, OutputViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
-
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(ProgramModel));
-            serializerService.AddNamespaceAttribute("programModel", "ProgrammModelEditorNS");
-            serializerService.AddKnownTypeForSerialization(typeof(SchemeModel));
-            serializerService.AddNamespaceAttribute("schemeModel", "SchemeModelNS");
-            serializerService.AddKnownTypeForSerialization(typeof(Connection));
-            serializerService.AddNamespaceAttribute("connection", "ConnectionNS");
-            serializerService.AddKnownTypeForSerialization(typeof(Connector));
-            serializerService.AddNamespaceAttribute("connector", "ConnectorNS");
-            serializerService.AddKnownTypeForSerialization(typeof(Input));
-            serializerService.AddNamespaceAttribute("input", "InputNS");
-            serializerService.AddKnownTypeForSerialization(typeof(Output));
-            serializerService.AddNamespaceAttribute("output", "OutputNS");
         }
     }
 }

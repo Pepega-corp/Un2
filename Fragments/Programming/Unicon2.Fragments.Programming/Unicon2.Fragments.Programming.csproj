@@ -116,6 +116,10 @@
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\FileOperations\Unicon2.Fragments.FileOperations.Infrastructure\Unicon2.Fragments.FileOperations.Infrastructure.csproj">
+      <Project>{04BC9301-24B1-487A-AB74-BBCEF3EFECC7}</Project>
+      <Name>Unicon2.Fragments.FileOperations.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicon2.Fragments.Programming.Editor\Unicon2.Fragments.Programming.Editor.csproj">
       <Project>{1101E22E-FA58-4F20-AA4A-D62DFDFC5059}</Project>
       <Name>Unicon2.Fragments.Programming.Editor</Name>

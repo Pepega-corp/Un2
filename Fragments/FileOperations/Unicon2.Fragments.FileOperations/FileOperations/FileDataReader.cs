@@ -3,19 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Infrastructure.Connection;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations
 {
     public class FileDataReader : IFileDataReader
     {
-        private IDataProvider _dataProvider;
-
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._dataProvider = dataProvider;
-        }
+        public DeviceContext DeviceContext { get; set; }
 
         public async Task<byte[]> GetDataBytes(int dataLenght = 256)
         {
@@ -29,7 +24,8 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             }
             for (ushort i = 0; i < ushortLenght; i += iterator)
             {
-                IQueryResult<ushort[]> ushortQueryResult = await this._dataProvider.ReadHoldingResgistersAsync((ushort)(0x5200 + i), iterator, "ReadStateCmdFileDriver");
+                IQueryResult<ushort[]> ushortQueryResult = await this.DeviceContext.DataProviderContainer
+                    .DataProvider.ReadHoldingResgistersAsync((ushort)(0x5200 + i), iterator, "ReadStateCmdFileDriver");
                 ushorts.AddRange(ushortQueryResult.Result);
             }
             if (diff == 0)

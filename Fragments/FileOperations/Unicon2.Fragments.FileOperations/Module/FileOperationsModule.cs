@@ -39,8 +39,6 @@ namespace Unicon2.Fragments.FileOperations.Module
             container.Register<IFileBrowserViewModel, FileBrowserViewModel>();
 
             container.Register<IBrowserElementFactory, BrowserElementFactory>();
-        
-            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(FileBrowser));
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/FileOperationsTemplates.xaml", GetType().Assembly);
         }

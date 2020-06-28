@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.ViewModels;
-using Unicon2.Unity.Annotations;
 
 namespace Unicon2.Fragments.Programming.Adorners
 {
@@ -29,7 +28,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             PixelSize = 96.0 / Dpi;
         }
         
-        public DesignerCanvasAdorner([NotNull] Canvas designerCanvas, SchemeTabViewModel schemeTabViewModel) : base(designerCanvas)
+        public DesignerCanvasAdorner(Canvas designerCanvas, SchemeTabViewModel schemeTabViewModel) : base(designerCanvas)
         {
             this._schemeTabViewModel = schemeTabViewModel;
             this._rectPen = new Pen(Brushes.Black, 1);

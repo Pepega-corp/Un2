@@ -1,9 +1,10 @@
-﻿using Unicon2.Infrastructure.FragmentInterfaces;
+﻿using System.Collections.Generic;
+using Unicon2.Infrastructure.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.Model
 {
     public interface IProgrammModelEditor: IDeviceFragment
     {
-        ILibraryElement[] Elements { get; set; }
+        List<ILibraryElement> Elements { get; set; }
     }
 }

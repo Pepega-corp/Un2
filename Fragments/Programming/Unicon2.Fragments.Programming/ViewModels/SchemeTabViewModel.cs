@@ -105,7 +105,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             var logicElementViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel)
                 .Cast<ILogicElementViewModel>().ToArray();
-            this._model.LogicElements = logicElementViewModels.Select(lvm => lvm.Model).ToArray();
+            this._model.LogicElements.Clear();
+            this._model.LogicElements.AddRange(logicElementViewModels.Select(lvm => lvm.Model));
 
             var connectionsViewModels = this.ElementCollection.Where(ec => ec is IConnectionViewModel)
                 .Cast<IConnectionViewModel>().ToArray();

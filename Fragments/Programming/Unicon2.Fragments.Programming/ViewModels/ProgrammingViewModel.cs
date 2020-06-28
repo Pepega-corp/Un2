@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
+using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
@@ -29,14 +29,18 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly ILogicElementFactory _factory;
         private readonly ISerializerService _serializerService;
+        private readonly IFileDriver _fileDriver;
+        private DeviceContext _deviceContext;
         private IProgramModel _programModel;
         
-        public ProgrammingViewModel(IProgramModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory factory, ISerializerService serializerService)
+        public ProgrammingViewModel(IProgramModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory factory, IFileDriver fileDriver,
+            ISerializerService serializerService)
         {
             this._programModel = model;
             this._applicationGlobalCommands = globalCommands;
             this._factory = factory;
             _serializerService = serializerService;
+            _fileDriver = fileDriver;
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
             this.ElementsLibrary = new ObservableCollection<ILogicElementViewModel>();
@@ -52,6 +56,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
+        public DeviceContext DeviceContext
+        {
+            get => _deviceContext;
+            set
+            {
+                _deviceContext = value;
+                _fileDriver.DeviceContext = value;
+            }
+        }
 
         public string ProjectName
         {
@@ -67,7 +80,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public string StrongName => ProgrammingKeys.PROGRAMMING +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         
-
         public int SelectedTabIndex { get; set; }
 
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
@@ -139,7 +151,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             sfd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
             if (sfd.ShowDialog() == true)
             {
-                _programModel = GetModel();
+                UpdateModelData();
                 _serializerService.SerializeInFile(_programModel,sfd.FileName);
             }
         }
@@ -156,7 +168,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             ofd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
             if(ofd.ShowDialog() == true)
             {
-                _programModel.DeserializeFromFile(ofd.FileName);
+                _programModel = _serializerService.DeserializeFromFile<IProgramModel>(ofd.FileName);
                 UpdateCollections(_programModel);
             }
         }
@@ -191,14 +203,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.SchemesCollection[this.SelectedTabIndex].ZoomDecrementCommand.Execute(this.SchemesCollection[this.SelectedTabIndex]);
         }
 
-        
-
-        private IProgramModel GetModel()
+        private void UpdateModelData()
         {
-            this._programModel.Schemes = this.SchemesCollection.Select(sc => sc.Model).ToArray();
-            this._programModel.Connections = ConnectionCollection.Select(cc => cc.Model).ToArray();
-
-            return this._programModel;
+            this._programModel.Schemes.Clear();
+            this._programModel.Schemes.AddRange(this.SchemesCollection.Select(sc => sc.Model));
+            this._programModel.Connections.Clear();
+            this._programModel.Connections.AddRange(ConnectionCollection.Select(cc => cc.Model));
         }
 
         private void UpdateCollections(IProgramModel model)
@@ -244,7 +254,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
 	        if (deviceFragment is IProgramModel model)
 	        {
-		        this._programModel.Schemes = model.Schemes;
+		        this._programModel = model;
 
 		        UpdateCollections(_programModel);
 
@@ -257,7 +267,5 @@ namespace Unicon2.Fragments.Programming.ViewModels
 		        this.ElementsLibrary.AddCollection(logicElementsViewModels);
 	        }
         }
-
-        public DeviceContext DeviceContext { get; set; }
     }
 }

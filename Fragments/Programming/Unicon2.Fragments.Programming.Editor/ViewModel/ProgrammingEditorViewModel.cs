@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Editor.Interfaces;
+using Unicon2.Fragments.Programming.Editor.Models;
 using Unicon2.Fragments.Programming.Editor.View;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
@@ -9,7 +10,6 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
-using Unicon2.Infrastructure.Services;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
@@ -19,28 +19,26 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
     public class ProgrammingEditorViewModel : ViewModelBase, IProgrammingEditorViewModel
     {
         private readonly ILogicElementFactory _logicElementFactory;
-        private readonly ISerializerService _serializerService;
         private readonly IApplicationGlobalCommands _globalCommands;
         private IProgrammModelEditor _model;
         private ILogicElementEditorViewModel _selectedNewLogicElemItem;
         private ILogicElementEditorViewModel _selectedLibraryElemItem;
 
+        public string StrongName => ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
+
+        public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
+
         public ICommand AddElementCommand { get; }
         public ICommand RemoveElementCommand { get; }
         public ICommand EditElementCommand { get; }
 
-        public ProgrammingEditorViewModel(IProgrammModelEditor model, IApplicationGlobalCommands globalCommands, 
-	        ILogicElementFactory logicElementFactory,ISerializerService serializerService)
+        public ProgrammingEditorViewModel(IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
         {
             this._globalCommands = globalCommands;
             this._logicElementFactory = logicElementFactory;
-            _serializerService = serializerService;
-
             this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsEditorViewModels());
             this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetAnalogElementsEditorViewModels());
             this.LibraryElements = new ObservableCollection<ILogicElementEditorViewModel>();
-
-            this._model = model;
 
             this.AddElementCommand = new RelayCommand(this.OnAddElement);
             this.RemoveElementCommand = new RelayCommand(this.OnRemoveElement);
@@ -99,27 +97,24 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
                     new EditElementViewModel(logicElementEditorViewModel));
             }
         }
-     
-        public string StrongName => ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-      
-
-        public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
+        
         public IDeviceFragment BuildDeviceFragment()
         {
 	        var elementModels = this.LibraryElements.Select(l => l.Model).Cast<ILibraryElement>().ToArray();
-	        this._model.Elements = elementModels;
+            this._model = _model ?? new ProgrammModelEditor();
+            this._model.Elements.Clear();
+	        this._model.Elements.AddRange(elementModels);
 	        return this._model;
         }
 
-
         public void Initialize(IDeviceFragment deviceFragment)
         {
-	        if (!(deviceFragment is IProgrammModelEditor)) return;
-	        var progrModel = (IProgrammModelEditor)deviceFragment;
-	        this._model.Elements = progrModel.Elements;
-	        this.LibraryElements.Clear();
-	        this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
+            if (deviceFragment is IProgrammModelEditor model)
+            {
+                _model = model;
+                this.LibraryElements.Clear();
+                this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
+            }
         }
     }
 }

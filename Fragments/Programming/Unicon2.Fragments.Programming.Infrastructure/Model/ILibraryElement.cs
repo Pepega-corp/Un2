@@ -8,5 +8,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
         ElementType ElementType { get; }
         Functional Functional { get; }
         Group Group { get; }
+
+        void InitializeDefault();
     }
 }
