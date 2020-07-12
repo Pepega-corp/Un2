@@ -18,6 +18,7 @@ namespace Unicon2.Presentation.Infrastructure.Factories
 
         void AddAsSharedResource(INameable resourceToAdd);
         void AddAsSharedResourceWithContainer(INameable resourceToAdd);
+        void UpdateSharedResource(INameable resourceToAdd);
 
 
         IDeviceSharedResources GetSharedResources();

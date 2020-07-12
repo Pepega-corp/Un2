@@ -168,9 +168,16 @@ namespace Unicon2.Services.UniconProject
 		        {
 			        if (connectableItem.DeviceConnection != null)
 			        {
-				        await _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
+				        var res=await _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
 					        connectableItem.DeviceConnection);
-			        }
+				       
+					        if (!_devicesContainerService.ConnectableItems.Contains(connectableItem as IDevice))
+					        {
+						        _devicesContainerService.AddConnectableItem(connectableItem as IDevice);
+					        }
+
+                        
+                    }
 		        }
 
 		        string message = string.Empty;

@@ -54,7 +54,6 @@ namespace Unicon2.Formatting.Editor.Visitors
             {
                 FormulaString = formatterViewModel.FormulaString,
                 NumberOfSimbolsAfterComma = formatterViewModel.NumberOfSimbolsAfterComma
-
             };
         }
 

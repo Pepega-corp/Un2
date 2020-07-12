@@ -6,6 +6,7 @@ using Unicon2.Infrastructure.BaseItems;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Connections.OfflineConnection.Interfaces;
+using Unicon2.Infrastructure.Functional;
 
 namespace Unicon2.Connections.OfflineConnection
 {
@@ -28,9 +29,9 @@ namespace Unicon2.Connections.OfflineConnection
             return true;
         }
 
-        public async Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
+        public async Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger)
         {
-            return false;
+            return Result.Create(false);
         }
 
         public Action<bool> LastQueryStatusChangedAction { get; set; }

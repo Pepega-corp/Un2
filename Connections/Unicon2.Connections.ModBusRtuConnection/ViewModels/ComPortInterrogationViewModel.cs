@@ -59,8 +59,13 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             if (deviceCreator == null) return;
             if (deviceCreator.AvailableConnection == null) return;
             _comConnectionManager.SetComPortConfigurationByName((deviceCreator.AvailableConnection as IModbusRtuConnection).ComPortConfiguration, (deviceCreator.AvailableConnection as IModbusRtuConnection).PortName);
-
-            await _devicesContainerService.ConnectDeviceAsync(deviceCreator.Create(), deviceCreator.AvailableConnection);
+            var device = deviceCreator.Create();
+            device.DeviceSignature = device.Name;
+            await _devicesContainerService.ConnectDeviceAsync(device, deviceCreator.AvailableConnection);
+            if (!_devicesContainerService.ConnectableItems.Contains(device))
+            {
+	            _devicesContainerService.AddConnectableItem(device);
+            }
             DeviceDefinitionViewModels.Remove(obj as IDeviceDefinitionViewModel);
             IsDevicesNotFound = false;
 
@@ -157,7 +162,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
                 {
                     _modbusRtuConnection.PortName = port;
                     _comConnectionManager.SetComPortConfigurationByName(_modbusRtuConnection.ComPortConfiguration, port);
-                    if (await _modbusRtuConnection.TryOpenConnectionAsync(false, null))
+                    if ((await _modbusRtuConnection.TryOpenConnectionAsync(null)).IsSuccess)
                     {
                         try
                         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services.ItemChangingContext;
 
@@ -17,7 +18,7 @@ namespace Unicon2.Infrastructure.Services
         void AddConnectableItem(IConnectable device);
         void RemoveConnectableItem(IConnectable device);
 
-        Task<bool> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection);
+        Task<Result> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection);
 
         
         void LoadDevicesDefinitions(string folderPath="Devices");

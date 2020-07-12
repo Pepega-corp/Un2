@@ -17,16 +17,6 @@ namespace Unicon2.Formatting.Editor.Services
             _container = container;
         }
 
-        private IUshortsFormatter CreateUshortsFormatter(IUshortsFormatterViewModel ushortsFormatterViewModel)
-        {
-            if (ushortsFormatterViewModel is UshortsFormatterViewModelBase ushortsFormatterViewModelBase)
-            {
-                return ushortsFormatterViewModelBase.Accept(new SaveFormatterViewModelVisitor());
-            }
-
-            return null;
-        }
-
         public IUshortsFormatter CreateUshortsParametersFormatter(IFormatterParametersViewModel formatterParametersViewModel)
         {
 	        if (formatterParametersViewModel == null)
@@ -40,8 +30,18 @@ namespace Unicon2.Formatting.Editor.Services
                     .GetResourceByName(formatterParametersViewModel.Name) as IUshortsFormatter;
             }
 
-            return CreateUshortsFormatter(formatterParametersViewModel
+            return CreateUshortsParametersFormatter(formatterParametersViewModel
                 .RelatedUshortsFormatterViewModel);
+        }
+
+        public IUshortsFormatter CreateUshortsParametersFormatter(IUshortsFormatterViewModel ushortsFormatterViewModel)
+        {
+	        if (ushortsFormatterViewModel is UshortsFormatterViewModelBase ushortsFormatterViewModelBase)
+	        {
+		        return ushortsFormatterViewModelBase.Accept(new SaveFormatterViewModelVisitor());
+	        }
+
+	        return null;
         }
     }
 }

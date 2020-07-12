@@ -138,18 +138,19 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
 
         private async Task<bool> ConnectDevice(IDevice device, IDeviceConnection deviceConnection)
         {
-            try
-            {
-                await _devicesContainerService.ConnectDeviceAsync(device, deviceConnection);
-            }
-            catch (Exception e)
-            {
-                _dialogCoordinator.ShowModalMessageExternal(this,
-                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.PORT_ERROR_MESSAGE),
-                    e.Message);
-                return false;
-            }
-            return true;
+              var res=  await _devicesContainerService.ConnectDeviceAsync(device, deviceConnection);
+              if (res.IsSuccess)
+              {
+	              return true;
+              }
+              if (res.Exception != null)
+              {
+	              _dialogCoordinator.ShowModalMessageExternal(this,
+		              _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.PORT_ERROR_MESSAGE),
+		              res.Exception.Message);
+	              return false;
+              }
+              return false;
         }
 
 
@@ -188,8 +189,16 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
                 if (!await ConnectDevice(connectingDevice,
                     (SelectedDeviceConnection.Model as IDeviceConnection)?.Clone() as IDeviceConnection)) return;
 
+          
+                if (CurrentMode == ModesEnum.AddingMode)
+                {
+	                if (!_devicesContainerService.ConnectableItems.Contains(connectingDevice))
+	                {
+		                _devicesContainerService.AddConnectableItem(connectingDevice);
+	                }
 
-                
+                }
+
 
                 //закрытие представления
                 IsFlyOutOpen = false;

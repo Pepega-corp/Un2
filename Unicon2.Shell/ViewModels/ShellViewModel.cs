@@ -228,84 +228,111 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnDeviceChanged(ConnectableItemChangingContext connectableItemChangingContext)
         {
-            switch (connectableItemChangingContext.ItemModifyingType)
-            {
-                case ItemModifyingTypeEnum.Edit:
-                    IRegion runtimeRegion =
-                        _regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
-                    if (runtimeRegion == null) return;
-                    Uri uri = new Uri(ApplicationGlobalNames.ViewNames.DEVICEEDITING_VIEW_NAME, UriKind.Relative);
-                    NavigationParameters parameters = new NavigationParameters();
-                    parameters.Add(ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY,
-                        connectableItemChangingContext.Connectable);
+	        switch (connectableItemChangingContext.ItemModifyingType)
+	        {
+		        case ItemModifyingTypeEnum.Edit:
+			        IRegion runtimeRegion =
+				        _regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
+			        if (runtimeRegion == null) return;
+			        Uri uri = new Uri(ApplicationGlobalNames.ViewNames.DEVICEEDITING_VIEW_NAME, UriKind.Relative);
+			        NavigationParameters parameters = new NavigationParameters();
+			        parameters.Add(ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY,
+				        connectableItemChangingContext.Connectable);
 
-                    _regionManager.RequestNavigate(
-                        ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME,
-                        uri,
-                        result =>
-                        {
-                            if (result.Result == false)
-                            {
-                                throw new Exception(result.Error.Message);
-                            }
-                        }, parameters);
+			        _regionManager.RequestNavigate(
+				        ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME,
+				        uri,
+				        result =>
+				        {
+					        if (result.Result == false)
+					        {
+						        throw new Exception(result.Error.Message);
+					        }
+				        }, parameters);
 
-                    IsMenuFlyOutOpen = false;
-                    break;
-                case ItemModifyingTypeEnum.Delete:
+			        IsMenuFlyOutOpen = false;
+			        break;
+		        case ItemModifyingTypeEnum.Delete:
 
-                    if (_applicationGlobalCommands.AskUserToDeleteSelectedGlobal(this))
-                    {
-                        IDeviceViewModel deviceViewModel = ProjectBrowserViewModel.DeviceViewModels.First((model =>
-                            model.Model == connectableItemChangingContext.Connectable));
+			        if (_applicationGlobalCommands.AskUserToDeleteSelectedGlobal(this))
+			        {
+				        IDeviceViewModel deviceViewModel = ProjectBrowserViewModel.DeviceViewModels.First((model =>
+					        model.Model == connectableItemChangingContext.Connectable));
+				        foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
+				        {
+					        IFragmentPaneViewModel openedFragment =
+						        FragmentsOpenedCollection.FirstOrDefault((model =>
+							        model.FragmentViewModel == fragment));
+					        openedFragment?.FragmentPaneClosedAction?.Invoke(openedFragment);
+				        }
+
+				        ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
+				        ActiveFragmentViewModel = null;
+				        //закрываем соединение при удалении устройства
+				        (connectableItemChangingContext.Connectable as IDevice).DeviceConnection.CloseConnection();
+				        //надо удалить девайс из коллекции _devicesContainerService
+				        _devicesContainerService.RemoveConnectableItem(
+					        connectableItemChangingContext.Connectable as IDevice);
+				        connectableItemChangingContext.Connectable.Dispose();
+			        }
+
+			        break;
+		        case ItemModifyingTypeEnum.Add:
+			        if (connectableItemChangingContext.Connectable != null)
+				        ProjectBrowserViewModel.DeviceViewModels.Add(
+					        _deviceViewModelFactory.CreateDeviceViewModel(
+						        connectableItemChangingContext.Connectable as IDevice,
+						        () => ActiveFragmentViewModel?.FragmentViewModel));
+			        break;
+		        case ItemModifyingTypeEnum.Refresh:
+			        foreach (IDeviceViewModel deviceViewModel in ProjectBrowserViewModel.DeviceViewModels)
+			        {
+				        foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
+				        {
+					        IFragmentPaneViewModel openedFragment =
+						        FragmentsOpenedCollection.FirstOrDefault(model =>
+							        model.FragmentViewModel == fragment);
+					        if (openedFragment != null)
+					        {
+						        FragmentsOpenedCollection.Remove(openedFragment);
+					        }
+				        }
+
+				        ActiveFragmentViewModel = null;
+				        (deviceViewModel.Model as IDisposable)?.Dispose();
+			        }
+
+			        ProjectBrowserViewModel.DeviceViewModels.Clear();
+			        break;
+		        case ItemModifyingTypeEnum.Connected:
+		        {
+			        IDeviceViewModel deviceViewModel = ProjectBrowserViewModel.DeviceViewModels.FirstOrDefault((model =>
+				        model.Model == connectableItemChangingContext.Connectable));
+			        if (deviceViewModel != null)
+			        {
+				        var index = ProjectBrowserViewModel.DeviceViewModels.IndexOf(deviceViewModel);
+
                         foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
-                        {
-                            IFragmentPaneViewModel openedFragment =
-                                FragmentsOpenedCollection.FirstOrDefault((model =>
-                                    model.FragmentViewModel == fragment));
-                            openedFragment?.FragmentPaneClosedAction?.Invoke(openedFragment);
-                        }
+				        {
+					        IFragmentPaneViewModel openedFragment =
+						        FragmentsOpenedCollection.FirstOrDefault((model =>
+							        model.FragmentViewModel == fragment));
+					        openedFragment?.FragmentPaneClosedAction?.Invoke(openedFragment);
+				        }
 
-                        ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
-                        ActiveFragmentViewModel = null;
-                        //закрываем соединение при удалении устройства
-                        (connectableItemChangingContext.Connectable as IDevice).DeviceConnection.CloseConnection();
-                        //надо удалить девайс из коллекции _devicesContainerService
-                        _devicesContainerService.RemoveConnectableItem(
-                            connectableItemChangingContext.Connectable as IDevice);
-                        connectableItemChangingContext.Connectable.Dispose();
-                    }
-
-                    break;
-                case ItemModifyingTypeEnum.Add:
-                    if (connectableItemChangingContext.Connectable != null)
-                        ProjectBrowserViewModel.DeviceViewModels.Add(
-                            _deviceViewModelFactory.CreateDeviceViewModel(
-                                connectableItemChangingContext.Connectable as IDevice, () => ActiveFragmentViewModel?.FragmentViewModel));
-                    break;
-                case ItemModifyingTypeEnum.Refresh:
-                    foreach (IDeviceViewModel deviceViewModel in ProjectBrowserViewModel.DeviceViewModels)
-                    {
-                        foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
-                        {
-                            IFragmentPaneViewModel openedFragment =
-                                FragmentsOpenedCollection.FirstOrDefault(model =>
-                                    model.FragmentViewModel == fragment);
-                            if (openedFragment != null)
-                            {
-                                FragmentsOpenedCollection.Remove(openedFragment);
-                            }
-                        }
-
-                        ActiveFragmentViewModel = null;
-                        (deviceViewModel.Model as IDisposable)?.Dispose();
-                    }
-
-                    ProjectBrowserViewModel.DeviceViewModels.Clear();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+				        ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
+				        ActiveFragmentViewModel = null;
+				        if (connectableItemChangingContext.Connectable != null)
+					        ProjectBrowserViewModel.DeviceViewModels.Insert(index,
+						        _deviceViewModelFactory.CreateDeviceViewModel(
+							        connectableItemChangingContext.Connectable as IDevice,
+							        () => ActiveFragmentViewModel?.FragmentViewModel));
+			        }
+		        }
+			        break;
+		        default:
+			        throw new ArgumentOutOfRangeException();
+	        }
         }
 
         private void OnExecuteAddNewFragment(IFragmentViewModel fragmentViewModel)

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Unicon2.Connections.DataProvider.Model;
 using Unicon2.Connections.ModBusTcpConnection.Interfaces;
 using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.LogService;
 
@@ -84,7 +85,7 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
 
         public string ConnectionName => "ModBus TCP";
 
-        public async Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
+        public async Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger)
         {
             try
             {
@@ -97,19 +98,12 @@ namespace Unicon2.Connections.ModBusTcpConnection.Model
                     _currentDeviceLogger = currentDeviceLogger;
                 });
 
-                return true;
+                return Result.Create(true);
             }
             catch (Exception e)
             {
-
-                if (isThrowingException)
-                {
-                    throw;
-                }
-
-                return false;
+                return Result.Create(e);
             }
-
         }
 
         public Action<bool> LastQueryStatusChangedAction { get; set; }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
 using Unicon2.Infrastructure.BaseItems;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
@@ -28,7 +29,7 @@ namespace Unicon2.Connections.DataProvider.Model
 
         protected virtual bool CheckConnection(IQueryResult queryResult)
         {
-            if (_currentModbusMaster.Transport == null)
+            if (_currentModbusMaster?.Transport == null)
             {
                 queryResult.IsSuccessful = false;
                 return false;
@@ -40,6 +41,10 @@ namespace Unicon2.Connections.DataProvider.Model
         protected ModbusDataProvider(IQueryResultFactory queryResultFactory)
         {
             _queryResultFactory = queryResultFactory;
+            if (_queryResultFactory==null)
+            {
+	            _queryResultFactory= StaticContainer.Container.Resolve<IQueryResultFactory>(); 
+            }
         }
 
 

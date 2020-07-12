@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ItemChangingContext;
@@ -45,31 +46,23 @@ namespace Unicon2.Services
             ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Add));
         }
 
-        public async Task<bool> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection)
+        public async Task<Result> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection)
         {
-            try
-            {
-                await deviceConnection.TryOpenConnectionAsync(true, device.DeviceLogger);
-            }
-            catch (Exception e)
-            {
-                device.Dispose();
-                throw e;
-            }
+	        var res = await deviceConnection.TryOpenConnectionAsync(device.DeviceLogger);
 
-            //инициализация подключения (добавление логгеров, датапровайдеров)
-            device.InitializeConnection(deviceConnection);
-            if (deviceConnection is IDataProvider dataProvider)
-            {
-                dataProvider.TransactionCompleteSubscription?.Execute();
-            }
-            //ниже не работает как надо, запихивает девайс в любом случае, даже если переподключаться к одному и тому же устройству
-            if (!ConnectableItems.Contains(device))
-            {
-                AddConnectableItem(device);
-            }
+	        //инициализация подключения (добавление логгеров, датапровайдеров)
+	        device.InitializeConnection(deviceConnection);
+	        if (deviceConnection is IDataProvider dataProvider)
+	        {
+		        dataProvider.TransactionCompleteSubscription?.Execute();
+	        }
+            ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device,ItemModifyingTypeEnum.Connected));
+	        if (res.IsSuccess)
+	        {
+		        return Result.Create(true);
+	        }
 
-            return true;
+	        return res;
         }
 
         public void RemoveConnectableItem(IConnectable device)

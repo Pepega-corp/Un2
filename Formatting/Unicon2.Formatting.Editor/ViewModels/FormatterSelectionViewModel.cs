@@ -2,12 +2,14 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
@@ -74,12 +76,13 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         private void OnSelectFromResourcesExecute()
         {
-            var selectedFormatterViewModel =
-                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IFormatterParametersViewModel>();
-            if (selectedFormatterViewModel == null) return;
-            CurrentResourceString = selectedFormatterViewModel.Name;
+            var selectedFormatter =
+                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortsFormatter>();
+            if (selectedFormatter == null) return;
+            CurrentResourceString = selectedFormatter.Name;
             IsFormatterFromResource = true;
-            SelectedUshortsFormatterViewModel = selectedFormatterViewModel.RelatedUshortsFormatterViewModel;
+            SelectedUshortsFormatterViewModel = _container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(selectedFormatter).RelatedUshortsFormatterViewModel;
+     
         }
 
         private void OnAddAsResourceExecute()
@@ -116,8 +119,12 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             if (CurrentResourceString != null)
             {
-                IUshortsFormatter resourceUshortsFormatter =
-	                _sharedResourcesGlobalViewModel.GetResourceByName(CurrentResourceString) as IUshortsFormatter;
+	            ISaveFormatterService saveFormatterService = _container.Resolve<ISaveFormatterService>();
+
+                IUshortsFormatter resourceUshortsFormatter = saveFormatterService.CreateUshortsParametersFormatter(SelectedUshortsFormatterViewModel);
+                resourceUshortsFormatter.Name = CurrentResourceString;
+                _sharedResourcesGlobalViewModel.UpdateSharedResource(resourceUshortsFormatter);
+
 
                 _ushortFormattableViewModel.FormatterParametersViewModel =
 	               _container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(resourceUshortsFormatter) ;

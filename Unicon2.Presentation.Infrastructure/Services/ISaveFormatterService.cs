@@ -6,5 +6,7 @@ namespace Unicon2.Presentation.Infrastructure.Services
     public interface ISaveFormatterService
     {
         IUshortsFormatter CreateUshortsParametersFormatter(IFormatterParametersViewModel formatterParametersViewModel);
+        IUshortsFormatter CreateUshortsParametersFormatter(IUshortsFormatterViewModel ushortsFormatterViewModel);
+
     }
 }

@@ -64,6 +64,7 @@ namespace Unicon2.Presentation.Factories
                 device.DataProvider.TransactionCompleteSubscription.Execute();
             }
             deviceViewModel.Model = device;
+          
             return deviceViewModel;
         }
 

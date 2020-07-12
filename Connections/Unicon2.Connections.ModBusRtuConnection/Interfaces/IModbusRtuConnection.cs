@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Connections.ModBusRtuConnection.Interfaces
 {

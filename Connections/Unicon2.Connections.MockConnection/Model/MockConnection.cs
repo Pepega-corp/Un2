@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Unicon2.Connections.MockConnection.Keys;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Model.Connection;
@@ -47,10 +48,10 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public string ConnectionName => StringKeys.MOCK_CONNECTION;
 
-        public Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
+        public Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger)
         {
             _currentDeviceLogger = currentDeviceLogger;
-            return Task.FromResult(true);
+            return Task.FromResult(Result.Create(true));
         }
 
         public Action<bool> LastQueryStatusChangedAction { get; set; }

@@ -48,6 +48,8 @@ namespace Unicon2.Infrastructure.Functional
         public T Item { get; }
 
         public bool IsSuccess { get; }
+        public Exception Exception { get; }
+
     }
 
     public class Result

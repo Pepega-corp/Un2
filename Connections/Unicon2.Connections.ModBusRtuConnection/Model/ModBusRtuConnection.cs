@@ -9,8 +9,10 @@ using Newtonsoft.Json;
 using Unicon2.Connections.DataProvider.Model;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces.Factories;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Unity.Interfaces;
@@ -39,7 +41,14 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
             _localizerService = localizerService;
             _comPortConfigurationFactory = comPortConfigurationFactory;
 
-            ComPortConfiguration = _comPortConfigurationFactory.CreateComPortConfiguration();
+            ComPortConfiguration = _comPortConfigurationFactory?.CreateComPortConfiguration();
+            if (_container == null) 
+            {
+	            _connectionManager = StaticContainer.Container.Resolve<IComConnectionManager>();
+	            _container = StaticContainer.Container.Resolve<ITypesContainer>();
+                _localizerService = StaticContainer.Container.Resolve<ILocalizerService>();
+                _comPortConfigurationFactory = StaticContainer.Container.Resolve<IComPortConfigurationFactory>();
+            }
         }
 
         [JsonProperty]
@@ -53,13 +62,15 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
             return _connectionManager.GetSerialPortNames();
         }
 
+      
+
 
         /// <summary>
         /// название подключения
         /// </summary>
         public string ConnectionName => "ModBus RTU";
 
-        public async Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger deviceLogger)
+        public async Task<Result> TryOpenConnectionAsync(IDeviceLogger deviceLogger)
         {
             try
             {
@@ -86,12 +97,11 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
                 _isConnectionLost = false;
                 _lastQuerySucceed = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                if (isThrowingException) throw;
-                return false;
+	            return Result.Create(e);
             }
-            return true;
+            return Result.Create(true);
         }
 
         public Action<bool> LastQueryStatusChangedAction { get; set; }
@@ -99,7 +109,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
 
         public void CloseConnection()
         {
-            _currentModbusMaster.Dispose();
+            _currentModbusMaster?.Dispose();
 
         }
 

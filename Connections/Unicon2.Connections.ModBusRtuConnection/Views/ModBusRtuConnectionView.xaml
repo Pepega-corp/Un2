@@ -63,8 +63,6 @@
                         </Grid.RowDefinitions>
 
                         <UniformGrid  Grid.Row="0" Columns="2">
-                            <TextBlock Margin="2" Text="{lex:Loc PropertyAddress}"></TextBlock>
-                            <TextBlock Margin="2" Text="500"></TextBlock>
                             <TextBlock
                             Margin="2"
                             Text="{lex:Loc SlaveId}" />

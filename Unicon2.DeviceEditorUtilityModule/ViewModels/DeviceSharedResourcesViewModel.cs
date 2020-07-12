@@ -102,7 +102,14 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			if (dialog.ShowDialog() == true)
 			{
 				var resourcesFromFile = _serializerService.DeserializeFromFile<List<INameable>>(dialog.FileName);
-				_deviceSharedResources.SharedResources.AddRange(resourcesFromFile);
+				foreach (var resource in resourcesFromFile)
+				{
+					if (_deviceSharedResources.SharedResources.All(nameable => nameable.Name != resource.Name))
+					{
+						_deviceSharedResources.SharedResources.Add(resource);
+					}
+				}
+				
 				UpdateResourcesViewModelCollection();
 			}
 		}
@@ -133,8 +140,25 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			{
 				_resourceViewModelsInContainers.Remove(SelectedResourceViewModel);
 			}
+			else
+			{
+				var sharedRes =
+				_deviceSharedResources.SharedResources.FirstOrDefault(nameable =>
+					nameable.Name == SelectedResourceViewModel.Name);
+				if (sharedRes != null)
+				{
+					_deviceSharedResources.SharedResources.Remove(sharedRes);
+				}
+			}
+
+
+			
+			{
+				
+			}
 			ResourcesCollection.Remove(SelectedResourceViewModel);
-		
+
+			UpdateResourcesViewModelCollection();
 		}
 
 		private bool CanExecuteSelectResource(object arg)
@@ -280,6 +304,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			{
 				_deviceSharedResources.SharedResources.Add(resourceModelToAdd);
 			}
+			UpdateResourcesViewModelCollection();
 		}
 
 		public void AddAsSharedResourceWithContainer(INameable resourceToAdd)
@@ -295,6 +320,18 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			{
 				_resourceViewModelsInContainers.Add(resourceViewModel);
 			}
+			UpdateResourcesViewModelCollection();
+		}
+
+		public void UpdateSharedResource(INameable resourceToAdd)
+		{
+			var existing=_deviceSharedResources.SharedResources.FirstOrDefault(nameable => nameable.Name == resourceToAdd.Name);
+			if (existing!=null)
+			{
+				_deviceSharedResources.SharedResources.Remove(existing);
+			}
+			_deviceSharedResources.SharedResources.Add(resourceToAdd);
+			UpdateResourcesViewModelCollection();
 		}
 
 		public IDeviceSharedResources GetSharedResources()

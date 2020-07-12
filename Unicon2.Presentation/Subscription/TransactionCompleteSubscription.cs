@@ -31,24 +31,32 @@ namespace Unicon2.Presentation.Subscription
             _connectionService = container.Resolve<IConnectionService>();
         }
 
+        private bool _isPreviousCheckSuccessful = true;
+
         public async void Execute()
         {
             if (this._deviceContext.DataProviderContainer.DataProvider.LastQuerySucceed&& this._connectionStateViewModel.TestValue!=null)
             {
                 this._connectionStateViewModel.IsDeviceConnected = true;
+                _isPreviousCheckSuccessful = true;
             }
             else
             {
-                var res =await this._connectionService.CheckConnection(this._connectionState, this._deviceContext);
-                if (!res.IsSuccess)
-                {
-                    this._connectionStateViewModel.IsDeviceConnected = false;
-                }
-                else
-                {
-                    this._connectionStateViewModel.TestValue = res.Item;
-                    this._connectionStateViewModel.IsDeviceConnected = true;
-                }
+	            if (_isPreviousCheckSuccessful)
+	            {
+		            var res = await this._connectionService.CheckConnection(this._connectionState, this._deviceContext);
+		            if (!res.IsSuccess)
+		            {
+			            this._connectionStateViewModel.IsDeviceConnected = false;
+			            _isPreviousCheckSuccessful = false;
+		            }
+		            else
+		            {
+			            this._connectionStateViewModel.TestValue = res.Item;
+			            this._connectionStateViewModel.IsDeviceConnected = true;
+			            _isPreviousCheckSuccessful = true;
+		            }
+	            }
 
             }
         }

@@ -118,6 +118,14 @@ namespace Unicon2.Fragments.Configuration.Editor.Behaviors
         {
             IConfigurationItemViewModel oldItem = ((sender as ToggleButton).DataContext as IConfigurationItemViewModel);
             if (oldItem == null) return;
+            if (oldItem.IsChecked)
+            {
+	            (sender as ToggleButton).IsChecked = false;
+	            TreeViewToggleButtonBehavior_Unchecked(sender, e);
+
+                return;
+            }
+
             oldItem.IsChecked = true;
             ObservableCollection<IConfigurationItemViewModel> treeGridItems = ((sender as ToggleButton)?.Tag as ObservableCollection<IConfigurationItemViewModel>);
             int index = treeGridItems.IndexOf(oldItem);
