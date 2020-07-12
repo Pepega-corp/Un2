@@ -110,7 +110,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
             var connectionsViewModels = this.ElementCollection.Where(ec => ec is IConnectionViewModel)
                 .Cast<IConnectionViewModel>().ToArray();
-            this._model.ConnectionNumbers = connectionsViewModels.Select(c => c.ConnectionNumber).ToArray();
+            this._model.ConnectionNumbers.Clear();
+            this._model.ConnectionNumbers.AddRange(connectionsViewModels.Select(c => c.ConnectionNumber));
 
             return this._model;
         }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Unicon2.Infrastructure.Services;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -64,6 +61,7 @@ namespace Unicon2.Services.SerializerService
                 {
                     var jsonSerializerSettings = new JsonSerializerSettings()
                     {
+                        ObjectCreationHandling = ObjectCreationHandling.Replace,
                         TypeNameHandling = TypeNameHandling.All,
                         PreserveReferencesHandling = PreserveReferencesHandling.All,
                         Formatting = Formatting.Indented

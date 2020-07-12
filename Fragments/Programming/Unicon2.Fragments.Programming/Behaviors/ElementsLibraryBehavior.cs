@@ -2,7 +2,10 @@
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Shapes;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model.Elements;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors
 {
@@ -47,7 +50,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             if (this._dragStart && e.LeftButton == MouseButtonState.Pressed)
             {
-                var item = (ILogicElementViewModel)this._selectedItem.Clone();
+                var item = this._selectedItem.Clone();
                 var dragObject = new DragElement(item);
                 DragDrop.DoDragDrop(this._selectRect, dragObject, DragDropEffects.Copy);
                 e.Handled = true;

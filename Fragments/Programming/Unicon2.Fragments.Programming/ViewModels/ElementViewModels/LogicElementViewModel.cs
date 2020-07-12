@@ -10,19 +10,13 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public abstract class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
     {
-        protected readonly IApplicationGlobalCommands _globalCommands;
+        protected IApplicationGlobalCommands _globalCommands;
         protected bool _isSelected;
         protected ILogicElement _model;
         protected bool _debugMode;
         protected string _caption;
         protected bool _validationError;
         protected string _description;
-
-        protected LogicElementViewModel(string strongName, IApplicationGlobalCommands globalCommands)
-        {
-            this.StrongName = strongName;
-            this._globalCommands = globalCommands;
-        }
 
         public string ElementName { get; protected set; }
 
@@ -36,7 +30,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        public string StrongName { get; protected set; }
+        public abstract string StrongName { get; }
 
         public ILogicElement Model
         {
@@ -125,8 +119,35 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         }
 
         protected abstract ILogicElement GetModel();
-        protected abstract void SetModel(object modelObj);
-        public abstract object Clone();
+        protected virtual void SetModel(ILogicElement model)
+        {
+            X = model.X;
+            Y = model.Y;
+
+            ConnectorViewModels.Clear();
+            foreach (var c in model.Connectors)
+            {
+                var newConnector = new ConnectorViewModel(this, c.Orientation, c.Type);
+                newConnector.ConnectionNumber = c.ConnectionNumber;
+                newConnector.ConnectorPosition = c.ConnectorPosition;
+                ConnectorViewModels.Add(newConnector);
+            }
+        }
+        public abstract ILogicElementViewModel Clone();
+
+        protected ILogicElementViewModel Clone<TR, T>() where TR : ILogicElementViewModel, new() where T : ILogicElement, new()
+        {
+            var newModel = new T();
+            newModel.CopyValues(_model);
+
+            var ret = new TR()
+            {
+                Model = newModel,
+                Caption = this.Caption
+            };
+
+            return ret;
+        }
 
         public virtual void OpenPropertyWindow()
         {

@@ -12,33 +12,28 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Output : IOutput
+    public class Output : LogicElement, IOutput
     {
         private const int BIN_SIZE = 3;
-
-        [JsonProperty]
-        public IConnector[] Connectors { get; set; }
+        
         [JsonProperty]
         public List<string> OutputSignals { get; set; }
         [JsonProperty]
         public int OutputSignalNum { get; set; }
-        [JsonProperty]
-        public double X { get; set; }
-        [JsonProperty]
-        public double Y { get; set; }
-        public ElementType ElementType => ElementType.Out;
-        public string Name => this.ElementType.ToString();
-        public Functional Functional => Functional.BOOLEAN;
-        public Group Group => Group.INPUT_OUTPUT;
-        public int BinSize => BIN_SIZE;
+        public override ElementType ElementType => ElementType.Out;
+        public override string Name => this.ElementType.ToString();
+        public override Functional Functional => Functional.BOOLEAN;
+        public override Group Group => Group.INPUT_OUTPUT;
+        public override int BinSize => BIN_SIZE;
+        public override string StrongName => ProgrammingKeys.OUTPUT;
 
         public Output()
         {
             this.OutputSignals = new List<string>();
-            this.Connectors = new IConnector[] {new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
+            this.Connectors = new List<IConnector> { new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
         }
 
-        public void CopyValues(ILogicElement source)
+        public override void CopyValues(ILogicElement source)
         {
             if (!(source is Output outputSource))
             {
@@ -47,9 +42,12 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             
             this.OutputSignals.Clear();
             this.OutputSignals.AddRange(outputSource.OutputSignals);
+            this.OutputSignalNum = outputSource.OutputSignalNum;
+
+            base.CopyValues(source);
         }
 
-        public void CopyValues(ILibraryElement source)
+        public override void CopyValues(ILibraryElement source)
         {
             if (!(source is IOutputEditor outputEditor))
             {
@@ -60,7 +58,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.OutputSignals.AddRange(outputEditor.OutputSignals);
         }
 
-        public ushort[] GetProgrammBin()
+        public override ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
             bindata[0] = 5;
@@ -69,14 +67,10 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             return bindata;
         }
 
-        public void BinProgrammToProperty(ushort[] bin)
+        public override void BinProgrammToProperty(ushort[] bin)
         {
             this.OutputSignalNum = bin[1];
             this.Connectors[0].ConnectionNumber = bin[2];
         }
-
-        #region IStronglyName
-        public string StrongName => ProgrammingKeys.OUTPUT;
-        #endregion
     }
 }

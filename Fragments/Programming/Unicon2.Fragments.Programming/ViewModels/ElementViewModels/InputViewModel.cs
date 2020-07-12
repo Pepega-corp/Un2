@@ -4,7 +4,6 @@ using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
-using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.Common;
@@ -13,23 +12,57 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public class InputViewModel : LogicElementViewModel
     {
-        private List<Dictionary<int, string>> _allInputSignals;
         private string _selectedBase;
         private string _selectedSignal;
+        private Input _inputModel;
 
-        public InputViewModel(IApplicationGlobalCommands globalCommands) : base(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL, globalCommands)
+        public override string StrongName =>ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
+
+        public InputViewModel()
         {
+            _inputModel= new Input();
+            _model = _inputModel;
+
             this.ElementName = "Вход";
             this.Description = "Елемент входного дискретного сигнала";
             this.Symbol = "In";
-
+            Signals = new ObservableCollection<string>();
             this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
-
-            this.Bases = new ObservableCollection<string>();
-            this.Signals = new ObservableCollection<string>();
         }
 
-        public ObservableCollection<string> Bases { get; }
+        public InputViewModel(IApplicationGlobalCommands globalCommands) : this()
+        {
+            _globalCommands = globalCommands;
+        }
+
+        public List<string> Bases
+        {
+            get => _inputModel.Bases;
+            set
+            {
+                _inputModel.Bases.Clear();
+                if (value == null)
+                    return;
+
+                _inputModel.Bases.AddRange(value);
+                RaisePropertyChanged();
+            }
+        }
+
+        private List<Dictionary<int, string>> AllInputSignals
+        {
+            get => _inputModel.AllInputSignals;
+            set
+            {
+                this._inputModel.AllInputSignals.Clear();
+                if (value == null)
+                    return;
+                
+                this._inputModel.AllInputSignals.AddRange(value);
+            }
+        }
+
         public ObservableCollection<string> Signals { get; }
 
         public string SelectedBase
@@ -42,9 +75,14 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 this._selectedBase = value;
                 this.SetSignalsCollection(Bases.IndexOf(_selectedBase));
                 this.SelectedSignal = this.Signals[0];
+
+                _inputModel.BaseNum = BaseIndex;
+
                 RaisePropertyChanged();
             }
         }
+
+        private int BaseIndex => this.Bases.IndexOf(this.SelectedBase);
 
         public string SelectedSignal
         {
@@ -53,37 +91,33 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             {
                 if (string.Equals(this._selectedSignal, value))
                     return;
+
                 this._selectedSignal = value;
+
+                _inputModel.InputSignalNum = this.AllInputSignals[BaseIndex].First(s => s.Value == this.SelectedSignal).Key;
+
                 RaisePropertyChanged();
             }
         }
         
         protected override ILogicElement GetModel()
         {
-            var inputModel = (IInput) _model;
-
-            var baseIndex =  this.Bases.IndexOf(this.SelectedBase);
-            inputModel.BaseNum = baseIndex;
-            inputModel.InputSignalNum = this._allInputSignals[baseIndex].First(s => s.Value == this.SelectedSignal).Key;
-            inputModel.Connectors[0] = ConnectorViewModels[0].Model;
-
-            return inputModel;
+            _inputModel.Connectors[0] = ConnectorViewModels[0].Model;
+            return _inputModel;
         }
 
-        protected override void SetModel(object modelObj)
+        protected override void SetModel(ILogicElement model)
         {
-            if (!(modelObj is IInput model))
+            if (!(model is IInput input))
                 return;
 
-            this._model = model;
-            this._allInputSignals = model.AllInputSignals;
-            this.Bases.Clear();
-            this.Bases.AddCollection(model.Bases);
-            this.SelectedBase = this.Bases[model.BaseNum];
-            this.SetSignalsCollection(model.BaseNum);
-            this.SelectedSignal = this.Signals[model.InputSignalNum];
-            ConnectorViewModels.Clear();
-            ConnectorViewModels.Add(new ConnectorViewModel(this,  model.Connectors.First()));
+            this.AllInputSignals = input.AllInputSignals;
+            this.Bases = input.Bases;
+            this.SelectedBase = this.Bases[input.BaseNum];
+            this.SetSignalsCollection(input.BaseNum);
+            this.SelectedSignal = this.Signals[input.InputSignalNum];
+
+            base.SetModel(model);
         }
 
         private void SetSignalsCollection(int index)
@@ -93,28 +127,15 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             if(index == -1)
                 return;
 
-            var selectedSignals = this._allInputSignals[index].Select(s => s.Value).ToArray();
+            var selectedSignals = this.AllInputSignals[index].Select(s => s.Value).ToArray();
             this.Signals.AddCollection(selectedSignals);
         }
 
-        public override object Clone()
+        public override ILogicElementViewModel Clone()
         {
-            var cloneInputModel = new Input();
-            cloneInputModel.CopyValues(_model);
-
-            var cloneInput = new InputViewModel(this._globalCommands)
-            {
-                Model = cloneInputModel,
-                Caption = this.Caption
-            };
-
-            for (var i = 0; i < this.ConnectorViewModels.Count; i++)
-            {
-                var sourceConnector = this.ConnectorViewModels[i].Model;
-                cloneInput.ConnectorViewModels.Add(new ConnectorViewModel(cloneInput, sourceConnector.Orientation, sourceConnector.Type));
-            }
-
-            return cloneInput;
+            var cloned =  (InputViewModel)Clone<InputViewModel, Input>();
+            cloned._globalCommands = this._globalCommands;
+            return cloned;
         }
     }
 }

@@ -12,12 +12,10 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Input : IInput
+    public class Input : LogicElement, IInput
     {
         private const int BIN_SIZE = 3;
 
-        [JsonProperty]
-        public IConnector[] Connectors { get; set; }
         [JsonProperty]
         public List<Dictionary<int, string>> AllInputSignals { get; set; }
         [JsonProperty]
@@ -26,29 +24,21 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public List<string> Bases { get; set; }
         [JsonProperty]
         public int BaseNum { get; set; }
-        [JsonProperty]
-        public double X { get; set; }
-        [JsonProperty]
-        public double Y { get; set; }
-        public ElementType ElementType => ElementType.In;
-        public string Name => this.ElementType.ToString();
-        public Functional Functional => Functional.BOOLEAN;
-        public Group Group => Group.INPUT_OUTPUT;
-        public int BinSize => BIN_SIZE;
+        public override ElementType ElementType => ElementType.In;
+        public override string Name => this.ElementType.ToString();
+        public override Functional Functional => Functional.BOOLEAN;
+        public override Group Group => Group.INPUT_OUTPUT;
+        public override int BinSize => BIN_SIZE;
+        public override string StrongName => ProgrammingKeys.INPUT;
 
         public Input()
         {
-            this.Connectors = new IConnector[] { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
-            this.Bases = new List<string> {"Base0"};
-
-            this.AllInputSignals =
-                new List<Dictionary<int, string>>
-                {
-                    new Dictionary<int, string> {{0, string.Empty}}
-                };
+            this.Connectors = new List<IConnector> { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
+            Bases = new List<string>();
+            AllInputSignals = new List<Dictionary<int, string>>();
         }
 
-        public void CopyValues(ILogicElement source)
+        public override void CopyValues(ILogicElement source)
         {
             if (!(source is Input inputSource))
             {
@@ -65,9 +55,11 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 var copiedDictionary = inputSource.AllInputSignals[i];
                 this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
             }
+
+            base.CopyValues(source);
         }
 
-        public void CopyValues(ILibraryElement source)
+        public override void CopyValues(ILibraryElement source)
         {
             if (!(source is IInputEditor inputSource))
             {
@@ -84,7 +76,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             }
         }
 
-        public ushort[] GetProgrammBin()
+        public override ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
             switch (this.BaseNum)
@@ -120,13 +112,11 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             return bindata;
         }
 
-        public void BinProgrammToProperty(ushort[] bin)
+        public override void BinProgrammToProperty(ushort[] bin)
         {
             this.BaseNum = bin[0];
             this.InputSignalNum = bin[1];
             this.Connectors[0].ConnectionNumber = bin[2];
         }
-
-        public string StrongName => ProgrammingKeys.INPUT;
     }
 }

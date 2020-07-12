@@ -10,6 +10,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
         double SchemeWidth { get; }
         double Scale { get; set; }
         List<ILogicElement> LogicElements {get; set; }
-        int[] ConnectionNumbers { get; set; }
+        List<int> ConnectionNumbers { get; set; }
     }
 }

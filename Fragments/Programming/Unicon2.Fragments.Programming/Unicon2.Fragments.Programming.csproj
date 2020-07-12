@@ -71,6 +71,7 @@
     <Compile Include="Model\Connection.cs" />
     <Compile Include="Model\Connector.cs" />
     <Compile Include="Model\Elements\Input.cs" />
+    <Compile Include="Model\Elements\LogicElement.cs" />
     <Compile Include="Model\Elements\Output.cs" />
     <Compile Include="Model\ProgramModel.cs" />
     <Compile Include="Model\SchemeModel.cs" />

@@ -11,7 +11,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         string Description { get; }
         string Symbol { get; }
         ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; }
-        object Clone();
+        ILogicElementViewModel Clone();
         void OpenPropertyWindow();
     }
 }
