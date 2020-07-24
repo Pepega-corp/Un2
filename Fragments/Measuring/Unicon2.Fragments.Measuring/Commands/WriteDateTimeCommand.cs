@@ -56,9 +56,9 @@ namespace Unicon2.Fragments.Measuring.Commands
             {
                 var dateParts = this._dateTimeMeasuringElementViewModel.Date.Split(',');
                 var timeParts = this._dateTimeMeasuringElementViewModel.Time.Split(',', ':');
-                ushortstoWrite[0] = ushort.Parse(dateParts[0]);
+                ushortstoWrite[2] = ushort.Parse(dateParts[0]);
                 ushortstoWrite[1] = ushort.Parse(dateParts[1]);
-                ushortstoWrite[2] = ushort.Parse(dateParts[2]);
+                ushortstoWrite[0] = ushort.Parse(dateParts[2]);
                 ushortstoWrite[3] = ushort.Parse(timeParts[0]);
                 ushortstoWrite[4] = ushort.Parse(timeParts[1]);
                 ushortstoWrite[5] = ushort.Parse(timeParts[2]);
