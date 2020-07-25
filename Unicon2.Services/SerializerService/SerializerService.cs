@@ -53,6 +53,59 @@ namespace Unicon2.Services.SerializerService
             }
         }
 
+        public byte[] SerializeInBytes<T>(T objToSerialize)
+        {
+            try
+            {
+                using(MemoryStream memoryStream = new MemoryStream())
+                {
+                    using(StreamWriter writer = new StreamWriter(memoryStream))
+                    {
+                        var jsonSerializerSettings = new JsonSerializerSettings()
+                        {
+                            TypeNameHandling = TypeNameHandling.All,
+                            PreserveReferencesHandling = PreserveReferencesHandling.All,
+                            Formatting = Formatting.Indented
+                        };
+
+                        writer.Write(JsonConvert.SerializeObject(objToSerialize, jsonSerializerSettings));
+                        writer.Flush();
+                        return memoryStream.ToArray();
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public T DeserializeFromBytes<T>(byte[] values)
+        {
+            try
+            {
+                using (MemoryStream memoryStream = new MemoryStream(values))
+                {
+                    using (StreamReader reader = new StreamReader(memoryStream))
+                    {
+                        var jsonSerializerSettings = new JsonSerializerSettings()
+                        {
+                            ObjectCreationHandling = ObjectCreationHandling.Replace,
+                            TypeNameHandling = TypeNameHandling.All,
+                            PreserveReferencesHandling = PreserveReferencesHandling.All,
+                            Formatting = Formatting.Indented
+                        };
+
+                        return JsonConvert.DeserializeObject<T>(reader.ReadToEnd(), jsonSerializerSettings);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public T DeserializeFromFile<T>(string path)
         {
             try

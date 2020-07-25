@@ -55,7 +55,7 @@
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2">
-            <MenuItem Header="File">
+            <MenuItem Header="File" VerticalAlignment="Center">
                 <MenuItem
                     Command="{Binding NewSchemeCommand}"
                     Header="New File"
@@ -69,6 +69,11 @@
                           InputGestureText="Ctrl+L"/>
                 <!-- <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" /> -->
             </MenuItem>
+            <StackPanel Margin="20,0,0,0">
+                <Button Height="35" Width="35" Command="{Binding WriteLogicCommand}">
+                    W
+                </Button>
+            </StackPanel>
         </Menu>
         <GroupBox
             Grid.Row="1"

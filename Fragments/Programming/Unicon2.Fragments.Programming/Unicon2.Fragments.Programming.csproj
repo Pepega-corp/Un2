@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -68,6 +69,7 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="DesignerCanvasItemsControl.cs" />
     <Compile Include="DragElement.cs" />
+    <Compile Include="LogicReader.cs" />
     <Compile Include="Model\Connection.cs" />
     <Compile Include="Model\Connector.cs" />
     <Compile Include="Model\Elements\Input.cs" />

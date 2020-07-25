@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
@@ -109,6 +110,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public bool Connected => ConnectorViewModels.All(c=>c.Connected);
 
         private void UpdateConnectorsPosition(Point deltaPosition)
         {

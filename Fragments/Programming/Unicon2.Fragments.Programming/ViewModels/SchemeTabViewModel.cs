@@ -80,6 +80,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public double RectX => CELL_SIZE;
 
         public double RectY => CELL_SIZE;
+
+        public bool CanWriteToDevice
+        {
+            get
+            {
+                var logicElements = ElementCollection.Where(e => e is ILogicElementViewModel).Cast<ILogicElementViewModel>();
+                return logicElements.All(le => le.Connected);
+            }
+        }
+
         public ICommand ZoomIncrementCommand { get; }
         public ICommand ZoomDecrementCommand { get; }
         public ICommand CloseTabCommand { get; }

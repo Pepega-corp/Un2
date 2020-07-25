@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -29,8 +30,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly ILogicElementFactory _factory;
         private readonly ISerializerService _serializerService;
-        private readonly IFileDriver _fileDriver;
-        private DeviceContext _deviceContext;
+        private readonly LogicReader _logicReader;
         private IProgramModel _programModel;
         
         public ProgrammingViewModel(IProgramModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory factory, IFileDriver fileDriver,
@@ -39,30 +39,33 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._programModel = model;
             this._applicationGlobalCommands = globalCommands;
             this._factory = factory;
-            _serializerService = serializerService;
-            _fileDriver = fileDriver;
+
+            this._serializerService = serializerService;
+
+            this._logicReader = new LogicReader(fileDriver);
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
             this.ElementsLibrary = new ObservableCollection<ILogicElementViewModel>();
             this.ConnectionCollection = new ObservableCollection<IConnectionViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
-            this.SaveProjectCommand = new RelayCommand(this.SaveProject, CanSaveProject);
+            this.SaveProjectCommand = new RelayCommand(this.SaveProject, this.CanSaveProject);
             this.LoadProjectCommand = new RelayCommand(this.LoadProject);
             this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
             this.ZoomIncrementCommand = new RelayCommand(this.ZoomIncrement, this.CanZooming);
             this.ZoomDecrementCommand = new RelayCommand(this.ZoomDecrement, this.CanZooming);
+
+            WriteLogicCommand = new RelayCommand(OnWriteCommand);
         }
 
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
         public DeviceContext DeviceContext
         {
-            get => _deviceContext;
+            get => this._logicReader.DeviceContext;
             set
             {
-                _deviceContext = value;
-                _fileDriver.DeviceContext = value;
+                this._logicReader.SetDeviceContext(value);
             }
         }
 
@@ -74,7 +77,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 if (string.Equals(this._programModel.ProjectName, value, System.StringComparison.InvariantCultureIgnoreCase))
                     return;
                 this._programModel.ProjectName = value;
-                RaisePropertyChanged();
+                this.RaisePropertyChanged();
             }
         }
         public string StrongName => ProgrammingKeys.PROGRAMMING +
@@ -91,6 +94,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ICommand LoadProjectCommand { get; }
         public ICommand ZoomIncrementCommand { get; }
         public ICommand ZoomDecrementCommand { get; }
+        //READ/WRITE logic commands
+        public ICommand ReadLogicCommand { get; }
+        public ICommand WriteLogicCommand { get; }
+        public ICommand StartEmulationCommand { get; }
 
         public void AddConnection(IConnectionViewModel connectionViewModel)
         {
@@ -128,48 +135,48 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 SchemeModel scemeMoedel = new SchemeModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
                 SchemeTabViewModel tabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
-                tabViewModel.CloseTabEvent += OnCloseTab;
+                tabViewModel.CloseTabEvent += this.OnCloseTab;
                 this.SchemesCollection.Add(tabViewModel);
             }
 
-            (SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
+            (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
         }
 
         private void OnCloseTab(ISchemeTabViewModel schemeTab)
         {
-            schemeTab.CloseTabEvent -= OnCloseTab;
-            SchemesCollection.Remove(schemeTab);
+            schemeTab.CloseTabEvent -= this.OnCloseTab;
+            this.SchemesCollection.Remove(schemeTab);
 
-            (SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
+            (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
         }
 
         private void SaveProject()
         {
             var sfd = new SaveFileDialog();
-            sfd.InitialDirectory = _programModel.ProjectPath;
-            sfd.FileName = ProjectName;
+            sfd.InitialDirectory = this._programModel.ProjectPath;
+            sfd.FileName = this.ProjectName;
             sfd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
             if (sfd.ShowDialog() == true)
             {
-                UpdateModelData();
-                _serializerService.SerializeInFile(_programModel,sfd.FileName);
+                this.UpdateModelData();
+                this._serializerService.SerializeInFile(this._programModel,sfd.FileName);
             }
         }
 
         private bool CanSaveProject()
         {
-            return SchemesCollection.Count > 0;
+            return this.SchemesCollection.Count > 0;
         }
 
         private void LoadProject()
         {
             var ofd = new OpenFileDialog();
-            ofd.InitialDirectory = _programModel.ProjectPath;
+            ofd.InitialDirectory = this._programModel.ProjectPath;
             ofd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
             if(ofd.ShowDialog() == true)
             {
-                _programModel = _serializerService.DeserializeFromFile<IProgramModel>(ofd.FileName);
-                UpdateCollections(_programModel);
+                this._programModel = this._serializerService.DeserializeFromFile<IProgramModel>(ofd.FileName);
+                this.UpdateCollections(this._programModel);
             }
         }
 
@@ -208,17 +215,17 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._programModel.Schemes.Clear();
             this._programModel.Schemes.AddRange(this.SchemesCollection.Select(sc => sc.Model));
             this._programModel.Connections.Clear();
-            this._programModel.Connections.AddRange(ConnectionCollection.Select(cc => cc.Model));
+            this._programModel.Connections.AddRange(this.ConnectionCollection.Select(cc => cc.Model));
         }
 
         private void UpdateCollections(IProgramModel model)
         {
-            SchemesCollection.Clear();
-            ConnectionCollection.Clear();
+            this.SchemesCollection.Clear();
+            this.ConnectionCollection.Clear();
 
             foreach (var schemeModel in model.Schemes)
             {
-                var logicElementsVM = _factory.GetAllElementsViewModels(schemeModel.LogicElements);
+                var logicElementsVM = this._factory.GetAllElementsViewModels(schemeModel.LogicElements);
 
                 var connections = new List<IConnectionViewModel>();
                 var connectors = new List<IConnectorViewModel>();
@@ -239,14 +246,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     connections.Add(new ConnectionViewModel(connection, source, sink));
                 }
 
-                ConnectionCollection.AddCollection(connections);
+                this.ConnectionCollection.AddCollection(connections);
 
-                var schemeVM = new SchemeTabViewModel(schemeModel, this, _factory);
-                schemeVM.CloseTabEvent += OnCloseTab;
+                var schemeVM = new SchemeTabViewModel(schemeModel, this, this._factory);
+                schemeVM.CloseTabEvent += this.OnCloseTab;
                 schemeVM.ElementCollection.AddCollection(logicElementsVM);
                 schemeVM.ElementCollection.AddCollection(connections);
 
-                SchemesCollection.Add(schemeVM);
+                this.SchemesCollection.Add(schemeVM);
             }
         }
 
@@ -256,7 +263,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 	        {
 		        this._programModel = model;
 
-		        UpdateCollections(_programModel);
+                this.UpdateCollections(this._programModel);
 
 		        return;
 	        }
@@ -266,6 +273,29 @@ namespace Unicon2.Fragments.Programming.ViewModels
 		        var logicElementsViewModels = this._factory.GetAllElementsViewModels(modelEditor.Elements);
 		        this.ElementsLibrary.AddCollection(logicElementsViewModels);
 	        }
+        }
+
+        private void OnWriteCommand()
+        {
+            if(SchemesCollection.Count == 0)
+            {
+                MessageBox.Show("Can't write logic. Scheme collection is empty!", "Write logic", MessageBoxButton.OK);
+                return;
+            }
+
+            if(SchemesCollection.All(sc => sc.CanWriteToDevice))
+            {
+                this.UpdateModelData();
+                var logicArchive = _serializerService.SerializeInBytes(_programModel);
+                var compressedProject = _logicReader.CompressProject(logicArchive);
+
+                //var uncompressProject = _logicReader.UncompressProject(compressedProject);
+                //var model = _serializerService.DeserializeFromBytes<IProgramModel>(uncompressProject);
+            }
+            else
+            {
+                MessageBox.Show("Not all logic elements are connected!", "Write logic", MessageBoxButton.OK);
+            }
         }
     }
 }

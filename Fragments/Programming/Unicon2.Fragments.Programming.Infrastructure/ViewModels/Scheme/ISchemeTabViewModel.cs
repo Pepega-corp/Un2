@@ -9,7 +9,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
     public interface ISchemeTabViewModel : IViewModel<ISchemeModel>
     {
         event Action<ISchemeTabViewModel> CloseTabEvent;
-
+        bool CanWriteToDevice { get; }
         string SchemeName { get; set; }
         double SchemeHeight { get;  }
         double SchemeWidth { get; }
