@@ -20,12 +20,12 @@ namespace Unicon2.Services
                 .Where(c => c.IetfLanguageTag.Equals("ru-RU") || c.IetfLanguageTag.Equals("en-US")).ToList();
             SetLocale(culture);
 
-            CultureInfo selectedLanguage = SupportedLanguages.FirstOrDefault(t => t.Name == Settings.Default.Language);
+          //  CultureInfo selectedLanguage = SupportedLanguages.FirstOrDefault(t => t.Name == Settings.Default.Language);
 
-            if (selectedLanguage != null)
-            {
-                SelectedLanguage = selectedLanguage;
-            }
+            //if (selectedLanguage != null)
+           // {
+           //     SelectedLanguage = selectedLanguage;
+          //  }
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace Unicon2.Services
         public void SetLocale(CultureInfo culture)
         {
             LocalizeDictionary.Instance.Culture = culture;
-            Settings.Default.Language = culture.Name;
-            Settings.Default.Save();
+           // Settings.Default.Language = culture.Name;
+           // Settings.Default.Save();
         }
 
         /// <summary>

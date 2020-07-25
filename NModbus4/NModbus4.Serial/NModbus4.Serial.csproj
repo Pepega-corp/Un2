@@ -4,7 +4,7 @@
     <Description>NModbus4.Serial Class Library</Description>
     <VersionPrefix>1.0.0-alpha1</VersionPrefix>
     <Authors>Dmitry Turin</Authors>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>NModbus4.Serial</AssemblyName>
     <PackageId>NModbus4.Serial</PackageId>
