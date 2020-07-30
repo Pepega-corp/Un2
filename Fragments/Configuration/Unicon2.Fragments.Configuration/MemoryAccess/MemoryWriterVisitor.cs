@@ -58,6 +58,16 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
             if (applySettingByKey != null)
                 await applySettingByKey;
+            
+            IActivatedSettingApplyingContext activatedApplyingContext =
+                StaticContainer.Container.Resolve<IActivatedSettingApplyingContext>();
+            activatedApplyingContext.DataProvider = _deviceContext.DataProviderContainer.DataProvider;
+            Task applyActivationSettingByKey = _configuration.FragmentSettings?.ApplySettingByKey(
+                ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING,
+                activatedApplyingContext);
+
+            if (applyActivationSettingByKey != null)
+                await applyActivationSettingByKey;
         }
         public async Task VisitItemsGroup(IItemsGroup itemsGroup)
         {

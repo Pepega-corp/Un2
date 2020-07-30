@@ -101,6 +101,7 @@
     <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSetting.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSettings.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\ISettingApplyingContext.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IActivatedSettingApplyingContext.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IAddressableItem.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickAccessMemoryApplyingContext.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessSetting.cs" />

@@ -40,7 +40,7 @@ namespace Unicon2.Model.Module
             container.Register<IFragmentSettings, DefaultFragmentSettings>();
             container.Register<IBitMaskValue, BitMaskValue>();
             container.Register<IBoolToAddressDependency, BoolToAddressDependency>();
-
+            container.Register<IActivatedSettingApplyingContext, ActivatedSettingApplyingContext>();
             container.Register<IQuickAccessMemoryApplyingContext, QuickAccessMemoryApplyingContext>();
             container.Register<IFragmentSetting, QuickMemoryAccessSetting>(ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING);
             
