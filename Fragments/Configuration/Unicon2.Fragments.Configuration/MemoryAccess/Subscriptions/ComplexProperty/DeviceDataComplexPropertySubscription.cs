@@ -51,7 +51,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 				{
 					subPropertyBools.Add(boolArray[bitNumber]);
 				}
-
+				subPropertyBools.Reverse();
 				var subPropertyUshort = subPropertyBools.BoolArrayToUshort();
 				var subPropertyValue =
 					formattingService.FormatValue(subProperty.UshortsFormatter, new[] {subPropertyUshort});

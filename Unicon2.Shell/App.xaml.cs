@@ -188,7 +188,7 @@ namespace Unicon2.Shell
 
             //container.Register<IUnityModule, ProgrammingModule>(nameof(ProgrammingModule));
             //container.Register<IUnityModule, ProgrammingEditorModule>(nameof(ProgrammingEditorModule));
-            container.Register<IUnityModule, WebPresentationModule>(nameof(WebPresentationModule));
+            //container.Register<IUnityModule, WebPresentationModule>(nameof(WebPresentationModule));
 
         }
 

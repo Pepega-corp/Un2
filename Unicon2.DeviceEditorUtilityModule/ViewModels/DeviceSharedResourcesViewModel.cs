@@ -355,7 +355,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 				Name = resourceWithContainer.ResourceName,
 				RelatedEditorItemViewModel = viewModel as INameable
 			});
-
+			UpdateResourcesViewModelCollection();
 		}
 
 		private List<IResourceContainer> _resourcesWithContainers = new List<IResourceContainer>();
