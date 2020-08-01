@@ -152,7 +152,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 
             foreach (IDeviceCreator creator in _devicesContainerService.Creators)
             {
-                if (creator.ConnectionState.DefaultComPortConfiguration == null) return;
+                if (creator.ConnectionState.DefaultComPortConfiguration == null) continue;
                 _modbusRtuConnection.ComPortConfiguration = creator.ConnectionState.DefaultComPortConfiguration;
                 _modbusRtuConnection.SlaveId = SlaveId;
                 _modbusRtuConnection.ComPortConfiguration.BaudRate = baudRate;

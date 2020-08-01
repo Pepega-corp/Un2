@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unicon2.Formatting.Editor.ViewModels.InnerMembers;
 using Unicon2.Formatting.Editor.ViewModels.Validators;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
 
@@ -64,20 +66,25 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private void OnAddArgumentExecute()
         {
             SaveChanges();
-            IUshortFormattable resource =
-                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelecting<IUshortFormattable>();
-            if (resource != null)
+            var resourceString =
+                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelectingString<IPropertyEditorViewModel>();
+            if (resourceString != null)
             {
-                _formulaFormatter.UshortFormattables.Add(resource);
+                _formulaFormatter.UshortFormattableResources.Add(resourceString);
             }
-
+            this.ArgumentViewModels.Add(new ArgumentViewModel()
+            {
+                ResourceNameString = resourceString,
+                ArgumentName = resourceString,
+                TestValue = 10,
+            });
             //  this.InitFromFormatter(this._formulaFormatter);
         }
 
         private void OnDeleteArgumentExecute(IArgumentViewModel argumentViewModel)
         {
             ArgumentViewModels.Remove(argumentViewModel);
-            _formulaFormatter.UshortFormattables.Remove(argumentViewModel.Model as IUshortFormattable);
+            _formulaFormatter.UshortFormattableResources.Remove(argumentViewModel.ResourceNameString);
         }
 
         private void OnCheckCommandExecute()

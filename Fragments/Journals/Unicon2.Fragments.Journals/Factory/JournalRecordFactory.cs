@@ -7,8 +7,8 @@ using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
 using Unicon2.Fragments.Journals.Model.JournalParameters;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Journals.Factory

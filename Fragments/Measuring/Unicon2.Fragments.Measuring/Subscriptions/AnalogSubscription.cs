@@ -7,10 +7,10 @@ using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Measuring.Subscriptions
@@ -36,10 +36,10 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
 
 
-        private void ApplyUshortOnAnalog(ushort[] result)
+        private async Task ApplyUshortOnAnalog(ushort[] result)
         {
             IFormattedValue value =
-                this._formattingService.FormatValue(this.AnalogMeasuringElement.UshortsFormatter, result);
+               await this._formattingService.FormatValueAsenc(this.AnalogMeasuringElement.UshortsFormatter, result,this._deviceContext);
             ApplyValue(value);
         }
 
@@ -54,7 +54,7 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
         {
             if (_deviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(this.AnalogMeasuringElement.Address))
             {
-                this.ApplyUshortOnAnalog(new ushort[]
+               await this.ApplyUshortOnAnalog(new ushort[]
                     {_deviceContext.DeviceMemory.DeviceMemoryValues[this.AnalogMeasuringElement.Address]});
             }
             else
@@ -64,7 +64,7 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
                     "Read analog: " + this.AnalogMeasuringElement.Name);
                 if (res.IsSuccessful)
                 {
-                    this.ApplyUshortOnAnalog(res.Result);
+                  await  this.ApplyUshortOnAnalog(res.Result);
                 }
             }
 

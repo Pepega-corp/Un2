@@ -32,6 +32,19 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         private ITypesContainer _container;
         private int _levelIndex = 0;
         private IDeviceConfiguration _deviceConfiguration;
+        private bool _isQueryInProgress = false;
+
+        private RelayCommand ReadConfigurationCommand;
+        private RelayCommand WriteConfigurationCommand;
+
+
+        private void SetQueriesLock(bool isLocked)
+        {
+            this._isQueryInProgress = isLocked;
+            this.ReadConfigurationCommand.RaiseCanExecuteChanged();
+            this.WriteConfigurationCommand.RaiseCanExecuteChanged();
+
+        }
 
         public IFragmentOptionsViewModel CreateConfigurationFragmentOptionsViewModel(
             IRuntimeConfigurationViewModel runtimeConfigurationViewModel, ITypesContainer container,
@@ -68,7 +81,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
             fragmentOptionCommandViewModel.TitleKey = ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY;
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
-            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteReadConfiguration);
+            this.ReadConfigurationCommand = new RelayCommand(OnExecuteReadConfiguration, () => !this._isQueryInProgress);
+            fragmentOptionCommandViewModel.OptionCommand = this.ReadConfigurationCommand;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
@@ -80,7 +94,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.WRITE_LOCAL_VALUES_TO_DEVICE_STRING_KEY;
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxOut;
-            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteWriteLocalValuesToDevice);
+            WriteConfigurationCommand=  new RelayCommand(OnExecuteWriteLocalValuesToDevice, () => !this._isQueryInProgress);
+            fragmentOptionCommandViewModel.OptionCommand = this.WriteConfigurationCommand;
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
@@ -141,10 +156,23 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             return fragmentOptionsViewModel;
         }
 
+
+
         private async void OnExecuteReadConfiguration()
         {
-            await new MemoryReaderVisitor(_deviceConfiguration,
-                _runtimeConfigurationViewModel.DeviceContext,0).ExecuteRead();
+            try
+            {
+                SetQueriesLock(true);
+                ReadConfigurationCommand.RaiseCanExecuteChanged();
+                await new MemoryReaderVisitor(_deviceConfiguration,
+                    _runtimeConfigurationViewModel.DeviceContext, 0).ExecuteRead();
+            }
+            finally
+            {
+                SetQueriesLock(false);
+                ReadConfigurationCommand.RaiseCanExecuteChanged();
+            }
+
         }
 
         private bool ExpandLevelByIndex(List<IConfigurationItemViewModel> configurationItemViewModels,
@@ -277,12 +305,25 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         private async void OnExecuteWriteLocalValuesToDevice()
         {
-            if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_runtimeConfigurationViewModel
-                .RootConfigurationItemViewModels))
+
+            try
             {
-                await new MemoryWriterVisitor(_runtimeConfigurationViewModel.DeviceContext, new List<ushort>(),
-                    _deviceConfiguration,0).ExecuteWrite();
+                SetQueriesLock(true);
+                this.WriteConfigurationCommand.RaiseCanExecuteChanged();
+                if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_runtimeConfigurationViewModel
+                    .RootConfigurationItemViewModels))
+                {
+                    await new MemoryWriterVisitor(_runtimeConfigurationViewModel.DeviceContext, new List<ushort>(),
+                        _deviceConfiguration, 0).ExecuteWrite();
+                }
             }
+            finally
+            {
+                SetQueriesLock(false);
+                WriteConfigurationCommand.RaiseCanExecuteChanged();
+            }
+
+         
         }
 
         private async void OnExecuteEditLocalValues()

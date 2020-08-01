@@ -12,6 +12,7 @@ using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAcces
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Subscription;
+using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.MemoryAccess
 {
@@ -20,13 +21,17 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 		private DeviceContext _deviceContext;
 		private MeasuringSubscriptionSet _measuringSubscriptionSet;
 		private readonly IMeasuringMonitor _measuringMonitor;
-		private string _groupName;
+	    private readonly RelayCommand _dependentCommand;
+	    private string _groupName;
 		private bool _isQueriesStarted = false;
-		public MeasuringLoader(DeviceContext deviceContext, MeasuringSubscriptionSet measuringSubscriptionSet,IMeasuringMonitor measuringMonitor)
+	    private bool _isLoadInProgress;
+
+	    public MeasuringLoader(DeviceContext deviceContext, MeasuringSubscriptionSet measuringSubscriptionSet,IMeasuringMonitor measuringMonitor,RelayCommand dependentCommand)
 		{
 			_deviceContext = deviceContext;
 			_measuringSubscriptionSet = measuringSubscriptionSet;
 			_measuringMonitor = measuringMonitor;
+		    this._dependentCommand = dependentCommand;
 		}
 
 		public void StartLoading()
@@ -46,52 +51,66 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 			_groupName = groupName;
 		}
 
+	    public bool IsLoadInProgress
+	    {
+	        get { return this._isLoadInProgress; }
+	        private set
+	        {
+                this._isLoadInProgress = value;
+	            this._dependentCommand?.RaiseCanExecuteChanged();
 
-		public async void ExecuteLoad()
+            }
+        }
+
+	    public async void ExecuteLoad()
 		{
-			await Load();
+		    if (this._isQueriesStarted) return;
+            await Load();
 		}
 
-		private async Task Load()
-		{
-		    while (true)
-		    {
-		        await LoadMemory();
-		        foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
-		        {
-		            if (_groupName != null && discreteSubscription.GroupName != _groupName)
-		            {
-		                continue;
-		            }
+	    private async Task Load()
+	    {
+	        this.IsLoadInProgress = true;
+	        while (true)
+	        {
+	            await LoadMemory();
+	            foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
+	            {
+	                if (_groupName != null && discreteSubscription.GroupName != _groupName)
+	                {
+	                    continue;
+	                }
 
-		            await discreteSubscription.Execute();
-		        }
-		        foreach (var analogSubscription in _measuringSubscriptionSet.AnalogSubscriptions)
-		        {
-		            if (_groupName != null && analogSubscription.GroupName != _groupName)
-		            {
-		                continue;
-		            }
+	                await discreteSubscription.Execute();
+	            }
+	            foreach (var analogSubscription in _measuringSubscriptionSet.AnalogSubscriptions)
+	            {
+	                if (_groupName != null && analogSubscription.GroupName != _groupName)
+	                {
+	                    continue;
+	                }
 
-		            await analogSubscription.Execute();
-		        }
-		        foreach (var dateTimeSubscription in _measuringSubscriptionSet.DateTimeSubscriptions)
-		        {
-		            if (_groupName != null && dateTimeSubscription.GroupName != _groupName)
-		            {
-		                continue;
-		            }
+	                await analogSubscription.Execute();
+	            }
+	            foreach (var dateTimeSubscription in _measuringSubscriptionSet.DateTimeSubscriptions)
+	            {
+	                if (_groupName != null && dateTimeSubscription.GroupName != _groupName)
+	                {
+	                    continue;
+	                }
 
-		            await dateTimeSubscription.Execute();
-		        }
-                if (!this._isQueriesStarted)
-		        {
-		            return;
-		        }
-		    }
-		}
+	                await dateTimeSubscription.Execute();
+	            }
+	            if (!this._isQueriesStarted)
+	            {
+	                this.IsLoadInProgress = false;
+                    return;
+	            }
+	        }
 
-		private async Task LoadMemory()
+	    }
+
+	    private async Task LoadMemory()
 		{
 			List<ushort> addressesToLoadFun3=new List<ushort>();
 		    List<ushort> addressesToLoadFun1 = new List<ushort>();

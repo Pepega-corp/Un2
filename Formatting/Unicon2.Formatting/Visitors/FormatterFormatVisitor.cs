@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using org.mariuszgromada.math.mxparser;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model;
@@ -13,6 +14,8 @@ using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Visitors
@@ -116,11 +119,11 @@ namespace Unicon2.Formatting.Visitors
             iterationDefinition.ArgumentNames.Add("x");
             iterationDefinition.ArgumentValues.Add(_ushortsPayload[0]);
             iterationDefinition.NumberOfSimbolsAfterComma = formulaFormatter.NumberOfSimbolsAfterComma;
-            if (formulaFormatter.UshortFormattables != null)
+            if (formulaFormatter.UshortFormattableResources != null)
             {
                 int index = 1;
-                foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattables)
-                {
+              //  foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattableResources)
+              //  {
                    // if (formattableUshortResource is IDeviceValueContaining)
                    // {
                    //     IFormattedValue value = formattableUshortResource.UshortsFormatter
@@ -132,6 +135,55 @@ namespace Unicon2.Formatting.Visitors
                      //       iterationDefinition.ArgumentValues.Add(num);
                     //    }
                   //  }
+               // }
+            }
+
+            formattedValue.NumValue = MemoizeCalculateResult(iterationDefinition, formulaFormatter.FormulaString,
+                formulaFormatter.NumberOfSimbolsAfterComma);
+            return formattedValue;
+        }
+
+        public async Task<IFormattedValue> VisitFormulaFormatterAsync(IUshortsFormatter formatter,DeviceContext deviceContext)
+        {
+            INumericValue formattedValue = _typesContainer.Resolve<INumericValue>();
+            IterationDefinition iterationDefinition = new IterationDefinition();
+            IFormulaFormatter formulaFormatter = formatter as IFormulaFormatter;
+
+            iterationDefinition.FormulaString = formulaFormatter.FormulaString;
+
+            iterationDefinition.ArgumentNames = new List<string>();
+            iterationDefinition.ArgumentValues = new List<double>();
+            iterationDefinition.ArgumentNames.Add("x");
+            iterationDefinition.ArgumentValues.Add(_ushortsPayload[0]);
+            iterationDefinition.NumberOfSimbolsAfterComma = formulaFormatter.NumberOfSimbolsAfterComma;
+            if (formulaFormatter.UshortFormattableResources != null)
+            {
+                int index = 1;
+                foreach (string formattableUshortResource in formulaFormatter.UshortFormattableResources)
+                {
+                    var resource = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
+                        container => container.ResourceName == formattableUshortResource);
+
+                    var propValue=await StaticContainer.Container.Resolve<IPropertyValueService>()
+                        .GetValueOfProperty(resource.Resource, deviceContext);
+
+                    if (propValue.Item is INumericValue numericValue)
+                       {
+                           double num = numericValue.NumValue;
+                            iterationDefinition.ArgumentNames.Add("x" + index++);
+                           iterationDefinition.ArgumentValues.Add(num);
+                        }
+                    // if (formattableUshortResource is IDeviceValueContaining)
+                    // {
+                    //     IFormattedValue value = formattableUshortResource.UshortsFormatter
+                    //        .Format((formattableUshortResource as IDeviceValueContaining).DeviceUshortsValue);
+                    //    if (value is INumericValue)
+                    //   {
+                    //       double num = (value as INumericValue).NumValue;
+                    //        iterationDefinition.ArgumentNames.Add("x" + index++);
+                    //       iterationDefinition.ArgumentValues.Add(num);
+                    //    }
+                    //  }
                 }
             }
 

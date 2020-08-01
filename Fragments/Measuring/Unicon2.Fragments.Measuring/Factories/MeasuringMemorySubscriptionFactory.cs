@@ -7,8 +7,8 @@ using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Subscriptions;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 
 namespace Unicon2.Fragments.Measuring.Factories
 {

@@ -12,7 +12,7 @@ using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Services.Formatting;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
@@ -53,7 +53,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 				{
 					subPropertyBools.Add(boolArray[bitNumber]);
 				}
-
+			    subPropertyBools.Reverse();
 				var subPropertyUshort = subPropertyBools.BoolArrayToUshort();
 
 

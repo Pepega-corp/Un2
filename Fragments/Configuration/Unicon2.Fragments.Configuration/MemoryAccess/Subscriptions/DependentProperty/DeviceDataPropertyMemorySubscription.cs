@@ -11,9 +11,9 @@ using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentProperty

@@ -25,7 +25,7 @@ namespace Unicon2.Formatting.Model
 
         public FormulaFormatter()
         {
-            UshortFormattables = new List<IUshortFormattable>();
+            UshortFormattableResources = new List<string>();
         }
 
         public override object Clone()
@@ -44,7 +44,10 @@ namespace Unicon2.Formatting.Model
         [JsonProperty]
         public string FormulaString { get; set; }
         [JsonProperty]
-        public List<IUshortFormattable> UshortFormattables { get; set; }
+        public List<string> UshortFormattableResources { get; set; }
+
+       
+       
 
         [JsonProperty]
 

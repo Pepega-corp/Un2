@@ -61,11 +61,11 @@ namespace Unicon2.Formatting.Visitors
                 Expression expression = new Expression("solve(" + "(" + formulaFormatter.FormulaString + ")" + "-" + numstr +
                                                        ",x,0," + ushort.MaxValue + ")");
 
-                if (formulaFormatter.UshortFormattables != null)
+                if (formulaFormatter.UshortFormattableResources != null)
                 {
                     int index = 1;
-                    foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattables)
-                    {
+                 //   foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattableResources)
+                //    {
                        // if (formattableUshortResource is IDeviceValueContaining)
                         //{
                         //    IFormattedValue value =
@@ -77,7 +77,7 @@ namespace Unicon2.Formatting.Visitors
                          //       expression.addArguments(new Argument("x" + index++, num));
                          //  }
                         //}
-                    }
+                 //   }
                 }
 
                 double x = expression.calculate();

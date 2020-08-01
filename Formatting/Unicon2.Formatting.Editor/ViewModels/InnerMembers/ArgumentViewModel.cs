@@ -6,24 +6,11 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
 {
     public class ArgumentViewModel : ViewModelBase, IArgumentViewModel
     {
-        private INameable _resource;
         private string _argumentName;
         private string _resourceNameString;
         private double _testValue;
 
         public string StrongName => nameof(ArgumentViewModel);
-
-        public object Model
-        {
-            get { return _resource; }
-            set { SetModel(value); }
-        }
-
-        private void SetModel(object value)
-        {
-            _resource = value as INameable;
-            ResourceNameString = _resource.Name;
-        }
 
         public string ArgumentName
         {

@@ -26,13 +26,12 @@ namespace Unicon2.Formatting.Editor.ViewModels.Validators
 
 
                 int index = 1;
-             //   if ((arg.Model as IFormulaFormatter).UshortFormattables != null)
-              //  {
-               //     foreach (var ushortFormattable in (arg.Model as IFormulaFormatter).UshortFormattables)
-              //      {
-              //          expression.addArguments(new Argument("x" + index++, 1));
-             //       }
-              //  }
+
+                foreach (var argument in (arg.ArgumentViewModels))
+                {
+                    expression.addArguments(new Argument("x" + index++, 1));
+                }
+
 
                 return !double.IsNaN(expression.calculate());
             }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
+using Unicon2.Formatting.Editor.ViewModels.InnerMembers;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
@@ -13,6 +14,7 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Unity.Common;
 
 namespace Unicon2.Formatting.Editor.Factories
 {
@@ -59,6 +61,13 @@ namespace Unicon2.Formatting.Editor.Factories
                 formulaFormatter.NumberOfSimbolsAfterComma;
             (formatterViewModel as IFormulaFormatterViewModel).FormulaString =
                 formulaFormatter.FormulaString;
+            (formatterViewModel as IFormulaFormatterViewModel).ArgumentViewModels.Clear();
+            (formatterViewModel as IFormulaFormatterViewModel).ArgumentViewModels.AddCollection(formulaFormatter.UshortFormattableResources.Select(s =>new ArgumentViewModel()
+            {
+                ResourceNameString = s,
+                ArgumentName = s,
+                TestValue = 1,
+            } ).ToList());
             return formatterViewModel;
         }
 

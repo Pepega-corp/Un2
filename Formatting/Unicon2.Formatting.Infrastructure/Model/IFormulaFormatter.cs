@@ -7,7 +7,7 @@ namespace Unicon2.Formatting.Infrastructure.Model
     public interface IFormulaFormatter : IUshortsFormatter
     {
         string FormulaString { get; set; }
-        List<IUshortFormattable> UshortFormattables { get; set; }
+        List<string> UshortFormattableResources { get; set; }
         ushort NumberOfSimbolsAfterComma { get; set; }
     }
 }

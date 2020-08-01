@@ -9,8 +9,8 @@ using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentProperty
 {

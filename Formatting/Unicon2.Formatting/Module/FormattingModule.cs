@@ -8,8 +8,8 @@ using Unicon2.Formatting.Visitors;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Infrastructure.Services;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Module

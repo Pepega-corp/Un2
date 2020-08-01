@@ -53,7 +53,7 @@ using Unicon2.Shell.ViewModels;
 using Unicon2.Shell.Views;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
-using Unicon2.Web.Presentation.Module;
+//using Unicon2.Web.Presentation.Module;
 
 namespace Unicon2.Shell
 {

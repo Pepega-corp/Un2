@@ -8,7 +8,6 @@ using Unicon2.Fragments.Journals.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Subscription;
 

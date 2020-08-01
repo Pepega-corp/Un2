@@ -34,6 +34,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task ExecuteRead()
         {
+            
             await ApplyMemorySettings();
             foreach (var rootConfigurationItem in _configuration.RootConfigurationItemList)
             {
@@ -51,6 +52,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
+                    ClearRange(rangeFrom, rangeTo, _deviceContext.DeviceMemory.DeviceMemoryValues);
                     return ReadRange(_deviceContext.DataProviderContainer.DataProvider, rangeFrom, rangeTo,
                         _deviceContext.DeviceMemory);
                 };
@@ -61,6 +63,14 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
             if (applySettingByKey != null)
                 await applySettingByKey;
+        }
+
+        private void ClearRange(ushort rangeFrom, ushort rangeTo, Dictionary<ushort, ushort> memorySet)
+        {
+            for (var i = rangeFrom; i <= rangeTo; i++)
+            {
+                memorySet.Remove(i);
+            }
         }
 
 

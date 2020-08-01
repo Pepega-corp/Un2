@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model;
 using Unicon2.Formatting.Visitors;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
-using Unicon2.Infrastructure.Services.Formatting;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Services
@@ -22,6 +24,35 @@ namespace Unicon2.Formatting.Services
         {
             _typesContainer = typesContainer;
             _iterationDefinitionsCache = new ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>>();
+        }
+
+
+        public async Task<IFormattedValue> FormatValueAsenc(IUshortsFormatter ushortsFormatter, ushort[] ushorts, DeviceContext deviceContext)
+        {
+            try
+            {
+                return await TryFormatAsync(ushortsFormatter, ushorts, deviceContext);
+            }
+            catch (Exception e)
+            {
+                var error = _typesContainer.Resolve<IErrorValue>();
+                error.ErrorMessage = e.Message;
+                return error;
+            }
+        }
+        private async Task<IFormattedValue> TryFormatAsync(IUshortsFormatter ushortsFormatter, ushort[] ushorts, DeviceContext deviceContext)
+        {
+            if (ushortsFormatter == null)
+            {
+                return null;
+            }
+            if (ushortsFormatter is FormulaFormatter formulaFormatter)
+            {
+                return await (new FormatterFormatVisitor(ushorts, this._typesContainer,
+                    this._iterationDefinitionsCache).VisitFormulaFormatterAsync(ushortsFormatter, deviceContext));
+            }
+            return ushortsFormatter.Accept(new FormatterFormatVisitor(ushorts, _typesContainer,
+                _iterationDefinitionsCache));
         }
 
         public IFormattedValue FormatValue(IUshortsFormatter ushortsFormatter, ushort[] ushorts)

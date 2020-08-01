@@ -53,7 +53,8 @@ namespace Unicon2.Formatting.Editor.Visitors
             return new FormulaFormatter()
             {
                 FormulaString = formatterViewModel.FormulaString,
-                NumberOfSimbolsAfterComma = formatterViewModel.NumberOfSimbolsAfterComma
+                NumberOfSimbolsAfterComma = formatterViewModel.NumberOfSimbolsAfterComma,
+                UshortFormattableResources = formatterViewModel.ArgumentViewModels.Select(model => model.ResourceNameString).ToList()
             };
         }
 

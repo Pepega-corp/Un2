@@ -33,15 +33,32 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task ExecuteWrite()
         {
-            await ApplyMemorySettings();
+            await ApplyMemorySettingsBefore();
             foreach (var rootConfigurationItem in _configuration.RootConfigurationItemList)
             {
                 await rootConfigurationItem.Accept(this);
             }
+            await ApplyMemorySettingsAfter();
+
         }
-        private async Task ApplyMemorySettings()
+
+        private async Task ApplyMemorySettingsAfter()
         {
-            IQuickAccessMemoryApplyingContext quickAccessMemoryApplyingContext =
+
+            var activatedApplyingContext =
+                StaticContainer.Container.Resolve<IActivatedSettingApplyingContext>();
+            activatedApplyingContext.DataProvider = _deviceContext.DataProviderContainer.DataProvider;
+            Task applyActivationSettingByKey = _configuration.FragmentSettings?.ApplySettingByKey(
+                ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING,
+                activatedApplyingContext);
+
+            if (applyActivationSettingByKey != null)
+                await applyActivationSettingByKey;
+        }
+
+        private async Task ApplyMemorySettingsBefore()
+        {
+            var quickAccessMemoryApplyingContext =
                 StaticContainer.Container.Resolve<IQuickAccessMemoryApplyingContext>();
 
             quickAccessMemoryApplyingContext.OnFillAddressRange =
@@ -58,16 +75,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
             if (applySettingByKey != null)
                 await applySettingByKey;
-            
-            IActivatedSettingApplyingContext activatedApplyingContext =
-                StaticContainer.Container.Resolve<IActivatedSettingApplyingContext>();
-            activatedApplyingContext.DataProvider = _deviceContext.DataProviderContainer.DataProvider;
-            Task applyActivationSettingByKey = _configuration.FragmentSettings?.ApplySettingByKey(
-                ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING,
-                activatedApplyingContext);
-
-            if (applyActivationSettingByKey != null)
-                await applyActivationSettingByKey;
         }
         public async Task VisitItemsGroup(IItemsGroup itemsGroup)
         {
@@ -130,6 +137,24 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 return;
             }
             var valuesToWrite = new List<ushort>();
+
+            bool isChanged = false;
+
+            for (var i = rangeFrom; i < rangeTo; i++)
+            {
+                // если значения пришли из пачки и не использовались
+                if (memory.LocalMemoryValues.ContainsKey(i)&& memory.DeviceMemoryValues.ContainsKey(i))
+                {
+                    if (memory.LocalMemoryValues[i] != memory.DeviceMemoryValues[i])
+                    {
+                        isChanged = true;
+                        break;
+                    }
+                }
+              
+            }
+            if (!isChanged)return;
+            
 
             for (var i = rangeFrom; i < rangeTo; i++)
             {
