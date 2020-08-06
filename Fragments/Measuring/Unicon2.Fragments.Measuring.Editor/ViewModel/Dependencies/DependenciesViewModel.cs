@@ -12,6 +12,7 @@ using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Dependencies;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
@@ -21,12 +22,14 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 	public class DependenciesViewModel : ViewModelBase
 	{
 		private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
+		private readonly IFormatterEditorFactory _formatterEditorFactory;
 		private IDependencyViewModel _selectedDependency;
 		private IMeasuringElementEditorViewModel _measuringElementEditorViewModel;
 
-		public DependenciesViewModel(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
+		public DependenciesViewModel(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,IFormatterEditorFactory formatterEditorFactory)
 		{
 			_sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+			_formatterEditorFactory = formatterEditorFactory;
 			AddBoolToAddressDependencyCommand = new RelayCommand(OnAddBoolToAddressDependency);
 			RemoveSelectedDependencyCommand =
 				new RelayCommand(OnRemoveSelectedDependency, CanExecuteRemoveSelectedDependency);
@@ -77,7 +80,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 
 		private void OnAddBoolToAddressDependency()
 		{
-			DependencyViewModels.Add(new BoolToAddressDependencyViewModel());
+			DependencyViewModels.Add(new BoolToAddressDependencyViewModel(_formatterEditorFactory));
 		}
 
 		public IDependencyViewModel SelectedDependency

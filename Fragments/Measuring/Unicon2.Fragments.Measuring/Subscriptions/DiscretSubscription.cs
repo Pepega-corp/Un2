@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Fragments.Measuring.Helpers;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.ViewModel.Elements;
@@ -36,12 +37,6 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
 
 
-		private void ApplyUshortOnDiscret(ushort result)
-		{
-			bool valueFromUshort =
-				result.GetBoolArrayFromUshort()[DiscretMeasuringElement.AddressOfBit.BitAddressInWord];
-			ApplyValue(valueFromUshort);
-		}
 
 
 		private void ApplyValue(bool value)
@@ -62,49 +57,7 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
 		public async Task Execute()
 		{
-			if (DiscretMeasuringElement.AddressOfBit.NumberOfFunction == 3)
-			{
-
-				if (_deviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(DiscretMeasuringElement.AddressOfBit
-					.Address))
-				{
-					ApplyUshortOnDiscret(_deviceContext.DeviceMemory.DeviceMemoryValues[DiscretMeasuringElement
-						.AddressOfBit
-						.Address]);
-				}
-				else
-				{
-					var res = await _deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
-						DiscretMeasuringElement.AddressOfBit
-							.Address, DiscretMeasuringElement.NumberOfPoints,
-						"Read discret: " + DiscretMeasuringElement.Name);
-					if (res.IsSuccessful)
-					{
-						ApplyUshortOnDiscret(res.Result.First());
-					}
-				}
-			}
-
-			if (DiscretMeasuringElement.AddressOfBit.NumberOfFunction == 1)
-			{
-			    if (_deviceContext.DeviceMemory.DeviceBitMemoryValues.ContainsKey(DiscretMeasuringElement.AddressOfBit
-			        .Address))
-			    {
-			        ApplyValue(_deviceContext.DeviceMemory.DeviceBitMemoryValues[DiscretMeasuringElement.AddressOfBit
-			            .Address]);
-                }
-			    else
-			    {
-
-			        var res = await _deviceContext.DataProviderContainer.DataProvider.ReadCoilStatusAsync(
-			            DiscretMeasuringElement.AddressOfBit.Address, "Read discret: " + DiscretMeasuringElement.Name);
-			        if (res.IsSuccessful)
-			        {
-			            ApplyValue(res.Result);
-			        }
-                }
-
-			}
+			(await DiscretMeasuringElement.GetDiscretElementValue(_deviceContext)).OnSuccess(ApplyValue);
 		}
 
 		public string GroupName { get; }

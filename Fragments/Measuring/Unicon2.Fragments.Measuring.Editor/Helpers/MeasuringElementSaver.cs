@@ -59,7 +59,16 @@ namespace Unicon2.Fragments.Measuring.Editor.Helpers
 			res.RelatedResourceName = boolToAddressDependencyViewModel.RelatedResourceName;
 			res.ResultingAddressIfFalse = boolToAddressDependencyViewModel.ResultingAddressIfFalse;
 			res.ResultingAddressIfTrue = boolToAddressDependencyViewModel.ResultingAddressIfTrue;
-
+			if (boolToAddressDependencyViewModel.FormatterParametersIfTrueViewModel != null)
+			{
+				res.FormatterIfTrue = StaticContainer.Container.Resolve<ISaveFormatterService>()
+					.CreateUshortsParametersFormatter(boolToAddressDependencyViewModel.FormatterParametersIfTrueViewModel);
+			}	
+			if (boolToAddressDependencyViewModel.FormatterParametersIfFalseViewModel != null)
+			{
+				res.FormatterIfFalse = StaticContainer.Container.Resolve<ISaveFormatterService>()
+					.CreateUshortsParametersFormatter(boolToAddressDependencyViewModel.FormatterParametersIfFalseViewModel);
+			}	
 			return res;
 		}
 

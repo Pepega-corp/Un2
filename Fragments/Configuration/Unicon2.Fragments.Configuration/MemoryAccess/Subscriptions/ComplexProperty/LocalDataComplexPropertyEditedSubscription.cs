@@ -55,6 +55,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 					counterInner++;
 				}
 			}
+
+			resultBitArray = resultBitArray.Reverse().ToArray();
 			var resUshorts = new ushort[] {resultBitArray.BoolArrayToUshort()};
 			MemoryAccessor.GetUshortsInMemory(_deviceContext.DeviceMemory, (ushort)(_complexProperty.Address+_offset), resUshorts, true);
 			_deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(

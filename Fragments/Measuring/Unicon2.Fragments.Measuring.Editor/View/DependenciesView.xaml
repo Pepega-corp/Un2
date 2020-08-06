@@ -11,7 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="Window"
     Title="{lex:Loc Dependencies}"
-    Width="500"
+    Width="1000"
     Height="400"
     d:DataContext="{d:DesignInstance dependencies:DependenciesViewModel}"
     d:DesignHeight="450"
@@ -56,6 +56,46 @@
                                 <mah:NumericUpDown Margin="3" Value="{Binding ResultingAddressIfTrue}" />
                                 <TextBlock Margin="3" Text="{lex:Loc AddressIfFalse}" />
                                 <mah:NumericUpDown Margin="3" Value="{Binding ResultingAddressIfFalse}" />
+                                <TextBlock Margin="3" Text="{lex:Loc FormattingIfTrue}" />
+                                  <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                  
+                   
+                    <Grid Grid.Column="0">
+                        <TextBlock Margin="20,5,5,5" Text="{Binding ElementName=formatter1CondProxy, Path=Result}" />
+                        <lex:LocProxy Name="formatter1CondProxy" MinWidth="200" Source="{Binding FormatterParametersIfTrueViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
+                    </Grid>
+                    <Button
+                        Grid.Column="1"
+                        Width="200"
+                        Height="30"
+                        Command="{Binding ShowFormatterParametersIfTrueCommand}"
+                        Content="{lex:Loc FormatterParameters}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                </Grid>
+                                <TextBlock Margin="3" Text="{lex:Loc FormattingIfFalse}" />
+                                <Grid VerticalAlignment="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                  
+                   
+                                    <Grid Grid.Column="0">
+                                        <TextBlock Margin="20,5,5,5" Text="{Binding ElementName=formatter2CondProxy, Path=Result}" />
+                                        <lex:LocProxy MinWidth="200" Name="formatter2CondProxy" Source="{Binding FormatterParametersIfFalseViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
+                                    </Grid>
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="200"
+                                        Height="30"
+                                        Command="{Binding ShowFormatterParametersIfFalseCommand}"
+                                        Content="{lex:Loc FormatterParameters}"
+                                        Style="{DynamicResource UniconButtonStyle}" />
+                                </Grid>
                             </UniformGrid>
                         </Border>
                     </DataTemplate>

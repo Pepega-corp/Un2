@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Unicon2.Infrastructure.Dependencies;
+using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Model.Dependencies
 {
@@ -9,5 +10,7 @@ namespace Unicon2.Model.Dependencies
 		[JsonProperty] public string RelatedResourceName { get; set; }
 		[JsonProperty] public ushort ResultingAddressIfTrue { get; set; }
 		[JsonProperty] public ushort ResultingAddressIfFalse { get; set; }
+		[JsonProperty] public IUshortsFormatter FormatterIfTrue { get; set; }
+		[JsonProperty] public IUshortsFormatter FormatterIfFalse { get; set; }
 	}
 }

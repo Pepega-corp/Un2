@@ -9,6 +9,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Editor.Factories
@@ -18,13 +19,15 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 		private readonly ITypesContainer _container;
 		private readonly IMeasuringElementFactory _measuringElementFactory;
 		private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
+		private readonly IFormatterEditorFactory _formatterEditorFactory;
 
 		public MeasuringElementEditorViewModelFactory(ITypesContainer container,
-			IMeasuringElementFactory measuringElementFactory,ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
+			IMeasuringElementFactory measuringElementFactory,ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,IFormatterEditorFactory formatterEditorFactory)
 		{
 			_container = container;
 			_measuringElementFactory = measuringElementFactory;
 			_sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+			_formatterEditorFactory = formatterEditorFactory;
 		}
 
 		private void InitDefaults(IMeasuringElementEditorViewModel measuringElementEditorViewModel,
@@ -52,11 +55,20 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 		private BoolToAddressDependencyViewModel CreateBoolToAddressDependencyViewModel(
 			IBoolToAddressDependency boolToAddressDependency)
 		{
-			return new BoolToAddressDependencyViewModel()
+			
+			var formatterParametersIfTrueViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+				.CreateFormatterViewModel(boolToAddressDependency.FormatterIfTrue);
+			
+			var formatterParametersIfFalseViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
+				.CreateFormatterViewModel(boolToAddressDependency.FormatterIfFalse);
+			
+			return new BoolToAddressDependencyViewModel(_formatterEditorFactory)
 			{
 				RelatedResourceName = boolToAddressDependency.RelatedResourceName,
 				ResultingAddressIfTrue = boolToAddressDependency.ResultingAddressIfTrue,
-				ResultingAddressIfFalse = boolToAddressDependency.ResultingAddressIfFalse
+				ResultingAddressIfFalse = boolToAddressDependency.ResultingAddressIfFalse,
+				FormatterParametersIfTrueViewModel = formatterParametersIfTrueViewModel,
+				FormatterParametersIfFalseViewModel = formatterParametersIfFalseViewModel
 			};
 		}
 

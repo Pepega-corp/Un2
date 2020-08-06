@@ -27,7 +27,7 @@ namespace Unicon2.Formatting.Services
         }
 
 
-        public async Task<IFormattedValue> FormatValueAsenc(IUshortsFormatter ushortsFormatter, ushort[] ushorts, DeviceContext deviceContext)
+        public async Task<IFormattedValue> FormatValueAsync(IUshortsFormatter ushortsFormatter, ushort[] ushorts, DeviceContext deviceContext)
         {
             try
             {

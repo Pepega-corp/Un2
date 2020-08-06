@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Fragments.Measuring.Helpers;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
@@ -36,10 +38,10 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
 
 
-        private async Task ApplyUshortOnAnalog(ushort[] result)
+        private async Task ApplyUshortOnAnalog(ushort[] result, IUshortsFormatter formatter)
         {
             IFormattedValue value =
-               await this._formattingService.FormatValueAsenc(this.AnalogMeasuringElement.UshortsFormatter, result,this._deviceContext);
+               await this._formattingService.FormatValueAsync(formatter, result,this._deviceContext);
             ApplyValue(value);
         }
 
@@ -52,19 +54,21 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
         public async Task Execute()
         {
-            if (_deviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(this.AnalogMeasuringElement.Address))
+            var address =await AnalogMeasuringElement.GetAnalogElementAddress(_deviceContext);
+            var formatter=await AnalogMeasuringElement.GetAnalogElementFormatting(_deviceContext);
+            if (_deviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(address))
             {
                await this.ApplyUshortOnAnalog(new ushort[]
-                    {_deviceContext.DeviceMemory.DeviceMemoryValues[this.AnalogMeasuringElement.Address]});
+                    {_deviceContext.DeviceMemory.DeviceMemoryValues[address]},formatter);
             }
             else
             {
                 var res = await _deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
-                    this.AnalogMeasuringElement.Address, this.AnalogMeasuringElement.NumberOfPoints,
+                    address, this.AnalogMeasuringElement.NumberOfPoints,
                     "Read analog: " + this.AnalogMeasuringElement.Name);
                 if (res.IsSuccessful)
                 {
-                  await  this.ApplyUshortOnAnalog(res.Result);
+                  await  this.ApplyUshortOnAnalog(res.Result,formatter);
                 }
             }
 

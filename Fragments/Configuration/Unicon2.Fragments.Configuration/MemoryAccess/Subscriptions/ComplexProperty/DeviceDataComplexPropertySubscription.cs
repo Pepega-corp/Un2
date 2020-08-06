@@ -45,13 +45,13 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 				(ushort) (_complexProperty.Address + _offset), _complexProperty.NumberOfPoints, false);
 			foreach (var subProperty in _complexProperty.SubProperties)
 			{
-				var boolArray = ushortsFromDevice.GetBoolArrayFromUshortArray();
+				var boolArray = ushortsFromDevice.GetBoolArrayFromUshortArray().Reverse().ToArray();
 				List<bool> subPropertyBools = new List<bool>();
 				foreach (var bitNumber in subProperty.BitNumbersInWord)
 				{
 					subPropertyBools.Add(boolArray[bitNumber]);
 				}
-				subPropertyBools.Reverse();
+				//subPropertyBools.Reverse();
 				var subPropertyUshort = subPropertyBools.BoolArrayToUshort();
 				var subPropertyValue =
 					formattingService.FormatValue(subProperty.UshortsFormatter, new[] {subPropertyUshort});
