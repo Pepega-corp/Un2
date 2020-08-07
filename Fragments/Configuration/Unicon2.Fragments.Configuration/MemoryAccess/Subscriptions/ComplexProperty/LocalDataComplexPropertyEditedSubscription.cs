@@ -64,7 +64,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 
 			resultBitArray = resultBitArray.ToArray();
 			var resUshorts = new ushort[] {resultBitArray.BoolArrayToUshort()};
-			MemoryAccessor.GetUshortsInMemory(_deviceContext.DeviceMemory, (ushort)(_complexProperty.Address+_offset), resUshorts, true);
+			MemoryAccessor.SetUshortsInMemory(_deviceContext.DeviceMemory, (ushort)(_complexProperty.Address+_offset), resUshorts, true);
 			_deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
 				(ushort) (_complexProperty.Address + _offset), (ushort) resUshorts.Length);
 		}

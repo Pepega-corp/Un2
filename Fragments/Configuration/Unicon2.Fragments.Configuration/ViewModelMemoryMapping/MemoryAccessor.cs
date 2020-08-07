@@ -6,6 +6,24 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 {
     public static class MemoryAccessor
     {
+
+	    public static void ClearRangeTo(ushort rangeFrom, ushort rangeTo, Dictionary<ushort, ushort> memorySet)
+	    {
+		    for (var i = rangeFrom; i <= rangeTo; i++)
+		    {
+			    memorySet.Remove(i);
+		    }
+	    }
+
+	    public static void ClearRange(ushort rangeFrom, ushort numberOfPoints, Dictionary<ushort, ushort> memorySet)
+	    {
+		    var rangeTo = rangeFrom + numberOfPoints;
+		    for (var i = rangeFrom; i <= rangeTo; i++)
+		    {
+			    memorySet.Remove(i);
+		    }
+	    }
+
 	    public static bool IsMemoryContainsAddresses(IDeviceMemory deviceMemory, ushort address,
 		    ushort numberOfPoints, bool isLocal)
 	    {
@@ -33,7 +51,7 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
             }
         }
 
-        public static void GetUshortsInMemory(IDeviceMemory deviceMemory, ushort address,
+        public static void SetUshortsInMemory(IDeviceMemory deviceMemory, ushort address,
             ushort[] values, bool isLocal)
         {
             if (isLocal)

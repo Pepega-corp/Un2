@@ -11,7 +11,7 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
         TOutPut VisitProperty(IProperty property);
         TOutPut VisitComplexProperty(IComplexProperty property);
         TOutPut VisitMatrix(IAppointableMatrix appointableMatrixViewModel);
-        TOutPut VisitDependentProperty(IDependentProperty dependentPropertyViewModel);
+        TOutPut VisitDependentProperty(IDependentProperty dependentProperty);
         TOutPut VisitSubProperty(ISubProperty subProperty);
     }   
 }

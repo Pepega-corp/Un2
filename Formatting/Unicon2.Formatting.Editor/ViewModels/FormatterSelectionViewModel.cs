@@ -62,7 +62,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 _ushortsFormatterViewModels.RemoveAt(existingIndex);
                 _ushortsFormatterViewModels.Insert(existingIndex,
                     ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
-                SelectedUshortsFormatterViewModel = ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel;
+                SelectedUshortsFormatterViewModel = ushortFormattableViewModel.FormatterParametersViewModel
+                    .RelatedUshortsFormatterViewModel;
 
             }
 
@@ -81,8 +82,9 @@ namespace Unicon2.Formatting.Editor.ViewModels
             if (selectedFormatter == null) return;
             CurrentResourceString = selectedFormatter.Name;
             IsFormatterFromResource = true;
-            SelectedUshortsFormatterViewModel = _container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(selectedFormatter).RelatedUshortsFormatterViewModel;
-     
+            SelectedUshortsFormatterViewModel = _container.Resolve<IFormatterViewModelFactory>()
+                .CreateFormatterViewModel(selectedFormatter).RelatedUshortsFormatterViewModel;
+
         }
 
         private void OnAddAsResourceExecute()
@@ -119,23 +121,25 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             if (CurrentResourceString != null)
             {
-	            ISaveFormatterService saveFormatterService = _container.Resolve<ISaveFormatterService>();
+                ISaveFormatterService saveFormatterService = _container.Resolve<ISaveFormatterService>();
 
-                IUshortsFormatter resourceUshortsFormatter = saveFormatterService.CreateUshortsParametersFormatter(SelectedUshortsFormatterViewModel);
+                IUshortsFormatter resourceUshortsFormatter =
+                    saveFormatterService.CreateUshortsParametersFormatter(SelectedUshortsFormatterViewModel);
                 resourceUshortsFormatter.Name = CurrentResourceString;
                 _sharedResourcesGlobalViewModel.UpdateSharedResource(resourceUshortsFormatter);
 
 
                 _ushortFormattableViewModel.FormatterParametersViewModel =
-	               _container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(resourceUshortsFormatter) ;
+                    _container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(resourceUshortsFormatter);
             }
             else
             {
-                     _ushortFormattableViewModel.FormatterParametersViewModel = _container.Resolve<IFormatterParametersViewModel>();
-            _ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
-                SelectedUshortsFormatterViewModel;
+                _ushortFormattableViewModel.FormatterParametersViewModel =
+                    _container.Resolve<IFormatterParametersViewModel>();
+                _ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
+                    SelectedUshortsFormatterViewModel;
             }
-       
+
             (obj as Window)?.Close();
         }
 
