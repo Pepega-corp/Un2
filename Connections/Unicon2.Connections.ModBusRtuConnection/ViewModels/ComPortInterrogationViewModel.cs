@@ -68,13 +68,17 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             }
             DeviceDefinitionViewModels.Remove(obj as IDeviceDefinitionViewModel);
             IsDevicesNotFound = false;
-
+            OnInterrogateExecute();
         }
 
         private void OnStopInterrogationExecute()
         {
             _isInterrogationStopped = true;
+            IsInterrogationNotInProcess = true;
             (StopInterrogationCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (AddDeviceCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
+            RaisePropertyChanged(nameof(IsInterrogationNotInProcess));
+
         }
 
         private async void OnInterrogateExecute()

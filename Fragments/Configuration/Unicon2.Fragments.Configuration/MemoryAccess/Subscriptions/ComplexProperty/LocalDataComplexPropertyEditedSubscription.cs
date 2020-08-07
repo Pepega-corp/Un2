@@ -48,15 +48,21 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 				var ushorts = formattingService.FormatBack(subProperty?.UshortsFormatter, (_complexPropertyViewModel.ChildStructItemViewModels[_complexProperty.SubProperties.IndexOf(subProperty)] as ILocalAndDeviceValueContainingViewModel).LocalValue.Accept(fetchingFromViewModelVisitor));
 				var ushortOfSubProperty = ushorts.First();
 				var boolArray = ushorts.GetBoolArrayFromUshortArray();
-				int counterInner = 0;
-				foreach (var bitNumber in subProperty.BitNumbersInWord)
+				int counter = 0;
+				for (int i = 0; i < 16; i++)
 				{
-					resultBitArray[bitNumber] = boolArray[counterInner];
-					counterInner++;
+					if (subProperty.BitNumbersInWord.Contains(i))
+					{
+						resultBitArray[i] = boolArray[counter];
+						counter++;
+					}
+
+					
 				}
+
 			}
 
-			resultBitArray = resultBitArray.Reverse().ToArray();
+			resultBitArray = resultBitArray.ToArray();
 			var resUshorts = new ushort[] {resultBitArray.BoolArrayToUshort()};
 			MemoryAccessor.GetUshortsInMemory(_deviceContext.DeviceMemory, (ushort)(_complexProperty.Address+_offset), resUshorts, true);
 			_deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(

@@ -48,12 +48,18 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 			foreach (var subProperty in _complexProperty.SubProperties)
 			{
 				var boolArray = ushortsFromDevice.GetBoolArrayFromUshortArray();
-				List<bool> subPropertyBools = new List<bool>();
-				foreach (var bitNumber in subProperty.BitNumbersInWord)
+				bool[] subPropertyBools = new bool[16];
+				int counter = 0;
+				for (int i = 0; i < 16; i++)
 				{
-					subPropertyBools.Add(boolArray[bitNumber]);
+					if (subProperty.BitNumbersInWord.Contains(i))
+					{
+						subPropertyBools[counter] = boolArray[i];
+						counter++;
+					}
 				}
-			    
+				
+
 				var subPropertyUshort = subPropertyBools.BoolArrayToUshort();
 
 

@@ -170,6 +170,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 			PresentationElementViewModels.Remove(SelectedElementViewModel);
 			SelectedElementViewModel.PositioningInfoViewModel.Dispose();
 			SelectedElementViewModel = null;
+			UpdateFilter();
 		}
 
 		private void OnAddGroup()

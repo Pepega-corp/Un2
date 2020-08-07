@@ -10,9 +10,9 @@ namespace Unicon2.SharedResources.Converter
         {
             if (value is string)
             {
-                if (((string) value).Contains("Key:"))
+                if (((string) value).Contains("Key: "))
                 {
-                    return ((string) value).Replace("Key:", "");
+                    return ((string) value).Replace("Key: ", "");
                 }
             }
 

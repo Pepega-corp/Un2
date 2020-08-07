@@ -1717,6 +1717,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @FormattingIfFalse.
+        /// </summary>
+        public static string FormattingIfFalse {
+            get {
+                return ResourceManager.GetString("FormattingIfFalse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @FormattingIfTrue.
+        /// </summary>
+        public static string FormattingIfTrue {
+            get {
+                return ResourceManager.GetString("FormattingIfTrue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @Formula.
         /// </summary>
         public static string Formula {

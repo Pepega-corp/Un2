@@ -1443,4 +1443,10 @@
   <data name="Recent" xml:space="preserve">
     <value>@Recent</value>
   </data>
+  <data name="FormattingIfFalse" xml:space="preserve">
+    <value>@FormattingIfFalse</value>
+  </data>
+  <data name="FormattingIfTrue" xml:space="preserve">
+    <value>@FormattingIfTrue</value>
+  </data>
 </root>

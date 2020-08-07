@@ -158,33 +158,22 @@ namespace Unicon2.Formatting.Visitors
             iterationDefinition.NumberOfSimbolsAfterComma = formulaFormatter.NumberOfSimbolsAfterComma;
             if (formulaFormatter.UshortFormattableResources != null)
             {
-                int index = 1;
-                foreach (string formattableUshortResource in formulaFormatter.UshortFormattableResources)
-                {
-                    var resource = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
-                        container => container.ResourceName == formattableUshortResource);
+	            int index = 1;
+	            foreach (string formattableUshortResource in formulaFormatter.UshortFormattableResources)
+	            {
+		            var resource = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
+			            container => container.ResourceName == formattableUshortResource);
 
-                    var propValue=await StaticContainer.Container.Resolve<IPropertyValueService>()
-                        .GetValueOfProperty(resource.Resource, deviceContext);
+		            var propValue = await StaticContainer.Container.Resolve<IPropertyValueService>()
+			            .GetValueOfProperty(resource.Resource, deviceContext);
 
-                    if (propValue.Item is INumericValue numericValue)
-                       {
-                           double num = numericValue.NumValue;
-                            iterationDefinition.ArgumentNames.Add("x" + index++);
-                           iterationDefinition.ArgumentValues.Add(num);
-                        }
-                    // if (formattableUshortResource is IDeviceValueContaining)
-                    // {
-                    //     IFormattedValue value = formattableUshortResource.UshortsFormatter
-                    //        .Format((formattableUshortResource as IDeviceValueContaining).DeviceUshortsValue);
-                    //    if (value is INumericValue)
-                    //   {
-                    //       double num = (value as INumericValue).NumValue;
-                    //        iterationDefinition.ArgumentNames.Add("x" + index++);
-                    //       iterationDefinition.ArgumentValues.Add(num);
-                    //    }
-                    //  }
-                }
+		            if (propValue.Item is INumericValue numericValue)
+		            {
+			            double num = numericValue.NumValue;
+			            iterationDefinition.ArgumentNames.Add("x" + index++);
+			            iterationDefinition.ArgumentValues.Add(num);
+		            }
+	            }
             }
 
             formattedValue.NumValue = MemoizeCalculateResult(iterationDefinition, formulaFormatter.FormulaString,

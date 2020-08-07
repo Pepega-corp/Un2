@@ -161,47 +161,55 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         {
             _canSubmitCommandExecute = false;
             SubmitCommand.RaiseCanExecuteChanged();
+            IDevice connectingDevice = null;
             try
             {
-                if (HasErrors) return;
-                if (SelectedDeviceConnection == null) return;
-                IDevice connectingDevice = null;
+	            if (HasErrors) return;
+	            if (SelectedDeviceConnection == null) return;
 
-                //в режиме редактирования предыдущее подключение нужно удалить
-                if (CurrentMode == ModesEnum.EditingMode)
-                {
-                    connectingDevice = _editingDevice;
-                    _previousDeviceConnection?.Dispose();
-                }
+	            //в режиме редактирования предыдущее подключение нужно удалить
+	            if (CurrentMode == ModesEnum.EditingMode)
+	            {
+		            connectingDevice = _editingDevice;
+		            _previousDeviceConnection?.Dispose();
+	            }
 
-                //В режиме добавления выбранное устройство инициализиреутся
-                if (CurrentMode == ModesEnum.AddingMode)
-                {
-                    FireErrorsChanged(nameof(SelectedDevice));
-                    if (SelectedDevice == null) return;
-                    connectingDevice = (SelectedDevice.Model as IDeviceCreator).Create();
-                }
+	            //В режиме добавления выбранное устройство инициализиреутся
+	            if (CurrentMode == ModesEnum.AddingMode)
+	            {
+		            FireErrorsChanged(nameof(SelectedDevice));
+		            if (SelectedDevice == null) return;
+		            connectingDevice = (SelectedDevice.Model as IDeviceCreator).Create();
+	            }
 
-                if (connectingDevice == null) return;
-                connectingDevice.DeviceSignature = DeviceSignature;
-                //модель выбранного подключения клонируется, что не создавать устройства с ссылкой на одно и то же подключкение
-                //попытка подключения, при неудаче вывод сообщения и прекращение создания устройства
-                if (!await ConnectDevice(connectingDevice,
-                    (SelectedDeviceConnection.Model as IDeviceConnection)?.Clone() as IDeviceConnection)) return;
-
-          
-                if (CurrentMode == ModesEnum.AddingMode)
-                {
-	                if (!_devicesContainerService.ConnectableItems.Contains(connectingDevice))
-	                {
-		                _devicesContainerService.AddConnectableItem(connectingDevice);
-	                }
-
-                }
+	            if (connectingDevice == null) return;
+	            connectingDevice.DeviceSignature = DeviceSignature;
+	            //модель выбранного подключения клонируется, что не создавать устройства с ссылкой на одно и то же подключкение
+	            //попытка подключения, при неудаче вывод сообщения и прекращение создания устройства
+	            if (!await ConnectDevice(connectingDevice,
+		            (SelectedDeviceConnection.Model as IDeviceConnection)?.Clone() as IDeviceConnection)) return;
 
 
-                //закрытие представления
-                IsFlyOutOpen = false;
+	            if (CurrentMode == ModesEnum.AddingMode)
+	            {
+		            if (!_devicesContainerService.ConnectableItems.Contains(connectingDevice))
+		            {
+			            _devicesContainerService.AddConnectableItem(connectingDevice);
+		            }
+
+	            }
+
+
+	            //закрытие представления
+	            IsFlyOutOpen = false;
+            }
+            catch(Exception exception)
+            {
+	            connectingDevice?.DeviceConnection?.Dispose();
+
+                _dialogCoordinator.ShowModalMessageExternal(this,
+		            _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR),
+		            exception.Message);
             }
             finally
             {

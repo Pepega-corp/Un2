@@ -1452,4 +1452,10 @@
   <data name="Recent" xml:space="preserve">
     <value>Последние</value>
   </data>
+  <data name="FormattingIfFalse" xml:space="preserve">
+    <value>Форматирование если нет</value>
+  </data>
+  <data name="FormattingIfTrue" xml:space="preserve">
+    <value>Форматирование если да</value>
+  </data>
 </root>

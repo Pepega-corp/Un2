@@ -43,10 +43,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             {
                 var ushorts =
                     await deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(property.Address,
-                        property.NumberOfPoints, "Read connection status");
+                        property.NumberOfPoints, "Read property");
                 if (ushorts.IsSuccessful)
                 {
-                    return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter);
+	                MemoryAccessor.GetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result, false);
+	                return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter);
                 }
             }
             return Result<IFormattedValue>.Create(false);
