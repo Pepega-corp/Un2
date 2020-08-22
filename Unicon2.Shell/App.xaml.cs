@@ -42,6 +42,7 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Model.Module;
 using Unicon2.ModuleDeviceEditing;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Module;
 using Unicon2.Presentation.ViewModels;
@@ -122,6 +123,8 @@ namespace Unicon2.Shell
             BootsrapperMessageAction?.Invoke("Register Types");
             //Register TypesContainer that represent IUnityContainer
             containerRegistry.RegisterSingleton<ITypesContainer, TypesContainer>();
+            containerRegistry.RegisterSingleton<IMainMenuService, MainMenuService>();
+
             StaticContainer.SetContainer(Container.Resolve<ITypesContainer>());
             containerRegistry.RegisterInstance(DialogCoordinator.Instance);
             containerRegistry.Register<IDeviceDefinitionViewModel, DeviceDefinitionViewModel>();

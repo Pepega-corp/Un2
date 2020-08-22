@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Unicon.Common.Queries;
+//using Unicon.Common.Queries;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Web.Presentation.Module
@@ -23,7 +23,7 @@ namespace Unicon2.Web.Presentation.Module
 					Formatting = Formatting.Indented,
 					TypeNameHandling = TypeNameHandling.All,
 				};
-				writer.Write(JsonConvert.SerializeObject(new GetDeviceDefinitionsQuery("pupa"), jsonSerializerSettings));
+				//writer.Write(JsonConvert.SerializeObject(new GetDeviceDefinitionsQuery("pupa"), jsonSerializerSettings));
 				res = writer.ToString();
 			}
 

@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:menuItems="clr-namespace:Unicon2.Shell.Views.MenuItems">
+    <DataTemplate x:Key="ToggleOptionsMenuItemViewModelDataTemplate">
+        <menuItems:ToggleMenuItem />
+    </DataTemplate>
+    <DataTemplate x:Key="CommandMenuItemDataTemplate">
+        <menuItems:CommandButtonMenuItem />
+    </DataTemplate>
+
+</ResourceDictionary>

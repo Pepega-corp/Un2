@@ -14,6 +14,7 @@ using Unicon2.Infrastructure.Services.ItemChangingContext;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Infrastructure.Services.UniconProject;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -21,6 +22,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 using Unicon2.Presentation.ViewModels;
 using Unicon2.Shell.Factories;
 using Unicon2.Shell.ViewModels.Helpers;
+using Unicon2.Shell.ViewModels.MenuItems;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -45,6 +47,9 @@ namespace Unicon2.Shell.ViewModels
         private ObservableCollection<IFragmentPaneViewModel> _fragmentsOpenedCollection;
         private IFragmentPaneViewModel _activeFragmentViewModel;
         private RecentProjectsViewModelFactory _recentProjectsViewModelFactory;
+        private readonly IMainMenuService _mainMenuService;
+        private bool _isOptionsOpen;
+        private ToggleOptionsMenuItemViewModel _toggleOptionsMenuItemViewModel;
 
         public ShellViewModel
         (ILogService logService,
@@ -58,7 +63,9 @@ namespace Unicon2.Shell.ViewModels
             IFragmentPaneViewModelFactory fragmentPaneViewModelFactory,
             IProjectBrowserViewModel projectBrowserViewModel,
             IUniconProjectService uniconProjectService, ToolBarViewModel toolBarViewModel, 
-            RecentProjectsViewModelFactory recentProjectsViewModelFactory)
+            RecentProjectsViewModelFactory recentProjectsViewModelFactory,
+            IMainMenuService mainMenuService,
+            DynamicMainMenuViewModel dynamicMainMenuViewModel)
         {
             LogServiceViewModel = logServiceViewModel;
             ProjectBrowserViewModel = projectBrowserViewModel;
@@ -86,7 +93,9 @@ namespace Unicon2.Shell.ViewModels
                 ProjectBrowserViewModel, LogServiceViewModel
             };
             ToolBarViewModel = toolBarViewModel;
+            DynamicMainMenuViewModel = dynamicMainMenuViewModel;
             _recentProjectsViewModelFactory = recentProjectsViewModelFactory;
+            _mainMenuService = mainMenuService;
             StaticOptionsButtonsHelper.InitializeStaticButtons(this);
             NewProjectCommand = new RelayCommand(OnNewProjectExecute);
             SaveProjectCommand = new RelayCommand(OnSaveProjectExecute);
@@ -114,8 +123,18 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnLoadedExecute()
         {
-	        _uniconProjectService.LoadDefaultProject();
-	        OnProjectChanged();
+            _toggleOptionsMenuItemViewModel = new ToggleOptionsMenuItemViewModel(this);
+            _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
+                _toggleOptionsMenuItemViewModel
+            ));
+            _mainMenuService.RegisterMainMenuItemGroup(new MainMenuGroupRegistrationOptions(Guid.NewGuid(),
+                ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY));
+            _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
+                new CommandMenuItemViewModel(OpenProjectCommand, ApplicationGlobalNames.UiCommandStrings.OPEN_PROJECT),
+                100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+            ));
+            _uniconProjectService.LoadDefaultProject();
+            OnProjectChanged();
         }
 
         private async void OnProjectChanged()
@@ -164,9 +183,11 @@ namespace Unicon2.Shell.ViewModels
             set
             {
                 _isMenuFlyOutOpen = value;
+                _toggleOptionsMenuItemViewModel?.Update();
                 RaisePropertyChanged();
             }
         }
+
 
         public ILogService LogService { get; }
 
@@ -409,6 +430,7 @@ namespace Unicon2.Shell.ViewModels
         public ICommand OpenOscillogramCommand { get; }
         public ICommand OpenRecentProjectCommand { get; }
         public ToolBarViewModel ToolBarViewModel { get; }
+        public DynamicMainMenuViewModel DynamicMainMenuViewModel { get; }
 
         public List<RecentProjectViewModel> RecentProjects => _recentProjectsViewModelFactory.CreateProjectViewModels();
 

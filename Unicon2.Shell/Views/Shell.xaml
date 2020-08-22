@@ -17,14 +17,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mvvm="http://prismlibrary.com/"
     xmlns:services="clr-namespace:Unicon2.Shell.Services"
+    xmlns:viewModels="clr-namespace:Unicon2.Shell.ViewModels"
     xmlns:views="clr-namespace:Unicon2.Shell.Views"
     xmlns:views1="clr-namespace:Unicon2.Presentation.Views;assembly=Unicon2.Presentation"
     xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
-    xmlns:viewModels="clr-namespace:Unicon2.Shell.ViewModels"
     x:Name="MainWindow"
     Title="{Binding ShellTitle}"
     Width="900"
     Height="600"
+    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}"
     dialogs:DialogParticipation.Register="{Binding}"
     lex:LocalizeDictionary.DesignCulture="ru-RU"
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
@@ -63,7 +64,7 @@
         <controls:FlyoutsControl mvvm:RegionManager.RegionName="{x:Static infrastructure:ApplicationGlobalNames+ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME}">
             <views:ShellSettingsFlyOut
                 x:Name="menuFlyOut"
-                IsOpen="{Binding IsMenuFlyOutOpen, Mode=TwoWay}"
+                IsOpen="{Binding DataContext.IsMenuFlyOutOpen, Mode=TwoWay, ElementName=MainWindow}"
                 IsPinned="False"
                 Position="Left"
                 Theme="Accent" />
@@ -71,7 +72,7 @@
     </controls:MetroWindow.Flyouts>
 
     <controls:MetroWindow.LeftWindowCommands>
-      <views:DynamicMainMenu></views:DynamicMainMenu>
+        <views:DynamicMainMenu DataContext="{Binding DynamicMainMenuViewModel}" />
     </controls:MetroWindow.LeftWindowCommands>
 
     <i:Interaction.Behaviors>

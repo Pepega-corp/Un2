@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Shell.ViewModels
@@ -12,22 +14,44 @@ namespace Unicon2.Shell.ViewModels
 	{
 		public DynamicMainMenuViewModel()
 		{
-			MenuItems = new ObservableCollection<MainMenuItemViewModel>();
+			MenuItems = new ObservableCollection<IMenuItemViewModel>();
 		}
 
-		public ObservableCollection<MainMenuItemViewModel> MenuItems { get; }
+		public ObservableCollection<IMenuItemViewModel> MenuItems { get; }
 	}
 
-	public class MainMenuItemViewModel
-	{
-		public MainMenuItemViewModel(bool isGrouped)
+    public interface IMenuItemViewModel: IUniqueId
+    {
+
+    }
+
+
+    public class GroupMenuItemViewModel: IMenuItemViewModel
+    {
+		public GroupMenuItemViewModel(string groupNameKey, Guid id)
 		{
-			MenuItems = new ObservableCollection<MainMenuItemViewModel>();
-			IsGrouped = isGrouped;
+		    GroupNameKey = groupNameKey;
+		    Id = id;
+		    ChildMenuItems = new ObservableCollection<IMenuItemViewModel>();
 		}
 
-		public bool IsGrouped { get; }
-		public ObservableCollection<MainMenuItemViewModel> MenuItems { get; }
+		public string GroupNameKey { get; }
+		public ObservableCollection<IMenuItemViewModel> ChildMenuItems { get; }
 
-	}
+        public Guid Id { get; }
+    }
+
+    public class MenuItemViewModel: IMenuItemViewModel
+    {
+        public MenuItemViewModel( IStronglyNamed stronglyNamedViewModel, Guid id)
+        {
+            StronglyNamedViewModel = stronglyNamedViewModel;
+            Id = id;
+        }
+        
+        public IStronglyNamed StronglyNamedViewModel { get; }
+
+        public Guid Id { get; }
+    }
+
 }

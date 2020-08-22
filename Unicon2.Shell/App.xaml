@@ -11,6 +11,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/ShellResources.xaml" />
                 <!--  Fluent theme  -->
                 <ResourceDictionary Source="/Unicon2.SharedResources;component/UI/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />

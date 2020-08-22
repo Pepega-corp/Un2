@@ -36,8 +36,12 @@
             public const string READ_STRING_KEY = "Read";
   
             public const string SAVE_FOR_PRINT = "SaveForPrint";
+            public const string COMMAND = "CommandMenuItem";
+
+            public const string OPEN_PROJECT = "OpenProjectCommand";
+
         }
-        
+
         public static class WindowsStrings
         {
             /// <summary>

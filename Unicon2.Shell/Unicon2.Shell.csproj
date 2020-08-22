@@ -134,11 +134,12 @@
     <Compile Include="Services\ApplicationSettingsService.cs" />
     <Compile Include="Services\LayoutInitializer.cs" />
     <Compile Include="Services\MainMenuService.cs" />
+    <Compile Include="TemplateSelectors\MainMenuItemTemplateSelector.cs" />
     <Compile Include="ViewModels\DynamicContextMenuViewModel.cs" />
     <Compile Include="ViewModels\DynamicMainMenuViewModel.cs" />
     <Compile Include="ViewModels\Helpers\StaticOptionsButtonsHelper.cs" />
     <Compile Include="ViewModels\MenuItems\CommandMenuItemViewModel.cs" />
-    <Compile Include="ViewModels\MenuItems\ToggleMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuItems\ToggleOptionsMenuItemViewModel.cs" />
     <Compile Include="ViewModels\RecentProjectViewModel.cs" />
     <Compile Include="ViewModels\UniconSplashScreenViewModel.cs" />
     <Compile Include="Views\DynamicContextMenu.xaml.cs">
@@ -147,6 +148,10 @@
     <Compile Include="Views\DynamicMainMenu.xaml.cs">
       <DependentUpon>DynamicMainMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MenuItems\CommandButtonMenuItem.xaml.cs">
+      <DependentUpon>CommandButtonMenuItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MenuItems\CommandMeniItem.cs" />
     <Compile Include="Views\MenuItems\ToggleMenuItem.xaml.cs">
       <DependentUpon>ToggleMenuItem.xaml</DependentUpon>
     </Compile>
@@ -172,12 +177,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\ShellResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DynamicContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DynamicMainMenu.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuItems\CommandButtonMenuItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MenuItems\ToggleMenuItem.xaml">

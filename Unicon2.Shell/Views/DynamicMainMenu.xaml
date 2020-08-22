@@ -4,12 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:Unicon2.Shell.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors;assembly=Unicon2.SharedResources"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:infrastructure="clr-namespace:Unicon2.Infrastructure;assembly=Unicon2.Infrastructure"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Shell.Views"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:templateSelectors="clr-namespace:Unicon2.Shell.TemplateSelectors"
     xmlns:viewModels="clr-namespace:Unicon2.Shell.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:DynamicMainMenuViewModel}"
     d:DesignHeight="50"
@@ -17,16 +19,7 @@
     ItemsSource="{Binding MenuItems}"
     mc:Ignorable="d">
 
-    <!--<ToggleButton Cursor="Hand" IsChecked="{Binding IsOpen, ElementName=menuFlyOut}">
-        <Rectangle
-                    Width="15"
-                    Height="15"
-                    Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
-            <Rectangle.OpacityMask>
-                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_cog}" />
-            </Rectangle.OpacityMask>
-        </Rectangle>
-    </ToggleButton>
+    <!--
     <Button
                 Name="toggleButtonFile"
                 Content="{lex:Loc Key=File}"
@@ -103,7 +96,47 @@
             <behaviors:DynamicMenuTabItemBehavior TabItems="{Binding ActiveFragmentViewModel.FragmentViewModel.FragmentOptionsViewModel}" />
         </i:Interaction.Behaviors>
     </Button>-->
-    <mah:WindowCommands.ItemTemplate>
 
+
+    <mah:WindowCommands.ItemTemplate>
+        <DataTemplate>
+            <ContentPresenter Content="{Binding .}">
+                <ContentPresenter.ContentTemplateSelector>
+                    <templateSelectors:MainMenuItemTemplateSelector>
+                        <templateSelectors:MainMenuItemTemplateSelector.MenuItemDataTemplate>
+                            <DataTemplate DataType="viewModels:MenuItemViewModel">
+                                <ContentPresenter Content="{Binding StronglyNamedViewModel}">
+                                    <ContentPresenter.ContentTemplateSelector>
+                                        <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
+                                    </ContentPresenter.ContentTemplateSelector>
+                                </ContentPresenter>
+                            </DataTemplate>
+                        </templateSelectors:MainMenuItemTemplateSelector.MenuItemDataTemplate>
+                        <templateSelectors:MainMenuItemTemplateSelector.GroupedItemDataTemplate>
+                            <DataTemplate DataType="viewModels:GroupMenuItemViewModel">
+                                <Grid>
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:ButtonContextMenuOpenBehavior />
+                                    </i:Interaction.Behaviors>
+                                    <Grid.ContextMenu>
+                                        <ContextMenu ItemsSource="{Binding ChildMenuItems}">
+                                            <ContextMenu.ItemTemplateSelector>
+                                                <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
+                                            </ContextMenu.ItemTemplateSelector>
+                                        </ContextMenu>
+                                    </Grid.ContextMenu>
+                                    <lex:LocProxy Name="titleProxy" Source="{Binding Path=GroupNameKey}" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{Binding ElementName=titleProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </templateSelectors:MainMenuItemTemplateSelector.GroupedItemDataTemplate>
+                    </templateSelectors:MainMenuItemTemplateSelector>
+                </ContentPresenter.ContentTemplateSelector>
+            </ContentPresenter>
+        </DataTemplate>
     </mah:WindowCommands.ItemTemplate>
 </mah:WindowCommands>
