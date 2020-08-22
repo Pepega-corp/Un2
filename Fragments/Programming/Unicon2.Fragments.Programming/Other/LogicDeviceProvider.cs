@@ -1,35 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
-using System.Windows.Documents;
+using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.Programming.Model;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 
-namespace Unicon2.Fragments.Programming
+namespace Unicon2.Fragments.Programming.Other
 {
-    internal class LogicReader
+    public class LogicDeviceProvider
     {
+        private const string LOGARCH_ZIP = "logarch.zip";
         private readonly IFileDriver _fileDriver;
-        private IDataProvider _dataProvider;
 
         public DeviceContext DeviceContext { get; private set; }
 
-        public LogicReader(IFileDriver fileDriver)
+        public LogicDeviceProvider(IFileDriver fileDriver)
         {
             this._fileDriver = fileDriver;
         }
 
         public void SetDeviceContext(DeviceContext deviceContext)
         {
-            DeviceContext = deviceContext;
-            _dataProvider = DeviceContext.DataProviderContainer.DataProvider;
-            _fileDriver.DeviceContext = deviceContext;
+            this.DeviceContext = deviceContext;
+            this._fileDriver.SetDataProvider(deviceContext.DataProviderContainer.DataProvider);
         }
 
-        public ushort[] CompressProject(byte[] logicArchive)
+        public void WriteLogic(byte[] logicPjectBytes)
+        {
+            var compressedArchive = this.CompressProject(logicPjectBytes);
+        }
+
+        private ushort[] CompressProject(byte[] logicArchive)
         {
             ushort[] compressedWords = null;
 
@@ -71,6 +72,13 @@ namespace Unicon2.Fragments.Programming
             }
 
             return compressedWords;
+        }
+
+        public async Task<byte[]> ReadLogic()
+        {
+            var compressedLogic = await this._fileDriver.ReadFile(LOGARCH_ZIP);
+
+            return new byte[] { };
         }
 
         public byte[] UncompressProject(ushort[] compressedWords)

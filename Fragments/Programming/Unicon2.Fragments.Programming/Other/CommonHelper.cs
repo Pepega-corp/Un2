@@ -4,7 +4,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.ViewModels;
 
-namespace Unicon2.Fragments.Programming
+namespace Unicon2.Fragments.Programming.Other
 {
     public static class CommonHelper 
     {

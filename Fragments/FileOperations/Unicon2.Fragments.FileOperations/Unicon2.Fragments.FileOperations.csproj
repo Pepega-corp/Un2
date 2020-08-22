@@ -63,11 +63,13 @@
   <ItemGroup>
     <Compile Include="Factories\BrowserElementFactory.cs" />
     <Compile Include="Factories\BrowserElementViewModelFactory.cs" />
-    <Compile Include="FileOperations\CommandSender.cs" />
-    <Compile Include="FileOperations\CommandStateReader.cs" />
+    <Compile Include="FileOperations\Operators\DirectoryOperator.cs" />
     <Compile Include="FileOperations\FileDataReader.cs" />
     <Compile Include="FileOperations\FileDataWriter.cs" />
     <Compile Include="FileOperations\FileDriver.cs" />
+    <Compile Include="FileOperations\FileOperationException.cs" />
+    <Compile Include="FileOperations\Operators\Operator.cs" />
+    <Compile Include="FileOperations\Operators\SessionNumberOperator.cs" />
     <Compile Include="Model\BrowserElements\BrowserElementBase.cs" />
     <Compile Include="Model\BrowserElements\DeviceDirectory.cs" />
     <Compile Include="Model\BrowserElements\DeviceFile.cs" />

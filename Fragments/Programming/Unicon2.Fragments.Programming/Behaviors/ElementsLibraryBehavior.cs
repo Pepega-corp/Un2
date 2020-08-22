@@ -5,6 +5,7 @@ using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
+using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors

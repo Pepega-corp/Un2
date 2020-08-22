@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Unicon2.Fragments.Programming
+namespace Unicon2.Fragments.Programming.Other
 {
     [TemplatePart(Name = "PART_ItemsContainer", Type = typeof(Canvas))]
     public class DesignerCanvasItemsControl : ItemsControl

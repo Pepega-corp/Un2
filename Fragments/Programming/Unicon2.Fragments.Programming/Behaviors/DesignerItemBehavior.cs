@@ -10,6 +10,7 @@ using System.Windows.Media;
 using Unicon2.Fragments.Programming.Adorners;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Unicon2.Fragments.Programming"
+    xmlns:other="clr-namespace:Unicon2.Fragments.Programming.Other"
     MinWidth="800"
     MinHeight="600">
 
@@ -55,24 +56,38 @@
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2">
-            <MenuItem Header="File" VerticalAlignment="Center">
+            <MenuItem
+                Margin="0,0,10,0"
+                VerticalAlignment="Center"
+                Header="File">
                 <MenuItem
                     Command="{Binding NewSchemeCommand}"
                     Header="New File"
                     InputGestureText="Ctrl+N" />
-                <Separator/>
-                <MenuItem Command="{Binding SaveProjectCommand}" 
-                          Header="Save Project" 
-                          InputGestureText="Ctrl+S"/>
-                <MenuItem Command="{Binding LoadProjectCommand}" 
-                          Header="Load Project"
-                          InputGestureText="Ctrl+L"/>
+                <Separator />
+                <MenuItem
+                    Command="{Binding SaveProjectCommand}"
+                    Header="Save Project"
+                    InputGestureText="Ctrl+S" />
+                <MenuItem
+                    Command="{Binding LoadProjectCommand}"
+                    Header="Load Project"
+                    InputGestureText="Ctrl+L" />
                 <!-- <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" /> -->
             </MenuItem>
-            <StackPanel Margin="20,0,0,0">
-                <Button Height="35" Width="35" Command="{Binding WriteLogicCommand}">
-                    W
-                </Button>
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Width="35"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding WriteLogicCommand}"
+                    Content="W" />
+                <Button
+                    Width="35"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding ReadLogicCommand}"
+                    Content="R" />
             </StackPanel>
         </Menu>
         <GroupBox
@@ -81,7 +96,7 @@
             Header="{Binding ProjectName}">
             <GroupBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Rename"/>
+                    <MenuItem Header="Rename" />
                 </ContextMenu>
             </GroupBox.ContextMenu>
             <Grid>
@@ -89,7 +104,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <local:TabControlEx
+                <other:TabControlEx
                     Grid.Row="1"
                     ItemsSource="{Binding SchemesCollection}"
                     SelectedIndex="{Binding SelectedTabIndex, Mode=OneWayToSource}"

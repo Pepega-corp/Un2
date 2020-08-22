@@ -8,6 +8,7 @@ using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Other;
 
 namespace Unicon2.Fragments.Programming.Adorners
 {

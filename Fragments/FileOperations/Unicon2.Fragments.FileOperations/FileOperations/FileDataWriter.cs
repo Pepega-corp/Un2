@@ -25,9 +25,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             get => _deviceContext;
             set
             {
-                _deviceContext = value;
-                this._commandSender.DeviceContext = _deviceContext;
-                this._commandStateReader.DeviceContext = _deviceContext;
+                //_deviceContext = value;
+                //this._commandSender.DeviceContext = _deviceContext;
+                //this._commandStateReader.DeviceContext = _deviceContext;
             }
         }
 

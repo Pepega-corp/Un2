@@ -13,6 +13,7 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model;
+using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
@@ -30,19 +31,18 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly ILogicElementFactory _factory;
         private readonly ISerializerService _serializerService;
-        private readonly LogicReader _logicReader;
+        private readonly LogicDeviceProvider _logicDeviceProvider;
         private IProgramModel _programModel;
         
-        public ProgrammingViewModel(IProgramModel model, IApplicationGlobalCommands globalCommands, ILogicElementFactory factory, IFileDriver fileDriver,
-            ISerializerService serializerService)
+        public ProgrammingViewModel(IProgramModel model, LogicDeviceProvider logicDeviceProvider, 
+            ILogicElementFactory factory, IApplicationGlobalCommands globalCommands, ISerializerService serializerService)
         {
             this._programModel = model;
             this._applicationGlobalCommands = globalCommands;
             this._factory = factory;
 
             this._serializerService = serializerService;
-
-            this._logicReader = new LogicReader(fileDriver);
+            this._logicDeviceProvider = logicDeviceProvider;
 
             this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
             this.ElementsLibrary = new ObservableCollection<ILogicElementViewModel>();
@@ -55,17 +55,18 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.ZoomIncrementCommand = new RelayCommand(this.ZoomIncrement, this.CanZooming);
             this.ZoomDecrementCommand = new RelayCommand(this.ZoomDecrement, this.CanZooming);
 
-            WriteLogicCommand = new RelayCommand(OnWriteCommand);
+            this.WriteLogicCommand = new RelayCommand(OnWriteCommand);
+            this.ReadLogicCommand = new RelayCommand(OnWriteCommand);
         }
 
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
         public DeviceContext DeviceContext
         {
-            get => this._logicReader.DeviceContext;
+            get => this._logicDeviceProvider.DeviceContext;
             set
             {
-                this._logicReader.SetDeviceContext(value);
+                this._logicDeviceProvider.SetDeviceContext(value);
             }
         }
 
@@ -286,8 +287,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if(SchemesCollection.All(sc => sc.CanWriteToDevice))
             {
                 this.UpdateModelData();
-                var logicArchive = _serializerService.SerializeInBytes(_programModel);
-                var compressedProject = _logicReader.CompressProject(logicArchive);
+                var logicProjectBytes = _serializerService.SerializeInBytes(_programModel);
+                this._logicDeviceProvider.WriteLogic(logicProjectBytes);
 
                 //var uncompressProject = _logicReader.UncompressProject(compressedProject);
                 //var model = _serializerService.DeserializeFromBytes<IProgramModel>(uncompressProject);
@@ -296,6 +297,24 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 MessageBox.Show("Not all logic elements are connected!", "Write logic", MessageBoxButton.OK);
             }
+        }
+
+        private void OnReadCommand()
+        {
+            if (this.SchemesCollection.Count > 0)
+            {
+                var result = MessageBox.Show("Would you like to save logic project?", "Write logic", MessageBoxButton.YesNoCancel);
+
+                if(result == MessageBoxResult.Cancel)
+                    return;
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    this.SaveProject();
+                }
+            }
+
+            var logicProjectBytes = this._logicDeviceProvider.ReadLogic();
         }
     }
 }

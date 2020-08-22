@@ -6,6 +6,7 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Model.Elements;
+using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.ViewModels;
 using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 using Unicon2.Infrastructure;
@@ -20,6 +21,7 @@ namespace Unicon2.Fragments.Programming.Module
         public void Initialize(ITypesContainer container)
         {
             container.Register<IProgramModel, ProgramModel>();
+            container.Register<LogicDeviceProvider>();
 
             container.Register<IFragmentViewModel, ProgrammingViewModel>(ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ISchemeTabViewModel, SchemeTabViewModel>(ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);

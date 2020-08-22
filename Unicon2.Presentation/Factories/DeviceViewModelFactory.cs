@@ -4,7 +4,6 @@ using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Subscription;

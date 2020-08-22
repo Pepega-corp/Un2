@@ -4,6 +4,7 @@
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:local="clr-namespace:Unicon2.Fragments.Programming"
+    xmlns:other="clr-namespace:Unicon2.Fragments.Programming.Other"
     xmlns:viewModels="clr-namespace:Unicon2.Fragments.Programming.ViewModels">
 
     <ResourceDictionary.MergedDictionaries>
@@ -16,7 +17,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!--  TAB CONTROL STYLE  -->
-    <Style x:Key="SchemeTabControlStyle" TargetType="{x:Type local:TabControlEx}">
+    <Style x:Key="SchemeTabControlStyle" TargetType="{x:Type other:TabControlEx}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">

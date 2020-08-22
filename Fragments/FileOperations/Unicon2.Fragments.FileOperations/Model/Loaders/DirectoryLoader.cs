@@ -50,6 +50,6 @@ namespace Unicon2.Fragments.FileOperations.Model.Loaders
             return await this._fileDriver.WriteFile(fileBytes, directoryPath, $"{fileName}.{extension}");
         }
 
-        public void SetDeviceContext(DeviceContext deviceContext) => _fileDriver.DeviceContext = deviceContext;
+        public void SetDeviceContext(DeviceContext deviceContext) => _fileDriver.SetDataProvider(deviceContext.DataProviderContainer.DataProvider);
     }
 }

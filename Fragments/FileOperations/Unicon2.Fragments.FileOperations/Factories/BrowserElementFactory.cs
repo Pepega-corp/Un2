@@ -19,7 +19,7 @@ namespace Unicon2.Fragments.FileOperations.Factories
             set
             {
                 _deviceContext = value;
-                _fileDriver.DeviceContext = _deviceContext;
+                _fileDriver.SetDataProvider(_deviceContext.DataProviderContainer.DataProvider);
             }
         }
 

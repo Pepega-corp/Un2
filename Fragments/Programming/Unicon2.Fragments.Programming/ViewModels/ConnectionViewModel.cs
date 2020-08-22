@@ -9,6 +9,7 @@ using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Other;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;
 
