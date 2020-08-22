@@ -91,13 +91,32 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 
         public async Task<ushort[]> ReadData()
         {
-            var result = await this._dataProvider.ReadHoldingResgistersAsync(STATE_ADDRESS, WORDS_LENGTH, "ReadStateCmdFileDriver");
+            return await this.ReadData(0x400);
+        }
+
+        public async Task<ushort[]> ReadData(ushort dataLen)
+        {
+            var result = await this._dataProvider.ReadHoldingResgistersAsync(DATA_ADDRESS, dataLen, "ReadDataFileDriver");
             if (result.IsSuccessful)
             {
                 return result.Result;
             }
 
             throw new FileOperationException(255);
+        }
+
+        protected string GetDataString(ushort[] readUshorts)
+        {
+            var readBytes = readUshorts.UshortArrayToByteArray(false);
+            var chars = new List<char>();
+            for (int i = 0; i < readBytes.Length; i++)
+            {
+                if (readBytes[i] != '\0')
+                {
+                    chars.Add((char)readBytes[i]);
+                }
+            }
+            return new string(chars.ToArray());
         }
     }
 }

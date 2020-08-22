@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
@@ -15,14 +16,13 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 
             if (states != null)
             {
-                
+                var dataLen = Convert.ToUInt16(states[5]);
+                Directory = GetDataString(await ReadData(dataLen));
             }
             else
             {
                 throw new FileOperationException(LastCommandStatus);
             }
-
-           // Directory = (await _dataReader.ReadData((ushort)dataWordsLen)).Replace("/", "");
         }
 
         public async Task<bool> CreateDirectory(string directoryPath)
