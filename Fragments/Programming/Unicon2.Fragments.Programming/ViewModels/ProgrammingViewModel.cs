@@ -56,7 +56,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.ZoomDecrementCommand = new RelayCommand(this.ZoomDecrement, this.CanZooming);
 
             this.WriteLogicCommand = new RelayCommand(OnWriteCommand);
-            this.ReadLogicCommand = new RelayCommand(OnWriteCommand);
+            this.ReadLogicCommand = new RelayCommand(this.OnReadCommand);
         }
 
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
