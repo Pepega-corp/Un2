@@ -12,9 +12,7 @@
             <ItemsControl ItemsSource="{Binding FragmentOptionCommandViewModels}">
              <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    
                     <ItemsControl ItemsSource="{Binding FragmentOptionCommandViewModels}">
-                        
                     </ItemsControl>
                 </DataTemplate>
              </ItemsControl.ItemTemplate>

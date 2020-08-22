@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Unicon2.Shell.Views.MenuItems.ToggleMenuItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Unicon2.Shell.Views.MenuItems"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="80">
+    <ToggleButton Cursor="Hand" IsChecked="{Binding IsOpen, ElementName=menuFlyOut}">
+        <Rectangle
+            Width="15"
+            Height="15"
+            Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_cog}" />
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </ToggleButton>
+</UserControl>

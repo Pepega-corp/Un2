@@ -76,6 +76,7 @@ namespace Unicon2.Shell.ViewModels
             ExitCommand = new RelayCommand(OnExit);
             NavigateToDeviceEditorCommand = new RelayCommand(OnNavigateToDeviceEditor);
             NavigateToDeviceAddingCommand = new RelayCommand(OnNavigateToDeviceAddingExecute);
+            NavigateToWebSyncViewCommand = new RelayCommand(OnNavigateToWebSyncViewExecute);
             AddNewFragmentCommand = new RelayCommand<IFragmentViewModel>(OnExecuteAddNewFragment);
             _fragmentsOpenedCollection = new ObservableCollection<IFragmentPaneViewModel>();
             OpenOscillogramCommand = new RelayCommand(OnOpenOscillogramExecute);
@@ -95,6 +96,11 @@ namespace Unicon2.Shell.ViewModels
 
             OnLoadedCommand = new RelayCommand(OnLoadedExecute);
             _uniconProjectService.SetDialogContext(this);
+        }
+
+        private void OnNavigateToWebSyncViewExecute()
+        {
+	        
         }
 
         private async void OnOpenRecentProjectExecute(object project)
@@ -169,6 +175,8 @@ namespace Unicon2.Shell.ViewModels
 
         public RelayCommand<IDeviceViewModel> ChangeSelectedDevice { get; set; }
         public RelayCommand NavigateToDeviceEditorCommand { get; set; }
+        public RelayCommand NavigateToWebSyncViewCommand { get; set; }
+
         public RelayCommand ExitCommand { get; set; }
 
         public ICommand NavigateToDeviceAddingCommand { get; set; }

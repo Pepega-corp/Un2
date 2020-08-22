@@ -133,12 +133,22 @@
     <Compile Include="Models\ApplicationTheme.cs" />
     <Compile Include="Services\ApplicationSettingsService.cs" />
     <Compile Include="Services\LayoutInitializer.cs" />
+    <Compile Include="Services\MainMenuService.cs" />
     <Compile Include="ViewModels\DynamicContextMenuViewModel.cs" />
+    <Compile Include="ViewModels\DynamicMainMenuViewModel.cs" />
     <Compile Include="ViewModels\Helpers\StaticOptionsButtonsHelper.cs" />
+    <Compile Include="ViewModels\MenuItems\CommandMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuItems\ToggleMenuItemViewModel.cs" />
     <Compile Include="ViewModels\RecentProjectViewModel.cs" />
     <Compile Include="ViewModels\UniconSplashScreenViewModel.cs" />
     <Compile Include="Views\DynamicContextMenu.xaml.cs">
       <DependentUpon>DynamicContextMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DynamicMainMenu.xaml.cs">
+      <DependentUpon>DynamicMainMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuItems\ToggleMenuItem.xaml.cs">
+      <DependentUpon>ToggleMenuItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
@@ -163,6 +173,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DynamicContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DynamicMainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuItems\ToggleMenuItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

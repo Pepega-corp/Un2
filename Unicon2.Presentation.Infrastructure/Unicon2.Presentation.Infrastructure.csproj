@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="Services\Formatting\IFormattingService.cs" />
     <Compile Include="Services\IConnectionService.cs" />
+    <Compile Include="Services\IMainMenuService.cs" />
     <Compile Include="Services\IPropertyValueService.cs" />
     <Compile Include="Services\ISaveFormatterService.cs" />
     <Compile Include="Services\IToolBarService.cs" />

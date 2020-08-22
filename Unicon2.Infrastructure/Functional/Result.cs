@@ -45,6 +45,15 @@ namespace Unicon2.Infrastructure.Functional
             return Item;
         }
 
+        public T OnFail(Action<T> onFailFunc)
+        {
+	        if (!IsSuccess)
+	        {
+		        onFailFunc(Item);
+	        }
+
+	        return Item;
+        }
         public T Item { get; }
 
         public bool IsSuccess { get; }

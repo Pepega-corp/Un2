@@ -132,6 +132,8 @@ namespace Unicon2.Shell
             containerRegistry.Register<Views.Shell>();
             StaticContainer.Container.RegisterViewModel<Views.Shell, ShellViewModel>();
             StaticContainer.Container.RegisterViewModel<ShellSettingsFlyOut, ShellSettingsViewModel>();
+            containerRegistry.RegisterInstance(new DynamicMainMenuViewModel());
+
             //модули
             RegisterModuleCatalogs(StaticContainer.Container);
             InitializeUnityModules();
