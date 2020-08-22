@@ -5,11 +5,13 @@ using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Infrastructure.Functional;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Subscription;
 
@@ -34,12 +36,17 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task ExecuteRead()
         {
-            
+            foreach (var rootConfigurationItem in _configuration.RootConfigurationItemList)
+            {
+                rootConfigurationItem.Accept(new ClearMemoryVisitor(_deviceContext.DeviceMemory.DeviceMemoryValues));
+            }
+
             await ApplyMemorySettings();
             foreach (var rootConfigurationItem in _configuration.RootConfigurationItemList)
             {
                 await rootConfigurationItem.Accept(this);
             }
+            
         }
 
         private async Task ApplyMemorySettings()
@@ -52,7 +59,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
-                    ClearRange(rangeFrom, rangeTo, _deviceContext.DeviceMemory.DeviceMemoryValues);
+                    MemoryAccessor.ClearRangeTo(rangeFrom, rangeTo, _deviceContext.DeviceMemory.DeviceMemoryValues);
                     return ReadRange(_deviceContext.DataProviderContainer.DataProvider, rangeFrom, rangeTo,
                         _deviceContext.DeviceMemory);
                 };
@@ -65,15 +72,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 await applySettingByKey;
         }
 
-        private void ClearRange(ushort rangeFrom, ushort rangeTo, Dictionary<ushort, ushort> memorySet)
-        {
-            for (var i = rangeFrom; i <= rangeTo; i++)
-            {
-                memorySet.Remove(i);
-            }
-        }
-
-
+     
         public async Task VisitItemsGroup(IItemsGroup itemsGroup)
         {
 	        if (itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo &&
@@ -100,9 +99,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task VisitProperty(IProperty property)
         {
-	        await ReadRange(_deviceContext.DataProviderContainer.DataProvider, (ushort) (property.Address + _offset),
+
+            await ReadRange(_deviceContext.DataProviderContainer.DataProvider, (ushort) (property.Address + _offset),
 		        (ushort) (property.Address
 		                  + _offset + property.NumberOfPoints), _deviceContext.DeviceMemory);
+   
         }
 
         public async Task VisitComplexProperty(IComplexProperty property)

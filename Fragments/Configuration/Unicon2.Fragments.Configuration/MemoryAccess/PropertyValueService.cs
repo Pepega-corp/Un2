@@ -46,7 +46,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                         property.NumberOfPoints, "Read property");
                 if (ushorts.IsSuccessful)
                 {
-	                MemoryAccessor.GetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result, false);
+	                MemoryAccessor.SetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result, false);
 	                return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter);
                 }
             }

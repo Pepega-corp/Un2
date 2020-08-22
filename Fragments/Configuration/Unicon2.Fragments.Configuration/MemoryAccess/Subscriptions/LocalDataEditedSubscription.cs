@@ -36,7 +36,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
             var ushorts = formattingService.FormatBack(_property?.UshortsFormatter, EditableValueViewModel.Accept(fetchingFromViewModelVisitor));
             
-            MemoryAccessor.GetUshortsInMemory(_deviceContext.DeviceMemory, (ushort)(_property.Address + _offset), ushorts, true);
+            MemoryAccessor.SetUshortsInMemory(_deviceContext.DeviceMemory, (ushort)(_property.Address + _offset), ushorts, true);
             _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
 	            (ushort) (_property.Address + _offset), (ushort) ushorts.Length);
         }
