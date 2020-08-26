@@ -39,8 +39,6 @@ namespace Unicon2.Fragments.Journals.ViewModel
         private IUniconJournal _uniconJournal;
         private DynamicDataTable _table;
         private bool _canExecuteJournalLoading;
-        private IDeviceEventsDispatcher _deviceEventsDispatcher;
-        private IDeviceMemory _deviceMemory;
 
         public UniconJournalViewModel(ILocalizerService localizerService,
             IFragmentOptionsViewModel fragmentOptionsViewModel,
@@ -129,7 +127,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
 	        }
         }
 
-        private async void OnExecuteLoadJournal()
+        private void OnExecuteLoadJournal()
         {
 	        OpenFileDialog ofd = new OpenFileDialog();
 	        ofd.Multiselect = false;
@@ -137,10 +135,10 @@ namespace Unicon2.Fragments.Journals.ViewModel
 	        ofd.CheckFileExists = true;
 	        if (ofd.ShowDialog() == true)
 	        {
-                var loadedJournal = _typesContainer.Resolve<ISerializerService>()
-			        .DeserializeFromFile<IUniconJournal>(ofd.FileName);
-                await new JournalLoader(this, this.DeviceContext.DataProviderContainer, _uniconJournal)
-	                .LoadFromReadyModelList(loadedJournal.JournalRecords);
+		        var loadedJournal = _typesContainer.Resolve<ISerializerService>()
+			        .DeserializeFromFile<IUniconJournal>(ofd.FileName); 
+		        new JournalLoader(this, this.DeviceContext.DataProviderContainer, _uniconJournal)
+			        .LoadFromReadyModelList(loadedJournal.JournalRecords);
 	        }
         }
 

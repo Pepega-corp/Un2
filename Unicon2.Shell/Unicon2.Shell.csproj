@@ -151,7 +151,6 @@
     <Compile Include="Views\MenuItems\CommandButtonMenuItem.xaml.cs">
       <DependentUpon>CommandButtonMenuItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\MenuItems\CommandMeniItem.cs" />
     <Compile Include="Views\MenuItems\ToggleMenuItem.xaml.cs">
       <DependentUpon>ToggleMenuItem.xaml</DependentUpon>
     </Compile>

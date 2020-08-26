@@ -15,6 +15,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.GeneralFactories;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Infrastructure.Values.Matrix.Helpers;
 using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
@@ -40,6 +41,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         private readonly IBitOptionUpdatingStrategy _bitOptionUpdatingStrategy;
         private readonly ILocalizerService _localizerService;
         private readonly IDialogCoordinator _dialogCoordinator;
+        private readonly ILogService _logService;
         private IMatrixTemplate _model;
         private int _numberOfBitsOnEachVariable;
 
@@ -47,7 +49,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             _availableMatrixVariableOptionTemplateEditorViewModels;
 
         private IMatrixVariableOptionTemplateEditorViewModel _selectedMatrixVariableOptionTemplateEditorViewModel;
-        private List<IAssignedBitEditorViewModel> _assignedBitEditorViewModels;
         private ObservableCollection<IBitOptionEditorViewModel> _bitOptionEditorViewModels;
         private string _matrixName;
         private IMatrixTemplate _unchangedMatrixTemplate;
@@ -67,7 +68,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             IGeneralViewModelFactory<IBitOptionEditorViewModel> bitOptionFactory,
             IGeneralViewModelFactory<IAssignedBitEditorViewModel> assignedBitViewModelFactory,
             IBitOptionUpdatingStrategy bitOptionUpdatingStrategy, ILocalizerService localizerService,
-            IDialogCoordinator dialogCoordinator)
+            IDialogCoordinator dialogCoordinator, ILogService logService)
         {
             _matrixMemoryVariableEditorViewModelFactory = matrixMemoryVariableEditorViewModelFactory;
             _variableSignatureEditorViewModelFactory = variableSignatureEditorViewModelFactory;
@@ -79,6 +80,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             _bitOptionUpdatingStrategy = bitOptionUpdatingStrategy;
             _localizerService = localizerService;
             _dialogCoordinator = dialogCoordinator;
+            _logService = logService;
             MatrixMemoryVariableEditorViewModels =
                 new ObservableCollection<IMatrixMemoryVariableEditorViewModel>();
             AddMatrixVariableCommand = new RelayCommand(OnAddMatrixVariableExucute);
@@ -254,6 +256,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
             }
             catch (Exception ex)
             {
+                _logService.LogMessage(ex.Message);
             }
             finally
             {

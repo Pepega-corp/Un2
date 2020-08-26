@@ -11,7 +11,7 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
 
         public ICommand OptionCommand { get; set; }
 
-        public string Title => StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(TitleKey);
+        public virtual string Title => StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(TitleKey);
 
         public string IconKey { get; set; }
     }

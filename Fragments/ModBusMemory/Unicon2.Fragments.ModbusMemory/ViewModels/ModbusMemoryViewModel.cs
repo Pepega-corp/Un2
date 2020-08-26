@@ -78,7 +78,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			await OnExecuteOneQuery();
 		}
 
-		private void OnExecuteEditEntity(IModbusMemoryEntityViewModel modbusMemoryEntityViewModel)
+		private async void OnExecuteEditEntity(IModbusMemoryEntityViewModel modbusMemoryEntityViewModel)
 		{
 
 			IModbusEntityEditingViewModel modbusEntityEditingViewModel =
@@ -87,7 +87,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			modbusEntityEditingViewModel.SetEntity(modbusMemoryEntityViewModel.Clone() as IModbusMemoryEntityViewModel);
 			_applicationGlobalCommands.ShowWindowModal(() => new ModbusEntityEditingView(),
 				modbusEntityEditingViewModel);
-			if (!IsQueriesStarted) OnExecuteOneQuery();
+			if (!IsQueriesStarted) await OnExecuteOneQuery();
 		}
 
 

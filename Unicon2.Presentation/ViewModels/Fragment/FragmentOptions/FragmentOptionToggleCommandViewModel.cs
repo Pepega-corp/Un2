@@ -8,9 +8,6 @@ namespace Unicon2.Presentation.ViewModels.Fragment.FragmentOptions
         IFragmentOptionToggleCommandViewModel
     {
         private bool _isChecked;
-        public string Title => StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(TitleKey);
-        public string IconKey { get; set; }
-
         public bool IsChecked
         {
             get { return _isChecked; }

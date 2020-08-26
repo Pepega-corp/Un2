@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
+using Unicon2.Presentation.Infrastructure.Commands;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.Commands
 {
-    public class WriteDiscretCommand : ICommand
+    public class WriteDiscretCommand : ICommandFactory
     {
         private readonly DeviceContext _deviceContext;
         private readonly IControlSignal _controlSignal;
@@ -26,12 +27,12 @@ namespace Unicon2.Fragments.Measuring.Commands
         }
 
 
-        public bool CanExecute(object parameter)
+        private bool CanExecute()
         {
             return true;
         }
 
-        public async void Execute(object parameter)
+        private async void Execute()
         {
             if (this._controlSignal.WritingValueContext.NumberOfFunction == 5)
             {
@@ -45,6 +46,9 @@ namespace Unicon2.Fragments.Measuring.Commands
             }
         }
 
-        public event EventHandler CanExecuteChanged;
+        public ICommand CreateCommand()
+        {
+            return new RelayCommand(execute: Execute, canExecute: CanExecute);
+        }
     }
 }

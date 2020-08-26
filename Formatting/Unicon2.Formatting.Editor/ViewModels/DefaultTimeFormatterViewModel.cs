@@ -8,7 +8,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
 {
     public class DefaultTimeFormatterViewModel : UshortsFormatterViewModelBase, IDefaultTimeFormatterViewModel
     {
-        private IDefaultTimeFormatter _defaultTimeFormatter;
         private string _millisecondsDecimalsPlaces;
         private string _numberOfPointsInUse;
         private string _yearPointNumber;

@@ -204,12 +204,12 @@ namespace Unicon2.Services.UniconProject
             return $"{_localizerService.GetLocalizedString("Project")}: {_uniconProject.Name} ({_uniconProject.ProjectPath})";
         }
 
-        public void LoadDefaultProject()
+        public async void LoadDefaultProject()
         {
 	        var projectPath=_applicationSettingsService.GetRecentProjectStringCollection().FirstOrDefault();
 	        if (projectPath != null)
 	        {
-                LoadProject(projectPath);
+                await LoadProject(projectPath);
 	        }
         }
 

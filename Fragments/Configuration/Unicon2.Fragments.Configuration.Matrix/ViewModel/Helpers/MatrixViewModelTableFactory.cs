@@ -18,16 +18,16 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
 {
     public class MatrixViewModelTableFactory
     {
-        private IMatrixValue _matrixValue;
-        private readonly Func<IBoolValue> _boolValue;
-        private readonly Func<IChosenFromListValue> _chosenFromListValFunc;
-        private Func<IFormattedValueViewModel> _formattedValueViewModelFunc;
+       // private IMatrixValue _matrixValue;
+      //  private readonly Func<IBoolValue> _boolValue;
+       // private readonly Func<IChosenFromListValue> _chosenFromListValFunc;
+       // private Func<IFormattedValueViewModel> _formattedValueViewModelFunc;
 
-        public MatrixViewModelTableFactory(Func<IBoolValue> boolValue, Func<IChosenFromListValue> chosenFromListValFunc)
-        {
-            _boolValue = boolValue;
-            _chosenFromListValFunc = chosenFromListValFunc;
-        }
+      //  public MatrixViewModelTableFactory(Func<IBoolValue> boolValue, Func<IChosenFromListValue> chosenFromListValFunc)
+      //  {
+        //    _boolValue = boolValue;
+         //   _chosenFromListValFunc = chosenFromListValFunc;
+      //  }
 
 
         /* public DynamicDataTable CreateMatrixDataTable(IMatrixValue matrixValue, bool isEditable)

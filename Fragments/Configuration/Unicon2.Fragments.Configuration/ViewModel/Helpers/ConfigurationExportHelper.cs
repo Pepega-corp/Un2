@@ -20,7 +20,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 {
     public class ConfigurationExportHelper
     {
-	    public static async Task ExportConfiguration(IRuntimeConfigurationViewModel deviceConfiguration,
+	    public static void ExportConfiguration(IRuntimeConfigurationViewModel deviceConfiguration,
 		    ITypesContainer typesContainer, string deviceName, string nameForUI)
 	    {
 		    var viewModel = typesContainer.Resolve<ExportSelectionViewModel>();

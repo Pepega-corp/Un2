@@ -30,7 +30,7 @@ namespace Unicon2.Connections.MockConnection.Model
 
         private IDeviceLogger _currentDeviceLogger;
         private ITypesContainer _typesContainer;
-        
+
 
         [JsonProperty] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
@@ -74,15 +74,18 @@ namespace Unicon2.Connections.MockConnection.Model
             };
         }
 
-        public async Task<IQueryResult<bool>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle)
+        public Task<IQueryResult<bool>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle)
         {
-            return new DefaultQueryResult<bool>() {IsSuccessful = false};
+            return Task.FromResult(
+                new DefaultQueryResult<bool>() {IsSuccessful = false} as IQueryResult<bool>);
         }
 
-        public async Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle,
+        public Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle,
             ushort numberOfPoints)
         {
-            return new DefaultQueryResult<bool[]>() {IsSuccessful = false};
+
+            return Task.FromResult(
+                new DefaultQueryResult<bool[]>() {IsSuccessful = false} as IQueryResult<bool[]>);
         }
 
         public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite,
@@ -98,15 +101,17 @@ namespace Unicon2.Connections.MockConnection.Model
             return new DefaultQueryResult() {IsSuccessful = true};
         }
 
-        public async Task<IQueryResult> WriteSingleCoilAsync(ushort coilAddress, bool valueToWrite, string dataTitle)
+        public Task<IQueryResult> WriteSingleCoilAsync(ushort coilAddress, bool valueToWrite, string dataTitle)
         {
-            return new DefaultQueryResult() {IsSuccessful = false};
+            return Task.FromResult(
+                new DefaultQueryResult() {IsSuccessful = false} as IQueryResult);
         }
 
-        public async Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite,
+        public Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite,
             string dataTitle)
         {
-            return new DefaultQueryResult() {IsSuccessful = false};
+            return Task.FromResult(
+                new DefaultQueryResult() {IsSuccessful = false} as IQueryResult);
         }
 
         public IDeviceSubscription TransactionCompleteSubscription { get; set; }

@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Measuring.Factories
 
 
 		public IMeasuringGroupViewModel CreateMeasuringGroupViewModel(IMeasuringGroup measuringGroup,
-			MeasuringSubscriptionSet measuringSubscriptionSet,DeviceContext deviceContext)
+			MeasuringSubscriptionSet measuringSubscriptionSet, DeviceContext deviceContext)
 		{
 			MeasuringGroupViewModel measuringGroupViewModel =
 				_container.Resolve<IMeasuringGroupViewModel>() as MeasuringGroupViewModel;
@@ -60,23 +60,28 @@ namespace Unicon2.Fragments.Measuring.Factories
 					measuringGroupViewModel.PresentationMeasuringElements.Add(
 						new PresentationMeasuringElementViewModel(positioningInfo.PositioningInfo, elementViewModel));
 				}
-				_measuringMemorySubscriptionFactory.AddSubscription(measuringSubscriptionSet, elementViewModel, measuringElement,measuringGroup.Name,deviceContext);
+
+				_measuringMemorySubscriptionFactory.AddSubscription(measuringSubscriptionSet, elementViewModel,
+					measuringElement, measuringGroup.Name, deviceContext);
 
 				measuringGroupViewModel.MeasuringElementViewModels.Add(elementViewModel);
 
-			    if (measuringElement is IControlSignal controlSignal)
-			    {
-			        var vm = elementViewModel as IControlSignalViewModel;
-                    vm.WriteValueCommand=new WriteDiscretCommand(deviceContext,controlSignal,vm);
-			    }
-			    if (measuringElement is IDateTimeMeasuringElement dateTimeMeasuringElement)
-			    {
-			        var vm = elementViewModel as IDateTimeMeasuringElementViewModel;
-			        vm.SetTimeCommand = new WriteDateTimeCommand(vm,dateTimeMeasuringElement,deviceContext,false);
-			        vm.SetSystemDateTimeCommand = new WriteDateTimeCommand(vm, dateTimeMeasuringElement, deviceContext, true);
+				if (measuringElement is IControlSignal controlSignal)
+				{
+					var vm = elementViewModel as IControlSignalViewModel;
+					vm.WriteValueCommand = new WriteDiscretCommand(deviceContext, controlSignal, vm).CreateCommand();
+				}
 
-                }
-            }
+				if (measuringElement is IDateTimeMeasuringElement dateTimeMeasuringElement)
+				{
+					var vm = elementViewModel as IDateTimeMeasuringElementViewModel;
+					vm.SetTimeCommand = new WriteDateTimeCommand(vm, dateTimeMeasuringElement, deviceContext, false)
+						.CreateCommand();
+					vm.SetSystemDateTimeCommand =
+						new WriteDateTimeCommand(vm, dateTimeMeasuringElement, deviceContext, true).CreateCommand();
+
+				}
+			}
 
 			return measuringGroupViewModel;
 		}

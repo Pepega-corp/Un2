@@ -37,7 +37,9 @@ namespace Unicon2.Presentation.FragmentSettings
             if (SelectedSettingToAdd != null)
             {
                 if (_configurationSettings.FragmentSettings.Any(
-                    (setting => setting.StrongName == _selectedSettingToAdd))) ;
+                    (setting => setting.StrongName == _selectedSettingToAdd)))
+                {
+                }
             }
         }
 

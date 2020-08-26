@@ -39,7 +39,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
         public ObservableCollection<IMeasuringElementViewModel> MeasuringElementViewModels { get; set; }
 
         public string Header { get; set; }
-        public async Task LoadGroup()
+        public Task LoadGroup()
         {
 	        throw new System.NotImplementedException();
         }

@@ -120,7 +120,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
 
 
-        private async Task ProcessAddressRange(IDataProvider dataProvider, ushort rangeFrom, ushort rangeTo,
+        private Task ProcessAddressRange(IDataProvider dataProvider, ushort rangeFrom, ushort rangeTo,
             IDeviceMemory memory)
         {
             switch (_memoryAccessEnum)
@@ -145,6 +145,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            return Task.CompletedTask;
         }
 
     }

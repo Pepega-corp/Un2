@@ -21,7 +21,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         private IRecordTemplate _recordTemplate;
         private IJournalParameterEditorViewModel _selectedJournalParameterEditorViewModel;
-        private object _model;
 
         public RecordTemplateEditorViewModel(IJournalParametersEditorViewModelFactory journalParametersEditorViewModelFactory,
             IFormatterEditorFactory formatterEditorFactory, IRecordTemplate recordTemplate

@@ -19,11 +19,9 @@ namespace Unicon2.Fragments.Configuration.Model.ConfigurationSettings
 
         [JsonProperty] public bool IsSettingEnabled { get; set; }
 
-        public async Task<bool> Write()
+        public Task<bool> Write()
         {
-
-
-            return false;
+            return Task.FromResult(false);
         }
 
         public string StrongName => ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING;

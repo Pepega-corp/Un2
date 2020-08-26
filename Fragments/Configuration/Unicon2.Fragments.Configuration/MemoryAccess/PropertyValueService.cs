@@ -14,7 +14,7 @@ using Unicon2.Presentation.Infrastructure.Services.Formatting;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
 {
-   public class PropertyValueService: IPropertyValueService
+    public class PropertyValueService : IPropertyValueService
     {
         private readonly IFormattingService _formattingService;
 
@@ -46,21 +46,26 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                         property.NumberOfPoints, "Read property");
                 if (ushorts.IsSuccessful)
                 {
-	                MemoryAccessor.SetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result, false);
-	                return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter);
+                    MemoryAccessor.SetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result,
+                        false);
+                    return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter);
                 }
             }
+
             return Result<IFormattedValue>.Create(false);
 
         }
 
-        public async Task<Result<IFormattedValue>> GetValueFromUshorts(ushort[] values, IUshortsFormatter formatter)
+        public Task<Result<IFormattedValue>> GetValueFromUshorts(ushort[] values, IUshortsFormatter formatter)
         {
             if (formatter == null)
             {
-                return Result<IFormattedValue>.Create(false);
+                return Task.FromResult(Result<IFormattedValue>.Create(false));
             }
-            return Result<IFormattedValue>.Create(this._formattingService.FormatValue(formatter, values),true);
+
+            return Task.FromResult(Result<IFormattedValue>.Create(
+                this._formattingService.FormatValue(formatter, values),
+                true));
         }
 
     }

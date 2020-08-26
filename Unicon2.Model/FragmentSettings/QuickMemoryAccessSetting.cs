@@ -17,8 +17,6 @@ namespace Unicon2.Model.FragmentSettings
     [JsonObject(MemberSerialization.OptIn)]
     public class QuickMemoryAccessSetting : IQuickMemoryAccessSetting
     {
-        private bool _isInitialized;
-
         public QuickMemoryAccessSetting()
         {
             QuickAccessAddressRanges = new List<IRange>();

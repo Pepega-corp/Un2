@@ -48,21 +48,22 @@ namespace Unicon2.Services
 
         public async Task<Result> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection)
         {
-	        var res = await deviceConnection.TryOpenConnectionAsync(device.DeviceLogger);
+            var res = await deviceConnection.TryOpenConnectionAsync(device.DeviceLogger);
 
-	        //инициализация подключения (добавление логгеров, датапровайдеров)
-	        device.InitializeConnection(deviceConnection);
-	        if (deviceConnection is IDataProvider dataProvider)
-	        {
-		        dataProvider.TransactionCompleteSubscription?.Execute();
-	        }
-            ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device,ItemModifyingTypeEnum.Connected));
-	        if (res.IsSuccess)
-	        {
-		        return Result.Create(true);
-	        }
+            //инициализация подключения (добавление логгеров, датапровайдеров)
+            device.InitializeConnection(deviceConnection);
+            if (deviceConnection is IDataProvider dataProvider)
+            {
+                dataProvider.TransactionCompleteSubscription?.Execute();
+            }
 
-	        return res;
+            ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Connected));
+            if (res.IsSuccess)
+            {
+                return Result.Create(true);
+            }
+
+            return res;
         }
 
         public void RemoveConnectableItem(IConnectable device)
@@ -72,11 +73,9 @@ namespace Unicon2.Services
                 //this.ConnectableItems.RemoveAt(this.ConnectableItems.FindIndex(o => o.Equals(device)));
                 ConnectableItems.Remove(device);
             }
-            catch (ArgumentNullException _ane)
+            catch (Exception ex)
             {
-            }
-            catch (ArgumentOutOfRangeException _aofr)
-            {
+                _logService.LogMessage(ex.Message);
             }
         }
 
@@ -95,9 +94,9 @@ namespace Unicon2.Services
                 IDevice device = _deviceGettingFunc();
                 try
                 {
-                    device= _serializerService.DeserializeFromFile<IDevice>(deviceCreator.DeviceDescriptionFilePath);
+                    device = _serializerService.DeserializeFromFile<IDevice>(deviceCreator.DeviceDescriptionFilePath);
                     deviceCreator.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
-                    
+
                     deviceCreator.DeviceName = Path.GetFileNameWithoutExtension(name);
                     Creators.Add(deviceCreator);
                 }
@@ -116,7 +115,7 @@ namespace Unicon2.Services
             IDeviceCreator creatorFinded = Creators.FirstOrDefault((creator => creator.DeviceName == deviceName));
             if (creatorFinded == null) return;
             IDevice device = _deviceGettingFunc();
-            device=_serializerService.DeserializeFromFile<IDevice>(creatorFinded.DeviceDescriptionFilePath);
+            device = _serializerService.DeserializeFromFile<IDevice>(creatorFinded.DeviceDescriptionFilePath);
             creatorFinded.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
             device.Dispose();
         }
@@ -133,6 +132,8 @@ namespace Unicon2.Services
                 }
                 catch (Exception ex)
                 {
+                    _logService.LogMessage(ex.Message);
+
                 }
             }
 

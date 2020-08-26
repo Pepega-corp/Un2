@@ -18,7 +18,6 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
     public class ComplexProperty : DefaultProperty, IComplexProperty
     {
 
-        private bool[] _baseBools;
         public ComplexProperty()
         {
             SubProperties = new List<ISubProperty>();

@@ -34,7 +34,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private bool _is460800Checked;
         private bool _is921600Checked;
         private byte _slaveId;
-        private IComPortInterrogationViewModel _comPortInterrogationViewModelImplementation;
         private bool _isInterrogationStopped;
 
         public ComPortInterrogationViewModel(Func<IDeviceDefinitionViewModel> deviceDefinitionCreator, IDevicesContainerService devicesContainerService,

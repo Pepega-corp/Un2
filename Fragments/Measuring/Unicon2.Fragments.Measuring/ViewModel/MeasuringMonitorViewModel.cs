@@ -54,7 +54,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
 	        IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
 	        fragmentOptionCommandViewModel.TitleKey = "Load";
-	        this._readCommand = new RelayCommand(async () =>
+	        this._readCommand = new RelayCommand(() =>
 	        {
 	            _loader.ExecuteLoad();
 	        }, () => !this._loader.IsLoadInProgress);
@@ -104,14 +104,14 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
 	        fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
 	        fragmentOptionCommandViewModel.TitleKey = "ZoomIn";
-	        fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(async () => { Scale += 0.1; });
+	        fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(() => { Scale += 0.1; });
 	        fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconMagnifyAdd;
 
 	        fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
 	        fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
 	        fragmentOptionCommandViewModel.TitleKey = "ZoomOut";
-	        fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(async () => { Scale -= 0.1; });
+	        fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(() => { Scale -= 0.1; });
 	        fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconMagnifyMinus;
 
 	        fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);

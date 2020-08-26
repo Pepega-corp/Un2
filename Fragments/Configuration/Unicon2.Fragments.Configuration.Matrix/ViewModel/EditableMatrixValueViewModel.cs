@@ -35,6 +35,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             _matrixViewModelTableFactory = matrixViewModelTableFactory;
             MatrixUpdatedCommand = new RelayCommand(OnMatrixEdited);
             ClearAssignedSignals = new RelayCommand(OnClearAssignedSignals);
+            
         }
 
         private void OnMatrixEdited()
@@ -68,12 +69,11 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 	        return "Matrix";
         }
 
-        //public override void InitFromValue(IMatrixValue value)
-        //{
-        //    _matrix = value;
-        //    Header = value.Header;
-        //    FillTable();
-        //}
+        public void InitFromValue(IMatrixValue value)
+        {
+            _matrix = value;    Header = value.Header;
+            FillTable();
+        }
 
         public DynamicDataTable Table
         {
@@ -90,7 +90,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             try
             {
             //    Table = _matrixViewModelTableFactory.CreateMatrixDataTable(_matrix, true);
-             //   _initialUshortsToCompare = (new MatrixViewModelTableParser()).GetUshortsFromTable(Table, _matrix);
+                _initialUshortsToCompare = (new MatrixViewModelTableParser()).GetUshortsFromTable(Table, _matrix);
             }
             catch (Exception e)
             {

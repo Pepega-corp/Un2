@@ -122,14 +122,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 }
 
                 _collection = new ObservableCollection<List<ILocalAndDeviceValueContainingViewModel>>();
-                try
-                {
-                    AssociatedObject.Items.Clear();
+                AssociatedObject.Items.Clear();
 
-                }
-                catch (Exception e)
-                {
-                }
 
                 AssociatedObject.ItemsSource = _collection;
                 _journalDataTable.Values.ForEach((list => { InsertRow(list); }));

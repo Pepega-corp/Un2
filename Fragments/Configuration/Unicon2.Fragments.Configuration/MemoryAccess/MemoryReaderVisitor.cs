@@ -111,7 +111,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 	        await VisitProperty(property);
         }
 
-        public async Task VisitMatrix(IAppointableMatrix appointableMatrixViewModel)
+        public Task VisitMatrix(IAppointableMatrix appointableMatrixViewModel)
         {
             throw new NotImplementedException();
         }
@@ -121,7 +121,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 			await VisitProperty(dependentProperty);
 		}
 
-        public async Task VisitSubProperty(ISubProperty subProperty)
+        public Task VisitSubProperty(ISubProperty subProperty)
         {
 	        throw new NotImplementedException();
 		}

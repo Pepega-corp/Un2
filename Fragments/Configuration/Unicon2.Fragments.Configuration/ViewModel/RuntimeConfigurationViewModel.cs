@@ -26,7 +26,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 		private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
 		private IFragmentOptionsViewModel _fragmentOptionsViewModel;
 		private ObservableCollection<IRuntimeConfigurationItemViewModel> _rootConfigurationItemViewModels;
-		private string _deviceName;
 		private ObservableCollection<MainConfigItemViewModel> _mainRows;
 		private object _selectedConfigDetails;
 		private string _nameForUiKey;

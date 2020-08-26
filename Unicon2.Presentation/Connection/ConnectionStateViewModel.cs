@@ -16,7 +16,6 @@ namespace Unicon2.Presentation.Connection
     {
         private readonly IValueViewModelFactory _valueViewModelFactory;
         private readonly IConnectionService _connectionService;
-        private IConnectionState _connectionState;
         private double _indicatorOpacity;
         private SemaphoreSlim _semaphoreSlim;
         private bool _isDeviceConnected;

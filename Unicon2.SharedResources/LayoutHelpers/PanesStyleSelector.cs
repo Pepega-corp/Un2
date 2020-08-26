@@ -30,7 +30,6 @@ namespace Unicon2.SharedResources.LayoutHelpers
                         break;
                     case PlacementEnum.Left:
                         return LeftWindowStyle;
-                        break;
                     case PlacementEnum.Right:
                         break;
                     case PlacementEnum.Bottom:

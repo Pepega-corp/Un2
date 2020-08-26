@@ -23,7 +23,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         private List<IJournalParameter> _availableJournalParameters;
-        private IFormatterParametersViewModel _formatterParametersViewModel;
 
         public DependentJournalParameterEditorViewModel(IDependentJournalParameter journalParameter,
             IJournalConditionEditorViewModelFactory journalConditionEditorViewModelFactory,
@@ -130,18 +129,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             FormatterParametersViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
                 .CreateFormatterViewModel(_journalParameter.UshortsFormatter);
 
-        }
-
-        public string Name { get; set; }
-
-        public IFormatterParametersViewModel FormatterParametersViewModel
-        {
-            get => _formatterParametersViewModel;
-            set
-            {
-                _formatterParametersViewModel = value; 
-                RaisePropertyChanged();
-            }
         }
     }
 }

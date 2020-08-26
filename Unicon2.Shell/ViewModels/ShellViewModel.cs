@@ -48,7 +48,6 @@ namespace Unicon2.Shell.ViewModels
         private IFragmentPaneViewModel _activeFragmentViewModel;
         private RecentProjectsViewModelFactory _recentProjectsViewModelFactory;
         private readonly IMainMenuService _mainMenuService;
-        private bool _isOptionsOpen;
         private ToggleOptionsMenuItemViewModel _toggleOptionsMenuItemViewModel;
 
         public ShellViewModel

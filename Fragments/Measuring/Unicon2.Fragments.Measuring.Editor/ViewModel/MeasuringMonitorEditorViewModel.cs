@@ -24,9 +24,6 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         private readonly IMeasuringGroupEditorViewModelFactory _measuringGroupEditorViewModelFactory;
         private IMeasuringMonitor _measuringMonitor;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
-        private bool _isContextMenuOpen;
-        private bool _isListViewSelected;
-        private PresentationSettingsViewModel _presentationSettingsViewModel;
         private IMeasuringGroupEditorViewModel _selectedMeasuringGroupEditorViewModel;
 
         public MeasuringMonitorEditorViewModel(ITypesContainer container,

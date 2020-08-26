@@ -58,7 +58,5 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
             base.SaveModel();
         }
 
-        public string Name { get; set; }
-        public IFormatterParametersViewModel FormatterParametersViewModel { get; set; }
     }
 }

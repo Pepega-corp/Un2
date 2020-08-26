@@ -29,28 +29,20 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 			{
 				case ConditionsEnum.Equal:
 					return Result<bool>.Create(conditionUshort == ushortToCompare,true);
-					break;
 				case ConditionsEnum.HaveFalseBitAt:
 					return Result<bool>.Create(!conditionUshort.GetBoolArrayFromUshort()[ushortToCompare], true);
-					break;
 				case ConditionsEnum.NotEqual:
 					return Result<bool>.Create(conditionUshort != ushortToCompare, true);
-					break;
 				case ConditionsEnum.More:
 					return Result<bool>.Create(conditionUshort > ushortToCompare, true);
-					break;
 				case ConditionsEnum.Less:
 					return Result<bool>.Create(conditionUshort < ushortToCompare, true);
-					break;
 				case ConditionsEnum.LessOrEqual:
 					return Result<bool>.Create(conditionUshort <= ushortToCompare, true);
-					break;
 				case ConditionsEnum.MoreOrEqual:
 					return Result<bool>.Create(conditionUshort >= ushortToCompare, true);
-					break;
 				case ConditionsEnum.HaveTrueBitAt:
 					return Result<bool>.Create(conditionUshort.GetBoolArrayFromUshort()[ushortToCompare], true);
-					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

@@ -124,7 +124,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 			await VisitProperty(dependentProperty);
 		}
 
-        public async Task VisitSubProperty(ISubProperty subProperty)
+        public Task VisitSubProperty(ISubProperty subProperty)
         {
 	        throw new System.NotImplementedException();
 		}

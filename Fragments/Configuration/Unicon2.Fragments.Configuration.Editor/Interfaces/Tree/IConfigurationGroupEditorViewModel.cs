@@ -13,7 +13,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 		IAddressChangeable, ICompositeEditOperations, IChildPositionChangeable, IChildItemRemovable,
 		IAsChildPasteable
 	{
-		bool IsMain { get; set; }
 		bool IsGroupWithReiteration { get; set; }
 		
 		ObservableCollection<StringWrapper> SubGroupNames { get; }

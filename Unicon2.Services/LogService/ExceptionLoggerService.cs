@@ -20,11 +20,10 @@ namespace Unicon2.Services.LogService
                     writer.WriteLine(exception.StackTrace);
                 }
             }
-            catch (Exception eh)
+            catch
             {
-
+                // ignored
             }
-
         }
     }
 }

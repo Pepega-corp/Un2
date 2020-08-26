@@ -29,9 +29,9 @@ namespace Unicon2.Connections.OfflineConnection
             return true;
         }
 
-        public async Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger)
+        public Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger)
         {
-            return Result.Create(false);
+            return Task.FromResult(Result.Create(false));
         }
 
         public Action<bool> LastQueryStatusChangedAction { get; set; }

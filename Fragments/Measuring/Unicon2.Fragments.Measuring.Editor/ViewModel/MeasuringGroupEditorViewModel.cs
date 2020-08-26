@@ -15,6 +15,7 @@ using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -24,6 +25,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
     {
         private readonly IMeasuringElementEditorViewModelFactory _measuringElementEditorViewModelFactory;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
+        private readonly ILogService _logService;
         private string _header;
         private int _discretGroupElementsCount;
         private string _discretGroupName;
@@ -33,10 +35,11 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         private static int FUNCTION_CODE = 3;
         private PresentationSettingsViewModel _presentationSettingsViewModel;
 
-        public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory,IApplicationGlobalCommands applicationGlobalCommands)
+        public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory,IApplicationGlobalCommands applicationGlobalCommands, ILogService logService)
         {
             _measuringElementEditorViewModelFactory = measuringElementEditorViewModelFactory;
             _applicationGlobalCommands = applicationGlobalCommands;
+            _logService = logService;
             MeasuringElementEditorViewModels = new ObservableCollection<IMeasuringElementEditorViewModel>();
             AddDiscretMeasuringElementCommand = new RelayCommand(OnAddDiscretMeasuringElementExecute);
             AddDiscretMeasuringElementGroupCommand = new RelayCommand(OnAddDiscretMeasuringElementGroupCommandExecute);
@@ -89,12 +92,15 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             {
                 for (int i = 0; i < DiscretGroupElementsCount; i++)
                 {
-                    if(DiscretGroupStartingBit > 15)
+                    if (DiscretGroupStartingBit > 15)
                     {
                         DiscretGroupStartAddress++;
                         DiscretGroupStartingBit = 0;
                     }
-                    var item = _measuringElementEditorViewModelFactory.CreateDiscretMeasuringElementEditorViewModel() as IDiscretMeasuringElementEditorViewModel;
+
+                    var item =
+                        _measuringElementEditorViewModelFactory.CreateDiscretMeasuringElementEditorViewModel() as
+                            IDiscretMeasuringElementEditorViewModel;
                     item.BitAddressEditorViewModel.Address = DiscretGroupStartAddress;
                     item.BitAddressEditorViewModel.BitNumberInWord = DiscretGroupStartingBit;
                     item.BitAddressEditorViewModel.FunctionNumber = FUNCTION_CODE;
@@ -107,7 +113,10 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
                 }
 
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                _logService.LogMessage(ex.Message);
+            }
             finally
             {
 

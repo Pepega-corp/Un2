@@ -18,6 +18,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
         private string _header;
         private string _address;
         private string _numberOfPoints;
+        private IFormatterParametersViewModel _formatterParametersViewModel;
 
         public JournalParameterEditorViewModel(IJournalParameter journalParameter)
         {
@@ -135,6 +136,13 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
         public string FormatterString => FormatterParametersViewModel?.RelatedUshortsFormatterViewModel?.StrongName;
 
         public string Name { get; set; }
-        public IFormatterParametersViewModel FormatterParametersViewModel { get; set; }
-    }
+        public IFormatterParametersViewModel FormatterParametersViewModel
+        {
+            get => _formatterParametersViewModel;
+            set
+            {
+                _formatterParametersViewModel = value; 
+                RaisePropertyChanged();
+            }
+        }    }
 }

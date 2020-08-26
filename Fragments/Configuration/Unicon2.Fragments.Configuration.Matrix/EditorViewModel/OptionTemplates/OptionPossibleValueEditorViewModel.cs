@@ -14,7 +14,6 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         private readonly IGeneralViewModelFactory<IPossibleValueConditionEditorViewModel> _generalViewModelFactory;
         private IOptionPossibleValue _model;
         private string _possibleValueName;
-        private IPossibleValueConditionEditorViewModel _possibleValueConditionEditorViewModel;
 
         public OptionPossibleValueEditorViewModel(IGeneralViewModelFactory<IPossibleValueConditionEditorViewModel> generalViewModelFactory)
         {

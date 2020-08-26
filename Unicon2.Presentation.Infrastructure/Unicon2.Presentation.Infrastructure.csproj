@@ -62,6 +62,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ICommandFactory.cs" />
     <Compile Include="Commands\IUserCommand.cs" />
     <Compile Include="DeviceContext\DeviceContext.cs" />
     <Compile Include="Enums\PlacementEnum.cs" />

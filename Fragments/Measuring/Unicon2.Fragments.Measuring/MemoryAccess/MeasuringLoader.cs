@@ -34,14 +34,14 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 		    this._dependentCommand = dependentCommand;
 		}
 
-		public void StartLoading()
-		{
-            if(this._isQueriesStarted)return;
-			_isQueriesStarted = true;
-            this.Load();
-		}
+	    public async void StartLoading()
+	    {
+		    if (this._isQueriesStarted) return;
+		    _isQueriesStarted = true;
+		    await this.Load();
+	    }
 
-		public void StopLoading()
+	    public void StopLoading()
 		{
 			_isQueriesStarted = false;
 		}

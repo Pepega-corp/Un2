@@ -228,14 +228,12 @@ namespace Unicon2.Infrastructure.Extensions
 
         public static bool IsEqual(this ushort[] first, ushort[] second)
         {
-	        const bool iseq = true;
-	        if (first.Length != second.Length)
+            if (first.Length != second.Length)
 	        {
 		        return false;
 	        }
 
-	        if (!iseq) return true;
-	        for (int i = 0; i < first.Length; i++)
+            for (int i = 0; i < first.Length; i++)
 	        {
 		        if (first[i] != second[i])
 		        {

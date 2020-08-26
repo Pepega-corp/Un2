@@ -17,6 +17,8 @@ namespace Unicon2.Infrastructure.Common
             {
                 _key = value;
                 RaisePropertyChanged();
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Key)));
+
             }
         }
 
@@ -27,6 +29,8 @@ namespace Unicon2.Infrastructure.Common
             {
                 _value = value;
                 RaisePropertyChanged();
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Value)));
+
             }
         }
 

@@ -63,7 +63,7 @@ namespace Unicon2.Formatting.Visitors
 
                 if (formulaFormatter.UshortFormattableResources != null)
                 {
-                    int index = 1;
+                  //  int index = 1;
                  //   foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattableResources)
                 //    {
                        // if (formattableUshortResource is IDeviceValueContaining)

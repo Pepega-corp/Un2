@@ -7,11 +7,13 @@ using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.ViewModel.Elements;
+using Unicon2.Presentation.Infrastructure.Commands;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.Commands
 {
-    public class WriteDateTimeCommand:ICommand
+    public class WriteDateTimeCommand:ICommandFactory
     {
         private readonly DateTimeMeasuringElementViewModel _dateTimeMeasuringElementViewModel;
         private readonly IDateTimeMeasuringElement _dateTimeMeasuringElement;
@@ -19,7 +21,7 @@ namespace Unicon2.Fragments.Measuring.Commands
         private readonly bool _isSystemTime;
 
         public WriteDateTimeCommand(IDateTimeMeasuringElementViewModel dateTimeMeasuringElementViewModel,
-            IDateTimeMeasuringElement dateTimeMeasuringElement, DeviceContext deviceContext, bool isSystemTime)
+            IDateTimeMeasuringElement dateTimeMeasuringElement, DeviceContext deviceContext, bool isSystemTime) : base()
         {
             this._dateTimeMeasuringElementViewModel =
                 dateTimeMeasuringElementViewModel as DateTimeMeasuringElementViewModel;
@@ -28,12 +30,12 @@ namespace Unicon2.Fragments.Measuring.Commands
             this._isSystemTime = isSystemTime;
         }
 
-        public bool CanExecute(object parameter)
+        private bool CanExecute()
         {
             return !this._dateTimeMeasuringElementViewModel.HasErrors;
         }
 
-        public void Execute(object parameter)
+        private void Execute()
         {
             var ushortstoWrite = new ushort[16];
             for (int i = 0; i < ushortstoWrite.Length; i++)
@@ -70,6 +72,9 @@ namespace Unicon2.Fragments.Measuring.Commands
         }
 
 
-        public event EventHandler CanExecuteChanged;
+        public ICommand CreateCommand()
+        {
+            return new RelayCommand(Execute,CanExecute);
+        }
     }
 }

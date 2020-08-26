@@ -326,7 +326,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
          
         }
 
-        private async void OnExecuteEditLocalValues()
+        private void OnExecuteEditLocalValues()
         {
             //
         }

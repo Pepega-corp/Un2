@@ -10,15 +10,16 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Shell.ViewModels.MenuItems
 {
-	public class CommandMenuItemViewModel:ViewModelBase,IStronglyNamed
+	public class CommandMenuItemViewModel : ViewModelBase, IStronglyNamed
 	{
-	    public CommandMenuItemViewModel(ICommand command, string nameKey)
-	    {
-	        Command = command;
-	        NameKey = nameKey;
-	    }
-        public ICommand Command { get; }
-        public string NameKey { get; }
-	    public string StrongName => ApplicationGlobalNames.UiCommandStrings.COMMAND;
+		public CommandMenuItemViewModel(ICommand command, string nameKey)
+		{
+			Command = command;
+			NameKey = nameKey;
+		}
+
+		public ICommand Command { get; }
+		public string NameKey { get; }
+		public string StrongName => ApplicationGlobalNames.UiCommandStrings.COMMAND;
 	}
 }

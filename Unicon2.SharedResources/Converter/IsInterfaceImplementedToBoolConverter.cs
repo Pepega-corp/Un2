@@ -13,10 +13,6 @@ namespace Unicon2.SharedResources.Converter
             string interfaceString = parameter.ToString();
             // var interfaces = value.GetType().GetInterfaces();
             return value.GetType().GetInterface(interfaceString) != null;
-
-
-
-            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

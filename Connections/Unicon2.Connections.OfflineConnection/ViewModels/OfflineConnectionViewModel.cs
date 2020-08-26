@@ -6,9 +6,6 @@ namespace Unicon2.Connections.OfflineConnection.ViewModels
 {
     public class OfflineConnectionViewModel : ViewModelBase, IOfflineConnectionViewModel
     {
-        private IDeviceConnection _model;
-
-
         public OfflineConnectionViewModel()
         {
             DeviceConnection = new OfflineConnection();
