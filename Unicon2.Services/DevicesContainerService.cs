@@ -98,6 +98,9 @@ namespace Unicon2.Services
                     deviceCreator.ConnectionState = device.ConnectionState.Clone() as IConnectionState;
 
                     deviceCreator.DeviceName = Path.GetFileNameWithoutExtension(name);
+
+                    deviceCreator.DeviceMetaInfo = device.DeviceMetaInfo;
+
                     Creators.Add(deviceCreator);
                 }
                 catch

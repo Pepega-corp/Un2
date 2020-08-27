@@ -1,4 +1,5 @@
-﻿using Unicon2.Infrastructure.Connection;
+﻿using System;
+using Unicon2.Infrastructure.Connection;
 
 namespace Unicon2.Infrastructure.DeviceInterfaces
 {
@@ -7,6 +8,7 @@ namespace Unicon2.Infrastructure.DeviceInterfaces
 
         string DeviceDescriptionFilePath { get; set; }
         string DeviceName { get; set; }
+        DeviceMetaInfo DeviceMetaInfo { get; set; }
         IConnectionState ConnectionState { get; set; }
         IDeviceConnection AvailableConnection { get; set; }
         IDevice Create();

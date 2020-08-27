@@ -43,6 +43,8 @@ namespace Unicon2.Model.DefaultDevice
         [JsonProperty] public string DeviceSignature { get; set; }
 
         public IDeviceMemory DeviceMemory { get; set; }
+        [JsonProperty] public DeviceMetaInfo DeviceMetaInfo { get; set; }
+
 
 
         public void InitializeConnection(IDeviceConnection deviceConnection)

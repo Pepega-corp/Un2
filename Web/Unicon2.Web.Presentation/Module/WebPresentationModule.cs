@@ -27,8 +27,8 @@ namespace Unicon2.Web.Presentation.Module
 				res = writer.ToString();
 			}
 
-            HttpClient client =new HttpClient();
-            var resg= await client.PostAsync("https://localhost:32776/api/v1/root/command", new StringContent(res, UnicodeEncoding.UTF8, "application/json"));
+           // var client = new HttpClient();
+            //var resg= await client.PostAsync("https://localhost:32776/api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
 		}
 	}
 }

@@ -36,6 +36,9 @@ namespace Unicon2.Model.DefaultDevice
             set { _deviceName = value; }
         }
 
+        public DeviceMetaInfo DeviceMetaInfo { get; set; }
+
+
         public IConnectionState ConnectionState { get; set; }
 
         public IDeviceConnection AvailableConnection

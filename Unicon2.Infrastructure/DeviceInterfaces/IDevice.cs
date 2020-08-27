@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces;
@@ -14,6 +15,8 @@ namespace Unicon2.Infrastructure.DeviceInterfaces
         IDeviceLogger DeviceLogger { get; set; }
         string DeviceSignature { get; set; }
 		IDeviceMemory DeviceMemory { get; set; }
+        DeviceMetaInfo DeviceMetaInfo { get; set; }
 
     }
+    
 }

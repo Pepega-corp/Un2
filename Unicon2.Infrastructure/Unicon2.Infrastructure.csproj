@@ -87,6 +87,7 @@
     <Compile Include="Connection\IQueryResultFactory.cs" />
     <Compile Include="Dependencies\IBoolToAddressDependency.cs" />
     <Compile Include="Dependencies\IDependency.cs" />
+    <Compile Include="DeviceInterfaces\DeviceMetaInfo.cs" />
     <Compile Include="DeviceInterfaces\IComPortConfiguration.cs" />
     <Compile Include="DeviceInterfaces\IDeviceMemory.cs" />
     <Compile Include="DeviceInterfaces\IDataProvider.cs" />
