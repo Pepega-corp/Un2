@@ -30,24 +30,8 @@
         </i:Interaction.Behaviors>
         <Button.ContextMenu>
             <ContextMenu Name="fileContextMenu">
-                <MenuItem Command="{Binding OpenProjectCommand}" Header="{lex:Loc Key=OpenProject}" />
-                <MenuItem Command="{Binding NewProjectCommand}" Header="{lex:Loc Key=NewProject}" />
-                <MenuItem Header="{lex:Loc Recent}" ItemsSource="{Binding RecentProjects}">
-                    <MenuItem.ItemContainerStyle>
-                        <Style TargetType="{x:Type MenuItem}">
-                            <Setter Property="Command" Value="{Binding DataContext.OpenRecentProjectCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}, AncestorLevel=1}}" />
-                            <Setter Property="CommandParameter" Value="{Binding}" />
-                            <Setter Property="Padding" Value="5" />
-
-                        </Style>
-                    </MenuItem.ItemContainerStyle>
-                    <MenuItem.ItemTemplate>
-                        <DataTemplate DataType="viewModels:RecentProjectViewModel">
-                            <TextBlock
-                                        Text="{Binding ProjectTitle}" />
-                        </DataTemplate>
-                    </MenuItem.ItemTemplate>
-                </MenuItem>
+          
+               
                 <MenuItem Command="{Binding SaveProjectCommand}" Header="{lex:Loc Key=Save}" />
                 <MenuItem Command="{Binding SaveAsProjectCommand}" Header="{lex:Loc Key=SaveAs}" />
                 <MenuItem Command="{Binding ExitCommand}" Header="{lex:Loc Key=Exit}" />
@@ -114,17 +98,11 @@
                         </templateSelectors:MainMenuItemTemplateSelector.MenuItemDataTemplate>
                         <templateSelectors:MainMenuItemTemplateSelector.GroupedItemDataTemplate>
                             <DataTemplate DataType="viewModels:GroupMenuItemViewModel">
-                                <Grid>
+                                <Grid Name="Grid">
                                     <i:Interaction.Behaviors>
                                         <behaviors:ButtonContextMenuOpenBehavior />
+                                        <behaviors:DynamicMainMenuBehavior MenuItems="{Binding ChildMenuItems}" />
                                     </i:Interaction.Behaviors>
-                                    <Grid.ContextMenu>
-                                        <ContextMenu ItemsSource="{Binding ChildMenuItems}">
-                                            <ContextMenu.ItemTemplateSelector>
-                                                <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
-                                            </ContextMenu.ItemTemplateSelector>
-                                        </ContextMenu>
-                                    </Grid.ContextMenu>
                                     <lex:LocProxy Name="titleProxy" Source="{Binding Path=GroupNameKey}" />
                                     <TextBlock
                                         Margin="5"

@@ -9,6 +9,7 @@ namespace Unicon2.Presentation.Infrastructure.Services
     {
         void RegisterMainMenuItem(MainMenuRegistrationOptions menuRegistrationOptions);
         void RegisterMainMenuItemGroup(MainMenuGroupRegistrationOptions menuRegistrationOptions);
+        void RegisterMainMenuCommand(MainMenuCommandRegistrationOptions mainMenuCommandRegistrationOptions);
 
     }
 
@@ -30,7 +31,25 @@ namespace Unicon2.Presentation.Infrastructure.Services
 
 
     }
+    public class MainMenuCommandRegistrationOptions
+    {
+        public MainMenuCommandRegistrationOptions(Guid itemId, ICommand command, string itemNameKey, int proirity = 100,
+            string mainMenuGroupId = null)
+        {
+            ItemId = itemId;
+            Command = command;
+            ItemNameKey = itemNameKey;
+            Proirity = proirity;
+            MainMenuGroupId = mainMenuGroupId;
+        }
 
+        public Guid ItemId { get; }
+        public ICommand Command { get; }
+        public string ItemNameKey { get; }
+        public int Proirity { get; }
+        public string MainMenuGroupId { get; }
+
+    }
     public class MainMenuRegistrationOptions
     {
         public MainMenuRegistrationOptions(Guid itemId, IStronglyNamed viewModelStronglyNamed, int proirity = 100,

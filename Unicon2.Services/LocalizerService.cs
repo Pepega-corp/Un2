@@ -56,9 +56,9 @@ namespace Unicon2.Services
         public string GetLocalizedString(string key)
         {
             LocExtension locExtension = new LocExtension(key);
-            locExtension.ResolveLocalizedValue(out string uiString);
-            return uiString;
-
+            if (locExtension.ResolveLocalizedValue(out string uiString))
+                return uiString;
+            return key;
             //var assemblyProp = ResxLocalizationProvider.Instance.FallbackAssembly;
             //var uiString = LocExtension.GetLocalizedValue<string>(assemblyProp + ":Resources:" + key);
             //return uiString;

@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="Behaviors\AnchorableSelectedBehavior.cs" />
     <Compile Include="Behaviors\ButtonContextMenuOpenBehavior.cs" />
+    <Compile Include="Behaviors\DynamicMainMenuBehavior.cs" />
     <Compile Include="Behaviors\DynamicRibbonTabItemBehavior.cs" />
     <Compile Include="ControlRegionAdapter\FlyoutsControlRegionAdapter.cs" />
     <Compile Include="Factories\RecentProjectsViewModelFactory.cs" />
@@ -138,7 +139,7 @@
     <Compile Include="ViewModels\DynamicContextMenuViewModel.cs" />
     <Compile Include="ViewModels\DynamicMainMenuViewModel.cs" />
     <Compile Include="ViewModels\Helpers\StaticOptionsButtonsHelper.cs" />
-    <Compile Include="ViewModels\MenuItems\CommandMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuItems\RecentProjectsMenuItemViewModel.cs" />
     <Compile Include="ViewModels\MenuItems\ToggleOptionsMenuItemViewModel.cs" />
     <Compile Include="ViewModels\RecentProjectViewModel.cs" />
     <Compile Include="ViewModels\UniconSplashScreenViewModel.cs" />
@@ -148,8 +149,8 @@
     <Compile Include="Views\DynamicMainMenu.xaml.cs">
       <DependentUpon>DynamicMainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MenuItems\CommandButtonMenuItem.xaml.cs">
-      <DependentUpon>CommandButtonMenuItem.xaml</DependentUpon>
+    <Compile Include="Views\MenuItems\RecentProjectsItem.xaml.cs">
+      <DependentUpon>RecentProjectsItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MenuItems\ToggleMenuItem.xaml.cs">
       <DependentUpon>ToggleMenuItem.xaml</DependentUpon>
@@ -187,9 +188,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MenuItems\CommandButtonMenuItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Page Include="Views\MenuItems\RecentProjectsItem.xaml" />
     <Page Include="Views\MenuItems\ToggleMenuItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

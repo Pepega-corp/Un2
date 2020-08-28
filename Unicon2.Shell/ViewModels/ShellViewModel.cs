@@ -49,7 +49,7 @@ namespace Unicon2.Shell.ViewModels
         private RecentProjectsViewModelFactory _recentProjectsViewModelFactory;
         private readonly IMainMenuService _mainMenuService;
         private ToggleOptionsMenuItemViewModel _toggleOptionsMenuItemViewModel;
-
+        private RecentProjectsMenuItemViewModel _recentProjectsMenuItemViewModel;
         public ShellViewModel
         (ILogService logService,
             ILogServiceViewModel logServiceViewModel,
@@ -122,18 +122,28 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnLoadedExecute()
         {
-            _toggleOptionsMenuItemViewModel = new ToggleOptionsMenuItemViewModel(this);
-            _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
-                _toggleOptionsMenuItemViewModel
-            ));
-            _mainMenuService.RegisterMainMenuItemGroup(new MainMenuGroupRegistrationOptions(Guid.NewGuid(),
-                ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY));
-            _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
-                new CommandMenuItemViewModel(OpenProjectCommand, ApplicationGlobalNames.UiCommandStrings.OPEN_PROJECT),
-                100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
-            ));
-            _uniconProjectService.LoadDefaultProject();
-            OnProjectChanged();
+	        _toggleOptionsMenuItemViewModel = new ToggleOptionsMenuItemViewModel(this);
+	        _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
+		        _toggleOptionsMenuItemViewModel
+	        ));
+	        _mainMenuService.RegisterMainMenuItemGroup(new MainMenuGroupRegistrationOptions(Guid.NewGuid(),
+		        ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY));
+	        _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+		        OpenProjectCommand, ApplicationGlobalNames.UiCommandStrings.OPEN_PROJECT,
+		        100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+	        ));
+	        _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+		        NewProjectCommand, ApplicationGlobalNames.UiCommandStrings.NEW_PROJECT,
+		        100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+	        ));
+
+	        _recentProjectsMenuItemViewModel = new RecentProjectsMenuItemViewModel(OpenProjectCommand);
+
+	        _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
+		        _recentProjectsMenuItemViewModel, 100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+	        ));
+	        _uniconProjectService.LoadDefaultProject();
+	        OnProjectChanged();
         }
 
         private async void OnProjectChanged()
@@ -142,6 +152,8 @@ namespace Unicon2.Shell.ViewModels
 	        {
 		        RaisePropertyChanged(nameof(ShellTitle));
 		        RaisePropertyChanged(nameof(RecentProjects));
+		        if (_recentProjectsMenuItemViewModel != null)
+			        _recentProjectsMenuItemViewModel.RecentProjects = RecentProjects;
 	        });
         }
 

@@ -5,8 +5,7 @@
     <DataTemplate x:Key="ToggleOptionsMenuItemViewModelDataTemplate">
         <menuItems:ToggleMenuItem />
     </DataTemplate>
-    <DataTemplate x:Key="CommandMenuItemDataTemplate">
-        <menuItems:CommandButtonMenuItem />
+  <DataTemplate x:Key="RecentProjectsMenuItemViewModelDataTemplate">
+        <menuItems:RecentProjectsItem />
     </DataTemplate>
-
 </ResourceDictionary>
