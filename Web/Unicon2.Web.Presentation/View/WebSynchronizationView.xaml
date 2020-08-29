@@ -9,9 +9,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Unicon2.Web.Presentation.ViewModels"
     Title="WebSynchronizationView"
-    d:DataContext="{d:DesignInstance viewModels:WebSynchronizationViewModel}"
     Width="800"
     Height="450"
+    d:DataContext="{d:DesignInstance viewModels:WebSynchronizationViewModel}"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <TextBlock Margin="5" Text="{lex:Loc ConnectionState}" />
-            <mah:ToggleSwitch IsChecked="{Binding CanConnectToServer}"></mah:ToggleSwitch>
+            <mah:ToggleSwitch IsChecked="{Binding CanConnectToServer}" />
         </StackPanel>
         <Button
             Grid.Row="0"

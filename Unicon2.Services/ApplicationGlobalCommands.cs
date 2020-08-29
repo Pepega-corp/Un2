@@ -193,6 +193,6 @@ namespace Unicon2.Services
             return filepathMaybe;
         }
 
-
+        public Action ShellLoaded { get; set; }
     }
 }

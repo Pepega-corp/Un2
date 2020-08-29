@@ -54,6 +54,8 @@ using Unicon2.Shell.ViewModels;
 using Unicon2.Shell.Views;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
+using Unicon2.Web.Presentation.Module;
+
 //using Unicon2.Web.Presentation.Module;
 
 namespace Unicon2.Shell
@@ -193,7 +195,7 @@ namespace Unicon2.Shell
 
             //container.Register<IUnityModule, ProgrammingModule>(nameof(ProgrammingModule));
             //container.Register<IUnityModule, ProgrammingEditorModule>(nameof(ProgrammingEditorModule));
-            //container.Register<IUnityModule, WebPresentationModule>(nameof(WebPresentationModule));
+            container.Register<IUnityModule, WebPresentationModule>(nameof(WebPresentationModule));
 
         }
 

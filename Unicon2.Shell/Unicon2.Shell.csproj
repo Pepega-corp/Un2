@@ -347,6 +347,10 @@
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Web\Unicon2.Web.Presentation\Unicon2.Web.Presentation.csproj">
+      <Project>{74CEA7C0-9B6C-482F-869C-48113F227D56}</Project>
+      <Name>Unicon2.Web.Presentation</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\BemnLogo.jpg">

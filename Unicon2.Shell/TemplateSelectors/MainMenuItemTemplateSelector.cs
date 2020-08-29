@@ -9,11 +9,13 @@ using Unicon2.Shell.ViewModels;
 
 namespace Unicon2.Shell.TemplateSelectors
 {
-    public class MainMenuItemTemplateSelector: DataTemplateSelector
+    public class MainMenuItemTemplateSelector : DataTemplateSelector
     {
         public DataTemplate GroupedItemDataTemplate { get; set; }
 
         public DataTemplate MenuItemDataTemplate { get; set; }
+        public DataTemplate MenuItemCommandDataTemplate { get; set; }
+
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -26,6 +28,12 @@ namespace Unicon2.Shell.TemplateSelectors
             {
                 return MenuItemDataTemplate;
             }
+
+            if (item is MenuItemCommandViewModel)
+            {
+                return MenuItemCommandDataTemplate;
+            }
+
             return base.SelectTemplate(item, container);
         }
     }

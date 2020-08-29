@@ -7,6 +7,7 @@
     xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors;assembly=Unicon2.SharedResources"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:infrastructure="clr-namespace:Unicon2.Infrastructure;assembly=Unicon2.Infrastructure"
+    xmlns:interactivity="http://prismlibrary.com/"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Shell.Views"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
@@ -19,67 +20,6 @@
     ItemsSource="{Binding MenuItems}"
     mc:Ignorable="d">
 
-    <!--
-    <Button
-                Name="toggleButtonFile"
-                Content="{lex:Loc Key=File}"
-                FontSize="14"
-                Foreground="{DynamicResource IdealForegroundColorBrush}">
-        <i:Interaction.Behaviors>
-            <behaviors:ButtonContextMenuOpenBehavior />
-        </i:Interaction.Behaviors>
-        <Button.ContextMenu>
-            <ContextMenu Name="fileContextMenu">
-          
-               
-                <MenuItem Command="{Binding SaveProjectCommand}" Header="{lex:Loc Key=Save}" />
-                <MenuItem Command="{Binding SaveAsProjectCommand}" Header="{lex:Loc Key=SaveAs}" />
-                <MenuItem Command="{Binding ExitCommand}" Header="{lex:Loc Key=Exit}" />
-            </ContextMenu>
-        </Button.ContextMenu>
-    </Button>
-
-    <Button
-                Name="toggleButtonDevice"
-                Content="{lex:Loc Key=Device}"
-                FontSize="14"
-                Foreground="{DynamicResource IdealForegroundColorBrush}">
-        <i:Interaction.Behaviors>
-            <behaviors:ButtonContextMenuOpenBehavior />
-        </i:Interaction.Behaviors>
-        <Button.ContextMenu>
-            <ContextMenu Name="deviceContextMenu">
-                <MenuItem
-                            Command="{Binding NavigateToDeviceAddingCommand}"
-                            CommandParameter="{x:Static infrastructure:ApplicationGlobalNames.ADDING_MODE}"
-                            Header="{lex:Loc Key=Add}" />
-                <MenuItem Command="{Binding NavigateToDeviceEditorCommand}" Header="{lex:Loc OpenDeviceEditor}" />
-                <MenuItem Command="{Binding NavigateToWebSyncViewCommand}" Header="{lex:Loc OpenWebSyncViewEditor}" />
-
-            </ContextMenu>
-        </Button.ContextMenu>
-    </Button>
-
-
-
-
-    <Button
-                Name="oscOpenButton"
-                Command="{Binding OpenOscillogramCommand}"
-                Content="{lex:Loc OpenOscillogram}"
-                FontSize="14"
-                Foreground="{DynamicResource IdealForegroundColorBrush}" />
-    <Button
-                Name="dynamicContentButton"
-                Content="{Binding ActiveFragmentViewModel.FragmentTitle}"
-                FontSize="14"
-                Foreground="{DynamicResource IdealForegroundColorBrush}"
-                Visibility="{Binding ActiveFragmentViewModel, TargetNullValue=Collapsed}">
-        <i:Interaction.Behaviors>
-            <behaviors:ButtonContextMenuOpenBehavior />
-            <behaviors:DynamicMenuTabItemBehavior TabItems="{Binding ActiveFragmentViewModel.FragmentViewModel.FragmentOptionsViewModel}" />
-        </i:Interaction.Behaviors>
-    </Button>-->
 
 
     <mah:WindowCommands.ItemTemplate>
@@ -87,6 +27,23 @@
             <ContentPresenter Content="{Binding .}">
                 <ContentPresenter.ContentTemplateSelector>
                     <templateSelectors:MainMenuItemTemplateSelector>
+                        <templateSelectors:MainMenuItemTemplateSelector.MenuItemCommandDataTemplate>
+                            <DataTemplate DataType="viewModels:MenuItemCommandViewModel">
+                                <Grid>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                                            <interactivity:InvokeCommandAction Command="{Binding Command}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <lex:LocProxy Name="titleCommandProxy" Source="{Binding Path=NameKey}" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{Binding ElementName=titleCommandProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </templateSelectors:MainMenuItemTemplateSelector.MenuItemCommandDataTemplate>
                         <templateSelectors:MainMenuItemTemplateSelector.MenuItemDataTemplate>
                             <DataTemplate DataType="viewModels:MenuItemViewModel">
                                 <ContentPresenter Content="{Binding StronglyNamedViewModel}">

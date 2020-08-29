@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
+using System.Windows.Media;
 using MahApps.Metro.Controls;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services;
@@ -10,6 +11,7 @@ using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.DataTemplateSelectors;
 using Unicon2.Shell.ViewModels;
+using WPFLocalizeExtension.Providers;
 
 namespace Unicon2.Shell.Behaviors
 {
@@ -33,9 +35,12 @@ namespace Unicon2.Shell.Behaviors
                 {
                  
                     var template=new ViewModelByStrongNameDataTemplateSelector().SelectTemplate(menuItemViewModel.StronglyNamedViewModel,assosiatedObject);
-                    var kox=template.LoadContent().GetChildObjects().First();
-                    if (kox is MenuItem menuItemTemplated)
+                    var content=template.LoadContent().GetChildObjects().First();
+
+                    if (content is MenuItem menuItemTemplated)
                     {
+                        DisconnectIt(menuItemTemplated);
+                        menuItemTemplated.DataContext = menuItemViewModel.StronglyNamedViewModel;
                         assosiatedObject.ContextMenu.Items.Add(menuItemTemplated);
                     }
                 }
@@ -63,6 +68,47 @@ namespace Unicon2.Shell.Behaviors
             get { return (ObservableCollection<IMenuItemViewModel>)GetValue(MenuItemsProperty); }
             set { SetValue(MenuItemsProperty, value); }
         }
+        public static void DisconnectIt(FrameworkElement child)
+        {
+            var parent = child.Parent;
+            if (parent == null)
+                return;
+
+            if (parent is Panel panel)
+            {
+                panel.Children.Remove(child);
+                return;
+            }
+
+            if (parent is Decorator decorator)
+            {
+                if (decorator.Child == child)
+                    decorator.Child = null;
+
+                return;
+            }
+
+            if (parent is ContentPresenter contentPresenter)
+            {
+                if (contentPresenter.Content == child)
+                    contentPresenter.Content = null;
+                return;
+            }
+
+            if (parent is ContentControl contentControl)
+            {
+                if (contentControl.Content == child)
+                    contentControl.Content = null;
+                return;
+            }
+
+            //if (parent is ItemsControl itemsControl)
+            //{
+            //  itemsControl.Items.Remove(child);
+            //  return;
+            //}
+        }
+
 
     }
 }

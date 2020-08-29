@@ -25,6 +25,6 @@ namespace Unicon2.Infrastructure
 
         Maybe<string> SelectFilePathToSave(string windowTitle, string defaultExtension, string filter,
             string initialName);
-
+        Action ShellLoaded { get; set; }
     }
 }

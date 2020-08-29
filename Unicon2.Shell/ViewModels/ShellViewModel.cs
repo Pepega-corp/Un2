@@ -122,28 +122,65 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnLoadedExecute()
         {
-	        _toggleOptionsMenuItemViewModel = new ToggleOptionsMenuItemViewModel(this);
-	        _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
-		        _toggleOptionsMenuItemViewModel
-	        ));
-	        _mainMenuService.RegisterMainMenuItemGroup(new MainMenuGroupRegistrationOptions(Guid.NewGuid(),
-		        ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY));
-	        _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
-		        OpenProjectCommand, ApplicationGlobalNames.UiCommandStrings.OPEN_PROJECT,
-		        100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
-	        ));
-	        _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
-		        NewProjectCommand, ApplicationGlobalNames.UiCommandStrings.NEW_PROJECT,
-		        100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
-	        ));
+            _toggleOptionsMenuItemViewModel = new ToggleOptionsMenuItemViewModel(this);
+            _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
+                _toggleOptionsMenuItemViewModel
+            ));
 
-	        _recentProjectsMenuItemViewModel = new RecentProjectsMenuItemViewModel(OpenProjectCommand);
+            _mainMenuService.RegisterMainMenuItemGroup(new MainMenuGroupRegistrationOptions(Guid.NewGuid(),
+                ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY));
 
-	        _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
-		        _recentProjectsMenuItemViewModel, 100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
-	        ));
-	        _uniconProjectService.LoadDefaultProject();
-	        OnProjectChanged();
+            _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+                OpenProjectCommand, ApplicationGlobalNames.UiCommandStrings.OPEN_PROJECT,
+                100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+            ));
+
+            _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+                NewProjectCommand, ApplicationGlobalNames.UiCommandStrings.NEW_PROJECT,
+                100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+            ));
+
+            _recentProjectsMenuItemViewModel = new RecentProjectsMenuItemViewModel(OpenRecentProjectCommand);
+
+            _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
+                _recentProjectsMenuItemViewModel, 100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+            ));
+
+            _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+                SaveProjectCommand, ApplicationGlobalNames.UiCommandStrings.SAVE_PROJECT,
+                100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+            ));
+
+            _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+                SaveAsProjectCommand, ApplicationGlobalNames.UiCommandStrings.SAVE_AS_PROJECT,
+                100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+            ));
+
+            _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+                ExitCommand, ApplicationGlobalNames.UiCommandStrings.EXIT,
+                100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
+            ));
+
+            _mainMenuService.RegisterMainMenuItemGroup(new MainMenuGroupRegistrationOptions(Guid.NewGuid(),
+                ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY));
+
+            _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+                NavigateToDeviceAddingCommand, ApplicationGlobalNames.UiCommandStrings.ADD,
+                100, ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY
+            ));
+
+            _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+                NavigateToDeviceEditorCommand, ApplicationGlobalNames.UiCommandStrings.OPEN_DEVICE_EDITOR,
+                100, ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY
+            ));
+
+            _mainMenuService.RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(Guid.NewGuid(),
+                OpenOscillogramCommand, ApplicationGlobalNames.UiCommandStrings.OPEN_OSC));
+
+            _uniconProjectService.LoadDefaultProject();
+
+            OnProjectChanged();
+            _applicationGlobalCommands.ShellLoaded?.Invoke();
         }
 
         private async void OnProjectChanged()
@@ -164,7 +201,7 @@ namespace Unicon2.Shell.ViewModels
 
         public IFragmentPaneViewModel ActiveFragmentViewModel
         {
-            get { return _activeFragmentViewModel; }
+            get => _activeFragmentViewModel;
             set
             {
                 _activeFragmentViewModel = value;
@@ -177,7 +214,7 @@ namespace Unicon2.Shell.ViewModels
 
         public ObservableCollection<IFragmentPaneViewModel> FragmentsOpenedCollection
         {
-            get { return _fragmentsOpenedCollection; }
+            get => _fragmentsOpenedCollection;
             set
             {
                 _fragmentsOpenedCollection = value;

@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Input;
 using Unicon2.Unity.ViewModels;
 
@@ -5,18 +6,18 @@ namespace Unicon2.Web.Presentation.ViewModels
 {
     public class DefinitionInfoViewModel : ViewModelBase
     {
-        public DefinitionInfoViewModel(string id, string name, string version)
+        public DefinitionInfoViewModel(string id, string name, DateTime versionDateTime)
         {
             Id = id;
             Name = name;
-            Version = version;
+            VersionDateTime = versionDateTime;
         }
 
         public string Id { get; }
 
         public string Name { get; }
 
-        public string Version { get; }
+        public DateTime VersionDateTime { get; }
     }
 
 
@@ -24,7 +25,7 @@ namespace Unicon2.Web.Presentation.ViewModels
     {
         private bool _isSynchronized;
 
-        public LocalDefinitionInfoViewModel(string id, string name, string version, ICommand uploadDefinition, bool isSynchronized) : base(
+        public LocalDefinitionInfoViewModel(string id, string name, DateTime version, ICommand uploadDefinition, bool isSynchronized) : base(
             id, name, version)
         {
             UploadDefinition = uploadDefinition;
@@ -46,7 +47,7 @@ namespace Unicon2.Web.Presentation.ViewModels
 
     public class ServerDefinitionInfoViewModel : DefinitionInfoViewModel
     {
-        public ServerDefinitionInfoViewModel(string id, string name, string version, ICommand downloadDefinition) :
+        public ServerDefinitionInfoViewModel(string id, string name, DateTime version, ICommand downloadDefinition) :
             base(id,
                 name, version)
         {

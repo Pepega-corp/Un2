@@ -40,6 +40,13 @@
 
             public const string OPEN_PROJECT = "OpenProject";
             public const string NEW_PROJECT = "NewProject";
+            public const string SAVE_PROJECT = "Save";
+            public const string SAVE_AS_PROJECT = "SaveAs";
+            public const string EXIT = "Exit";
+            public const string ADD = "Add";
+            public const string OPEN_DEVICE_EDITOR = "OpenDeviceEditor";
+            public const string OPEN_OSC = "OpenOscillogram";
+            public const string OPEN_WEB_SYNC = "OpenWebSync";
 
         }
 

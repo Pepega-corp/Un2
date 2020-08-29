@@ -1,9 +1,10 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interactivity;
 
 namespace Unicon2.Shell.Behaviors
 {
-    public class ButtonContextMenuOpenBehavior : Behavior<Grid>
+    public class ButtonContextMenuOpenBehavior : Behavior<FrameworkElement>
     {
         protected override void OnAttached()
         {
