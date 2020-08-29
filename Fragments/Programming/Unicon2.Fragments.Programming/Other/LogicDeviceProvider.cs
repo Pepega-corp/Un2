@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.Programming.Model;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.Programming.Other
@@ -25,14 +28,15 @@ namespace Unicon2.Fragments.Programming.Other
             this._fileDriver.SetDataProvider(deviceContext.DataProviderContainer.DataProvider);
         }
 
-        public void WriteLogic(byte[] logicPjectBytes)
+        public async Task WriteLogic(byte[] logicPjectBytes)
         {
             var compressedArchive = this.CompressProject(logicPjectBytes);
+            await this._fileDriver.WriteFile(compressedArchive, LOGARCH_ZIP);
         }
 
-        private ushort[] CompressProject(byte[] logicArchive)
+        private byte[] CompressProject(byte[] logicArchive)
         {
-            ushort[] compressedWords = null;
+            var compressedBytes = new List<byte>();
 
             // create a working memory stream
             using (MemoryStream memoryStream = new MemoryStream())
@@ -52,47 +56,31 @@ namespace Unicon2.Fragments.Programming.Other
                     }
                 }
 
-                var compressedBytes = memoryStream.ToArray();
-                compressedWords = new ushort[(compressedBytes.Length + 1) / 2 + 3]; //Размер хранилища
-                compressedWords[0] = (ushort)logicArchive.Length; // размер несжатого проекта (байты)
-                compressedWords[1] = 0x0001; // Версия упаковщика
-                compressedWords[2] = 0x0000; // СRС архива проекта
-                for (int i = 3; i < compressedWords.Length; i++)
-                {
-                    if ((i - 2) * 2 + 1 < compressedBytes.Length)
-                    {
-                        compressedWords[i] = (ushort)(compressedBytes[(i - 3) * 2 + 1] << 8);
-                    }
-                    else
-                    {
-                        compressedWords[i] = 0;
-                    }
-                    compressedWords[i] += compressedBytes[(i - 3) * 2];
-                }
+                compressedBytes.AddRange(memoryStream.ToArray());
+                var archLen = (ushort)compressedBytes.Count;
+                //Add archive length
+                compressedBytes.AddRange(archLen.UshortToBytes());
             }
 
-            return compressedWords;
+            return compressedBytes.ToArray();
         }
 
         public async Task<byte[]> ReadLogic()
         {
             var compressedLogic = await this._fileDriver.ReadFile(LOGARCH_ZIP);
+            var uncompressedLogic = UncompressProject(compressedLogic);
+            var archLen = uncompressedLogic.Skip(uncompressedLogic.Length - 2).ToArray().ByteArrayToUshortArray()[0];
 
-            return new byte[] { };
-        }
-
-        public byte[] UncompressProject(ushort[] compressedWords)
-        {
-            byte[] compressedBytes = new byte[(compressedWords.Length - 3) * 2];
-            for (int i = 3; i < compressedWords.Length; i++)
+            if (uncompressedLogic.Length - 2 == archLen)
             {
-                if ((i - 2) * 2 + 1 < compressedBytes.Length)
-                {
-                    compressedBytes[(i - 3) * 2 + 1] = (byte)(compressedWords[i] >> 8);
-                }
-                compressedBytes[(i - 3) * 2] = (byte)compressedWords[i];
+                return uncompressedLogic;
             }
 
+            return new byte[0];
+        }
+
+        public byte[] UncompressProject(byte[] compressedBytes)
+        {
             using (MemoryStream memoryStream = new MemoryStream(compressedBytes))
             {
                 // create a zip

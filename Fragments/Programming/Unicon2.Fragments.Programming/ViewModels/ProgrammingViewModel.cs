@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -276,7 +277,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 	        }
         }
 
-        private void OnWriteCommand()
+        private async void OnWriteCommand()
         {
             if(SchemesCollection.Count == 0)
             {
@@ -288,7 +289,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 this.UpdateModelData();
                 var logicProjectBytes = _serializerService.SerializeInBytes(_programModel);
-                this._logicDeviceProvider.WriteLogic(logicProjectBytes);
+                await this._logicDeviceProvider.WriteLogic(logicProjectBytes);
 
                 //var uncompressProject = _logicReader.UncompressProject(compressedProject);
                 //var model = _serializerService.DeserializeFromBytes<IProgramModel>(uncompressProject);
@@ -299,7 +300,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        private void OnReadCommand()
+        private async void OnReadCommand()
         {
             if (this.SchemesCollection.Count > 0)
             {
@@ -313,8 +314,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     this.SaveProject();
                 }
             }
-
-            var logicProjectBytes = this._logicDeviceProvider.ReadLogic();
+            try
+            {
+                var logicProjectBytes = await this._logicDeviceProvider.ReadLogic();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Read logic", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
     }
 }

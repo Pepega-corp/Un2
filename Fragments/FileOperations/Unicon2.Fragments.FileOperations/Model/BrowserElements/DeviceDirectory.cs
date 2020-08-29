@@ -45,9 +45,9 @@ namespace Unicon2.Fragments.FileOperations.Model.BrowserElements
             return await this._directoryLoader.CreateNewChildDirectoryAsync(ElementPath + "\\" + directoryName);
         }
 
-        public async Task<string> AddNewChildFileAsync(byte[] file, string name, string extension)
+        public async Task AddNewChildFileAsync(byte[] file, string name, string extension)
         {
-            return await this._directoryLoader.CreateNewChildFileAsync(file, Name, name, extension);
+            await this._directoryLoader.CreateNewChildFileAsync(file, name, extension);
         }
 
 

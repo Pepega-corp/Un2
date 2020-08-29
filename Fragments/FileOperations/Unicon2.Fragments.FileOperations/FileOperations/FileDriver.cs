@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.FileOperations.Operators;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
@@ -9,107 +11,64 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
     public class FileDriver : IFileDriver
     {
         private readonly DirectoryOperator _directoryOperator;
+        private readonly SessionNumberOperator _sessionNumberOperator;
+        private readonly FileOpenOperator _fileOpenOperator;
+        private readonly FileReadDataOperator _fileReadDataOperator;
+        private readonly FileCloseOperator _fileCloseOperator;
+        private readonly Dictionary<int, string> _openedFiles = new Dictionary<int, string>();
 
-        public FileDriver(DirectoryOperator directoryOperator)
+        public FileDriver(DirectoryOperator directoryOperator, SessionNumberOperator sessionNumberOperator, 
+            FileOpenOperator fileOpenOperator, FileReadDataOperator fileReadDataOperator, FileCloseOperator fileCloseOperator)
         {
             this._directoryOperator = directoryOperator;
+            this._sessionNumberOperator = sessionNumberOperator;
+            this._fileOpenOperator = fileOpenOperator;
+            this._fileReadDataOperator = fileReadDataOperator;
+            this._fileCloseOperator = fileCloseOperator;
         }
 
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this._directoryOperator.SetDataProvider(dataProvider);
+            this._sessionNumberOperator.SetDataProvider(dataProvider);
+            this._fileOpenOperator.SetDataProvider(dataProvider);
+            this._fileReadDataOperator.SetDataProvider(dataProvider);
+            this._fileCloseOperator.SetDataProvider(dataProvider);
         }
 
         public async Task<byte[]> ReadFile(string fileName)
         {
-            await this._directoryOperator.ReadDirectory();
-
-            return new byte[]{};
-        }
-
-        private async Task<string> GetPassword()
-        {
-            //await this._commandSender.SetCommand("GETNUMBER");
-            //string[] stateStrings = await this._commandStateReader.ReadCommandStateStrings();
-
-            //byte[] jj = await this._fileDataReader.GetDataBytes(Convert.ToUInt16(stateStrings[5]));
-            //string s = this.GetDataString(jj);
-            //int sessionNum = Convert.ToUInt16(s);
-
-            //string pass = "АААА"; //русские буквы А
-            //Encoding ascii = Encoding.GetEncoding("windows-1251");
-            //byte[] asciiBytes = ascii.GetBytes(pass);
-            //string passCode = string.Empty;
-            //foreach (byte c in asciiBytes)
-            //{
-            //    sessionNum = (byte)((sessionNum * 99 + 53) % 256);
-            //    passCode += ((byte)(c + sessionNum)).ToString("X2");
-            //}
-            //return passCode;
-
-            return string.Empty;
-        }
-
-
-        private string GetDataString(byte[] readBytes)
-        {
-            List<char> list = new List<char>();
-            for (int i = 0; i < readBytes.Length; i++)
+            if (this._openedFiles.ContainsValue(fileName))
             {
-                if (readBytes[i] != '\0')
+                var openedFiles = this._openedFiles.Where(o => o.Value == fileName).ToList();
+                foreach (var openFileInfo in openedFiles)
                 {
-                    list.Add((char)readBytes[i]);
+                    await this._fileCloseOperator.CloseFile(openFileInfo.Key);
+                    this._openedFiles.Remove(openFileInfo.Key);
                 }
             }
-            return new string(list.ToArray());
-        }
 
-        public async Task<List<string>> GetDirectoryByPath(string directoryPath)
-        {
-            //if (directoryPath.Contains(";"))
-            //{
-            //    directoryPath = directoryPath.Split(';')[0];
-            //}
-            //List<string> directoryList = new List<string>();
-
-            //await this._commandSender.SetCommand("GETELEMENTDIR " + directoryPath);
-            //string[] commandStateStrings = await this._commandStateReader.ReadCommandStateStrings();
-            //if (this._commandStateReader.LastCommandStatus != 0) return directoryList;
-            //int dataLen = Convert.ToUInt16(commandStateStrings[5]);
-            //byte[] dataBytes = await this._fileDataReader.GetDataBytes(dataLen);
-            //string descriptor = this.GetDataString(dataBytes);
-            //if (this.CheckDescroptor(descriptor))
-            //{
-            //    directoryList.Add(directoryPath + "\\" +
-            //                      descriptor);
-            //}
-
-            //while (true)
-            //{
-            //    await this._commandSender.SetCommand("GETELEMENTDIR");
-            //    commandStateStrings = await this._commandStateReader.ReadCommandStateStrings();
-            //    dataLen = Convert.ToUInt16(commandStateStrings[5]);
-            //    dataBytes = await this._fileDataReader.GetDataBytes(dataLen);
-            //    descriptor = this.GetDataString(dataBytes);
-            //    if (descriptor.IndexOf(';') == 0) break;
-            //    if (this.CheckDescroptor(descriptor))
-            //    {
-            //        directoryList.Add(directoryPath + "\\" + descriptor);
-            //    }
-            //}
-            ////await WriteFile(new byte[] {4, 2}, "0:\\cfg\\", "228.cfg");
-            //return directoryList;
-
-            return new List<string>();
-        }
-
-        private bool CheckDescroptor(string descroptor)
-        {
-            if ((descroptor.Split(';')[0] == ".") || (descroptor.Split(';')[0] == ".."))
+            if (this._directoryOperator.Directory == string.Empty)
             {
-                return false;
+                await this._directoryOperator.ReadDirectory();
+                await this._sessionNumberOperator.ReadSessionNumber();
             }
-            return true;
+            var password = this._sessionNumberOperator.GetPassword();
+            var descriptor = await this._fileOpenOperator.OpenFile(fileName, this._directoryOperator.Directory,
+                FileAccess.READ_FILE, password);
+
+            this._openedFiles.Add(descriptor, fileName);
+
+            var fileBytes = await this._fileReadDataOperator.ReadFileData(descriptor);
+            await this._fileCloseOperator.CloseFile(descriptor);
+
+            return fileBytes;
+
+        }
+
+        public async Task WriteFile(byte[] fileData, string fileName)
+        {
+
         }
 
         public async Task<bool> CreateDirectory(string directoryPath)
@@ -117,51 +76,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             return await this._directoryOperator.CreateDirectory(directoryPath);
         }
 
-        public async Task<bool> DeleteElement(string path)
+        public async Task<bool> DeleteFile(string fileName)
         {
-            //string passWord = await this.GetPassword();
-            //await this._commandSender.SetCommand("FILEDEL  " + passWord + ";" + path);
-            //await this._commandStateReader.ReadCommandStateStrings();
-            //return this._commandStateReader.LastCommandStatus == 0;
             return false;
-        }
-
-        public async Task<string> WriteFile(byte[] fileData, string directoryPath, string fileName)
-        {
-            //await this._commandSender.SetCommand("FILEOPEN " + await this.GetPassword() + ";" + 10 + ";" + directoryPath + "\\" + fileName);
-
-            //string[] stateStrings = await this._commandStateReader.ReadCommandStateStrings();
-
-            //int error = Convert.ToUInt16(stateStrings[1]);
-            //if (error != 0)
-            //{
-            //    return this._messagesDictionary[error];
-            //}
-            //int dataLen = Convert.ToUInt16(stateStrings[5]);
-            //byte[] dataBytes = await this._fileDataReader.GetDataBytes(dataLen);
-            //string descriptor = this.GetDataString(dataBytes);
-            //try
-            //{
-            //    await this._fileDataWriter.WriteData(fileData, descriptor);
-            //}
-            //catch (Exception)
-            //{
-            //    return this._messagesDictionary[224];
-            //}
-            //finally
-            //{
-            //    await this._commandSender.SetCommand("FILECLOSE " + Convert.ToUInt16(descriptor));
-            //    stateStrings = await this._commandStateReader.ReadCommandStateStrings();
-            //    error = Convert.ToUInt16(stateStrings[1]);
-            //}
-
-            //if (error != 0)
-            //{
-            //    return this._messagesDictionary[error];
-            //}
-
-            return string.Empty;
-
         }
     }
 }

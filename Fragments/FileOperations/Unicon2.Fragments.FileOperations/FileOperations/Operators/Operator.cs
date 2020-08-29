@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 {
-    public abstract class Operator : ICommandSender, ICommandStateReader, ICommandDataReader
+    public abstract class Operator
     {
         private const ushort CMD_ADDRESS = 0x5000;
         private const ushort STATE_ADDRESS = 0x5100;
@@ -23,7 +22,28 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             this._dataProvider = dataProvider;
         }
 
-        public async Task SetCommand(string command)
+        protected async Task<string> ReadDataString(string command)
+        {
+            return GetDataString(await ReadData(command));
+        }
+
+        protected async Task<ushort[]> ReadData(string command)
+        {
+            await SetCommand(command);
+            var stateStrings = await this.ReadCommandStateStrings();
+            if (stateStrings != null && stateStrings.Length >= 6)
+            {
+                var dataLen = Convert.ToUInt16(stateStrings[5]);
+                return await ReadDataCommand(dataLen);
+            }
+            
+            if(this.LastCommandStatus != 0)
+                throw new FileOperationException(LastCommandStatus);
+
+            return new ushort[] { };
+        }
+
+        private async Task SetCommand(string command)
         {
             var cmdStr = command;
             var cmdChar = cmdStr.ToCharArray();
@@ -43,7 +63,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             await _dataProvider.WriteMultipleRegistersAsync(CMD_ADDRESS, bCmd.ByteArrayToUshortArray(), "SetCmdFileDriver");
         }
 
-        public async Task<string[]> ReadCommandStateStrings()
+        private async Task<string[]> ReadCommandStateStrings()
         {
             for (var i = 0; i < 4; i++)
             {
@@ -89,12 +109,12 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             return new string(listChar.ToArray()).Split(new[] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public async Task<ushort[]> ReadData()
+        private async Task<ushort[]> ReadDataCommand()
         {
-            return await this.ReadData(0x400);
+            return await this.ReadDataCommand(0x400);
         }
 
-        public async Task<ushort[]> ReadData(ushort dataLen)
+        private async Task<ushort[]> ReadDataCommand(ushort dataLen)
         {
             var result = await this._dataProvider.ReadHoldingResgistersAsync(DATA_ADDRESS, dataLen, "ReadDataFileDriver");
             if (result.IsSuccessful)
@@ -105,7 +125,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             throw new FileOperationException(255);
         }
 
-        protected string GetDataString(ushort[] readUshorts)
+        private string GetDataString(ushort[] readUshorts)
         {
             var readBytes = readUshorts.UshortArrayToByteArray(false);
             var chars = new List<char>();

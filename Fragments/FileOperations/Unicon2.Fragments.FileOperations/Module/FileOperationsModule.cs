@@ -26,6 +26,10 @@ namespace Unicon2.Fragments.FileOperations.Module
             container.Register<IFileDriver, FileDriver>();
 
             container.Register<DirectoryOperator>();
+            container.Register<SessionNumberOperator>();
+            container.Register<FileOpenOperator>();
+            container.Register<FileReadDataOperator>();
+            container.Register<FileCloseOperator>();
             //=====================================================
             container.Register<IFileDataReader, FileDataReader>();
             container.Register<IFileDataWriter, FileDataWriter>();
