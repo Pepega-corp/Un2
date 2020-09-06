@@ -2,6 +2,7 @@
     x:Class="Unicon2.Web.Presentation.View.WebSynchronizationView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Unicon2.Web.Presentation.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Web.Presentation.View"
@@ -13,22 +14,122 @@
     Height="450"
     d:DataContext="{d:DesignInstance viewModels:WebSynchronizationViewModel}"
     mc:Ignorable="d">
+    <mah:MetroWindow.Resources>
+        <converters:StatusConverter x:Key="StatusConverter" />
+    </mah:MetroWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Margin="5" Text="{lex:Loc ConnectionState}" />
-            <mah:ToggleSwitch IsChecked="{Binding CanConnectToServer}" />
-        </StackPanel>
-        <Button
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="5" />
+        <Grid HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="{lex:Loc ConnectionState}" />
+                <Rectangle
+                    Width="20"
+                    Height="20"
+                    Fill="{Binding CanConnectToServer, Converter={StaticResource StatusConverter}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_disconnect}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+                <Button
+                    Grid.Row="0"
+                    Margin="5"
+                    Command="{Binding ToggleSettingsPopup}"
+                    Content=" ... "
+                    FontSize="14"
+                    Style="{DynamicResource UniconButtonStyle}" />
+                <Popup
+                    IsOpen="{Binding IsSettingsOpen}"
+                    Placement="Mouse"
+                    StaysOpen="False">
+                    <Border BorderBrush="{DynamicResource AccentColorBrush3}" BorderThickness="1">
+                        <UniformGrid Background="White" Columns="2">
+
+                            <TextBlock Margin="5" Text="{lex:Loc ServerAddress}" />
+                            <TextBox
+                                MinWidth="200"
+                                Margin="5"
+                                Text="{Binding UrlToServer, UpdateSourceTrigger=LostFocus}" />
+
+                            <TextBlock Margin="5" Text="{lex:Loc Secret}" />
+                            <TextBox Margin="5" Text="{Binding ClientSecret, UpdateSourceTrigger=LostFocus}" />
+                        </UniformGrid>
+                    </Border>
+                </Popup>
+            </StackPanel>
+
+        </Grid>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Definitions}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="viewModels:DefinitionInfoViewModel">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Name}" />
+                        <Grid Grid.Column="1" HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+
+                            </Grid.ColumnDefinitions>
+
+                            <Rectangle
+                                ToolTip="{Binding VersionDateTime}"
+                                Grid.Column="0"
+                                Width="15"
+                                Height="15" Margin="5"
+                                Fill="Gray">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information_circle}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <Button Grid.Column="1" Style="{DynamicResource UniconButtonStyle}" Command="{Binding UpdateCommand}">
+                                <Rectangle
+                                    Width="15"
+                                    Height="15"
+                                    Fill="DarkGreen">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_download}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button Grid.Column="2" Style="{DynamicResource UniconButtonStyle}" Command="{Binding UploadCommand}">
+                                <Rectangle
+                                    Width="15"
+                                    Height="15"
+                                    Fill="DarkOrange">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_upload}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button Grid.Column="3" Style="{DynamicResource UniconButtonStyle}" Command="{Binding DeleteCommand}">
+                                <Rectangle
+                                    Width="15"
+                                    Height="15"
+                                    Fill="DarkRed">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </mah:MetroWindow>

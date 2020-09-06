@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unicon2.Unity.Commands;
 using Unicon2.Web.Presentation.ViewModels;
 
 namespace Unicon2.Web.Presentation.Services
@@ -18,7 +19,10 @@ namespace Unicon2.Web.Presentation.Services
 
         public List<DefinitionInfoViewModel> DownloadDefinitionsInfo()
         {
-            return _dataBase.Select(tuple => new DefinitionInfoViewModel(tuple.id, tuple.name, tuple.versionDateTime))
+            return _dataBase.Select(tuple => new DefinitionInfoViewModel(tuple.id, tuple.name, tuple.versionDateTime,
+		            new RelayCommand(() => { }, () => false),
+		            new RelayCommand(() => { }, () => false),
+		            new RelayCommand(() => { }, () => false)))
                 .ToList();
         }
 

@@ -57,5 +57,29 @@ namespace Unicon2.Shell.Properties {
                 this["RecentProjects"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:5000/")]
+        public string UrlToServer {
+            get {
+                return ((string)(this["UrlToServer"]));
+            }
+            set {
+                this["UrlToServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Admin")]
+        public string ClientSecret {
+            get {
+                return ((string)(this["ClientSecret"]));
+            }
+            set {
+                this["ClientSecret"] = value;
+            }
+        }
     }
 }

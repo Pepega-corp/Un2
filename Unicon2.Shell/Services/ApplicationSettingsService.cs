@@ -38,5 +38,25 @@ namespace Unicon2.Shell.Services
 			Settings.Default.Save();
 
 		}
+
+		public string UrlToServer
+		{
+			get => Settings.Default.UrlToServer;
+			set
+			{
+				Settings.Default.UrlToServer = value;
+				Settings.Default.Save();
+			}
+		}
+
+		public string ClientSecret
+		{
+			get => Settings.Default.ClientSecret;
+			set
+			{
+				Settings.Default.ClientSecret = value;
+				Settings.Default.Save();
+			}
+		}
 	}
 }

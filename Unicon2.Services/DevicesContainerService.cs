@@ -123,6 +123,17 @@ namespace Unicon2.Services
             device.Dispose();
         }
 
+        public void DeleteDeviceDefinition(string deviceName, string folderPath = ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH)
+        {
+	        var creatorFound = Creators.FirstOrDefault(creator => creator.DeviceName == deviceName);
+	        if (creatorFound!=null)
+	        {
+		        File.Delete(creatorFound.DeviceDescriptionFilePath);
+		        LoadDevicesDefinitions(folderPath);
+
+	        }
+        }
+
         public void Refresh()
         {
             ConnectableItemChanged?.Invoke(

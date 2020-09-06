@@ -24,6 +24,7 @@ namespace Unicon2.Infrastructure.Services
         void LoadDevicesDefinitions(string folderPath="Devices");
 
         void UpdateDeviceDefinition(string deviceName);
+        void DeleteDeviceDefinition(string deviceName, string folderPath = "Devices");
 
         void Refresh();
     }

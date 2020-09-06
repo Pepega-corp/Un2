@@ -6,54 +6,28 @@ namespace Unicon2.Web.Presentation.ViewModels
 {
     public class DefinitionInfoViewModel : ViewModelBase
     {
-        public DefinitionInfoViewModel(string id, string name, DateTime versionDateTime)
+        public DefinitionInfoViewModel(string id, string name, DateTime? versionDateTime, ICommand uploadCommand, ICommand updateCommand, ICommand deleteCommand)
         {
             Id = id;
             Name = name;
             VersionDateTime = versionDateTime;
+            UploadCommand = uploadCommand;
+            UpdateCommand = updateCommand;
+            DeleteCommand = deleteCommand;
         }
 
         public string Id { get; }
 
         public string Name { get; }
 
-        public DateTime VersionDateTime { get; }
+        public DateTime? VersionDateTime { get; }
+
+        public ICommand UploadCommand { get; }
+        public ICommand UpdateCommand { get; }
+        public ICommand DeleteCommand { get; }
     }
 
 
-    public class LocalDefinitionInfoViewModel : DefinitionInfoViewModel
-    {
-        private bool _isSynchronized;
 
-        public LocalDefinitionInfoViewModel(string id, string name, DateTime version, ICommand uploadDefinition, bool isSynchronized) : base(
-            id, name, version)
-        {
-            UploadDefinition = uploadDefinition;
-            IsSynchronized = isSynchronized;
-        }
 
-        public bool IsSynchronized
-        {
-            get => _isSynchronized;
-            set
-            {
-                _isSynchronized = value; 
-                RaisePropertyChanged();
-            }
-        }
-
-        public ICommand UploadDefinition { get; }
-    }
-
-    public class ServerDefinitionInfoViewModel : DefinitionInfoViewModel
-    {
-        public ServerDefinitionInfoViewModel(string id, string name, DateTime version, ICommand downloadDefinition) :
-            base(id,
-                name, version)
-        {
-            DownloadDefinition = downloadDefinition;
-        }
-
-        public ICommand DownloadDefinition { get; }
-    }
 }
