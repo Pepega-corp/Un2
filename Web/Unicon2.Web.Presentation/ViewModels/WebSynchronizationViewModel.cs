@@ -4,8 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ControlzEx.Standard;
+using Newtonsoft.Json;
+using Unicon.Common.Model;
+using Unicon.Common.Queries;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
@@ -19,18 +24,18 @@ namespace Unicon2.Web.Presentation.ViewModels
 	{
 		private readonly IApplicationSettingsService _applicationSettingsService;
 		private readonly IDevicesContainerService _devicesContainerService;
-		private readonly HttpClient _httpClient;
 
 		public WebSynchronizationViewModel(IApplicationSettingsService applicationSettingsService,
 			IDevicesContainerService devicesContainerService)
 		{
 			_applicationSettingsService = applicationSettingsService;
 			_devicesContainerService = devicesContainerService;
-			_httpClient = new HttpClient();
 			Definitions = new ObservableCollection<DefinitionInfoViewModel>();
+			UseDefaultUrl = true;
 			//RefreshAll = new RelayCommand();
 			ToggleSettingsPopup = new RelayCommand(OnTogglePopup);
 			RefreshAll();
+
 		}
 
 		private void OnTogglePopup()
@@ -40,6 +45,7 @@ namespace Unicon2.Web.Presentation.ViewModels
 
 		private bool _canConnectToServer;
 		private bool _isSettingsOpen;
+		private bool _useDefaultUrl;
 
 		public bool CanConnectToServer
 		{
@@ -58,13 +64,21 @@ namespace Unicon2.Web.Presentation.ViewModels
 		public string UrlToServer
 		{
 			get => _applicationSettingsService.UrlToServer;
-			set => _applicationSettingsService.UrlToServer = value;
+			set
+			{
+				_applicationSettingsService.UrlToServer = value;
+				RaisePropertyChanged();
+			}
 		}
 
 		public string ClientSecret
 		{
 			get => _applicationSettingsService.ClientSecret;
-			set => _applicationSettingsService.ClientSecret = value;
+			set
+			{
+				_applicationSettingsService.ClientSecret = value;
+				RaisePropertyChanged();
+			}
 		}
 
 		public bool IsSettingsOpen
@@ -79,23 +93,78 @@ namespace Unicon2.Web.Presentation.ViewModels
 
 		public ICommand ToggleSettingsPopup { get; }
 
+		public bool UseDefaultUrl
+		{
+			get => _useDefaultUrl;
+			set
+			{
+				_useDefaultUrl = value; 
+				RaisePropertyChanged();
+			}
+		}
+
 		public async void RefreshAll()
 		{
 			try
 			{
-				await LoadLocalDefinitions();
-				var test = await (await _httpClient.GetAsync(UrlToServer)).Content.ReadAsStringAsync();
-				if (!string.IsNullOrWhiteSpace(test))
+				using (var httpClient = new HttpClient())
 				{
-					CanConnectToServer = true;
-					return;
-				}
+					await LoadLocalDefinitions();
+					if (await LoadServerUrl())
+					{
+						var test = await (await httpClient.GetAsync(UrlToServer)).Content.ReadAsStringAsync();
+						if (!string.IsNullOrWhiteSpace(test))
+						{
+							CanConnectToServer = true;
+							await LoadRemoteDefinitions();
+							return;
+						}
 
-				CanConnectToServer = false;
+						CanConnectToServer = false;
+					}
+				}
 			}
 			catch
 			{
 				CanConnectToServer = false;
+			}
+		}
+
+		private async Task LoadRemoteDefinitions()
+		{
+			using (var httpClient = new HttpClient())
+			{
+				var commandString = new GetDeviceDefinitionsQuery();
+				var response = await httpClient.PostAsync(UrlToServer + "api/v1/root/command", new StringContent(
+					JsonConvert.SerializeObject(
+						commandString, new JsonSerializerSettings()
+						{
+							TypeNameHandling = TypeNameHandling.All
+						}), Encoding.UTF8, "application/json"));
+				var result =
+					JsonConvert.DeserializeObject<List<DeviceDefinition>>(await response.Content.ReadAsStringAsync());
+			}
+		}
+
+		private async Task<bool> LoadServerUrl()
+		{
+			if (!UseDefaultUrl) return true;
+			using (var httpClient=new HttpClient())
+			{
+				var response=await httpClient.GetStringAsync(
+					"https://docs.google.com/document/d/1TMzTTGtSWLjgFhiOPl8Q9usSt0PF0HBCpz-zHsHc_wI");
+				var x=Regex.Matches(response, "ReferenceForUnicon: {(\\S*)}");
+				try
+				{
+					var url = x[0].Groups[1].Value;
+					UrlToServer = url;
+					return true;
+				}
+				catch (Exception)
+				{
+					CanConnectToServer = false;
+					return false;
+				}
 			}
 		}
 
@@ -114,12 +183,27 @@ namespace Unicon2.Web.Presentation.ViewModels
 			return new DefinitionInfoViewModel(creator.DeviceMetaInfo.Id.ToString(), creator.DeviceName,
 				creator.DeviceMetaInfo.LastEditedDateTime,
 				new RelayCommand(() => { }, () => false),
-				new RelayCommand(() => { }, () => false),
+				new RelayCommand(() =>
+				{
+
+				}, () => false),
 				new RelayCommand(() =>
 				{
 					_devicesContainerService.DeleteDeviceDefinition(creator.DeviceName);
 					RefreshAll();
 				}, () => true));
 		}
+		//private DefinitionInfoViewModel CreateRemoteDefinitionInfoViewModel(DeviceDefinition deviceDefinition)
+		//{
+		//	return new DefinitionInfoViewModel(deviceDefinition.Id.ToString(), deviceDefinition..DeviceName,
+		//		creator.DeviceMetaInfo.LastEditedDateTime,
+		//		new RelayCommand(() => { }, () => false),
+		//		new RelayCommand(() => { }, () => false),
+		//		new RelayCommand(() =>
+		//		{
+		//			_devicesContainerService.DeleteDeviceDefinition(creator.DeviceName);
+		//			RefreshAll();
+		//		}, () => true));
+		//}
 	}
 }

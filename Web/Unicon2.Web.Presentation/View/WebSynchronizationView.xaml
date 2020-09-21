@@ -53,7 +53,8 @@
                     StaysOpen="False">
                     <Border BorderBrush="{DynamicResource AccentColorBrush3}" BorderThickness="1">
                         <UniformGrid Background="White" Columns="2">
-
+<CheckBox Margin="5" Content="{lex:Loc UseDefault}" IsChecked="{Binding UseDefaultUrl}"></CheckBox>
+                            <Grid></Grid>
                             <TextBlock Margin="5" Text="{lex:Loc ServerAddress}" />
                             <TextBox
                                 MinWidth="200"

@@ -24,45 +24,65 @@ namespace Unicon2.Web.Presentation.Module
     {
         public async void Initialize(ITypesContainer container)
         {
-            var res = "";
-            using (StringWriter writer = new StringWriter())
-            {
-                var jsonSerializerSettings = new JsonSerializerSettings()
-                {
-                    Formatting = Formatting.Indented,
-                    TypeNameHandling = TypeNameHandling.All,
-                };
-                writer.Write(JsonConvert.SerializeObject(new GetDeviceDefinitionsQuery("pupa",null), jsonSerializerSettings));
-                res = writer.ToString();
-                var client = new HttpClient();
-                var resg= await client.PostAsync("https://localhost:32778/api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
-                var resContent=await resg.Content.ReadAsStringAsync();
-                var resTyped=JsonConvert.DeserializeObject<Result<List<DeviceDefinition>>>(resContent);
+            //var res = "";
+            //var url = "http://f06c99c4389c.ngrok.io/";
+            //using (StringWriter writer = new StringWriter())
+            //{
+            //    var jsonSerializerSettings = new JsonSerializerSettings()
+            //    {
+            //        Formatting = Formatting.Indented,
+            //        TypeNameHandling = TypeNameHandling.All,
+            //    };
+            //    writer.Write(JsonConvert.SerializeObject(new GetDeviceDefinitionsQuery("pupa",null), jsonSerializerSettings));
+            //    res = writer.ToString();
+            //    var client = new HttpClient();
+            //    var resg= await client.PostAsync(url+"api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
+            //    var resContent=await resg.Content.ReadAsStringAsync();
+            //    var resTyped=JsonConvert.DeserializeObject<Result<List<DeviceDefinition>>>(resContent);
 
 
-            }
-            var res2 = "";
-            using (StringWriter writer = new StringWriter())
-            {
-	            var jsonSerializerSettings = new JsonSerializerSettings()
-	            {
-		            Formatting = Formatting.Indented,
-		            TypeNameHandling = TypeNameHandling.All,
-	            };
-	            writer.Write(JsonConvert.SerializeObject(new GetStoreSnapshotQuery()
-	            {
+            //}
+            //List<CommandRecord> res2;
+
+            //using (StringWriter writer = new StringWriter())
+            //{
+	           // var jsonSerializerSettings = new JsonSerializerSettings()
+	           // {
+		          //  Formatting = Formatting.Indented,
+		          //  TypeNameHandling = TypeNameHandling.All,
+	           // };
+	           // writer.Write(JsonConvert.SerializeObject(new GetStoreSnapshotQuery()
+	           // {
                   
-	            }, jsonSerializerSettings));
-	            res = writer.ToString();
-	            var client = new HttpClient();
-	            var resg = await client.PostAsync("https://localhost:32780/api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
-	            var resContent = await resg.Content.ReadAsStringAsync();
-	            var resTyped = JsonConvert.DeserializeObject<Result<List<CommandRecord>>>(resContent);
+	           // }, jsonSerializerSettings));
+	           // res = writer.ToString();
+	           // var client = new HttpClient();
+	           // var resg = await client.PostAsync(url + "api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
+	           // var resContent = await resg.Content.ReadAsStringAsync();
+	           // var resTyped = JsonConvert.DeserializeObject<Result<List<CommandRecord>>>(resContent);
+	           // res2 = resTyped.Item;
+
+            //}
+
+            //using (StringWriter writer = new StringWriter())
+            //{
+	           // var jsonSerializerSettings = new JsonSerializerSettings()
+	           // {
+		          //  Formatting = Formatting.Indented,
+		          //  TypeNameHandling = TypeNameHandling.All,
+	           // };
+	           // writer.Write(JsonConvert.SerializeObject(new UploadSnapshotCommand(res2)
+	           // {
+
+	           // }, jsonSerializerSettings));
+	           // res = writer.ToString();
+	           // var client = new HttpClient();
+	           // var resg = await client.PostAsync(url + "api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
+	           // var resContent = await resg.Content.ReadAsStringAsync();
+	            
 
 
-            }
-
-
+            //}
             container.Register<WebSynchronizationViewModel>();
 
             container.Resolve<IApplicationGlobalCommands>().ShellLoaded += () =>
