@@ -10,5 +10,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
         string ProjectPath { get; }
         List<ISchemeModel> Schemes { get; }
         List<IConnection> Connections { get; }
+        string LogicHeader { get; set; }
     }
 }

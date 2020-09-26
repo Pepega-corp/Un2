@@ -35,6 +35,9 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FluentValidation.8.4.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -44,6 +47,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -65,6 +69,7 @@
     <Compile Include="Models\ProgrammModelEditor.cs" />
     <Compile Include="Module\ProgrammingEditorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\ProgrammingEditorViewModelValidator.cs" />
     <Compile Include="ViewModel\EditElementViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\InputEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OutputEditorViewModel.cs" />
@@ -114,6 +119,10 @@
     <ProjectReference Include="..\..\..\Unicon2.Unity\Unicon2.Unity.csproj">
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Configuration\Unicon2.Fragments.Configuration.Editor\Unicon2.Fragments.Configuration.Editor.csproj">
+      <Project>{D1A9A1AC-BFAA-4DA5-AB7D-DB7D082EDFA4}</Project>
+      <Name>Unicon2.Fragments.Configuration.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unicon2.Fragments.Programming.Infrastructure\Unicon2.Fragments.Programming.Infrastructure.csproj">
       <Project>{E77573FC-2072-40FC-B4E4-A13A4F3937C4}</Project>

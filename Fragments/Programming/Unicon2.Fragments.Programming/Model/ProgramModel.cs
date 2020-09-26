@@ -32,6 +32,7 @@ namespace Unicon2.Fragments.Programming.Model
         [JsonProperty] public string ProjectName { get; set; }
         [JsonProperty] public List<ISchemeModel> Schemes { get; private set; }
         [JsonProperty] public List<IConnection> Connections { get; private set; }
+        [JsonProperty] public string LogicHeader { get; set; }
         public string StrongName => ProgrammingKeys.PROGRAMMING;
         public IFragmentSettings FragmentSettings { get; set; }
         public string ProjectPath { get; }

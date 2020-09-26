@@ -6,5 +6,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
     public interface IProgrammModelEditor: IDeviceFragment
     {
         List<ILibraryElement> Elements { get; set; }
+        string LogicHeader { get; set; }
     }
 }

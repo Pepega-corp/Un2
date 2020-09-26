@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
-using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
@@ -274,6 +273,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
 	        {
 		        var logicElementsViewModels = this._factory.GetAllElementsViewModels(modelEditor.Elements);
 		        this.ElementsLibrary.AddCollection(logicElementsViewModels);
+
+	            this._programModel.LogicHeader = modelEditor.LogicHeader;
 	        }
         }
 

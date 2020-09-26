@@ -12,6 +12,7 @@ namespace Unicon2.Fragments.Programming.Editor.Models
         [JsonProperty] public List<ILibraryElement> Elements { get; set; }
         public string StrongName => ProgrammingKeys.PROGRAMMING;
         public IFragmentSettings FragmentSettings { get; set; }
+        public string LogicHeader { get; set; }
 
         public ProgrammModelEditor()
         {

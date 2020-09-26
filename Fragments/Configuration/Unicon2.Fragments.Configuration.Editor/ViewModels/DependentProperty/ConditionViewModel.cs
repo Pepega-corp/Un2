@@ -6,7 +6,6 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Services;
@@ -15,7 +14,6 @@ using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
-using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
 {
