@@ -43,8 +43,12 @@ namespace Unicon2.Fragments.Measuring.Helpers
             DeviceContext deviceContext)
         {
             if(string.IsNullOrWhiteSpace(boolToAddressDependency.RelatedResourceName))return Result<bool>.Create(false);
-            var res = deviceContext.DeviceSharedResources.SharedResourcesInContainers.First(container =>
+            var res = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(container =>
                 container.ResourceName == boolToAddressDependency.RelatedResourceName);
+            if (res == null)
+            {
+
+            }
             if (res.Resource is IDiscretMeasuringElement discretMeasuringElement)
             {
                 return await discretMeasuringElement.GetDiscretElementValue(deviceContext);

@@ -54,6 +54,7 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
         public static void SetUshortsInMemory(IDeviceMemory deviceMemory, ushort address,
             ushort[] values, bool isLocal)
         {
+            if(deviceMemory==null)return;
             if (isLocal)
             {
                 SetUshortsInMemoryDictionary(deviceMemory.LocalMemoryValues, address, values);

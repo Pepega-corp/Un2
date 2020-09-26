@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -17,6 +18,8 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         [JsonProperty] public ushort Address { get; set; }
         [JsonProperty] public ushort NumberOfPoints { get; set; }
+        [DefaultValue(16)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)] public ushort NumberOfWriteFunction { get; set; }
         [JsonProperty] public string MeasureUnit { get; set; }
 
         [JsonProperty] public bool IsMeasureUnitEnabled { get; set; }

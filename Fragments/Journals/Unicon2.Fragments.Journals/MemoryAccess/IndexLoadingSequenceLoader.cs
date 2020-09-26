@@ -2,6 +2,7 @@
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Model.JournalLoadingSequence;
 using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Journals.MemoryAccess
@@ -26,7 +27,7 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
             return _lastQueryErrorCode != 0;
         }
 
-        public async Task<ushort[]> GetNextRecordUshorts()
+        public async Task<Result<ushort[]>> GetNextRecordUshorts()
         {
            var res= await _dataProviderContainer.DataProvider.WriteSingleRegisterAsync(
                 _indexLoadingSequence.IndexWritingAddress, _currentRecordIndex, "Write");
@@ -37,8 +38,12 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
                 _indexLoadingSequence.JournalStartAddress,
                 _indexLoadingSequence.NumberOfPointsInRecord,
                 JournalKeys.JOURNAL_RECORD_READING_QUERY);
+            if (!queryResult.IsSuccessful)
+            {
+                return Result<ushort[]>.Create(false);
+            }
             _lastQueryErrorCode = queryResult.Result[0];
-            return queryResult.Result;
+            return Result<ushort[]>.Create(queryResult.Result, true);
         }
     }
 }

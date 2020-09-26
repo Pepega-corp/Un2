@@ -19,7 +19,7 @@ namespace Unicon2.Localization.Properties {
     // с помощью такого средства, как ResGen или Visual Studio.
     // Чтобы добавить или удалить член, измените файл .ResX и снова запустите ResGen
     // с параметром /str или перестройте свой проект VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1078,6 +1078,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @DateFormat.
+        /// </summary>
+        public static string DateFormat {
+            get {
+                return ResourceManager.GetString("DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @DateTime.
         /// </summary>
         public static string DateTime {
@@ -1146,6 +1155,15 @@ namespace Unicon2.Localization.Properties {
         public static string DefaultItemGroup {
             get {
                 return ResourceManager.GetString("DefaultItemGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @DefaultMessage.
+        /// </summary>
+        public static string DefaultMessage {
+            get {
+                return ResourceManager.GetString("DefaultMessage", resourceCulture);
             }
         }
         
@@ -3765,6 +3783,15 @@ namespace Unicon2.Localization.Properties {
         public static string Update {
             get {
                 return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @UseDefaultMessage.
+        /// </summary>
+        public static string UseDefaultMessage {
+            get {
+                return ResourceManager.GetString("UseDefaultMessage", resourceCulture);
             }
         }
         

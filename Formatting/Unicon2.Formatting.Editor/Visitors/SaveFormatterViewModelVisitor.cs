@@ -76,8 +76,9 @@ namespace Unicon2.Formatting.Editor.Visitors
             {
                 formatter.StringDictionary.Add(bkvp.Key, bkvp.Value);
             }
-
             formatter.IsKeysAreNumbersOfBits = formatterViewModel.IsKeysAreNumbersOfBits;
+            formatter.UseDefaultMessage = formatterViewModel.UseDefaultMessage;
+            formatter.DefaultMessage = formatterViewModel.DefaultMessage;
             return formatter;
         }
 

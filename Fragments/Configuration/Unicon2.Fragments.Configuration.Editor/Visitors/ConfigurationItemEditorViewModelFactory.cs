@@ -73,6 +73,9 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 .CreateFormatterViewModel(property.UshortsFormatter);
             editorPropertyViewModel.FormatterParametersViewModel = formatterParametersViewModel;
 
+            editorPropertyViewModel.NumberOfWriteFunction = property.NumberOfWriteFunction;
+
+
             ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
 	            StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
             if (sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesWithContainersContainsModel(property))
@@ -105,9 +108,9 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 
                 res.IsMain = itemsGroup.IsMain ?? false;
                 res.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
-                InitializeBaseProperties(res, itemsGroup);
+                
             }
-
+            InitializeBaseProperties(res, itemsGroup);
             return res;
         }
 
@@ -116,7 +119,13 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         public IEditorConfigurationItemViewModel VisitProperty(IProperty property)
         {
             var res = _container.Resolve<IPropertyEditorViewModel>();
-            if (property != null) InitializeProperty(res, property);
+            if (property != null)
+            {InitializeProperty(res, property);
+            }
+            else
+            {
+                InitializeBaseProperties(res, property);
+            }
             return res;
         }
 

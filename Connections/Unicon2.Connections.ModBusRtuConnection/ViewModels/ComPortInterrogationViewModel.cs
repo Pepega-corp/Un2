@@ -88,50 +88,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             (AddDeviceCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
             RaisePropertyChanged(nameof(IsInterrogationNotInProcess));
             DeviceDefinitionViewModels.Clear();
-            if (Is115200Checked)
-            {
-                await CheckDevices(115200);
-            }
-            if (Is1200Checked)
-            {
-                await CheckDevices(1200);
-            }
-            if (Is19200Checked)
-            {
-                await CheckDevices(19200);
-            }
-            if (Is230400Checked)
-            {
-                await CheckDevices(230400);
-            }
-            if (Is2400Checked)
-            {
-                await CheckDevices(2400);
-            }
-            if (Is38400Checked)
-            {
-                await CheckDevices(38400);
-            }
-            if (Is460800Checked)
-            {
-                await CheckDevices(460800);
-            }
-            if (Is4800Checked)
-            {
-                await CheckDevices(4800);
-            }
-            if (Is57600Checked)
-            {
-                await CheckDevices(57600);
-            }
-            if (Is921600Checked)
-            {
-                await CheckDevices(921600);
-            }
-            if (Is9600Checked)
-            {
-                await CheckDevices(9600);
-            }
+            await CheckDevices();
             IsInterrogationNotInProcess = true;
             _isInterrogationStopped = false;
             (StopInterrogationCommand as RelayCommand)?.RaiseCanExecuteChanged();
@@ -146,7 +103,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             RaisePropertyChanged(nameof(IsInterrogationNotInProcess));
         }
 
-        private async Task CheckDevices(int baudRate)
+        private async Task CheckDevices()
         {
             if (_isInterrogationStopped)
             {
@@ -158,7 +115,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
                 if (creator.ConnectionState.DefaultComPortConfiguration == null) continue;
                 _modbusRtuConnection.ComPortConfiguration = creator.ConnectionState.DefaultComPortConfiguration;
                 _modbusRtuConnection.SlaveId = SlaveId;
-                _modbusRtuConnection.ComPortConfiguration.BaudRate = baudRate;
                 System.Collections.Generic.List<string> ports = _modbusRtuConnection.GetAvailablePorts();
                 var device=creator.Create();
                 foreach (string port in ports)
@@ -204,116 +160,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 
         public ICommand AddDeviceCommand { get; }
 
-        public bool Is1200Checked
-        {
-            get { return _is1200Checked; }
-            set
-            {
-                _is1200Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is2400Checked
-        {
-            get { return _is2400Checked; }
-            set
-            {
-                _is2400Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is4800Checked
-        {
-            get { return _is4800Checked; }
-            set
-            {
-                _is4800Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is9600Checked
-        {
-            get { return _is9600Checked; }
-            set
-            {
-                _is9600Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is19200Checked
-        {
-            get { return _is19200Checked; }
-            set
-            {
-                _is19200Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is38400Checked
-        {
-            get { return _is38400Checked; }
-            set
-            {
-                _is38400Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is57600Checked
-        {
-            get { return _is57600Checked; }
-            set
-            {
-                _is57600Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is115200Checked
-        {
-            get { return _is115200Checked; }
-            set
-            {
-                _is115200Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is230400Checked
-        {
-            get { return _is230400Checked; }
-            set
-            {
-                _is230400Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is460800Checked
-        {
-            get { return _is460800Checked; }
-            set
-            {
-                _is460800Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool Is921600Checked
-        {
-            get { return _is921600Checked; }
-            set
-            {
-                _is921600Checked = value;
-                RaisePropertyChanged();
-            }
-        }
-
+   
         public byte SlaveId
         {
             get { return _slaveId; }

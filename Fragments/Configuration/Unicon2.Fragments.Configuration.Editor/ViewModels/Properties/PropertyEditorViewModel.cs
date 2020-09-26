@@ -27,6 +27,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 		private bool _isRangeEnabled;
 		private bool _isMeasureUnitEnabled;
 	    private IFormatterParametersViewModel _formatterParametersViewModel;
+	    private ushort _numberOfWriteFunction;
 
 	    public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
 			ILocalizerService localizerService)
@@ -59,7 +60,18 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 		}
 
 
-		public bool IsInEditMode
+	    public ushort NumberOfWriteFunction
+	    {
+	        get => _numberOfWriteFunction;
+	        set
+	        {
+	            _numberOfWriteFunction = value;
+	            RaisePropertyChanged();
+
+            }
+        }
+
+	    public bool IsInEditMode
 		{
 			get { return _isInEditMode; }
 			set

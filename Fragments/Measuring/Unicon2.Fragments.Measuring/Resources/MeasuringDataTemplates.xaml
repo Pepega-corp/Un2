@@ -112,7 +112,7 @@
                         Grid.Column="0"
                         Margin="1"
                         IsEnabled="{Binding IsInEditMode}"
-                        Text="{Binding Date}" />
+                        Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBlock
                         Grid.Row="0"
@@ -124,7 +124,7 @@
                         Grid.Column="1"
                         Margin="1"
                         IsEnabled="{Binding IsInEditMode}"
-                        Text="{Binding Time}" />
+                        Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}" />
 
                 </Grid>
                 <CheckBox

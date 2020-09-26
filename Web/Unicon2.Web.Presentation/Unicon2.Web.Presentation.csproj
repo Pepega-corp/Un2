@@ -101,8 +101,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Unicon.Backend\Api\Unicon.Common\Unicon.Common.csproj">
-      <Project>{9FE2F6AC-34DB-4FAB-87F0-92B9454BFCD7}</Project>
+    <ProjectReference Include="..\..\Backend\Unicon.Common\Unicon.Common.csproj">
+      <Project>{10FB27E3-4C8D-4031-B63C-81C21D9FC277}</Project>
       <Name>Unicon.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">

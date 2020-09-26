@@ -1458,4 +1458,13 @@
   <data name="FormattingIfTrue" xml:space="preserve">
     <value>Форматирование если да</value>
   </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>ДД,ММ,ГГ</value>
+  </data>
+  <data name="DefaultMessage" xml:space="preserve">
+    <value>Сообщение по умолчанию</value>
+  </data>
+  <data name="UseDefaultMessage" xml:space="preserve">
+    <value>Использовать сообщение по умолчанию</value>
+  </data>
 </root>

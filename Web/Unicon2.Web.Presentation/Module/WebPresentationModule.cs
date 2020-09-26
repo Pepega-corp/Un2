@@ -46,40 +46,40 @@ namespace Unicon2.Web.Presentation.Module
 
             //using (StringWriter writer = new StringWriter())
             //{
-	           // var jsonSerializerSettings = new JsonSerializerSettings()
-	           // {
-		          //  Formatting = Formatting.Indented,
-		          //  TypeNameHandling = TypeNameHandling.All,
-	           // };
-	           // writer.Write(JsonConvert.SerializeObject(new GetStoreSnapshotQuery()
-	           // {
-                  
-	           // }, jsonSerializerSettings));
-	           // res = writer.ToString();
-	           // var client = new HttpClient();
-	           // var resg = await client.PostAsync(url + "api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
-	           // var resContent = await resg.Content.ReadAsStringAsync();
-	           // var resTyped = JsonConvert.DeserializeObject<Result<List<CommandRecord>>>(resContent);
-	           // res2 = resTyped.Item;
+            //    var jsonSerializerSettings = new JsonSerializerSettings()
+            //    {
+            //        Formatting = Formatting.Indented,
+            //        TypeNameHandling = TypeNameHandling.All,
+            //    };
+            //    writer.Write(JsonConvert.SerializeObject(new GetStoreSnapshotQuery()
+            //    {
+
+            //    }, jsonSerializerSettings));
+            //   var res = writer.ToString();
+            //    var client = new HttpClient();
+            //    var resg = await client.PostAsync("http://e660e222cc9c.ngrok.io/" + "api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
+            //    var resContent = await resg.Content.ReadAsStringAsync();
+            //    var resTyped = JsonConvert.DeserializeObject<Result<List<CommandRecord>>>(resContent);
+            //   var res2 = resTyped.Item;
 
             //}
 
             //using (StringWriter writer = new StringWriter())
             //{
-	           // var jsonSerializerSettings = new JsonSerializerSettings()
-	           // {
-		          //  Formatting = Formatting.Indented,
-		          //  TypeNameHandling = TypeNameHandling.All,
-	           // };
-	           // writer.Write(JsonConvert.SerializeObject(new UploadSnapshotCommand(res2)
-	           // {
+            // var jsonSerializerSettings = new JsonSerializerSettings()
+            // {
+            //  Formatting = Formatting.Indented,
+            //  TypeNameHandling = TypeNameHandling.All,
+            // };
+            // writer.Write(JsonConvert.SerializeObject(new UploadSnapshotCommand(res2)
+            // {
 
-	           // }, jsonSerializerSettings));
-	           // res = writer.ToString();
-	           // var client = new HttpClient();
-	           // var resg = await client.PostAsync(url + "api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
-	           // var resContent = await resg.Content.ReadAsStringAsync();
-	            
+            // }, jsonSerializerSettings));
+            // res = writer.ToString();
+            // var client = new HttpClient();
+            // var resg = await client.PostAsync(url + "api/v1/root/command", new StringContent(res, Encoding.UTF8, "application/json"));
+            // var resContent = await resg.Content.ReadAsStringAsync();
+
 
 
             //}

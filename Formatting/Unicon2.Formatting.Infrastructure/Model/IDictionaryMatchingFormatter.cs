@@ -7,5 +7,7 @@ namespace Unicon2.Formatting.Infrastructure.Model
     {
         Dictionary<ushort, string> StringDictionary { get; set; }
         bool IsKeysAreNumbersOfBits { get; set; }
+        bool UseDefaultMessage { get; set; }
+        string DefaultMessage { get; set; }
     }
 }

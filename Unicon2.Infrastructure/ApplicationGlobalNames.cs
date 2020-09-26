@@ -176,6 +176,10 @@
             public const string FORMAT_ERROR = "FormatError";
 
             /// <summary>
+            ///  строка сообщения об ошибке формата
+            /// </summary>
+            public const string DATE_FORMAT = "DateFormat";
+            /// <summary>
             ///  строка сообщения о неверном диапазоне
             /// </summary>
             public const string INVALID_RANGE_ERROR = "InvalidRangeError";

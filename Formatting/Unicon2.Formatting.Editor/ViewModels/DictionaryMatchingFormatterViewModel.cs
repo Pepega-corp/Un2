@@ -17,6 +17,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private BindableKeyValuePair<ushort, string> _selectedKeyValuePair;
         //private DictionaryMatchingFormatterValidator _validator;
         private bool _isKeysIsNumbersOfBits;
+        private bool _useDefaultMessage;
+        private string _defaultMessage;
 
         public DictionaryMatchingFormatterViewModel()
         {
@@ -106,6 +108,26 @@ namespace Unicon2.Formatting.Editor.ViewModels
             set
             {
                 _isKeysIsNumbersOfBits = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool UseDefaultMessage
+        {
+            get => _useDefaultMessage;
+            set
+            {
+                _useDefaultMessage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string DefaultMessage
+        {
+            get => _defaultMessage;
+            set
+            {
+                _defaultMessage = value;
                 RaisePropertyChanged();
             }
         }

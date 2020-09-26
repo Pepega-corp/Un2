@@ -1455,4 +1455,13 @@
   <data name="FormattingIfTrue" xml:space="preserve">
     <value>Formatting If True</value>
   </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>DD,MM,YY</value>
+  </data>
+  <data name="DefaultMessage" xml:space="preserve">
+    <value>Default message</value>
+  </data>
+  <data name="UseDefaultMessage" xml:space="preserve">
+    <value>Use default message</value>
+  </data>
 </root>

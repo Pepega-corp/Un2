@@ -1449,4 +1449,13 @@
   <data name="FormattingIfTrue" xml:space="preserve">
     <value>@FormattingIfTrue</value>
   </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>@DateFormat</value>
+  </data>
+  <data name="DefaultMessage" xml:space="preserve">
+    <value>@DefaultMessage</value>
+  </data>
+  <data name="UseDefaultMessage" xml:space="preserve">
+    <value>@UseDefaultMessage</value>
+  </data>
 </root>

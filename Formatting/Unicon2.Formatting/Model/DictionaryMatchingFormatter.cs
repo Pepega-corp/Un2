@@ -37,5 +37,7 @@ namespace Unicon2.Formatting.Model
 
         [JsonProperty] public Dictionary<ushort, string> StringDictionary { get; set; }
         [JsonProperty] public bool IsKeysAreNumbersOfBits { get; set; }
+        [JsonProperty] public bool UseDefaultMessage { get; set; }
+        [JsonProperty] public string DefaultMessage { get; set; }
     }
 }

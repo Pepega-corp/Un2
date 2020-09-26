@@ -156,11 +156,40 @@
                         Command="{Binding AddSelectedElementAsResourceCommand}"
                         Content="{lex:Loc AddAsResource}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <Button
-                        Margin="3"
-                        Command="{Binding EditDescriptionCommand}"
-                        Content="{lex:Loc EditDescription}"
-                        Style="{DynamicResource UniconButtonStyle}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Grid.Column="0"
+                            Margin="3"
+                            Command="{Binding EditDescriptionCommand}"
+                            Content="{lex:Loc EditDescription}"
+                            Style="{DynamicResource UniconButtonStyle}" />
+                        <Button
+                            Name="additionalSettingsButton"
+                            Grid.Column="1"
+                            Margin="3"
+                            Command="{Binding TriggerAdditionalSettingsCommand}"
+                            Content=" ... "
+                            IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IPropertyEditorViewModel}"
+                            Style="{DynamicResource UniconButtonStyle}" />
+                        <Popup
+                            IsOpen="{Binding IsAdditionalSettingsOpened}"
+                            Placement="Mouse"
+                            StaysOpen="False">
+                            <Border
+                                Background="White"
+                                BorderBrush="Black"
+                                BorderThickness="1">
+                                <StackPanel Margin="10" Orientation="Horizontal">
+                                    <TextBlock Margin="5" Text="{lex:Loc WriteFunction}" />
+                                    <TextBox Text="{Binding SelectedRow.NumberOfWriteFunction}" />
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+                    </Grid>
                     <UniformGrid Columns="2" Rows="2">
                         <Button
                             Margin="3"

@@ -91,6 +91,8 @@ namespace Unicon2.Formatting.Editor.Factories
             }
 
             vm.IsKeysAreNumbersOfBits = dictionaryMatchingFormatter.IsKeysAreNumbersOfBits;
+            vm.DefaultMessage = dictionaryMatchingFormatter.DefaultMessage;
+            vm.UseDefaultMessage = dictionaryMatchingFormatter.UseDefaultMessage;
             return vm;
 
         }

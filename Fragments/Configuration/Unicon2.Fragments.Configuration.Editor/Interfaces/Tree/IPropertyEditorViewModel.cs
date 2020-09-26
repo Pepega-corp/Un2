@@ -12,5 +12,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
     {
         string Address { get; set; }
         string NumberOfPoints { get; set; }
+        ushort NumberOfWriteFunction { get; set; }
     }
 }

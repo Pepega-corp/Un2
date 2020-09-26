@@ -34,6 +34,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private IEditorConfigurationItemViewModel _selectedRow;
         private IEditorConfigurationItemViewModel _bufferConfigurationItem;
         private ushort _addressIteratorValue;
+        private bool _isAdditionalSettingsOpened;
 
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
@@ -102,6 +103,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 new RelayCommand(OnEditDescriptionExecute, CanExecuteEditDescription);
 			IncreaseAddressCommand=new RelayCommand(()=>OnChangeAddress(true),()=>SelectedRow is IAddressChangeable);
 			DecreaseAddressCommand = new RelayCommand(() => OnChangeAddress(false), () => SelectedRow is IAddressChangeable);
+            TriggerAdditionalSettingsCommand=new RelayCommand(() => { IsAdditionalSettingsOpened = true;});
 			AddressIteratorValue = 1;
         }
 
@@ -259,13 +261,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnAddChildElementExecute()
         {
-            if (SelectedRow is IChildAddable)
+            if (SelectedRow is IChildAddable parent)
             {
 
                 IEditorConfigurationItemViewModel configurationEditorViewModel =
                     (SelectedRow as IChildAddable).AddChildElement() as IEditorConfigurationItemViewModel;
                 PrepareAdding();
                 SelectedRow = configurationEditorViewModel;
+                
                 CompleteAdding();
             }
         }
@@ -354,6 +357,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ICommand EditDescriptionCommand { get; }
         public ICommand DecreaseAddressCommand { get; }
         public ICommand IncreaseAddressCommand { get; }
+        public ICommand TriggerAdditionalSettingsCommand { get; }
 
         public ushort AddressIteratorValue
         {
@@ -368,6 +372,15 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollection { get; set; }
 
+        public bool IsAdditionalSettingsOpened
+        {
+            get => _isAdditionalSettingsOpened;
+            set
+            {
+                _isAdditionalSettingsOpened = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private bool CanExecuteShowFormatterParameters()
         {

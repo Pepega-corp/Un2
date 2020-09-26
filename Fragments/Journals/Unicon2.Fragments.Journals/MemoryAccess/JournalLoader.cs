@@ -52,12 +52,16 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
             var sequenceLoader =
                 new SequenceLoaderFactory().CreateSequenceLoader(_uniconJournal.JournalLoadingSequence,
                     _dataProviderContainer);
+            _uniconJournalViewModel.Table.Values.Clear();
             while (sequenceLoader.GetIsNextRecordAvailable())
             {
                 var recordValues = await sequenceLoader.GetNextRecordUshorts();
-
+                if (!recordValues.IsSuccess)
+                {
+                    break;
+                }
                 IJournalRecord newRec =
-                    _journalRecordFactory.CreateJournalRecord(recordValues, _uniconJournal.RecordTemplate);
+                    _journalRecordFactory.CreateJournalRecord(recordValues.Item, _uniconJournal.RecordTemplate);
                 if (newRec != null)
                 {
                     _uniconJournal.JournalRecords.Add(newRec);

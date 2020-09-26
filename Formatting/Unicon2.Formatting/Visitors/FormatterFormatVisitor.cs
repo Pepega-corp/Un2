@@ -251,6 +251,11 @@ namespace Unicon2.Formatting.Visitors
 
             if (!dictionaryMatchingFormatter.StringDictionary.Any((pair => pair.Key == _ushortsPayload[0])))
             {
+                if (dictionaryMatchingFormatter.UseDefaultMessage)
+                {
+                    chosenFromListValue.SelectedItem = dictionaryMatchingFormatter.DefaultMessage;
+                    return chosenFromListValue;
+                }
                 chosenFromListValue.SelectedItem = this._ushortsPayload[0].ToString();
                 return chosenFromListValue;
             };

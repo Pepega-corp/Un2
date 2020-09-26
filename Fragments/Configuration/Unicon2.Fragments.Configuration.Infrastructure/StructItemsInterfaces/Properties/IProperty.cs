@@ -7,5 +7,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.P
     {
         ushort Address { get; set; }
         ushort NumberOfPoints { get; set; }
+        ushort NumberOfWriteFunction { get; set; }
     }
 }

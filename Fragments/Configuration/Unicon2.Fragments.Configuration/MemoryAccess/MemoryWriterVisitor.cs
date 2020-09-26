@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Prope
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -66,7 +67,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort)range.RangeFrom;
                     ushort rangeTo = (ushort)range.RangeTo;
-                    return WriteRange(_deviceContext.DataProviderContainer.DataProvider, rangeFrom, rangeTo, _deviceContext.DeviceMemory);
+                    return WriteRange(_deviceContext.DataProviderContainer.DataProvider, rangeFrom, rangeTo, _deviceContext.DeviceMemory,16);
                 };
 
             Task applySettingByKey = _configuration.FragmentSettings?.ApplySettingByKey(
@@ -105,8 +106,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         public async Task VisitProperty(IProperty property)
         {
-	        await WriteRange(_deviceContext.DataProviderContainer.DataProvider, (ushort) (property.Address + _offset),
-		        (ushort) (property.Address + _offset + property.NumberOfPoints), _deviceContext.DeviceMemory);
+           
+                await WriteRange(_deviceContext.DataProviderContainer.DataProvider,
+                    (ushort) (property.Address + _offset),
+                    (ushort) (property.Address + _offset + property.NumberOfPoints), _deviceContext.DeviceMemory,property.NumberOfWriteFunction);
+            
         }
 
         public async Task VisitComplexProperty(IComplexProperty property)
@@ -130,7 +134,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 		}
 
         private async Task WriteRange(IDataProvider dataProvider, ushort rangeFrom, ushort rangeTo,
-            IDeviceMemory memory)
+            IDeviceMemory memory,ushort functionNumber)
         {
             if (IfWritten(_writtenAddresses, rangeFrom, rangeTo))
             {
@@ -173,9 +177,18 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 }
             }
 
-            var res = await dataProvider.WriteMultipleRegistersAsync(rangeFrom,
-                valuesToWrite.ToArray(), ConfigurationKeys.WRITING_CONFIGURATION_QUERY);
-            if (res.IsSuccessful)
+            IQueryResult res=null;
+            if (functionNumber == 16)
+            {
+                res = await dataProvider.WriteMultipleRegistersAsync(rangeFrom,
+                    valuesToWrite.ToArray(), ConfigurationKeys.WRITING_CONFIGURATION_QUERY);
+            }
+            if (functionNumber == 6)
+            {
+                res = await dataProvider.WriteSingleRegisterAsync(rangeFrom,
+                    valuesToWrite.First(), ConfigurationKeys.WRITING_CONFIGURATION_QUERY);
+            }
+            if (res!=null&&res.IsSuccessful)
             {
                 for (var i = rangeFrom; i < rangeTo; i++)
                 {

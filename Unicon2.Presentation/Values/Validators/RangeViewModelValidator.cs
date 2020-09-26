@@ -12,6 +12,7 @@ namespace Unicon2.Presentation.Values.Validators
         {
             RuleFor(model => model.RangeTo).Must((s =>
             {
+              
                 double x;
                 return double.TryParse(s, out x);
             })).WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));

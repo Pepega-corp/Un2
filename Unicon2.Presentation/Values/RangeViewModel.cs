@@ -91,7 +91,7 @@ namespace Unicon2.Presentation.Values
                 _rangeTo = value;
                 FireErrorsChanged(nameof(RangeFrom));
                 FireErrorsChanged();
-
+                
                 RaisePropertyChanged();
 
             }

@@ -55,8 +55,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             {
 	            sharedResourcesGlobalViewModel.AddResourceFromViewModel(editorViewModel, property);
             }
-
-
+            
+            property.NumberOfWriteFunction = editorViewModel.NumberOfWriteFunction;
 
             return InitDefaults(property, editorViewModel);
         }

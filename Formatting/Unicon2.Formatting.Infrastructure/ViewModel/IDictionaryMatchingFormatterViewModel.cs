@@ -12,6 +12,8 @@ namespace Unicon2.Formatting.Infrastructure.ViewModel
         ICommand DeleteKeyValuePairCommand { get; }
         ObservableCollection<BindableKeyValuePair<ushort, string>> KeyValuesDictionary { get; set; }
         bool IsKeysAreNumbersOfBits { get; set; }
+        bool UseDefaultMessage { get; set; }
+        string DefaultMessage { get; set; }
 
     }
 }

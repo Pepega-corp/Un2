@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ControlzEx.Standard;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Unicon.Common.Model;
 using Unicon.Common.Queries;
+using Unicon.Common.Result;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
@@ -124,7 +127,7 @@ namespace Unicon2.Web.Presentation.ViewModels
 					}
 				}
 			}
-			catch
+			catch(Exception e)
 			{
 				CanConnectToServer = false;
 			}
@@ -139,10 +142,14 @@ namespace Unicon2.Web.Presentation.ViewModels
 					JsonConvert.SerializeObject(
 						commandString, new JsonSerializerSettings()
 						{
-							TypeNameHandling = TypeNameHandling.All
-						}), Encoding.UTF8, "application/json"));
+							TypeNameHandling = TypeNameHandling.All,
+                        }), Encoding.UTF8, "application/json"));
+			    var str = await response.Content.ReadAsStringAsync();
 				var result =
-					JsonConvert.DeserializeObject<List<DeviceDefinition>>(await response.Content.ReadAsStringAsync());
+					JsonConvert.DeserializeObject<Result<List<DeviceDefinition>>>(str,new JsonSerializerSettings()
+					{
+					    TypeNameHandling = TypeNameHandling.All
+                    });
 			}
 		}
 
@@ -206,4 +213,5 @@ namespace Unicon2.Web.Presentation.ViewModels
 		//		}, () => true));
 		//}
 	}
+  
 }

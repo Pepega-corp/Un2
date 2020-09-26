@@ -151,6 +151,9 @@ namespace Unicon2.Fragments.Journals.ViewModel
         {
             try
             {
+                Table = new DynamicDataTable(JournalParametersNameList, null, true);
+                RaisePropertyChanged(nameof(Table));
+                RaisePropertyChanged(nameof(JournalParametersNameList));
                 await new JournalLoader(this, this.DeviceContext.DataProviderContainer, _uniconJournal).Load();
             }
             catch (Exception e)

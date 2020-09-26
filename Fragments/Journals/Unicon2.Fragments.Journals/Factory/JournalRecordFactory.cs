@@ -77,6 +77,7 @@ namespace Unicon2.Fragments.Journals.Factory
                 case JournalParameter journalParameter:
                     ushort[] valuesToFormat = recordUshorts.Skip(journalParameter.StartAddress)
                         .Take(journalParameter.NumberOfPoints).ToArray();
+
                     formattedValues.Add(_formattingService.FormatValue(journalParameter.UshortsFormatter,
                         valuesToFormat));
                     break;
