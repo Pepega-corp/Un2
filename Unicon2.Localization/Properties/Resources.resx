@@ -1404,8 +1404,8 @@
   <data name="Block" xml:space="preserve">
     <value>@Block</value>
   </data>
-  <data name="AddBoolToAddressDependency" xml:space="preserve">
-    <value>@AddBoolToAddressDependency</value>
+  <data name="BoolToAddressDependency" xml:space="preserve">
+    <value>@BoolToAddressDependency</value>
   </data>
   <data name="AddressIfFalse" xml:space="preserve">
     <value>@AddressIfFalse</value>
@@ -1457,5 +1457,8 @@
   </data>
   <data name="UseDefaultMessage" xml:space="preserve">
     <value>@UseDefaultMessage</value>
+  </data>
+  <data name="WriteFunction" xml:space="preserve">
+    <value>@WriteFunction</value>
   </data>
 </root>

@@ -90,7 +90,6 @@
     <Compile Include="ViewModel\Address\BitAddressEditorViewModel.cs" />
     <Compile Include="ViewModel\Address\WritingValueConrextViewModel.cs" />
     <Compile Include="ViewModel\Dependencies\BoolToAddressDependencyViewModel.cs" />
-    <Compile Include="ViewModel\Dependencies\DependenciesViewModel.cs" />
     <Compile Include="ViewModel\Elements\AnalogMeasuringElementEditorViewModel.cs" />
     <Compile Include="ViewModel\Elements\ControlSignalEditorViewModel.cs" />
     <Compile Include="ViewModel\Elements\DateTimeMeasuringEditorViewModel.cs" />
@@ -102,9 +101,6 @@
     <Compile Include="ViewModel\PresentationSettings\PositioningInfoViewModel.cs" />
     <Compile Include="ViewModel\PresentationSettings\PresentationElementViewModel.cs" />
     <Compile Include="ViewModel\PresentationSettings\PresentationGroupViewModel.cs" />
-    <Compile Include="View\DependenciesView.xaml.cs">
-      <DependentUpon>DependenciesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\MeasuringSettingsView.xaml.cs">
       <DependentUpon>MeasuringSettingsView.xaml</DependentUpon>
     </Compile>
@@ -147,10 +143,6 @@
     <Page Include="Resources\MeasuringDataTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\DependenciesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MeasuringSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>

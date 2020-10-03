@@ -6,6 +6,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels
     {
         string Name { get; set; }
         string ConnectionDescription { get; set; }
-
+        bool IsAddedToProject { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             set => Header = value;
         }
 
+
+
         public abstract T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor);
     }
 }

@@ -21,6 +21,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 using Unicon2.Presentation.ViewModels;
 using Unicon2.Shell.Factories;
+using Unicon2.Shell.Services;
 using Unicon2.Shell.ViewModels.Helpers;
 using Unicon2.Shell.ViewModels.MenuItems;
 using Unicon2.Unity.Commands;
@@ -64,7 +65,8 @@ namespace Unicon2.Shell.ViewModels
             IUniconProjectService uniconProjectService, ToolBarViewModel toolBarViewModel, 
             RecentProjectsViewModelFactory recentProjectsViewModelFactory,
             IMainMenuService mainMenuService,
-            DynamicMainMenuViewModel dynamicMainMenuViewModel)
+            DynamicMainMenuViewModel dynamicMainMenuViewModel,
+            IFlyoutService flyoutService)
         {
             LogServiceViewModel = logServiceViewModel;
             ProjectBrowserViewModel = projectBrowserViewModel;

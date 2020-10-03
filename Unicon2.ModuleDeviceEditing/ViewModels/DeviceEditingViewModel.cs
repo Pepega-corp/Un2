@@ -15,6 +15,7 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.ModuleDeviceEditing.Interfaces;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -26,7 +27,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
     /// <summary>
     /// вью-модель для редактирования подключения усторойства
     /// </summary>
-    public class DeviceEditingViewModel : NavigationViewModelBase, IDeviceEditingViewModel, INotifyDataErrorInfo
+    public class DeviceEditingViewModel : NavigationViewModelBase, IDeviceEditingViewModel, INotifyDataErrorInfo,IFlyoutProvider
     {
         private IViewModel _selectedDeviceConnection;
         private readonly Func<IDeviceDefinitionViewModel> _deviceDefinitionCreator;
@@ -34,10 +35,11 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         private readonly ITypesContainer _container;
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly ILocalizerService _localizerService;
+        private readonly IFlyoutService _flyoutService;
         private ObservableCollection<IDeviceDefinitionViewModel> _deviceDefinitions;
         private IDeviceDefinitionViewModel _selectedDevice;
         private ObservableCollection<IViewModel> _deviceConnections;
-        private bool _isFlyOutOpen;
+        private bool _isFlyoutOpen;
         private ModesEnum _currentMode;
         private string _deviceSignature;
         private IDeviceConnection _previousDeviceConnection;
@@ -46,7 +48,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
 
         public DeviceEditingViewModel(Func<IDeviceDefinitionViewModel> deviceDefinitionCreator,
             IDevicesContainerService devicesContainerService, ITypesContainer container,
-            IDialogCoordinator dialogCoordinator, ILocalizerService localizerService)
+            IDialogCoordinator dialogCoordinator, ILocalizerService localizerService, IFlyoutService flyoutService)
         {
             DeviceDefinitions = new ObservableCollection<IDeviceDefinitionViewModel>();
             DeviceConnections = new ObservableCollection<IViewModel>();
@@ -57,6 +59,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             _container = container;
             _dialogCoordinator = dialogCoordinator;
             _localizerService = localizerService;
+            _flyoutService = flyoutService;
 
             SubmitCommand = new RelayCommand(OnSubmitCommand, () => _canSubmitCommandExecute);
             OpenDeviceFromFileCommand = new RelayCommand(OnOpenDeviceFromFileExecute);
@@ -67,6 +70,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             {
                 DeviceConnections.Add(deviceConnectionFactory.CreateDeviceConnectionViewModel());
             }
+
         }
 
         private void OnOpenDeviceFromFileExecute()
@@ -201,7 +205,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
 
 
 	            //закрытие представления
-	            IsFlyOutOpen = false;
+	            IsFlyoutOpen = false;
             }
             catch(Exception exception)
             {
@@ -268,12 +272,12 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         /// <summary>
         /// свойство, показывающее открыто ли представление
         /// </summary>
-        public bool IsFlyOutOpen
+        public bool IsFlyoutOpen
         {
-            get => _isFlyOutOpen;
+            get => _isFlyoutOpen;
             set
             {
-                _isFlyOutOpen = value;
+                _isFlyoutOpen = value;
                 RaisePropertyChanged();
             }
 
@@ -299,8 +303,9 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         /// <param name="navigationContext"></param>
         protected override void OnNavigatedTo(UniconNavigationContext navigationContext)
         {
-            //открыть fluout
-            IsFlyOutOpen = true;
+            //открыть fluout          
+            _flyoutService.RegisterFlyout(this);
+            IsFlyoutOpen = true;
             Initialize(_deviceDefinitionCreator);
             if (navigationContext.NavigationParameters.GetParameterByName<IDevice>(ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY) != null)
             {
@@ -377,5 +382,6 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         {
             (sender as DeviceEditingViewModel)?.OnValidate();
         }
+        
     }
 }

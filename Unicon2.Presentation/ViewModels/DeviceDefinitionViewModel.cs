@@ -8,6 +8,7 @@ namespace Unicon2.Presentation.ViewModels
     {
         private IDeviceCreator _model;
         private string _connectionDescription;
+        private bool _isAddedToProject;
         public string Name { get; set; }
 
         public string ConnectionDescription
@@ -16,6 +17,16 @@ namespace Unicon2.Presentation.ViewModels
             set
             {
                 _connectionDescription = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsAddedToProject
+        {
+            get => _isAddedToProject;
+            set
+            {
+                _isAddedToProject = value;
                 RaisePropertyChanged();
             }
         }

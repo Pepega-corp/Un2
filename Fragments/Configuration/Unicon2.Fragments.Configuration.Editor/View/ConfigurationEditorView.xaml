@@ -151,11 +151,6 @@
                             IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IRangeableViewModel}"
                             Style="{DynamicResource UniconToggleButtonStyle}" />
                     </UniformGrid>
-                    <Button
-                        Margin="3"
-                        Command="{Binding AddSelectedElementAsResourceCommand}"
-                        Content="{lex:Loc AddAsResource}"
-                        Style="{DynamicResource UniconButtonStyle}" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -164,9 +159,10 @@
                         <Button
                             Grid.Column="0"
                             Margin="3"
-                            Command="{Binding EditDescriptionCommand}"
-                            Content="{lex:Loc EditDescription}"
+                            Command="{Binding AddSelectedElementAsResourceCommand}"
+                            Content="{lex:Loc AddAsResource}"
                             Style="{DynamicResource UniconButtonStyle}" />
+
                         <Button
                             Name="additionalSettingsButton"
                             Grid.Column="1"
@@ -183,9 +179,51 @@
                                 Background="White"
                                 BorderBrush="Black"
                                 BorderThickness="1">
-                                <StackPanel Margin="10" Orientation="Horizontal">
-                                    <TextBlock Margin="5" Text="{lex:Loc WriteFunction}" />
-                                    <TextBox Text="{Binding SelectedRow.NumberOfWriteFunction}" />
+                                <StackPanel Margin="10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="5" Text="{lex:Loc WriteFunction}" />
+                                        <TextBox Text="{Binding SelectedRow.NumberOfWriteFunction}" />
+                                    </StackPanel>
+                                    <Button
+                                        Margin="3"
+                                        Command="{Binding EditDescriptionCommand}"
+                                        Content="{lex:Loc EditDescription}"
+                                        Style="{DynamicResource UniconButtonStyle}" />
+                                    <Grid VerticalAlignment="Bottom">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Margin="5"
+                                            Text="{lex:Loc Dependencies}" />
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Margin="5"
+                                            Text=":" />
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Margin="20,5,5,5"
+                                            Text="{Binding SelectedRow.DependencyViewModels.Count}" />
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="3"
+                                            Width="200"
+                                            Height="30"
+                                            Command="{Binding SelectedRow.ShowDependenciesCommand}"
+                                            Content="{lex:Loc Show}"
+                                            Style="{DynamicResource UniconButtonStyle}" />
+                                        </Grid>
                                 </StackPanel>
                             </Border>
                         </Popup>

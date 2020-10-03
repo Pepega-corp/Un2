@@ -17,6 +17,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Unity.Commands;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels
@@ -27,6 +28,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private bool _isTableViewAllowed;
         private bool _isMain;
         private bool _isGroupWithReiteration;
+        private int _reiterationStep;
 
         public ConfigurationGroupEditorViewModel()
         {
@@ -186,11 +188,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             ConfigurationGroupEditorViewModel cloneEditorViewModel = new ConfigurationGroupEditorViewModel()
             {
-				IsGroupWithReiteration = IsGroupWithReiteration,
 				IsMain = IsMain,
 	            IsTableViewAllowed = IsTableViewAllowed,
 				Header = Header
             };
+            cloneEditorViewModel.SetIsGroupWithReiteration(IsGroupWithReiteration);
+            cloneEditorViewModel.ReiterationStep = ReiterationStep;
+            cloneEditorViewModel.SubGroupNames.AddCollection(SubGroupNames.Select(wrapper => new StringWrapper(wrapper.StringValue)).ToList());
             ChildStructItemViewModels.ForEach(model =>
             {
 	            var child = (model as ICloneable).Clone() as IConfigurationItemViewModel;
@@ -239,7 +243,17 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
         public ObservableCollection<StringWrapper> SubGroupNames { get; }
-        public int ReiterationStep { get; set; }
+
+        public int ReiterationStep
+        {
+            get => _reiterationStep;
+            set
+            {
+                _reiterationStep = value; 
+                RaisePropertyChanged();
+            }
+        }
+
         public void SetIsGroupWithReiteration(bool value)
         {
 			SetProperty(ref _isGroupWithReiteration, value);

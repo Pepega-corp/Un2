@@ -112,14 +112,23 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="viewModels:IDeviceDefinitionViewModel">
                                     <Button
-                                        Width="150"
+                                        Width="250"
                                         Command="{Binding ElementName=deviceDefinitionItemsControl, Path=DataContext.ComPortInterrogationViewModel.AddDeviceCommand}"
                                         CommandParameter="{Binding .}"
                                         IsEnabled="{Binding ElementName=deviceDefinitionItemsControl, Path=DataContext.IsInterrogationNotInProcess}"
                                         Style="{DynamicResource UniconButtonStyle}">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Margin="2" Text="{Binding Name}" />
+                                                <Grid>
+                                                    <TextBlock
+                                                        Margin="2"
+                                                        Text="{Binding Name}"
+                                                        Visibility="{Binding IsAddedToProject, Converter={StaticResource boolToInVisConverter}}" />
+                                                    <TextBlock
+                                                        Margin="2"
+                                                        Text="{lex:Loc Added}"
+                                                        Visibility="{Binding IsAddedToProject, Converter={StaticResource boolToVisConverter}}" />
+                                                </Grid>
                                                 <TextBlock Margin="2" Text="{Binding ConnectionDescription}" />
                                             </StackPanel>
                                         </Button.Content>

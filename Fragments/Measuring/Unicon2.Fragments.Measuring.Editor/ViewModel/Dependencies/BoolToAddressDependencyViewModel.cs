@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Navigation;
-using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Dependencies;
-using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -46,17 +42,25 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 		private ushort _resultingAddressIfFalse;
 		private IFormatterParametersViewModel _formatterParametersIfTrueViewModel;
 		private IFormatterParametersViewModel _formatterParametersIfFalseViewModel;
+	    private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
 
-
-		public BoolToAddressDependencyViewModel(IFormatterEditorFactory formatterEditorFactory)
+        public BoolToAddressDependencyViewModel(IFormatterEditorFactory formatterEditorFactory, ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
 		{
 			_formatterEditorFactory = formatterEditorFactory;
-			ShowFormatterParametersIfTrueCommand = new RelayCommand(OnShowFormatterParametersIfTrueExecute);
+		    _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+		    ShowFormatterParametersIfTrueCommand = new RelayCommand(OnShowFormatterParametersIfTrueExecute);
 			ShowFormatterParametersIfFalseCommand = new RelayCommand(OnShowFormatterParametersIfFalseExecute);
-
+            SetResourceToDependencyCommand=new RelayCommand(OnSetResourceToDependencyExecute);
 		}
 
-		private void OnShowFormatterParametersIfFalseExecute()
+	    private void OnSetResourceToDependencyExecute()
+	    {
+	        RelatedResourceName =
+	            _sharedResourcesGlobalViewModel
+	                .OpenSharedResourcesForSelectingString<IDiscretMeasuringElementEditorViewModel>();
+        }
+
+	    private void OnShowFormatterParametersIfFalseExecute()
 		{
 			_formatterEditorFactory.EditFormatterByUser(new FormattableAdapter(_relatedResourceName,
 				() => FormatterParametersIfFalseViewModel, model => FormatterParametersIfFalseViewModel = model));
@@ -124,7 +128,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 
 		public IDependencyViewModel Clone()
 		{
-			return new BoolToAddressDependencyViewModel(_formatterEditorFactory)
+			return new BoolToAddressDependencyViewModel(_formatterEditorFactory,_sharedResourcesGlobalViewModel)
 			{
 				ResultingAddressIfTrue = ResultingAddressIfTrue,
 				ResultingAddressIfFalse = ResultingAddressIfFalse,
@@ -134,6 +138,10 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 			}; 
 		}
 
-		
+
+	    public string Name => "BoolToAddressDependency";
+
+
+        public ICommand SetResourceToDependencyCommand { get; }
 	}
 }

@@ -88,6 +88,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         public override object Clone()
         {
             DictionaryMatchingFormatterViewModel cloneDictionaryMatchingFormatterViewModel = new DictionaryMatchingFormatterViewModel();
+            cloneDictionaryMatchingFormatterViewModel.KeyValuesDictionary=new ObservableCollection<BindableKeyValuePair<ushort, string>>(this.KeyValuesDictionary.ToList());
       //      cloneDictionaryMatchingFormatterViewModel.InitFromFormatter(this._dictionaryMatchingFormatter.Clone() as IUshortsFormatter);
             return cloneDictionaryMatchingFormatterViewModel;
         }

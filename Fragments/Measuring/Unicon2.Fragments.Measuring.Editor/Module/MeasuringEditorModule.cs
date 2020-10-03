@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Module
             container.Register<IMeasuringElementEditorViewModelFactory, MeasuringElementEditorViewModelFactory>();
             container.Register<IMeasuringGroupEditorViewModelFactory, MeasuringGroupEditorViewModelFactory>();
             container.Register<IWritingValueContextViewModel, WritingValueContextViewModel>();
-            container.Register<DependenciesViewModel>();
+         
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml", GetType().Assembly);
         }

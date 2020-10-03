@@ -51,11 +51,11 @@
             EnableColumnVirtualization="True"
             EnableRowVirtualization="True"
             GridLinesVisibility="All"
-            RowDetailsVisibilityMode="Visible"
-            ItemsSource="{Binding Path=RelatedRows}">
+            ItemsSource="{Binding Path=RelatedRows}"
+            RowDetailsVisibilityMode="Visible">
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <ContentControl Content="{Binding .}" Visibility="{Binding IsTableView,Converter={StaticResource BoolToVisConverter},FallbackValue=Collapsed,TargetNullValue=Collapsed}">
+                    <ContentControl Content="{Binding .}" Visibility="{Binding IsTableView, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                         <ContentControl.ContentTemplateSelector>
                             <dataTemplateSelectors:TableViewByNameDataTemplateSelector />
                         </ContentControl.ContentTemplateSelector>
@@ -102,8 +102,8 @@
                                 <ToggleButton
                                     Grid.Column="3"
                                     Margin="0"
-                                    IsThreeState="False"
                                     IsChecked="{Binding IsTableView, UpdateSourceTrigger=PropertyChanged}"
+                                    IsThreeState="False"
                                     Style="{DynamicResource UniconToggleButtonStyle}"
                                     ToolTip="{lex:Loc TableView}"
                                     Visibility="{Binding IsTableViewAllowed, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">

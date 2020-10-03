@@ -5,22 +5,24 @@ using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Editor.View;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Dependencies;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services.Dependencies;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 {
 	public class AnalogMeasuringElementEditorViewModel : MeasuringElementEditorViewModelBase,
-		IAnalogMeasuringElementEditorViewModel
+		IAnalogMeasuringElementEditorViewModel,IDependenciesViewModelContainer
 	{
 		private readonly IFormatterEditorFactory _formatterEditorFactory;
 		private readonly IApplicationGlobalCommands _applicationGlobalCommands;
-		private readonly Func<DependenciesViewModel> _dependenciesViewModelFactory;
-		private string _measureUnit;
+	    private readonly IDependenciesService _dependenciesService;
+	    private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
+	    private string _measureUnit;
 		private bool _isMeasureUnitEnabled;
 		private ushort _address;
 		private ushort _numberOfPoints;
@@ -28,23 +30,25 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
 		public AnalogMeasuringElementEditorViewModel(IFormatterEditorFactory formatterEditorFactory,
 			IApplicationGlobalCommands applicationGlobalCommands,
-			Func<DependenciesViewModel> dependenciesViewModelFactory)
+			IDependenciesService dependenciesService,ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
 		{
 			_formatterEditorFactory = formatterEditorFactory;
 			_applicationGlobalCommands = applicationGlobalCommands;
-			_dependenciesViewModelFactory = dependenciesViewModelFactory;
-			ShowFormatterParametersCommand = new RelayCommand(OnShowFormatterParametersExecute);
+		    _dependenciesService = dependenciesService;
+		    _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+		    ShowFormatterParametersCommand = new RelayCommand(OnShowFormatterParametersExecute);
 			ShowDependenciesCommand = new RelayCommand(OnShowDependenciesExecute);
 		}
 
-		private void OnShowDependenciesExecute()
-		{
-			var viewModel = _dependenciesViewModelFactory();
-			viewModel.Init(this);
-			_applicationGlobalCommands.ShowWindowModal(() => new DependenciesView(), viewModel);
-		}
+	    private void OnShowDependenciesExecute()
+	    {
+	        _dependenciesService.EditDependencies(this,
+	            new DependenciesConfiguration(("BoolToAddressDependency",
+	                () => new BoolToAddressDependencyViewModel(_formatterEditorFactory,_sharedResourcesGlobalViewModel))));
 
-		private void OnShowFormatterParametersExecute()
+	    }
+
+	    private void OnShowFormatterParametersExecute()
 		{
 			_formatterEditorFactory.EditFormatterByUser(this);
 			// this.RaisePropertyChanged(nameof(this.FormatterString));

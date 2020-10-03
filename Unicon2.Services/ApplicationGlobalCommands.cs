@@ -21,7 +21,9 @@ namespace Unicon2.Services
         private object _bufferObject;
         private ProgressDialogController _progressDialogController;
 
-        public ApplicationGlobalCommands(ITypesContainer container, IDialogCoordinator dialogCoordinator, ILocalizerService localizerService)
+        public ApplicationGlobalCommands(ITypesContainer container, 
+            IDialogCoordinator dialogCoordinator, 
+            ILocalizerService localizerService)
         {
             _container = container;
             _dialogCoordinator = dialogCoordinator;

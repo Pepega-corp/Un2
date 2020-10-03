@@ -126,6 +126,7 @@ namespace Unicon2.Shell
             //Register TypesContainer that represent IUnityContainer
             containerRegistry.RegisterSingleton<ITypesContainer, TypesContainer>();
             containerRegistry.RegisterSingleton<IMainMenuService, MainMenuService>();
+            containerRegistry.RegisterSingleton<IFlyoutService, FlyoutService>();
 
             StaticContainer.SetContainer(Container.Resolve<ITypesContainer>());
             containerRegistry.RegisterInstance(DialogCoordinator.Instance);

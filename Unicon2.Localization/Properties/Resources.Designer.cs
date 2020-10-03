@@ -115,15 +115,6 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на @AddBoolToAddressDependency.
-        /// </summary>
-        public static string AddBoolToAddressDependency {
-            get {
-                return ResourceManager.GetString("AddBoolToAddressDependency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на @AddChild.
         /// </summary>
         public static string AddChild {
@@ -741,6 +732,15 @@ namespace Unicon2.Localization.Properties {
         public static string BoolMatrixTemplateDescription {
             get {
                 return ResourceManager.GetString("BoolMatrixTemplateDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @BoolToAddressDependency.
+        /// </summary>
+        public static string BoolToAddressDependency {
+            get {
+                return ResourceManager.GetString("BoolToAddressDependency", resourceCulture);
             }
         }
         
@@ -4008,6 +4008,15 @@ namespace Unicon2.Localization.Properties {
         public static string WriteConfigurationQuery {
             get {
                 return ResourceManager.GetString("WriteConfigurationQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @WriteFunction.
+        /// </summary>
+        public static string WriteFunction {
+            get {
+                return ResourceManager.GetString("WriteFunction", resourceCulture);
             }
         }
         

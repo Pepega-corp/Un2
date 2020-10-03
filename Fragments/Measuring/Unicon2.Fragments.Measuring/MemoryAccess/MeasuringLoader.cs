@@ -38,6 +38,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	    {
 		    if (this._isQueriesStarted) return;
 		    _isQueriesStarted = true;
+            if(IsLoadInProgress)return;
 		    await this.Load();
 	    }
 

@@ -18,7 +18,7 @@
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
     Header="{lex:Loc DeviceSettings}"
     IsModal="False"
-    IsOpen="{Binding IsFlyOutOpen}"
+    IsOpen="{Binding IsFlyoutOpen}"
     IsPinned="True"
     Position="Left"
     Theme="Adapt"

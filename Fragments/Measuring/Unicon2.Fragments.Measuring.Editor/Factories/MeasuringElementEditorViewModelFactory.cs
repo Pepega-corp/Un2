@@ -62,7 +62,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Factories
 			var formatterParametersIfFalseViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
 				.CreateFormatterViewModel(boolToAddressDependency.FormatterIfFalse);
 			
-			return new BoolToAddressDependencyViewModel(_formatterEditorFactory)
+			return new BoolToAddressDependencyViewModel(_formatterEditorFactory,_sharedResourcesGlobalViewModel)
 			{
 				RelatedResourceName = boolToAddressDependency.RelatedResourceName,
 				ResultingAddressIfTrue = boolToAddressDependency.ResultingAddressIfTrue,

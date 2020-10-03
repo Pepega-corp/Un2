@@ -1,10 +1,12 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dependencies="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies"
     xmlns:elements="clr-namespace:Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements"
     xmlns:elements1="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel.Elements"
     xmlns:interfaces="clr-namespace:Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:presentationSettings="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings"
     xmlns:view="clr-namespace:Unicon2.Fragments.Measuring.Editor.View">
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -160,6 +162,76 @@
         </UniformGrid>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type dependencies:BoolToAddressDependencyViewModel}">
+        <Border
+            Margin="5"
+            Padding="5"
+            BorderBrush="{DynamicResource AccentColorBrush3}"
+            BorderThickness="1">
+            <UniformGrid Columns="2">
+                <StackPanel Margin="3" Orientation="Horizontal">
+                    <TextBlock Text="{lex:Loc Reference}" />
+                    <TextBlock Margin="5,0,5,0" Text=":" />
 
+                    <TextBlock Text="{Binding RelatedResourceName}" />
+                </StackPanel>
+                <Button
+                    Margin="3"
+                    Command="{Binding SetResourceToDependencyCommand}"
+                    CommandParameter="{Binding .}"
+                    Content="{lex:Loc Select}" />
+                <TextBlock Margin="3" Text="{lex:Loc AddressIfTrue}" />
+                <mah:NumericUpDown Margin="3" Value="{Binding ResultingAddressIfTrue}" />
+                <TextBlock Margin="3" Text="{lex:Loc AddressIfFalse}" />
+                <mah:NumericUpDown Margin="3" Value="{Binding ResultingAddressIfFalse}" />
+                <TextBlock Margin="3" Text="{lex:Loc FormattingIfTrue}" />
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <Grid Grid.Column="0">
+                        <TextBlock Margin="20,5,5,5" Text="{Binding ElementName=formatter1CondProxy, Path=Result}" />
+                        <lex:LocProxy
+                            Name="formatter1CondProxy"
+                            MinWidth="200"
+                            Source="{Binding FormatterParametersIfTrueViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
+                    </Grid>
+                    <Button
+                        Grid.Column="1"
+                        Width="200"
+                        Height="30"
+                        Command="{Binding ShowFormatterParametersIfTrueCommand}"
+                        Content="{lex:Loc FormatterParameters}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                </Grid>
+                <TextBlock Margin="3" Text="{lex:Loc FormattingIfFalse}" />
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <Grid Grid.Column="0">
+                        <TextBlock Margin="20,5,5,5" Text="{Binding ElementName=formatter2CondProxy, Path=Result}" />
+                        <lex:LocProxy
+                            Name="formatter2CondProxy"
+                            MinWidth="200"
+                            Source="{Binding FormatterParametersIfFalseViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
+                    </Grid>
+                    <Button
+                        Grid.Column="1"
+                        Width="200"
+                        Height="30"
+                        Command="{Binding ShowFormatterParametersIfFalseCommand}"
+                        Content="{lex:Loc FormatterParameters}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                </Grid>
+            </UniformGrid>
+        </Border>
+    </DataTemplate>
 
 </ResourceDictionary>

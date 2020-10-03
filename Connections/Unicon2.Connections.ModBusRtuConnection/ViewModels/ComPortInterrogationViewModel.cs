@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces.ComPortInterrogation;
 using Unicon2.Connections.ModBusRtuConnection.Model;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -22,6 +23,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private readonly IModbusRtuConnection _modbusRtuConnection;
         private readonly IComConnectionManager _comConnectionManager;
         private readonly IConnectionService _connectionService;
+        private readonly IFlyoutService _flyoutService;
         private bool _is1200Checked;
         private bool _is2400Checked;
         private bool _is4800Checked;
@@ -37,18 +39,30 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private bool _isInterrogationStopped;
 
         public ComPortInterrogationViewModel(Func<IDeviceDefinitionViewModel> deviceDefinitionCreator, IDevicesContainerService devicesContainerService,
-            IModbusRtuConnection modbusRtuConnection, IComConnectionManager comConnectionManager, IConnectionService connectionService)
+            IModbusRtuConnection modbusRtuConnection, IComConnectionManager comConnectionManager, 
+            IConnectionService connectionService,IFlyoutService flyoutService)
         {
             _deviceDefinitionCreator = deviceDefinitionCreator;
             _devicesContainerService = devicesContainerService;
             _modbusRtuConnection = modbusRtuConnection;
             _comConnectionManager = comConnectionManager;
             this._connectionService = connectionService;
+            _flyoutService = flyoutService;
             InterrogateCommand = new RelayCommand(OnInterrogateExecute);
             DeviceDefinitionViewModels = new ObservableCollection<IDeviceDefinitionViewModel>();
             SlaveId = 1;
             IsInterrogationNotInProcess = true;
-            AddDeviceCommand = new RelayCommand<object>(OnAddDeviceExecute, (b) => IsInterrogationNotInProcess);
+            AddDeviceCommand = new RelayCommand<object>(OnAddDeviceExecute, (b) =>
+            {
+                if (b is IDeviceDefinitionViewModel deviceDefinitionViewModel)
+                {
+                    if (deviceDefinitionViewModel.IsAddedToProject)
+                    {
+                        return false;
+                    }
+                }
+                return IsInterrogationNotInProcess;
+            });
             StopInterrogationCommand = new RelayCommand(OnStopInterrogationExecute, (() => !_isInterrogationStopped));
         }
 
@@ -65,9 +79,12 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
 	            _devicesContainerService.AddConnectableItem(device);
             }
-            DeviceDefinitionViewModels.Remove(obj as IDeviceDefinitionViewModel);
+            //DeviceDefinitionViewModels.Remove(obj as IDeviceDefinitionViewModel);
             IsDevicesNotFound = false;
-            OnInterrogateExecute();
+            (obj as IDeviceDefinitionViewModel).IsAddedToProject = true;
+            await Task.Delay(300);
+            _flyoutService.CloseFlyout();
+
         }
 
         private void OnStopInterrogationExecute()
