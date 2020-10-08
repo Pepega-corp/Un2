@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -7,6 +8,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Prope
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model.Properties
@@ -18,8 +20,11 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         [JsonProperty] public ushort Address { get; set; }
         [JsonProperty] public ushort NumberOfPoints { get; set; }
+
         [DefaultValue(16)]
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)] public ushort NumberOfWriteFunction { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        public ushort NumberOfWriteFunction { get; set; }
+
         [JsonProperty] public string MeasureUnit { get; set; }
 
         [JsonProperty] public bool IsMeasureUnitEnabled { get; set; }
@@ -27,6 +32,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
         [JsonProperty] public bool IsRangeEnabled { get; set; }
 
         [JsonProperty] public IRange Range { get; set; }
+        [JsonProperty] public List<IDependency> Dependencies { get; set; } = new List<IDependency>();
 
         protected override IConfigurationItem OnCloning()
         {

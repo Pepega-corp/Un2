@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Unicon2.Fragments.Configuration.Editor.Helpers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
@@ -15,6 +16,7 @@ using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.Visitors
@@ -82,6 +84,13 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             {
 	            sharedResourcesGlobalViewModel.AddExistingResourceWithContainer(editorPropertyViewModel, property);
 			}
+
+            if (property.Dependencies != null && property.Dependencies.Count > 0)
+            {
+	            editorPropertyViewModel.Dependencies.Clear();
+	            editorPropertyViewModel.Dependencies.AddCollection(property.Dependencies
+		            .Select(DependencyFillHelper.CreateDependencyViewModel).ToList());
+            }
 
 			InitializeBaseProperties(editorPropertyViewModel, property);
         }

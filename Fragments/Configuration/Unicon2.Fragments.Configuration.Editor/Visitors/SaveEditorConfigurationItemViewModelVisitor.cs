@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Fragments.Configuration.Editor.Helpers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
@@ -10,6 +11,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
@@ -58,6 +60,13 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             
             property.NumberOfWriteFunction = editorViewModel.NumberOfWriteFunction;
 
+            if (editorViewModel.Dependencies != null)
+            {
+	            List<IDependency> dependencies=new List<IDependency>();
+	            dependencies = editorViewModel.Dependencies
+		            .Select(DependencyFillHelper.CreateDependencyModel).ToList();
+	            property.Dependencies = dependencies;
+            }
             return InitDefaults(property, editorViewModel);
         }
 

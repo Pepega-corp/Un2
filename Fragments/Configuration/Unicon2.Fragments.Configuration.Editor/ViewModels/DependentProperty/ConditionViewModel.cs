@@ -106,16 +106,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty
         public override string StrongName => ConfigurationKeys.DEPENDANCY_CONDITION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 		
-        private IDependancyCondition GetModel()
-        {
-            _dependancyCondition.UshortValueToCompare = UshortValueToCompare;
-            ConditionsEnum cond;
-            Enum.TryParse(SelectedCondition, out cond);
-            _dependancyCondition.ConditionsEnum = cond;
-            ConditionResultEnum condRes;
-            Enum.TryParse(SelectedConditionResult, out condRes);
-            _dependancyCondition.ConditionResult = condRes;
-            return _dependancyCondition;
-        }
+    
     }
 }

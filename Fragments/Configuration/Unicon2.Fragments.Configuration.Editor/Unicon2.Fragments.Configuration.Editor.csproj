@@ -75,8 +75,17 @@
     <Compile Include="Converters\IsFormattableToVisibilityConverter.cs" />
     <Compile Include="CustomControls\WrapPanelWithRowsOrColumnsCount.cs" />
     <Compile Include="Factories\ConfigurationFragmentFactory.cs" />
+    <Compile Include="Helpers\DependencyFillHelper.cs" />
+    <Compile Include="Interfaces\Dependencies\IConditionViewModel.cs">
+      <Link>Interfaces\Dependencies\IConditionViewModel.cs</Link>
+    </Compile>
+    <Compile Include="Interfaces\Dependencies\IResultViewModel.cs">
+      <Link>Interfaces\Dependencies\IResultViewModel.cs</Link>
+    </Compile>
     <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
-    <Compile Include="ViewModels\Dependencies\BlockInteractionDependency.cs" />
+    <Compile Include="ViewModels\Dependencies\ConditionResultDependencyViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\Results\ApplyFormatterResultViewModel.cs" />
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
     <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />
@@ -152,7 +161,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Resources\DeviceStructDataTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>

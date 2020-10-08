@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
@@ -9,6 +10,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -35,6 +37,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 			_container = container;
 			_localizerService = localizerService;
 			RangeViewModel = rangeViewModel;
+			Dependencies=new ObservableCollection<IDependencyViewModel>();
 		}
 
 		public virtual string Address
@@ -70,6 +73,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
             }
         }
+
+	    public ObservableCollection<IDependencyViewModel> Dependencies { get; }
+
 
 	    public bool IsInEditMode
 		{

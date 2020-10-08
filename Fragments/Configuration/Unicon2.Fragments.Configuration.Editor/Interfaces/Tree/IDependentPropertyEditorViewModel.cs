@@ -13,6 +13,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
         ICommand AddConditionCommand { get; }
         ICommand DeleteConditionCommand { get; }
         IConditionViewModel SelectedConditionViewModel { get; set; }
-        ObservableCollection<IConditionViewModel> ConditionViewModels { get; set; }
+        ObservableCollection<IConditionViewModel> ConditionViewModels { get; }
     }
 }

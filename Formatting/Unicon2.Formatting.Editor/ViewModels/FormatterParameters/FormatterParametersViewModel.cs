@@ -1,4 +1,5 @@
-﻿using Unicon2.Presentation.Infrastructure.ViewModels;
+﻿using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Formatting.Editor.ViewModels.FormatterParameters
@@ -31,7 +32,18 @@ namespace Unicon2.Formatting.Editor.ViewModels.FormatterParameters
 			}
 		}
 		
-		public object Clone()
+
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				_name = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public IFormatterParametersViewModel Clone()
 		{
 			if (IsFromSharedResources)
 			{
@@ -45,16 +57,6 @@ namespace Unicon2.Formatting.Editor.ViewModels.FormatterParameters
 				Name = Name,
 				IsFromSharedResources = false
 			};
-		}
-
-		public string Name
-		{
-			get => _name;
-			set
-			{
-				_name = value;
-				RaisePropertyChanged();
-			}
 		}
 	}
 }

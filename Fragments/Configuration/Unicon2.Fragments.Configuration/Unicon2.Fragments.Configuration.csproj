@@ -99,6 +99,10 @@
     <Compile Include="MemoryAccess\Subscriptions\LocalMemorySubscription.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
     <Compile Include="Model\DefaultDeviceConfiguration.cs" />
+    <Compile Include="Model\Dependencies\ConditionResultDependency.cs" />
+    <Compile Include="Model\Dependencies\Conditions\CompareResourceCondition.cs" />
+    <Compile Include="Model\Dependencies\Results\ApplyFormatterResult.cs" />
+    <Compile Include="Model\Dependencies\Results\BlockInteractionResult.cs" />
     <Compile Include="Model\GroupWithReiterationInfo.cs" />
     <Compile Include="Model\Properties\ComplexProperty.cs" />
     <Compile Include="Model\Properties\DefaultProperty.cs" />
@@ -200,6 +204,5 @@
       <Name>Unicon2.SharedResources</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

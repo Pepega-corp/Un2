@@ -4,6 +4,7 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSettings;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
@@ -47,6 +48,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",
                 GetType().Assembly);
+            
+            container.Register<Interfaces.Dependencies.IConditionViewModel,CompareResourceConditionViewModel>();
         }
     }
 }

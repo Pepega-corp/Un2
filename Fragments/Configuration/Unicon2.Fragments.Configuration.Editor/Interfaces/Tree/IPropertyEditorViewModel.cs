@@ -1,8 +1,10 @@
-﻿using Unicon2.Fragments.Configuration.Editor.ViewModels;
+﻿using System.Collections.ObjectModel;
+using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
@@ -13,5 +15,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
         string Address { get; set; }
         string NumberOfPoints { get; set; }
         ushort NumberOfWriteFunction { get; set; }
+        ObservableCollection<IDependencyViewModel> Dependencies { get; }
     }
 }
