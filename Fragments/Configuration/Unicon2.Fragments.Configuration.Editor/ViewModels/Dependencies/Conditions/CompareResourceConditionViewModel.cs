@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
@@ -21,15 +22,18 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditi
         public ICommand SelectPropertyFromResourceCommand { get; }
 
 
-        public CompareResourceConditionViewModel(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
+        public CompareResourceConditionViewModel(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,
+            List<string> conditionsList)
         {
             _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             SelectPropertyFromResourceCommand = new RelayCommand(OnSelectPropertyFromResourceExecute);
-            ConditionsList = new List<string>(Enum.GetNames(typeof(ConditionsEnum))); 
+            ConditionsList = conditionsList;
         }
+
         private void OnSelectPropertyFromResourceExecute()
         {
-            ReferencedResourcePropertyName = _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelectingString<IPropertyEditorViewModel>();
+            ReferencedResourcePropertyName = _sharedResourcesGlobalViewModel
+                .OpenSharedResourcesForSelectingString<IPropertyEditorViewModel>();
         }
 
         public string ReferencedResourcePropertyName
@@ -43,7 +47,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditi
         }
 
 
-        public List<string> ConditionsList { get; set; }
+        public List<string> ConditionsList { get; }
 
         public string SelectedCondition
         {
@@ -67,12 +71,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditi
 
         public IConditionViewModel Clone()
         {
-            return new CompareResourceConditionViewModel(_sharedResourcesGlobalViewModel)
+            return new CompareResourceConditionViewModel(_sharedResourcesGlobalViewModel, ConditionsList.Select(s => s).ToList())
             {
                 SelectedCondition = this.SelectedCondition,
                 UshortValueToCompare = _ushortValueToCompare,
                 ReferencedResourcePropertyName = _referencedResourcePropertyName
             };
         }
+
+        public string StrongName { get; }
     }
 }

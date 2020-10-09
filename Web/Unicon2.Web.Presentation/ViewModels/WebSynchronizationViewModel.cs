@@ -14,6 +14,7 @@ using Newtonsoft.Json.Serialization;
 using Unicon.Common.Model;
 using Unicon.Common.Queries;
 using Unicon.Common.Result;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;

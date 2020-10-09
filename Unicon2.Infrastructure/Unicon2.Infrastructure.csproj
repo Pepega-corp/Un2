@@ -79,6 +79,7 @@
     <Compile Include="BaseItems\Disposable.cs" />
     <Compile Include="Common\BindableKeyValuePair.cs" />
     <Compile Include="Common\CRC16.cs" />
+    <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Maybe.cs" />
     <Compile Include="Common\StaticContainer.cs" />
     <Compile Include="Common\ValidatableBindableBase.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="DeviceInterfaces\SharedResources\IResourceContainer.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\StringWrapper.cs" />
+    <Compile Include="Extensions\StronglyNamedExtensions.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSetting.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSettings.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\ISettingApplyingContext.cs" />

@@ -42,5 +42,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results
                 FormatterParametersViewModel = FormatterParametersViewModel.Clone()
             };
         }
+
+        public string StrongName { get; }
     }
 }

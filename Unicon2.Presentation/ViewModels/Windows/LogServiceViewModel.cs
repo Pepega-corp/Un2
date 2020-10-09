@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Presentation.Infrastructure.Enums;

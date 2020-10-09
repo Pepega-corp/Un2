@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
-using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies
 {
     public class ConditionResultDependencyViewModel : ViewModelBase, IDependencyViewModel
     {
-        private readonly ITypesContainer _typesContainer;
         private IResultViewModel _selectedResultViewModel;
         private IConditionViewModel _selectedConditionViewModel;
 
-        public ConditionResultDependencyViewModel(ITypesContainer typesContainer)
+        public ConditionResultDependencyViewModel(List<IResultViewModel> resultViewModels,
+            List<IConditionViewModel> conditionViewModels)
         {
-            _typesContainer = typesContainer;
-            ConditionViewModels = typesContainer.ResolveAll<IConditionViewModel>().ToList();
-            ResultViewModels = typesContainer.ResolveAll<IResultViewModel>().ToList();
+            ResultViewModels = resultViewModels;
+            ConditionViewModels = conditionViewModels;
         }
 
         public List<IResultViewModel> ResultViewModels { get; }
@@ -49,7 +46,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies
 
         public IDependencyViewModel Clone()
         {
-            return new ConditionResultDependencyViewModel(_typesContainer)
+            return new ConditionResultDependencyViewModel(ResultViewModels.CloneCollection().ToList(), ConditionViewModels.CloneCollection().ToList())
             {
                 SelectedConditionViewModel = this.SelectedConditionViewModel.Clone(),
                 SelectedResultViewModel = SelectedResultViewModel.Clone()

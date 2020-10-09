@@ -1,4 +1,5 @@
 ﻿using Unicon2.Fragments.Configuration.Editor.Factories;
+using Unicon2.Fragments.Configuration.Editor.Helpers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
@@ -44,6 +45,9 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
                 ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
             container.Register<IConditionViewModel, ConditionViewModel>();
+            container.Register<DependencyFillHelper>();
+            container.Register<ResultFillHelper>();
+            container.Register<ConditionFillHelper>();
 
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",
