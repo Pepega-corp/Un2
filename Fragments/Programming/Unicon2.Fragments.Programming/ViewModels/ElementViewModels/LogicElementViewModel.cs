@@ -121,7 +121,11 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        protected abstract ILogicElement GetModel();
+        protected virtual ILogicElement GetModel()
+        {
+            return this._model;
+        }
+
         protected virtual void SetModel(ILogicElement model)
         {
             X = model.X;

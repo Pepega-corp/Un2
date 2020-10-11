@@ -10,5 +10,6 @@
         public const string CONNECTOR = "Connector";
         public const string INPUT = "Input";
         public const string OUTPUT = "Output";
+        public const string INVERSION = "Inversion";
     }
 }

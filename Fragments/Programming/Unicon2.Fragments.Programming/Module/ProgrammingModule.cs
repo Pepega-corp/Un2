@@ -32,7 +32,9 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, InputViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ILogicElement, Output>(ProgrammingKeys.OUTPUT);
             container.Register<ILogicElementViewModel, OutputViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            
+            container.Register<ILogicElement, Inversion>(ProgrammingKeys.INVERSION);
+            container.Register<ILogicElementViewModel, InversionViewModel>(ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
         }
     }

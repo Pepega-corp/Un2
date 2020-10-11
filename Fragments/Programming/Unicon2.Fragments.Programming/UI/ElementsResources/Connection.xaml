@@ -35,12 +35,12 @@
                 </Path.RenderTransform>
             </Path>
             <Ellipse
-                DataContext="{Binding SinkConnectors[0]}"
                 Name="AreaArrow"
                 Canvas.Left="{Binding ConnectorPosition.X}"
                 Canvas.Top="{Binding ConnectorPosition.Y}"
                 Width="10"
                 Height="10"
+                DataContext="{Binding SinkConnectors[0]}"
                 Fill="Transparent"
                 IsHitTestVisible="True"
                 StrokeDashArray="2,2"

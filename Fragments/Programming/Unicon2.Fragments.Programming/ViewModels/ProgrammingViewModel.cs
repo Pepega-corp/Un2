@@ -262,18 +262,19 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
 	        if (deviceFragment is IProgramModel model)
 	        {
-		        this._programModel = model;
-
+		        //this._programModel = model;
+	            this.ProjectName = model.ProjectName;
+	            this._programModel.WithHeader = model.WithHeader;
+	            this._programModel.EnableFileDriver = model.EnableFileDriver;
+	            this._programModel.LogicHeader = model.LogicHeader;
                 this.UpdateCollections(this._programModel);
-
-		        return;
 	        }
-
-	        if (deviceFragment is IProgrammModelEditor modelEditor)
+            else if (deviceFragment is IProgrammModelEditor modelEditor)
 	        {
 		        var logicElementsViewModels = this._factory.GetAllElementsViewModels(modelEditor.Elements);
 		        this.ElementsLibrary.AddCollection(logicElementsViewModels);
-
+	            this._programModel.EnableFileDriver = modelEditor.EnableFileDriver;
+	            this._programModel.WithHeader = modelEditor.WithHeader;
 	            this._programModel.LogicHeader = modelEditor.LogicHeader;
 	        }
         }

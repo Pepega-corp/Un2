@@ -10,10 +10,11 @@ namespace Unicon2.Fragments.Programming.Editor.Models
     public class ProgrammModelEditor : IProgrammModelEditor
     {
         [JsonProperty] public List<ILibraryElement> Elements { get; set; }
+        [JsonProperty] public bool EnableFileDriver { get; set; }
+        [JsonProperty] public bool WithHeader { get; set; }
+        [JsonProperty] public string LogicHeader { get; set; }
         public string StrongName => ProgrammingKeys.PROGRAMMING;
         public IFragmentSettings FragmentSettings { get; set; }
-        public string LogicHeader { get; set; }
-
         public ProgrammModelEditor()
         {
             this.Elements = new List<ILibraryElement>();

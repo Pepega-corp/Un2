@@ -10,6 +10,8 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
         string ProjectPath { get; }
         List<ISchemeModel> Schemes { get; }
         List<IConnection> Connections { get; }
+        bool EnableFileDriver { get; set; }
+        bool WithHeader { get; set; }
         string LogicHeader { get; set; }
     }
 }

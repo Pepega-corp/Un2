@@ -47,11 +47,13 @@
     <Compile Include="HelperClasses\DragElement.cs" />
     <Compile Include="Keys\ProgrammingKeys.cs" />
     <Compile Include="Model\EditorElements\IInputEditor.cs" />
+    <Compile Include="Model\EditorElements\IInversionEditor.cs" />
     <Compile Include="Model\EditorElements\IOutputEditor.cs" />
     <Compile Include="Model\Elements\IConnection.cs" />
     <Compile Include="Model\Elements\IConnector.cs" />
     <Compile Include="Model\Elements\IInput.cs" />
     <Compile Include="Model\Elements\ILogicElement.cs" />
+    <Compile Include="Model\Elements\IInversion.cs" />
     <Compile Include="Model\Elements\IOutput.cs" />
     <Compile Include="Model\IProgrammModelEditor.cs" />
     <Compile Include="Model\ILibraryElement.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="ViewModels\EditableListItem.cs" />
     <Compile Include="ViewModels\IProgrammingViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IInputEditorViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IInversionEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\ILogicElementEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOutputEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectionViewModel.cs" />

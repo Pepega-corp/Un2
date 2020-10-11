@@ -2,9 +2,6 @@
     x:Class="Unicon2.Fragments.Programming.Editor.View.ProgrammingEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Editor.Behaviors"
-    xmlns:behaviors1="clr-namespace:Unicon2.SharedResources.Behaviors;assembly=Unicon2.SharedResources"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:interfaces="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure">
     <Grid Name="programmingEditorGrid">
         <Grid.RowDefinitions>
@@ -20,29 +17,53 @@
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Header="Заголовок">
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Content="Заголовок" />
-                <TextBlock VerticalAlignment="Center" Text="MR" />
-                <TextBox MinWidth="30" Text="{Binding MrNumber}" />
-                <TextBlock
-                    Margin="5,0,5,0"
-                    VerticalAlignment="Center"
-                    Text="LOGIKA PROG VER." />
-                <ComboBox SelectedItem="{Binding SelectedVersion.Header}">
-                    <ComboBoxItem Content="00001" />
-                    <ComboBoxItem Content="00002" />
-                    <ComboBoxItem Content="00003" />
-                </ComboBox>
-                <TextBlock
-                    Margin="5,0,5,0"
-                    VerticalAlignment="Center"
-                    Text="SUBVER." />
-                <ComboBox SelectedItem="{Binding SelectedSubversionHeader}">
-                    <ComboBoxItem Content="00001" />
-                    <ComboBoxItem Content="00002" />
-                    <ComboBoxItem Content="00003" />
-                </ComboBox>
+            Header="Общие настройки">
+            <StackPanel Orientation="Vertical">
+                <Expander Header="Файловая система в МР">
+                    <CheckBox Content="Файловая система имеется в устройстве" IsChecked="{Binding EnableFileDriver}" />
+                </Expander>
+                <Expander Header="Заголовок">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
+                            Name="HeaderCheck"
+                            Margin="0,0,10,0"
+                            Content="Заголовок"
+                            IsChecked="{Binding WithHeader}" />
+                        <Border BorderBrush="#CC119EDA" BorderThickness="1">
+                            <StackPanel Name="HeaderStackPanel" Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="MR" />
+                                <TextBox MinWidth="30" Text="{Binding MrNumber}" />
+                                <TextBlock
+                                    Margin="5,0,5,0"
+                                    VerticalAlignment="Center"
+                                    Text="LOGIKA PROG VER." />
+                                <ComboBox SelectedItem="{Binding SelectedVersion.Header}">
+                                    <ComboBoxItem Content="00001" />
+                                    <ComboBoxItem Content="00002" />
+                                    <ComboBoxItem Content="00003" />
+                                </ComboBox>
+                                <TextBlock
+                                    Margin="5,0,5,0"
+                                    VerticalAlignment="Center"
+                                    Text="SUBVER." />
+                                <ComboBox SelectedItem="{Binding SelectedSubversionHeader}">
+                                    <ComboBoxItem Content="00001" />
+                                    <ComboBoxItem Content="00002" />
+                                    <ComboBoxItem Content="00003" />
+                                </ComboBox>
+                            </StackPanel>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=HeaderCheck, Path=IsChecked}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </StackPanel>
+                </Expander>
             </StackPanel>
         </GroupBox>
         <GroupBox

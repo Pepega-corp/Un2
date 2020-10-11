@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Behaviors\LogicElementForEditorBehavior.cs" />
     <Compile Include="Models\LibraryElements\InputEditor.cs" />
+    <Compile Include="Models\LibraryElements\InversionEditor.cs" />
     <Compile Include="Models\LibraryElements\OutputEditor.cs" />
     <Compile Include="Models\ProgrammModelEditor.cs" />
     <Compile Include="Module\ProgrammingEditorModule.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Validators\ProgrammingEditorViewModelValidator.cs" />
     <Compile Include="ViewModel\EditElementViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\InputEditorViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\InversionEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OutputEditorViewModel.cs" />
     <Compile Include="ViewModel\ProgrammingEditorViewModel.cs" />
     <Compile Include="View\ProgrammingEditorView.xaml.cs">

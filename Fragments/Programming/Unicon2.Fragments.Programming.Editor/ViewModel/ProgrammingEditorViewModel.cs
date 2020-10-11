@@ -3,42 +3,40 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Editor.Interfaces;
-using Unicon2.Fragments.Programming.Editor.Models;
 using Unicon2.Fragments.Programming.Editor.View;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
+using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel
 {
-    public class ProgrammingEditorViewModel : ValidatableBindableBase, IProgrammingEditorViewModel
+    public class ProgrammingEditorViewModel : ViewModelBase, IProgrammingEditorViewModel
     {
         private readonly ILogicElementFactory _logicElementFactory;
         private readonly IApplicationGlobalCommands _globalCommands;
-        private IProgrammModelEditor _model;
+        private readonly IProgrammModelEditor _model;
         private ILogicElementEditorViewModel _selectedNewLogicElemItem;
         private ILogicElementEditorViewModel _selectedLibraryElemItem;
-        private bool _withHeader;
         private string _mrNumber;
         private string _versionHeader;
         private string _subversionHeader;
 
         public string StrongName => ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
 
         public ICommand AddElementCommand { get; }
         public ICommand RemoveElementCommand { get; }
         public ICommand EditElementCommand { get; }
 
-        public ProgrammingEditorViewModel(IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
+        public ProgrammingEditorViewModel(IProgrammModelEditor model, IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
         {
+            this._model = model;
             this._globalCommands = globalCommands;
             this._logicElementFactory = logicElementFactory;
             this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsEditorViewModels());
@@ -80,12 +78,22 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             }
         }
 
-        public bool WithHeader
+        public bool EnableFileDriver
         {
-            get => this._withHeader;
+            get => this._model.EnableFileDriver;
             set
             {
-                this._withHeader = value;
+                this._model.EnableFileDriver = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool WithHeader
+        {
+            get => this._model.WithHeader;
+            set
+            {
+                this._model.WithHeader = value;
                 RaisePropertyChanged();
             }
         }
@@ -146,12 +154,14 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         public IDeviceFragment BuildDeviceFragment()
         {
 	        var elementModels = this.LibraryElements.Select(l => l.Model).Cast<ILibraryElement>().ToArray();
-            this._model = _model ?? new ProgrammModelEditor();
             this._model.Elements.Clear();
 	        this._model.Elements.AddRange(elementModels);
+            
+            if (this._model.WithHeader)
+            {
+                this._model.LogicHeader = $"MR{this.MrNumber} LOGIKA PROG VER. {this.SelectedVersionHeader} SUBVER. {this.SelectedSubversionHeader}";
+            }
 
-            this._model.LogicHeader =
-                $"MR{this.MrNumber} LOGIKA PROG VER. {this.SelectedVersionHeader} SUBVER. {this.SelectedSubversionHeader}";
             while (this._model.LogicHeader.Length < 44)
             {
                 this._model.LogicHeader += " ";
@@ -164,29 +174,25 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         {
             if (deviceFragment is IProgrammModelEditor model)
             {
-                _model = model;
+                this._model.EnableFileDriver = model.EnableFileDriver;
+                this._model.WithHeader = model.WithHeader;
                 this.LibraryElements.Clear();
                 this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
 
-                var headers = this._model.LogicHeader.Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);
-                if (headers.Length != 7)
+                if (this._model.WithHeader)
+                {
+                    var headers = this._model.LogicHeader.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                    this.MrNumber = headers[0].Remove(0, 2);
+                    this.SelectedVersionHeader = headers[4];
+                    this.SelectedSubversionHeader = headers[6];
+                }
+                else
                 {
                     this.MrNumber = string.Empty;
                     this.SelectedVersionHeader = "00001";
                     this.SelectedSubversionHeader = "00001";
                 }
-                else
-                {
-                    this.MrNumber = headers[0].Remove(0, 2);
-                    this.SelectedVersionHeader = headers[4];
-                    this.SelectedSubversionHeader = headers[6];
-                }
             }
-        }
-
-        protected override void OnValidate()
-        {
-            
         }
     }
 }
