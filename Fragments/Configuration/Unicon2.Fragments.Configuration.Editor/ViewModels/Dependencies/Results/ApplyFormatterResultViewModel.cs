@@ -19,7 +19,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results
             ShowFormatterParameters = new RelayCommand(() => { _formatterEditorFactory.EditFormatterByUser(this); });
         }
 
-        private string _selectedConditionResult;
         private IFormatterParametersViewModel _formatterParametersViewModel;
         public ICommand ShowFormatterParameters { get; }
 

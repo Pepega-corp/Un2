@@ -88,6 +88,7 @@
     <Compile Include="ViewModels\Dependencies\ConditionResultDependencyViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\ApplyFormatterResultViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\Results\BlockInteractionResultViewModel.cs" />
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
     <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />
@@ -217,6 +218,9 @@
       <Project>{f35e1178-260c-4ddc-9bc0-a557ec82a5aa}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\Dependencies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

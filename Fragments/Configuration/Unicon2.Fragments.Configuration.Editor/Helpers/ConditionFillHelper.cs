@@ -40,12 +40,15 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             switch (condition)
             {
                 case CompareResourceConditionViewModel compareResourceConditionViewModel:
-                    string conditionString = ConditionsEnum.Equal.ToString();
-                    Enumz(compareResourceConditionViewModel.SelectedCondition, out conditionString);
-                    return new CompareResourceCondition()
+                    if (Enum.TryParse<ConditionsEnum>(compareResourceConditionViewModel.SelectedCondition, out var conditionsEnum))
                     {
-                        ConditionsEnum = ConditionsEnum.TryParse()
-                    };
+                        string conditionString = Enum.GetName(typeof(ConditionsEnum), compareResourceConditionViewModel.SelectedCondition);
+                        return new CompareResourceCondition()
+                        {
+                            ConditionsEnum = conditionsEnum,
+
+                        };
+                    }
                     break;
                 
             }

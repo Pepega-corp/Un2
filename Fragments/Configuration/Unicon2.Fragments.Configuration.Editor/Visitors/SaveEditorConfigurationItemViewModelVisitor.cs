@@ -64,7 +64,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             {
 	            List<IDependency> dependencies=new List<IDependency>();
 	            dependencies = editorViewModel.Dependencies
-		            .Select(DependencyFillHelper.CreateDependencyModel).ToList();
+		            .Select(_container.Resolve<DependencyFillHelper>().CreateDependencyModel).ToList();
 	            property.Dependencies = dependencies;
             }
             return InitDefaults(property, editorViewModel);

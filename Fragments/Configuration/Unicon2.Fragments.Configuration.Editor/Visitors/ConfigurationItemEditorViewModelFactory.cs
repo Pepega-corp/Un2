@@ -89,7 +89,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             {
 	            editorPropertyViewModel.Dependencies.Clear();
 	            editorPropertyViewModel.Dependencies.AddCollection(property.Dependencies
-		            .Select(DependencyFillHelper.CreateDependencyViewModel).ToList());
+		            .Select(_container.Resolve<DependencyFillHelper>().CreateDependencyViewModel).ToList());
             }
 
 			InitializeBaseProperties(editorPropertyViewModel, property);
