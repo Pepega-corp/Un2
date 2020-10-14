@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Linq;
 using Unicon2.Fragments.Configuration.Editor.Helpers;
-using Unicon2.Fragments.Configuration.Editor.Interfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
-using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.Visitors
@@ -173,32 +167,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         public IEditorConfigurationItemViewModel VisitMatrix(IAppointableMatrix appointableMatrixViewModel)
         {
             throw new System.NotImplementedException();
-        }
-
-        public IEditorConfigurationItemViewModel VisitDependentProperty(IDependentProperty dependentProperty)
-        {
-	        var res = _container.Resolve<IDependentPropertyEditorViewModel>();
-	        if (dependentProperty == null)
-	        {
-		        InitializeBaseProperties(res, dependentProperty);
-		        return res;
-	        }
-
-	        InitializeProperty(res, dependentProperty);
-
-
-	        foreach (IDependancyCondition condition in dependentProperty.DependancyConditions)
-	        {
-		        IConditionViewModel conditionViewModel = _container.Resolve<IConditionViewModel>();
-		        conditionViewModel.SelectedCondition = condition.ConditionsEnum.ToString();
-		        conditionViewModel.SelectedConditionResult = condition.ConditionResult.ToString();
-		        conditionViewModel.UshortValueToCompare = condition.UshortValueToCompare;
-		        conditionViewModel.ReferencedResourcePropertyName = condition.ReferencedPropertyResourceName;
-				res.ConditionViewModels.Add(conditionViewModel);
-	        }
-			InitializeProperty(res,dependentProperty);
-	        return res;
-
         }
 
         public IEditorConfigurationItemViewModel VisitSubProperty(ISubProperty subProperty)

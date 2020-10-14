@@ -43,11 +43,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             throw new System.NotImplementedException();
         }
 
-        public Result VisitDependentProperty(IDependentProperty dependentProperty)
-        {
-            return VisitProperty(dependentProperty);
-        }
-
         public Result VisitSubProperty(ISubProperty subProperty)
         {
             throw new System.NotImplementedException();

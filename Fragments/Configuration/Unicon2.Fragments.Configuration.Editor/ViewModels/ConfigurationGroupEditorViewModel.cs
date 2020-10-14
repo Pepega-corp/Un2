@@ -85,15 +85,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             return newConfigurationItemViewModel;
         }
 
-        public IConfigurationItemViewModel AddDependentProperty()
-        {
-            IEditorConfigurationItemViewModel newConfigurationItemViewModel = ConfigurationItemEditorViewModelFactory
-                .Create().WithParent(this).VisitDependentProperty(null);
-
-            ChildStructItemViewModels.Add(newConfigurationItemViewModel);
-            return newConfigurationItemViewModel;
-        }
-
         public IConfigurationItemViewModel AddComplexProperty()
         {
             IEditorConfigurationItemViewModel newConfigurationItemViewModel =

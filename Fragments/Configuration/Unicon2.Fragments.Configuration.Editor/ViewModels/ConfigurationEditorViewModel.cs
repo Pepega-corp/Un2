@@ -63,11 +63,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             ElementsAddingCommandCollection.Add(command);
 
 
-            command = elementAddingCommandAddingFunc();
-            command.Name = "AddDependentProperty";
-            command.AddingCommand =
-                new RelayCommand(OnAddDependentPropertyExecute, CanExecuteAddChildGroupElement);
-            ElementsAddingCommandCollection.Add(command);
 
             command = elementAddingCommandAddingFunc();
             command.Name = "AddComplexProperty";
@@ -163,18 +158,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private bool CanExecuteEditDescription()
         {
             return SelectedRow != null;
-        }
-
-
-        private void OnAddDependentPropertyExecute()
-        {
-            if (SelectedRow is IChildAddable)
-            {
-                IEditorConfigurationItemViewModel dependentProperty =
-                    (SelectedRow as IChildAddable).AddDependentProperty() as IEditorConfigurationItemViewModel;
-                PrepareAdding();
-                SelectedRow = dependentProperty;
-            }
         }
 
         private bool CanExecuteAddSelectedElementAsResource()

@@ -94,7 +94,6 @@
     <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />
     <Compile Include="Visitors\GroupWithReiterationEditorWindowFactory.cs" />
     <Compile Include="Interfaces\ConfigurationSettings\IActivatedConfigurationSettingViewModel.cs" />
-    <Compile Include="Interfaces\DependentProperty\IConditionViewModel.cs" />
     <Compile Include="Interfaces\EditOperations\IChildAddable.cs" />
     <Compile Include="Interfaces\EditOperations\IChilditemRemovable.cs" />
     <Compile Include="Interfaces\EditOperations\ICompositeEditOperations.cs" />
@@ -103,7 +102,6 @@
     <Compile Include="Interfaces\IChildPositionChangeable.cs" />
     <Compile Include="Interfaces\Tree\IAddressIncreaseable.cs" />
     <Compile Include="Interfaces\Tree\IComplexPropertyEditorViewModel.cs" />
-    <Compile Include="Interfaces\Tree\IDependentPropertyEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\IPropertyEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\IConfigurationEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\IConfigurationGroupEditorViewModel.cs" />
@@ -125,8 +123,6 @@
     <Compile Include="ViewModels\ConfigurationSettings\ActivatedConfigurationSettingViewModel.cs" />
     <Compile Include="ViewModels\GroupWithReiterationEditorViewModel.cs" />
     <Compile Include="ViewModels\Properties\ComplexPropertyEditorViewModel.cs" />
-    <Compile Include="ViewModels\Properties\DependentPropertyEditorViewModel.cs" />
-    <Compile Include="ViewModels\DependentProperty\ConditionViewModel.cs" />
     <Compile Include="ViewModels\DescriptionEditingViewModel.cs" />
     <Compile Include="ViewModels\EditorConfigurationItemViewModelBase.cs" />
     <Compile Include="ViewModels\ElementAdding\ElementAddingCommand.cs" />

@@ -6,7 +6,6 @@
     xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
     xmlns:converters="clr-namespace:Unicon2.Fragments.Configuration.Editor.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dependentProperty="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels.DependentProperty"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Editor.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

@@ -29,12 +29,6 @@ namespace Unicon2.Fragments.Configuration.Factories
             return group;
         }
 
-        public IConfigurationItem ResolveDependentConfigurationItem()
-        {
-            IDependentProperty dependentProperty = _container.Resolve(typeof(IDependentProperty)) as IDependentProperty;
-            return dependentProperty;
-        }
-
         public IConfigurationItem ResolveSubPropertyItem()
         {
             ISubProperty subProperty = _container.Resolve(typeof(ISubProperty)) as ISubProperty;

@@ -116,11 +116,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             throw new NotImplementedException();
         }
 
-        public async Task VisitDependentProperty(IDependentProperty dependentProperty)
-        {
-			await VisitProperty(dependentProperty);
-		}
-
         public Task VisitSubProperty(ISubProperty subProperty)
         {
 	        throw new NotImplementedException();

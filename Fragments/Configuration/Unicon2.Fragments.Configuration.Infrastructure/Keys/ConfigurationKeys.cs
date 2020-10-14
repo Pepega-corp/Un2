@@ -35,7 +35,6 @@
 
 
         public const string DEFAULT_PROPERTY = "DefaultProperty";
-        public const string DEPENDENT_PROPERTY = "DependentProperty";
 
 
         public const string COMPLEX_PROPERTY = "ComplexProperty";

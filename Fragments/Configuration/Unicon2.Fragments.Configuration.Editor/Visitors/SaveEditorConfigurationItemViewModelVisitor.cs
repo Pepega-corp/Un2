@@ -139,42 +139,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             throw new NotImplementedException();
         }
 
-        public IConfigurationItem VisitDependentProperty(IDependentPropertyEditorViewModel dependentPropertyViewModel)
-        {
-	        var dependentProperty = _container.Resolve<IDependentProperty>();
-
-	        dependentProperty.DependancyConditions = dependentPropertyViewModel.ConditionViewModels.Select(
-		        conditionViewModel =>
-		        {
-			        IDependancyCondition dependancyCondition = _container.Resolve<IDependancyCondition>();
-			        dependancyCondition.UshortValueToCompare = conditionViewModel.UshortValueToCompare;
-			        ConditionsEnum cond;
-			        Enum.TryParse(conditionViewModel.SelectedCondition, out cond);
-			        dependancyCondition.ConditionsEnum = cond;
-			        ConditionResultEnum condRes;
-			        Enum.TryParse(conditionViewModel.SelectedConditionResult, out condRes);
-			        dependancyCondition.ConditionResult = condRes;
-			        if ((conditionViewModel as IPropertyEditorViewModel).FormatterParametersViewModel != null)
-			        {
-				        dependancyCondition.UshortsFormatter = StaticContainer.Container
-					        .Resolve<ISaveFormatterService>()
-					        .CreateUshortsParametersFormatter((conditionViewModel as IPropertyEditorViewModel)
-						        .FormatterParametersViewModel);
-			        }
-
-			        if (!string.IsNullOrEmpty(conditionViewModel.ReferencedResourcePropertyName))
-			        {
-				        dependancyCondition.ReferencedPropertyResourceName =
-					        conditionViewModel.ReferencedResourcePropertyName;
-			        }
-
-			        return dependancyCondition;
-		        }).ToList();
-	        dependentProperty.Address = ushort.Parse(dependentPropertyViewModel.Address ?? "0");
-	        dependentProperty.NumberOfPoints = ushort.Parse(dependentPropertyViewModel.NumberOfPoints ?? "0");
-			return InitializeProperty(dependentPropertyViewModel,dependentProperty);
-        }
-
 
         public IConfigurationItem VisitSubProperty(ISubPropertyEditorViewModel subPropertyEditorViewModel)
         {

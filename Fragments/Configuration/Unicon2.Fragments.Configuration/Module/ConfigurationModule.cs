@@ -34,7 +34,6 @@ namespace Unicon2.Fragments.Configuration.Module
                 new ConfigurationItemFactory(container.Resolve<ITypesContainer>()));
             container.Register<IRuntimeConfigurationItemViewModelFactory,
                 RuntimeConfigurationItemViewModelFactory>();
-            container.Register(typeof(IDependentProperty), typeof(DependentProperty));
             container.Register(typeof(IDependancyCondition), typeof(DependancyCondition));
 
             container.Register(typeof(IComplexProperty), typeof(ComplexProperty));
@@ -44,7 +43,6 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register(typeof(IProperty), typeof(DefaultProperty));
             container.Register(typeof(IGroupWithReiterationInfo), typeof(GroupWithReiterationInfo));
             container.Register(typeof(IReiterationSubGroupInfo), typeof(ReiterationSubGroupInfo));
-            container.Register(typeof(IRuntimeDependentPropertyViewModel), typeof(RuntimeDependentPropertyViewModel));
 
             container.Register(typeof(IRuntimeItemGroupViewModel), typeof(RuntimeItemGroupViewModel));
             container.Register(typeof(IRuntimePropertyViewModel), typeof(RuntimePropertyViewModel));

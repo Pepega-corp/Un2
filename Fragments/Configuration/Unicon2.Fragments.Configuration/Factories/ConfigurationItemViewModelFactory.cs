@@ -6,6 +6,8 @@ using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
@@ -145,10 +147,11 @@ namespace Unicon2.Fragments.Configuration.Factories
         {
             var res = _container.Resolve<IRuntimePropertyViewModel>();
             InitializeProperty(res, property);
+            var formattingService = _container.Resolve<IFormattingService>();
 
             _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription((ushort)(property.Address+AddressOffset), property.NumberOfPoints,
                 new DeviceDataPropertyMemorySubscription(property, res, _container.Resolve<IValueViewModelFactory>(),
-                    _deviceContext.DeviceMemory,(ushort)AddressOffset));
+                    _deviceContext,(ushort)AddressOffset));
 
             var localValue = _container.Resolve<IFormattingService>().FormatValue(property.UshortsFormatter,
                 InitDefaultUshortsValue(property.NumberOfPoints));
@@ -167,8 +170,36 @@ namespace Unicon2.Fragments.Configuration.Factories
             {
 	            _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
 		            , res.LocalValue.Id);
+            }
+
+            if (property?.Dependencies?.Count > 0)
+            {
+	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
+		            _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
+			            new DeviceDataPropertyMemorySubscription(property, res,
+				            _container.Resolve<IValueViewModelFactory>(),
+				            _deviceContext, (ushort) AddressOffset)));
+
+	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
+		            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
+			            new LocalMemorySubscription(res.LocalValue,
+				            (ushort) (property.Address + AddressOffset),
+				            property.NumberOfPoints, property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset)));
 
 
+	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
+		            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
+			            new EditableValueSetUnchangedSubscription(editableValue, _deviceContext.DeviceMemory,
+				            (ushort)(property.Address + AddressOffset), property.NumberOfPoints)));
+
+	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
+		            _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
+			            new EditableValueSetUnchangedSubscription(editableValue, _deviceContext.DeviceMemory,
+				            (ushort)(property.Address + AddressOffset), property.NumberOfPoints)));
+            }
+            else
+            {
+	            
 	            _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(
 		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
 		            setUnchangedSuscription);
@@ -178,12 +209,13 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 	            var localDataSubscription = new LocalMemorySubscription(res.LocalValue,
 		            (ushort) (property.Address + AddressOffset),
-		            property.NumberOfPoints, property.UshortsFormatter, _deviceContext.DeviceMemory);
+		            property.NumberOfPoints, property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset);
 	            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
 		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
 		            localDataSubscription);
             }
-
+            
+            
             return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
 
 		}
@@ -277,56 +309,28 @@ namespace Unicon2.Fragments.Configuration.Factories
             return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
         }
 
-        public FactoryResult<IRuntimeConfigurationItemViewModel> VisitDependentProperty(
-	        IDependentProperty dependentProperty)
-        {
-	        var formattingService = StaticContainer.Container.Resolve<IFormattingService>();
+   
 
-			var res = _container.Resolve<IRuntimeDependentPropertyViewModel>();
-	        InitializeProperty(res, dependentProperty);
-
-	        AddSubscriptionForConditions(dependentProperty, (ushort address, ushort numOfPoints) =>
-		        _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
-			        new DeviceDataDependentPropertyMemorySubscription(dependentProperty, res,
-				        _container.Resolve<IValueViewModelFactory>(),
-				        _deviceContext, (ushort) AddressOffset, formattingService)));
-
-			
-	        AddSubscriptionForConditions(dependentProperty, (ushort address, ushort numOfPoints) =>
-		        _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
-					 new LocalDependentPropertyMemorySubscription(res, dependentProperty,
-						 _deviceContext, formattingService,
-						 AddressOffset)));
-
-
-	        AddSubscriptionForConditions(dependentProperty, (ushort address, ushort numOfPoints) =>
-		        _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
-					new EditableDependentValueSetUnchangedSubscription(res,
-						_deviceContext.DeviceMemory,
-						(ushort)(dependentProperty.Address + AddressOffset), dependentProperty.NumberOfPoints)));
-
-	        AddSubscriptionForConditions(dependentProperty, (ushort address, ushort numOfPoints) =>
-		        _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
-					new EditableDependentValueSetUnchangedSubscription(res,
-						_deviceContext.DeviceMemory,
-						(ushort)(dependentProperty.Address + AddressOffset), dependentProperty.NumberOfPoints)));
-
-			return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
-
-        }
-
-        private void AddSubscriptionForConditions(IDependentProperty dependentProperty,
+        private void AddSubscriptionForConditions(IProperty property,
 			Action<ushort, ushort> memoryOperationAction)
 		{
-			memoryOperationAction.Invoke((ushort) (dependentProperty.Address + AddressOffset),
-				dependentProperty.NumberOfPoints);
-			foreach (var condition in dependentProperty.DependancyConditions)
+			memoryOperationAction.Invoke((ushort) (property.Address + AddressOffset),
+				property.NumberOfPoints);
+			if (property?.Dependencies?.Count > 0)
 			{
-				var relatedProperty =
-					_deviceContext.DeviceSharedResources.SharedResourcesInContainers.First(container =>
-						container.ResourceName == condition.ReferencedPropertyResourceName).Resource as IProperty;
-				memoryOperationAction.Invoke(relatedProperty.Address,
-					relatedProperty.NumberOfPoints);
+				foreach (var dependency in property.Dependencies)
+				{
+					if (dependency is IConditionResultDependency conditionResultDependency &&
+					    conditionResultDependency.Condition is ICompareResourceCondition compareResourceCondition)
+					{
+						var relatedProperty =
+							_deviceContext.DeviceSharedResources.SharedResourcesInContainers.First(container =>
+									container.ResourceName == compareResourceCondition.ReferencedPropertyResourceName)
+								.Resource as IProperty;
+						memoryOperationAction.Invoke(relatedProperty.Address,
+							relatedProperty.NumberOfPoints);
+					}
+				}
 			}
 		}
 

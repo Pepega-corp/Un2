@@ -127,46 +127,53 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
                 return;
             }
 
-            foreach (IDeviceCreator creator in _devicesContainerService.Creators)
-            {
-                if (creator.ConnectionState.DefaultComPortConfiguration == null) continue;
-                _modbusRtuConnection.ComPortConfiguration = creator.ConnectionState.DefaultComPortConfiguration;
-                _modbusRtuConnection.SlaveId = SlaveId;
-                System.Collections.Generic.List<string> ports = _modbusRtuConnection.GetAvailablePorts();
-                var device=creator.Create();
-                foreach (string port in ports)
+            if (_devicesContainerService?.Creators != null)
+                foreach (IDeviceCreator creator in _devicesContainerService.Creators)
                 {
-                    _modbusRtuConnection.PortName = port;
-                    _comConnectionManager.SetComPortConfigurationByName(_modbusRtuConnection.ComPortConfiguration, port);
-                    if ((await _modbusRtuConnection.TryOpenConnectionAsync(null)).IsSuccess)
+                    try
                     {
-                        try
+                        if (creator?.ConnectionState?.DefaultComPortConfiguration == null) continue;
+                        _modbusRtuConnection.ComPortConfiguration = creator.ConnectionState.DefaultComPortConfiguration;
+                        _modbusRtuConnection.SlaveId = SlaveId;
+                        System.Collections.Generic.List<string> ports = _modbusRtuConnection.GetAvailablePorts();
+                        var device = creator.Create();
+                        foreach (string port in ports)
                         {
-                         
-                            var res=await this._connectionService.CheckConnection(creator.ConnectionState,new DeviceContext(null,null,"test",new ConnectionContainer(this._modbusRtuConnection),device.DeviceSharedResources ));
-                            bool isMatches = res.IsSuccess;
-                            if (isMatches)
+                            _modbusRtuConnection.PortName = port;
+                            _comConnectionManager.SetComPortConfigurationByName(
+                                _modbusRtuConnection.ComPortConfiguration,
+                                port);
+                            if ((await _modbusRtuConnection.TryOpenConnectionAsync(null)).IsSuccess)
                             {
-                                IDeviceDefinitionViewModel deviceDefinitionViewModel = _deviceDefinitionCreator();
-                                creator.AvailableConnection = _modbusRtuConnection.Clone() as IDeviceConnection;
-                                deviceDefinitionViewModel.Model = creator;
-                                deviceDefinitionViewModel.ConnectionDescription = _modbusRtuConnection.PortName;
-                                DeviceDefinitionViewModels.Add(deviceDefinitionViewModel);
+                                try
+                                {
+                                    var res = await this._connectionService.CheckConnection(creator.ConnectionState,
+                                        new DeviceContext(null, null, "test",
+                                            new ConnectionContainer(this._modbusRtuConnection),
+                                            device.DeviceSharedResources));
+                                    bool isMatches = res.IsSuccess;
+                                    if (isMatches)
+                                    {
+                                        IDeviceDefinitionViewModel deviceDefinitionViewModel =
+                                            _deviceDefinitionCreator();
+                                        creator.AvailableConnection = _modbusRtuConnection.Clone() as IDeviceConnection;
+                                        deviceDefinitionViewModel.Model = creator;
+                                        deviceDefinitionViewModel.ConnectionDescription = _modbusRtuConnection.PortName;
+                                        DeviceDefinitionViewModels.Add(deviceDefinitionViewModel);
+                                    }
+                                }
+                                finally
+                                {
+                                    await Task.Run(() => { _modbusRtuConnection.CloseConnection(); });
+                                }
                             }
                         }
-                        finally
-                        {
-                            await Task.Run(() =>
-                            {
-                                _modbusRtuConnection.CloseConnection();
-                            });
+                    }
+                    finally
+                    {
 
-                        }
                     }
                 }
-
-            }
-
         }
 
         public ObservableCollection<IDeviceDefinitionViewModel> DeviceDefinitionViewModels { get; }
