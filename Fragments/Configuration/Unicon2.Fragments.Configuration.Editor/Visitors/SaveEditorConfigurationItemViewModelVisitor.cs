@@ -60,10 +60,10 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             
             property.NumberOfWriteFunction = editorViewModel.NumberOfWriteFunction;
 
-            if (editorViewModel.Dependencies != null)
+            if (editorViewModel.DependencyViewModels != null)
             {
 	            List<IDependency> dependencies=new List<IDependency>();
-	            dependencies = editorViewModel.Dependencies
+	            dependencies = editorViewModel.DependencyViewModels
 		            .Select(_container.Resolve<DependencyFillHelper>().CreateDependencyModel).ToList();
 	            property.Dependencies = dependencies;
             }

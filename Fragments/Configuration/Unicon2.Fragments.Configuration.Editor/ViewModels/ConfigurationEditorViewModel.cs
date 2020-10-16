@@ -5,19 +5,24 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Factories;
+using Unicon2.Fragments.Configuration.Editor.Helpers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.View;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.ElementAdding;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services.Dependencies;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentSettings;
 using Unicon2.Unity.Commands;
@@ -30,6 +35,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
+        private readonly IDependenciesService _dependenciesService;
+        private readonly DependencyFillHelper _dependencyFillHelper;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
         private IEditorConfigurationItemViewModel _bufferConfigurationItem;
@@ -39,13 +46,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
-            IFormatterEditorFactory formatterEditorFactory, IFragmentSettingsViewModel fragmentSettingsViewModel,ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel
+            IFormatterEditorFactory formatterEditorFactory, IFragmentSettingsViewModel fragmentSettingsViewModel,
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,IDependenciesService dependenciesService ,DependencyFillHelper dependencyFillHelper
         )
         {
             _allRows = new ObservableCollection<IConfigurationItemViewModel>();
             _applicationGlobalCommands = applicationGlobalCommands;
             _formatterEditorFactory = formatterEditorFactory;
             _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+            _dependenciesService = dependenciesService;
+            _dependencyFillHelper = dependencyFillHelper;
             FragmentSettingsViewModel = fragmentSettingsViewModel;
             RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
             ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
@@ -94,6 +104,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
             AddSelectedElementAsResourceCommand = new RelayCommand(OnAddSelectedElementAsResourceExecute,
                 CanExecuteAddSelectedElementAsResource);
+            ShowDependenciesCommand=new RelayCommand(OnShowDependenciesExecute,CanExecuteShowDependencies);
             EditDescriptionCommand =
                 new RelayCommand(OnEditDescriptionExecute, CanExecuteEditDescription);
 			IncreaseAddressCommand=new RelayCommand(()=>OnChangeAddress(true),()=>SelectedRow is IAddressChangeable);
@@ -102,7 +113,19 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 			AddressIteratorValue = 1;
         }
 
-		private void OnChangeAddress(bool isIncreasing)
+        private bool CanExecuteShowDependencies()
+        {
+            return SelectedRow is IDependenciesViewModelContainer;
+        }
+
+        private void OnShowDependenciesExecute()
+        {
+            _dependenciesService.EditDependencies(SelectedRow as IDependenciesViewModelContainer,
+                new DependenciesConfiguration(("ConditionResultDependencyViewModel",
+                    () => _dependencyFillHelper.CreateEmptyConditionResultDependencyViewModel())));
+        }
+
+        private void OnChangeAddress(bool isIncreasing)
 		{ 
 			(SelectedRow as IAddressChangeable).ChangeAddress(AddressIteratorValue,isIncreasing);
         }
@@ -309,6 +332,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 	            (PasteAsChildElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (IncreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (DecreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (ShowDependenciesCommand as RelayCommand)?.RaiseCanExecuteChanged();
 
 	            RaisePropertyChanged();
             }
@@ -557,7 +581,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
 
         public IFragmentSettingsViewModel FragmentSettingsViewModel { get; }
-        
+
+        public ICommand ShowDependenciesCommand
+        {
+            get;
+        }
+
         public void Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IDeviceConfiguration deviceConfiguration)

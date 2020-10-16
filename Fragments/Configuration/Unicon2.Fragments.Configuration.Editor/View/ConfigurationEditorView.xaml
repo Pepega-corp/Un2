@@ -9,9 +9,11 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels"
     d:DesignHeight="500"
     d:DesignWidth="900"
     lex:LocalizeDictionary.DesignCulture="ru-RU"
+    d:DataContext="{d:DesignInstance viewModels:ConfigurationEditorViewModel}"
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
     mc:Ignorable="d">
@@ -220,7 +222,7 @@
                                             Grid.Column="3"
                                             Width="200"
                                             Height="30"
-                                            Command="{Binding SelectedRow.ShowDependenciesCommand}"
+                                            Command="{Binding ShowDependenciesCommand}"
                                             Content="{lex:Loc Show}"
                                             Style="{DynamicResource UniconButtonStyle}" />
                                         </Grid>

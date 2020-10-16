@@ -10,11 +10,10 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
     public interface IPropertyEditorViewModel : IEditorConfigurationItemViewModel, IPropertyViewModel, IEditable,
         IDeletable, IAddressChangeable,
-        IUshortFormattableEditorViewModel
+        IUshortFormattableEditorViewModel,IDependenciesViewModelContainer
     {
         string Address { get; set; }
         string NumberOfPoints { get; set; }
         ushort NumberOfWriteFunction { get; set; }
-        ObservableCollection<IDependencyViewModel> Dependencies { get; }
     }
 }

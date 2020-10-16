@@ -81,8 +81,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 
             if (property.Dependencies != null && property.Dependencies.Count > 0)
             {
-	            editorPropertyViewModel.Dependencies.Clear();
-	            editorPropertyViewModel.Dependencies.AddCollection(property.Dependencies
+	            editorPropertyViewModel.DependencyViewModels.Clear();
+	            editorPropertyViewModel.DependencyViewModels.AddCollection(property.Dependencies
 		            .Select(_container.Resolve<DependencyFillHelper>().CreateDependencyViewModel).ToList());
             }
 

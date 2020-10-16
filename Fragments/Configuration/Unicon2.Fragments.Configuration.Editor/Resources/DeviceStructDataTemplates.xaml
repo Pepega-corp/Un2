@@ -7,7 +7,13 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:tree="clr-namespace:Unicon2.Fragments.Configuration.Editor.Interfaces.Tree"
     xmlns:view="clr-namespace:Unicon2.Fragments.Configuration.Editor.View"
-    xmlns:viewModels="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels">
+    xmlns:viewModels="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels"
+    xmlns:dependencies="clr-namespace:Unicon2.Fragments.Configuration.Model.Dependencies;assembly=Unicon2.Fragments.Configuration"
+    xmlns:conditions="clr-namespace:Unicon2.Fragments.Configuration.Model.Dependencies.Conditions;assembly=Unicon2.Fragments.Configuration"
+    xmlns:conditions1="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditions"
+    xmlns:dependencies1="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies"
+    xmlns:dependencies2="clr-namespace:Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies"
+    xmlns:results="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results">
 
     <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <converter:DisablingNegativeValueConverter x:Key="DisablingNegativeValueConverter" />
@@ -15,6 +21,7 @@
     <converter:InvertConverter x:Key="InvertConverter" />
     <converter:IsInterfaceImplementedToBoolConverter x:Key="IsInterfaceImplementedToBoolConverter" />
     <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
+    <converter:IgnoringFailedLocalizationConverter x:Key="IgnoringFailedLocalizationConverter" />
 
     <DataTemplate x:Key="ConfigurationEditorViewModelDataTemplate" DataType="{x:Type viewModels:ConfigurationEditorViewModel}">
 
@@ -37,4 +44,115 @@
         </StackPanel>
     </DataTemplate>
 
+    
+        <DataTemplate DataType="conditions1:CompareResourceConditionViewModel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5" Text="{lex:Loc ReferencedProperty}" />
+                                    <lex:LocProxy Name="propProxy" Source="{Binding ReferencedResourcePropertyName, TargetNullValue=NotSet}" />
+                                    <TextBlock
+                                        MinWidth="150"
+                                        Margin="5"
+                                        Text="{Binding ElementName=propProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}" />
+                                </StackPanel>
+                                <Button
+                                    MinWidth="150"
+                                    Command="{Binding SelectPropertyFromResourceCommand}"
+                                    Content="{lex:Loc SelectFromResources}"
+                                    Style="{DynamicResource UniconButtonStyle}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="10">
+                                <TextBlock Text="{lex:Loc Condition}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox ItemsSource="{Binding ConditionsList}" SelectedItem="{Binding SelectedCondition}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <lex:LocProxy x:Name="condProxy" Source="{Binding }" />
+                                                    <TextBlock FontWeight="Normal" Text="{Binding Result, ElementName=condProxy}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <TextBox MinWidth="100" Text="{Binding UshortValueToCompare}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </Grid>
+                    </DataTemplate>
+        <DataTemplate DataType="results:BlockInteractionResultViewModel">
+                          <TextBlock
+                                        MinWidth="150"
+                                        Margin="5"
+                                        Text="{lex:Loc BlockInteractionResult}" />
+        </DataTemplate>
+    
+    <DataTemplate DataType="results:ApplyFormatterResultViewModel">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="5" Text="{lex:Loc ConditionFormatter}" />
+            <lex:LocProxy Name="formatterCondProxy" Source="{Binding FormatterParametersViewModel.RelatedUshortsFormatterViewModel.StrongName, TargetNullValue=NotSet}" />
+            <TextBlock
+                MinWidth="150"
+                Margin="5"
+                Text="{Binding ElementName=formatterCondProxy, Path=Result}" />
+            <Button
+                Margin="5"
+                Command="{Binding ShowFormatterParameters}"
+                Content="{lex:Loc FormatterParameters}"
+                Style="{DynamicResource UniconButtonStyle}" />
+        </StackPanel>
+    </DataTemplate>
+    
+    
+            <DataTemplate DataType="dependencies1:ConditionResultDependencyViewModel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="1" Margin="10">
+                                <TextBlock Text="{lex:Loc Condition}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox ItemsSource="{Binding  ConditionViewModels}" SelectedItem="{Binding SelectedConditionViewModel}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate DataType="dependencies2:IConditionViewModel">
+                                                <Grid>
+                                                    <lex:LocProxy x:Name="condProxy" Source="{Binding   StrongName}" />
+                                                    <TextBlock FontWeight="Normal" Text="{Binding Result, ElementName=condProxy}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ContentPresenter Content="{Binding SelectedConditionViewModel}"></ContentPresenter>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="10">
+                                <TextBlock Text="{lex:Loc ConditionResult}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox ItemsSource="{Binding ResultViewModels}" SelectedItem="{Binding SelectedResultViewModel}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <lex:LocProxy x:Name="condresProxy" Source="{Binding}" />
+                                                    <TextBlock FontWeight="Normal" Text="{Binding Result, ElementName=condresProxy}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                                <ContentPresenter Content="{Binding SelectedResultViewModel}"></ContentPresenter>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+    
+    
 </ResourceDictionary>

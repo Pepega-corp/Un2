@@ -37,7 +37,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 			_container = container;
 			_localizerService = localizerService;
 			RangeViewModel = rangeViewModel;
-			Dependencies=new ObservableCollection<IDependencyViewModel>();
+			DependencyViewModels=new ObservableCollection<IDependencyViewModel>();
 		}
 
 		public virtual string Address
@@ -74,7 +74,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             }
         }
 
-	    public ObservableCollection<IDependencyViewModel> Dependencies { get; }
 
 
 	    public bool IsInEditMode
@@ -214,5 +213,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
                 RaisePropertyChanged();
 	        }
 	    }
+
+	    public ObservableCollection<IDependencyViewModel> DependencyViewModels { get; }
 	}
 }

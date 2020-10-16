@@ -25,6 +25,14 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             _conditionFillHelper = conditionFillHelper;
         }
 
+        public IDependencyViewModel CreateEmptyConditionResultDependencyViewModel()
+        {
+            var resultList = _typesContainer.ResolveAll<IResultViewModel>().ToList();
+            var conditionsList = _typesContainer.ResolveAll<IConditionViewModel>().ToList();
+            return new ConditionResultDependencyViewModel(resultList,
+                conditionsList);
+        }
+
         public IDependencyViewModel CreateDependencyViewModel(IDependency dependency)
         {
             switch (dependency)
