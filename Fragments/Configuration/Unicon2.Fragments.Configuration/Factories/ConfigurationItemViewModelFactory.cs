@@ -313,8 +313,6 @@ namespace Unicon2.Fragments.Configuration.Factories
         private void AddSubscriptionForConditions(IProperty property,
 			Action<ushort, ushort> memoryOperationAction)
 		{
-			memoryOperationAction.Invoke((ushort) (property.Address + AddressOffset),
-				property.NumberOfPoints);
 			if (property?.Dependencies?.Count > 0)
 			{
 				foreach (var dependency in property.Dependencies)
@@ -331,7 +329,9 @@ namespace Unicon2.Fragments.Configuration.Factories
 					}
 				}
 			}
-		}
+            memoryOperationAction.Invoke((ushort)(property.Address + AddressOffset),
+                property.NumberOfPoints);
+        }
 
 		public FactoryResult<IRuntimeConfigurationItemViewModel> VisitSubProperty(ISubProperty subProperty)
         {

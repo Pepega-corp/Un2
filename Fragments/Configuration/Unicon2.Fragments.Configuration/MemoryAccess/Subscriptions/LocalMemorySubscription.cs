@@ -54,16 +54,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         public void Execute()
         {
 	        
-	        if (!MemoryAccessor.IsMemoryContainsAddresses(_deviceContext.DeviceMemory,
-		        (ushort) (_address), _property.NumberOfPoints, true))
-	        {
-		        return;
-	        }
-	        
-	        
 	        var newUshorts = MemoryAccessor.GetUshortsFromMemory(
 		        _deviceContext.DeviceMemory,
-		        (ushort) (_address), _property.NumberOfPoints, true);
+		        (ushort) (_address+_offset), _property.NumberOfPoints, true);
 
 
 	        if (_property?.Dependencies?.Count > 0)
@@ -132,7 +125,12 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 	        }
 	        else
 	        {
-		        if (!newUshorts.IsEqual(_prevUshorts))
+                if (!MemoryAccessor.IsMemoryContainsAddresses(_deviceContext.DeviceMemory,
+                    (ushort)(_address), _property.NumberOfPoints, true))
+                {
+                    return;
+                }
+                if (!newUshorts.IsEqual(_prevUshorts))
 		        {
 			        _prevUshorts = newUshorts;
 			        var localValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(
