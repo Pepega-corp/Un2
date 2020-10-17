@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
+using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Commands;
@@ -79,6 +80,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditi
             };
         }
 
-        public string StrongName { get; }
+        public string StrongName => ConfigurationKeys.COMPARE_RESOURCE_CONDITION;
     }
 }

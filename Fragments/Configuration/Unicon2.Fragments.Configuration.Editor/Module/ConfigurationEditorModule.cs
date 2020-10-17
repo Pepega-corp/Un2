@@ -1,8 +1,10 @@
 ﻿using Unicon2.Fragments.Configuration.Editor.Helpers;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditions;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
@@ -27,8 +29,12 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
             container.Register<IConfigurationGroupEditorViewModel, ConfigurationGroupEditorViewModel>();
             container.Register<IComplexPropertyEditorViewModel, ComplexPropertyEditorViewModel>();
             container.Register<ISubPropertyEditorViewModel, SubPropertyEditorViewModel>();
-            
-            
+
+            container.Register<IResultViewModel, ApplyFormatterResultViewModel>(ConfigurationKeys.APPLY_FORMATTER_RESULT);
+            container.Register<IResultViewModel, BlockInteractionResultViewModel>(ConfigurationKeys.BLOCK_INTERACTION_RESULT);
+            container.Register<IConditionViewModel, CompareResourceConditionViewModel>(ConfigurationKeys.COMPARE_RESOURCE_CONDITION);
+
+
             container.Register<IElementAddingCommand, ElementAddingCommand>();
 
             container.Register(typeof(IFragmentSettingViewModel),
@@ -44,7 +50,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",
                 GetType().Assembly);
             
-            container.Register<Interfaces.Dependencies.IConditionViewModel,CompareResourceConditionViewModel>();
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
+using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -42,6 +43,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results
             };
         }
 
-        public string StrongName { get; }
+        public string StrongName => ConfigurationKeys.APPLY_FORMATTER_RESULT;
     }
 }

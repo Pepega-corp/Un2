@@ -19,6 +19,14 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
         }
 
+        public List<IConditionViewModel> CreateEmptyAvailableConditionViewModels()
+        {
+            return new List<IConditionViewModel>()
+            {
+                new CompareResourceConditionViewModel(_sharedResourcesGlobalViewModel, new List<string>(Enum.GetNames(typeof(ConditionsEnum))))
+            };
+        }
+
         public IConditionViewModel CreateConditionViewModel(ICondition condition)
         {
             switch (condition)

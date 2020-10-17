@@ -44,8 +44,8 @@
         </StackPanel>
     </DataTemplate>
 
-    
-        <DataTemplate DataType="conditions1:CompareResourceConditionViewModel">
+
+    <DataTemplate DataType="{x:Type conditions1:CompareResourceConditionViewModel}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -87,7 +87,7 @@
 
                         </Grid>
                     </DataTemplate>
-        <DataTemplate DataType="results:BlockInteractionResultViewModel">
+    <DataTemplate DataType="{x:Type results:BlockInteractionResultViewModel}">
                           <TextBlock
                                         MinWidth="150"
                                         Margin="5"
@@ -109,9 +109,9 @@
                 Style="{DynamicResource UniconButtonStyle}" />
         </StackPanel>
     </DataTemplate>
-    
-    
-            <DataTemplate DataType="dependencies1:ConditionResultDependencyViewModel">
+
+
+    <DataTemplate DataType="{x:Type dependencies1:ConditionResultDependencyViewModel}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
