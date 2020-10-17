@@ -173,7 +173,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             }
 
             IQueryResult res=null;
-            if (functionNumber == 16)
+            if (functionNumber == 16||functionNumber==0)
             {
                 res = await dataProvider.WriteMultipleRegistersAsync(rangeFrom,
                     valuesToWrite.ToArray(), ConfigurationKeys.WRITING_CONFIGURATION_QUERY);

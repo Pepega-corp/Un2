@@ -39,7 +39,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results
         {
             return new ApplyFormatterResultViewModel(_formatterEditorFactory)
             {
-                FormatterParametersViewModel = FormatterParametersViewModel.Clone()
+                FormatterParametersViewModel = FormatterParametersViewModel?.Clone()
             };
         }
 

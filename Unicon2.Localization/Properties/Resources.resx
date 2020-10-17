@@ -1461,4 +1461,16 @@
   <data name="WriteFunction" xml:space="preserve">
     <value>@WriteFunction</value>
   </data>
+  <data name="ApplyFormatterResult" xml:space="preserve">
+    <value>@ApplyFormatterResult</value>
+  </data>
+  <data name="BlockInteractionResult" xml:space="preserve">
+    <value>@BlockInteractionResult</value>
+  </data>
+  <data name="CompareResourceCondition" xml:space="preserve">
+    <value>@CompareResourceCondition</value>
+  </data>
+  <data name="ConditionResultDependency" xml:space="preserve">
+    <value>@ConditionResultDependency</value>
+  </data>
 </root>

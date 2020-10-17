@@ -142,6 +142,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 				InitializeBaseProperties(res,property);
 	            return res;
             }
+
+            res.IsGroupedProperty = property.IsGroupedProperty;
             foreach (ISubProperty subProperty in property.SubProperties)
             {
 	            var subPropertyViewModel = subProperty.Accept(this.WithParent(res));

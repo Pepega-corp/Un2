@@ -538,6 +538,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @ApplyFormatterResult.
+        /// </summary>
+        public static string ApplyFormatterResult {
+            get {
+                return ResourceManager.GetString("ApplyFormatterResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @ApplyingFormatter.
         /// </summary>
         public static string ApplyingFormatter {
@@ -696,6 +705,15 @@ namespace Unicon2.Localization.Properties {
         public static string Block {
             get {
                 return ResourceManager.GetString("Block", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @BlockInteractionResult.
+        /// </summary>
+        public static string BlockInteractionResult {
+            get {
+                return ResourceManager.GetString("BlockInteractionResult", resourceCulture);
             }
         }
         
@@ -862,6 +880,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на @CompareResourceCondition.
+        /// </summary>
+        public static string CompareResourceCondition {
+            get {
+                return ResourceManager.GetString("CompareResourceCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на @ComplexParameter.
         /// </summary>
         public static string ComplexParameter {
@@ -912,6 +939,15 @@ namespace Unicon2.Localization.Properties {
         public static string ConditionResult {
             get {
                 return ResourceManager.GetString("ConditionResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на @ConditionResultDependency.
+        /// </summary>
+        public static string ConditionResultDependency {
+            get {
+                return ResourceManager.GetString("ConditionResultDependency", resourceCulture);
             }
         }
         

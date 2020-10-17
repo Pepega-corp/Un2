@@ -18,7 +18,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
         private readonly ResultFillHelper _resultFillHelper;
         private readonly ConditionFillHelper _conditionFillHelper;
 
-        public DependencyFillHelper(TypesContainer typesContainer,ResultFillHelper resultFillHelper,ConditionFillHelper conditionFillHelper)
+        public DependencyFillHelper(TypesContainer typesContainer,
+            ResultFillHelper resultFillHelper,ConditionFillHelper conditionFillHelper)
         {
             _typesContainer = typesContainer;
             _resultFillHelper = resultFillHelper;
@@ -27,10 +28,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
 
         public IDependencyViewModel CreateEmptyConditionResultDependencyViewModel()
         {
-            var resultList = _typesContainer.ResolveAll<IResultViewModel>().ToList();
-            var conditionsList = _typesContainer.ResolveAll<IConditionViewModel>().ToList();
-            return new ConditionResultDependencyViewModel(resultList,
-                conditionsList);
+            return new ConditionResultDependencyViewModel(_resultFillHelper.CreateEmptyResultViewModels(),
+                _conditionFillHelper.CreateEmptyAvailableConditionViewModels());
         }
 
         public IDependencyViewModel CreateDependencyViewModel(IDependency dependency)
@@ -39,8 +38,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             {
                 case IConditionResultDependency conditionResultDependency:
 
-                    var resultList = _typesContainer.ResolveAll<IResultViewModel>().ToList();
-                    var conditionsList = _typesContainer.ResolveAll<IConditionViewModel>().ToList();
+                    var resultList = _resultFillHelper.CreateEmptyResultViewModels();
+                    var conditionsList = _conditionFillHelper.CreateEmptyAvailableConditionViewModels();
                     var actualResult = _resultFillHelper.CreateResultViewModel(conditionResultDependency.Result);
                     var actualCondition =
                         _conditionFillHelper.CreateConditionViewModel(conditionResultDependency.Condition);

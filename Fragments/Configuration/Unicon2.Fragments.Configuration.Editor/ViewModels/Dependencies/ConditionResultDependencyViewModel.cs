@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Unity.ViewModels;
@@ -46,13 +47,21 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies
 
         public IDependencyViewModel Clone()
         {
-            return new ConditionResultDependencyViewModel(ResultViewModels.CloneCollection().ToList(), ConditionViewModels.CloneCollection().ToList())
+            var resultList = ResultViewModels.CloneCollection().ToList();
+            var conditionsList = ConditionViewModels.CloneCollection().ToList();
+            var actualResult = this.SelectedResultViewModel.Clone();
+            var actualCondition =
+                this.SelectedConditionViewModel.Clone();
+            resultList.ReplaceStronglyNamedInCollection(actualResult);
+            conditionsList.ReplaceStronglyNamedInCollection(actualCondition);
+            return new ConditionResultDependencyViewModel(resultList,
+                conditionsList)
             {
-                SelectedConditionViewModel = this.SelectedConditionViewModel.Clone(),
-                SelectedResultViewModel = SelectedResultViewModel.Clone()
+                SelectedConditionViewModel = actualCondition,
+                SelectedResultViewModel = actualResult
             };
         }
 
-        public string Name { get; }
+        public string Name => "ConditionResultDependency";
     }
 }

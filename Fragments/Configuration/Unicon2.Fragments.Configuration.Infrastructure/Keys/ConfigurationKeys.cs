@@ -35,9 +35,9 @@
 
 
         public const string DEFAULT_PROPERTY = "DefaultProperty";
-        public const string COMPARE_RESOURCE_CONDITION = "CopmareResourceCondition";
+        public const string COMPARE_RESOURCE_CONDITION = "CompareResourceCondition";
         public const string BLOCK_INTERACTION_RESULT = "BlockInteractionResult";
-        public const string APPLY_FORMATTER_RESULT = "BlockInteractionResult";
+        public const string APPLY_FORMATTER_RESULT = "ApplyFormatterResult";
 
 
         public const string COMPLEX_PROPERTY = "ComplexProperty";

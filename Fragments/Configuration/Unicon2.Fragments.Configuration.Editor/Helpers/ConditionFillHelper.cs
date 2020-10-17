@@ -50,11 +50,11 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
                 case CompareResourceConditionViewModel compareResourceConditionViewModel:
                     if (Enum.TryParse<ConditionsEnum>(compareResourceConditionViewModel.SelectedCondition, out var conditionsEnum))
                     {
-                        string conditionString = Enum.GetName(typeof(ConditionsEnum), compareResourceConditionViewModel.SelectedCondition);
                         return new CompareResourceCondition()
                         {
                             ConditionsEnum = conditionsEnum,
-
+                            ReferencedPropertyResourceName = compareResourceConditionViewModel.ReferencedResourcePropertyName,
+                            UshortValueToCompare = compareResourceConditionViewModel.UshortValueToCompare
                         };
                     }
                     break;

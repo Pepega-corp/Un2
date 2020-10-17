@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results;
@@ -22,6 +23,15 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             this._formatterEditorFactory = formatterEditorFactory;
             _formatterViewModelFactory = formatterViewModelFactory;
             _saveFormatterService = saveFormatterService;
+        }
+
+        public List<IResultViewModel> CreateEmptyResultViewModels()
+        {
+            return new List<IResultViewModel>()
+            {
+                 new ApplyFormatterResultViewModel(_formatterEditorFactory),
+                 new BlockInteractionResultViewModel()
+            };
         }
 
         public IResultViewModel CreateResultViewModel(IDependencyResult dependencyResult)

@@ -254,10 +254,9 @@ namespace Unicon2.Fragments.Configuration.Factories
 						subProperty));
 
 
-				var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(editableValue,
+				var setUnchangedSuscription = new SubPropertySetUnchangedSubscription(subProperty.BitNumbersInWord,editableValue,
 					_deviceContext.DeviceMemory,
 					(ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints);
-				setUnchangedSuscriptions.Add(setUnchangedSuscription);
 				var editSubscription =
 					new LocalDataComplexPropertyEditedSubscription(res, _deviceContext,
 						complexProperty, AddressOffset);

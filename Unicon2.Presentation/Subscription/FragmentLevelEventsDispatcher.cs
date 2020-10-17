@@ -55,7 +55,7 @@ namespace Unicon2.Presentation.Subscription
             }
             else
             {
-                if (_deviceMemoryObservers[address].Collection
+                if (memoryDataObservers[address].Collection
                     .All(subscription => subscription != deviceDataMemorySubscription))
                     memoryDataObservers[address].Collection.Add(deviceDataMemorySubscription);
             }

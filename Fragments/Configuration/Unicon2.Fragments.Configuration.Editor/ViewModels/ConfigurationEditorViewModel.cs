@@ -121,7 +121,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private void OnShowDependenciesExecute()
         {
             _dependenciesService.EditDependencies(SelectedRow as IDependenciesViewModelContainer,
-                new DependenciesConfiguration(("ConditionResultDependencyViewModel",
+                new DependenciesConfiguration(("ConditionResultDependency",
                     () => _dependencyFillHelper.CreateEmptyConditionResultDependencyViewModel())));
         }
 

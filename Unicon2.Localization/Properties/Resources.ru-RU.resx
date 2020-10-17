@@ -1470,4 +1470,16 @@
   <data name="WriteFunction" xml:space="preserve">
     <value>Функция записи</value>
   </data>
+  <data name="ApplyFormatterResult" xml:space="preserve">
+    <value>Результат: Применение форматирования</value>
+  </data>
+  <data name="BlockinteractionResult" xml:space="preserve">
+    <value>Результат: Блокировка взаимодействия</value>
+  </data>
+  <data name="CompareResourceCondition" xml:space="preserve">
+    <value>Условие: проверка ресурсов</value>
+  </data>
+  <data name="ConditionResultDependency" xml:space="preserve">
+    <value>Зависимость: Условие-Результат</value>
+  </data>
 </root>
