@@ -17,11 +17,9 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public Inversion()
         {
-            Connectors = new List<IConnector>(2)
-            {
-                [0] = new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT),
-                [1] = new Connector(ConnectorOrientation.RIGHT, ConnectorType.INVERS)
-            };
+            Connectors = new List<IConnector>();
+            Connectors.Add(new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT));
+            Connectors.Add(new Connector(ConnectorOrientation.RIGHT, ConnectorType.INVERS));
         }
 
         public override void CopyValues(ILibraryElement source)

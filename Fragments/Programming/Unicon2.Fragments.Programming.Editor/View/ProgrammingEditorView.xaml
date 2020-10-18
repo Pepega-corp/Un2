@@ -149,8 +149,8 @@
                     <DataTemplate DataType="interfaces:ILogicElementEditorViewModel">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition MaxWidth="100"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Button
                                 Grid.Column="0"
@@ -162,7 +162,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 Margin="3"
-                                HorizontalAlignment="Center"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Text="{Binding ElementName}">
                                 <TextBlock.ToolTip>

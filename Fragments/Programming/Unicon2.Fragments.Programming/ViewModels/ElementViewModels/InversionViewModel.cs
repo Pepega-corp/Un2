@@ -8,7 +8,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public class InversionViewModel: LogicElementViewModel
     {
-        public string Name => _model.Name;
         public override string StrongName => ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
         public InversionViewModel()

@@ -155,18 +155,18 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 	        var elementModels = this.LibraryElements.Select(l => l.Model).Cast<ILibraryElement>().ToArray();
             this._model.Elements.Clear();
 	        this._model.Elements.AddRange(elementModels);
-            
+
             if (this._model.WithHeader)
             {
                 this._model.LogicHeader = $"MR{this.MrNumber} LOGIKA PROG VER. {this.SelectedVersionHeader} SUBVER. {this.SelectedSubversionHeader}";
+                
+                while (this._model.LogicHeader.Length < 44)
+                {
+                    this._model.LogicHeader += " ";
+                }
             }
 
-            while (this._model.LogicHeader.Length < 44)
-            {
-                this._model.LogicHeader += " ";
-            }
-
-	        return this._model;
+            return this._model;
         }
 
         public void Initialize(IDeviceFragment deviceFragment)
