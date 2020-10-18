@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Unicon2.Fragments.Programming.Editor.Interfaces;
 using Unicon2.Fragments.Programming.Editor.View;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;

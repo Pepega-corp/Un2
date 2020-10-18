@@ -28,6 +28,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public string Description =>"Входной логический сигнал";
 
         public string StrongName => ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
+        public bool IsEditable => true;
 
         public InputEditorViewModel(IInputEditor model)
         {

@@ -30,6 +30,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             set { this.SetModel(value); }
         }
 
+        public bool IsEditable => true;
+
         public ICommand AddOutputSignalCommand { get; }
         public ICommand RemoveOutputSignalCommand { get; }
 

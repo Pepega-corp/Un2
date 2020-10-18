@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Unicon2.Fragments.Programming.Editor.Interfaces;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Infrastructure.Services;
 
 namespace Unicon2.Fragments.Programming.Editor.Validators
