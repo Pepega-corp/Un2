@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    xmlns:local="clr-namespace:Unicon2.Fragments.Programming"
     xmlns:other="clr-namespace:Unicon2.Fragments.Programming.Other"
     xmlns:viewModels="clr-namespace:Unicon2.Fragments.Programming.ViewModels">
 
@@ -14,6 +13,7 @@
         <ResourceDictionary Source="ElementsResources/Connector.xaml" />
         <ResourceDictionary Source="ElementsResources/InputView.xaml" />
         <ResourceDictionary Source="ElementsResources/OutputView.xaml" />
+        <ResourceDictionary Source="ElementsResources/Inversion.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  TAB CONTROL STYLE  -->

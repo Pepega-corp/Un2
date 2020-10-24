@@ -28,7 +28,7 @@ namespace Unicon2.Fragments.Programming.Other
             this._fileDriver.SetDataProvider(deviceContext.DataProviderContainer.DataProvider);
         }
 
-        public async Task WriteLogic(byte[] logicPjectBytes)
+        public async Task WriteLogicArchive(byte[] logicPjectBytes)
         {
             var compressedArchive = this.CompressProject(logicPjectBytes);
             await this._fileDriver.WriteFile(compressedArchive, LOGARCH_ZIP);
@@ -65,7 +65,7 @@ namespace Unicon2.Fragments.Programming.Other
             return compressedBytes.ToArray();
         }
 
-        public async Task<byte[]> ReadLogic()
+        public async Task<byte[]> ReadLogicArchive()
         {
             var compressedLogic = await this._fileDriver.ReadFile(LOGARCH_ZIP);
             var uncompressedLogic = UncompressProject(compressedLogic);

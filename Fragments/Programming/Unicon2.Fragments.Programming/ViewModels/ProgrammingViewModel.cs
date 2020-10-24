@@ -291,15 +291,19 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 this.UpdateModelData();
                 var logicProjectBytes = _serializerService.SerializeInBytes(_programModel);
-                await this._logicDeviceProvider.WriteLogic(logicProjectBytes);
+                await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes);
 
-                //var uncompressProject = _logicReader.UncompressProject(compressedProject);
-                //var model = _serializerService.DeserializeFromBytes<IProgramModel>(uncompressProject);
+                
             }
             else
             {
                 MessageBox.Show("Not all logic elements are connected!", "Write logic", MessageBoxButton.OK);
             }
+        }
+
+        private ushort[] Compile()
+        {
+            return null;
         }
 
         private async void OnReadCommand()
@@ -318,7 +322,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
             try
             {
-                var logicProjectBytes = await this._logicDeviceProvider.ReadLogic();
+                var logicProjectBytes = await this._logicDeviceProvider.ReadLogicArchive();
             }
             catch (Exception e)
             {

@@ -33,24 +33,27 @@
                     StrokeThickness="1" />
                 <ContentControl
                     Grid.Column="0"
-                    Margin="0,5,0,0"
+                    Margin="0,10,0,0"
                     Panel.ZIndex="1"
                     Content="{Binding ConnectorViewModels[0]}" />
                 <Rectangle
                     Grid.Column="1"
                     IsHitTestVisible="False"
-                    StrokeThickness="1" />
+                    StrokeThickness="1" 
+                    Stroke="Black" 
+                    Height="20" Width="20"/>
                 <TextBlock
                     Grid.Column="1"
-                    Margin="6,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     FontFamily="Calibri"
-                    FontSize="8"
+                    FontSize="10"
                     IsHitTestVisible="False"
                     LineHeight="10"
                     Text="{Binding Symbol}" />
                 <ContentControl
                     Grid.Column="2"
-                    Margin="0,5,0,0"
+                    Margin="0,10,0,0"
                     Panel.ZIndex="1"
                     Content="{Binding ConnectorViewModels[1]}" />
             </Grid>
