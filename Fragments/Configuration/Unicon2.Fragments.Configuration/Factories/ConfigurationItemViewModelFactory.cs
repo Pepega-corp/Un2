@@ -234,69 +234,117 @@ namespace Unicon2.Fragments.Configuration.Factories
         public FactoryResult<IRuntimeConfigurationItemViewModel> VisitComplexProperty(IComplexProperty complexProperty)
         {
             var res = _container.Resolve<IRuntimeComplexPropertyViewModel>();
+            var formattingService = _container.Resolve<IFormattingService>();
 
-            _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription((ushort)(complexProperty.Address+AddressOffset), complexProperty.NumberOfPoints,
-	            new DeviceDataComplexPropertySubscription(_container.Resolve<IValueViewModelFactory>(), _deviceContext.DeviceMemory, complexProperty, res, (ushort)AddressOffset));
+            foreach (ISubProperty subProperty in complexProperty.SubProperties)
+            {
 
-			List<EditableValueSetUnchangedSubscription> setUnchangedSuscriptions=new List<EditableValueSetUnchangedSubscription>();
-			foreach (ISubProperty subProperty in complexProperty.SubProperties)
-			{
-				IRuntimeSubPropertyViewModel subPropertyViewModel =
-					subProperty.Accept(this).Item as IRuntimeSubPropertyViewModel;
-
-				var localValue = _container.Resolve<IFormattingService>().FormatValue(subProperty.UshortsFormatter,
-					InitDefaultUshortsValue(subProperty.NumberOfPoints));
-
-
-				var editableValue = _container.Resolve<IValueViewModelFactory>()
-					.CreateEditableValueViewModel(new FormattedValueInfo(localValue, subProperty,
-						subProperty.UshortsFormatter,
-						subProperty));
-
-
-				var setUnchangedSuscription = new SubPropertySetUnchangedSubscription(subProperty.BitNumbersInWord,editableValue,
-					_deviceContext.DeviceMemory,
-					(ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints);
-				var editSubscription =
-					new LocalDataComplexPropertyEditedSubscription(res, _deviceContext,
-						complexProperty, AddressOffset);
-
-
-				subPropertyViewModel.LocalValue = editableValue;
-				editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
-				_deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
-					, subPropertyViewModel.LocalValue.Id);
-
-
-				_deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(
-					(ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
-					setUnchangedSuscription);
-
-				_deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
-					(ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
-					setUnchangedSuscription);
-
-
-				res.ChildStructItemViewModels.Add(subPropertyViewModel);
-				res.IsCheckable = true;
-				if (!complexProperty.IsGroupedProperty)
-				{
-
-					Parent.ChildStructItemViewModels.Add(subPropertyViewModel);
-					Parent.IsCheckable = true;
-				}
-			}
+                IRuntimeSubPropertyViewModel subPropertyViewModel =
+                    subProperty.Accept(this).Item as IRuntimeSubPropertyViewModel;
+                _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(
+                    (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
+                    new DeviceDataSubPropertySubscription(subProperty, subPropertyViewModel, (ushort) AddressOffset,
+                        _container.Resolve<IValueViewModelFactory>(), _deviceContext));
 
 
 
-			var localDataSubscription = new 
-				LocalComplexPropertyMemorySubscription(res,complexProperty, _deviceContext.DeviceMemory,AddressOffset);
-			_deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription((ushort)(complexProperty.Address + AddressOffset), complexProperty.NumberOfPoints,
-				localDataSubscription);
+
+                var localValue = _container.Resolve<IFormattingService>().FormatValue(subProperty.UshortsFormatter,
+                    InitDefaultUshortsValue(subProperty.NumberOfPoints));
+
+
+                var editableValue = _container.Resolve<IValueViewModelFactory>()
+                    .CreateEditableValueViewModel(new FormattedValueInfo(localValue, subProperty,
+                        subProperty.UshortsFormatter,
+                        subProperty));
+
+
+                var setUnchangedSuscription = new SubPropertySetUnchangedSubscription(subProperty.BitNumbersInWord,
+                    editableValue,
+                    _deviceContext.DeviceMemory,
+                    (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints);
+                var editSubscription =
+                    new LocalDataComplexPropertyEditedSubscription(res, _deviceContext,
+                        complexProperty, AddressOffset);
+
+
+                subPropertyViewModel.LocalValue = editableValue;
+                editableValue?.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
+                _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
+                    , subPropertyViewModel.LocalValue.Id);
+
+
+          
+
+                res.ChildStructItemViewModels.Add(subPropertyViewModel);
+                res.IsCheckable = true;
+                if (!complexProperty.IsGroupedProperty)
+                {
+
+                    Parent.ChildStructItemViewModels.Add(subPropertyViewModel);
+                    Parent.IsCheckable = true;
+                }
 
 
 
-			res.IsGroupedProperty = complexProperty.IsGroupedProperty;
+                if (subProperty?.Dependencies?.Count > 0)
+                {
+                    AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
+                        _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
+                            new DeviceDataSubPropertySubscription(subProperty, subPropertyViewModel, (ushort)AddressOffset,
+                                _container.Resolve<IValueViewModelFactory>(), _deviceContext)));
+
+                    AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
+                        _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
+                            new
+                                LocalSubPropertySubscription(_deviceContext, subPropertyViewModel, subProperty, formattingService,
+                                    AddressOffset)));
+
+
+                    AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
+                        _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
+                            new EditableValueSetUnchangedSubscription(editableValue, _deviceContext.DeviceMemory,
+                                (ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints)));
+
+                    AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
+                        _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
+                            new EditableValueSetUnchangedSubscription(editableValue, _deviceContext.DeviceMemory,
+                                (ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints)));
+                }
+                else
+                {
+
+                    _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(
+                        (ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
+                        setUnchangedSuscription);
+
+                    _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
+                        (ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
+                        setUnchangedSuscription);
+
+                    var localDataSubscription = new
+                        LocalSubPropertySubscription(_deviceContext, subPropertyViewModel, subProperty, formattingService,
+                            AddressOffset);
+                    _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
+                        (ushort)(complexProperty.Address + AddressOffset), complexProperty.NumberOfPoints,
+                        localDataSubscription);
+                }
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+            res.IsGroupedProperty = complexProperty.IsGroupedProperty;
             InitializeProperty(res, complexProperty);
             return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res,complexProperty.IsGroupedProperty);
         }

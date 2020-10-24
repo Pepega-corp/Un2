@@ -213,6 +213,11 @@ namespace Unicon2.Infrastructure.Extensions
             return buffer;
         }
 
+      public static ushort[] AsCollection(this ushort word)
+        {
+            return new ushort[]{word};
+        }
+
 
         /// <summary>
         /// Конвертирует 2 байта в слово

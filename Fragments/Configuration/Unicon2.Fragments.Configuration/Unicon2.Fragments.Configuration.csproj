@@ -85,7 +85,7 @@
     <Compile Include="MemoryAccess\MemoryReaderVisitor.cs" />
     <Compile Include="MemoryAccess\MemoryWriterVisitor.cs" />
     <Compile Include="MemoryAccess\PropertyValueService.cs" />
-    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\DeviceDataComplexPropertySubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\DeviceDataSubPropertySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalComplexPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalDataComplexPropertyEditedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\SubPropertySetUnchangedSubscription.cs" />
@@ -94,6 +94,7 @@
     <Compile Include="MemoryAccess\Subscriptions\EditableValueSetUnchangedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalDataEditedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalMemorySubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalSubPropertySubscription.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
     <Compile Include="Model\DefaultDeviceConfiguration.cs" />
     <Compile Include="Model\Dependencies\ConditionResultDependency.cs" />
