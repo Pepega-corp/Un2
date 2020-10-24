@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Programming.TemplateSelectors
             if (item is OutputViewModel)
                 return this.Output;
             if (item is InversionViewModel)
-                return this.Output;
+                return this.Inversion;
             return null;
         }
     }

@@ -24,10 +24,10 @@
             Grid.ColumnSpan="2"
             Header="Общие настройки">
             <StackPanel Orientation="Vertical">
-                <Expander Header="Файловая система в МР">
+                <Expander Header="Файловая система в МР" IsExpanded="True">
                     <CheckBox Content="Файловая система имеется в устройстве" IsChecked="{Binding EnableFileDriver}" />
                 </Expander>
-                <Expander Header="Заголовок">
+                <Expander Header="Заголовок" IsExpanded="True">
                     <StackPanel Orientation="Horizontal">
                         <CheckBox
                             Name="HeaderCheck"
