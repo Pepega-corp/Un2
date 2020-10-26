@@ -41,9 +41,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 				break;
 			}
 
-			_editableValueViewModel.IsFormattedValueChanged = !isMemoryEqualOnAddresses;
-
-		}
+            if (_editableValueViewModel != null)
+                _editableValueViewModel.IsFormattedValueChanged = !isMemoryEqualOnAddresses;
+        }
 
 	}
 }

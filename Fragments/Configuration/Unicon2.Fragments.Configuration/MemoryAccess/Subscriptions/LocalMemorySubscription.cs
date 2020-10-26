@@ -123,10 +123,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 		        var editSubscription =
 			        new LocalDataEditedSubscription(editableValue, _deviceContext, _property,_offset);
 		        _runtimePropertyViewModel.LocalValue = editableValue;
-		        editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
-		        _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
-			        , _runtimePropertyViewModel.LocalValue.Id);
-	        }
+		        editableValue?.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
+                if (_runtimePropertyViewModel.LocalValue != null)
+                    _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
+                        , _runtimePropertyViewModel.LocalValue.Id);
+            }
 	        else
 	        {
                 if (!MemoryAccessor.IsMemoryContainsAddresses(_deviceContext.DeviceMemory,

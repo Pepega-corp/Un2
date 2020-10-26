@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -156,9 +157,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             return fragmentOptionsViewModel;
         }
 
-
-
-        private async void OnExecuteReadConfiguration()
+        private async Task ReadConfiguration()
         {
             try
             {
@@ -172,6 +171,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                 SetQueriesLock(false);
                 ReadConfigurationCommand.RaiseCanExecuteChanged();
             }
+
+        }
+
+
+        private async void OnExecuteReadConfiguration()
+        {
+            await ReadConfiguration();
 
         }
 
