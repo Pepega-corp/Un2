@@ -147,7 +147,15 @@ namespace Unicon2.Shell
 
         protected override Window CreateShell()
         {
-            return Container.Resolve<Views.Shell>();
+            try
+            {
+                return Container.Resolve<Views.Shell>();
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         protected override void InitializeShell(Window shell)

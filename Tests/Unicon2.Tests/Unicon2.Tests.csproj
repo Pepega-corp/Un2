@@ -33,14 +33,45 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0">
+          <HintPath>..\..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
           <HintPath>..\..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
           <Private>True</Private>
         </Reference>
+        <Reference Include="PresentationFramework" />
+        <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59">
+          <HintPath>..\..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59">
+          <HintPath>..\..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59">
+          <HintPath>..\..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
+        <Reference Include="System.Configuration" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <HintPath>..\..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System.Xml" />
+        <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f">
+          <HintPath>..\..\packages\Unity.Abstractions.3.3.1\lib\net47\Unity.Abstractions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0">
+          <HintPath>..\..\packages\Unity.Container.5.8.11\lib\net47\Unity.Container.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="WindowsBase" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Configuration\ConfigurationTests.cs" />
@@ -50,6 +81,45 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\Connections\Unicon2.Connections.MockConnection\Unicon2.Connections.MockConnection.csproj">
+        <Project>{0a46905f-1543-4b35-b859-e7b631325559}</Project>
+        <Name>Unicon2.Connections.MockConnection</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\Fragments\Configuration\Unicon2.Fragments.Configuration.Infrastructure\Unicon2.Fragments.Configuration.Infrastructure.csproj">
+        <Project>{b809ed9d-0916-49fb-8b7e-d7693836c55e}</Project>
+        <Name>Unicon2.Fragments.Configuration.Infrastructure</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\Fragments\Configuration\Unicon2.Fragments.Configuration\Unicon2.Fragments.Configuration.csproj">
+        <Project>{f35e1178-260c-4ddc-9bc0-a557ec82a5aa}</Project>
+        <Name>Unicon2.Fragments.Configuration</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
+        <Project>{d025ec77-dfd4-444e-8f2c-218a5181c721}</Project>
+        <Name>Unicon2.Infrastructure</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\Unicon2.Model\Unicon2.Model.csproj">
+        <Project>{2504f838-86e8-48c4-9288-5edfb922f0cc}</Project>
+        <Name>Unicon2.Model</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+        <Project>{ef9bf685-16aa-4942-a33c-d65562bd4215}</Project>
+        <Name>Unicon2.Presentation.Infrastructure</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\Unicon2.Shell\Unicon2.Shell.csproj">
+        <Project>{326bc120-600a-409b-b24b-46b245131288}</Project>
+        <Name>Unicon2.Shell</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\Unicon2.Unity\Unicon2.Unity.csproj">
+        <Project>{4d5a6b2a-5ac6-4d18-a126-a3e2f873c2f8}</Project>
+        <Name>Unicon2.Unity</Name>
+      </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="testFile.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
