@@ -53,12 +53,16 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
         public void Execute()
         {
+			
 	        
-	        var newUshorts = MemoryAccessor.GetUshortsFromMemory(
+	        var newUshorts = MemoryAccessor.GetUshortsFromMemorySafe(
 		        _deviceContext.DeviceMemory,
 		        (ushort) (_address+_offset), _property.NumberOfPoints, true);
 
-
+            if (!newUshorts.IsSuccess)
+            {
+				return;
+            }
 	        if (_property?.Dependencies?.Count > 0)
 	        {
 		        bool isInteractionBlocked = false;
@@ -97,11 +101,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
 			        }
 		        }
-		        if (_prevUshorts.IsEqual(newUshorts)&&_prevIsBlocked==isInteractionBlocked&&formatterForDependentProperty==_prevUshortFormatter)
+		        if (_prevUshorts.IsEqual(newUshorts.Item)&&_prevIsBlocked==isInteractionBlocked&&formatterForDependentProperty==_prevUshortFormatter)
 		        {
 			        return;
 		        }
-		        _prevUshorts = newUshorts;
+		        _prevUshorts = newUshorts.Item;
 		        _prevIsBlocked = isInteractionBlocked;
 		        _prevUshortFormatter = formatterForDependentProperty;
 		        if (_runtimePropertyViewModel?.LocalValue != null)
@@ -112,7 +116,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 		        }
 		        
 		        var localValue = _formattingService.FormatValue(formatterForDependentProperty,
-			        newUshorts);
+			        newUshorts.Item);
 		        var editableValue = StaticContainer.Container.Resolve<IValueViewModelFactory>()
 			        .CreateEditableValueViewModel(new FormattedValueInfo(localValue, _property, formatterForDependentProperty,
 				        _property, !isInteractionBlocked));
@@ -130,9 +134,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 {
                     return;
                 }
-                if (!newUshorts.IsEqual(_prevUshorts))
+                if (!newUshorts.Item.IsEqual(_prevUshorts))
 		        {
-			        _prevUshorts = newUshorts;
+			        _prevUshorts = newUshorts.Item;
 			        var localValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(
 				        _ushortsFormatter,
 				        _prevUshorts);

@@ -94,6 +94,7 @@
             IsTextSearchEnabled="True"
             ItemsSource="{Binding AvailableItemsList}"
             SelectedItem="{Binding SelectedItem, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, Mode=TwoWay}"
+            IsEnabled="{Binding IsEditEnabled}"
             StaysOpenOnEdit="True" />
 
     </DataTemplate>

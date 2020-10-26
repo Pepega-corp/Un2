@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Functional;
 
 namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 {
@@ -37,8 +38,24 @@ namespace Unicon2.Fragments.Configuration.ViewModelMemoryMapping
 		    }
 		}
 
-
-		public static ushort[] GetUshortsFromMemory(IDeviceMemory deviceMemory, ushort address,
+        public static Result<ushort[]> GetUshortsFromMemorySafe(IDeviceMemory deviceMemory, ushort address,
+            ushort numberOfPoints, bool isLocal)
+        {
+            if (!IsMemoryContainsAddresses(deviceMemory, address, numberOfPoints, isLocal))
+            {
+                return Result<ushort[]>.Create(false);
+            }
+                if (isLocal)
+            {
+                
+                return Result<ushort[]>.Create(GetUshortsFromMemoryDictionary(deviceMemory.LocalMemoryValues, address, numberOfPoints),true);
+            }
+            else
+            {
+                return Result<ushort[]>.Create(GetUshortsFromMemoryDictionary(deviceMemory.DeviceMemoryValues, address, numberOfPoints), true);
+            }
+        }
+        public static ushort[] GetUshortsFromMemory(IDeviceMemory deviceMemory, ushort address,
             ushort numberOfPoints, bool isLocal)
         {
             if (isLocal)
