@@ -18,7 +18,7 @@ namespace Unicon2.Presentation.Values.Base
 		    get => _isFormattedValueChanged;
 		    set
 		    {
-			    _isFormattedValueChanged = value; 
+                _isFormattedValueChanged = value; 
 				RaisePropertyChanged();
 		    }
 	    }
