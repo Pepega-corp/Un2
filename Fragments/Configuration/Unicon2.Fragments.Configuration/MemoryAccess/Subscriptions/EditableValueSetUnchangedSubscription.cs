@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Presentation.Infrastructure.Subscription;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
 	public class EditableValueSetUnchangedSubscription : IDeviceSubscription
 	{
-		private readonly IEditableValueViewModel _editableValueViewModel;
+		private readonly ILocalAndDeviceValueContainingViewModel _localAndDeviceValueContainingViewModel;
 		private readonly IDeviceMemory _deviceMemory;
 		private readonly ushort _address;
 		private readonly ushort _numberOfPoints;
 
-		public EditableValueSetUnchangedSubscription(IEditableValueViewModel editableValueViewModel,
+		public EditableValueSetUnchangedSubscription(ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
 			IDeviceMemory deviceMemory, ushort address, ushort numberOfPoints)
 		{
-			_editableValueViewModel = editableValueViewModel;
+			_localAndDeviceValueContainingViewModel = localAndDeviceValueContainingViewModel;
 			_deviceMemory = deviceMemory;
 			_address = address;
 			_numberOfPoints = numberOfPoints;
@@ -41,8 +42,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 				break;
 			}
 
-            if (_editableValueViewModel != null)
-                _editableValueViewModel.IsFormattedValueChanged = !isMemoryEqualOnAddresses;
+            if (_localAndDeviceValueContainingViewModel?.LocalValue != null)
+	            _localAndDeviceValueContainingViewModel.LocalValue.IsFormattedValueChanged = !isMemoryEqualOnAddresses;
         }
 
 	}

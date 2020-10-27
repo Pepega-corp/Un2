@@ -14,13 +14,14 @@ namespace Unicon2.Presentation.Infrastructure.Factories
     public class FormattedValueInfo
     {
 	    public FormattedValueInfo(IFormattedValue formattedValue, IMeasurable measurable, IUshortsFormatter formatter,
-		    IRangeable rangeable, bool isEditingEnabled = true)
+		    IRangeable rangeable, bool isEditingEnabled = true, bool isChangedByDefault=false)
         {
             FormattedValue = formattedValue;
             Measurable = measurable;
             Formatter = formatter;
             Rangeable = rangeable;
             IsEditingEnabled = isEditingEnabled;
+            IsChangedByDefault = isChangedByDefault;
         }
 
         public IFormattedValue FormattedValue { get; }
@@ -28,6 +29,6 @@ namespace Unicon2.Presentation.Infrastructure.Factories
         public IMeasurable Measurable { get; }
         public IUshortsFormatter Formatter { get; }
 		public bool IsEditingEnabled { get; }
-
+        public bool IsChangedByDefault { get; }
     }
 }

@@ -27,6 +27,7 @@ using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Base;
 using Unicon2.Presentation.Values.Editable;
 using Unicon2.Shell;
@@ -72,8 +73,6 @@ namespace Unicon2.Tests.Configuration
                     RuntimeConfigurationViewModel;
         }
 
-
-
         [Test]
         public async Task BoolDefaultPropertyTest()
         {
@@ -87,12 +86,7 @@ namespace Unicon2.Tests.Configuration
                 .FindItemViewModelByName(model => model.Header == "boolTestDefaultProperty")
                 .Item as IRuntimePropertyViewModel;
 
-            await new MemoryReaderVisitor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, 0).ExecuteRead();
-
-            var memoryAccessor = new ConfigurationMemoryAccessor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal);
-            await memoryAccessor.Process();
+            await ReadAndTransfer();
 
             var deviceValue = defaultPropertyWithBoolFormatting.DeviceValue as IBoolValueViewModel;
             var localValue = defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel;
@@ -103,18 +97,131 @@ namespace Unicon2.Tests.Configuration
             Assert.True(localValue.IsEditEnabled);
             localValue.BoolValueProperty = true;
             Assert.True(localValue.IsFormattedValueChanged);
-            if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_configurationFragmentViewModel
-                .RootConfigurationItemViewModels))
-            {
-                await new MemoryWriterVisitor(_configurationFragmentViewModel.DeviceContext, new List<ushort>(),
-                    _configuration, 0).ExecuteWrite();
-            }
+            
+            await Write();
 
 
             Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory
                 .DeviceMemoryValues[boolTestDefaultProperty.Address].Equals(1));
 
             Assert.False(localValue.IsFormattedValueChanged);
+
+        }
+
+        [Test]
+        public async Task DefaultPropertyAllFormattersTest()
+        {
+
+            var defaultPropertyStringFormatter1251 =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "defaultPropertyStringFormatter1251")
+                    .Item as IProperty;
+            var defaultPropertyStringFormatter =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "defaultPropertyAsciiStringFormatter")
+                    .Item as IProperty;
+            var defaultPropertyNumericFormatter =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "defaultPropertyNumericFormatter")
+                    .Item as IProperty;
+            var defaultPropertySelectFormatter =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "defaultPropertySelectFormatter")
+                    .Item as IProperty;
+            var defaultPropertyFormulaFormatter =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "defaultPropertyFormulaFormatter")
+                    .Item as IProperty;
+            
+            
+            var defaultPropertyStringFormatter1251ViewModel = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "defaultPropertyStringFormatter1251")
+                .Item as IRuntimePropertyViewModel;
+            var defaultPropertyStringFormatterViewModel = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "defaultPropertyAsciiStringFormatter")
+                .Item as IRuntimePropertyViewModel;
+            var defaultPropertyNumericFormatterViewModel = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "defaultPropertyNumericFormatter")
+                .Item as IRuntimePropertyViewModel;
+            var defaultPropertySelectFormatterViewModel = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "defaultPropertySelectFormatter")
+                .Item as IRuntimePropertyViewModel;
+            var defaultPropertyFormulaFormatterViewModel = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "defaultPropertyFormulaFormatter")
+                .Item as IRuntimePropertyViewModel;
+            
+            await ReadAndTransfer();
+            
+            var defaultPropertyStringFormatter1251ViewModelDeviceValue = defaultPropertyStringFormatter1251ViewModel.DeviceValue as IStringValueViewModel;
+            var defaultPropertyStringFormatter1251ViewModelLocalValue = defaultPropertyStringFormatter1251ViewModel.LocalValue as StringValueViewModel;
+            
+            var defaultPropertyStringFormatterViewModelDeviceValue = defaultPropertyStringFormatterViewModel.DeviceValue as IStringValueViewModel;
+            var defaultPropertyStringFormatterViewModelLocalValue = defaultPropertyStringFormatterViewModel.LocalValue as StringValueViewModel;
+
+            var defaultPropertyNumericFormatterViewModelDeviceValue = defaultPropertyNumericFormatterViewModel.DeviceValue as INumericValueViewModel;
+            var defaultPropertyNumericFormatterViewModelLocalValue = defaultPropertyNumericFormatterViewModel.LocalValue as EditableNumericValueViewModel;
+            
+            var defaultPropertySelectFormatterViewModelDeviceValue = defaultPropertySelectFormatterViewModel.DeviceValue as IChosenFromListValueViewModel;
+            var defaultPropertySelectFormatterViewModelLocalValue = defaultPropertySelectFormatterViewModel.LocalValue as EditableChosenFromListValueViewModel;
+            
+            var defaultPropertyFormulaFormatterViewModelDeviceValue = defaultPropertyFormulaFormatterViewModel.DeviceValue as INumericValueViewModel;
+            var defaultPropertyFormulaFormatterViewModelLocalValue = defaultPropertyFormulaFormatterViewModel.LocalValue as EditableNumericValueViewModel;
+
+            Assert.Equals(defaultPropertyStringFormatter1251ViewModelDeviceValue.StringValue,"");
+            Assert.Equals(defaultPropertyStringFormatter1251ViewModelLocalValue.StringValue,"");
+            
+            Assert.Equals(defaultPropertyStringFormatterViewModelDeviceValue.StringValue,"");
+            Assert.Equals(defaultPropertyStringFormatterViewModelLocalValue.StringValue,"");
+            
+            Assert.Equals(defaultPropertyNumericFormatterViewModelDeviceValue.NumValue,0);
+            Assert.Equals(defaultPropertyNumericFormatterViewModelLocalValue.NumValue,0);
+            
+            Assert.Equals(defaultPropertySelectFormatterViewModelDeviceValue.SelectedItem,"1");
+            Assert.Equals(defaultPropertySelectFormatterViewModelLocalValue.SelectedItem,"1");
+            
+            Assert.Equals(defaultPropertyFormulaFormatterViewModelDeviceValue.NumValue,"0");
+            Assert.Equals(defaultPropertyFormulaFormatterViewModelLocalValue.NumValue,"0");
+            
+
+            Assert.True(defaultPropertyStringFormatter1251ViewModelLocalValue.IsEditEnabled);
+            Assert.True(defaultPropertyStringFormatterViewModelLocalValue.IsEditEnabled);
+            Assert.True(defaultPropertyNumericFormatterViewModelLocalValue.IsEditEnabled);
+            Assert.True(defaultPropertySelectFormatterViewModelLocalValue.IsEditEnabled);
+            Assert.True(defaultPropertyFormulaFormatterViewModelLocalValue.IsEditEnabled);
+
+            defaultPropertyStringFormatter1251ViewModelLocalValue.StringValue = "BlaBla";
+            defaultPropertyStringFormatterViewModelLocalValue.StringValue = "BlaBla2";
+            defaultPropertyNumericFormatterViewModelLocalValue.NumValue = "225";
+            defaultPropertySelectFormatterViewModelLocalValue.SelectedItem =
+                defaultPropertySelectFormatterViewModelLocalValue.AvailableItemsList[1];
+            defaultPropertyFormulaFormatterViewModelLocalValue.NumValue = "20";
+            
+            Assert.True(defaultPropertyStringFormatter1251ViewModelLocalValue.IsFormattedValueChanged);
+            Assert.True(defaultPropertyStringFormatterViewModelLocalValue.IsFormattedValueChanged);
+            Assert.True(defaultPropertyNumericFormatterViewModelLocalValue.IsFormattedValueChanged);
+            Assert.True(defaultPropertySelectFormatterViewModelLocalValue.IsFormattedValueChanged);
+            Assert.True(defaultPropertyFormulaFormatterViewModelLocalValue.IsFormattedValueChanged);
+
+            await Write();
+            
+            Assert.False(defaultPropertyStringFormatter1251ViewModelLocalValue.IsFormattedValueChanged);
+            Assert.False(defaultPropertyStringFormatterViewModelLocalValue.IsFormattedValueChanged);
+            Assert.False(defaultPropertyNumericFormatterViewModelLocalValue.IsFormattedValueChanged);
+            Assert.False(defaultPropertySelectFormatterViewModelLocalValue.IsFormattedValueChanged);
+            Assert.False(defaultPropertyFormulaFormatterViewModelLocalValue.IsFormattedValueChanged);
+
+             
+
+            Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory
+                .DeviceMemoryValues[defaultPropertyStringFormatter1251.Address].Equals(1));
+            Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory
+                .DeviceMemoryValues[defaultPropertyStringFormatter.Address].Equals(1));
+            Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory
+                .DeviceMemoryValues[defaultPropertyNumericFormatter.Address].Equals(1));
+            Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory
+                .DeviceMemoryValues[defaultPropertySelectFormatter.Address].Equals(1));
+            Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory
+                .DeviceMemoryValues[defaultPropertyFormulaFormatter.Address].Equals(1));
 
         }
 
@@ -131,12 +238,7 @@ namespace Unicon2.Tests.Configuration
                 .FindItemViewModelByName(model => model.Header == "boolTestSubProperty")
                 .Item as IRuntimePropertyViewModel;
 
-            await new MemoryReaderVisitor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, 0).ExecuteRead();
-
-            var memoryAccessor = new ConfigurationMemoryAccessor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal);
-            await memoryAccessor.Process();
+            await ReadAndTransfer();
 
             var deviceValue = defaultPropertyWithBoolFormatting.DeviceValue as IBoolValueViewModel;
             var localValue = defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel;
@@ -147,12 +249,8 @@ namespace Unicon2.Tests.Configuration
             Assert.True(localValue.IsEditEnabled);
             localValue.BoolValueProperty = true;
             Assert.True(localValue.IsFormattedValueChanged);
-            if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_configurationFragmentViewModel
-                .RootConfigurationItemViewModels))
-            {
-                await new MemoryWriterVisitor(_configurationFragmentViewModel.DeviceContext, new List<ushort>(),
-                    _configuration, 0).ExecuteWrite();
-            }
+            
+            await Write();
 
             var boolsInDevice = _configurationFragmentViewModel.DeviceContext.DeviceMemory
                 .DeviceMemoryValues[boolTestSubProperty.Address].GetBoolArrayFromUshort();
@@ -160,6 +258,18 @@ namespace Unicon2.Tests.Configuration
 
             Assert.False(localValue.IsFormattedValueChanged);
 
+            
+            
+            localValue.BoolValueProperty = false;
+            Assert.True(localValue.IsFormattedValueChanged);
+            
+            await Write();
+
+            boolsInDevice = _configurationFragmentViewModel.DeviceContext.DeviceMemory
+                .DeviceMemoryValues[boolTestSubProperty.Address].GetBoolArrayFromUshort();
+            Assert.False(boolsInDevice[boolTestSubProperty.BitNumbersInWord.First()]);
+            Assert.False(localValue.IsFormattedValueChanged);
+            
         }
 
         [Test]
@@ -227,12 +337,7 @@ namespace Unicon2.Tests.Configuration
                     .Item as IRuntimePropertyViewModel),
             };
 
-            await new MemoryReaderVisitor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, 0).ExecuteRead();
-
-            var memoryAccessor = new ConfigurationMemoryAccessor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal);
-            await memoryAccessor.Process();
+            await ReadAndTransfer();
 
             foreach (var propertyWithValueTuple in properties)
             {
@@ -249,12 +354,7 @@ namespace Unicon2.Tests.Configuration
             }
 
 
-            if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_configurationFragmentViewModel
-                .RootConfigurationItemViewModels))
-            {
-                await new MemoryWriterVisitor(_configurationFragmentViewModel.DeviceContext, new List<ushort>(),
-                    _configuration, 0).ExecuteWrite();
-            }
+            await Write();
 
             foreach (var propertyWithValueTuple in properties)
             {
@@ -271,11 +371,11 @@ namespace Unicon2.Tests.Configuration
 
         }
 
+
+
         [Test]
         public async Task DependencyDefaultToDefaultPropertyCheckTest()
         {
-
-
             var boolTestPropertyDependencySource =
                 _configuration.RootConfigurationItemList
                     .FindItemByName(item => item.Name == "boolTestDefaultPropertyOutputDependency")
@@ -286,48 +386,143 @@ namespace Unicon2.Tests.Configuration
                     .FindItemByName(item => item.Name == "boolTestDefaultPropertyDependencyConsumer")
                     .Item as IProperty;
 
-            var boolTestPropertyDependencySourceViewModel = _configurationFragmentViewModel.RootConfigurationItemViewModels
+            var boolTestPropertyDependencySourceViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
                 .Cast<IConfigurationItemViewModel>().ToList()
                 .FindItemViewModelByName(model => model.Header == "boolTestDefaultPropertyOutputDependency")
                 .Item as IRuntimePropertyViewModel;
 
-            var boolTestPropertyDependencyConsumerViewModel = _configurationFragmentViewModel.RootConfigurationItemViewModels
+            var boolTestPropertyDependencyConsumerViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
                 .Cast<IConfigurationItemViewModel>().ToList()
                 .FindItemViewModelByName(model => model.Header == "boolTestDefaultPropertyDependencyConsumer")
                 .Item as IRuntimePropertyViewModel;
 
 
-            await new MemoryReaderVisitor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, 0).ExecuteRead();
+            await ReadAndTransfer();
 
+            for (int i = 0; i < 2; i++)
+            {
+                Assert.True(boolTestPropertyDependencyConsumer.Dependencies.Any(delegate(IDependency dependency)
+                {
+                    if (dependency is IConditionResultDependency conditionResultDependency)
+                    {
+                        if (conditionResultDependency.Condition is CompareResourceCondition compareResourceCondition)
+                        {
+                            return compareResourceCondition.ConditionsEnum == ConditionsEnum.Equal &&
+                                   compareResourceCondition.UshortValueToCompare == 0;
+                        }
+                    }
+
+                    return false;
+                }));
+
+                Func<EditableNumericValueViewModel> localValueOfDependencySource = () =>
+                    (boolTestPropertyDependencySourceViewModel.LocalValue as EditableNumericValueViewModel);
+                Func<EditableBoolValueViewModel> localValueOfDependencyConsumer = () =>
+                    (boolTestPropertyDependencyConsumerViewModel.LocalValue as EditableBoolValueViewModel);
+
+
+                Assert.True(localValueOfDependencySource().NumValue == "0");
+                Assert.False(localValueOfDependencyConsumer().IsEditEnabled);
+
+                localValueOfDependencySource().NumValue = "15";
+
+                Assert.True(localValueOfDependencySource().IsFormattedValueChanged);
+                Assert.True(localValueOfDependencyConsumer().IsEditEnabled);
+                localValueOfDependencyConsumer().BoolValueProperty = true;
+                Assert.True(localValueOfDependencyConsumer().BoolValueProperty);
+                Assert.True(localValueOfDependencyConsumer().IsFormattedValueChanged);
+
+
+                await Write();
+
+
+                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
+                    15);
+                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
+                    1);
+                Assert.False(localValueOfDependencySource().IsFormattedValueChanged);
+                Assert.False(localValueOfDependencyConsumer().IsFormattedValueChanged);
+
+
+
+
+                localValueOfDependencySource().NumValue = "0";
+
+                Assert.True(localValueOfDependencySource().IsFormattedValueChanged);
+                Assert.False(localValueOfDependencyConsumer().IsEditEnabled);
+
+                await Write();
+                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
+                    0);
+                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
+                    1);
+                Assert.False(localValueOfDependencySource().IsFormattedValueChanged);
+                Assert.False(localValueOfDependencyConsumer().IsFormattedValueChanged);
+
+
+
+
+                localValueOfDependencySource().NumValue = "15";
+
+                Assert.True(localValueOfDependencySource().IsFormattedValueChanged);
+                Assert.True(localValueOfDependencyConsumer().IsEditEnabled);
+                localValueOfDependencyConsumer().BoolValueProperty = false;
+                Assert.False(localValueOfDependencyConsumer().BoolValueProperty);
+                Assert.True(localValueOfDependencyConsumer().IsFormattedValueChanged);
+
+
+                await Write();
+
+
+                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
+                    15);
+                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
+                    0);
+                Assert.False(localValueOfDependencySource().IsFormattedValueChanged);
+                Assert.False(localValueOfDependencyConsumer().IsFormattedValueChanged);
+                
+                
+                localValueOfDependencySource().NumValue = "0";
+                await Write();
+
+            }
+
+        }
+
+
+
+
+        private async Task ReadAndTransfer()
+        {
+            await Read();
+            await TransferFromDeviceToLocal();
+        }
+        
+        private async Task TransferFromDeviceToLocal()
+        {
             var memoryAccessor = new ConfigurationMemoryAccessor(_configuration,
                 _configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal);
             await memoryAccessor.Process();
-
-
-            Assert.True(boolTestPropertyDependencyConsumer.Dependencies.Any(delegate(IDependency dependency)
-            {
-                if (dependency is IConditionResultDependency conditionResultDependency)
-                {
-                    if (conditionResultDependency.Condition is CompareResourceCondition compareResourceCondition)
-                    {
-                        return compareResourceCondition.ConditionsEnum == ConditionsEnum.Equal &&
-                               compareResourceCondition.UshortValueToCompare == 0;
-                    }
-                }
-                return false;
-            }));
-
-            var localValueOfDependencySource = (boolTestPropertyDependencySourceViewModel.LocalValue as EditableNumericValueViewModel);
-            var localValueOfDependencyConsumer = (boolTestPropertyDependencyConsumerViewModel.LocalValue as EditableBoolValueViewModel);
-
-
-            Assert.True(localValueOfDependencySource.NumValue=="0");
-            Assert.False(localValueOfDependencyConsumer.IsEditEnabled);
-
-            localValueOfDependencySource.NumValue = "15";
-
-
         }
+        private async Task Read()
+        {
+            await new MemoryReaderVisitor(_configuration,
+                _configurationFragmentViewModel.DeviceContext, 0).ExecuteRead();
+
+            
+        }
+        private async Task Write()
+        {
+            if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_configurationFragmentViewModel
+                .RootConfigurationItemViewModels))
+            {
+                await new MemoryWriterVisitor(_configurationFragmentViewModel.DeviceContext, new List<ushort>(),
+                    _configuration, 0).ExecuteWrite();
+            }
+        }
+        
+        
     }
 }

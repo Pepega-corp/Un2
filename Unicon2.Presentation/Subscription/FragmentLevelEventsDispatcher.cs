@@ -98,7 +98,10 @@ namespace Unicon2.Presentation.Subscription
                 }
             }
 
-            deviceDataMemorySubscriptions.Distinct().ToList().ForEach(subscription => subscription.Execute());
+            deviceDataMemorySubscriptions.Distinct().ToList().ForEach(subscription =>
+            {
+                subscription.Execute();
+            });
             return Result.Create(true);
         }
 
@@ -137,7 +140,6 @@ namespace Unicon2.Presentation.Subscription
                     _idObservers[id].Collection
                         .Add(subscription);
                     return Result.Create(true);
-
                 }
             }
 
@@ -148,7 +150,7 @@ namespace Unicon2.Presentation.Subscription
 
         public void RemoveSubscriptionById(Guid id)
         {
-	        _idObservers.Remove(id);
+            _idObservers.Remove(id);
         }
 
         public Result TriggerLocalAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
@@ -156,7 +158,6 @@ namespace Unicon2.Presentation.Subscription
         {
             return TriggerAddressSubscription(triggeredAddress, numberOfPoints, _localMemoryDataObservers);
         }
-
 
 
         public Result TriggerDeviceAddressSubscription(ushort triggeredAddress, ushort numberOfPoints,
@@ -185,7 +186,5 @@ namespace Unicon2.Presentation.Subscription
         }
 
         public List<T> Collection { get; }
-
     }
-
 }
