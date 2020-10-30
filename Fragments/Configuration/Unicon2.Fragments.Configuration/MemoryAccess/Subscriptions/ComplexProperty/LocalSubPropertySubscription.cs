@@ -52,10 +52,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
             var newUshorts = MemoryAccessor.GetUshortsFromMemory(_deviceContext.DeviceMemory,
                 (ushort) (_subProperty.Address + _offset),
                 _subProperty.NumberOfPoints, true);
-            if (_prevUshorts.IsEqual(newUshorts))
-            {
-                return;
-            }
 
             _prevUshorts = newUshorts;
 

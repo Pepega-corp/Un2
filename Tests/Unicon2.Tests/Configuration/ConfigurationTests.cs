@@ -521,7 +521,22 @@ namespace Unicon2.Tests.Configuration
             await ReadAndTransfer();
 
 
+            Func<EditableBoolValueViewModel> boolTestSubPropertyDependencySourceViewModelLocalValue = () =>
+                boolTestSubPropertyDependencySourceViewModel.LocalValue as EditableBoolValueViewModel;
+            Func<EditableBoolValueViewModel> boolTestSubPropertyDependencyConsumerViewModelLocalValue = () =>
+                boolTestSubPropertyDependencyConsumerViewModel.LocalValue as EditableBoolValueViewModel;
+            
+            Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
 
+            boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = true;
+            Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
+            Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+
+            boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = false;
+            Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
         }
 
 
