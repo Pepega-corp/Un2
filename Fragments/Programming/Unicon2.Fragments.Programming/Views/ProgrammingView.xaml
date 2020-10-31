@@ -42,80 +42,82 @@
             Command="{Binding ZoomDecrementCommand}"
             Modifiers="Control" />
     </UserControl.InputBindings>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Menu
-            Grid.Row="0"
-            Grid.Column="0"
-            Grid.ColumnSpan="2">
-            <MenuItem
-                Margin="0,0,10,0"
-                VerticalAlignment="Center"
-                Header="File">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Menu
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2">
                 <MenuItem
-                    Command="{Binding NewSchemeCommand}"
-                    Header="New File"
-                    InputGestureText="Ctrl+N" />
-                <Separator />
-                <MenuItem
-                    Command="{Binding SaveProjectCommand}"
-                    Header="Save Project"
-                    InputGestureText="Ctrl+S" />
-                <MenuItem
-                    Command="{Binding LoadProjectCommand}"
-                    Header="Load Project"
-                    InputGestureText="Ctrl+L" />
-                <!-- <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" /> -->
-            </MenuItem>
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    Width="35"
-                    Height="35"
-                    Margin="5"
-                    Command="{Binding WriteLogicCommand}"
-                    Content="W" />
-                <Button
-                    Width="35"
-                    Height="35"
-                    Margin="5"
-                    Command="{Binding ReadLogicCommand}"
-                    Content="R" />
-            </StackPanel>
-        </Menu>
-        <GroupBox
-            Grid.Row="1"
-            Grid.Column="0"
-            Header="{Binding ProjectName}">
-            <GroupBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Rename" />
-                </ContextMenu>
-            </GroupBox.ContextMenu>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <other:TabControlEx
-                    Grid.Row="1"
-                    ItemsSource="{Binding SchemesCollection}"
-                    SelectedIndex="{Binding SelectedTabIndex, Mode=OneWayToSource}"
-                    Style="{StaticResource SchemeTabControlStyle}" />
-            </Grid>
-        </GroupBox>
-        <Expander
-            Grid.Row="1"
-            Grid.Column="1"
-            ExpandDirection="Left"
-            Header="Списки логических элементов"
-            IsExpanded="True"
-            Style="{StaticResource RightBorderExpander}" />
-    </Grid>
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Header="File">
+                    <MenuItem
+                        Command="{Binding NewSchemeCommand}"
+                        Header="New File"
+                        InputGestureText="Ctrl+N" />
+                    <Separator />
+                    <MenuItem
+                        Command="{Binding SaveProjectCommand}"
+                        Header="Save Project"
+                        InputGestureText="Ctrl+S" />
+                    <MenuItem
+                        Command="{Binding LoadProjectCommand}"
+                        Header="Load Project"
+                        InputGestureText="Ctrl+L" />
+                    <!-- <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" /> -->
+                </MenuItem>
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Width="35"
+                        Height="35"
+                        Margin="5"
+                        Command="{Binding WriteLogicCommand}"
+                        Content="W" />
+                    <Button
+                        Width="35"
+                        Height="35"
+                        Margin="5"
+                        Command="{Binding ReadLogicCommand}"
+                        Content="R" />
+                </StackPanel>
+            </Menu>
+            <GroupBox
+                Grid.Row="1"
+                Grid.Column="0"
+                Header="{Binding ProjectName}">
+                <GroupBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Rename" />
+                    </ContextMenu>
+                </GroupBox.ContextMenu>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <other:TabControlEx
+                        Grid.Row="1"
+                        ItemsSource="{Binding SchemesCollection}"
+                        SelectedIndex="{Binding SelectedTabIndex, Mode=OneWayToSource}"
+                        Style="{StaticResource SchemeTabControlStyle}" />
+                </Grid>
+            </GroupBox>
+            <Expander
+                Grid.Row="1"
+                Grid.Column="1"
+                ExpandDirection="Left"
+                Header="Списки логических элементов"
+                IsExpanded="True"
+                Style="{StaticResource RightBorderExpander}" />
+        </Grid>
+    </ScrollViewer>
 </UserControl>

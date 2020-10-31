@@ -38,10 +38,11 @@
                     Content="{Binding ConnectorViewModels[0]}" />
                 <Rectangle
                     Grid.Column="1"
+                    Width="20"
+                    Height="20"
                     IsHitTestVisible="False"
-                    StrokeThickness="1" 
-                    Stroke="Black" 
-                    Height="20" Width="20"/>
+                    Stroke="Black"
+                    StrokeThickness="1" />
                 <TextBlock
                     Grid.Column="1"
                     HorizontalAlignment="Center"

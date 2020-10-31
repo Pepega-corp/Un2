@@ -7,6 +7,7 @@ using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using Unicon2.Fragments.Programming.Infrastructure;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
@@ -291,9 +292,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 this.UpdateModelData();
                 var logicProjectBytes = _serializerService.SerializeInBytes(_programModel);
-                await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes);
+                await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
+                var logbin = this.Compile();
 
-                
             }
             else
             {
@@ -303,8 +304,37 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private ushort[] Compile()
         {
+            var allElements = this.SchemesCollection.SelectMany(s => s.ElementCollection.Where(e => e is ILogicElementViewModel)).Cast<ILogicElementViewModel>().ToArray();
+            foreach (var element in allElements)
+            {
+                element.CompilePriority = -1;
+            }
+            var inputs = allElements.Where(e => e.ElementType == ElementType.In);
+            foreach (var input in inputs)
+            {
+                input.CompilePriority = 0;
+                SortElementsByPriority(input);
+            }
+
+
             return null;
         }
+
+        private void SortElementsByPriority(ILogicElementViewModel element)
+        {
+            var priority = element.CompilePriority + 1;
+            foreach (var connectorViewModel in element.ConnectorViewModels)
+            {
+                var connectedElement = connectorViewModel.ParentViewModel;
+                if (connectedElement.CompilePriority == -1 || connectedElement.CompilePriority > priority)
+                {
+                    connectedElement.CompilePriority = priority;
+                }
+                
+                SortElementsByPriority(connectedElement);
+            }
+        }
+
 
         private async void OnReadCommand()
         {

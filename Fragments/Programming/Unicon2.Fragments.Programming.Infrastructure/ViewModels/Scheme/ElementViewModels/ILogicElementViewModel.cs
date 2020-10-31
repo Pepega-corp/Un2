@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure.ViewModel;
 
@@ -7,6 +8,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
     public interface ILogicElementViewModel : ISchemeElementViewModel, IViewModel<ILogicElement>
     {
         string ElementName { get; }
+        ElementType ElementType { get; }
         string Caption { get; set; }
         string Description { get; }
         string Symbol { get; }
@@ -14,5 +16,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; }
         ILogicElementViewModel Clone();
         void OpenPropertyWindow();
+        int CompilePriority { get; set; }
+       
     }
 }

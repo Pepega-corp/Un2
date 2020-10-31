@@ -9,6 +9,6 @@
         <StackPanel>
             <TextBlock Margin="5" Text="{lex:Loc ProgrammingEditorDescription}" />
             <view:ProgrammingEditorView />
-         </StackPanel>
+        </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

@@ -11,15 +11,15 @@
         <!--  Ресурсы, в которых описаны DataTemplate всех элементов, как они будут выглядеть в списках  -->
         <ResourceDictionary Source="ElementsLibraryResources/InputLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/OutputLibraryElement.xaml" />
-        <ResourceDictionary Source="ElementsLibraryResources/InversionLibraryElement.xaml"/>
+        <ResourceDictionary Source="ElementsLibraryResources/InversionLibraryElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
     <selectors:ElementsViewModelSelector
         x:Key="LibrarySelector"
         Input="{StaticResource InputLibraryElement}"
-        Output="{StaticResource OutputLibraryElement}"
-        Inversion="{StaticResource InversionLibraryElement}" />
+        Inversion="{StaticResource InversionLibraryElement}"
+        Output="{StaticResource OutputLibraryElement}" />
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

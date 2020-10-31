@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Views;
@@ -18,8 +19,12 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         protected string _caption;
         protected bool _validationError;
         protected string _description;
+        private Point _deltaPosition;
+        private bool xChanged;
+        private bool yChanged;
 
         public string ElementName { get; protected set; }
+        public ElementType ElementType => this._model.ElementType;
 
         public bool IsSelected
         {
@@ -62,10 +67,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         }
 
         public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
-
-        private Point _deltaPosition;
-        private bool xChanged;
-        private bool yChanged;
 
         public double X
         {
@@ -112,6 +113,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         }
 
         public bool Connected => ConnectorViewModels.All(c=>c.Connected);
+
+        public int CompilePriority { get; set; }
 
         private void UpdateConnectorsPosition(Point deltaPosition)
         {

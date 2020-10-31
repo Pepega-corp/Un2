@@ -1,7 +1,8 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:evm="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels">
-    
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:evm="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels">
+
     <DataTemplate x:Key="InversionLibraryElement" DataType="{x:Type evm:InversionViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -18,19 +19,20 @@
                 Stretch="Fill"
                 Stroke="Black"
                 StrokeLineJoin="Round"
-                StrokeThickness="1"/>
+                StrokeThickness="1" />
             <Ellipse
                 Grid.Column="0"
-                Margin="30,0,0,0" 
-                VerticalAlignment="Center" 
+                Width="5"
+                Height="5"
+                Margin="30,0,0,0"
                 HorizontalAlignment="Center"
-                Width="5" Height="5" 
-                StrokeThickness="1" 
-                Stroke="Black" 
-                Fill="White"/>
+                VerticalAlignment="Center"
+                Fill="White"
+                Stroke="Black"
+                StrokeThickness="1" />
             <TextBlock
-                Margin="10,0,0,0"
                 Grid.Column="0"
+                Margin="10,0,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontFamily="Calibri"

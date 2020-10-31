@@ -23,8 +23,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         private ILogicElementEditorViewModel _selectedNewLogicElemItem;
         private ILogicElementEditorViewModel _selectedLibraryElemItem;
         private string _mrNumber;
-        private string _versionHeader;
-        private string _subversionHeader;
+        private string _versionHeader = "00001";
+        private string _subversionHeader = "00001";
 
         public string StrongName => ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
@@ -94,6 +94,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             {
                 this._model.WithHeader = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(this.SelectedVersionHeader));
+                RaisePropertyChanged(nameof(this.SelectedSubversionHeader));
             }
         }
 
@@ -175,6 +177,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             {
                 this._model.EnableFileDriver = model.EnableFileDriver;
                 this._model.WithHeader = model.WithHeader;
+                this._model.Elements.AddRange(model.Elements);
                 this.LibraryElements.Clear();
                 this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
 
