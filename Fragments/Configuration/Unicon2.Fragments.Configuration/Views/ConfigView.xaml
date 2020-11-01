@@ -11,6 +11,7 @@
     xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     d:DataContext="{d:DesignInstance viewModel:MainConfigItemViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -53,6 +54,13 @@
             GridLinesVisibility="All"
             ItemsSource="{Binding Path=RelatedRows}"
             RowDetailsVisibilityMode="Visible">
+            <DataGrid.ColumnHeaderStyle>
+                <Style 
+                       BasedOn="{StaticResource MetroDataGridColumnHeader}" 
+                       TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Upper"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding .}" Visibility="{Binding IsTableView, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
@@ -136,16 +144,18 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border
+                                VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
                                 BorderBrush="{Binding LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
-                                BorderThickness="1.5"
+                                BorderThickness="0,0,3,0"
+                                Margin="-2"
                                 Visibility="{Binding ., Converter={StaticResource IsInterfaceImplementedToInvertVisibilityConverter}, ConverterParameter=IAsTableViewModel}">
                                 <Grid Visibility="{Binding ., Converter={StaticResource IsItemsGroupToVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <ContentControl Grid.Column="0" Content="{Binding LocalValue}">
+                                    <ContentControl Grid.Column="0" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding LocalValue}">
                                         <ContentControl.ContentTemplateSelector>
                                             <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
                                         </ContentControl.ContentTemplateSelector>
@@ -172,7 +182,7 @@
                         <DataTemplate>
                             <Grid Visibility="{Binding ., Converter={StaticResource IsItemsGroupToVisibilityConverter}}">
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding IsRangeEnabled, Converter={StaticResource BoolToVisConverter}}">
-                                    <TextBlock Text="[" />
+                                    <TextBlock Text=" [" />
                                     <TextBlock Text="{Binding RangeViewModel.RangeFrom}" />
                                     <TextBlock Text=";" />
                                     <TextBlock Text="{Binding RangeViewModel.RangeTo}" />

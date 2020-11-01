@@ -18,8 +18,8 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
     {
         [JsonProperty] public IUshortsFormatter UshortsFormatter { get; set; }
 
-        [JsonProperty] public ushort Address { get; set; }
-        [JsonProperty] public ushort NumberOfPoints { get; set; }
+        [JsonProperty] public ushort Address { get; set; } = 1;
+        [JsonProperty] public ushort NumberOfPoints { get; set; } = 1;
 
         [DefaultValue(16)]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]

@@ -359,4 +359,15 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(SolutionDir)Tests\Unicon2.Tests\bin\Debug\Unicon2.Tests.exe" "$(TargetDir)Unicon2.Tests.exe"
+
+copy /Y "$(SolutionDir)Tests\Unicon2.Tests\bin\Debug\RunTests.cmd" "$(TargetDir)RunTests.cmd"
+
+copy /Y "$(SolutionDir)Tests\Unicon2.Tests\bin\Debug\testFile.json" "$(TargetDir)testFile.json"
+
+copy /Y "$(SolutionDir)Tests\Unicon2.Tests\bin\Debug\nunit.framework.dll" "$(TargetDir)tnunit.framework.xml"
+
+copy /Y "$(SolutionDir)Tests\Unicon2.Tests\bin\Debug\nunit.framework.dll" "$(TargetDir)tnunit.framework.xml"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

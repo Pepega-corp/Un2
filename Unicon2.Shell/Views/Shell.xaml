@@ -186,9 +186,9 @@
 
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Vertical">
-                    <xcad:LayoutPanel DockHeight="2*" Orientation="Horizontal">
+                    <xcad:LayoutPanel DockHeight="2*" Orientation="Horizontal" >
                         <xcad:LayoutAnchorablePane Name="LeftAnchorablePane" DockWidth="250" />
-                        <xcad:LayoutDocumentPane DockWidth="*" />
+                        <xcad:LayoutDocumentPane DockWidth="*"/>
                     </xcad:LayoutPanel>
                     <xcad:LayoutAnchorablePane
                         Name="BottomAnchorablePane"

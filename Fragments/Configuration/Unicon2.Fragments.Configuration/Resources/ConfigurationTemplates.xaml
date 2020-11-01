@@ -26,6 +26,7 @@
     <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToInvertVisibilityConverter" IsInverted="True" />
 
     <DataTemplate x:Key="RuntimeConfigurationViewModelDataTemplate" DataType="{x:Type runtime:IRuntimeConfigurationViewModel}">
+        <Border>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -118,7 +119,7 @@
             </ContentControl>
 
         </Grid>
-
+        </Border>
     </DataTemplate>
 
     <DataTemplate x:Key="MatrixValueViewModelDataTemplate">

@@ -82,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="RunTests.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Connections\Unicon2.Connections.MockConnection\Unicon2.Connections.MockConnection.csproj">

@@ -15,6 +15,7 @@
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Header="{lex:Loc VisualSettings}"
+    IsModal="True"
     Position="Right"
     Theme="Accent"
     mc:Ignorable="d">

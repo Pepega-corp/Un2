@@ -42,6 +42,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private IEditorConfigurationItemViewModel _bufferConfigurationItem;
         private ushort _addressIteratorValue;
         private bool _isAdditionalSettingsOpened;
+        private bool _isMultiEditMode;
+        private List<IEditorConfigurationItemViewModel> _selectedRows;
 
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
@@ -107,10 +109,25 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             ShowDependenciesCommand=new RelayCommand(OnShowDependenciesExecute,CanExecuteShowDependencies);
             EditDescriptionCommand =
                 new RelayCommand(OnEditDescriptionExecute, CanExecuteEditDescription);
-			IncreaseAddressCommand=new RelayCommand(()=>OnChangeAddress(true),()=>SelectedRow is IAddressChangeable);
-			DecreaseAddressCommand = new RelayCommand(() => OnChangeAddress(false), () => SelectedRow is IAddressChangeable);
+			IncreaseAddressCommand=new RelayCommand(()=>OnChangeAddress(true), () => SelectedRows.All(model => model is IAddressChangeable));
+            DecreaseAddressCommand = new RelayCommand(() => OnChangeAddress(false), () => SelectedRows.All(model =>model is IAddressChangeable) );
             TriggerAdditionalSettingsCommand=new RelayCommand(() => { IsAdditionalSettingsOpened = true;});
 			AddressIteratorValue = 1;
+            OnSelectionChangedCommand=new RelayCommand<object>(OnSelectionChangedExecute);
+            SelectedRows=new List<IEditorConfigurationItemViewModel>();
+        }
+
+        private void OnSelectionChangedExecute(object obj)
+        {
+            if (obj is ObservableCollection<object> editorConfigurationItemViewModels)
+            {
+                SelectedRows = editorConfigurationItemViewModels.Cast<IEditorConfigurationItemViewModel>().ToList();
+                IsMultiEditMode = SelectedRows.Count > 1;
+            }
+            (IncreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (DecreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (DeleteElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
         private bool CanExecuteShowDependencies()
@@ -127,7 +144,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnChangeAddress(bool isIncreasing)
 		{ 
-			(SelectedRow as IAddressChangeable).ChangeAddress(AddressIteratorValue,isIncreasing);
+            SelectedRows.ForEach(model => (model as IAddressChangeable).ChangeAddress(AddressIteratorValue, isIncreasing));
         }
 
         private void OnAddMatrixExecute()
@@ -324,14 +341,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 	            (EditDescriptionCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (AddSelectedElementAsResourceCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (EditElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-	            (DeleteElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-	            (ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
+
 	            (SetElementDownCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (SetElementUpCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (CopyElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (PasteAsChildElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
-	            (IncreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
-	            (DecreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
+
                 (ShowDependenciesCommand as RelayCommand)?.RaiseCanExecuteChanged();
 
 	            RaisePropertyChanged();
@@ -359,6 +374,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ICommand SetElementDownCommand { get; set; }
         public ICommand OpenConfigurationSettingsCommand { get; set; }
         public ICommand CopyElementCommand { get; }
+        public ICommand OnSelectionChangedCommand { get; }
+
         public ICommand PasteAsChildElementCommand { get; }
         public ICommand AddSelectedElementAsResourceCommand { get; }
         public ICommand EditDescriptionCommand { get; }
@@ -388,20 +405,29 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 RaisePropertyChanged();
             }
         }
+        public bool IsMultiEditMode
+        {
+            get => _isMultiEditMode;
+            set
+            {
+                _isMultiEditMode = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private bool CanExecuteShowFormatterParameters()
         {
-            return (SelectedRow is IUshortFormattableEditorViewModel);
+            return SelectedRows.All(model=>model is IUshortFormattableEditorViewModel);
         }
 
         private void OnShowFormatterParametersExecute()
         {
-            _formatterEditorFactory.EditFormatterByUser(SelectedRow as IUshortFormattableEditorViewModel);
+            _formatterEditorFactory.EditFormatterByUser(SelectedRows.Cast<IUshortFormattableEditorViewModel>().ToList());
         }
 
         private bool CanExecuteDeleteElement()
         {
-            return (SelectedRow is IDeletable);
+            return SelectedRows.All(model => model is IDeletable);
         }
 
         private bool CanExecuteEditElement()
@@ -418,9 +444,15 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnDeleteElementExecute()
         {
-
-            if (!(SelectedRow is IDeletable)) return;
-            DeleteHeirarchicalRow(SelectedRow);
+            if (_applicationGlobalCommands.AskUserToDeleteSelectedGlobal(this))
+            {
+                SelectedRows.ForEach(model =>
+                {
+                    if (!(model is IDeletable)) return;
+                    DeleteHeirarchicalRow(model);
+                });
+              
+            }
         }
 
         private void OnEditElementExecute()
@@ -585,6 +617,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ICommand ShowDependenciesCommand
         {
             get;
+        }
+
+        public List<IEditorConfigurationItemViewModel> SelectedRows
+        {
+            get => _selectedRows;
+            set
+            {
+                _selectedRows = value;
+                RaisePropertyChanged();
+            }
         }
 
         public void Initialize(IDeviceFragment deviceFragment)

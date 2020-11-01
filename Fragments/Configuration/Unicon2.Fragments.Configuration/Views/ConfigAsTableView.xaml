@@ -18,7 +18,12 @@
         <converters:PropertyTooltipConverter x:Key="PropertyTooltipConverter" />
         <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
     </UserControl.Resources>
-    <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+    <Grid
+        Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="150" />
             <ColumnDefinition Width="2" />
@@ -39,7 +44,7 @@
                 HorizontalScrollBarVisibility="Auto">
                 <i:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
-                    <behaviors1:DynamicPropertiesDataGridBehavior RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
+                    <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox,Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
                         <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                             <Style TargetType="ContentControl">
                                 <Style.Setters>
@@ -83,7 +88,7 @@
                 HorizontalScrollBarVisibility="Auto">
                 <i:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
-                    <behaviors1:DynamicPropertiesDataGridBehavior RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
+                    <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox,Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
                         <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                             <Style TargetType="ContentControl">
                                 <Style.Setters>
@@ -110,6 +115,8 @@
                 </i:Interaction.Behaviors>
             </DataGrid>
         </Grid>
+        <CheckBox Margin="1" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Name="CheckBox" Content="{lex:Loc Transpone}">
+        </CheckBox>
     </Grid>
 </UserControl>
 

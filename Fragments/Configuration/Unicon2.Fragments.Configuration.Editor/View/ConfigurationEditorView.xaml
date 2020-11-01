@@ -13,6 +13,7 @@
     d:DesignHeight="500"
     d:DesignWidth="900"
     lex:LocalizeDictionary.DesignCulture="ru-RU"
+    controls:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance viewModels:ConfigurationEditorViewModel}"
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -25,6 +26,10 @@
         Name="ConfigurationStackPanel"
         Margin="0"
         HorizontalAlignment="Stretch">
+        <Grid.Resources>
+            <converter:BoolToVisConverter x:Key="BoolToVisConverter"></converter:BoolToVisConverter>
+            <converter:BoolToVisConverter x:Key="BoolToInVisConverter" Invert="True"></converter:BoolToVisConverter>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -50,7 +55,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Margin="0" Header="{lex:Loc CurrentItem}">
+            <GroupBox Visibility="{Binding IsMultiEditMode,Converter={StaticResource BoolToInVisConverter}}" Margin="0" Header="{lex:Loc CurrentItem}">
                 <StackPanel Margin="0">
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
@@ -268,6 +273,46 @@
                     </UniformGrid>
                 </StackPanel>
             </GroupBox>
+
+            <GroupBox Visibility="{Binding IsMultiEditMode,Converter={StaticResource BoolToVisConverter}}" Margin="0" Header="{lex:Loc CurrentItem}">
+                <StackPanel Margin="0">
+                    <Button
+                        Margin="3"
+                        Command="{Binding DeleteElementCommand}"
+                        Content="{lex:Loc Delete}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+
+                    <Button
+                        Margin="3"
+                        Command="{Binding ShowFormatterParametersCommand}"
+                        Content="{lex:Loc FormatterParameters}"
+                        Style="{DynamicResource UniconButtonStyle}" />
+                 
+                    <UniformGrid Columns="2" Rows="2">
+                        <Button
+                            Margin="3"
+                            Command="{Binding IncreaseAddressCommand}"
+                            Content="{lex:Loc IncreaseAddress}"
+                            Style="{DynamicResource UniconButtonStyle}" />
+
+                        <Button
+                            Margin="3"
+                            Command="{Binding DecreaseAddressCommand}"
+                            Content="{lex:Loc DecreaseAddress}"
+                            Style="{DynamicResource UniconButtonStyle}" />
+                        <TextBlock
+                            Margin="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{lex:Loc AddressIterator}" />
+                        <TextBox Margin="3" Text="{Binding AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </UniformGrid>
+                   
+                </StackPanel>
+            </GroupBox>
+
+
+
         </StackPanel>
 
         <Grid Name="ConfigGrid" Grid.Column="1">
@@ -303,9 +348,14 @@
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 AlternationCount="2"
-                BorderThickness="0"
+                BorderThickness="0" 
                 ItemsSource="{Binding Path=AllRows}"
                 SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=ConfigListView,Path=SelectedItems}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <ListView.Resources>
                     <ContextMenu x:Key="ItemContextMenu">
                         <!--  свойство ниже ломает контекстное меню, пока убрал условие, надо уточнить, как оно должно работать  -->

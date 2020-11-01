@@ -38,7 +38,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 			_localizerService = localizerService;
 			RangeViewModel = rangeViewModel;
 			DependencyViewModels=new ObservableCollection<IDependencyViewModel>();
-		}
+            NumberOfPoints = "1";
+        }
 
 		public virtual string Address
 		{

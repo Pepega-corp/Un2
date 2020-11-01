@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -23,7 +24,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
     {
         private readonly ITypesContainer _container;
 
-        private readonly IUshortFormattableEditorViewModel _ushortFormattableViewModel;
+        private readonly List<IUshortFormattableEditorViewModel> _ushortFormattableViewModel;
 
         //private readonly IUshortFormattable _ushortFormattable;
         private IUshortsFormatterViewModel _selectedUshortsFormatterViewModel;
@@ -33,39 +34,43 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private bool _isFormatterFromResource;
 
         public FormatterSelectionViewModel(ITypesContainer container,
-            IUshortFormattableEditorViewModel ushortFormattableViewModel)
+            List<IUshortFormattableEditorViewModel> ushortFormattableViewModels)
         {
             CurrentResourceString = null;
             _container = container;
-            _ushortFormattableViewModel = ushortFormattableViewModel;
+            _ushortFormattableViewModel = ushortFormattableViewModels;
 
             _sharedResourcesGlobalViewModel = _container.Resolve<ISharedResourcesGlobalViewModel>();
 
             _ushortsFormatterViewModels = new ObservableCollection<IUshortsFormatterViewModel>();
             UshortsFormatterViewModels.AddCollection(_container.ResolveAll<IUshortsFormatterViewModel>());
 
-
-            if (ushortFormattableViewModel.FormatterParametersViewModel != null)
+            if (ushortFormattableViewModels.Count == 1)
             {
-                if (_sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(
-                    ushortFormattableViewModel.FormatterParametersViewModel.Name))
+                var ushortFormattableViewModel = ushortFormattableViewModels.First();
+
+                if (ushortFormattableViewModel.FormatterParametersViewModel != null)
                 {
-                    CurrentResourceString = ushortFormattableViewModel.FormatterParametersViewModel.Name;
-                    _isFormatterFromResource = true;
+                    if (_sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(
+                        ushortFormattableViewModel.FormatterParametersViewModel.Name))
+                    {
+                        CurrentResourceString = ushortFormattableViewModel.FormatterParametersViewModel.Name;
+                        _isFormatterFromResource = true;
+                    }
+
+                    var formatter =
+                        _ushortsFormatterViewModels.FirstOrDefault(f =>
+                            f.StrongName == ushortFormattableViewModel.FormatterParametersViewModel
+                                .RelatedUshortsFormatterViewModel.StrongName);
+                    var existingIndex =
+                        _ushortsFormatterViewModels.IndexOf(formatter);
+                    _ushortsFormatterViewModels.RemoveAt(existingIndex);
+                    _ushortsFormatterViewModels.Insert(existingIndex,
+                        ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
+                    SelectedUshortsFormatterViewModel = ushortFormattableViewModel.FormatterParametersViewModel
+                        .RelatedUshortsFormatterViewModel;
+
                 }
-
-                var formatter =
-                    _ushortsFormatterViewModels.FirstOrDefault(f =>
-                        f.StrongName == ushortFormattableViewModel.FormatterParametersViewModel
-                            .RelatedUshortsFormatterViewModel.StrongName);
-                var existingIndex =
-                    _ushortsFormatterViewModels.IndexOf(formatter);
-                _ushortsFormatterViewModels.RemoveAt(existingIndex);
-                _ushortsFormatterViewModels.Insert(existingIndex,
-                    ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel);
-                SelectedUshortsFormatterViewModel = ushortFormattableViewModel.FormatterParametersViewModel
-                    .RelatedUshortsFormatterViewModel;
-
             }
 
 
@@ -130,15 +135,16 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 _sharedResourcesGlobalViewModel.UpdateSharedResource(resourceUshortsFormatter);
 
 
-                _ushortFormattableViewModel.FormatterParametersViewModel =
-                    _container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(resourceUshortsFormatter);
+                _ushortFormattableViewModel.ForEach(model =>model.FormatterParametersViewModel =
+                    _container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(resourceUshortsFormatter));
             }
             else
             {
-                _ushortFormattableViewModel.FormatterParametersViewModel =
-                    _container.Resolve<IFormatterParametersViewModel>();
-                _ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
-                    SelectedUshortsFormatterViewModel;
+                _ushortFormattableViewModel.ForEach(model => model.FormatterParametersViewModel =
+                    _container.Resolve<IFormatterParametersViewModel>());
+                _ushortFormattableViewModel.ForEach(model => model.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
+                    SelectedUshortsFormatterViewModel);
+
             }
 
             (obj as Window)?.Close();
@@ -173,7 +179,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             }
         }
 
-        public string FormatterOwnersName => _ushortFormattableViewModel.Name;
+        public string FormatterOwnersName =>string.Join(", ", _ushortFormattableViewModel.Select(model =>model.Name ).ToArray());
         public ICommand ResetCommand { get; }
         public ICommand AddAsResourceCommand { get; }
         public ICommand SelectFromResourcesCommand { get; }
