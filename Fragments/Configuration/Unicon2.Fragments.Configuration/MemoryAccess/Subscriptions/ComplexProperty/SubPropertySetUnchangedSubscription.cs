@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProperty
@@ -13,16 +14,16 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
    public class SubPropertySetUnchangedSubscription : IDeviceSubscription
     {
         private readonly List<int> _bitNumbersInWord;
-        private readonly IEditableValueViewModel _editableValueViewModel;
+        private readonly ILocalAndDeviceValueContainingViewModel _localAndDeviceValueContainingViewModel;
         private readonly IDeviceMemory _deviceMemory;
         private readonly ushort _address;
         private readonly ushort _numberOfPoints;
 
-        public SubPropertySetUnchangedSubscription(List<int> bitNumbersInWord,IEditableValueViewModel editableValueViewModel,
+        public SubPropertySetUnchangedSubscription(List<int> bitNumbersInWord,ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
         IDeviceMemory deviceMemory, ushort address, ushort numberOfPoints)
         {
             _bitNumbersInWord = bitNumbersInWord;
-            _editableValueViewModel = editableValueViewModel;
+            _localAndDeviceValueContainingViewModel = localAndDeviceValueContainingViewModel;
             _deviceMemory = deviceMemory;
             _address = address;
             _numberOfPoints = numberOfPoints;
@@ -56,7 +57,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
             
             }
 
-            _editableValueViewModel.IsFormattedValueChanged = !isMemoryEqualOnAddresses;
+            _localAndDeviceValueContainingViewModel.LocalValue.IsFormattedValueChanged = !isMemoryEqualOnAddresses;
         }
     }
 }

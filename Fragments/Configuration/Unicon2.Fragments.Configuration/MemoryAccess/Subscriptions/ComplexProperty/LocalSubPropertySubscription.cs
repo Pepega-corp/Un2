@@ -22,6 +22,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
     {
         private readonly DeviceContext _deviceContext;
         private readonly IRuntimeSubPropertyViewModel _runtimeSubPropertyViewModel;
+        private readonly IRuntimeComplexPropertyViewModel _runtimeComplexPropertyViewModel;
+        private readonly IComplexProperty _complexProperty;
+
         private readonly ISubProperty _subProperty;
         private readonly IFormattingService _formattingService;
         private ushort[] _prevUshorts = new ushort[0];
@@ -31,13 +34,15 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 
         public LocalSubPropertySubscription(DeviceContext deviceContext,
             IRuntimeSubPropertyViewModel runtimeSubPropertyViewModel, ISubProperty subProperty,
-            IFormattingService formattingService, int offset)
+            IFormattingService formattingService, int offset, IRuntimeComplexPropertyViewModel runtimeComplexPropertyViewModel, IComplexProperty complexProperty)
         {
             _deviceContext = deviceContext;
             _runtimeSubPropertyViewModel = runtimeSubPropertyViewModel;
             _subProperty = subProperty;
             _formattingService = formattingService;
             _offset = offset;
+            _runtimeComplexPropertyViewModel = runtimeComplexPropertyViewModel;
+            _complexProperty = complexProperty;
         }
 
         public void Execute()
@@ -137,7 +142,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
                         formatterForDependentProperty,
                         _subProperty, !isInteractionBlocked));
                 var editSubscription =
-                    new LocalDataEditedSubscription(editableValue, _deviceContext, _subProperty, _offset);
+                    new LocalDataComplexPropertyEditedSubscription(_runtimeComplexPropertyViewModel, _deviceContext,_complexProperty, _offset);
                 _runtimeSubPropertyViewModel.LocalValue = editableValue;
                 editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
                 _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription

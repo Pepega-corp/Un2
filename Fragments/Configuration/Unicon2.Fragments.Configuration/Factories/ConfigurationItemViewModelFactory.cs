@@ -149,6 +149,10 @@ namespace Unicon2.Fragments.Configuration.Factories
             InitializeProperty(res, property);
             var formattingService = _container.Resolve<IFormattingService>();
 
+            if (property.Name == "defaultPropertyFromSubPropertyDependencyConsumer")
+            {
+	            
+            }
             _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription((ushort)(property.Address+AddressOffset), property.NumberOfPoints,
                 new DeviceDataPropertyMemorySubscription(property, res, _container.Resolve<IValueViewModelFactory>(),
                     _deviceContext,(ushort)AddressOffset));
@@ -183,8 +187,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
 		            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
 			            new LocalMemorySubscription(res.LocalValue,
-				            (ushort) (property.Address + AddressOffset),
-				            property.NumberOfPoints, property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset,localUshorts)));
+				             property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset,localUshorts)));
 
 
 	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
@@ -207,9 +210,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
 		            setUnchangedSuscription);
 
-	            var localDataSubscription = new LocalMemorySubscription(res.LocalValue,
-		            (ushort) (property.Address + AddressOffset),
-		            property.NumberOfPoints, property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset,localUshorts);
+	            var localDataSubscription = new LocalMemorySubscription(res.LocalValue, property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset,localUshorts);
 	            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
 		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
 		            localDataSubscription);
@@ -260,7 +261,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 
                 var setUnchangedSuscription = new SubPropertySetUnchangedSubscription(subProperty.BitNumbersInWord,
-                    editableValue,
+                    subPropertyViewModel,
                     _deviceContext.DeviceMemory,
                     (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints);
                 var editSubscription =
@@ -289,27 +290,40 @@ namespace Unicon2.Fragments.Configuration.Factories
 
                 if (subProperty?.Dependencies?.Count > 0)
                 {
-                    AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
-                        _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
-                            new DeviceDataSubPropertySubscription(subProperty, subPropertyViewModel, (ushort)AddressOffset,
-                                _container.Resolve<IValueViewModelFactory>(), _deviceContext)));
+	                AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
+		                _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
+			                new DeviceDataSubPropertySubscription(subProperty, subPropertyViewModel,
+				                (ushort) AddressOffset,
+				                _container.Resolve<IValueViewModelFactory>(), _deviceContext)));
 
-                    AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
-                        _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
-                            new
-                                LocalSubPropertySubscription(_deviceContext, subPropertyViewModel, subProperty, formattingService,
-                                    AddressOffset)));
+	                AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
+		                _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
+			                new
+				                LocalSubPropertySubscription(_deviceContext, subPropertyViewModel, subProperty,
+					                formattingService,
+					                AddressOffset, res, complexProperty)));
 
 
-                    AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
-                        _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
-                            new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
-                                (ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints)));
+	                AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
+		                _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
+			                new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
+				                (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints)));
 
-                    AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
-                        _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
-                            new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
-                                (ushort)(subProperty.Address + AddressOffset), subProperty.NumberOfPoints)));
+	                AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
+		                _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
+			                new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
+				                (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints)));
+
+	                AddSubscriptionForConditions(subProperty, (address, numOfPoints) =>
+		                _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(
+			                (ushort) (address + AddressOffset), numOfPoints,
+			                setUnchangedSuscription));
+
+	                AddSubscriptionForConditions(subProperty, (address, numOfPoints) =>
+		                _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
+			                (ushort) (address + AddressOffset), numOfPoints,
+			                setUnchangedSuscription));
+	                
                 }
                 else
                 {
@@ -324,7 +338,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 
                     var localDataSubscription = new
                         LocalSubPropertySubscription(_deviceContext, subPropertyViewModel, subProperty, formattingService,
-                            AddressOffset);
+                            AddressOffset,res,complexProperty);
                     _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
                         (ushort)(complexProperty.Address + AddressOffset), complexProperty.NumberOfPoints,
                         localDataSubscription);

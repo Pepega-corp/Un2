@@ -45,11 +45,16 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     _property?.UshortsFormatter);
             }
 
-            var value = formattingService.FormatValue(formatterForProperty, MemoryAccessor.GetUshortsFromMemory(
+            if (MemoryAccessor.IsMemoryContainsAddresses(
                 _deviceContext.DeviceMemory,
-                (ushort) (_property.Address + _offset), _property.NumberOfPoints, false));
-            _localAndDeviceValueContainingViewModel.DeviceValue =
-                _valueViewModelFactory.CreateFormattedValueViewModel(value);
+                (ushort) (_property.Address + _offset), _property.NumberOfPoints, false))
+            {
+                var value = formattingService.FormatValue(formatterForProperty, MemoryAccessor.GetUshortsFromMemory(
+                    _deviceContext.DeviceMemory,
+                    (ushort) (_property.Address + _offset), _property.NumberOfPoints, false));
+                _localAndDeviceValueContainingViewModel.DeviceValue =
+                    _valueViewModelFactory.CreateFormattedValueViewModel(value);
+            }
         }
     }
 }

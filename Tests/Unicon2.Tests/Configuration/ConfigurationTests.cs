@@ -492,7 +492,108 @@ namespace Unicon2.Tests.Configuration
 
         }
 
+        
+        [Test]
+        public async Task DependencyDefaultPropertyToSubproperty()
+        {
 
+            var defaultPropertyFromSubPropertyDependencySource =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "defaultPropertyFromSubPropertyDependencySource")
+                    .Item as IProperty;
+
+            var defaultPropertyFromSubPropertyDependencyConsumer =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "defaultPropertyFromSubPropertyDependencyConsumer")
+                    .Item as IProperty;
+
+            var defaultPropertyFromSubPropertyDependencySourceViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "defaultPropertyFromSubPropertyDependencySource")
+                .Item as IRuntimePropertyViewModel;
+
+            var defaultPropertyFromSubPropertyDependencyConsumerViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "defaultPropertyFromSubPropertyDependencyConsumer")
+                .Item as IRuntimePropertyViewModel;
+            await ReadAndTransfer();
+
+
+            Func<EditableBoolValueViewModel> defaultPropertyFromSubPropertyDependencySourceViewModelLocalValue = () =>
+                defaultPropertyFromSubPropertyDependencySourceViewModel.LocalValue as EditableBoolValueViewModel;
+            Func<EditableBoolValueViewModel> defaultPropertyFromSubPropertyDependencyConsumerViewModelViewModelLocalValue = () =>
+                defaultPropertyFromSubPropertyDependencyConsumerViewModel.LocalValue as EditableBoolValueViewModel;
+            
+            Assert.False(defaultPropertyFromSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
+            Assert.False(defaultPropertyFromSubPropertyDependencyConsumerViewModelViewModelLocalValue().BoolValueProperty);
+            Assert.False(defaultPropertyFromSubPropertyDependencyConsumerViewModelViewModelLocalValue().IsEditEnabled);
+
+            defaultPropertyFromSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = true;
+            Assert.True(defaultPropertyFromSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
+            Assert.True(defaultPropertyFromSubPropertyDependencyConsumerViewModelViewModelLocalValue().IsEditEnabled);
+
+            defaultPropertyFromSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = false;
+            Assert.False(defaultPropertyFromSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
+            Assert.False(defaultPropertyFromSubPropertyDependencyConsumerViewModelViewModelLocalValue().IsEditEnabled);
+            
+       
+        }
+        [Test]
+        public async Task DependencySubpropertyToSubpropertyConsumerValue()
+        {
+
+            var boolTestSubPropertyDependencySource =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "boolTestSubPropertyDependencySource")
+                    .Item as IProperty;
+
+            var boolTestSubPropertyDependencyConsumer =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "boolTestSubPropertyDependencyConsumer")
+                    .Item as IProperty;
+
+            var boolTestSubPropertyDependencySourceViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "boolTestSubPropertyDependencySource")
+                .Item as IRuntimePropertyViewModel;
+
+            var boolTestSubPropertyDependencyConsumerViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "boolTestSubPropertyDependencyConsumer")
+                .Item as IRuntimePropertyViewModel;
+            await ReadAndTransfer();
+
+
+            Func<EditableBoolValueViewModel> boolTestSubPropertyDependencySourceViewModelLocalValue = () =>
+                boolTestSubPropertyDependencySourceViewModel.LocalValue as EditableBoolValueViewModel;
+            Func<EditableBoolValueViewModel> boolTestSubPropertyDependencyConsumerViewModelLocalValue = () =>
+                boolTestSubPropertyDependencyConsumerViewModel.LocalValue as EditableBoolValueViewModel;
+            
+            Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+            
+            
+            boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = true;
+            Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
+
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty);
+            Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+            
+            
+            boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty = true;            
+            Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsFormattedValueChanged);
+            Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+
+            Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
+            Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsEditEnabled);
+        }
+
+        
         [Test]
         public async Task DependencySubpropertyToSubproperty()
         {
@@ -530,9 +631,12 @@ namespace Unicon2.Tests.Configuration
             Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty);
             Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
 
+            
+            
             boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = true;
             Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
             Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+
 
             boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = false;
             Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);

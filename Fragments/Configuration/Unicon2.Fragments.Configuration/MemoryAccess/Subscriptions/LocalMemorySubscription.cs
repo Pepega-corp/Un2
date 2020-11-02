@@ -25,8 +25,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 	public class LocalMemorySubscription : IDeviceSubscription
 	{
 		private readonly IEditableValueViewModel _editableValueViewModel;
-		private readonly ushort _address;
-		private readonly ushort _numberOfPoints;
 		private readonly IUshortsFormatter _ushortsFormatter;
 		private readonly DeviceContext _deviceContext;
 		private readonly IRuntimePropertyViewModel _runtimePropertyViewModel;
@@ -37,14 +35,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 		private IUshortsFormatter _prevUshortFormatter;
 		private int _offset;
 
-		public LocalMemorySubscription(IEditableValueViewModel editableValueViewModel,
-			ushort address, ushort numberOfPoints, IUshortsFormatter ushortsFormatter, DeviceContext deviceContext,
+		public LocalMemorySubscription(IEditableValueViewModel editableValueViewModel, IUshortsFormatter ushortsFormatter, DeviceContext deviceContext,
 			IRuntimePropertyViewModel runtimePropertyViewModel,
 			IProperty property, IFormattingService formattingService, int offset, ushort[] prevUshorts)
 		{
 			_editableValueViewModel = editableValueViewModel;
-			_address = address;
-			_numberOfPoints = numberOfPoints;
 			_ushortsFormatter = ushortsFormatter;
 			_deviceContext = deviceContext;
 			_runtimePropertyViewModel = runtimePropertyViewModel;
@@ -61,7 +56,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
 			var newUshorts = MemoryAccessor.GetUshortsFromMemorySafe(
 				_deviceContext.DeviceMemory,
-				(ushort) (_address + _offset), _property.NumberOfPoints, true);
+				(ushort) (_property.Address + _offset), _property.NumberOfPoints, true);
 
 			if (!newUshorts.IsSuccess)
 			{
@@ -148,7 +143,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 			else
 			{
 				if (!MemoryAccessor.IsMemoryContainsAddresses(_deviceContext.DeviceMemory,
-					(ushort) (_address), _property.NumberOfPoints, true))
+					(ushort) (_property.Address), _property.NumberOfPoints, true))
 				{
 					return;
 				}
