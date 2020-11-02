@@ -109,6 +109,31 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 				deviceContext.DeviceMemory,
 				(ushort)(resourceProperty.Address), resourceProperty.NumberOfPoints, isLocal);
 
+            if (resourceProperty is ISubProperty subProperty)
+            {
+                var x = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
+                        container =>
+                            container.ResourceName == dependancyCondition.ReferencedPropertyResourceName)
+                    .Resource;
+
+				var resultBitArray = new bool[16];
+                var boolArray = propertyUshorts.GetBoolArrayFromUshortArray();
+                int counter = 0;
+                for (int i = 0; i < 16; i++)
+                {
+                    if (subProperty.BitNumbersInWord.Contains(i))
+                    {
+                        resultBitArray[counter] = boolArray[i];
+                        counter++;
+                    }
+
+                }
+
+                propertyUshorts = resultBitArray.BoolArrayToUshort().AsCollection();
+
+            }
+
+
 			if (resourceProperty.UshortsFormatter != null)
 			{
 				var value = formattingService.FormatValue(resourceProperty.UshortsFormatter, propertyUshorts);

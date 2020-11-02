@@ -34,6 +34,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 		private bool _prevIsBlocked;
 		private IUshortsFormatter _prevUshortFormatter;
 		private int _offset;
+        public int Priority { get; set; } = 1;
 
 		public LocalMemorySubscription(IEditableValueViewModel editableValueViewModel, IUshortsFormatter ushortsFormatter, DeviceContext deviceContext,
 			IRuntimePropertyViewModel runtimePropertyViewModel,

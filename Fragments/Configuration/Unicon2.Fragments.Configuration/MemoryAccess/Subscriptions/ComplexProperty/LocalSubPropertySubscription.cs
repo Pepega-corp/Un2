@@ -44,6 +44,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
             _runtimeComplexPropertyViewModel = runtimeComplexPropertyViewModel;
             _complexProperty = complexProperty;
         }
+        public int Priority { get; set; } = 1;
 
         public void Execute()
         {
@@ -106,6 +107,15 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
                                             break;
                                     }
 
+                                }
+                                else
+                                {
+                                    switch (conditionResultDependency.Result)
+                                    {
+                                        case IBlockInteractionResult blockInteractionResult:
+                                            isInteractionBlocked = checkResult.Item;
+                                            break;
+                                    }
                                 }
                             }
                             else

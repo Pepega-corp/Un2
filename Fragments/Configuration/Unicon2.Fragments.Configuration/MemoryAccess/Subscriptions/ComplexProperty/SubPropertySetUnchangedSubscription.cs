@@ -18,6 +18,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
         private readonly IDeviceMemory _deviceMemory;
         private readonly ushort _address;
         private readonly ushort _numberOfPoints;
+        public int Priority { get; set; } = 1;
 
         public SubPropertySetUnchangedSubscription(List<int> bitNumbersInWord,ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
         IDeviceMemory deviceMemory, ushort address, ushort numberOfPoints)

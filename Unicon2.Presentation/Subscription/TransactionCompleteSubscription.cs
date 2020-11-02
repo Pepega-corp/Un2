@@ -60,5 +60,7 @@ namespace Unicon2.Presentation.Subscription
 
             }
         }
+
+        public int Priority { get; set; } = 1;
     }
 }

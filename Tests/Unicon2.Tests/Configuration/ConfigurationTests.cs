@@ -540,6 +540,7 @@ namespace Unicon2.Tests.Configuration
             
        
         }
+
         [Test]
         public async Task DependencySubpropertyToSubpropertyConsumerValue()
         {
@@ -554,6 +555,12 @@ namespace Unicon2.Tests.Configuration
                     .FindItemByName(item => item.Name == "boolTestSubPropertyDependencyConsumer")
                     .Item as IProperty;
 
+            var boolTestSubPropertyDependencyNotRelated =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "boolTestSubProperty6")
+                    .Item as IProperty;
+
+
             var boolTestSubPropertyDependencySourceViewModel = _configurationFragmentViewModel
                 .RootConfigurationItemViewModels
                 .Cast<IConfigurationItemViewModel>().ToList()
@@ -565,6 +572,13 @@ namespace Unicon2.Tests.Configuration
                 .Cast<IConfigurationItemViewModel>().ToList()
                 .FindItemViewModelByName(model => model.Header == "boolTestSubPropertyDependencyConsumer")
                 .Item as IRuntimePropertyViewModel;
+
+            var boolTestSubPropertyDependencyNotRelatedViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "boolTestSubProperty6")
+                .Item as IRuntimePropertyViewModel;
+
             await ReadAndTransfer();
 
 
@@ -572,28 +586,148 @@ namespace Unicon2.Tests.Configuration
                 boolTestSubPropertyDependencySourceViewModel.LocalValue as EditableBoolValueViewModel;
             Func<EditableBoolValueViewModel> boolTestSubPropertyDependencyConsumerViewModelLocalValue = () =>
                 boolTestSubPropertyDependencyConsumerViewModel.LocalValue as EditableBoolValueViewModel;
-            
+
+            Func<EditableBoolValueViewModel> boolTestSubPropertyDependencyNotRelatedViewModelLocalValue = () =>
+                boolTestSubPropertyDependencyNotRelatedViewModel.LocalValue as EditableBoolValueViewModel;
+
+
             Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
             Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty);
             Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
-            
-            
+
+
             boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = true;
             Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
 
             Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty);
             Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
-            
-            
-            boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty = true;            
+
+
+            boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty = true;
             Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsFormattedValueChanged);
             Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
 
             Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
             Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsEditEnabled);
+
+
+            boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = false;
+
+
+            Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+
+
+            Assert.False(boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().BoolValueProperty);
+            Assert.True(boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().IsEditEnabled);
+
+            boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().BoolValueProperty = true;
+
+
+            Assert.True(boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().BoolValueProperty);
+            Assert.True(boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().IsEditEnabled);
+
+            Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+            boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().BoolValueProperty = false;
+
         }
 
-        
+
+        [Test]
+        public async Task DependencySubpropertyToSubpropertyWithNotRelatedButSameComplexPropConsumerValue()
+        {
+
+            var boolTestSubPropertyDependencySource =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "subToSubPropertySameComplexPropSource")
+                    .Item as IProperty;
+
+            var boolTestSubPropertyDependencyConsumer =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "subToSubPropertySameComplexPropConsumer")
+                    .Item as IProperty;
+
+            var boolTestSubPropertyDependencyNotRelated =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "subToSubPropertySameComplexPropNotRelated")
+                    .Item as IProperty;
+
+
+            var boolTestSubPropertyDependencySourceViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "subToSubPropertySameComplexPropSource")
+                .Item as IRuntimePropertyViewModel;
+
+            var boolTestSubPropertyDependencyConsumerViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "subToSubPropertySameComplexPropConsumer")
+                .Item as IRuntimePropertyViewModel;
+
+            var boolTestSubPropertyDependencyNotRelatedViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "subToSubPropertySameComplexPropNotRelated")
+                .Item as IRuntimePropertyViewModel;
+
+            await ReadAndTransfer();
+
+
+            Func<EditableBoolValueViewModel> boolTestSubPropertyDependencySourceViewModelLocalValue = () =>
+                boolTestSubPropertyDependencySourceViewModel.LocalValue as EditableBoolValueViewModel;
+            Func<EditableBoolValueViewModel> boolTestSubPropertyDependencyConsumerViewModelLocalValue = () =>
+                boolTestSubPropertyDependencyConsumerViewModel.LocalValue as EditableBoolValueViewModel;
+
+            Func<EditableBoolValueViewModel> boolTestSubPropertyDependencyNotRelatedViewModelLocalValue = () =>
+                boolTestSubPropertyDependencyNotRelatedViewModel.LocalValue as EditableBoolValueViewModel;
+
+
+            Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+
+
+            boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = true;
+            Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
+
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty);
+            Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+
+
+            boolTestSubPropertyDependencyConsumerViewModelLocalValue().BoolValueProperty = true;
+            Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsFormattedValueChanged);
+            Assert.True(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+
+            Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsFormattedValueChanged);
+            Assert.True(boolTestSubPropertyDependencySourceViewModelLocalValue().IsEditEnabled);
+
+
+            boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty = false;
+
+
+            Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+
+
+            Assert.False(boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().BoolValueProperty);
+            Assert.True(boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().IsEditEnabled);
+
+            boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().BoolValueProperty = true;
+
+
+            Assert.True(boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().BoolValueProperty);
+            Assert.True(boolTestSubPropertyDependencyNotRelatedViewModelLocalValue().IsEditEnabled);
+
+            Assert.False(boolTestSubPropertyDependencySourceViewModelLocalValue().BoolValueProperty);
+            Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
+        }
+
+
+
+
+
         [Test]
         public async Task DependencySubpropertyToSubproperty()
         {

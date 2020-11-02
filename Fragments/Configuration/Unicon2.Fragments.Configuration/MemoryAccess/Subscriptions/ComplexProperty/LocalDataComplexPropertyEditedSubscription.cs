@@ -68,6 +68,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 			_deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
 				(ushort) (_complexProperty.Address + _offset), (ushort) resUshorts.Length);
 		}
+        public int Priority { get; set; } = 2;
 
 	}
 }

@@ -17,6 +17,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 		private readonly IDeviceMemory _deviceMemory;
 		private readonly ushort _address;
 		private readonly ushort _numberOfPoints;
+        public int Priority { get; set; } = 1;
 
 		public EditableValueSetUnchangedSubscription(ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
 			IDeviceMemory deviceMemory, ushort address, ushort numberOfPoints)

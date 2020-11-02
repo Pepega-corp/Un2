@@ -6,6 +6,8 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 {
 	public class DeviceDataChangedSubscription : IDeviceSubscription
 	{
+        public int Priority { get; set; } = 1;
+
 		//private IDeviceMemory _deviceMemory;
 		//private 
 

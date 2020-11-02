@@ -27,6 +27,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 		private readonly int _offset;
 		private ushort[] _prevUshorts=new ushort[0];
 
+        public int Priority { get; set; } = 1;
 
 		public LocalComplexPropertyMemorySubscription(IRuntimeComplexPropertyViewModel runtimeComplexPropertyViewModel,IComplexProperty complexProperty, IDeviceMemory deviceMemory,int offset)
 		{

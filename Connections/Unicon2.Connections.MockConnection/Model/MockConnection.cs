@@ -63,7 +63,7 @@ namespace Unicon2.Connections.MockConnection.Model
         public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints,
             string dataTitle)
         {
-            await Task.Delay(10);
+            await Task.Delay(2);
             PopulateMemoryIfNeeded(startAddress, numberOfPoints);
             return new DefaultQueryResult<ushort[]>()
             {
@@ -91,7 +91,7 @@ namespace Unicon2.Connections.MockConnection.Model
         public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite,
             string dataTitle)
         {
-            await Task.Delay(10);
+            await Task.Delay(2);
             PopulateMemoryIfNeeded(startAddress, (ushort) dataToWrite.Count());
             for (ushort i = startAddress; i < startAddress + (ushort) dataToWrite.Count(); i++)
             {

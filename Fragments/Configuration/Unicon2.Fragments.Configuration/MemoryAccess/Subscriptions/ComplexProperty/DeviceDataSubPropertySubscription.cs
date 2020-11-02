@@ -26,6 +26,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
         private readonly IValueViewModelFactory _valueViewModelFactory;
         private DeviceContext _deviceContext;
 
+        public int Priority { get; set; } = 1;
 
         public DeviceDataSubPropertySubscription(ISubProperty subProperty,
             IRuntimeSubPropertyViewModel runtimeSubPropertyViewModel, ushort offset,

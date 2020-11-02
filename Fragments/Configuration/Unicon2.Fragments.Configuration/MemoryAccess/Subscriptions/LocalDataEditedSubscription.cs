@@ -35,6 +35,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             _offset = offset;
             EditableValueViewModel = editableValueViewModel;
         }
+        public int Priority { get; set; } = 2;
 
         public void Execute()
         {
