@@ -123,7 +123,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
         {
             var res = _container.Resolve<IPropertyEditorViewModel>();
             if (property != null)
-            {InitializeProperty(res, property);
+            {
+                InitializeProperty(res, property);
             }
             else
             {

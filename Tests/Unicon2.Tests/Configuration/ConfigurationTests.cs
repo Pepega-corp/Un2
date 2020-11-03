@@ -50,9 +50,7 @@ namespace Unicon2.Tests.Configuration
 
         public ConfigurationTests()
         {
-            App app = new App();
-            app.Initialize();
-            _typesContainer = new TypesContainer(app.Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
+            _typesContainer = new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
             var serializerService = _typesContainer.Resolve<ISerializerService>();
 
             _device = serializerService.DeserializeFromFile<IDevice>("testFile.json");

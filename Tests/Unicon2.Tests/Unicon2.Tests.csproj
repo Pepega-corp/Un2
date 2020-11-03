@@ -91,9 +91,21 @@
       <Project>{0a46905f-1543-4b35-b859-e7b631325559}</Project>
       <Name>Unicon2.Connections.MockConnection</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Formatting\Unicon2.Formatting.Editor\Unicon2.Formatting.Editor.csproj">
+      <Project>{0F26E688-7767-4264-B287-43DA0C5D8C58}</Project>
+      <Name>Unicon2.Formatting.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Formatting\Unicon2.Formatting.Infrastructure\Unicon2.Formatting.Infrastructure.csproj">
       <Project>{2A80AB3B-3AF5-48DB-8604-14CC4229F2C3}</Project>
       <Name>Unicon2.Formatting.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Formatting\Unicon2.Formatting\Unicon2.Formatting.csproj">
+      <Project>{DACD757A-1BEE-4C5E-BD62-D5BF7B89DA14}</Project>
+      <Name>Unicon2.Formatting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Fragments\Configuration\Unicon2.Fragments.Configuration.Editor\Unicon2.Fragments.Configuration.Editor.csproj">
+      <Project>{D1A9A1AC-BFAA-4DA5-AB7D-DB7D082EDFA4}</Project>
+      <Name>Unicon2.Fragments.Configuration.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Fragments\Configuration\Unicon2.Fragments.Configuration.Infrastructure\Unicon2.Fragments.Configuration.Infrastructure.csproj">
       <Project>{b809ed9d-0916-49fb-8b7e-d7693836c55e}</Project>
