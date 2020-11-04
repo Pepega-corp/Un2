@@ -50,12 +50,15 @@
     <Compile Include="Factories\IConfigurationItemViewModelFactory.cs" />
     <Compile Include="MemoryViewModelMapping\ILocalDataMemorySubscription.cs" />
     <Compile Include="MemoryViewModelMapping\IDeviceDataMemorySubscription.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\Conditions\ICompareCondition.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Conditions\ICompareResourceCondition.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\ICondition.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\IConditionResultDependency.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\IDependencyResult.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Results\IApplyFormatterResult.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Results\IBlockInteractionResult.cs" />
+    <Compile Include="StructItemsInterfaces\Filters\IFilter.cs" />
+    <Compile Include="StructItemsInterfaces\Filters\IGroupFilterInfo.cs" />
     <Compile Include="StructItemsInterfaces\IAppointableMatrix.cs" />
     <Compile Include="StructItemsInterfaces\IGroupWithReiterationInfo.cs" />
     <Compile Include="StructItemsInterfaces\Properties\ISubProperty.cs" />
