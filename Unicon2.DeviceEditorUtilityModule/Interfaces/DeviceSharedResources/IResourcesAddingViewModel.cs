@@ -7,7 +7,7 @@ namespace Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources
 {
     public interface IResourcesAddingViewModel
     {
-        bool IsResourceAdded { get; }
+        bool IsResourceAdded { get; set; }
         ICommand SubmitCommand { get; }
         ICommand CloseCommand { get; }
         INameable ResourceWithName { get; set; }

@@ -39,7 +39,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         }
 
 
-        public bool IsResourceAdded { get; private set; }
+        public bool IsResourceAdded { get; set; }
 
         public ICommand SubmitCommand { get; }
 

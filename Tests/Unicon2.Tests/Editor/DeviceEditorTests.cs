@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using NUnit.Framework;
 using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
+using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Model;
 using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
@@ -14,7 +16,12 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Model.DefaultDevice;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -36,8 +43,9 @@ namespace Unicon2.Tests.Editor
 
         public DeviceEditorTests()
         {
-        
-            _typesContainer = new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
+
+            _typesContainer =
+                new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
         }
 
         [Test]
@@ -51,62 +59,230 @@ namespace Unicon2.Tests.Editor
         }
 
         [Test]
+        public async Task EditorAllFormattersPropSave()
+        {
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 3);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 4);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 5);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 6);
+
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
+            Assert.AreEqual(result.RootConfigurationItemList.Count, 1);
+
+            var itemList = (result.RootConfigurationItemList[0] as DefaultItemsGroup).ConfigurationItemList;
+
+            CheckPropertyResultProperty(itemList, 1);
+            CheckPropertyResultProperty(itemList, 2);
+            CheckPropertyResultProperty(itemList, 3);
+            CheckPropertyResultProperty(itemList, 4);
+            CheckPropertyResultProperty(itemList, 5);
+            CheckPropertyResultProperty(itemList, 6);
+
+            Assert.AreEqual(itemList.Count, 6);
+
+        }
+
+        [Test]
+        public async Task EditorAllFormattersPropFromSharedResourcesSave()
+        {
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var deviceSharedResources = new DeviceSharedResources();
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
+                _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
+
+            sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
+
+            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(1, true), false);
+            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(2, true), false);
+            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(3, true), false);
+            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(4, true), false);
+            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(5, true), false);
+            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(6, true), false);
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+
+            AddPropertyWithFormatterFromResourceViewModel(rootGroup.ChildStructItemViewModels, 1);
+            AddPropertyWithFormatterFromResourceViewModel(rootGroup.ChildStructItemViewModels, 2);
+            AddPropertyWithFormatterFromResourceViewModel(rootGroup.ChildStructItemViewModels, 3);
+            AddPropertyWithFormatterFromResourceViewModel(rootGroup.ChildStructItemViewModels, 4);
+            AddPropertyWithFormatterFromResourceViewModel(rootGroup.ChildStructItemViewModels, 5);
+            AddPropertyWithFormatterFromResourceViewModel(rootGroup.ChildStructItemViewModels, 6);
+
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
+            Assert.AreEqual(result.RootConfigurationItemList.Count, 1);
+
+            var itemList = (result.RootConfigurationItemList[0] as DefaultItemsGroup).ConfigurationItemList;
+
+            CheckPropertyResultProperty(itemList, 1);
+            CheckPropertyResultProperty(itemList, 2);
+            CheckPropertyResultProperty(itemList, 3);
+            CheckPropertyResultProperty(itemList, 4);
+            CheckPropertyResultProperty(itemList, 5);
+            CheckPropertyResultProperty(itemList, 6);
+
+            Assert.AreEqual(itemList.Count, 6);
+
+        }
+
+        private IFormatterParametersViewModel CreateFormatterParametersViewModel(int identity,
+            bool isFromSharedResource)
+        {
+            return new FormatterParametersViewModel()
+            {
+                IsFromSharedResources = isFromSharedResource,
+                Name = "formatter" + identity,
+                RelatedUshortsFormatterViewModel = CreateFormatterViewModel(identity)
+            };
+        }
+
+
+
+        [Test]
         public async Task EditorAllFormattersRootPropSave()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
                 ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
 
-            var rootPropertyBool =
-                AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 1);
-            InitFormatterViewModel(rootPropertyBool, new BoolFormatterViewModel());
-
-            var rootPropertyAscii =
-                AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 2);
-            InitFormatterViewModel(rootPropertyAscii, new AsciiStringFormatterViewModel());
-
-            var rootPropertyDictMatch =
-                AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 3);
-            InitFormatterViewModel(rootPropertyDictMatch, new DictionaryMatchingFormatterViewModel());
-
-            var rootPropertyDirect =
-                AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 4);
-            InitFormatterViewModel(rootPropertyDictMatch, new DirectFormatterViewModel());
-
-            var rootProperty1251 =
-                AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 5);
-            InitFormatterViewModel(rootPropertyDictMatch, new StringFormatter1251ViewModel());
-
-            var rootPropertyFormula =
-                AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 6);
-            InitFormatterViewModel(rootPropertyDictMatch, _typesContainer.Resolve<IUshortsFormatterViewModel>(StringKeys.FORMULA_FORMATTER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL));
-
-
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 1);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 2);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 3);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 4);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 5);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 6);
 
             var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
 
 
-            CheckPropertyResultProperty(result.RootConfigurationItemList, 1, typeof(BoolFormatter));
-            CheckPropertyResultProperty(result.RootConfigurationItemList, 2, typeof(AsciiStringFormatter));
-            CheckPropertyResultProperty(result.RootConfigurationItemList, 3, typeof(DictionaryMatchingFormatter));
-            CheckPropertyResultProperty(result.RootConfigurationItemList, 4, typeof(DirectUshortFormatter));
-            CheckPropertyResultProperty(result.RootConfigurationItemList, 5, typeof(StringFormatter1251));
-            CheckPropertyResultProperty(result.RootConfigurationItemList, 6, typeof(FormulaFormatter));
+            CheckPropertyResultProperty(result.RootConfigurationItemList, 1);
+            CheckPropertyResultProperty(result.RootConfigurationItemList, 2);
+            CheckPropertyResultProperty(result.RootConfigurationItemList, 3);
+            CheckPropertyResultProperty(result.RootConfigurationItemList, 4);
+            CheckPropertyResultProperty(result.RootConfigurationItemList, 5);
+            CheckPropertyResultProperty(result.RootConfigurationItemList, 6);
 
 
 
             Assert.AreEqual(result.RootConfigurationItemList.Count, 6);
         }
 
-        private void CheckPropertyResultProperty(List<IConfigurationItem> configurationItems, int identity,Type formatterType)
+        private IUshortsFormatterViewModel CreateFormatterViewModel(int identity)
         {
-            var property = configurationItems[identity-1] as IProperty;
+            switch (identity)
+            {
+                case 1:
+                    return new BoolFormatterViewModel();
+                case 2:
+                    return new AsciiStringFormatterViewModel();
+                case 3:
+                    return new DictionaryMatchingFormatterViewModel()
+                    {
+                        DefaultMessage = "jopa",
+                        UseDefaultMessage = true,
+                        IsKeysAreNumbersOfBits = true,
+                        KeyValuesDictionary = new ObservableCollection<BindableKeyValuePair<ushort, string>>()
+                        {
+                            new BindableKeyValuePair<ushort, string>()
+                            {
+                                Key = 0, Value = "jopa0"
+                            },
+                            new BindableKeyValuePair<ushort, string>()
+                            {
+                                Key = 1, Value = "jopa1"
+                            },
+                            new BindableKeyValuePair<ushort, string>()
+                            {
+                                Key = 2, Value = "jopa2"
+                            },
+                        }
+                    };
+                case 4:
+                    return new DirectFormatterViewModel();
+                case 5:
+                    return new StringFormatter1251ViewModel();
+                case 6:
+                    var formuleFormatter =
+                        _typesContainer.Resolve<IUshortsFormatterViewModel>(StringKeys.FORMULA_FORMATTER +
+                                                                            ApplicationGlobalNames
+                                                                                .CommonInjectionStrings
+                                                                                .VIEW_MODEL) as
+                            IFormulaFormatterViewModel;
+                    formuleFormatter.FormulaString = "x*2+1";
+                    return formuleFormatter;
+            }
+
+            return null;
+        }
+
+
+        private void CheckFormatterResult(int identity, IUshortsFormatter formatter)
+        {
+            switch (identity)
+            {
+                case 1:
+                    Assert.True(formatter is BoolFormatter);
+                    break;
+                case 2:
+                    Assert.True(formatter is AsciiStringFormatter);
+                    break;
+                case 3:
+                    Assert.True(formatter is DictionaryMatchingFormatter);
+                    var dictMatchFormatter = (DictionaryMatchingFormatter) formatter;
+                    Assert.True(dictMatchFormatter.UseDefaultMessage);
+                    Assert.True(dictMatchFormatter.IsKeysAreNumbersOfBits);
+                    Assert.AreEqual(dictMatchFormatter.DefaultMessage, "jopa");
+                    Assert.AreEqual(dictMatchFormatter.StringDictionary.Count, 3);
+                    Assert.AreEqual(dictMatchFormatter.StringDictionary[0], "jopa0");
+                    Assert.AreEqual(dictMatchFormatter.StringDictionary[1], "jopa1");
+                    Assert.AreEqual(dictMatchFormatter.StringDictionary[2], "jopa2");
+                    break;
+                case 4:
+                    Assert.True(formatter is DirectUshortFormatter);
+                    break;
+                case 5:
+                    Assert.True(formatter is StringFormatter1251);
+                    break;
+                case 6:
+                    Assert.True(formatter is FormulaFormatter);
+                    var formulaFormatter = (FormulaFormatter) formatter;
+                    Assert.AreEqual(formulaFormatter.FormulaString, "x*2+1");
+
+                    break;
+            }
+
+        }
+
+
+        private void CheckPropertyResultProperty(List<IConfigurationItem> configurationItems, int identity)
+        {
+            var property = configurationItems[identity - 1] as IProperty;
 
             Assert.AreEqual(property.Address, (identity + _addressModifier));
             Assert.AreEqual(property.NumberOfPoints, (identity + _numOfPointsModifier));
             Assert.AreEqual(property.Name, (identity + _nameModifier).ToString());
             Assert.AreEqual(property.NumberOfWriteFunction, (identity + _numOfFunctionModifier));
-
+            CheckFormatterResult(identity, property.UshortsFormatter);
         }
 
         private void InitFormatterViewModel(IPropertyEditorViewModel propertyEditorViewModel,
@@ -114,7 +290,7 @@ namespace Unicon2.Tests.Editor
         {
             propertyEditorViewModel.FormatterParametersViewModel = new FormatterParametersViewModel();
             propertyEditorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
-                new BoolFormatterViewModel();
+                formatterViewModel;
         }
 
         private IPropertyEditorViewModel AddPropertyViewModel(
@@ -125,9 +301,29 @@ namespace Unicon2.Tests.Editor
             rootProperty.Address = (identity + _addressModifier).ToString();
             rootProperty.NumberOfPoints = (identity + _numOfPointsModifier).ToString();
             rootProperty.Name = (identity + _nameModifier).ToString();
-            rootProperty.NumberOfWriteFunction = (ushort)(identity + _numOfFunctionModifier);
+            rootProperty.NumberOfWriteFunction = (ushort) (identity + _numOfFunctionModifier);
             collection.Add(rootProperty);
+            InitFormatterViewModel(rootProperty, CreateFormatterViewModel(identity));
             return rootProperty;
+        }
+
+        private IPropertyEditorViewModel AddPropertyWithFormatterFromResourceViewModel(
+            ObservableCollection<IConfigurationItemViewModel> collection, int identity)
+        {
+            IPropertyEditorViewModel property =
+                ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null) as IPropertyEditorViewModel;
+            property.Address = (identity + _addressModifier).ToString();
+            property.NumberOfPoints = (identity + _numOfPointsModifier).ToString();
+            property.Name = (identity + _nameModifier).ToString();
+            property.NumberOfWriteFunction = (ushort) (identity + _numOfFunctionModifier);
+            collection.Add(property);
+            property.FormatterParametersViewModel = new FormatterParametersViewModel()
+            {
+                Name = "formatter" + identity,
+                IsFromSharedResources = true,
+                RelatedUshortsFormatterViewModel = (_typesContainer.Resolve<ISharedResourcesGlobalViewModel>().GetResourceByName(("formatter"+identity).ToString()) as IFormatterParametersViewModel).RelatedUshortsFormatterViewModel
+            };
+            return property;
         }
     }
 }

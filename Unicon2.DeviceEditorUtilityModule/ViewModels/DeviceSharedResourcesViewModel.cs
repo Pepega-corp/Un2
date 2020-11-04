@@ -295,12 +295,20 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		}
 
 
-		public void AddAsSharedResource(INameable resourceModelToAdd)
+		public void AddAsSharedResource(INameable resourceModelToAdd, bool askUser)
 		{
 			if (!_isInitialized) throw new Exception();
 			IResourcesAddingViewModel resourcesAddingViewModel = _container.Resolve<IResourcesAddingViewModel>();
 			resourcesAddingViewModel.ResourceWithName = resourceModelToAdd;
-			_applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
+			if (askUser)
+			{
+				_applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
+			}
+			else
+			{
+				resourcesAddingViewModel.IsResourceAdded = true;
+			}
+
 			if (resourcesAddingViewModel.IsResourceAdded)
 			{
 				_deviceSharedResources.SharedResources.Add(resourceModelToAdd);
