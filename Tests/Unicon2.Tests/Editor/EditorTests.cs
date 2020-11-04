@@ -22,6 +22,7 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Model.DefaultDevice;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -32,7 +33,7 @@ using Unity;
 namespace Unicon2.Tests.Editor
 {
     [TestFixture]
-    public class DeviceEditorTests
+    public class EditorTests
     {
         private TypesContainer _typesContainer;
         private int _addressModifier = 1;
@@ -41,7 +42,7 @@ namespace Unicon2.Tests.Editor
         private int _numOfFunctionModifier = 3;
 
 
-        public DeviceEditorTests()
+        public EditorTests()
         {
 
             _typesContainer =
@@ -108,13 +109,14 @@ namespace Unicon2.Tests.Editor
 
             sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
 
-            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(1, true), false);
-            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(2, true), false);
-            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(3, true), false);
-            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(4, true), false);
-            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(5, true), false);
-            sharedResourcesGlobalViewModel.AddAsSharedResource(CreateFormatterParametersViewModel(6, true), false);
+            CreateFormatterParametersForResourcesViewModel(1);
+            CreateFormatterParametersForResourcesViewModel(2);
+            CreateFormatterParametersForResourcesViewModel(3);
+            CreateFormatterParametersForResourcesViewModel(4);
+            CreateFormatterParametersForResourcesViewModel(5);
+            CreateFormatterParametersForResourcesViewModel(6);
 
+            
             var rootGroup = new ConfigurationGroupEditorViewModel()
             {
                 Name = "root"
@@ -144,18 +146,28 @@ namespace Unicon2.Tests.Editor
             Assert.AreEqual(itemList.Count, 6);
 
         }
+    
 
-        private IFormatterParametersViewModel CreateFormatterParametersViewModel(int identity,
-            bool isFromSharedResource)
+        private void CreateFormatterParametersForResourcesViewModel(int identity)
         {
-            return new FormatterParametersViewModel()
-            {
-                IsFromSharedResources = isFromSharedResource,
-                Name = "formatter" + identity,
-                RelatedUshortsFormatterViewModel = CreateFormatterViewModel(identity)
-            };
-        }
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
+                _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
+            var formatterViewModel = CreateFormatterViewModel(identity);
 
+            sharedResourcesGlobalViewModel.AddAsSharedResource(new FormatterParametersViewModel()
+            {
+                IsFromSharedResources = false,
+                Name = "formatter" + identity,
+                RelatedUshortsFormatterViewModel = formatterViewModel
+            },false);
+
+            ISaveFormatterService saveFormatterService = _typesContainer.Resolve<ISaveFormatterService>();
+
+            IUshortsFormatter resourceUshortsFormatter =
+                saveFormatterService.CreateUshortsParametersFormatter(formatterViewModel);
+            resourceUshortsFormatter.Name = "formatter" + identity;
+            sharedResourcesGlobalViewModel.UpdateSharedResource(resourceUshortsFormatter);
+        }
 
 
         [Test]
@@ -321,7 +333,6 @@ namespace Unicon2.Tests.Editor
             {
                 Name = "formatter" + identity,
                 IsFromSharedResources = true,
-                RelatedUshortsFormatterViewModel = (_typesContainer.Resolve<ISharedResourcesGlobalViewModel>().GetResourceByName(("formatter"+identity).ToString()) as IFormatterParametersViewModel).RelatedUshortsFormatterViewModel
             };
             return property;
         }
