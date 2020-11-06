@@ -59,7 +59,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 			    }
 		    }), deviceConfiguration);
 		    appCommands.ShowWindowModal(() => window, viewModel);
-		    window.ShowDialog();
 	    }
     }
 }

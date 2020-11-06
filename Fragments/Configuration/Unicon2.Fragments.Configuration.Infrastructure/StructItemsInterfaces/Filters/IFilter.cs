@@ -1,10 +1,10 @@
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Filters
 {
     public interface IFilter
     {
         string Name { get; set; }
-        ICompareResourceCondition
+        ICondition Condition { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Filters;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
@@ -31,6 +32,9 @@ namespace Unicon2.Fragments.Configuration.Model
 
         [JsonProperty]
         public IGroupInfo GroupInfo { get; set; }
+
+        [JsonProperty]
+        public IGroupFilterInfo GroupFilter { get; set; }
 
         public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
         {
