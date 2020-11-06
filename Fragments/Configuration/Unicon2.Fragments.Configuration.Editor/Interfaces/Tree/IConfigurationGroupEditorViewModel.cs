@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Filter;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
@@ -19,5 +20,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 		int ReiterationStep { get; set; }
 
 		void SetIsGroupWithReiteration(bool value);
+		ObservableCollection<IFilterViewModel> FilterViewModels { get; }
 	}
 }

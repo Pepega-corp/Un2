@@ -85,17 +85,17 @@ namespace Unicon2.Tests.Configuration
                 .FindItemViewModelByName(model => model.Header == "boolTestDefaultProperty")
                 .Item as IRuntimePropertyViewModel;
 
-            await ReadAndTransfer();
+            await Read();
 
-            var deviceValue = defaultPropertyWithBoolFormatting.DeviceValue as IBoolValueViewModel;
-            var localValue = defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel;
+            Func<IBoolValueViewModel> deviceValue =()=> defaultPropertyWithBoolFormatting.DeviceValue as IBoolValueViewModel;
+            Func<EditableBoolValueViewModel> localValue =()=> defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel;
 
-            Assert.False(deviceValue.BoolValueProperty);
-            Assert.False(localValue.BoolValueProperty);
+            Assert.False(deviceValue().BoolValueProperty);
+            Assert.False(localValue().BoolValueProperty);
 
-            Assert.True(localValue.IsEditEnabled);
-            localValue.BoolValueProperty = true;
-            Assert.True(localValue.IsFormattedValueChanged);
+            Assert.True(localValue().IsEditEnabled);
+            localValue().BoolValueProperty = true;
+            Assert.True(localValue().IsFormattedValueChanged);
             
             await Write();
 
@@ -103,9 +103,27 @@ namespace Unicon2.Tests.Configuration
             Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory
                 .DeviceMemoryValues[boolTestDefaultProperty.Address].Equals(1));
 
-            Assert.False(localValue.IsFormattedValueChanged);
+            Assert.False(localValue().IsFormattedValueChanged);
+
+            Assert.True(deviceValue().BoolValueProperty);
+            Assert.True(localValue().BoolValueProperty);
+
+            Assert.True(localValue().IsEditEnabled);
+            localValue().BoolValueProperty = false;
+            Assert.True(localValue().IsFormattedValueChanged);
+
+            await Write();
+
+
+            Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory
+                .DeviceMemoryValues[boolTestDefaultProperty.Address].Equals(0));
+
+            Assert.False(localValue().IsFormattedValueChanged);
+
+
 
         }
+
 
         [Test]
         public async Task DefaultPropertyAllFormattersTest()
@@ -149,7 +167,7 @@ namespace Unicon2.Tests.Configuration
                 .FindItemViewModelByName(model => model.Header == "defaultPropertyFormulaFormatter")
                 .Item as IRuntimePropertyViewModel;
             
-            await ReadAndTransfer();
+            await Read();
             
             var defaultPropertyStringFormatter1251ViewModelDeviceValue = defaultPropertyStringFormatter1251ViewModel.DeviceValue as IStringValueViewModel;
             var defaultPropertyStringFormatter1251ViewModelLocalValue = defaultPropertyStringFormatter1251ViewModel.LocalValue as StringValueViewModel;
@@ -225,6 +243,7 @@ namespace Unicon2.Tests.Configuration
 
         }
 
+
         [Test]
         public async Task BoolSubPropertyTest()
         {
@@ -238,7 +257,7 @@ namespace Unicon2.Tests.Configuration
                 .FindItemViewModelByName(model => model.Header == "boolTestSubProperty")
                 .Item as IRuntimePropertyViewModel;
 
-            await ReadAndTransfer();
+            await Read();
 
             var deviceValue = defaultPropertyWithBoolFormatting.DeviceValue as IBoolValueViewModel;
             var localValue = defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel;
@@ -271,6 +290,7 @@ namespace Unicon2.Tests.Configuration
             Assert.False(localValue.IsFormattedValueChanged);
             
         }
+
 
         [Test]
         public async Task MultipleBoolSubPropertyTest()
@@ -337,7 +357,7 @@ namespace Unicon2.Tests.Configuration
                     .Item as IRuntimePropertyViewModel),
             };
 
-            await ReadAndTransfer();
+            await Read();
 
             foreach (var propertyWithValueTuple in properties)
             {
@@ -370,8 +390,7 @@ namespace Unicon2.Tests.Configuration
 
 
         }
-
-
+        
 
         [Test]
         public async Task DependencyDefaultToDefaultPropertyCheckTest()
@@ -399,7 +418,7 @@ namespace Unicon2.Tests.Configuration
                 .Item as IRuntimePropertyViewModel;
 
 
-            await ReadAndTransfer();
+            await Read();
 
             for (int i = 0; i < 2; i++)
             {
@@ -516,7 +535,7 @@ namespace Unicon2.Tests.Configuration
                 .Cast<IConfigurationItemViewModel>().ToList()
                 .FindItemViewModelByName(model => model.Header == "defaultPropertyFromSubPropertyDependencyConsumer")
                 .Item as IRuntimePropertyViewModel;
-            await ReadAndTransfer();
+            await Read();
 
 
             Func<EditableBoolValueViewModel> defaultPropertyFromSubPropertyDependencySourceViewModelLocalValue = () =>
@@ -538,6 +557,7 @@ namespace Unicon2.Tests.Configuration
             
        
         }
+
 
         [Test]
         public async Task DependencySubpropertyToSubpropertyConsumerValue()
@@ -577,7 +597,7 @@ namespace Unicon2.Tests.Configuration
                 .FindItemViewModelByName(model => model.Header == "boolTestSubProperty6")
                 .Item as IRuntimePropertyViewModel;
 
-            await ReadAndTransfer();
+            await Read();
 
 
             Func<EditableBoolValueViewModel> boolTestSubPropertyDependencySourceViewModelLocalValue = () =>
@@ -670,7 +690,7 @@ namespace Unicon2.Tests.Configuration
                 .FindItemViewModelByName(model => model.Header == "subToSubPropertySameComplexPropNotRelated")
                 .Item as IRuntimePropertyViewModel;
 
-            await ReadAndTransfer();
+            await Read();
 
 
             Func<EditableBoolValueViewModel> boolTestSubPropertyDependencySourceViewModelLocalValue = () =>
@@ -722,10 +742,7 @@ namespace Unicon2.Tests.Configuration
             Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
         }
 
-
-
-
-
+        
         [Test]
         public async Task DependencySubpropertyToSubproperty()
         {
@@ -751,7 +768,7 @@ namespace Unicon2.Tests.Configuration
                 .Cast<IConfigurationItemViewModel>().ToList()
                 .FindItemViewModelByName(model => model.Header == "boolTestSubPropertyDependencyConsumer")
                 .Item as IRuntimePropertyViewModel;
-            await ReadAndTransfer();
+            await Read();
 
 
             Func<EditableBoolValueViewModel> boolTestSubPropertyDependencySourceViewModelLocalValue = () =>
@@ -775,8 +792,35 @@ namespace Unicon2.Tests.Configuration
             Assert.False(boolTestSubPropertyDependencyConsumerViewModelLocalValue().IsEditEnabled);
         }
 
+        [Test]
+        public async Task EditedLocalValueMustNotBeOverwritten()
+        {
+            _device.DeviceMemory.DeviceMemoryValues.Clear();
 
+            var boolTestDefaultProperty =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestDefaultProperty")
+                    .Item as IProperty;
 
+            var defaultPropertyWithBoolFormatting = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "boolTestDefaultProperty")
+                .Item as IRuntimePropertyViewModel;
+
+            _device.DeviceMemory.LocalMemoryValues[boolTestDefaultProperty.Address] = 1;
+            _configurationFragmentViewModel.DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
+                boolTestDefaultProperty.Address, boolTestDefaultProperty.NumberOfPoints);
+
+            Assert.False(defaultPropertyWithBoolFormatting.LocalValue.IsFormattedValueChanged);
+            Assert.True((defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel).BoolValueProperty);
+
+            await Read();
+
+            Assert.True(_device.DeviceMemory.LocalMemoryValues[boolTestDefaultProperty.Address]== 1);
+
+            Assert.True(_device.DeviceMemory.DeviceMemoryValues[boolTestDefaultProperty.Address] == 0);
+            Assert.True(defaultPropertyWithBoolFormatting.LocalValue.IsFormattedValueChanged);
+
+        }
 
         private async Task ReadAndTransfer()
         {

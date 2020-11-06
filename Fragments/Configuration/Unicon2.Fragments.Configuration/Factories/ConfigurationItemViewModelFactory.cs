@@ -186,7 +186,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
 		            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
-			            new LocalMemorySubscription(res.LocalValue,
+			            new LocalMemorySubscription(
 				             property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset,localUshorts)));
 
 
@@ -210,7 +210,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
 		            setUnchangedSuscription);
 
-	            var localDataSubscription = new LocalMemorySubscription(res.LocalValue, property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset,localUshorts);
+	            var localDataSubscription = new LocalMemorySubscription(property.UshortsFormatter, _deviceContext,res,property,formattingService,AddressOffset,localUshorts);
 	            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(
 		            (ushort) (property.Address + AddressOffset), property.NumberOfPoints,
 		            localDataSubscription);

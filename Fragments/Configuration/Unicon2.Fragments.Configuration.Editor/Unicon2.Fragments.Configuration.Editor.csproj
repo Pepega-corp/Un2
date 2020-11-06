@@ -82,11 +82,14 @@
     <Compile Include="Interfaces\Dependencies\IResultViewModel.cs">
       <Link>Interfaces\Dependencies\IResultViewModel.cs</Link>
     </Compile>
+    <Compile Include="Interfaces\Filter\IFilterViewModel.cs" />
     <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
     <Compile Include="ViewModels\Dependencies\ConditionResultDependencyViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\ApplyFormatterResultViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\BlockInteractionResultViewModel.cs" />
+    <Compile Include="ViewModels\Filter\FilterEditorWindowViewModel.cs" />
+    <Compile Include="ViewModels\Filter\FilterViewModel.cs" />
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
     <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />

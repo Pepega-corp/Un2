@@ -136,9 +136,18 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 for (var i = rangeFrom; i < rangeTo; i++)
                 {
                     memory.DeviceMemoryValues[i] = res.Result[i - rangeFrom];
+                    if (!memory.LocalMemoryValues.ContainsKey(i))
+                    {
+                        memory.LocalMemoryValues[i] = res.Result[i - rangeFrom];
+                        _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(rangeFrom,
+                            1);
+                    }
+
+
                 }
                 _deviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
                     (ushort)(rangeTo - rangeFrom));
+
             }
 
           

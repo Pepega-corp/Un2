@@ -107,6 +107,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             AddSelectedElementAsResourceCommand = new RelayCommand(OnAddSelectedElementAsResourceExecute,
                 CanExecuteAddSelectedElementAsResource);
             ShowDependenciesCommand=new RelayCommand(OnShowDependenciesExecute,CanExecuteShowDependencies);
+            ShowFiltersCommand=new RelayCommand(OnShowFiltersExecute);
             EditDescriptionCommand =
                 new RelayCommand(OnEditDescriptionExecute, CanExecuteEditDescription);
 			IncreaseAddressCommand=new RelayCommand(()=>OnChangeAddress(true), () => SelectedRows.All(model => model is IAddressChangeable));
@@ -115,6 +116,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 			AddressIteratorValue = 1;
             OnSelectionChangedCommand=new RelayCommand<object>(OnSelectionChangedExecute);
             SelectedRows=new List<IEditorConfigurationItemViewModel>();
+        }
+
+        private void OnShowFiltersExecute()
+        {
+            
         }
 
         private void OnSelectionChangedExecute(object obj)
@@ -628,6 +634,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public object ShowFiltersCommand { get; }
 
         public void Initialize(IDeviceFragment deviceFragment)
         {

@@ -24,23 +24,20 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
 	public class LocalMemorySubscription : IDeviceSubscription
 	{
-		private readonly IEditableValueViewModel _editableValueViewModel;
 		private readonly IUshortsFormatter _ushortsFormatter;
 		private readonly DeviceContext _deviceContext;
 		private readonly IRuntimePropertyViewModel _runtimePropertyViewModel;
 		private readonly IProperty _property;
 		private readonly IFormattingService _formattingService;
 		private ushort[] _prevUshorts;
-		private bool _prevIsBlocked;
 		private IUshortsFormatter _prevUshortFormatter;
 		private int _offset;
         public int Priority { get; set; } = 1;
 
-		public LocalMemorySubscription(IEditableValueViewModel editableValueViewModel, IUshortsFormatter ushortsFormatter, DeviceContext deviceContext,
+		public LocalMemorySubscription( IUshortsFormatter ushortsFormatter, DeviceContext deviceContext,
 			IRuntimePropertyViewModel runtimePropertyViewModel,
 			IProperty property, IFormattingService formattingService, int offset, ushort[] prevUshorts)
 		{
-			_editableValueViewModel = editableValueViewModel;
 			_ushortsFormatter = ushortsFormatter;
 			_deviceContext = deviceContext;
 			_runtimePropertyViewModel = runtimePropertyViewModel;
@@ -111,14 +108,13 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 					}
 				}
 
-				if (_prevIsBlocked == isInteractionBlocked && formatterForDependentProperty == _prevUshortFormatter)
+				if (_runtimePropertyViewModel.LocalValue.IsEditEnabled == !isInteractionBlocked && formatterForDependentProperty == _prevUshortFormatter)
 				{
 					ProcessValueViewModel(newUshorts);
 					return;
 				}
 
 				_prevUshorts = newUshorts.Item;
-				_prevIsBlocked = isInteractionBlocked;
 				_prevUshortFormatter = formatterForDependentProperty;
 				if (_runtimePropertyViewModel?.LocalValue != null)
 				{
@@ -163,7 +159,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 				var localValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(
 					_ushortsFormatter,
 					_prevUshorts);
-				_editableValueViewModel.Accept(new EditableValueSetFromLocalVisitor(localValue));
+                _runtimePropertyViewModel.LocalValue.Accept(new EditableValueSetFromLocalVisitor(localValue));
 			}
 		}
 

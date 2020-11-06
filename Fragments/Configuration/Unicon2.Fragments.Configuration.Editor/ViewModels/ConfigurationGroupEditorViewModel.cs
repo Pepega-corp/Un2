@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Factories;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Filter;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
@@ -34,6 +35,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ConfigurationGroupEditorViewModel()
         {
 	        SubGroupNames=new ObservableCollection<StringWrapper>();
+            FilterViewModels=new ObservableCollection<IFilterViewModel>();
         }
 
         public bool IsInEditMode
@@ -253,7 +255,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
 		}
 
-		#endregion
+        public ObservableCollection<IFilterViewModel> FilterViewModels { get; }
+
+        #endregion
 
 		public void RemoveChildItem(IEditorConfigurationItemViewModel configurationItemViewModelToRemove)
         {
