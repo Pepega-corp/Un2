@@ -88,10 +88,14 @@
     <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\ApplyFormatterResultViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\BlockInteractionResultViewModel.cs" />
+    <Compile Include="ViewModels\Filter\CompareConditionViewModel.cs" />
     <Compile Include="ViewModels\Filter\FilterEditorWindowViewModel.cs" />
     <Compile Include="ViewModels\Filter\FilterViewModel.cs" />
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
+    <Compile Include="View\FilterEditingWindow.xaml.cs">
+      <DependentUpon>FilterEditingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />
     <Compile Include="Visitors\GroupWithReiterationEditorWindowFactory.cs" />
     <Compile Include="Interfaces\ConfigurationSettings\IActivatedConfigurationSettingViewModel.cs" />
@@ -176,6 +180,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\DescriptionEditingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FilterEditingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

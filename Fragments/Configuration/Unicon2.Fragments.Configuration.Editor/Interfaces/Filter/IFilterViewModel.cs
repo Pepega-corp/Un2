@@ -7,7 +7,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Filter
     public interface IFilterViewModel
     {
         string Name { get; set; }
-        ObservableCollection<IConditionViewModel> SelectedConditionViewModels { get; }
+        ObservableCollection<IConditionViewModel> ConditionViewModels { get; }
 
     }
 }

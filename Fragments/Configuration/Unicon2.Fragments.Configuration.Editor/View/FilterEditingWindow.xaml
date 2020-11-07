@@ -1,0 +1,42 @@
+﻿<Window x:Class="Unicon2.Fragments.Configuration.Editor.View.FilterEditingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Editor.View"
+        xmlns:filter="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels.Filter"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        mc:Ignorable="d"
+        DataContext="{d:DesignInstance filter:FilterEditorWindowViewModel}"
+        Title="FilterEditingWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="{lex:Loc AddFilter}" Command="{Binding AddFilterCommand}"></Button>
+            <Button Content="{lex:Loc Remove}" Command="{Binding DeleteFilterCommand}" CommandParameter="{Binding ElementName=filtersListBox,Path=SelectedItem}"></Button>
+        </StackPanel>
+        <ListBox Grid.Row="1" ItemsSource="{Binding FilterViewModels}" Name="filtersListBox">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="filter:FilterViewModel">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{lex:Loc Name}"></TextBlock>
+                            <TextBox Text="{Binding Name}"></TextBox>
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding ConditionViewModels}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>

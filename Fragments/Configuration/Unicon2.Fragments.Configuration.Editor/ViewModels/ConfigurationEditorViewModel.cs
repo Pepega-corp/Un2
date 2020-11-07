@@ -11,6 +11,7 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.View;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Filter;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
@@ -107,7 +108,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             AddSelectedElementAsResourceCommand = new RelayCommand(OnAddSelectedElementAsResourceExecute,
                 CanExecuteAddSelectedElementAsResource);
             ShowDependenciesCommand=new RelayCommand(OnShowDependenciesExecute,CanExecuteShowDependencies);
-            ShowFiltersCommand=new RelayCommand(OnShowFiltersExecute);
+            ShowFiltersCommand=new RelayCommand(OnShowFiltersExecute,CanExecuteShowFilters);
             EditDescriptionCommand =
                 new RelayCommand(OnEditDescriptionExecute, CanExecuteEditDescription);
 			IncreaseAddressCommand=new RelayCommand(()=>OnChangeAddress(true), () => SelectedRows.All(model => model is IAddressChangeable));
@@ -118,9 +119,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             SelectedRows=new List<IEditorConfigurationItemViewModel>();
         }
 
+        private bool CanExecuteShowFilters()
+        {
+            return SelectedRows.Count == 1 && SelectedRow is IConfigurationGroupEditorViewModel;
+        }
+
         private void OnShowFiltersExecute()
         {
-            
+            _applicationGlobalCommands.ShowWindowModal(()=>new FilterEditingWindow(), new FilterEditorWindowViewModel(SelectedRow as IConfigurationGroupEditorViewModel));
         }
 
         private void OnSelectionChangedExecute(object obj)
@@ -134,6 +140,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             (DecreaseAddressCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (DeleteElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (ShowFiltersCommand as RelayCommand)?.RaiseCanExecuteChanged();
+
         }
 
         private bool CanExecuteShowDependencies()
