@@ -22,8 +22,11 @@ namespace Unicon2.Services
         private readonly ILocalizerService _localizerService;
         private readonly ISerializerService _serializerService;
 
-        public DevicesContainerService(Func<IDevice> deviceGettingFunc, Func<IDeviceCreator> deviceCreatorGettingFunc,
-            ILogService logService, ILocalizerService localizerService, ISerializerService serializerService)
+        public DevicesContainerService(Func<IDevice> deviceGettingFunc, 
+            Func<IDeviceCreator> deviceCreatorGettingFunc,
+            ILogService logService, 
+            ILocalizerService localizerService, 
+            ISerializerService serializerService)
         {
             _deviceGettingFunc = deviceGettingFunc;
             _deviceCreatorGettingFunc = deviceCreatorGettingFunc;

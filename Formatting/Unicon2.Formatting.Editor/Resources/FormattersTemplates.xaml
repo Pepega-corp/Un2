@@ -221,11 +221,13 @@
                 Grid.Row="4"
                 Content="{lex:Loc IsKeysAreNumbersOfBits}"
                 IsChecked="{Binding IsKeysAreNumbersOfBits}" />
-            <StackPanel  Grid.Row="5" Orientation="Horizontal">
-                <CheckBox
-                    Content="{lex:Loc UseDefaultMessage}"
-                    IsChecked="{Binding UseDefaultMessage}" />
-                <TextBox IsEnabled="{Binding UseDefaultMessage}" Margin="100,0,0,0" Text="{Binding DefaultMessage}" MinWidth="200"></TextBox>
+            <StackPanel Grid.Row="5" Orientation="Horizontal">
+                <CheckBox Content="{lex:Loc UseDefaultMessage}" IsChecked="{Binding UseDefaultMessage}" />
+                <TextBox
+                    MinWidth="200"
+                    Margin="100,0,0,0"
+                    IsEnabled="{Binding UseDefaultMessage}"
+                    Text="{Binding DefaultMessage}" />
             </StackPanel>
         </Grid>
     </DataTemplate>

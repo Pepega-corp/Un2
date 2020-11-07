@@ -97,9 +97,7 @@ namespace Unicon2.Presentation.Subscription
                     deviceDataMemorySubscriptions.AddRange(memoryDataObservers[i].Collection);
                 }
             }
-
-            var r=deviceDataMemorySubscriptions.Distinct().OrderBy(subscription => subscription.Priority).ToList();
-
+            
             deviceDataMemorySubscriptions.Distinct().OrderBy(subscription =>subscription.Priority).ToList().ForEach(subscription =>
             {
                 subscription.Execute();

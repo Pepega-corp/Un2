@@ -149,10 +149,7 @@ namespace Unicon2.Fragments.Configuration.Factories
             InitializeProperty(res, property);
             var formattingService = _container.Resolve<IFormattingService>();
 
-            if (property.Name == "defaultPropertyFromSubPropertyDependencyConsumer")
-            {
-	            
-            }
+            
             _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription((ushort)(property.Address+AddressOffset), property.NumberOfPoints,
                 new DeviceDataPropertyMemorySubscription(property, res, _container.Resolve<IValueViewModelFactory>(),
                     _deviceContext,(ushort)AddressOffset));

@@ -91,8 +91,6 @@ namespace Unicon2.Formatting.Visitors
                 Console.WriteLine(e);
                 throw;
             }
-
-            ;
         }
 
         public ushort[] VisitString1251Formatter(IUshortsFormatter boolFormatter)

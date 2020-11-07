@@ -135,6 +135,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
             try
             {
+
                 _serializerService.SerializeInFile(_device, path);
             }
             catch (Exception e)
@@ -143,6 +144,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 throw;
             }
         }
+
+  
 
         public string DeviceName
         {

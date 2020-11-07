@@ -27,98 +27,102 @@
 
     <DataTemplate x:Key="RuntimeConfigurationViewModelDataTemplate" DataType="{x:Type runtime:IRuntimeConfigurationViewModel}">
         <Border>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <TreeView
-                    x:Name="mainItemsTreeView"
-                    MinWidth="150"
-                    ItemsSource="{Binding MainRows}"
-                    SelectedValuePath="">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectedItemChanged">
-                            <i:InvokeCommandAction Command="{Binding MainItemSelectedCommand}" CommandParameter="{Binding ElementName=mainItemsTreeView, Path=SelectedItem}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildConfigItemViewModels}">
-                            <Grid>
-                                <TextBlock
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding RelatedConfigurationItemViewModel.Header}" />
-                                <Grid HorizontalAlignment="Right">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <TreeView
+                        x:Name="mainItemsTreeView"
+                        MinWidth="150"
+                        ItemsSource="{Binding MainRows}"
+                        SelectedValuePath="">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectedItemChanged">
+                                <i:InvokeCommandAction Command="{Binding MainItemSelectedCommand}" CommandParameter="{Binding ElementName=mainItemsTreeView, Path=SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildConfigItemViewModels}">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <Button
-                                        Width="30"
-                                        Command="{Binding Path=DataContext.ShowTableCommand, ElementName=mainItemsTreeView}"
-                                        CommandParameter="{Binding .}"
-                                        Style="{DynamicResource UniconButtonStyle}"
-                                        Visibility="{Binding IsTableEnabled, Converter={StaticResource BoolToVisConverter}}">
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding RelatedConfigurationItemViewModel.Header}" />
+                                    <Grid Grid.Column="1" HorizontalAlignment="Right">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button
+                                            Command="{Binding Path=DataContext.ShowTableCommand, ElementName=mainItemsTreeView}"
+                                            CommandParameter="{Binding .}"
+                                            Style="{DynamicResource UniconButtonStyle}"
+                                            Visibility="{Binding IsTableEnabled, Converter={StaticResource BoolToVisConverter}}">
+                                            <Rectangle
+                                                Width="13"
+                                                Height="13"
+                                                Margin="-2"
+                                                Fill="Black">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_draw_pixel_fill_grid}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
                                         <Rectangle
+                                            Grid.Column="1"
                                             Width="15"
                                             Height="15"
-                                            Fill="Black">
+                                            Margin="2"
+                                            HorizontalAlignment="Right"
+                                            Fill="Black"
+                                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisConverter}}">
                                             <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_draw_pixel_fill_grid}" />
+                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_chevron_right}" />
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
-                                    </Button>
-                                    <Rectangle
-                                        Grid.Column="1"
-                                        Width="15"
-                                        Height="15"
-                                        Margin="2"
-                                        HorizontalAlignment="Right"
-                                        Fill="Black"
-                                        Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisConverter}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_chevron_right}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-            </Grid>
-            <GridSplitter
-                Grid.Column="1"
-                Width="3"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Stretch"
-                ShowsPreview="False" />
-            <ContentControl Grid.Column="2" Content="{Binding SelectedConfigDetails}">
-                <ContentControl.ContentTemplateSelector>
-                    <dataTemplateSelectors1:SelectedConfigDetailsSelector>
-                        <dataTemplateSelectors1:SelectedConfigDetailsSelector.TableTemplate>
-                            <DataTemplate DataType="viewModel:MainConfigItemViewModel">
-                                <Grid Name="tableGrid">
-                                    <ContentPresenter Content="{Binding RelatedConfigurationItemViewModel}">
-                                        <ContentPresenter.ContentTemplateSelector>
-                                            <dataTemplateSelectors:TableViewByNameDataTemplateSelector />
-                                        </ContentPresenter.ContentTemplateSelector>
-                                    </ContentPresenter>
-                                </Grid>
-                            </DataTemplate>
-                        </dataTemplateSelectors1:SelectedConfigDetailsSelector.TableTemplate>
-                        <dataTemplateSelectors1:SelectedConfigDetailsSelector.ConfigTreeTemplate>
-                            <DataTemplate DataType="viewModel:MainConfigItemViewModel">
-                                <views:ConfigView />
-                            </DataTemplate>
-                        </dataTemplateSelectors1:SelectedConfigDetailsSelector.ConfigTreeTemplate>
-                    </dataTemplateSelectors1:SelectedConfigDetailsSelector>
-                </ContentControl.ContentTemplateSelector>
-            </ContentControl>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Grid>
+                <GridSplitter
+                    Grid.Column="1"
+                    Width="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    ShowsPreview="False" />
+                <ContentControl Grid.Column="2" Content="{Binding SelectedConfigDetails}">
+                    <ContentControl.ContentTemplateSelector>
+                        <dataTemplateSelectors1:SelectedConfigDetailsSelector>
+                            <dataTemplateSelectors1:SelectedConfigDetailsSelector.TableTemplate>
+                                <DataTemplate DataType="viewModel:MainConfigItemViewModel">
+                                    <Grid Name="tableGrid">
+                                        <ContentPresenter Content="{Binding RelatedConfigurationItemViewModel}">
+                                            <ContentPresenter.ContentTemplateSelector>
+                                                <dataTemplateSelectors:TableViewByNameDataTemplateSelector />
+                                            </ContentPresenter.ContentTemplateSelector>
+                                        </ContentPresenter>
+                                    </Grid>
+                                </DataTemplate>
+                            </dataTemplateSelectors1:SelectedConfigDetailsSelector.TableTemplate>
+                            <dataTemplateSelectors1:SelectedConfigDetailsSelector.ConfigTreeTemplate>
+                                <DataTemplate DataType="viewModel:MainConfigItemViewModel">
+                                    <views:ConfigView />
+                                </DataTemplate>
+                            </dataTemplateSelectors1:SelectedConfigDetailsSelector.ConfigTreeTemplate>
+                        </dataTemplateSelectors1:SelectedConfigDetailsSelector>
+                    </ContentControl.ContentTemplateSelector>
+                </ContentControl>
 
-        </Grid>
+            </Grid>
         </Border>
     </DataTemplate>
 

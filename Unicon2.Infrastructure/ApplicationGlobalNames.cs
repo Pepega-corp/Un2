@@ -359,6 +359,8 @@
         /// папка с устройствами по умолчаню
         /// </summary>
         public const string DEFAULT_DEVICES_FOLDER_PATH = "Devices";
+        public const string DEFAULT_BACKUP_FOLDER_PATH = "Devices\\Backup";
+
 
         public const string QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING = "QuickAccessMemoryConfigurationSetting";
 
