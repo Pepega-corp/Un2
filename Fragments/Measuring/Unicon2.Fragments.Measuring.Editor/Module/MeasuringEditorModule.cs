@@ -5,7 +5,6 @@ using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Address;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Editor.ViewModel;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.Address;
-using Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Infrastructure;

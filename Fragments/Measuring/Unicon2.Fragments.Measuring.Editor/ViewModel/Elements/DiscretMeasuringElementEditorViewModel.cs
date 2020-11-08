@@ -1,8 +1,6 @@
 ﻿using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Address;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Address;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Commands;

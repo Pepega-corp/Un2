@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
@@ -11,8 +10,8 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
-using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
 {
@@ -48,7 +47,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
             var activatedApplyingContext =
                 StaticContainer.Container.Resolve<IActivatedSettingApplyingContext>();
-            activatedApplyingContext.DataProvider = _deviceContext.DataProviderContainer.DataProvider;
+            activatedApplyingContext.DataProvider = _deviceContext.DataProviderContainer.DataProvider.Item;
             Task applyActivationSettingByKey = _configuration.FragmentSettings?.ApplySettingByKey(
                 ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING,
                 activatedApplyingContext);
@@ -128,10 +127,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 	        throw new System.NotImplementedException();
 		}
 
-        private async Task WriteRange(IDataProvider dataProvider, ushort rangeFrom, ushort rangeTo,
+        private async Task WriteRange(Result<IDataProvider> dataProvider, ushort rangeFrom, ushort rangeTo,
             IDeviceMemory memory,ushort functionNumber)
         {
-            if (IfWritten(_writtenAddresses, rangeFrom, rangeTo))
+            if (!dataProvider.IsSuccess||IfWritten(_writtenAddresses, rangeFrom, rangeTo))
             {
                 return;
             }
@@ -175,12 +174,12 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             IQueryResult res=null;
             if (functionNumber == 16||functionNumber==0)
             {
-                res = await dataProvider.WriteMultipleRegistersAsync(rangeFrom,
+                res = await dataProvider.Item.WriteMultipleRegistersAsync(rangeFrom,
                     valuesToWrite.ToArray(), ConfigurationKeys.WRITING_CONFIGURATION_QUERY);
             }
             if (functionNumber == 6)
             {
-                res = await dataProvider.WriteSingleRegisterAsync(rangeFrom,
+                res = await dataProvider.Item.WriteSingleRegisterAsync(rangeFrom,
                     valuesToWrite.First(), ConfigurationKeys.WRITING_CONFIGURATION_QUERY);
             }
             if (res!=null&&res.IsSuccessful)

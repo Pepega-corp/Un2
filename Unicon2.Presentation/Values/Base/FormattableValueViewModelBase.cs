@@ -1,7 +1,5 @@
-﻿using System;
-using Unicon2.Infrastructure.Common;
+﻿using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Presentation.Values.Base

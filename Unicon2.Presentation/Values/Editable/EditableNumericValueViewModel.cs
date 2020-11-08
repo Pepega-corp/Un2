@@ -1,8 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using System;
-using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Services;
-using Unicon2.Infrastructure.Values;
+﻿using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.Keys;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Infrastructure.Visitors;

@@ -12,6 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:presentationSettings="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     d:DataContext="{d:DesignInstance viewModel:PresentationSettingsViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -54,11 +55,11 @@
                                     BorderThickness="1"
                                     MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
                                     MouseMove="UIElement_OnMouseMove">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseUp">
-                                            <i:InvokeCommandAction Command="{Binding Path=DataContext.SelectElement, ElementName=mainGrid}" CommandParameter="{Binding .}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseUp">
+                                            <b:InvokeCommandAction Command="{Binding Path=DataContext.SelectElement, ElementName=mainGrid}" CommandParameter="{Binding .}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
                                     <ContentPresenter Content="{Binding TemplatedViewModelToShowOnCanvas}" />
                                 </Border>
 

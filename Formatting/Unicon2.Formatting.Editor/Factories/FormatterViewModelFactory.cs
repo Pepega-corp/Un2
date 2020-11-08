@@ -14,7 +14,6 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels;
-using Unicon2.Unity.Common;
 
 namespace Unicon2.Formatting.Editor.Factories
 {

@@ -21,6 +21,9 @@
     xmlns:views="clr-namespace:Unicon2.Shell.Views"
     xmlns:views1="clr-namespace:Unicon2.Presentation.Views;assembly=Unicon2.Presentation"
     xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
+    xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
     x:Name="MainWindow"
     Title="{Binding ShellTitle}"
     Width="900"
@@ -41,23 +44,27 @@
     WindowState="Maximized"
     mc:Ignorable="d">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closing">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Closing">
             <mvvm:InvokeCommandAction Command="{Binding OnClosingCommand}" />
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Loaded">
+        </b:EventTrigger>
+        <b:EventTrigger EventName="Loaded">
             <mvvm:InvokeCommandAction Command="{Binding OnLoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
 
     <controls:MetroWindow.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/mahapps.xaml" />
+        </ResourceDictionary.MergedDictionaries>
         <layoutHelpers:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />
-        <xcad:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
         <Style TargetType="{x:Type fluent:RibbonTabItem}">
             <Setter Property="Background" Value="White" />
             <Setter Property="BorderBrush" Value="Transparent" />
-        </Style>
+            </Style>
+        </ResourceDictionary>
     </controls:MetroWindow.Resources>
 
     <controls:MetroWindow.Flyouts>
@@ -75,9 +82,9 @@
         <views:DynamicMainMenu DataContext="{Binding DynamicMainMenuViewModel}" />
     </controls:MetroWindow.LeftWindowCommands>
 
-    <i:Interaction.Behaviors>
+    <b:Interaction.Behaviors>
         <behaviours:BorderlessWindowBehavior />
-    </i:Interaction.Behaviors>
+    </b:Interaction.Behaviors>
 
     <Grid ZIndex="2">
         <Grid.RowDefinitions>
@@ -90,6 +97,23 @@
             Grid.Row="0"
             Grid.Column="0"
             DataContext="{Binding ToolBarViewModel}" />
+
+
+
+        <!--<dockablz:Layout Grid.Row="1" FloatingItemHeaderMemberPath="Header" FloatingItemDisplayMemberPath="Content">
+          
+            <dragablz:TabablzControl ItemsSource="{Binding AnchorableWindows}"  x:Name="InitialTabablzControl"                                 
+                                     HeaderMemberPath="WindowNameKey"
+                                     Margin="4 0 4 4">
+            
+                <dragablz:TabablzControl.ContentTemplate>
+                    <DataTemplate DataType="{x:Type dockingManagerWindows:IAnchorableWindow}">
+                        <ContentControl Content="{Binding Content}"/>
+                    </DataTemplate>
+                </dragablz:TabablzControl.ContentTemplate>
+                
+            </dragablz:TabablzControl>
+        </dockablz:Layout>-->
 
         <xcad:DockingManager
             x:Name="DockingManager"
@@ -156,14 +180,14 @@
                 <layoutHelpers:PanesStyleSelector>
                     <layoutHelpers:PanesStyleSelector.BottomWindowStyle>
                         <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
-                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                             <Setter Property="CanClose" Value="False" />
                             <Setter Property="CanHide" Value="False" />
                         </Style>
                     </layoutHelpers:PanesStyleSelector.BottomWindowStyle>
                     <layoutHelpers:PanesStyleSelector.LeftWindowStyle>
                         <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
-                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                             <Setter Property="CanClose" Value="False" />
                             <Setter Property="CanHide" Value="False" />
                         </Style>
@@ -199,11 +223,13 @@
 
         </xcad:DockingManager>
 
+
+
         <Border
             Grid.Row="2"
             Height="20"
             Padding="2"
-            Background="{DynamicResource AccentColorBrush2}">
+            Background="{DynamicResource MahApps.Brushes.Accent2}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

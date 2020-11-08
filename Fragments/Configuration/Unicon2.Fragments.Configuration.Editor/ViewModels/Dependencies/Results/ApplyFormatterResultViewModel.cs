@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Presentation.Infrastructure.ViewModels;

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Measuring.Infrastructure.ViewModel
 {

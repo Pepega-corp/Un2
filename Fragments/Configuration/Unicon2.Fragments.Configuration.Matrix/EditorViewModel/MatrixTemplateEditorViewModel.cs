@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using ControlzEx.Standard;
 using MahApps.Metro.Controls.Dialogs;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Validators;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.Factories;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
-using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.GeneralFactories;
 using Unicon2.Infrastructure.Services;
@@ -20,7 +17,6 @@ using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Infrastructure.Values.Matrix.Helpers;
 using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 {

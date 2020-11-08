@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Helpers;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Formatting;
-using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Measuring.Subscriptions
 {
@@ -54,6 +48,10 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
         public async Task Execute()
         {
+            if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
+            {
+                return;
+            }
             var address =await AnalogMeasuringElement.GetAnalogElementAddress(_deviceContext);
             var formatter=await AnalogMeasuringElement.GetAnalogElementFormatting(_deviceContext);
             if (_deviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(address))
@@ -63,7 +61,7 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
             }
             else
             {
-                var res = await _deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
+                var res = await _deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
                     address, this.AnalogMeasuringElement.NumberOfPoints,
                     "Read analog: " + this.AnalogMeasuringElement.Name);
                 if (res.IsSuccessful)

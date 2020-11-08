@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Interactivity;
 using System.Windows.Markup;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
-using Unicon2.Fragments.Configuration.ViewModel.Properties;
-using Unicon2.Infrastructure.Common;
-using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.ViewModels;
+using Microsoft.Xaml.Behaviors;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.SharedResources.DataTemplateSelectors;
 

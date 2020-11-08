@@ -4,7 +4,6 @@ using System.Linq;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.Subscription;
-using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Presentation.Subscription
 {

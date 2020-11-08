@@ -12,7 +12,8 @@
     xmlns:runtime="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;assembly=Unicon2.Fragments.Configuration.Infrastructure"
     xmlns:struct="clr-namespace:Unicon2.Fragments.Configuration.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Configuration.Infrastructure"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
-    xmlns:views="clr-namespace:Unicon2.Fragments.Configuration.Views">
+    xmlns:views="clr-namespace:Unicon2.Fragments.Configuration.Views"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors">
 
     <converter:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <converters:IsItemsGroupToVisibilityConverter x:Key="IsItemsGroupToVisibilityConverter" />
@@ -26,7 +27,7 @@
     <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToInvertVisibilityConverter" IsInverted="True" />
 
     <DataTemplate x:Key="RuntimeConfigurationViewModelDataTemplate" DataType="{x:Type runtime:IRuntimeConfigurationViewModel}">
-        <Border>
+        <Border BorderBrush="Gainsboro" BorderThickness="0,1,0,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -39,11 +40,11 @@
                         MinWidth="150"
                         ItemsSource="{Binding MainRows}"
                         SelectedValuePath="">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectedItemChanged">
-                                <i:InvokeCommandAction Command="{Binding MainItemSelectedCommand}" CommandParameter="{Binding ElementName=mainItemsTreeView, Path=SelectedItem}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="SelectedItemChanged">
+                                <b:InvokeCommandAction Command="{Binding MainItemSelectedCommand}" CommandParameter="{Binding ElementName=mainItemsTreeView, Path=SelectedItem}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildConfigItemViewModels}">
                                 <Grid>
@@ -178,9 +179,9 @@
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False">
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Behaviors>
                         <behaviors1:DynamicColumnsDataGridBehavior RowValues="{Binding ConfigTable}" />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
                 </DataGrid>
             </Border>
         </Expander>

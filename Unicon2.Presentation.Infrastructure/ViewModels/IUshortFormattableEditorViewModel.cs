@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using Unicon2.Infrastructure.Interfaces;
+﻿using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels
 {

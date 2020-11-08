@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
 using System.Windows.Shapes;
+using Microsoft.Xaml.Behaviors;
 
 namespace Unicon2.SharedResources.Behaviors
 {

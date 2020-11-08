@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Unicon2.Presentation.Infrastructure.Services;
-using Unicon2.Shell.ViewModels;
 
 namespace Unicon2.Shell.Services
 {

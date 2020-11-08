@@ -7,7 +7,6 @@ using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Progress;
-using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Model.Connection;
 using Unicon2.Model.DefaultDevice;

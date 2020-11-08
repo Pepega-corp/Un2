@@ -1,9 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
-using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Commands;

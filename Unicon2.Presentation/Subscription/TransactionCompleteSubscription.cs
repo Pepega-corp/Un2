@@ -1,11 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Infrastructure.Connection;
-using Unicon2.Presentation.Connection;
+﻿using Unicon2.Infrastructure.Connection;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Connection;
@@ -35,28 +28,30 @@ namespace Unicon2.Presentation.Subscription
 
         public async void Execute()
         {
-            if (this._deviceContext.DataProviderContainer.DataProvider.LastQuerySucceed&& this._connectionStateViewModel.TestValue!=null)
+            if (this._deviceContext.DataProviderContainer.DataProvider.IsSuccess &&
+                _deviceContext.DataProviderContainer.DataProvider.Item.LastQuerySucceed &&
+                this._connectionStateViewModel.TestValue != null)
             {
                 this._connectionStateViewModel.IsDeviceConnected = true;
                 _isPreviousCheckSuccessful = true;
             }
             else
             {
-	            if (_isPreviousCheckSuccessful)
-	            {
-		            var res = await this._connectionService.CheckConnection(this._connectionState, this._deviceContext);
-		            if (!res.IsSuccess)
-		            {
-			            this._connectionStateViewModel.IsDeviceConnected = false;
-			            _isPreviousCheckSuccessful = false;
-		            }
-		            else
-		            {
-			            this._connectionStateViewModel.TestValue = res.Item;
-			            this._connectionStateViewModel.IsDeviceConnected = true;
-			            _isPreviousCheckSuccessful = true;
-		            }
-	            }
+                if (_isPreviousCheckSuccessful)
+                {
+                    var res = await this._connectionService.CheckConnection(this._connectionState, this._deviceContext);
+                    if (!res.IsSuccess)
+                    {
+                        this._connectionStateViewModel.IsDeviceConnected = false;
+                        _isPreviousCheckSuccessful = false;
+                    }
+                    else
+                    {
+                        this._connectionStateViewModel.TestValue = res.Item;
+                        this._connectionStateViewModel.IsDeviceConnected = true;
+                        _isPreviousCheckSuccessful = true;
+                    }
+                }
 
             }
         }

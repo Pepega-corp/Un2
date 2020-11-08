@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Xml;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.BaseItems;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
-using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Services;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Model.Connection;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Model.DefaultDevice
 {
@@ -53,7 +43,7 @@ namespace Unicon2.Model.DefaultDevice
             StaticContainer.Container.Resolve<ILogService>().AddLogger(DeviceLogger, Name);
             if (deviceConnection is IDataProvider dataProvider)
             {
-                DataProvider = dataProvider;
+                DataProvider = Result<IDataProvider>.Create(dataProvider,true);
             }
         }
 
@@ -64,7 +54,7 @@ namespace Unicon2.Model.DefaultDevice
             base.OnDisposing();
         }
 
-        public IDataProvider DataProvider { get; set; }
+        public Result<IDataProvider> DataProvider { get; set; } = Result<IDataProvider>.Create(false);
     }
 
 }

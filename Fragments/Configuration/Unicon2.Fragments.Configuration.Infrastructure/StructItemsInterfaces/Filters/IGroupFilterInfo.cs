@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Filters
 {

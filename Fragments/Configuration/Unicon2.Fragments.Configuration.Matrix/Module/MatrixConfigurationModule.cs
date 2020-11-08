@@ -18,8 +18,6 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Infrastructure.Values.Matrix.Helpers;
 using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
-using Unicon2.Infrastructure.ViewModel;
-using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 

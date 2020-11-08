@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters;
 using Unicon2.Infrastructure.ViewModel;
-using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Fragments.Journals.Editor.Interfaces
 {

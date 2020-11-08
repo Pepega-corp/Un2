@@ -123,7 +123,7 @@
         </Grid>
         <Border
             Grid.Row="2"
-            BorderBrush="{DynamicResource AccentColorBrush4}"
+            BorderBrush="{DynamicResource MahApps.Brushes.Accent4}"
             BorderThickness="1">
             <ContentPresenter Content="{Binding ResultingDeviceViewModel.SelectedFragmentEditorViewModel}" ContentTemplateSelector="{StaticResource FragmentsEditorTemplateSelector}" />
 

@@ -26,11 +26,11 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}" />
+                <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent2}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush1}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush1}" />
             </Trigger>
         </Style.Triggers>
@@ -72,7 +72,7 @@
             Margin="2"
             Padding="4"
             Background="Transparent"
-            BorderBrush="{DynamicResource AccentColorBrush3}"
+            BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
             BorderThickness="1">
             <controls:ContentControlEx
                 Name="ContentControl"
@@ -88,10 +88,10 @@
                 <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource HighlightBrush}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Gainsboro" />
@@ -107,7 +107,7 @@
             Margin="2"
             Padding="4"
             Background="Transparent"
-            BorderBrush="{DynamicResource AccentColorBrush3}"
+            BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
             BorderThickness="{TemplateBinding BorderThickness}">
             <controls:ContentControlEx
                 Name="ContentControl"
@@ -121,10 +121,10 @@
         <ControlTemplate.Triggers>
 
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Gainsboro" />
@@ -142,13 +142,13 @@
                             Name="ToggleButtonBorder"
                             Margin="3"
                             Background="Transparent"
-                            BorderBrush="{DynamicResource AccentColorBrush3}"
+                            BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
                             BorderThickness="2"
                             CornerRadius="10" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ToggleButtonBorder" Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                            <Setter TargetName="ToggleButtonBorder" Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
                         </Trigger>
                         <DataTrigger Binding="{Binding IsCheckable}" Value="False">
                             <Setter Property="Visibility" Value="Hidden" />

@@ -28,7 +28,7 @@
                 <mah:SplitButton
                     Name="AddingElementSplitButton"
                     Margin="4"
-                    BorderBrush="{DynamicResource AccentColorBrush3}"
+                    BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
                     Command="{Binding ElementName=AddingElementSplitButton, Path=SelectedItem.AddDependency}"
                     ItemsSource="{Binding DependencyCreators}"
                     SelectedIndex="0">

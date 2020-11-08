@@ -1030,7 +1030,7 @@
     <value>Циклический опрос</value>
   </data>
   <data name="Group" xml:space="preserve">
-    <value>Групп</value>
+    <value>Группа</value>
   </data>
   <data name="ReadMeasuringSignalsQuery" xml:space="preserve">
     <value>Запрос на чтение сигналов измерений</value>

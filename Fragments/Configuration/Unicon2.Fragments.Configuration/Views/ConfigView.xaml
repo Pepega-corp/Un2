@@ -13,7 +13,7 @@
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     d:DataContext="{d:DesignInstance viewModel:MainConfigItemViewModel}"
-    d:DesignHeight="450"
+    d:DesignHeight="450" 
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -47,20 +47,23 @@
         <DataGrid
             Name="ConfigListView"
             Width="auto"
-            HorizontalAlignment="Stretch"
+            HorizontalAlignment="Left"
             AutoGenerateColumns="False"
             EnableColumnVirtualization="True"
             EnableRowVirtualization="True"
             GridLinesVisibility="All"
             ItemsSource="{Binding Path=RelatedRows}"
             RowDetailsVisibilityMode="Visible">
-            <DataGrid.ColumnHeaderStyle>
-                <Style 
-                       BasedOn="{StaticResource MetroDataGridColumnHeader}" 
-                       TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Upper"/>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCheckable}" Value="True">
+                            <Setter Property="Background" Value="LightGray"></Setter>
+
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
-            </DataGrid.ColumnHeaderStyle>
+            </DataGrid.RowStyle>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding .}" Visibility="{Binding IsTableView, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">

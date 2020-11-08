@@ -10,7 +10,6 @@ using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;

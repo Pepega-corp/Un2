@@ -29,12 +29,16 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
 
         public async Task<Result<ushort[]>> GetNextRecordUshorts()
         {
+            if (!_dataProviderContainer.DataProvider.IsSuccess)
+            {
+                return Result<ushort[]>.Create(false);
+            }
             ushort readingAddress = (ushort) (_currentRecordIndex * _offsetLoadingSequence.NumberOfPointsInRecord +
                                               _offsetLoadingSequence.JournalStartAddress);
             if (_offsetLoadingSequence.IsWordFormatNotForTheWholeRecord)
                 readingAddress += _offsetLoadingSequence.WordFormatFrom;
 
-            IQueryResult<ushort[]> queryResult = await _dataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
+            IQueryResult<ushort[]> queryResult = await _dataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
                 readingAddress,
                 (ushort) (_offsetLoadingSequence.WordFormatTo - _offsetLoadingSequence.WordFormatFrom),
                 JournalKeys.JOURNAL_RECORD_READING_QUERY);

@@ -1,8 +1,6 @@
 ﻿using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.View;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
-using Unicon2.Fragments.Configuration.Infrastructure.Factories;
-using Unicon2.Infrastructure.Common;
 
 namespace Unicon2.Fragments.Configuration.Editor.Visitors
 {

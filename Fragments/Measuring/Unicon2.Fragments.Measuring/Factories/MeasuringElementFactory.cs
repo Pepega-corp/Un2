@@ -1,5 +1,4 @@
 ﻿using Unicon2.Fragments.Measuring.Infrastructure.Factories;
-using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Unity.Interfaces;
 

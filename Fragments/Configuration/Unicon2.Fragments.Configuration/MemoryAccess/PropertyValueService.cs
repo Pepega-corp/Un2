@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure.Functional;
@@ -26,7 +22,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         public async Task<Result<IFormattedValue>> GetValueOfProperty(object propertyMaybe, DeviceContext deviceContext)
         {
             IProperty property = propertyMaybe as IProperty;
-            if (property == null)
+            if (property == null||!deviceContext.DataProviderContainer.DataProvider.IsSuccess)
             {
                 return Result<IFormattedValue>.Create(false);
             }
@@ -42,7 +38,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             else
             {
                 var ushorts =
-                    await deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(property.Address,
+                    await deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(property.Address,
                         property.NumberOfPoints, "Read property");
                 if (ushorts.IsSuccessful)
                 {

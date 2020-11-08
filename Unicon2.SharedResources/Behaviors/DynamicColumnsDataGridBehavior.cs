@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.SharedResources.DataTemplateSelectors;

@@ -1,5 +1,4 @@
 ﻿using Unicon2.Infrastructure.FragmentInterfaces;
-using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces

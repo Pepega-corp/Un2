@@ -1,11 +1,6 @@
 ﻿using Unicon2.Fragments.Measuring.Infrastructure.Keys;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Values;
-using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Measuring.ViewModel.Elements
 {

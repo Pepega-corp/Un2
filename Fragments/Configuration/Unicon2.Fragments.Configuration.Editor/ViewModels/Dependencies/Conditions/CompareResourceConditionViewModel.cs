@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
-using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;

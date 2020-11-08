@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
@@ -10,8 +9,6 @@ using Unicon2.Infrastructure.BaseItems;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Connections.DataProvider.Model
 {

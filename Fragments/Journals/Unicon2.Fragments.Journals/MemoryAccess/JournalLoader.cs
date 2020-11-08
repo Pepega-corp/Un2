@@ -6,10 +6,8 @@ using Unicon2.Fragments.Journals.Infrastructure.Factories;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Journals.MemoryAccess
 {

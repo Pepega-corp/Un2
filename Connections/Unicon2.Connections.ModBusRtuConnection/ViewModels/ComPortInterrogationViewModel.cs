@@ -5,7 +5,6 @@ using System.Windows.Input;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces.ComPortInterrogation;
 using Unicon2.Connections.ModBusRtuConnection.Model;
-using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.DeviceContext;

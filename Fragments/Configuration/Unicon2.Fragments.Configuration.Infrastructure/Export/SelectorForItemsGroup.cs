@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+﻿using System.Collections.Generic;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.Export

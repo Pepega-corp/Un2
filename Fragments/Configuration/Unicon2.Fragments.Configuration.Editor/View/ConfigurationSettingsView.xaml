@@ -11,7 +11,7 @@
     Title="{lex:Loc Settings}"
     Width="800"
     Height="300"
-    BorderBrush="{DynamicResource AccentColorBrush}"
+    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
     BorderThickness="1"
     mc:Ignorable="d">
     <controls:MetroWindow.Resources>

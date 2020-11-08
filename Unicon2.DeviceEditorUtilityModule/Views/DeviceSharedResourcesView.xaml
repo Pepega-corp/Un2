@@ -18,7 +18,7 @@
     dialogs:DialogParticipation.Register="{Binding}"
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
-    BorderBrush="{DynamicResource AccentColorBrush}"
+    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
     BorderThickness="1"
     IsWindowDraggable="True"
     NonActiveBorderBrush="Black"

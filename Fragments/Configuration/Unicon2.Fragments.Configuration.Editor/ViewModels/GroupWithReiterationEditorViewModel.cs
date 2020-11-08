@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;

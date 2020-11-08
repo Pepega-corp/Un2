@@ -42,6 +42,10 @@ namespace Unicon2.Fragments.Measuring.Helpers
         private static async Task<Result<bool>> IsDependencyTrue(IBoolToAddressDependency boolToAddressDependency,
             DeviceContext deviceContext)
         {
+            if (!deviceContext.DataProviderContainer.DataProvider.IsSuccess)
+            {
+                return Result<bool>.Create(false);
+            }
             if(string.IsNullOrWhiteSpace(boolToAddressDependency.RelatedResourceName))return Result<bool>.Create(false);
             var res = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(container =>
                 container.ResourceName == boolToAddressDependency.RelatedResourceName);

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-
-namespace Unicon.Common.Result
+﻿namespace Unicon.Common.Result
 {
 	public class Result<T>
 	{

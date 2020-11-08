@@ -11,6 +11,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
@@ -42,7 +43,7 @@
                 BorderThickness="1"
                 CanUserAddRows="False"
                 HorizontalScrollBarVisibility="Auto">
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
                     <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox,Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
                         <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
@@ -65,7 +66,7 @@
                             </Style>
                         </behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                     </behaviors1:DynamicPropertiesDataGridBehavior>
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
             </DataGrid>
         </Grid>
         <GridSplitter
@@ -86,7 +87,7 @@
                 BorderThickness="1"
                 CanUserAddRows="False"
                 HorizontalScrollBarVisibility="Auto">
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
                     <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox,Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
                         <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
@@ -97,7 +98,8 @@
                                             <ControlTemplate TargetType="ContentControl">
                                                 <Border
                                                     BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
-                                                    BorderThickness="1"
+                                                    BorderThickness="0,0,3,0"
+                                                    Margin="-2"
                                                     ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}}">
                                                     <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
                                                         <ContentPresenter.ContentTemplateSelector>
@@ -112,7 +114,7 @@
                             </Style>
                         </behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                     </behaviors1:DynamicPropertiesDataGridBehavior>
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
             </DataGrid>
         </Grid>
         <CheckBox Margin="1" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Name="CheckBox" Content="{lex:Loc Transpone}">

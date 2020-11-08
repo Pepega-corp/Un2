@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unicon2.Infrastructure.Interfaces.DataOperations;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces
 {

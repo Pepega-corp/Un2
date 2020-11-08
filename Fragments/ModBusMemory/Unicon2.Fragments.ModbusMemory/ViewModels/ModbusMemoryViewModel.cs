@@ -10,12 +10,9 @@ using Unicon2.Fragments.ModbusMemory.Infrastructure.ViewModels;
 using Unicon2.Fragments.ModbusMemory.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Connection;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
-using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -65,7 +62,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 		private async void OnSetFalseBitExecute(object obj)
 		{
 			IMemoryBitViewModel memoryBitViewModel = obj as IMemoryBitViewModel;
-			await DeviceContext.DataProviderContainer.DataProvider.WriteSingleCoilAsync(memoryBitViewModel.Address, false,
+			await DeviceContext.DataProviderContainer.DataProvider.Item.WriteSingleCoilAsync(memoryBitViewModel.Address, false,
 				ApplicationGlobalNames.QueriesNames.WRITE_MODBUS_MEMORY_QUERY_KEY);
 			await OnExecuteOneQuery();
 		}
@@ -73,7 +70,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 		private async void OnSetTrueBitExecute(object obj)
 		{
 			IMemoryBitViewModel memoryBitViewModel = obj as IMemoryBitViewModel;
-			await DeviceContext.DataProviderContainer.DataProvider.WriteSingleCoilAsync(memoryBitViewModel.Address, true,
+			await DeviceContext.DataProviderContainer.DataProvider.Item.WriteSingleCoilAsync(memoryBitViewModel.Address, true,
 				ApplicationGlobalNames.QueriesNames.WRITE_MODBUS_MEMORY_QUERY_KEY);
 			await OnExecuteOneQuery();
 		}
@@ -232,55 +229,60 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 
 		private async Task OnExecuteOneQuery()
 		{
-			IModbusMemorySettings modbusMemorySettings = _modbusMemorySettingsViewModel.GetModbusMemorySettings();
-			if (modbusMemorySettings.IsDiscretOption)
-			{
-				IQueryResult<bool[]> queryResult = await DeviceContext.DataProviderContainer.DataProvider.ReadCoilStatusAsync(
-					(ushort) modbusMemorySettings.BaseAdress,
-					ApplicationGlobalNames.QueriesNames.MODBUS_MEMORY_QUERY_KEY,
-					(ushort) (modbusMemorySettings.NumberOfPoints * 16));
-				UpdateEntities(queryResult);
-			}
-			else
-			{
-				IQueryResult<ushort[]> queryResult = await DeviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
-					(ushort) modbusMemorySettings.BaseAdress,
-					(ushort) modbusMemorySettings.NumberOfPoints,
-					ApplicationGlobalNames.QueriesNames.MODBUS_MEMORY_QUERY_KEY);
-				UpdateEntities(queryResult);
-			}
-		}
+            if (DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
+            {
+                IModbusMemorySettings modbusMemorySettings = _modbusMemorySettingsViewModel.GetModbusMemorySettings();
+                if (modbusMemorySettings.IsDiscretOption)
+                {
+                    IQueryResult<bool[]> queryResult =
+                        await DeviceContext.DataProviderContainer.DataProvider.Item.ReadCoilStatusAsync(
+                            (ushort) modbusMemorySettings.BaseAdress,
+                            ApplicationGlobalNames.QueriesNames.MODBUS_MEMORY_QUERY_KEY,
+                            (ushort) (modbusMemorySettings.NumberOfPoints * 16));
+                    UpdateEntities(queryResult);
+                }
+                else
+                {
+                    IQueryResult<ushort[]> queryResult =
+                        await DeviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
+                            (ushort) modbusMemorySettings.BaseAdress,
+                            (ushort) modbusMemorySettings.NumberOfPoints,
+                            ApplicationGlobalNames.QueriesNames.MODBUS_MEMORY_QUERY_KEY);
+                    UpdateEntities(queryResult);
+                }
+            }
+        }
 
-		private async void StartUpdating()
-		{
-			while (true)
-			{
-				if (IsQueriesStarted)
-				{
-					if (!DeviceContext.DataProviderContainer.DataProvider.LastQuerySucceed)
-					{
-						IsQueriesStarted = false;
-						QueriesError = "Последний запрос не успешен!"; // Мои изменения
-						IsQueriesStartedError = true; // Мои изменения
-					}
-					// Мои изменения
-					else
-					{
-						IsQueriesStartedError = false;
-						QueriesError = null;
-					}
+        private async void StartUpdating()
+        {
+            while (true)
+            {
+                if (IsQueriesStarted && DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
+                {
+                    if (!DeviceContext.DataProviderContainer.DataProvider.Item.LastQuerySucceed)
+                    {
+                        IsQueriesStarted = false;
+                        QueriesError = "Последний запрос не успешен!"; // Мои изменения
+                        IsQueriesStartedError = true; // Мои изменения
+                    }
+                    // Мои изменения
+                    else
+                    {
+                        IsQueriesStartedError = false;
+                        QueriesError = null;
+                    }
 
-					// End Мои изменения
-					await OnExecuteOneQuery();
-				}
-				else
-				{
-					return;
-				}
-			}
-		}
+                    // End Мои изменения
+                    await OnExecuteOneQuery();
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
 
-		private void UpdateEntities(IQueryResult<ushort[]> queryResult)
+        private void UpdateEntities(IQueryResult<ushort[]> queryResult)
 		{
 			if (!queryResult.IsSuccessful)
 			{

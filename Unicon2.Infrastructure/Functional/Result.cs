@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Unicon2.Infrastructure.Functional
 {
@@ -44,7 +45,7 @@ namespace Unicon2.Infrastructure.Functional
 
             return Item;
         }
-
+       
         public T OnFail(Action<T> onFailFunc)
         {
 	        if (!IsSuccess)

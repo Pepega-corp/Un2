@@ -29,12 +29,16 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
 
         public async Task<Result<ushort[]>> GetNextRecordUshorts()
         {
-           var res= await _dataProviderContainer.DataProvider.WriteSingleRegisterAsync(
+            if (!_dataProviderContainer.DataProvider.IsSuccess)
+            {
+                return Result<ushort[]>.Create(false);
+            }
+           var res= await _dataProviderContainer.DataProvider.Item.WriteSingleRegisterAsync(
                 _indexLoadingSequence.IndexWritingAddress, _currentRecordIndex, "Write");
             _currentRecordIndex++;
 
             
-            IQueryResult<ushort[]> queryResult = await _dataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
+            IQueryResult<ushort[]> queryResult = await _dataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
                 _indexLoadingSequence.JournalStartAddress,
                 _indexLoadingSequence.NumberOfPointsInRecord,
                 JournalKeys.JOURNAL_RECORD_READING_QUERY);

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Unicon2.Fragments.Journals.Exporter.Utils;
 using Unicon2.Fragments.Journals.Infrastructure.Export;

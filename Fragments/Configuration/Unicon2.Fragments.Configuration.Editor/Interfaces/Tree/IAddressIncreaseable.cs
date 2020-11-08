@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-
-namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
+﻿namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
     public interface IAddressChangeable
     {

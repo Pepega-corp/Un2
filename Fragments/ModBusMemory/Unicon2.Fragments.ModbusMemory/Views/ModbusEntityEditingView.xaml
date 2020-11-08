@@ -10,6 +10,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Unicon2.Fragments.ModbusMemory.Infrastructure.Model;assembly=Unicon2.Fragments.ModbusMemory.Infrastructure"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     Name="EntityEditingWindow"
     Title="{lex:Loc OneWordEditing}"
     d:DesignHeight="180"
@@ -101,11 +102,11 @@
                                 Height="18"
                                 Margin="{Binding BitNumber, Converter={StaticResource SplittingBitMarginConverter}}"
                                 Background="{Binding BoolValue, Converter={StaticResource BoolToColorBrushConverter}}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseUp">
-                                        <i:InvokeCommandAction Command="{Binding ElementName=EntityEditingWindow, Path=DataContext.ChangeBitValueCommand}" CommandParameter="{Binding BitNumber}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="MouseUp">
+                                        <b:InvokeCommandAction Command="{Binding ElementName=EntityEditingWindow, Path=DataContext.ChangeBitValueCommand}" CommandParameter="{Binding BitNumber}" />
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
                             </Border>
                         </StackPanel>
                     </DataTemplate>

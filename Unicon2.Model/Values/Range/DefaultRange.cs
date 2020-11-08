@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Model.Values.Range

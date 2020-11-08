@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
@@ -37,6 +33,12 @@ namespace Unicon2.Fragments.Measuring.Commands
 
         private void Execute()
         {
+            if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
+            {
+                return;
+            }
+
+
             var ushortstoWrite = new ushort[16];
             for (int i = 0; i < ushortstoWrite.Length; i++)
             {
@@ -67,7 +69,7 @@ namespace Unicon2.Fragments.Measuring.Commands
                 ushortstoWrite[6] = ushort.Parse(timeParts[3]);
 
             }
-            this._deviceContext.DataProviderContainer.DataProvider.WriteMultipleRegistersAsync(
+            this._deviceContext.DataProviderContainer.DataProvider.Item.WriteMultipleRegistersAsync(
                 this._dateTimeMeasuringElement.StartAddress, ushortstoWrite, "Set date time");
         }
 

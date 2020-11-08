@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unicon2.Connections.MockConnection.Keys;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Functional;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Model.Connection;
 using Unicon2.Unity.Interfaces;

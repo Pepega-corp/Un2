@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unicon2.Formatting.Editor.ViewModels;
-using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.Visitors
 {

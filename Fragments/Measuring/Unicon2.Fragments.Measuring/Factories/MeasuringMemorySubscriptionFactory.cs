@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Measuring.Infrastructure.ViewModel;
+﻿using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Subscriptions;
 using Unicon2.Presentation.Infrastructure.DeviceContext;

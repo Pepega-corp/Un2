@@ -1,6 +1,4 @@
-﻿using System;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Infrastructure.DeviceInterfaces;
+﻿using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty

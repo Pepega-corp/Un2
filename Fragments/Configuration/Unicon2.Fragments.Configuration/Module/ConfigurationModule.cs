@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Unicon2.Fragments.Configuration.Factories;
+﻿using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;

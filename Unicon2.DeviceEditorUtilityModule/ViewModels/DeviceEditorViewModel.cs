@@ -3,7 +3,6 @@ using Microsoft.Win32;
 using System.IO;
 using System.Reflection;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
 using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;

@@ -12,7 +12,6 @@ using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.DeviceEditorUtilityModule.ViewModels

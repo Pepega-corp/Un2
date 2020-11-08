@@ -2,16 +2,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
-using System.Windows.Media;
 using MahApps.Metro.Controls;
+using Microsoft.Xaml.Behaviors;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services;
-using Unicon2.Infrastructure.Services.LogService;
-using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.DataTemplateSelectors;
 using Unicon2.Shell.ViewModels;
-using WPFLocalizeExtension.Providers;
 
 namespace Unicon2.Shell.Behaviors
 {

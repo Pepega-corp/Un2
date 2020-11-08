@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
-using Unicon2.Infrastructure.Services.UniconProject;
 using Unicon2.Shell.ViewModels;
 
 namespace Unicon2.Shell.Factories

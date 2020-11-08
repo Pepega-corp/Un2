@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
-using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Editor.Converters
 {

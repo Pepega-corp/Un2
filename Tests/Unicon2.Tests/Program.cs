@@ -10,7 +10,7 @@ namespace Unicon2.Tests
         static void Main(string[] args)
         {
             _app = new App();
-            _app.Initialize();
+            _app.InitializePublic();
         }
 
         public static App GetApp()
@@ -18,7 +18,7 @@ namespace Unicon2.Tests
             if (_app == null)
             {
                 _app = new App();
-                _app.Initialize();
+                _app.InitializePublic();
             }
             return _app;
         }

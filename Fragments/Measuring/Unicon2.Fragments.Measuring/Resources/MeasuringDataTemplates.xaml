@@ -16,7 +16,9 @@
 
     <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector x:Key="ViewModelByStrongNameDataTemplateSelector" />
     <DataTemplate x:Key="MeasuringMonitorViewModelDataTemplate" DataType="interfaces:IMeasuringMonitorViewModel">
-        <views:MeasuringMonitorView />
+        <Border BorderThickness="0,1,0,0" BorderBrush="Gainsboro" >
+            <views:MeasuringMonitorView />
+        </Border>
     </DataTemplate>
     <converters:CommandSuccessToColorConverter x:Key="CommandSuccessToColorConverter" />
 

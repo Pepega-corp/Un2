@@ -23,6 +23,5 @@ namespace Unicon2.Unity.Interfaces
         void RegisterInstance<T>(T instance);
 
         void RegisterViewModel<TView, TViewModel>();
-        void RegisterForNavigation<TView>(string key);
     }
 }

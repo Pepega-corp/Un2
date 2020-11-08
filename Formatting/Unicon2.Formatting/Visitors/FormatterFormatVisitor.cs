@@ -9,7 +9,6 @@ using org.mariuszgromada.math.mxparser;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using org.mariuszgromada.math.mxparser;
 using Unicon2.Formatting.Infrastructure.Model;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Visitors;

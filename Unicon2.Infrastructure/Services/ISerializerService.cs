@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Unicon2.Infrastructure.Services
+﻿namespace Unicon2.Infrastructure.Services
 {
     public interface ISerializerService
     {

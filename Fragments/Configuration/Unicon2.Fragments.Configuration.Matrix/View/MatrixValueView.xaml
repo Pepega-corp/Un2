@@ -8,6 +8,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     Name="matrixValueView"
     Width="Auto"
     Height="Auto"
@@ -15,9 +16,9 @@
     BorderBrush="Black"
     BorderThickness="1"
     mc:Ignorable="d">
-    <i:Interaction.Behaviors>
+    <b:Interaction.Behaviors>
         <behaviors:BubbleScrollBehavior/>
-    </i:Interaction.Behaviors>
+    </b:Interaction.Behaviors>
     <UserControl.Resources>
         <Style x:Key="DataGridRowStyle" TargetType="DataGridRow" BasedOn="{StaticResource MetroDataGridRow}">
             <Setter Property="Padding" Value="0" />
@@ -54,19 +55,19 @@
                     RowStyle="{StaticResource DataGridRowStyle}"
                     CellStyle="{StaticResource DataGridColumnCellsStyle}"
                     >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TargetUpdated">
-                            <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="SourceUpdated">
-                            <i:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="TargetUpdated">
+                            <b:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="SourceUpdated">
+                            <b:InvokeCommandAction Command="{Binding MatrixUpdatedCommand}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                    <b:Interaction.Behaviors>
                         <behaviors:DynamicColumnsDataGridBehavior 
                             IsTransponed="{Binding ElementName=IsTransponedCheckBox, Path=IsChecked}" 
                             RowValues="{Binding Table, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
                 </DataGrid>
             </Border>
             <StackPanel Grid.Row="1"  Orientation="Horizontal">

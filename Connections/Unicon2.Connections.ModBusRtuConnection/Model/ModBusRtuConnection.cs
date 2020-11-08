@@ -3,7 +3,6 @@ using NModbus4.Device;
 using NModbus4.IO;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unicon2.Connections.DataProvider.Model;

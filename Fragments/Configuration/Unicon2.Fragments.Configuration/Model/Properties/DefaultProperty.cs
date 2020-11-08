@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
-using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.Interfaces;
 

@@ -1,11 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Unicon2.Fragments.Measuring.Editor.Factories;
 using Unicon2.Fragments.Measuring.Editor.Helpers;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
 using Unicon2.Fragments.Measuring.Editor.View;
-using Unicon2.Fragments.Measuring.Editor.View.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Infrastructure;

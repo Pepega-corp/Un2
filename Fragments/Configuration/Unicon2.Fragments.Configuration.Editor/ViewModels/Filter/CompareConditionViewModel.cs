@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
-using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditions;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Filter

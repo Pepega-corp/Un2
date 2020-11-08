@@ -1,8 +1,6 @@
 ﻿using Unicon2.Formatting.Editor.ViewModels.Interfaces;
 using Unicon2.Formatting.Editor.Visitors;
-using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Formatting.Editor.ViewModels

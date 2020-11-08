@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.Interfaces;
 

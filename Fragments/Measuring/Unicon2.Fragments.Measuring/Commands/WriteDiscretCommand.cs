@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Presentation.Infrastructure.Commands;
@@ -34,9 +29,10 @@ namespace Unicon2.Fragments.Measuring.Commands
 
         private async void Execute()
         {
-            if (this._controlSignal.WritingValueContext.NumberOfFunction == 5)
+            if (this._controlSignal.WritingValueContext.NumberOfFunction == 5 &&
+                this._deviceContext.DataProviderContainer.DataProvider.IsSuccess)
             {
-                var result = await this._deviceContext.DataProviderContainer.DataProvider.WriteSingleCoilAsync(
+                var result = await this._deviceContext.DataProviderContainer.DataProvider.Item.WriteSingleCoilAsync(
                     _controlSignal.WritingValueContext.Address,
                     this._controlSignal.WritingValueContext.ValueToWrite == 1,
                     "Write control signal" + this._controlSignal.Name);

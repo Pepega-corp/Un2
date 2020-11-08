@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Prism.Mvvm;
-using Prism.Unity;
 using Unicon2.Unity.Interfaces;
 using Unity;
 
@@ -126,9 +125,5 @@ namespace Unicon2.Unity.Common
             ViewModelLocationProvider.Register<TView, TViewModel>();
         }
 
-        public void RegisterForNavigation<TView>(string key)
-        {
-            _container.RegisterTypeForNavigation<TView>(key);
-        }
     }
 }

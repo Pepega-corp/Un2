@@ -1,15 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Unicon.Common.Commands;
-using Unicon.Common.Model;
-using Unicon.Common.Queries;
-using Unicon.Common.Result;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Unity.Commands;

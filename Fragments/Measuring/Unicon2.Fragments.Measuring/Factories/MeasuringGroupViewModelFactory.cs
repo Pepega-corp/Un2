@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using Unicon2.Fragments.Measuring.Commands;
 using Unicon2.Fragments.Measuring.Infrastructure.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
@@ -10,7 +9,6 @@ using Unicon2.Fragments.Measuring.Subscriptions;
 using Unicon2.Fragments.Measuring.ViewModel;
 using Unicon2.Fragments.Measuring.ViewModel.Presentation;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
-using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Factories

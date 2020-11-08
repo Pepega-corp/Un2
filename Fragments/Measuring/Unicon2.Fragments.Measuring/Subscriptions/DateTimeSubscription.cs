@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -29,7 +25,11 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
         public async Task Execute()
         {
-            var res = await this._deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
+            if (!this._deviceContext.DataProviderContainer.DataProvider.IsSuccess)
+            {
+                return;
+            }
+            var res = await this._deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
                 this._dateTimeMeasuringElement.StartAddress, 16, "Read datetime");
             if (res.IsSuccessful)
             {

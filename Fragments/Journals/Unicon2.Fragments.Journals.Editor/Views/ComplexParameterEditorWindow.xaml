@@ -11,7 +11,7 @@
     Title="{lex:Loc ComplexParameter}"
     Width="700"
     Height="600"
-    BorderBrush="{DynamicResource AccentColorBrush}"
+    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
     BorderThickness="1"
     ShowCloseButton="False"
     ShowMaxRestoreButton="False"

@@ -2,13 +2,8 @@
 using Unicon2.Formatting.Infrastructure.Factories;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Model;
-using Unicon2.Formatting.Model.Base;
 using Unicon2.Formatting.Services;
-using Unicon2.Formatting.Visitors;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Visitors;
-using Unicon2.Infrastructure.Services;
-using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Unity.Interfaces;
 

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
-using System.Windows.Interactivity;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Microsoft.Xaml.Behaviors;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 

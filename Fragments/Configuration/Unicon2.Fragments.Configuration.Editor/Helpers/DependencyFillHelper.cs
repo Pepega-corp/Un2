@@ -1,10 +1,6 @@
-using System;
-using System.Linq;
-using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Model.Dependencies;
-using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;

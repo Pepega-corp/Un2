@@ -1,5 +1,4 @@
-﻿using System;
-using Unicon2.Infrastructure.Connection;
+﻿using Unicon2.Infrastructure.Connection;
 
 namespace Unicon2.Infrastructure.DeviceInterfaces
 {

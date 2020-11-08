@@ -1,5 +1,4 @@
 ﻿using System;
-using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Infrastructure.Services.LogService
 {

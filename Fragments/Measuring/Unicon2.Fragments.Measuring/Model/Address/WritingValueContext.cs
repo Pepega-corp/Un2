@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Address;
 
 namespace Unicon2.Fragments.Measuring.Model.Address

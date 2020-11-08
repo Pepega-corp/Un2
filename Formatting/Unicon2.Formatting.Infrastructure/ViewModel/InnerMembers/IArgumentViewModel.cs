@@ -1,6 +1,4 @@
-﻿using Unicon2.Infrastructure.ViewModel;
-
-namespace Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers
+﻿namespace Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers
 {
     public interface IArgumentViewModel 
     {

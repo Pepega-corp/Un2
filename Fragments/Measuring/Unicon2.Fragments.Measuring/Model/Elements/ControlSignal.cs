@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Address;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Model.Address;
-using Unicon2.Infrastructure.Connection;
 
 namespace Unicon2.Fragments.Measuring.Model.Elements
 {

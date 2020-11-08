@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure;
@@ -9,7 +7,6 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
-using Unicon2.Presentation.Infrastructure.Subscription;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
 {
@@ -62,11 +59,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
                     break;
                 case IComplexProperty complexProperty:
-					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider, (ushort)(complexProperty.Address + offset),
+					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item, (ushort)(complexProperty.Address + offset),
 						(ushort)(complexProperty.Address + complexProperty.NumberOfPoints + offset), _deviceContext.DeviceMemory);
 					break;
                 case IProperty property:
-					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider, (ushort)(property.Address + offset),
+					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item, (ushort)(property.Address + offset),
                         (ushort) (property.Address + property.NumberOfPoints + offset), _deviceContext.DeviceMemory);
                     break;
                
@@ -101,7 +98,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
-                    return ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider, rangeFrom, rangeTo,
+                    return ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item, rangeFrom, rangeTo,
                         _deviceContext.DeviceMemory);
                 };
 

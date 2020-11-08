@@ -7,17 +7,18 @@
     xmlns:interactivity="http://prismlibrary.com/"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:logService="clr-namespace:Unicon2.Presentation.ViewModels.Windows;assembly=Unicon2.Presentation"
-    xmlns:logService1="clr-namespace:Unicon2.Infrastructure.Services.LogService;assembly=Unicon2.Infrastructure">
+    xmlns:logService1="clr-namespace:Unicon2.Infrastructure.Services.LogService;assembly=Unicon2.Infrastructure"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors">
     <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
     <converter:LogMessageTypeToIconConverter x:Key="LogMessageTypeToIconConverter" />
 
     <DataTemplate DataType="{x:Type logService:LogServiceViewModel}">
         <Grid>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewMouseUp">
-                    <i:InvokeCommandAction Command="{Binding RefreshHeaderStringCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="PreviewMouseUp">
+                    <b:InvokeCommandAction Command="{Binding RefreshHeaderStringCommand}" />
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

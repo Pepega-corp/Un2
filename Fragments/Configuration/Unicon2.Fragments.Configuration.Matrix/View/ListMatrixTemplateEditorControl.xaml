@@ -60,7 +60,7 @@
                                                     DisplayMemberPath="PossibleValueName" 
                                                     ItemsSource="{Binding Source={x:Reference listMatrixTemplateListBox},Path=DataContext.OptionPossibleValueEditorViewModels}">
                                                 </ComboBox>
-                                                <controls:ToggleSwitch ContentDirection="LeftToRight"  FontWeight="Regular" Margin="5" FontSize="15" Header="{lex:Loc MustBe}"  OnLabel="{lex:Loc True}" OffLabel="{lex:Loc False}" IsChecked="{Binding BoolConditionRule}"/>
+                                                <controls:ToggleSwitch ContentDirection="LeftToRight"  FontWeight="Regular" Margin="5" FontSize="15" Header="{lex:Loc MustBe}"  OnContent="{lex:Loc True}" OffContent="{lex:Loc False}" IsOn="{Binding BoolConditionRule}"/>
                                            
                                         </StackPanel>
                                     </DataTemplate>

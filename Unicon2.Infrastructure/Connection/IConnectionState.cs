@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Services.LogService;
-using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Infrastructure.Connection
 {

@@ -36,6 +36,8 @@
 
     <DataTemplate x:Key="EditableNumericValueViewModelDataTemplate">
         <TextBox
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
             dialogs:DialogParticipation.Register="{Binding}"
             IsEnabled="{Binding IsEditEnabled}"
             Text="{Binding NumValue}" />
@@ -92,6 +94,7 @@
         <ComboBox
             MinWidth="100"
             IsEditable="True"
+            HorizontalContentAlignment="Center"
             IsTextSearchEnabled="True"
             ItemsSource="{Binding AvailableItemsList}"
             SelectedItem="{Binding SelectedItem, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, Mode=TwoWay}"

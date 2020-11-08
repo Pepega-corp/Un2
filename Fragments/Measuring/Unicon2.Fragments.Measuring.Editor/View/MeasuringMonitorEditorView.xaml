@@ -11,6 +11,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     d:DesignHeight="500"
     d:DesignWidth="900"
     dialogs:DialogParticipation.Register="{Binding}"
@@ -97,11 +98,11 @@
                                     dd:DragDrop.IsDropTarget="True"
                                     IsHitTestVisible="True"
                                     ItemsSource="{Binding MeasuringElementEditorViewModels}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseEnter">
-                                            <i:InvokeCommandAction Command="{Binding CheckElementsPositionCommand}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseEnter">
+                                            <b:InvokeCommandAction Command="{Binding CheckElementsPositionCommand}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem">
                                             <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}" />
@@ -121,7 +122,7 @@
                                         <DataTemplate>
                                             <Border
                                                 Margin="5"
-                                                BorderBrush="{DynamicResource AccentColorBrush}"
+                                                BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
                                                 BorderThickness="1">
                                                 <Grid Margin="5">
                                                     <Grid.ColumnDefinitions>
@@ -160,11 +161,11 @@
                             <TextBlock Text="{Binding Header}">
                                 <TextBlock.ContextMenu>
                                     <ContextMenu>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Opened">
-                                                <i:InvokeCommandAction Command="{Binding DataContext.CheckElementsPositionCommand, Source={x:Reference Name=groupsTabControl}}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="Opened">
+                                                <b:InvokeCommandAction Command="{Binding DataContext.CheckElementsPositionCommand, Source={x:Reference Name=groupsTabControl}}" />
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
                                         <MenuItem Header="{lex:Loc Name}">
                                             <TextBox Margin="10" Text="{Binding Header, UpdateSourceTrigger=LostFocus}" />
                                         </MenuItem>

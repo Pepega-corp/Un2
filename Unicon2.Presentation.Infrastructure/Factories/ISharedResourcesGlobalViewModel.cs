@@ -1,5 +1,4 @@
-﻿using System;
-using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
+﻿using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Presentation.Infrastructure.Factories

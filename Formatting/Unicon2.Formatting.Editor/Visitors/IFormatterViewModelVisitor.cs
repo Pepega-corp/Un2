@@ -1,5 +1,4 @@
 ﻿using Unicon2.Formatting.Editor.ViewModels;
-using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Formatting.Editor.Visitors
 {

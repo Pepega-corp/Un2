@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    Background="{DynamicResource AccentColorBrush4}"
+    Background="{DynamicResource MahApps.Brushes.Accent4}"
     mc:Ignorable="d">
 
     <UserControl.Resources>

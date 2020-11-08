@@ -13,7 +13,7 @@
             <DataTemplate >
                 <StackPanel Orientation="Horizontal">
                     <ComboBox SelectedItem="{Binding SelectedMatrixPossibleValueEditorViewModel}" ItemsSource="{Binding Source={x:Reference listMatrixTemplateListBox},Path=DataContext.PossibleValuesCollection}"></ComboBox>
-                    <controls:ToggleSwitch Header="{lex:Loc MustBe}"  OnLabel="{lex:Loc True}" OffLabel="{lex:Loc False}" IsChecked="{Binding IsMustBeEqual}"/>
+                    <controls:ToggleSwitch Header="{lex:Loc MustBe}"  OnContent="{lex:Loc True}" OffContent="{lex:Loc False}" IsOn="{Binding IsMustBeEqual}"/>
                     <StackPanel.ContextMenu>
                         <ContextMenu>
                             <MenuItem 

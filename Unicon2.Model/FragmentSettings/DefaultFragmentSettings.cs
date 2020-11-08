@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Model.FragmentSettings
 {

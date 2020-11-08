@@ -10,6 +10,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Unicon2.Fragments.Configuration.Editor.ViewModels"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     d:DesignHeight="500"
     d:DesignWidth="900"
     lex:LocalizeDictionary.DesignCulture="ru-RU"
@@ -104,7 +105,7 @@
                     <controls:SplitButton
                         Name="AddingElementSplitButton"
                         Margin="4"
-                        BorderBrush="{DynamicResource AccentColorBrush3}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
                         Command="{Binding ElementName=AddingElementSplitButton, Path=SelectedItem.AddingCommand}"
                         ItemsSource="{Binding ElementsAddingCommandCollection}"
                         SelectedIndex="0">
@@ -378,11 +379,11 @@
                 BorderThickness="0" 
                 ItemsSource="{Binding Path=AllRows}"
                 SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=ConfigListView,Path=SelectedItems}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="SelectionChanged">
+                        <b:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=ConfigListView,Path=SelectedItems}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
                 <ListView.Resources>
                     <ContextMenu x:Key="ItemContextMenu">
                         <!--  свойство ниже ломает контекстное меню, пока убрал условие, надо уточнить, как оно должно работать  -->
@@ -399,14 +400,14 @@
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <Style.Triggers>
                             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                                <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                                <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </ListView.Resources>
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <behaviors:TreeGridBehavior />
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
@@ -422,15 +423,16 @@
                                             </Grid.ColumnDefinitions>
                                             <ToggleButton
                                                 Grid.Column="0"
-                                                Width="20"
-                                                Height="20"
+                                                Width="13"
+                                                Height="13"
+                                                
                                                 Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
                                                 IsEnabled="{Binding IsCheckable}"
-                                                Style="{DynamicResource MetroCircleToggleButtonStyle}"
+                                                Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}"
                                                 Tag="{Binding ElementName=ConfigListView, Path=ItemsSource}">
-                                                <i:Interaction.Behaviors>
+                                                <b:Interaction.Behaviors>
                                                     <behaviors:TreeViewToggleButtonBehavior />
-                                                </i:Interaction.Behaviors>
+                                                </b:Interaction.Behaviors>
                                             </ToggleButton>
                                             <TextBox
                                                 Grid.Column="1"

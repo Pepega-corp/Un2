@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 
 namespace Unicon2.SharedResources.DataTemplateSelectors

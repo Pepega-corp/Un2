@@ -346,7 +346,7 @@
             <DataGrid
                 Grid.Row="2"
                 HorizontalAlignment="Stretch"
-                AlternatingRowBackground="{DynamicResource AccentColorBrush2}"
+                AlternatingRowBackground="{DynamicResource MahApps.Brushes.Accent2}"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 GridLinesVisibility="All"

@@ -16,7 +16,6 @@ using Unicon2.Formatting.Editor.Module;
 using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;
 using Unicon2.Fragments.Configuration.Exporter.Module;
-using Unicon2.Fragments.Configuration.Matrix.Module;
 using Unicon2.Fragments.Configuration.Module;
 using Unicon2.Fragments.Journals.Editor.Module;
 using Unicon2.Fragments.Journals.Exporter.Module;
@@ -111,6 +110,11 @@ namespace Unicon2.Shell
                     }
                 };
             }
+        }
+
+        public void InitializePublic()
+        {
+            Initialize();
         }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

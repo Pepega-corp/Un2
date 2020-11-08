@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {

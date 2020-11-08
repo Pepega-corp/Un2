@@ -166,7 +166,7 @@
         <Border
             Margin="5"
             Padding="5"
-            BorderBrush="{DynamicResource AccentColorBrush3}"
+            BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
             BorderThickness="1">
             <UniformGrid Columns="2">
                 <StackPanel Margin="3" Orientation="Horizontal">

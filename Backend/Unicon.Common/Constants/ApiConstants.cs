@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Unicon.Common.Constants
+﻿namespace Unicon.Common.Constants
 {
 	public class ApiConstants
 	{

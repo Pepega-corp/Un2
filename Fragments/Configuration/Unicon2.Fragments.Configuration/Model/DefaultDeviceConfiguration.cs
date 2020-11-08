@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using System.Xml;
-using ControlzEx.Standard;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.MemoryAccess;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.BaseItems;
-using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
-using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Services;
 using Unicon2.Model.FragmentSettings;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model
 {

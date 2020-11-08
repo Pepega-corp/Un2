@@ -14,7 +14,7 @@
     Width="500"
     Height="500"
     d:DataContext="{d:DesignInstance viewModels:GroupWithReiterationEditorViewModel}"
-    BorderBrush="{DynamicResource AccentColorBrush}"
+    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
     BorderThickness="1"
     mc:Ignorable="d">
     <controls:MetroWindow.Resources />
@@ -76,7 +76,7 @@
                         <Border
                             Margin="5"
                             HorizontalAlignment="Left"
-                            BorderBrush="{DynamicResource AccentColorBrush3}"
+                            BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
                             BorderThickness="1">
                             <TextBox
                                 MinWidth="150"

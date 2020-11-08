@@ -13,6 +13,7 @@ namespace Unicon2.Presentation.ViewModels.Windows
             WindowNameKey = ApplicationGlobalNames.WindowsStrings.PROJECT_STRING_KEY;
             AnchorableDefaultPlacementEnum = PlacementEnum.Left;
             DeviceViewModels = new ObservableCollection<IDeviceViewModel>();
+            Content = this;
         }
 
 

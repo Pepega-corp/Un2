@@ -1,7 +1,4 @@
-﻿using System;
-using MahApps.Metro.Controls;
-using System.Windows;
-using Unicon2.Infrastructure.Common;
+﻿using MahApps.Metro.Controls;
 
 namespace Unicon2.Shell.Views
 {

@@ -1,6 +1,4 @@
-﻿using Unicon2.Infrastructure.Interfaces;
-
-namespace Unicon2.Infrastructure.DeviceInterfaces.SharedResources
+﻿namespace Unicon2.Infrastructure.DeviceInterfaces.SharedResources
 {
 	public interface IResourceContainer
 	{

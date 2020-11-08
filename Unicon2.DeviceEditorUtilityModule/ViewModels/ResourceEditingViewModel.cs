@@ -1,9 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
-using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 

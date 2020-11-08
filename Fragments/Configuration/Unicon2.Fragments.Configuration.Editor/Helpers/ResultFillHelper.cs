@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
-using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Results;

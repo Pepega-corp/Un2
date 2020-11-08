@@ -28,7 +28,7 @@ namespace Unicon2.Fragments.Measuring.Helpers
                 }
                 else
                 {
-                    var res = await deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
+                    var res = await deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
                         discretMeasuringElement.AddressOfBit
                             .Address, discretMeasuringElement.NumberOfPoints,
                         "Read discret: " + discretMeasuringElement.Name);
@@ -53,7 +53,7 @@ namespace Unicon2.Fragments.Measuring.Helpers
                 else
                 {
 
-                    var res = await deviceContext.DataProviderContainer.DataProvider.ReadCoilStatusAsync(
+                    var res = await deviceContext.DataProviderContainer.DataProvider.Item.ReadCoilStatusAsync(
                         discretMeasuringElement.AddressOfBit.Address, "Read discret: " + discretMeasuringElement.Name);
                     if (res.IsSuccessful)
                     {

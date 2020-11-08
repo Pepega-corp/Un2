@@ -1,10 +1,8 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Infrastructure;
-using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.ViewModel.Elements
 {

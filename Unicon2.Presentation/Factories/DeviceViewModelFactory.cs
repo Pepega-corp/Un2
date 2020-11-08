@@ -4,7 +4,6 @@ using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Subscription;
@@ -57,11 +56,11 @@ namespace Unicon2.Presentation.Factories
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }
             }
-            if (context != null)
+            if (context != null && device.DataProvider.IsSuccess)
             {
-                device.DataProvider.TransactionCompleteSubscription = new TransactionCompleteSubscription(context,
+                device.DataProvider.Item.TransactionCompleteSubscription = new TransactionCompleteSubscription(context,
                     device.ConnectionState, deviceViewModel.ConnectionStateViewModel, this._container);
-                device.DataProvider.TransactionCompleteSubscription.Execute();
+                device.DataProvider.Item.TransactionCompleteSubscription.Execute();
             }
             deviceViewModel.Model = device;
           

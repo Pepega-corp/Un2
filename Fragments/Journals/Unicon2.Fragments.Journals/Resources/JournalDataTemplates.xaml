@@ -7,7 +7,8 @@
     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Journals.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Journals.Infrastructure">
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Journals.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Journals.Infrastructure"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors">
     <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector x:Key="ValuesDataTemplateSelector" />
     <converters:ListToTables x:Key="listToTables" />
     <DataTemplate x:Key="UniconJournalViewModelDataTemplate" DataType="viewModel:IUniconJournalViewModel">
@@ -22,12 +23,13 @@
                 </GridView>
             </ListView.View>
         </ListView>-->
+        <Border BorderBrush="Gainsboro" BorderThickness="0,1,0,0">
         <DataGrid dialogs:DialogParticipation.Register="{Binding}" AutoGenerateColumns="False">
-            <i:Interaction.Behaviors>
+            <b:Interaction.Behaviors>
                 <behaviors:DynamicColumnsDataGridBehavior RowValues="{Binding Table}" />
-            </i:Interaction.Behaviors>
+            </b:Interaction.Behaviors>
         </DataGrid>
-
+</Border>
 
     </DataTemplate>
 

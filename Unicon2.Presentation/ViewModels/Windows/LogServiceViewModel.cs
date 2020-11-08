@@ -12,7 +12,6 @@ using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Presentation.Infrastructure.Enums;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 
 namespace Unicon2.Presentation.ViewModels.Windows
 {
@@ -50,6 +49,7 @@ namespace Unicon2.Presentation.ViewModels.Windows
             AnchorableDefaultPlacementEnum = PlacementEnum.Bottom;
             LoggersCollectionChanged();
             SelectedFilteringMessageSource = FilteringMessageSourceCollection.FirstOrDefault();
+            Content = this;
         }
 
         private void LoggersCollectionChanged()

@@ -11,6 +11,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Matrix.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
@@ -45,18 +46,18 @@
                     VerticalAlignment="Stretch"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TargetUpdated">
-                            <i:InvokeCommandAction Command="{Binding DeviceValue.MatrixUpdatedCommand}" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="SourceUpdated">
-                            <i:InvokeCommandAction Command="{Binding DeviceValue.MatrixUpdatedCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="TargetUpdated">
+                            <b:InvokeCommandAction Command="{Binding DeviceValue.MatrixUpdatedCommand}" />
+                        </b:EventTrigger>
+                        <b:EventTrigger EventName="SourceUpdated">
+                            <b:InvokeCommandAction Command="{Binding DeviceValue.MatrixUpdatedCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                    <b:Interaction.Behaviors>
                         <behaviors:BubbleScrollBehavior />
                         <behaviors:DynamicColumnsDataGridBehavior IsTransponed="{Binding ElementName=IsTransponedCheckBox, Path=IsChecked}" RowValues="{Binding DeviceValue.Table}" />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
                 </DataGrid>
 
                 <CheckBox
@@ -99,18 +100,18 @@
                         VerticalAlignment="Stretch"
                         AutoGenerateColumns="False"
                         CanUserAddRows="False">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TargetUpdated">
-                                <i:InvokeCommandAction Command="{Binding LocalValue.MatrixUpdatedCommand}" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="SourceUpdated">
-                                <i:InvokeCommandAction Command="{Binding LocalValue.MatrixUpdatedCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <i:Interaction.Behaviors>
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="TargetUpdated">
+                                <b:InvokeCommandAction Command="{Binding LocalValue.MatrixUpdatedCommand}" />
+                            </b:EventTrigger>
+                            <b:EventTrigger EventName="SourceUpdated">
+                                <b:InvokeCommandAction Command="{Binding LocalValue.MatrixUpdatedCommand}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                        <b:Interaction.Behaviors>
                             <behaviors:BubbleScrollBehavior />
                             <behaviors:DynamicColumnsDataGridBehavior IsTransponed="{Binding ElementName=IsTransponedCheckBoxLocalValue, Path=IsChecked}" RowValues="{Binding LocalValue.Table}" />
-                        </i:Interaction.Behaviors>
+                        </b:Interaction.Behaviors>
                     </DataGrid>
                 </Border>
                 <CheckBox

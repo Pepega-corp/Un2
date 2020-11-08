@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
-using Unicon2.Fragments.Measuring.Model.Elements;
 using Unicon2.Fragments.Measuring.Subscriptions;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
-using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.MemoryAccess
@@ -71,10 +66,10 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 
 	    private async Task Load()
 	    {
-	        this.IsLoadInProgress = true;
+            this.IsLoadInProgress = true;
 	        while (true)
 	        {
-	            await LoadMemory();
+                await LoadMemory();
 	            foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
 	            {
 	                if (_groupName != null && discreteSubscription.GroupName != _groupName)
@@ -157,7 +152,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	        {
 	            if (!memoryDictionaryUshort.ContainsKey(addressUshort))
 	            {
-	                var res = await _deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(
+	                var res = await _deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
 	                    addressUshort, 1, "Read measuring");
 	                if (res.IsSuccessful)
 	                {
@@ -172,7 +167,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	            {
 	                if (!memoryDictionaryBit.ContainsKey(addressUshort))
 	                {
-	                    var res = await _deviceContext.DataProviderContainer.DataProvider.ReadCoilStatusAsync(
+	                    var res = await _deviceContext.DataProviderContainer.DataProvider.Item.ReadCoilStatusAsync(
 	                        addressUshort, "Read measuring");
 	                    if (res.IsSuccessful)
 	                    {
@@ -232,7 +227,7 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 		{
 			if (addressesToLoadFun3.Any(arg => rangeFrom <= arg && rangeTo >= arg))
 			{
-				var res = await _deviceContext.DataProviderContainer.DataProvider.ReadHoldingResgistersAsync(rangeFrom,
+				var res = await _deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(rangeFrom,
 					(ushort) (rangeTo - rangeFrom), "Read measuring");
 				if (res.IsSuccessful)
 				{

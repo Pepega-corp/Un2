@@ -1,5 +1,4 @@
 ﻿using System.IO.Ports;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Unicon2.Infrastructure.DeviceInterfaces;
 

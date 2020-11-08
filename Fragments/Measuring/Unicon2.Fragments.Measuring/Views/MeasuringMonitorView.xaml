@@ -11,6 +11,7 @@
     xmlns:values="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.Values;assembly=Unicon2.Presentation.Infrastructure"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Measuring.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Measuring.Infrastructure"
     xmlns:viewModel1="clr-namespace:Unicon2.Fragments.Measuring.ViewModel"
+    xmlns:elements="clr-namespace:Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;assembly=Unicon2.Fragments.Measuring.Infrastructure"
     d:DesignHeight="300"
     d:DesignWidth="300"
     lex:LocalizeDictionary.DesignCulture="ru-RU"
@@ -31,11 +32,11 @@
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
                             <Setter Property="Foreground" Value="Black" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
                             <Setter Property="Foreground" Value="Black" />
                         </Trigger>
                     </Style.Triggers>
@@ -49,11 +50,11 @@
                     IsReadOnly="True" />
                 <DataGridTemplateColumn Header="{lex:Loc Value}" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="values:IFormattedValueViewModel">
+                        <DataTemplate DataType="elements:IMeasuringElementViewModel">
                             <ContentPresenter
-                                HorizontalAlignment="Center"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                Content="{Binding}"
+                                Content="{Binding  }"
                                 ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -123,7 +124,6 @@
                                             Height="800"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Top"
-                                            Background="AliceBlue"
                                             IsItemsHost="True">
                                             <Canvas.RenderTransform>
                                                 <ScaleTransform ScaleX="{Binding Path=DataContext.Scale, Source={x:Reference groupsTabControl}}" ScaleY="{Binding Path=DataContext.Scale, Source={x:Reference groupsTabControl}}" />

@@ -1,5 +1,4 @@
 ﻿using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Address
 {

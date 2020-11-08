@@ -1,7 +1,6 @@
 ﻿using System;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
-using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 
 namespace Unicon2.Formatting.Editor.ViewModels

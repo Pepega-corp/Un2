@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
@@ -17,9 +15,7 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
-using Unicon2.Unity.Properties;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.DeviceEditorUtilityModule.ViewModels

@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 

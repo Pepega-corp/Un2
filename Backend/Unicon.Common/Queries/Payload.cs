@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Unicon.Common.Interfaces;
+﻿using Unicon.Common.Interfaces;
 
 namespace Unicon.Common.Queries
 {

@@ -26,5 +26,6 @@ namespace Unicon2.Presentation.ViewModels.Windows
         }
 
         public PlacementEnum AnchorableDefaultPlacementEnum { get; internal set; }
+        public object Content { get; set; }
     }
 }

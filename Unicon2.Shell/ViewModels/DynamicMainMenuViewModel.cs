@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Shell.ViewModels

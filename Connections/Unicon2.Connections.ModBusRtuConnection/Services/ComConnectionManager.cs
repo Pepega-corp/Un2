@@ -5,7 +5,6 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Xml;
 using Newtonsoft.Json;
 using NModbus4.Serial;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;

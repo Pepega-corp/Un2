@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.BaseItems;
-using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 
 namespace Unicon2.Fragments.Configuration.Model
 {

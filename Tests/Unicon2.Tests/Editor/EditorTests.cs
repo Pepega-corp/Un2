@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 using NUnit.Framework;
 using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Infrastructure.Keys;
-using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Model;
 using Unicon2.Fragments.Configuration.Editor.Factories;
@@ -26,7 +23,6 @@ using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
-using Unicon2.Shell;
 using Unicon2.Unity.Common;
 using Unity;
 

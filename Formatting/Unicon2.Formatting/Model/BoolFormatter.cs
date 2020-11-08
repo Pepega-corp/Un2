@@ -1,12 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Unicon2.Formatting.Infrastructure.Keys;
+﻿using Newtonsoft.Json;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
 using Unicon2.Infrastructure.Interfaces.Visitors;
-using Unicon2.Infrastructure.Values;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Model
 {

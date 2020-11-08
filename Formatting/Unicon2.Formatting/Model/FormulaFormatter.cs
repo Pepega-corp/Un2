@@ -1,19 +1,8 @@
-﻿using org.mariuszgromada.math.mxparser;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
-using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Infrastructure.Interfaces.Visitors;
-using Unicon2.Infrastructure.Values;
-using Unicon2.Unity.Interfaces;
-using Expression = org.mariuszgromada.math.mxparser.Expression;
 
 namespace Unicon2.Formatting.Model
 {

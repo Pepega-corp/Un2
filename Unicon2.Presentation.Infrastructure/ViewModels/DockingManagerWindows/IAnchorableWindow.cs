@@ -6,5 +6,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows
     {
         bool IsVisible { get; set; }
         PlacementEnum AnchorableDefaultPlacementEnum { get; }
+        object Content { get; set; }
     }
 }

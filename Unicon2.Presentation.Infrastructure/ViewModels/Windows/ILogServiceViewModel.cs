@@ -5,7 +5,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Windows
 {
-    public interface ILogServiceViewModel : IAnchorableWindow
+    public interface ILogServiceViewModel:IAnchorableWindow
     {
 
         string HeaderString { get; set; }

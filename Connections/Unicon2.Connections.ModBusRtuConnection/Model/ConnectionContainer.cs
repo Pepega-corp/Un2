@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Infrastructure.DeviceInterfaces;
+﻿using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Connections.ModBusRtuConnection.Model
@@ -12,8 +8,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
     {
         public ConnectionContainer(IDataProvider dataProvider)
         {
-            DataProvider = dataProvider;
+            DataProvider = Result<IDataProvider>.Create(dataProvider,true);
         }
-        public IDataProvider DataProvider { get; set; }
+        public Result<IDataProvider> DataProvider { get; set; }
     }
 }

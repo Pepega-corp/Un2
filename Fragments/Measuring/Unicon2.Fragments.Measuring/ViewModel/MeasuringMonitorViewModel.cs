@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
 using Unicon2.Fragments.Measuring.Factories;
-using Unicon2.Fragments.Measuring.Infrastructure.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel;
@@ -13,14 +11,11 @@ using Unicon2.Fragments.Measuring.MemoryAccess;
 using Unicon2.Fragments.Measuring.Subscriptions;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
-using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Measuring.ViewModel
@@ -58,7 +53,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 	        this._readCommand = new RelayCommand(() =>
 	        {
 	            _loader.ExecuteLoad();
-	        }, () => !this._loader.IsLoadInProgress);
+	        }, () => DeviceContext.DataProviderContainer.DataProvider.IsSuccess&&!this._loader.IsLoadInProgress);
 
 	        fragmentOptionCommandViewModel.OptionCommand = this._readCommand;
 	        fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;

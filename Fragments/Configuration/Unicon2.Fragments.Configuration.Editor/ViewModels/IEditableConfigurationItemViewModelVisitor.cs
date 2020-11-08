@@ -1,6 +1,4 @@
 ﻿using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {

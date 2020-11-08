@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
-using Unicon2.Infrastructure.Interfaces.Dependancy;
 
 namespace Unicon2.Fragments.Configuration.Model.Dependencies
 {

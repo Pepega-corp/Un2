@@ -1,5 +1,4 @@
-﻿using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Base;
-using Unicon2.Infrastructure.Interfaces;
+﻿using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 

@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Infrastructure.Values.Base

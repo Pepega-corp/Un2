@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
-using Unicon2.Infrastructure.Extensions;
 
 namespace Unicon2.Fragments.Journals.Model.JournalParameters
 {

@@ -1,5 +1,4 @@
-﻿using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Presentation.Infrastructure.ViewModels;
+﻿using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Formatting.Editor.ViewModels.FormatterParameters

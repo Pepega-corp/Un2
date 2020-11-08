@@ -1,10 +1,7 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
-using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Values.Editable;
 
 namespace Unicon2.Presentation.Values.Validators

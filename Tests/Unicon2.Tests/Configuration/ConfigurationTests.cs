@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -9,11 +7,9 @@ using Unicon2.Connections.MockConnection.Model;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.MemoryAccess;
-using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Fragments.Configuration.Model.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
@@ -24,14 +20,11 @@ using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Model.Memory;
-using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values;
-using Unicon2.Presentation.Values.Base;
 using Unicon2.Presentation.Values.Editable;
-using Unicon2.Shell;
 using Unicon2.Tests.Utils;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
@@ -62,7 +55,7 @@ namespace Unicon2.Tests.Configuration
 
             _deviceViewModelFactory = _typesContainer.Resolve<IDeviceViewModelFactory>();
             var deviceMemory = new DeviceMemory();
-            _device.DataProvider = new MockConnection(_typesContainer);
+            _device.DataProvider = Result<IDataProvider>.Create(new MockConnection(_typesContainer),true);
             _device.DeviceMemory = deviceMemory;
             _configurationFragmentViewModel = null;
             var deviceViewModel =

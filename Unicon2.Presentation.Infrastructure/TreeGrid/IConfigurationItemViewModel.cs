@@ -1,7 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Presentation.Infrastructure.TreeGrid
 {

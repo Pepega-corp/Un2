@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Linq;
 using Unicon2.Infrastructure.Services;
-using Unicon2.Services.Properties;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Extensions;
 

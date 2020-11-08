@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using Unicon2.Infrastructure.ViewModel;
-using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Connection
 {

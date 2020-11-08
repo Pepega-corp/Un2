@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
-using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+﻿using System.Linq;
 using Unicon2.Fragments.Measuring.Editor.ViewModel;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings;
