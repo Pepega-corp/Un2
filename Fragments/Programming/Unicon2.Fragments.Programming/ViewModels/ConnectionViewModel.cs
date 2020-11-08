@@ -11,6 +11,7 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Other;
 using Unicon2.Infrastructure;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -30,7 +31,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private double _x;
         private double _y;
 
-        public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel sink)
+        protected ConnectionViewModel(IConnection model, IConnectorViewModel source)
         {
             this.StrokeDashArray = new DoubleCollection();
             this._currentValue = 0;
@@ -42,10 +43,20 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._source = source;
             this._source.Connection = this;
             this._source.ConnectorPositionChanged += OnConnectorPositionChanged;
+        }
 
+        public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel sink) : this(model, source)
+        {
             this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
             SinkConnectors.CollectionChanged += SinkCollectionChanged;
             SinkConnectors.Add(sink);
+        }
+
+        public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel[] sinks) : this(model, source)
+        {
+            this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
+            SinkConnectors.CollectionChanged += SinkCollectionChanged;
+            SinkConnectors.AddCollection(sinks);
         }
         
         public string Name { get; private set; }

@@ -31,7 +31,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
         }
 
-        public InputViewModel(IApplicationGlobalCommands globalCommands) : this()
+        public InputViewModel(IApplicationGlobalCommands globalCommands) :this()
         {
             _globalCommands = globalCommands;
         }
@@ -133,9 +133,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public override ILogicElementViewModel Clone()
         {
-            var cloned =  (InputViewModel)Clone<InputViewModel, Input>();
-            cloned._globalCommands = this._globalCommands;
-            return cloned;
+            return (InputViewModel)Clone<InputViewModel, Input>();
         }
     }
 }

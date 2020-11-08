@@ -183,6 +183,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 
                 if (this._model.WithHeader)
                 {
+                    this._model.LogicHeader = model.LogicHeader;
                     var headers = this._model.LogicHeader.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
                     this.MrNumber = headers[0].Remove(0, 2);
                     this.SelectedVersionHeader = headers[4];

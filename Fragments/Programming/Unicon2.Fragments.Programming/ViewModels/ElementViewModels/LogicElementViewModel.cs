@@ -25,7 +25,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public string ElementName { get; protected set; }
         public ElementType ElementType => this._model.ElementType;
-
         public bool IsSelected
         {
             get { return this._isSelected; }
@@ -35,17 +34,13 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-
         public abstract string StrongName { get; }
-
         public ILogicElement Model
         {
             get => this.GetModel();
             set => this.SetModel(value);
         }
-
         public string Symbol { get; protected set; }
-
         public string Caption
         {
             get { return this._caption; }
@@ -55,7 +50,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-
         public string Description
         {
             get { return this._description; }
@@ -65,9 +59,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-
         public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
-
         public double X
         {
             get { return this._model.X; }
@@ -89,7 +81,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-
         public double Y
         {
             get { return this._model.Y; }
@@ -111,9 +102,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-
         public bool Connected => ConnectorViewModels.All(c=>c.Connected);
-
         public int CompilePriority { get; set; }
 
         private void UpdateConnectorsPosition(Point deltaPosition)
@@ -126,6 +115,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         protected virtual ILogicElement GetModel()
         {
+            this._model.Connectors.Clear();
+            this._model.Connectors.AddRange(this.ConnectorViewModels.Select(cvm => cvm.Model));
             return this._model;
         }
 
@@ -145,24 +136,23 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         }
         public abstract ILogicElementViewModel Clone();
 
-        protected ILogicElementViewModel Clone<TR, T>() where TR : ILogicElementViewModel, new() where T : ILogicElement, new()
+        protected ILogicElementViewModel Clone<TR, T>() where TR : LogicElementViewModel, new() where T : ILogicElement, new()
         {
             var newModel = new T();
             newModel.CopyValues(_model);
 
-            var ret = new TR()
+            var ret = new TR
             {
                 Model = newModel,
-                Caption = this.Caption
+                Caption = this.Caption,
+                _globalCommands = this._globalCommands
             };
-
             return ret;
         }
 
         public virtual void OpenPropertyWindow()
         {
-            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(),
-                new LogicElementSettingsViewModel(this));
+            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(), new LogicElementSettingsViewModel(this));
         }
     }
 }

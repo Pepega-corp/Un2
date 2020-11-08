@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using MahApps.Metro.Controls.Dialogs;
-using Microsoft.Win32;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
@@ -34,8 +35,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private readonly ISerializerService _serializerService;
         private readonly LogicDeviceProvider _logicDeviceProvider;
         private IProgramModel _programModel;
-        
-        public ProgrammingViewModel(IProgramModel model, LogicDeviceProvider logicDeviceProvider, 
+
+        public ProgrammingViewModel(IProgramModel model, LogicDeviceProvider logicDeviceProvider,
             ILogicElementFactory factory, IApplicationGlobalCommands globalCommands, ISerializerService serializerService)
         {
             this._programModel = model;
@@ -56,7 +57,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.ZoomIncrementCommand = new RelayCommand(this.ZoomIncrement, this.CanZooming);
             this.ZoomDecrementCommand = new RelayCommand(this.ZoomDecrement, this.CanZooming);
 
-            this.WriteLogicCommand = new RelayCommand(OnWriteCommand);
+            this.WriteLogicCommand = new RelayCommand(this.OnWriteCommand);
             this.ReadLogicCommand = new RelayCommand(this.OnReadCommand);
         }
 
@@ -84,7 +85,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         }
         public string StrongName => ProgrammingKeys.PROGRAMMING +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-        
+
         public int SelectedTabIndex { get; set; }
 
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
@@ -132,11 +133,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private void CreateNewScheme()
         {
             var schemeViewModel = new NewSchemeViewModel();
-            this._applicationGlobalCommands.ShowWindowModal(()=>new NewSchemeView(), schemeViewModel);
+            this._applicationGlobalCommands.ShowWindowModal(() => new NewSchemeView(), schemeViewModel);
             if (schemeViewModel.DialogResult == MessageDialogResult.Affirmative)
             {
-                SchemeModel scemeMoedel = new SchemeModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
-                SchemeTabViewModel tabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
+                var scemeMoedel = new SchemeModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
+                var tabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
                 tabViewModel.CloseTabEvent += this.OnCloseTab;
                 this.SchemesCollection.Add(tabViewModel);
             }
@@ -161,7 +162,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if (sfd.ShowDialog() == true)
             {
                 this.UpdateModelData();
-                this._serializerService.SerializeInFile(this._programModel,sfd.FileName);
+                this._serializerService.SerializeInFile(this._programModel, sfd.FileName);
             }
         }
 
@@ -175,7 +176,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             var ofd = new OpenFileDialog();
             ofd.InitialDirectory = this._programModel.ProjectPath;
             ofd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
-            if(ofd.ShowDialog() == true)
+            if (ofd.ShowDialog() == true)
             {
                 this._programModel = this._serializerService.DeserializeFromFile<IProgramModel>(ofd.FileName);
                 this.UpdateCollections(this._programModel);
@@ -186,14 +187,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void DeleteSelectedElements()
         {
-            ISchemeTabViewModel selectedTab = this.SchemesCollection[this.SelectedTabIndex];
+            var selectedTab = this.SchemesCollection[this.SelectedTabIndex];
             selectedTab.DeleteCommand.Execute(null);
         }
 
         private bool CanDelete()
         {
             if (this.SchemesCollection.Count == 0) return false;
-            ISchemeTabViewModel selectedTab = this.SchemesCollection[this.SelectedTabIndex];
+            var selectedTab = this.SchemesCollection[this.SelectedTabIndex];
             return selectedTab.DeleteCommand.CanExecute(null);
         }
 
@@ -229,31 +230,39 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 var logicElementsVM = this._factory.GetAllElementsViewModels(schemeModel.LogicElements);
 
-                var connections = new List<IConnectionViewModel>();
-                var connectors = new List<IConnectorViewModel>();
+                var connectionsInScheme = new List<IConnectionViewModel>();
+                var connectorsInScheme = new List<IConnectorViewModel>();
 
                 foreach (var logicElementVM in logicElementsVM)
                 {
-                    foreach (var connectorVM in logicElementVM.ConnectorViewModels.Where(c => c.ConnectionNumber != -1))
+                    connectorsInScheme.AddRange(logicElementVM.ConnectorViewModels.Where(c => c.ConnectionNumber != -1));
+                }
+
+                foreach (var number in schemeModel.ConnectionNumbers)
+                {
+                    if (this.ConnectionCollection.Any(c => c.ConnectionNumber == number))
                     {
-                        connectors.Add(connectorVM);
+                        var connection = this.ConnectionCollection.First(c => c.ConnectionNumber == number);
+                        var sinkConnectors = connectorsInScheme.Where(c => c.ConnectionNumber == connection.ConnectionNumber && c.Orientation == ConnectorOrientation.LEFT).ToArray();
+                        connection.SinkConnectors.AddCollection(sinkConnectors);
+                        connectionsInScheme.Add(connection);
+                    }
+                    else
+                    {
+                        // get connectors with same connection number
+                        var sourceConnector = connectorsInScheme.First(c => c.ConnectionNumber == number && c.Orientation == ConnectorOrientation.RIGHT);
+                        var sinkConnectors = connectorsInScheme.Where(c => c.ConnectionNumber == number && c.Orientation == ConnectorOrientation.LEFT).ToArray();
+                        var connectionModel = model.Connections.First(c => c.ConnectionNumber == number);
+                        var connection = new ConnectionViewModel(connectionModel, sourceConnector, sinkConnectors);
+                        connectionsInScheme.Add(connection);
+                        this.ConnectionCollection.Add(connection);
                     }
                 }
-
-                foreach (var connection in model.Connections)
-                {
-                    // get connectors with same connection number
-                    var source = connectors.First(c => c.ConnectionNumber == connection.ConnectionNumber && c.Orientation == ConnectorOrientation.RIGHT);
-                    var sink = connectors.First(c => c.ConnectionNumber == connection.ConnectionNumber && c.Orientation == ConnectorOrientation.LEFT);
-                    connections.Add(new ConnectionViewModel(connection, source, sink));
-                }
-
-                this.ConnectionCollection.AddCollection(connections);
 
                 var schemeVM = new SchemeTabViewModel(schemeModel, this, this._factory);
                 schemeVM.CloseTabEvent += this.OnCloseTab;
                 schemeVM.ElementCollection.AddCollection(logicElementsVM);
-                schemeVM.ElementCollection.AddCollection(connections);
+                schemeVM.ElementCollection.AddCollection(connectionsInScheme);
 
                 this.SchemesCollection.Add(schemeVM);
             }
@@ -261,40 +270,43 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public void Initialize(IDeviceFragment deviceFragment)
         {
-	        if (deviceFragment is IProgramModel model)
-	        {
-		        //this._programModel = model;
-	            this.ProjectName = model.ProjectName;
-	            this._programModel.WithHeader = model.WithHeader;
-	            this._programModel.EnableFileDriver = model.EnableFileDriver;
-	            this._programModel.LogicHeader = model.LogicHeader;
+            if (deviceFragment is IProgramModel model)
+            {
+                //this._programModel = model;
+                this.ProjectName = model.ProjectName;
+                this._programModel.WithHeader = model.WithHeader;
+                this._programModel.EnableFileDriver = model.EnableFileDriver;
+                this._programModel.LogicHeader = model.LogicHeader;
                 this.UpdateCollections(this._programModel);
-	        }
+            }
             else if (deviceFragment is IProgrammModelEditor modelEditor)
-	        {
-		        var logicElementsViewModels = this._factory.GetAllElementsViewModels(modelEditor.Elements);
-		        this.ElementsLibrary.AddCollection(logicElementsViewModels);
-	            this._programModel.EnableFileDriver = modelEditor.EnableFileDriver;
-	            this._programModel.WithHeader = modelEditor.WithHeader;
-	            this._programModel.LogicHeader = modelEditor.LogicHeader;
-	        }
+            {
+                var logicElementsViewModels = this._factory.GetAllElementsViewModels(modelEditor.Elements);
+                this.ElementsLibrary.AddCollection(logicElementsViewModels);
+                this._programModel.EnableFileDriver = modelEditor.EnableFileDriver;
+                this._programModel.WithHeader = modelEditor.WithHeader;
+                this._programModel.LogicHeader = modelEditor.LogicHeader;
+            }
         }
 
         private async void OnWriteCommand()
         {
-            if(SchemesCollection.Count == 0)
+            if (this.SchemesCollection.Count == 0)
             {
                 MessageBox.Show("Can't write logic. Scheme collection is empty!", "Write logic", MessageBoxButton.OK);
                 return;
             }
 
-            if(SchemesCollection.All(sc => sc.CanWriteToDevice))
+            if (this.SchemesCollection.All(sc => sc.CanWriteToDevice))
             {
                 this.UpdateModelData();
-                var logicProjectBytes = _serializerService.SerializeInBytes(_programModel);
+
+                var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
                 await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
                 var logbin = this.Compile();
-
+                await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
+                //TODO start logic
+                //TODO start cycle reading connection values
             }
             else
             {
@@ -304,7 +316,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private ushort[] Compile()
         {
-            var allElements = this.SchemesCollection.SelectMany(s => s.ElementCollection.Where(e => e is ILogicElementViewModel)).Cast<ILogicElementViewModel>().ToArray();
+            var allElements = this.SchemesCollection.SelectMany(s => s.ElementCollection.Where(e => e is ILogicElementViewModel)).Cast<ILogicElementViewModel>().ToList();
             foreach (var element in allElements)
             {
                 element.CompilePriority = -1;
@@ -313,28 +325,87 @@ namespace Unicon2.Fragments.Programming.ViewModels
             foreach (var input in inputs)
             {
                 input.CompilePriority = 0;
-                SortElementsByPriority(input);
+                this.SortElementsByPriority(input);
             }
 
+            var binFile = new List<ushort>();
 
-            return null;
+            if (this._programModel.WithHeader)
+                binFile.AddRange(this.GetHeaderBin());
+
+            binFile.AddRange(this.GetSchemeBin(allElements));
+            binFile.AddRange(this.GetEndFileBin());
+
+            return binFile.ToArray();
         }
 
         private void SortElementsByPriority(ILogicElementViewModel element)
         {
             var priority = element.CompilePriority + 1;
-            foreach (var connectorViewModel in element.ConnectorViewModels)
+
+            foreach (var connector in element.ConnectorViewModels.Where(c => c.Orientation == ConnectorOrientation.RIGHT))
             {
-                var connectedElement = connectorViewModel.ParentViewModel;
-                if (connectedElement.CompilePriority == -1 || connectedElement.CompilePriority > priority)
+                var connection = connector.Connection;
+                foreach (var sinkConnector in connection.SinkConnectors)
                 {
-                    connectedElement.CompilePriority = priority;
+                    var connectedElement = sinkConnector.ParentViewModel;
+                    if (connectedElement.CompilePriority == -1 || connectedElement.CompilePriority > priority)
+                    {
+                        connectedElement.CompilePriority = priority;
+                    }
+
+                    this.SortElementsByPriority(connectedElement);
                 }
-                
-                SortElementsByPriority(connectedElement);
             }
         }
 
+        private ushort[] GetHeaderBin()
+        {
+            var aouthdrByte = Encoding.ASCII.GetBytes(this._programModel.LogicHeader);
+            var bindata = new ushort[10 + aouthdrByte.Length / 2];
+            bindata[0] = 1234;// Магическое число
+            bindata[1] = 0;// Количество секций
+            bindata[2] = 0;// Время и дата создания
+            bindata[3] = 0;// Время и дата создания
+            bindata[4] = 0;//* Указатель в файле на таблицу имен
+            bindata[5] = 0;//* Указатель в файле на таблицу имен
+            bindata[6] = 0;//* Число элементов в таблице имен
+            bindata[7] = 0;//* Число элементов в таблице имен
+            bindata[8] = (ushort)aouthdrByte.Length;//* Размер вспомогательного заголовка
+            bindata[9] = 0;//* Флаги
+            for (var i = 0; i < aouthdrByte.Length / 2; i++)
+            {
+                ushort data = aouthdrByte[2 * i + 1];
+                bindata[10 + i] = (ushort)((ushort)(data << 8) + aouthdrByte[2 * i]);
+            }
+
+            return bindata;
+        }
+
+        private ushort[] GetSchemeBin(List<ILogicElementViewModel> allElements)
+        {
+            var maxPriority = allElements.Max(e => e.CompilePriority);
+            var retBin = new List<ushort>();
+            for (var priority = 0; priority <= maxPriority; priority++)
+            {
+                foreach (var element in allElements)
+                {
+                    if (element.CompilePriority == priority)
+                    {
+                        retBin.AddRange(element.Model.GetProgrammBin());
+                    }
+                }
+            }
+
+            return retBin.ToArray();
+        }
+
+        private ushort[] GetEndFileBin()
+        {
+            var bindata = new ushort[1];
+            bindata[0] = 0x0001;
+            return bindata;
+        }
 
         private async void OnReadCommand()
         {
@@ -342,7 +413,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 var result = MessageBox.Show("Would you like to save logic project?", "Write logic", MessageBoxButton.YesNoCancel);
 
-                if(result == MessageBoxResult.Cancel)
+                if (result == MessageBoxResult.Cancel)
                     return;
 
                 if (result == MessageBoxResult.Yes)
@@ -358,7 +429,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 MessageBox.Show(e.Message, "Read logic", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
+
         }
     }
 }

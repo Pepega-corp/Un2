@@ -42,7 +42,7 @@
                                     Margin="5,0,5,0"
                                     VerticalAlignment="Center"
                                     Text="LOGIKA PROG VER." />
-                                <ComboBox SelectedItem="{Binding SelectedVersion.Header}" Text="00001">
+                                <ComboBox Text="{Binding SelectedVersionHeader}">
                                     <ComboBoxItem Content="00001" />
                                     <ComboBoxItem Content="00002" />
                                     <ComboBoxItem Content="00003" />
@@ -51,7 +51,7 @@
                                     Margin="5,0,5,0"
                                     VerticalAlignment="Center"
                                     Text="SUBVER." />
-                                <ComboBox SelectedItem="{Binding SelectedSubversionHeader}" Text="00001">
+                                <ComboBox Text="{Binding SelectedSubversionHeader}">
                                     <ComboBoxItem Content="00001" />
                                     <ComboBoxItem Content="00002" />
                                     <ComboBoxItem Content="00003" />

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
@@ -75,9 +74,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public override ILogicElementViewModel Clone()
         {
-            var cloned = (OutputViewModel)Clone<OutputViewModel, Output>();
-            cloned._globalCommands = this._globalCommands;
-            return cloned;
+            return (OutputViewModel)Clone<OutputViewModel, Output>();
         }
     }
 }

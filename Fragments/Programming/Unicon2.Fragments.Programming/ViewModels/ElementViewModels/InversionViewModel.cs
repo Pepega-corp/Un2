@@ -19,12 +19,15 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.Symbol = "~";
             this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
         }
+
+        public InversionViewModel(IApplicationGlobalCommands globalCommands) : this()
+        {
+            _globalCommands = globalCommands;
+        }
         
         public override ILogicElementViewModel Clone()
         {
-            var cloned = (InversionViewModel)Clone<InversionViewModel, Inversion>();
-            cloned._globalCommands = this._globalCommands;
-            return cloned;
+            return (InversionViewModel)Clone<InversionViewModel, Inversion>();
         }
     }
 }

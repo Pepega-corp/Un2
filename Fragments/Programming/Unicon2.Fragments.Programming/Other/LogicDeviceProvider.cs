@@ -110,5 +110,10 @@ namespace Unicon2.Fragments.Programming.Other
                 }
             }
         }
+
+        public async Task WriteLogicProgrammBin(ushort[] logbin)
+        {
+            
+        }
     }
 }
