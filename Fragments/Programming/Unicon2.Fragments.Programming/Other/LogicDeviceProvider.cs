@@ -113,7 +113,19 @@ namespace Unicon2.Fragments.Programming.Other
 
         public async Task WriteLogicProgrammBin(ushort[] logbin)
         {
-            
+            var provider = this.DeviceContext.DataProviderContainer.DataProvider;
+            for (int pageIndex = 0; pageIndex < 4; pageIndex++)
+            {
+                await provider.WriteSingleRegisterAsync(0x4000, (ushort) pageIndex, "SaveProgrammPage");
+                var values = logbin.Skip(pageIndex * 1024).Take(1024).ToArray();
+                await provider.WriteMultipleRegistersAsync(0x4300, values, "SaveProgrammBin");
+            }
+        }
+
+        public async Task WriteStartlogicProgrammSignal()
+        {
+            var provider = this.DeviceContext.DataProviderContainer.DataProvider;
+            await provider.WriteSingleRegisterAsync(0x0E00, 0x00FF, "StartLogicProgramm");
         }
     }
 }

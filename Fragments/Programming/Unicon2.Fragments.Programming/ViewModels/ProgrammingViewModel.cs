@@ -305,7 +305,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
                 var logbin = this.Compile();
                 await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
-                //TODO start logic
+                await this._logicDeviceProvider.WriteStartlogicProgrammSignal();
                 //TODO start cycle reading connection values
             }
             else
@@ -335,6 +335,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
             binFile.AddRange(this.GetSchemeBin(allElements));
             binFile.AddRange(this.GetEndFileBin());
+
+            if (binFile.Count < 4096)
+            {
+                var filler = new ushort[4096 - binFile.Count];
+                binFile.AddRange(filler);
+            }
 
             return binFile.ToArray();
         }
