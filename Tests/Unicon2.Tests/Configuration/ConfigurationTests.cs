@@ -824,7 +824,7 @@ namespace Unicon2.Tests.Configuration
         private async Task TransferFromDeviceToLocal()
         {
             var memoryAccessor = new ConfigurationMemoryAccessor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal);
+                _configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal,true);
             await memoryAccessor.Process();
         }
         private async Task Read()

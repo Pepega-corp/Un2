@@ -41,10 +41,12 @@ namespace Unicon2.Model.DefaultDevice
         {
             DeviceConnection = deviceConnection;
             StaticContainer.Container.Resolve<ILogService>().AddLogger(DeviceLogger, Name);
+            
             if (deviceConnection is IDataProvider dataProvider)
             {
                 DataProvider = Result<IDataProvider>.Create(dataProvider,true);
             }
+                
         }
 
         protected override void OnDisposing()

@@ -6,6 +6,7 @@ using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
+using Unicon2.Fragments.Configuration.MemoryAccess;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
@@ -146,12 +147,19 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			}
 		}
 
-		public void Initialize(IDeviceFragment deviceFragment)
+		public async void Initialize(IDeviceFragment deviceFragment)
 		{
 			AllRows.Clear();
 			RootConfigurationItemViewModels.Clear();
+
+			
 			if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return;
 
+			if (!DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
+			{
+				await new ConfigurationMemoryAccessor(deviceFragment as IDeviceConfiguration, DeviceContext,
+					MemoryAccessEnum.InitalizeZeroForLocals,false).Process();
+			}
 			_nameForUiKey = deviceConfiguration.StrongName;
 			if (deviceConfiguration.RootConfigurationItemList != null)
 			{

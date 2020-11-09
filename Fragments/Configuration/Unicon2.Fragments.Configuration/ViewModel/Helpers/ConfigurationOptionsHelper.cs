@@ -83,7 +83,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
             fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.TRANSFER_FROM_DEVICE_TO_LOCAL_STRING_KEY;
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconChevronRight;
-            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteTransferFromDeviceToLocal);
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteTransferFromDeviceToLocal,
+                () => _runtimeConfigurationViewModel.DeviceContext.DataProviderContainer.DataProvider.IsSuccess);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
             fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
@@ -328,7 +329,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         private async void OnExecuteTransferFromDeviceToLocal()
         {
             var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,
-                _runtimeConfigurationViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal);
+                _runtimeConfigurationViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal,true);
             await memoryAccessor.Process();
         }
     }

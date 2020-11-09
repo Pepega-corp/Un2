@@ -21,18 +21,21 @@ namespace Unicon2.Services
         private readonly ILogService _logService;
         private readonly ILocalizerService _localizerService;
         private readonly ISerializerService _serializerService;
+        private readonly Func<IDeviceLogger> _loggerGetFunc;
 
         public DevicesContainerService(Func<IDevice> deviceGettingFunc, 
             Func<IDeviceCreator> deviceCreatorGettingFunc,
             ILogService logService, 
             ILocalizerService localizerService, 
-            ISerializerService serializerService)
+            ISerializerService serializerService,
+            Func<IDeviceLogger> loggerGetFunc)
         {
             _deviceGettingFunc = deviceGettingFunc;
             _deviceCreatorGettingFunc = deviceCreatorGettingFunc;
             _logService = logService;
             _localizerService = localizerService;
             _serializerService = serializerService;
+            _loggerGetFunc = loggerGetFunc;
             ConnectableItems = new List<IConnectable>();
         }
 
@@ -52,7 +55,10 @@ namespace Unicon2.Services
         public async Task<Result> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection)
         {
             var res = await deviceConnection.TryOpenConnectionAsync(device.DeviceLogger);
-
+            if (device.DeviceLogger == null)
+            {
+                device.DeviceLogger = _loggerGetFunc();
+            }
             //инициализация подключения (добавление логгеров, датапровайдеров)
             device.InitializeConnection(deviceConnection);
             if (deviceConnection is IDataProvider dataProvider)
@@ -61,6 +67,10 @@ namespace Unicon2.Services
             }
 
             ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Connected));
+
+
+
+
             if (res.IsSuccess)
             {
                 return Result.Create(true);

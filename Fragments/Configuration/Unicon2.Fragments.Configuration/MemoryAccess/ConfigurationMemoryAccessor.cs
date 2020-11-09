@@ -13,15 +13,17 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
     public class ConfigurationMemoryAccessor
     {
         private readonly MemoryAccessEnum _memoryAccessEnum;
+        private readonly bool _triggerSubscriptions;
         private readonly IDeviceConfiguration _configuration;
         private readonly DeviceContext _deviceContext;
 
         public ConfigurationMemoryAccessor(IDeviceConfiguration configuration, DeviceContext deviceContext,
-            MemoryAccessEnum memoryAccessEnum)
+            MemoryAccessEnum memoryAccessEnum,bool triggerSubscriptions)
         {
             _configuration = configuration;
             _deviceContext = deviceContext;
             _memoryAccessEnum = memoryAccessEnum;
+            _triggerSubscriptions = triggerSubscriptions;
         }
 
         public async Task Process()
@@ -59,15 +61,18 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
                     break;
                 case IComplexProperty complexProperty:
-					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item, (ushort)(complexProperty.Address + offset),
-						(ushort)(complexProperty.Address + complexProperty.NumberOfPoints + offset), _deviceContext.DeviceMemory);
-					break;
+                    await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item,
+                        (ushort) (complexProperty.Address + offset),
+                        (ushort) (complexProperty.Address + complexProperty.NumberOfPoints + offset),
+                        _deviceContext.DeviceMemory);
+                    break;
                 case IProperty property:
-					await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item, (ushort)(property.Address + offset),
+                    await ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item,
+                        (ushort) (property.Address + offset),
                         (ushort) (property.Address + property.NumberOfPoints + offset), _deviceContext.DeviceMemory);
                     break;
-               
-			}
+
+            }
         }
 
         private async Task ProcessGroupWithreiteration(IItemsGroup itemsGroup,
@@ -85,7 +90,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             }
         }
 
-    
+
 
         private async Task ApplyMemorySettings()
         {
@@ -98,7 +103,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 {
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
-                    return ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item, rangeFrom, rangeTo,
+                    return ProcessAddressRange(_deviceContext.DataProviderContainer.DataProvider.Item, rangeFrom,
+                        rangeTo,
                         _deviceContext.DeviceMemory);
                 };
 
@@ -135,9 +141,26 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                     _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(rangeFrom,
                         (ushort) (rangeTo - rangeFrom));
                     break;
+                case MemoryAccessEnum.InitalizeZeroForLocals:
+                    for (var i = rangeFrom; i < rangeTo; i++)
+                    {
+                        if (!memory.LocalMemoryValues.ContainsKey(i))
+                        {
+                            memory.LocalMemoryValues.Add(i,0);
+                        }
+                    }
+
+                    if (_triggerSubscriptions)
+                    {
+                        _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(rangeFrom,
+                            (ushort) (rangeTo - rangeFrom));
+                    }
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             return Task.CompletedTask;
         }
 
@@ -145,6 +168,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
     public enum MemoryAccessEnum
     {
-        TransferFromDeviceToLocal
+        TransferFromDeviceToLocal,
+        InitalizeZeroForLocals
     }
 }
