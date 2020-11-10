@@ -424,6 +424,11 @@ namespace Unicon2.Shell.ViewModels
             }
 
             ActiveFragmentViewModel = fragmentPaneViewModel;
+            
+            if (fragmentViewModel is IFragmentOpenedListener fragmentOpenedListener)
+            {
+                fragmentOpenedListener.OnFragmentOpened();
+            }
         }
 
         private void OnPaneClosed(IFragmentPaneViewModel fragmentPaneViewModel)

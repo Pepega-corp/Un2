@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -23,7 +24,7 @@ using Unicon2.Unity.ViewModels;
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
 	public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel,
-		IFragmentConnectionChangedListener
+		IFragmentConnectionChangedListener,IFragmentOpenedListener
 	{
 		private readonly ITypesContainer _container;
 
@@ -33,6 +34,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 		private ObservableCollection<MainConfigItemViewModel> _mainRows;
 		private object _selectedConfigDetails;
 		private string _nameForUiKey;
+		private IDeviceConfiguration _deviceConfiguration;
+		private ConfigurationOptionsHelper _configurationOptionsHelper;
 
 		public RuntimeConfigurationViewModel(ITypesContainer container)
 		{
@@ -150,6 +153,19 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			}
 		}
 
+		private async Task TryLoadValuesAutomatically()
+		{
+			if (!DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
+			{
+				await new ConfigurationMemoryAccessor(_deviceConfiguration, DeviceContext,
+					MemoryAccessEnum.InitalizeZeroForLocals, false).Process();
+			}
+			else
+			{
+				_configurationOptionsHelper.OnExecuteReadConfiguration(false);
+			}
+		}
+		
 		public async void Initialize(IDeviceFragment deviceFragment)
 		{
 			AllRows.Clear();
@@ -158,11 +174,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 			if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return;
 
-			if (!DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
-			{
-				await new ConfigurationMemoryAccessor(deviceFragment as IDeviceConfiguration, DeviceContext,
-					MemoryAccessEnum.InitalizeZeroForLocals, false).Process();
-			}
+			_deviceConfiguration = deviceConfiguration;
 
 			_nameForUiKey = deviceConfiguration.StrongName;
 			if (deviceConfiguration.RootConfigurationItemList != null)
@@ -177,10 +189,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			}
 
 			AllRows.AddCollection(RootConfigurationItemViewModels);
+			_configurationOptionsHelper = new ConfigurationOptionsHelper();
 			FragmentOptionsViewModel =
-				(new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, _container,
+				_configurationOptionsHelper.CreateConfigurationFragmentOptionsViewModel(this, _container,
 					deviceConfiguration);
 			MainRows = FilterMainConfigItems(RootConfigurationItemViewModels);
+			await TryLoadValuesAutomatically();
 		}
 
 		private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
@@ -196,11 +210,20 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 		public DeviceContext DeviceContext { get; set; }
 
-		public void OnConnectionChanged()
+		public async void OnConnectionChanged()
 		{
 			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
 				model.FragmentOptionCommandViewModels.ForEach(viewModel =>
 					(viewModel.OptionCommand as RelayCommand)?.RaiseCanExecuteChanged()));
+			await TryLoadValuesAutomatically();
+		}
+
+		public void OnFragmentOpened()
+		{
+			DeviceContext.DeviceMemory.DeviceMemoryValues.ForEach(pair =>
+				DeviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(pair.Key, 1));
+			DeviceContext.DeviceMemory.LocalMemoryValues.ForEach(pair =>
+				DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(pair.Key, 1));
 		}
 	}
 }

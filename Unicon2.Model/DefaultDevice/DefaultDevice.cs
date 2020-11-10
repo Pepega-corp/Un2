@@ -46,6 +46,10 @@ namespace Unicon2.Model.DefaultDevice
             {
                 DataProvider = Result<IDataProvider>.Create(dataProvider,true);
             }
+            else
+            {
+                DataProvider = Result<IDataProvider>.Create(false);
+            }
                 
         }
 

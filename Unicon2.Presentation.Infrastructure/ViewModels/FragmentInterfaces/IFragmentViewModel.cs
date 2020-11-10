@@ -14,7 +14,11 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
     {
         void OnConnectionChanged();
     }
-   
+    public interface IFragmentOpenedListener
+    {
+        void OnFragmentOpened();
+    }
+
     public interface IFragmentInitializable
     {
         void Initialize(IDeviceFragment deviceFragment);

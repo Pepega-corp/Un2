@@ -74,7 +74,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
             fragmentOptionCommandViewModel.TitleKey = ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY;
             fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
-            this.ReadConfigurationCommand = new RelayCommand(OnExecuteReadConfiguration,
+            this.ReadConfigurationCommand = new RelayCommand(()=>OnExecuteReadConfiguration(true),
                 () => _runtimeConfigurationViewModel.DeviceContext.DataProviderContainer.DataProvider.IsSuccess &&
                       !this._isQueryInProgress);
             fragmentOptionCommandViewModel.OptionCommand = this.ReadConfigurationCommand;
@@ -150,14 +150,14 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             return fragmentOptionsViewModel;
         }
 
-        private async Task ReadConfiguration()
+        private async Task ReadConfiguration(bool triggerSubscriptions)
         {
             try
             {
                 SetQueriesLock(true);
                 ReadConfigurationCommand.RaiseCanExecuteChanged();
                 await new MemoryReaderVisitor(_deviceConfiguration,
-                    _runtimeConfigurationViewModel.DeviceContext, 0).ExecuteRead();
+                    _runtimeConfigurationViewModel.DeviceContext, 0,triggerSubscriptions).ExecuteRead();
             }
             finally
             {
@@ -168,10 +168,14 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         }
 
 
-        private async void OnExecuteReadConfiguration()
+        public async void OnExecuteReadConfiguration(bool triggerSubscriptions)
         {
-            await ReadConfiguration();
+            if (!ReadConfigurationCommand.CanExecute(null))
+            {
+                return;
+            }
 
+            await ReadConfiguration(triggerSubscriptions);
         }
 
         private bool ExpandLevelByIndex(List<IConfigurationItemViewModel> configurationItemViewModels,
@@ -257,8 +261,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         }
 
-        private void OnExecuteLoadConfiguration()
+        public void OnExecuteLoadConfiguration()
         {
+           
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
             ofd.Filter = " CNF файл (*.cnf)|*.cnf" + "|Все файлы (*.*)|*.* ";

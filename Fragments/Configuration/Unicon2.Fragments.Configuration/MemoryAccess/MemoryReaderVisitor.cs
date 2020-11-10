@@ -22,13 +22,16 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         private readonly IDeviceConfiguration _configuration;
         private readonly DeviceContext _deviceContext;
         private readonly int _offset;
+        private readonly bool _triggerSubscriptions;
 
 
-        public MemoryReaderVisitor(IDeviceConfiguration configuration, DeviceContext deviceContext, int offset)
+        public MemoryReaderVisitor(IDeviceConfiguration configuration, DeviceContext deviceContext, int offset,
+            bool triggerSubscriptions = true)
         {
             _configuration = configuration;
             _deviceContext = deviceContext;
             _offset = offset;
+            _triggerSubscriptions = triggerSubscriptions;
         }
 
         public async Task ExecuteRead()
@@ -80,7 +83,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 		        {
 			        foreach (var configurationItemInGroup in itemsGroup.ConfigurationItemList)
 			        {
-				        await configurationItemInGroup.Accept(new MemoryReaderVisitor(_configuration,_deviceContext, offset));
+				        await configurationItemInGroup.Accept(new MemoryReaderVisitor(_configuration,_deviceContext, offset,_triggerSubscriptions));
 			        }
 			        offset += groupWithReiterationInfo.ReiterationStep;
 		        }
@@ -136,14 +139,21 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                     if (!memory.LocalMemoryValues.ContainsKey(i))
                     {
                         memory.LocalMemoryValues[i] = res.Result[i - rangeFrom];
-                        _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(rangeFrom,
-                            1);
+                        if (_triggerSubscriptions)
+                        {
+                            _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(rangeFrom,
+                                1);
+                        }
                     }
 
 
                 }
-                _deviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
-                    (ushort)(rangeTo - rangeFrom));
+
+                if (_triggerSubscriptions)
+                {
+                    _deviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(rangeFrom,
+                        (ushort) (rangeTo - rangeFrom));
+                }
 
             }
 

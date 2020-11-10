@@ -41,8 +41,8 @@ namespace Unicon2.Tests.Connection
                 new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
             var serializerService = _typesContainer.Resolve<ISerializerService>();
 
-            
-            
+
+
             _device = serializerService.DeserializeFromFile<IDevice>("testFile.json");
             _configuration =
 
@@ -55,19 +55,20 @@ namespace Unicon2.Tests.Connection
             var deviceMemory = new DeviceMemory();
             _typesContainer.Resolve<IDevicesContainerService>()
                 .AddConnectableItem(_device);
-            
+
             _device.DeviceMemory = deviceMemory;
             _configurationFragmentViewModel = null;
             var deviceViewModel =
                 _shell.ProjectBrowserViewModel.DeviceViewModels[0];
-           _configurationFragmentViewModel= _shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels.First(model => model.NameForUiKey == "Configuration") as
-                    RuntimeConfigurationViewModel;
+            _configurationFragmentViewModel = _shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
+                    .First(model => model.NameForUiKey == "Configuration") as
+                RuntimeConfigurationViewModel;
         }
 
         [Test]
         public async Task OfflineConnectionButtonsAvailbility()
         {
-          
+
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new OfflineConnection());
 
@@ -92,18 +93,18 @@ namespace Unicon2.Tests.Connection
             };
             Assert.False(optionCommands.Any(command => command.CanExecute(null)));
 
-            optionCommands[0].CanExecuteChanged += (sender, args) => { isChanagedTriggered ++; };
-            optionCommands[1].CanExecuteChanged += (sender, args) => { isChanagedTriggered1 ++; };
-            optionCommands[2].CanExecuteChanged += (sender, args) => { isChanagedTriggered2 ++; };
+            optionCommands[0].CanExecuteChanged += (sender, args) => { isChanagedTriggered++; };
+            optionCommands[1].CanExecuteChanged += (sender, args) => { isChanagedTriggered1++; };
+            optionCommands[2].CanExecuteChanged += (sender, args) => { isChanagedTriggered2++; };
 
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
 
             Assert.True(optionCommands.All(command => command.CanExecute(null)));
 
-            Assert.True(isChanagedTriggered==1);
-            Assert.True(isChanagedTriggered1==1);
-            Assert.True(isChanagedTriggered2==1);
+            Assert.True(isChanagedTriggered == 1);
+            Assert.True(isChanagedTriggered1 == 1);
+            Assert.True(isChanagedTriggered2 == 1);
         }
 
         [Test]
@@ -112,7 +113,7 @@ namespace Unicon2.Tests.Connection
             var boolTestDefaultProperty =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestDefaultProperty")
                     .Item as IProperty;
-            
+
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new OfflineConnection());
 
@@ -122,19 +123,19 @@ namespace Unicon2.Tests.Connection
 
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
                 boolTestDefaultProperty.Address] = 1;
-                
-             await _typesContainer.Resolve<IDevicesContainerService>()
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
-            
-             Assert.True(
-                 _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
-                     boolTestDefaultProperty.Address] == 1);
-             
-             _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
-                 boolTestDefaultProperty.Address] = 0;
-            
+
+            Assert.True(
+                _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                    boolTestDefaultProperty.Address] == 1);
+
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                boolTestDefaultProperty.Address] = 0;
+
         }
-        
-   
+
+
     }
 }
