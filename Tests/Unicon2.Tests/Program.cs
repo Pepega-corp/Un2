@@ -19,6 +19,7 @@ namespace Unicon2.Tests
             {
                 _app = new App();
                 _app.InitializePublic();
+                var shell = _app.Container.Resolve<ShellViewModel>();
 
             }
             return _app;

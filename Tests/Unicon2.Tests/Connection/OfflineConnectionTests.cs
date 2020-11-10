@@ -33,6 +33,7 @@ namespace Unicon2.Tests.Connection
         private IDeviceConfiguration _configuration;
         private IDeviceViewModelFactory _deviceViewModelFactory;
         private RuntimeConfigurationViewModel _configurationFragmentViewModel;
+        private ShellViewModel _shell;
 
         public OfflineConnectionTests()
         {
@@ -40,6 +41,8 @@ namespace Unicon2.Tests.Connection
                 new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
             var serializerService = _typesContainer.Resolve<ISerializerService>();
 
+            
+            
             _device = serializerService.DeserializeFromFile<IDevice>("testFile.json");
             _configuration =
 
@@ -47,28 +50,30 @@ namespace Unicon2.Tests.Connection
                     IDeviceConfiguration;
 
 
+            _shell = _typesContainer.Resolve<ShellViewModel>();
             _deviceViewModelFactory = _typesContainer.Resolve<IDeviceViewModelFactory>();
             var deviceMemory = new DeviceMemory();
-
+            _typesContainer.Resolve<IDevicesContainerService>()
+                .AddConnectableItem(_device);
+            
             _device.DeviceMemory = deviceMemory;
             _configurationFragmentViewModel = null;
             var deviceViewModel =
-                _deviceViewModelFactory.CreateDeviceViewModel(_device, () => _configurationFragmentViewModel);
-            _configurationFragmentViewModel =
-                deviceViewModel.FragmentViewModels.First(model => model.NameForUiKey == "Configuration") as
+                _shell.ProjectBrowserViewModel.DeviceViewModels[0];
+           _configurationFragmentViewModel= _shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels.First(model => model.NameForUiKey == "Configuration") as
                     RuntimeConfigurationViewModel;
         }
 
         [Test]
         public async Task OfflineConnectionButtonsAvailbility()
         {
+          
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new OfflineConnection());
 
-            bool isChanagedTriggered = false;
-            bool isChanagedTriggered1 = false;
-            bool isChanagedTriggered2 = false;
-            var shell = _typesContainer.Resolve<ShellViewModel>();
+            int isChanagedTriggered = 0;
+            int isChanagedTriggered1 = 0;
+            int isChanagedTriggered2 = 0;
 
             var optionCommands = new List<RelayCommand>()
             {
@@ -87,18 +92,18 @@ namespace Unicon2.Tests.Connection
             };
             Assert.False(optionCommands.Any(command => command.CanExecute(null)));
 
-            optionCommands[0].CanExecuteChanged += (sender, args) => { isChanagedTriggered = true; };
-            optionCommands[1].CanExecuteChanged += (sender, args) => { isChanagedTriggered1 = true; };
-            optionCommands[2].CanExecuteChanged += (sender, args) => { isChanagedTriggered2 = true; };
+            optionCommands[0].CanExecuteChanged += (sender, args) => { isChanagedTriggered ++; };
+            optionCommands[1].CanExecuteChanged += (sender, args) => { isChanagedTriggered1 ++; };
+            optionCommands[2].CanExecuteChanged += (sender, args) => { isChanagedTriggered2 ++; };
 
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
 
             Assert.True(optionCommands.All(command => command.CanExecute(null)));
 
-            Assert.True(isChanagedTriggered);
-            Assert.True(isChanagedTriggered1);
-            Assert.True(isChanagedTriggered2);
+            Assert.True(isChanagedTriggered==1);
+            Assert.True(isChanagedTriggered1==1);
+            Assert.True(isChanagedTriggered2==1);
         }
 
         [Test]
@@ -130,33 +135,6 @@ namespace Unicon2.Tests.Connection
             
         }
         
-        [Test]
-        public async Task OfflineConnectionChanged()
-        {
-            var boolTestDefaultProperty =
-                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestDefaultProperty")
-                    .Item as IProperty;
-            
-            await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new OfflineConnection());
-
-            Assert.True(
-                _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
-                    boolTestDefaultProperty.Address] == 0);
-
-            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
-                boolTestDefaultProperty.Address] = 1;
-                
-            await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
-            
-            Assert.True(
-                _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
-                    boolTestDefaultProperty.Address] == 1);
-             
-            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
-                boolTestDefaultProperty.Address] = 0;
-            
-        }
+   
     }
 }

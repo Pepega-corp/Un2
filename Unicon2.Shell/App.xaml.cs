@@ -144,7 +144,8 @@ namespace Unicon2.Shell
             //StaticContainer.Container.RegisterViewModel<Views.Shell, ShellViewModel>();
             StaticContainer.Container.RegisterViewModel<ShellSettingsFlyOut, ShellSettingsViewModel>();
             containerRegistry.RegisterInstance(new DynamicMainMenuViewModel());
-            containerRegistry.RegisterInstance(new GlobalEventManager(Container.Resolve<IEventAggregator>()));
+            containerRegistry.RegisterInstance(typeof(IGlobalEventManager),new GlobalEventManager(Container.Resolve<IEventAggregator>()));
+            
             StaticContainer.Container.Register<ShellViewModel>(true);
 
             
