@@ -26,7 +26,7 @@ using Unity;
 namespace Unicon2.Tests.Connection
 {
     [TestFixture]
-    public class OfflineConnectionTests
+    public class ConnectionTests
     {
         private ITypesContainer _typesContainer;
         private IDevice _device;
@@ -35,7 +35,7 @@ namespace Unicon2.Tests.Connection
         private RuntimeConfigurationViewModel _configurationFragmentViewModel;
         private ShellViewModel _shell;
 
-        public OfflineConnectionTests()
+        public ConnectionTests()
         {
             _typesContainer =
                 new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
@@ -108,8 +108,9 @@ namespace Unicon2.Tests.Connection
         }
 
         [Test]
-        public async Task OfflineConnectionLocalValuesInit()
+        public async Task OfflineConnectionValuesInit()
         {
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
             var boolTestDefaultProperty =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestDefaultProperty")
                     .Item as IProperty;
@@ -120,6 +121,11 @@ namespace Unicon2.Tests.Connection
             Assert.True(
                 _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
                     boolTestDefaultProperty.Address] == 0);
+
+            Assert.False(
+                _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(
+                    boolTestDefaultProperty.Address));
+
 
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
                 boolTestDefaultProperty.Address] = 1;
@@ -134,6 +140,10 @@ namespace Unicon2.Tests.Connection
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
                 boolTestDefaultProperty.Address] = 0;
 
+
+            Assert.True(
+                _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[
+                    boolTestDefaultProperty.Address] == 0);
         }
 
 

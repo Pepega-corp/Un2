@@ -1,4 +1,5 @@
-﻿using Unicon2.Infrastructure.FragmentInterfaces;
+﻿using System.Threading.Tasks;
+using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
@@ -12,11 +13,11 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
 
     public interface IFragmentConnectionChangedListener
     {
-        void OnConnectionChanged();
+        Task OnConnectionChanged();
     }
     public interface IFragmentOpenedListener
     {
-        void OnFragmentOpened();
+        Task OnFragmentOpened();
     }
 
     public interface IFragmentInitializable

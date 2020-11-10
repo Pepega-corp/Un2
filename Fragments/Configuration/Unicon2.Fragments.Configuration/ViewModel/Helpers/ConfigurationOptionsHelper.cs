@@ -150,8 +150,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             return fragmentOptionsViewModel;
         }
 
-        private async Task ReadConfiguration(bool triggerSubscriptions)
+        public async Task ReadConfiguration(bool triggerSubscriptions)
         {
+            if (!ReadConfigurationCommand.CanExecute(null))
+            {
+                return;
+            }
             try
             {
                 SetQueriesLock(true);
@@ -168,13 +172,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         }
 
 
-        public async void OnExecuteReadConfiguration(bool triggerSubscriptions)
+        private async void OnExecuteReadConfiguration(bool triggerSubscriptions)
         {
-            if (!ReadConfigurationCommand.CanExecute(null))
-            {
-                return;
-            }
-
             await ReadConfiguration(triggerSubscriptions);
         }
 

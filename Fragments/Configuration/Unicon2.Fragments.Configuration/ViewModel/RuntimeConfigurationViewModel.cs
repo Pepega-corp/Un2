@@ -162,7 +162,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			}
 			else
 			{
-				_configurationOptionsHelper.OnExecuteReadConfiguration(false);
+				await _configurationOptionsHelper.ReadConfiguration(false);
 			}
 		}
 		
@@ -210,7 +210,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 		public DeviceContext DeviceContext { get; set; }
 
-		public async void OnConnectionChanged()
+		public async Task OnConnectionChanged()
 		{
 			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
 				model.FragmentOptionCommandViewModels.ForEach(viewModel =>
@@ -218,7 +218,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			await TryLoadValuesAutomatically();
 		}
 
-		public void OnFragmentOpened()
+		public async Task OnFragmentOpened()
 		{
 			DeviceContext.DeviceMemory.DeviceMemoryValues.ForEach(pair =>
 				DeviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(pair.Key, 1));

@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationTests.cs" />
-    <Compile Include="Connection\OfflineConnectionTests.cs" />
+    <Compile Include="Connection\ConnectionTests.cs" />
     <Compile Include="Editor\EditorTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

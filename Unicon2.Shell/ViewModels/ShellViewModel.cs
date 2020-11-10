@@ -305,7 +305,7 @@ namespace Unicon2.Shell.ViewModels
             return false;
         }
 
-        private void OnDeviceChanged(ConnectableItemChangingContext connectableItemChangingContext)
+        private async void OnDeviceChanged(ConnectableItemChangingContext connectableItemChangingContext)
         {
 	        switch (connectableItemChangingContext.ItemModifyingType)
 	        {
@@ -393,7 +393,7 @@ namespace Unicon2.Shell.ViewModels
 				        {
                             if (fragment is IFragmentConnectionChangedListener fragmentConnectionChangedListener)
                             {
-                                fragmentConnectionChangedListener.OnConnectionChanged();
+                                await fragmentConnectionChangedListener.OnConnectionChanged();
                             }
 				        }
                     }
@@ -404,7 +404,7 @@ namespace Unicon2.Shell.ViewModels
 	        }
         }
 
-        private void OnExecuteAddNewFragment(IFragmentViewModel fragmentViewModel)
+        private async void OnExecuteAddNewFragment(IFragmentViewModel fragmentViewModel)
         {
             IFragmentPaneViewModel existingPane =
                 FragmentsOpenedCollection.FirstOrDefault((model => model.FragmentViewModel == fragmentViewModel));
@@ -427,7 +427,7 @@ namespace Unicon2.Shell.ViewModels
             
             if (fragmentViewModel is IFragmentOpenedListener fragmentOpenedListener)
             {
-                fragmentOpenedListener.OnFragmentOpened();
+                await fragmentOpenedListener.OnFragmentOpened();
             }
         }
 
