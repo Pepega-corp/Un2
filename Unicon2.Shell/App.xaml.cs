@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using Prism.Events;
 using Unicon2.Connections.MockConnection.Module;
 using Unicon2.Connections.ModBusRtuConnection.Module;
 using Unicon2.Connections.ModBusTcpConnection.Module;
@@ -140,10 +141,13 @@ namespace Unicon2.Shell
             containerRegistry.Register<RecentProjectsViewModelFactory>();
             //регистрация вью-моделей
             containerRegistry.Register<Views.Shell>();
-            StaticContainer.Container.RegisterViewModel<Views.Shell, ShellViewModel>();
+            //StaticContainer.Container.RegisterViewModel<Views.Shell, ShellViewModel>();
             StaticContainer.Container.RegisterViewModel<ShellSettingsFlyOut, ShellSettingsViewModel>();
             containerRegistry.RegisterInstance(new DynamicMainMenuViewModel());
+            containerRegistry.RegisterInstance(new GlobalEventManager(Container.Resolve<IEventAggregator>()));
+            StaticContainer.Container.Register<ShellViewModel>(true);
 
+            
             //модули
             RegisterModuleCatalogs(StaticContainer.Container);
             InitializeUnityModules();

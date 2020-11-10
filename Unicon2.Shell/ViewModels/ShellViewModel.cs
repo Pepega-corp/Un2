@@ -65,7 +65,8 @@ namespace Unicon2.Shell.ViewModels
             RecentProjectsViewModelFactory recentProjectsViewModelFactory,
             IMainMenuService mainMenuService,
             DynamicMainMenuViewModel dynamicMainMenuViewModel,
-            IFlyoutService flyoutService)
+            IFlyoutService flyoutService
+            ,IGlobalEventManager globalEventManger)
         {
             LogServiceViewModel = logServiceViewModel;
             ProjectBrowserViewModel = projectBrowserViewModel;
@@ -388,24 +389,14 @@ namespace Unicon2.Shell.ViewModels
 				        model.Model == connectableItemChangingContext.Connectable));
 			        if (deviceViewModel != null)
 			        {
-				        var index = ProjectBrowserViewModel.DeviceViewModels.IndexOf(deviceViewModel);
-
                         foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
 				        {
-					        IFragmentPaneViewModel openedFragment =
-						        FragmentsOpenedCollection.FirstOrDefault((model =>
-							        model.FragmentViewModel == fragment));
-					        openedFragment?.FragmentPaneClosedAction?.Invoke(openedFragment);
+                            if (fragment is IFragmentConnectionChangedListener fragmentConnectionChangedListener)
+                            {
+                                fragmentConnectionChangedListener.OnConnectionChanged();
+                            }
 				        }
-
-				        ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);
-				        ActiveFragmentViewModel = null;
-				        if (connectableItemChangingContext.Connectable != null)
-					        ProjectBrowserViewModel.DeviceViewModels.Insert(index,
-						        _deviceViewModelFactory.CreateDeviceViewModel(
-							        connectableItemChangingContext.Connectable as IDevice,
-							        () => ActiveFragmentViewModel?.FragmentViewModel));
-			        }
+                    }
 		        }
 			        break;
 		        default:

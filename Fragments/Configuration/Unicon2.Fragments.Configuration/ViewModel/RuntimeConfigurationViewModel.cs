@@ -10,9 +10,11 @@ using Unicon2.Fragments.Configuration.MemoryAccess;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -20,7 +22,8 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-	public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel
+	public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel,
+		IFragmentConnectionChangedListener
 	{
 		private readonly ITypesContainer _container;
 
@@ -49,7 +52,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 		{
 			if (!(obj is MainConfigItemViewModel mainItem)) return;
 			if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails && obj !=
-			    SelectedConfigDetails)
+				SelectedConfigDetails)
 			{
 				selectedConfigDetails.IsSelected = false;
 				selectedConfigDetails.IsTableSelected = false;
@@ -152,14 +155,15 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			AllRows.Clear();
 			RootConfigurationItemViewModels.Clear();
 
-			
+
 			if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return;
 
 			if (!DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
 			{
 				await new ConfigurationMemoryAccessor(deviceFragment as IDeviceConfiguration, DeviceContext,
-					MemoryAccessEnum.InitalizeZeroForLocals,false).Process();
+					MemoryAccessEnum.InitalizeZeroForLocals, false).Process();
 			}
+
 			_nameForUiKey = deviceConfiguration.StrongName;
 			if (deviceConfiguration.RootConfigurationItemList != null)
 			{
@@ -191,5 +195,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 		}
 
 		public DeviceContext DeviceContext { get; set; }
+
+		public void OnConnectionChanged()
+		{
+			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
+				model.FragmentOptionCommandViewModels.ForEach(viewModel =>
+					(viewModel.OptionCommand as RelayCommand)?.RaiseCanExecuteChanged()));
+		}
 	}
 }

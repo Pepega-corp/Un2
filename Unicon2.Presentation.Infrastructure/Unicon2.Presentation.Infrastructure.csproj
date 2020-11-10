@@ -66,6 +66,7 @@
     <Compile Include="Commands\IUserCommand.cs" />
     <Compile Include="DeviceContext\DeviceContext.cs" />
     <Compile Include="Enums\PlacementEnum.cs" />
+    <Compile Include="Events\DeviceConnectionChanged.cs" />
     <Compile Include="Factories\IDeviceViewModelFactory.cs" />
     <Compile Include="Factories\IFormatterViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
@@ -99,7 +100,6 @@
     <Compile Include="Services\IToolBarService.cs" />
     <Compile Include="SharedResources\IDeviceSharedResourcesViewModelContainer.cs" />
     <Compile Include="Subscription\IDeviceEventsDispatcher.cs" />
-    <Compile Include="Subscription\IWeakEventsDispatcher.cs" />
     <Compile Include="TreeGrid\IAsTableViewModel.cs" />
     <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />
     <Compile Include="TreeGrid\IGroupedConfigurationItemViewModel.cs" />

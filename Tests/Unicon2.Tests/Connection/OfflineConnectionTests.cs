@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Unicon2.Connections.MockConnection.Model;
 using Unicon2.Connections.OfflineConnection;
+using Unicon2.Formatting.Model;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -14,7 +16,9 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Model.Memory;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+using Unicon2.Shell.ViewModels;
 using Unicon2.Tests.Utils;
+using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 using Unity;
@@ -61,32 +65,43 @@ namespace Unicon2.Tests.Connection
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new OfflineConnection());
 
-            Assert.False(_configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY).OptionCommand.CanExecute(null));
-            Assert.False(_configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == ConfigurationKeys.WRITE_LOCAL_VALUES_TO_DEVICE_STRING_KEY).OptionCommand.CanExecute(null));
-            Assert.False(_configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == ConfigurationKeys.TRANSFER_FROM_DEVICE_TO_LOCAL_STRING_KEY).OptionCommand.CanExecute(null));
-            
+            bool isChanagedTriggered = false;
+            bool isChanagedTriggered1 = false;
+            bool isChanagedTriggered2 = false;
+            var shell = _typesContainer.Resolve<ShellViewModel>();
+
+            var optionCommands = new List<RelayCommand>()
+            {
+                _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                    .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
+                    .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY)
+                    .OptionCommand as RelayCommand,
+                _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                    .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
+                    .First(model => model.TitleKey == ConfigurationKeys.WRITE_LOCAL_VALUES_TO_DEVICE_STRING_KEY)
+                    .OptionCommand as RelayCommand,
+                _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                    .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
+                    .First(model => model.TitleKey == ConfigurationKeys.TRANSFER_FROM_DEVICE_TO_LOCAL_STRING_KEY)
+                    .OptionCommand as RelayCommand,
+            };
+            Assert.False(optionCommands.Any(command => command.CanExecute(null)));
+
+            optionCommands[0].CanExecuteChanged += (sender, args) => { isChanagedTriggered = true; };
+            optionCommands[1].CanExecuteChanged += (sender, args) => { isChanagedTriggered1 = true; };
+            optionCommands[2].CanExecuteChanged += (sender, args) => { isChanagedTriggered2 = true; };
+
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
-            
-            Assert.True(_configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY).OptionCommand.CanExecute(null));
-            Assert.True(_configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == ConfigurationKeys.WRITE_LOCAL_VALUES_TO_DEVICE_STRING_KEY).OptionCommand.CanExecute(null));
-            Assert.True(_configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == ConfigurationKeys.TRANSFER_FROM_DEVICE_TO_LOCAL_STRING_KEY).OptionCommand.CanExecute(null));
-            
+
+            Assert.True(optionCommands.All(command => command.CanExecute(null)));
+
+            Assert.True(isChanagedTriggered);
+            Assert.True(isChanagedTriggered1);
+            Assert.True(isChanagedTriggered2);
         }
-        
-                [Test]
+
+        [Test]
         public async Task OfflineConnectionLocalValuesInit()
         {
             var boolTestDefaultProperty =
@@ -112,6 +127,35 @@ namespace Unicon2.Tests.Connection
              
              _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
                  boolTestDefaultProperty.Address] = 0;
+            
+        }
+        
+        [Test]
+        public async Task OfflineConnectionChanged()
+        {
+            var boolTestDefaultProperty =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestDefaultProperty")
+                    .Item as IProperty;
+            
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new OfflineConnection());
+
+            Assert.True(
+                _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                    boolTestDefaultProperty.Address] == 0);
+
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                boolTestDefaultProperty.Address] = 1;
+                
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+            
+            Assert.True(
+                _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                    boolTestDefaultProperty.Address] == 1);
+             
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                boolTestDefaultProperty.Address] = 0;
             
         }
     }

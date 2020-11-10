@@ -1,4 +1,6 @@
+using Prism.Ioc;
 using Unicon2.Shell;
+using Unicon2.Shell.ViewModels;
 
 namespace Unicon2.Tests
 {
@@ -9,8 +11,6 @@ namespace Unicon2.Tests
 
         static void Main(string[] args)
         {
-            _app = new App();
-            _app.InitializePublic();
         }
 
         public static App GetApp()
@@ -19,6 +19,7 @@ namespace Unicon2.Tests
             {
                 _app = new App();
                 _app.InitializePublic();
+
             }
             return _app;
         }

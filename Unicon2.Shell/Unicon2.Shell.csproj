@@ -144,6 +144,7 @@
     <Compile Include="Models\ApplicationTheme.cs" />
     <Compile Include="Services\ApplicationSettingsService.cs" />
     <Compile Include="Services\FlyoutService.cs" />
+    <Compile Include="Services\GlobalEventManager.cs" />
     <Compile Include="Services\LayoutInitializer.cs" />
     <Compile Include="Services\MainMenuService.cs" />
     <Compile Include="TemplateSelectors\MainMenuItemTemplateSelector.cs" />

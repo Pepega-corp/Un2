@@ -7,9 +7,14 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
     {
         string NameForUiKey { get; }
         IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
+        
     }
 
+    public interface IFragmentConnectionChangedListener
+    {
+        void OnConnectionChanged();
+    }
+   
     public interface IFragmentInitializable
     {
         void Initialize(IDeviceFragment deviceFragment);

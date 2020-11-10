@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
@@ -20,7 +21,14 @@ namespace Unicon2.Services.UniconProject
 		private void RefreshName()
 		{
 			Name = DefaultProjectName;
-			ProjectPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), Name);
+			try
+			{
+				ProjectPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), Name);
+			}
+			catch (Exception e)
+			{
+
+			}
 
 			if (ProjectPath != null && !Directory.Exists(Path.Combine(ProjectPath, Name)))
 			{
