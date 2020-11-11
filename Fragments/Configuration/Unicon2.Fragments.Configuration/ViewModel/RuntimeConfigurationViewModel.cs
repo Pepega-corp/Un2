@@ -15,6 +15,7 @@ using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
@@ -24,7 +25,7 @@ using Unicon2.Unity.ViewModels;
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
 	public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel,
-		IFragmentConnectionChangedListener,IFragmentOpenedListener
+		IFragmentConnectionChangedListener, IFragmentOpenedListener
 	{
 		private readonly ITypesContainer _container;
 
@@ -153,16 +154,32 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			}
 		}
 
+		private void ClearDeviceValues(List<IConfigurationItemViewModel> list)
+		{
+			foreach (var viewModel in list)
+			{
+				if (viewModel.ChildStructItemViewModels.Count > 0)
+				{
+					ClearDeviceValues(viewModel.ChildStructItemViewModels.ToList());
+				}
+
+				if (viewModel is ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel)
+				{
+					localAndDeviceValueContainingViewModel.DeviceValue = null;
+				}
+			}
+		}
+		
 		private async Task TryLoadValuesAutomatically()
 		{
+			
+			DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+			ClearDeviceValues(RootConfigurationItemViewModels.Cast<IConfigurationItemViewModel>().ToList());
+			
 			if (!DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
 			{
 				await new ConfigurationMemoryAccessor(_deviceConfiguration, DeviceContext,
 					MemoryAccessEnum.InitalizeZeroForLocals, false).Process();
-			}
-			else
-			{
-				await _configurationOptionsHelper.ReadConfiguration(false);
 			}
 		}
 		
@@ -210,20 +227,42 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 		public DeviceContext DeviceContext { get; set; }
 
+		private bool _needRefreshValues = false;
+		private bool _isOpened;
+
 		public async Task OnConnectionChanged()
 		{
+			await TryLoadValuesAutomatically();
+			_needRefreshValues = true;
+			await RefreshValuesIfNeeded();
 			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
 				model.FragmentOptionCommandViewModels.ForEach(viewModel =>
 					(viewModel.OptionCommand as RelayCommand)?.RaiseCanExecuteChanged()));
-			await TryLoadValuesAutomatically();
 		}
 
-		public async Task OnFragmentOpened()
+		private async Task RefreshValuesIfNeeded()
 		{
-			DeviceContext.DeviceMemory.DeviceMemoryValues.ForEach(pair =>
-				DeviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(pair.Key, 1));
-			DeviceContext.DeviceMemory.LocalMemoryValues.ForEach(pair =>
-				DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(pair.Key, 1));
+			if (_needRefreshValues && _isOpened)
+			{
+				if (DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
+				{
+					await _configurationOptionsHelper.ReadConfiguration(true);
+				}
+
+				var localAddresses = DeviceContext.DeviceMemory.LocalMemoryValues.Select(pair => pair.Key).ToList();
+				var devAddresses = DeviceContext.DeviceMemory.DeviceMemoryValues.Select(pair => pair.Key).ToList();
+
+				localAddresses.ForEach(address =>
+					DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(address, 1));
+				devAddresses.ForEach(address =>
+					DeviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(address, 1));
+			}
+		}
+
+		public async Task SetFragmentOpened(bool isOpened)
+		{
+			_isOpened = isOpened;
+			await RefreshValuesIfNeeded();
 		}
 	}
 }

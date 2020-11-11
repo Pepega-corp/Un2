@@ -22,7 +22,7 @@ namespace Unicon2.Presentation.Factories
             _container = container;
         }
 
-        public IDeviceViewModel CreateDeviceViewModel(IDevice device, Func<IFragmentViewModel> getActiveFragment)
+        public IDeviceViewModel CreateDeviceViewModel(IDevice device)
         {
             IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
             if (device.DeviceMemory == null)
@@ -30,7 +30,7 @@ namespace Unicon2.Presentation.Factories
                 device.DeviceMemory = _container.Resolve<IDeviceMemory>();
             }
 
-            var deviceLevelPublisher = new DeviceLevelEventsPublisher(getActiveFragment);
+            var deviceLevelPublisher = new FragmentLevelEventsDispatcher();
             DeviceContext context = null;
             if (device.DeviceFragments != null)
             {
@@ -42,10 +42,8 @@ namespace Unicon2.Presentation.Factories
                                                                    .VIEW_MODEL);
                     if (fragmentViewModel is IDeviceContextConsumer deviceContextConsumer)
                     {
-                        var fragmentLevelDispatcher = new FragmentLevelEventsDispatcher();
-                        deviceLevelPublisher.AddFragmentDispatcher(fragmentViewModel, fragmentLevelDispatcher);
                         deviceContextConsumer.DeviceContext = new DeviceContext(device.DeviceMemory,
-                            new FragmentEventsDispatcher(deviceLevelPublisher, fragmentLevelDispatcher), device.DeviceSignature,
+                            deviceLevelPublisher, device.DeviceSignature,
                             device,device.DeviceSharedResources);
                         context = deviceContextConsumer.DeviceContext;
                     }

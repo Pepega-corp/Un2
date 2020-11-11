@@ -121,8 +121,6 @@
     </Compile>
     <Compile Include="Services\DependenciesService.cs" />
     <Compile Include="Services\ToolBarService.cs" />
-    <Compile Include="Subscription\FragmentEventsDispatcher.cs" />
-    <Compile Include="Subscription\DeviceLevelEventsPublisher.cs" />
     <Compile Include="Subscription\FragmentLevelEventsDispatcher.cs" />
     <Compile Include="Subscription\TransactionCompleteSubscription.cs" />
     <Compile Include="Values\Base\EditableValueViewModelBase.cs" />

@@ -17,7 +17,7 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
     }
     public interface IFragmentOpenedListener
     {
-        Task OnFragmentOpened();
+        Task SetFragmentOpened(bool isOpened);
     }
 
     public interface IFragmentInitializable

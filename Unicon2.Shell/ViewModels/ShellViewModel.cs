@@ -360,8 +360,7 @@ namespace Unicon2.Shell.ViewModels
 			        if (connectableItemChangingContext.Connectable != null)
 				        ProjectBrowserViewModel.DeviceViewModels.Add(
 					        _deviceViewModelFactory.CreateDeviceViewModel(
-						        connectableItemChangingContext.Connectable as IDevice,
-						        () => ActiveFragmentViewModel?.FragmentViewModel));
+						        connectableItemChangingContext.Connectable as IDevice));
 			        break;
 		        case ItemModifyingTypeEnum.Refresh:
 			        foreach (IDeviceViewModel deviceViewModel in ProjectBrowserViewModel.DeviceViewModels)
@@ -427,7 +426,7 @@ namespace Unicon2.Shell.ViewModels
             
             if (fragmentViewModel is IFragmentOpenedListener fragmentOpenedListener)
             {
-                await fragmentOpenedListener.OnFragmentOpened();
+                await fragmentOpenedListener.SetFragmentOpened(true);
             }
         }
 

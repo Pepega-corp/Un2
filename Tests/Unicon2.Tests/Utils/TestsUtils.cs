@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure.Functional;
@@ -57,6 +58,23 @@ namespace Unicon2.Tests.Utils
             }
 
             return Result<IConfigurationItem>.Create(false);
+        }
+
+
+        public static async Task<bool> WaitUntil(Func<bool> predicate, int millisecondsToWait, int interval=50)
+        {
+            int iterations = millisecondsToWait / interval;
+            bool result = false;
+            for (int i = 0; i < iterations; i++)
+            {
+                await Task.Delay(interval);
+                if (predicate())
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }

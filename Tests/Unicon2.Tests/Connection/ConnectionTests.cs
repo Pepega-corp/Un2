@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Unicon2.Formatting.Model;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -15,7 +17,10 @@ using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Model.Memory;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+using Unicon2.Presentation.Values;
+using Unicon2.Presentation.Values.Editable;
 using Unicon2.Shell.ViewModels;
 using Unicon2.Tests.Utils;
 using Unicon2.Unity.Commands;
@@ -39,27 +44,17 @@ namespace Unicon2.Tests.Connection
         {
             _typesContainer =
                 new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
-            var serializerService = _typesContainer.Resolve<ISerializerService>();
-
-
-
-            _device = serializerService.DeserializeFromFile<IDevice>("testFile.json");
-            _configuration =
-
-                _device.DeviceFragments.First(fragment => fragment.StrongName == "Configuration") as
-                    IDeviceConfiguration;
-
+            _device = Program.GetDevice();
+            _configuration = _device.DeviceFragments.First(fragment => fragment.StrongName == "Configuration") as
+                IDeviceConfiguration;
 
             _shell = _typesContainer.Resolve<ShellViewModel>();
             _deviceViewModelFactory = _typesContainer.Resolve<IDeviceViewModelFactory>();
             var deviceMemory = new DeviceMemory();
             _typesContainer.Resolve<IDevicesContainerService>()
                 .AddConnectableItem(_device);
-
             _device.DeviceMemory = deviceMemory;
             _configurationFragmentViewModel = null;
-            var deviceViewModel =
-                _shell.ProjectBrowserViewModel.DeviceViewModels[0];
             _configurationFragmentViewModel = _shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
                     .First(model => model.NameForUiKey == "Configuration") as
                 RuntimeConfigurationViewModel;
@@ -99,28 +94,31 @@ namespace Unicon2.Tests.Connection
 
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
-
-            Assert.True(optionCommands.All(command => command.CanExecute(null)));
-
-            Assert.True(isChanagedTriggered == 1);
-            Assert.True(isChanagedTriggered1 == 1);
-            Assert.True(isChanagedTriggered2 == 1);
+            await _configurationFragmentViewModel.SetFragmentOpened(true);
+            Assert.True(await TestsUtils.WaitUntil(
+                () => optionCommands.All(command => command.CanExecute(null)), 30000));
+            Assert.True(isChanagedTriggered > 0);
+            Assert.True(isChanagedTriggered1 > 0);
+            Assert.True(isChanagedTriggered2 > 0);
         }
 
         [Test]
         public async Task OfflineConnectionValuesInit()
         {
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues.Clear();
+
             var boolTestDefaultProperty =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestDefaultProperty")
                     .Item as IProperty;
 
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new OfflineConnection());
-
-            Assert.True(
-                _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
-                    boolTestDefaultProperty.Address] == 0);
+            await _configurationFragmentViewModel.SetFragmentOpened(true);
+            Assert.True(await TestsUtils.WaitUntil(
+                () => _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                    boolTestDefaultProperty.Address] == 0,30000));
+          
 
             Assert.False(
                 _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(
@@ -130,6 +128,7 @@ namespace Unicon2.Tests.Connection
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
                 boolTestDefaultProperty.Address] = 1;
 
+            await _configurationFragmentViewModel.SetFragmentOpened(true);
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
 
@@ -140,12 +139,100 @@ namespace Unicon2.Tests.Connection
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
                 boolTestDefaultProperty.Address] = 0;
 
-
-            Assert.True(
-                _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[
-                    boolTestDefaultProperty.Address] == 0);
+            Assert.True(await TestsUtils.WaitUntil(
+                () => _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(
+                    boolTestDefaultProperty.Address), 30000));
+   
         }
 
+
+        [Test]
+        public async Task ChangeConnectionToOffline()
+        {
+
+            var boolTestDefaultProperty =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestDefaultProperty")
+                    .Item as IProperty;
+
+            var defaultPropertyWithBoolFormatting = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "boolTestDefaultProperty")
+                .Item as IRuntimePropertyViewModel;
+
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            await _configurationFragmentViewModel.SetFragmentOpened(true);
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+
+            var commandRead = _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY)
+                .OptionCommand as RelayCommand;
+
+            Assert.False(commandRead.CanExecute(null));
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => commandRead.CanExecute(null), 30000));
+
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new OfflineConnection());
+
+            Assert.False(commandRead.CanExecute(null));
+
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => defaultPropertyWithBoolFormatting.DeviceValue == null, 30000));
+
+
+        }
+        
+        [Test]
+        public async Task ChangeConnectionToOfflineIfFragmentClosed()
+        {
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues.Clear();
+            
+            var boolTestDefaultProperty =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestDefaultProperty")
+                    .Item as IProperty;
+
+            var defaultPropertyWithBoolFormatting = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "boolTestDefaultProperty")
+                .Item as IRuntimePropertyViewModel;
+
+            await _configurationFragmentViewModel.SetFragmentOpened(true);
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+
+            var commandRead = _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY)
+                .OptionCommand as RelayCommand;
+
+            Assert.False(commandRead.CanExecute(null));
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => commandRead.CanExecute(null), 30000));
+            await _configurationFragmentViewModel.SetFragmentOpened(false);
+
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                boolTestDefaultProperty.Address] = 1;
+            
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new OfflineConnection());
+
+            Assert.False(commandRead.CanExecute(null));
+
+            Assert.False((defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel).BoolValueProperty);
+            await _configurationFragmentViewModel.SetFragmentOpened(true);
+            Assert.True((defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel).BoolValueProperty);
+            
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
+                boolTestDefaultProperty.Address] = 0;
+        }
+        
 
     }
 }

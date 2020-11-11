@@ -13,6 +13,7 @@ using Unicon2.Fragments.Configuration.MemoryAccess;
 using Unicon2.Fragments.Configuration.Model.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
@@ -25,7 +26,10 @@ using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
+using Unicon2.Presentation.ViewModels.Fragment;
+using Unicon2.Shell.ViewModels;
 using Unicon2.Tests.Utils;
+using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 using Unity;
@@ -38,32 +42,48 @@ namespace Unicon2.Tests.Configuration
         private ITypesContainer _typesContainer;
         private IDevice _device;
         private IDeviceConfiguration _configuration;
-        private IDeviceViewModelFactory _deviceViewModelFactory;
-        private IRuntimeConfigurationViewModel _configurationFragmentViewModel;
+        private RuntimeConfigurationViewModel _configurationFragmentViewModel;
+        private RelayCommand _readCommand;
+        private ShellViewModel _shell;
 
-        public ConfigurationTests()
+        [SetUp]
+        public async Task OnSetup()
         {
-            _typesContainer = new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
+            _typesContainer =
+                new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
             var serializerService = _typesContainer.Resolve<ISerializerService>();
 
-            _device = serializerService.DeserializeFromFile<IDevice>("testFile.json");
+            _device = Program.GetDevice();
             _configuration =
 
                 _device.DeviceFragments.First(fragment => fragment.StrongName == "Configuration") as
                     IDeviceConfiguration;
 
-
-            _deviceViewModelFactory = _typesContainer.Resolve<IDeviceViewModelFactory>();
+            _shell = _typesContainer.Resolve<ShellViewModel>();
             var deviceMemory = new DeviceMemory();
-            _device.DataProvider = Result<IDataProvider>.Create(new MockConnection(_typesContainer),true);
+       
+
             _device.DeviceMemory = deviceMemory;
             _configurationFragmentViewModel = null;
-            var deviceViewModel =
-                _deviceViewModelFactory.CreateDeviceViewModel(_device, () => _configurationFragmentViewModel);
-            _configurationFragmentViewModel =
-                deviceViewModel.FragmentViewModels.First(model => model.NameForUiKey == "Configuration") as
-                    RuntimeConfigurationViewModel;
+
+            _configurationFragmentViewModel = _shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
+                    .First(model => model.NameForUiKey == "Configuration") as
+                RuntimeConfigurationViewModel;
+            _readCommand = _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY)
+                .OptionCommand as RelayCommand;
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+            _shell.ActiveFragmentViewModel = new FragmentPaneViewModel()
+            {
+                FragmentViewModel = _configurationFragmentViewModel
+            };
+            await _configurationFragmentViewModel.SetFragmentOpened(true);
+   
         }
+
+
 
         [Test]
         public async Task BoolDefaultPropertyTest()
@@ -80,8 +100,10 @@ namespace Unicon2.Tests.Configuration
 
             await Read();
 
-            Func<IBoolValueViewModel> deviceValue =()=> defaultPropertyWithBoolFormatting.DeviceValue as IBoolValueViewModel;
-            Func<EditableBoolValueViewModel> localValue =()=> defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel;
+            Func<IBoolValueViewModel> deviceValue = () =>
+                defaultPropertyWithBoolFormatting.DeviceValue as IBoolValueViewModel;
+            Func<EditableBoolValueViewModel> localValue = () =>
+                defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel;
 
             Assert.False(deviceValue().BoolValueProperty);
             Assert.False(localValue().BoolValueProperty);
@@ -89,7 +111,7 @@ namespace Unicon2.Tests.Configuration
             Assert.True(localValue().IsEditEnabled);
             localValue().BoolValueProperty = true;
             Assert.True(localValue().IsFormattedValueChanged);
-            
+
             await Write();
 
 
@@ -449,9 +471,9 @@ namespace Unicon2.Tests.Configuration
                 await Write();
 
 
-                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
+                Assert.AreEqual(_configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
                     15);
-                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
+                Assert.AreEqual(_configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
                     1);
                 Assert.False(localValueOfDependencySource().IsFormattedValueChanged);
                 Assert.False(localValueOfDependencyConsumer().IsFormattedValueChanged);
@@ -465,9 +487,9 @@ namespace Unicon2.Tests.Configuration
                 Assert.False(localValueOfDependencyConsumer().IsEditEnabled);
 
                 await Write();
-                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
+                Assert.AreEqual(_configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
                     0);
-                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
+                Assert.AreEqual(_configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
                     1);
                 Assert.False(localValueOfDependencySource().IsFormattedValueChanged);
                 Assert.False(localValueOfDependencyConsumer().IsFormattedValueChanged);
@@ -487,9 +509,9 @@ namespace Unicon2.Tests.Configuration
                 await Write();
 
 
-                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
+                Assert.AreEqual(_configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencySource.Address],
                     15);
-                Assert.AreEqual(_device.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
+                Assert.AreEqual(_configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[boolTestPropertyDependencyConsumer.Address],
                     0);
                 Assert.False(localValueOfDependencySource().IsFormattedValueChanged);
                 Assert.False(localValueOfDependencyConsumer().IsFormattedValueChanged);
@@ -798,19 +820,20 @@ namespace Unicon2.Tests.Configuration
                 .Cast<IConfigurationItemViewModel>().ToList()
                 .FindItemViewModelByName(model => model.Header == "boolTestDefaultProperty")
                 .Item as IRuntimePropertyViewModel;
+            await Read();
 
-            _device.DeviceMemory.LocalMemoryValues[boolTestDefaultProperty.Address] = 1;
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[boolTestDefaultProperty.Address] = 1;
             _configurationFragmentViewModel.DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
                 boolTestDefaultProperty.Address, boolTestDefaultProperty.NumberOfPoints);
 
-            Assert.False(defaultPropertyWithBoolFormatting.LocalValue.IsFormattedValueChanged);
+            Assert.True(defaultPropertyWithBoolFormatting.LocalValue.IsFormattedValueChanged);
             Assert.True((defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel).BoolValueProperty);
 
             await Read();
 
-            Assert.True(_device.DeviceMemory.LocalMemoryValues[boolTestDefaultProperty.Address]== 1);
+            Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[boolTestDefaultProperty.Address]== 1);
 
-            Assert.True(_device.DeviceMemory.DeviceMemoryValues[boolTestDefaultProperty.Address] == 0);
+            Assert.True(_configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues[boolTestDefaultProperty.Address] == 0);
             Assert.True(defaultPropertyWithBoolFormatting.LocalValue.IsFormattedValueChanged);
 
         }
@@ -827,13 +850,18 @@ namespace Unicon2.Tests.Configuration
                 _configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal,true);
             await memoryAccessor.Process();
         }
+
         private async Task Read()
         {
-            await new MemoryReaderVisitor(_configuration,
-                _configurationFragmentViewModel.DeviceContext, 0).ExecuteRead();
+            if (_readCommand.CanExecute(null))
+            {
+                _readCommand.Execute(null);
+            }
 
-            
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+
         }
+
         private async Task Write()
         {
             if (LocalValuesWriteValidator.ValidateLocalValuesToWrite(_configurationFragmentViewModel
