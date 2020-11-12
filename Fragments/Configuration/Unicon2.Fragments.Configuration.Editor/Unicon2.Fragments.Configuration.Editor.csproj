@@ -80,6 +80,7 @@
     <Compile Include="Factories\ConfigurationFragmentFactory.cs" />
     <Compile Include="Helpers\ConditionFillHelper.cs" />
     <Compile Include="Helpers\DependencyFillHelper.cs" />
+    <Compile Include="Helpers\FilterFillHelper.cs" />
     <Compile Include="Helpers\ResultFillHelper.cs" />
     <Compile Include="Interfaces\Dependencies\IConditionViewModel.cs">
       <Link>Interfaces\Dependencies\IConditionViewModel.cs</Link>

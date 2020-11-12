@@ -29,8 +29,27 @@
                         </StackPanel>
                         <ListBox ItemsSource="{Binding ConditionViewModels}">
                             <ListBox.ItemTemplate>
-                                <DataTemplate>
-
+                                <DataTemplate DataType="filter:CompareConditionViewModel">
+<StackPanel Orientation="Horizontal">
+    <TextBox Text="{Binding StrongName}"></TextBox>
+    <StackPanel Margin="10">
+        <TextBlock Text="{lex:Loc Condition}" />
+        <StackPanel Orientation="Horizontal">
+            <ComboBox ItemsSource="{Binding ConditionsList}" SelectedItem="{Binding SelectedCondition}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <lex:LocProxy x:Name="condProxy" Source="{Binding}" />
+                            <TextBlock FontWeight="Normal" Text="{Binding Result, ElementName=condProxy}" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox MinWidth="100" Text="{Binding UshortValueToCompare}" />
+        </StackPanel>
+    </StackPanel>
+    <Button Content="X" Style="{DynamicResource UniconButtonStyle}"></Button>
+</StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>

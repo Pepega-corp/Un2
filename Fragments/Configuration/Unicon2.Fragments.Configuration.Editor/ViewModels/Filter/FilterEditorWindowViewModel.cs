@@ -15,9 +15,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Filter
         public FilterEditorWindowViewModel(IConfigurationGroupEditorViewModel groupEditorViewModel)
         {
             _groupEditorViewModel = groupEditorViewModel;
-            FilterViewModels=new ObservableCollection<IFilterViewModel>(groupEditorViewModel.FilterViewModels.ToList());
-            AddFilterCommand=new RelayCommand(OnAddFilterExecute);
-            DeleteFilterCommand=new RelayCommand<object>(OnDeleteFilterExecute,CanExecuteDeleteFilter);
+            FilterViewModels =
+                new ObservableCollection<IFilterViewModel>(groupEditorViewModel.FilterViewModels.ToList());
+            AddFilterCommand = new RelayCommand(OnAddFilterExecute);
+            DeleteFilterCommand = new RelayCommand<object>(OnDeleteFilterExecute, CanExecuteDeleteFilter);
         }
 
         private bool CanExecuteDeleteFilter(object obj)

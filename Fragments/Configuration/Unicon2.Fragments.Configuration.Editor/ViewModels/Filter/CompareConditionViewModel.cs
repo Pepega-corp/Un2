@@ -5,7 +5,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Filter
 {
-    public class CompareConditionViewModel:ViewModelBase,IConditionViewModel
+    public class CompareConditionViewModel : ViewModelBase, IConditionViewModel
     {
         private ushort _ushortValueToCompare;
         private string _selectedCondition;
