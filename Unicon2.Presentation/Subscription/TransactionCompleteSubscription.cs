@@ -1,4 +1,6 @@
-﻿using Unicon2.Infrastructure.Connection;
+﻿using System.Threading.Tasks;
+using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Connection;
@@ -13,47 +15,66 @@ namespace Unicon2.Presentation.Subscription
         private readonly IConnectionStateViewModel _connectionStateViewModel;
         private readonly ITypesContainer _container;
         private IConnectionService _connectionService;
+        private Result<Task> _currentTask = Result<Task>.Create(false);
 
         public TransactionCompleteSubscription(DeviceContext deviceContext, IConnectionState connectionState,
             IConnectionStateViewModel connectionStateViewModel, ITypesContainer container)
         {
-            this._deviceContext = deviceContext;
-            this._connectionState = connectionState;
-            this._connectionStateViewModel = connectionStateViewModel;
-            this._container = container;
+            _deviceContext = deviceContext;
+            _connectionState = connectionState;
+            _connectionStateViewModel = connectionStateViewModel;
+            _container = container;
             _connectionService = container.Resolve<IConnectionService>();
         }
 
         private bool _isPreviousCheckSuccessful = true;
+        private bool _isPrevCheckOffline = false;
 
-        public async void Execute()
+
+        public async Task ExecuteAsync()
         {
-            if (this._deviceContext.DataProviderContainer.DataProvider.IsSuccess &&
-                _deviceContext.DataProviderContainer.DataProvider.Item.LastQuerySucceed &&
-                this._connectionStateViewModel.TestValue != null)
+            if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
             {
-                this._connectionStateViewModel.IsDeviceConnected = true;
+                _connectionStateViewModel.IsDeviceConnected = false;
+                _isPrevCheckOffline = true;
+                return;
+            }
+
+            if (_deviceContext.DataProviderContainer.DataProvider.Item.LastQuerySucceed &&
+                _connectionStateViewModel.TestValue != null)
+            {
+                _connectionStateViewModel.IsDeviceConnected = true;
                 _isPreviousCheckSuccessful = true;
             }
             else
             {
-                if (_isPreviousCheckSuccessful)
+                if (_isPreviousCheckSuccessful || _isPrevCheckOffline)
                 {
-                    var res = await this._connectionService.CheckConnection(this._connectionState, this._deviceContext);
+                    var res = await _connectionService.CheckConnection(_connectionState, _deviceContext);
                     if (!res.IsSuccess)
                     {
-                        this._connectionStateViewModel.IsDeviceConnected = false;
+                        _connectionStateViewModel.IsDeviceConnected = false;
                         _isPreviousCheckSuccessful = false;
                     }
                     else
                     {
-                        this._connectionStateViewModel.TestValue = res.Item;
-                        this._connectionStateViewModel.IsDeviceConnected = true;
+                        _connectionStateViewModel.TestValue = res.Item;
+                        _connectionStateViewModel.IsDeviceConnected = true;
                         _isPreviousCheckSuccessful = true;
                     }
                 }
 
             }
+        }
+
+        public async void Execute()
+        {
+            if (_currentTask.IsSuccess && !_currentTask.Item.IsCompleted)
+            {
+                _currentTask.Item.Dispose();
+            }
+            _currentTask = Result<Task>.Create(ExecuteAsync(), true);
+            await _currentTask.Item;
         }
 
         public int Priority { get; set; } = 1;

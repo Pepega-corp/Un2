@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ItemChangingContext;
@@ -64,6 +65,8 @@ namespace Unicon2.Presentation.ViewModels.Device
                 RaisePropertyChanged();
             }
         }
+
+        public IDeviceSubscription TransactionCompleteSubscription { get; set; }
 
 
         private void SetDeviceModel(IDevice device)

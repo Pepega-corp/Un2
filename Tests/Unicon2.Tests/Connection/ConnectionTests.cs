@@ -18,6 +18,7 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Model.Memory;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
@@ -38,7 +39,9 @@ namespace Unicon2.Tests.Connection
         private IDeviceConfiguration _configuration;
         private IDeviceViewModelFactory _deviceViewModelFactory;
         private RuntimeConfigurationViewModel _configurationFragmentViewModel;
+         
         private ShellViewModel _shell;
+        private IDeviceViewModel _deviceViewModel;
 
         public ConnectionTests()
         {
@@ -54,6 +57,7 @@ namespace Unicon2.Tests.Connection
             _typesContainer.Resolve<IDevicesContainerService>()
                 .AddConnectableItem(_device);
             _device.DeviceMemory = deviceMemory;
+            _deviceViewModel = _shell.ProjectBrowserViewModel.DeviceViewModels[0];
             _configurationFragmentViewModel = null;
             _configurationFragmentViewModel = _shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
                     .First(model => model.NameForUiKey == "Configuration") as
@@ -159,6 +163,7 @@ namespace Unicon2.Tests.Connection
                 .FindItemViewModelByName(model => model.Header == "boolTestDefaultProperty")
                 .Item as IRuntimePropertyViewModel;
 
+            
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
             await _configurationFragmentViewModel.SetFragmentOpened(true);
             await _typesContainer.Resolve<IDevicesContainerService>()
@@ -186,9 +191,9 @@ namespace Unicon2.Tests.Connection
 
 
         }
-        
+  
         [Test]
-        public async Task ChangeConnectionToOfflineIfFragmentClosed()
+        public async Task ChangeConnectionToOfflineIfFragmentClosedConfiguration()
         {
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues.Clear();
@@ -233,6 +238,45 @@ namespace Unicon2.Tests.Connection
                 boolTestDefaultProperty.Address] = 0;
         }
         
+        [Test]
+        public async Task ChangeConnectionToOfflineConnectionStateCheck()
+        {
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            await _configurationFragmentViewModel.SetFragmentOpened(false);
 
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+         
+            Assert.True(await TestsUtils.WaitUntil(
+                () => _deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new OfflineConnection());
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+
+            
+            
+            
+            
+            await _configurationFragmentViewModel.SetFragmentOpened(true);
+            
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+         
+            Assert.True(await TestsUtils.WaitUntil(
+                () => _deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new OfflineConnection());
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+
+
+        }
     }
 }

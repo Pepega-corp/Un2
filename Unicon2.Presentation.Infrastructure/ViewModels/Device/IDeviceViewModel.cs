@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.Presentation.Infrastructure.ViewModels.Connection;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -19,5 +20,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.Device
         ICommand DeleteSelectedDeviceCommand { get; set; }
         IConnectionStateViewModel ConnectionStateViewModel { get; set; }
         IDeviceLoggerViewModel DeviceLoggerViewModel { get; set; }
+        IDeviceSubscription TransactionCompleteSubscription { get;set; }
     }
 }

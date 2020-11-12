@@ -206,11 +206,20 @@ namespace Unicon2.Shell.ViewModels
             get => _activeFragmentViewModel;
             set
             {
+                TrySetFragmentOpened(_activeFragmentViewModel,false);
                 _activeFragmentViewModel = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(ActiveFragmentViewModel.FragmentTitle));
                 ToolBarViewModel.SetDynamicOptionsGroup(ActiveFragmentViewModel?.FragmentViewModel
                     ?.FragmentOptionsViewModel);
+            }
+        }
+
+        private async void TrySetFragmentOpened(IFragmentPaneViewModel fragmentPaneViewModel, bool isOpened)
+        {
+            if (fragmentPaneViewModel?.FragmentViewModel is IFragmentOpenedListener fragmentOpenedListener)
+            {
+                await fragmentOpenedListener.SetFragmentOpened(isOpened);
             }
         }
 
@@ -387,7 +396,8 @@ namespace Unicon2.Shell.ViewModels
 			        IDeviceViewModel deviceViewModel = ProjectBrowserViewModel.DeviceViewModels.FirstOrDefault((model =>
 				        model.Model == connectableItemChangingContext.Connectable));
 			        if (deviceViewModel != null)
-			        {
+			        {                 
+                        deviceViewModel.TransactionCompleteSubscription.Execute();
                         foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
 				        {
                             if (fragment is IFragmentConnectionChangedListener fragmentConnectionChangedListener)

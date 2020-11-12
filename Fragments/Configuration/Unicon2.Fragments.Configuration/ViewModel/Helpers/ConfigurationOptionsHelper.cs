@@ -126,23 +126,23 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
             fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
-            // группа дерево
-            fragmentOptionGroupViewModel = fragmentOptionGroupViewModelGettingFunc();
-            fragmentOptionGroupViewModel.NameKey = ApplicationGlobalNames.UiGroupingStrings.TREE_STRING_KEY;
-            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels = new List<IFragmentOptionCommandViewModel>();
-
-            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
-            fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.EXPAND_LEVEL_STRING_KEY;
-            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconStepInto;
-            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteExpandLevel);
-            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
-
-
-            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
-            fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.COLLAPSE_LEVEL_STRING_KEY;
-            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconStepOut;
-            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteCollapseLevel);
-            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+            // // группа дерево
+            // fragmentOptionGroupViewModel = fragmentOptionGroupViewModelGettingFunc();
+            // fragmentOptionGroupViewModel.NameKey = ApplicationGlobalNames.UiGroupingStrings.TREE_STRING_KEY;
+            // fragmentOptionGroupViewModel.FragmentOptionCommandViewModels = new List<IFragmentOptionCommandViewModel>();
+            //
+            // fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
+            // fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.EXPAND_LEVEL_STRING_KEY;
+            // fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconStepInto;
+            // fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteExpandLevel);
+            // fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+            //
+            //
+            // fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
+            // fragmentOptionCommandViewModel.TitleKey = ConfigurationKeys.COLLAPSE_LEVEL_STRING_KEY;
+            // fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconStepOut;
+            // fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteCollapseLevel);
+            // fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
 
             fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);

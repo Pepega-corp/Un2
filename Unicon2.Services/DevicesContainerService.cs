@@ -61,16 +61,7 @@ namespace Unicon2.Services
             }
             //инициализация подключения (добавление логгеров, датапровайдеров)
             device.InitializeConnection(deviceConnection);
-            if (deviceConnection is IDataProvider dataProvider)
-            {
-                dataProvider.TransactionCompleteSubscription?.Execute();
-            }
-
             ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Connected));
-
-
-
-
             if (res.IsSuccess)
             {
                 return Result.Create(true);

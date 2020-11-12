@@ -31,7 +31,9 @@ namespace Unicon2.Presentation.Factories
             }
 
             var deviceLevelPublisher = new FragmentLevelEventsDispatcher();
-            DeviceContext context = null;
+            DeviceContext context = new DeviceContext(device.DeviceMemory,
+                deviceLevelPublisher, device.DeviceSignature,
+                device, device.DeviceSharedResources);
             if (device.DeviceFragments != null)
             {
                 foreach (IDeviceFragment deviceFragment in device.DeviceFragments)
@@ -42,10 +44,7 @@ namespace Unicon2.Presentation.Factories
                                                                    .VIEW_MODEL);
                     if (fragmentViewModel is IDeviceContextConsumer deviceContextConsumer)
                     {
-                        deviceContextConsumer.DeviceContext = new DeviceContext(device.DeviceMemory,
-                            deviceLevelPublisher, device.DeviceSignature,
-                            device,device.DeviceSharedResources);
-                        context = deviceContextConsumer.DeviceContext;
+                        deviceContextConsumer.DeviceContext = context;
                     }
 
                     fragmentViewModel.Initialize(deviceFragment);
@@ -54,14 +53,13 @@ namespace Unicon2.Presentation.Factories
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }
             }
-            if (context != null && device.DataProvider.IsSuccess)
-            {
-                device.DataProvider.Item.TransactionCompleteSubscription = new TransactionCompleteSubscription(context,
-                    device.ConnectionState, deviceViewModel.ConnectionStateViewModel, this._container);
-                device.DataProvider.Item.TransactionCompleteSubscription.Execute();
-            }
+
+            deviceViewModel.TransactionCompleteSubscription = new TransactionCompleteSubscription(context,
+                device.ConnectionState, deviceViewModel.ConnectionStateViewModel, _container);
+            deviceViewModel.TransactionCompleteSubscription.Execute();
+
             deviceViewModel.Model = device;
-          
+
             return deviceViewModel;
         }
 
