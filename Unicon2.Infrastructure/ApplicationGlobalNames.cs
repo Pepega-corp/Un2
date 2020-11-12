@@ -209,6 +209,8 @@
             /// </summary> 
             public static string SELECTED_CONNECTION_NULL_MESSAGE = "SelectedConnectionNullMessage";
 
+      
+
             /// <summary>
             /// сообщение о несоответствии значению его пределов
             /// </summary> 

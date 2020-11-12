@@ -8,7 +8,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 namespace Unicon2.Fragments.Measuring.Infrastructure.ViewModel
 {
 	public interface IMeasuringMonitorViewModel : IFragmentViewModel, IDisposable, IDeviceContextConsumer,
-		IStronglyNamed
+		IStronglyNamed,IFragmentConnectionChangedListener
 	{
 		ObservableCollection<IMeasuringGroupViewModel> MeasuringGroupViewModels { get; set; }
 		IMeasuringGroupViewModel SelectedMeasuringGroupViewModel { get; set; }

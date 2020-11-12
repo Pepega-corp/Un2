@@ -6,9 +6,11 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Connections.ModBusRtuConnection.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Unicon2.Connections.ModBusRtuConnection.ViewModels"
     Name="comPortConfigurationView"
     Width="300"
     Height="300"
+    d:DataContext="{d:DesignInstance viewModels:ComPortConfigurationViewModel}"
     mc:Ignorable="d">
     <Grid>
         <StackPanel Orientation="Vertical">

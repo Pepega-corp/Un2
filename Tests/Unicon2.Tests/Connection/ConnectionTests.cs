@@ -11,6 +11,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel;
+using Unicon2.Fragments.Measuring.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Functional;
@@ -20,6 +21,7 @@ using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
 using Unicon2.Shell.ViewModels;
@@ -39,7 +41,9 @@ namespace Unicon2.Tests.Connection
         private IDeviceConfiguration _configuration;
         private IDeviceViewModelFactory _deviceViewModelFactory;
         private RuntimeConfigurationViewModel _configurationFragmentViewModel;
-         
+        private MeasuringMonitorViewModel _measuringMonitorViewModel;
+
+
         private ShellViewModel _shell;
         private IDeviceViewModel _deviceViewModel;
 
@@ -62,10 +66,13 @@ namespace Unicon2.Tests.Connection
             _configurationFragmentViewModel = _shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
                     .First(model => model.NameForUiKey == "Configuration") as
                 RuntimeConfigurationViewModel;
+            _measuringMonitorViewModel=_shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
+                    .First(model => model.NameForUiKey == "MeasuringMonitor") as
+                MeasuringMonitorViewModel;
         }
 
         [Test]
-        public async Task OfflineConnectionButtonsAvailbility()
+        public async Task OfflineConnectionConfigurationButtonsAvailbility()
         {
 
             await _typesContainer.Resolve<IDevicesContainerService>()
@@ -104,6 +111,40 @@ namespace Unicon2.Tests.Connection
             Assert.True(isChanagedTriggered > 0);
             Assert.True(isChanagedTriggered1 > 0);
             Assert.True(isChanagedTriggered2 > 0);
+        }
+
+        [Test]
+        public async Task OfflineConnectionMeasuringButtonsAvailbility()
+        {
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new OfflineConnection());
+
+            int isChanagedTriggered1 = 0;
+
+
+            var loadCommand = _measuringMonitorViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Loading").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == "Load")
+                .OptionCommand as RelayCommand;
+            var loadCycleCommand = _measuringMonitorViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Loading").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == "CycleLoading") as FragmentOptionToggleCommandViewModel;
+
+            Assert.False(loadCycleCommand.IsEnabled);
+            Assert.False(loadCommand.CanExecute(null));
+
+
+            loadCommand.CanExecuteChanged += (sender, args) => { isChanagedTriggered1++; };
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+            Assert.True(await TestsUtils.WaitUntil(
+                () =>
+                {
+                    return loadCycleCommand.IsEnabled && loadCommand.CanExecute(null) &&
+                            isChanagedTriggered1 > 0;
+                }, 30000));
         }
 
         [Test]

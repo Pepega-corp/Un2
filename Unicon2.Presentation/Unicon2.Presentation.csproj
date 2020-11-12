@@ -141,10 +141,8 @@
     <Compile Include="ViewModels\DeviceDefinitionViewModel.cs" />
     <Compile Include="ViewModels\Device\DeviceLoggerViewModel.cs" />
     <Compile Include="ViewModels\Device\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\Fragment\FragmentOptions\DefaultFragmentOptionCommandViewModel.cs" />
     <Compile Include="ViewModels\Fragment\FragmentOptions\DefaultFragmentOptionGroupViewModel.cs" />
     <Compile Include="ViewModels\Fragment\FragmentOptions\DefaultFragmentOptionsViewModel.cs" />
-    <Compile Include="ViewModels\Fragment\FragmentOptions\FragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="ViewModels\Fragment\FragmentPaneViewModel.cs" />
     <Compile Include="ViewModels\ToolBarViewModel.cs" />
     <Compile Include="ViewModels\Windows\AnchorableWindowBase.cs" />

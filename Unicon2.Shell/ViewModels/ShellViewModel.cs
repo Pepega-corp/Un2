@@ -366,11 +366,21 @@ namespace Unicon2.Shell.ViewModels
 
 			        break;
 		        case ItemModifyingTypeEnum.Add:
-			        if (connectableItemChangingContext.Connectable != null)
-				        ProjectBrowserViewModel.DeviceViewModels.Add(
-					        _deviceViewModelFactory.CreateDeviceViewModel(
-						        connectableItemChangingContext.Connectable as IDevice));
-			        break;
+                    if (connectableItemChangingContext.Connectable != null)
+                    {
+                        var devicevm = _deviceViewModelFactory.CreateDeviceViewModel(
+                            connectableItemChangingContext.Connectable as IDevice);
+                        ProjectBrowserViewModel.DeviceViewModels.Add(devicevm);
+                        foreach (IFragmentViewModel fragment in devicevm.FragmentViewModels)
+                        {
+                            if (fragment is IFragmentConnectionChangedListener fragmentConnectionChangedListener)
+                            {
+                                await fragmentConnectionChangedListener.OnConnectionChanged();
+                            }
+                        }
+                    }
+
+                    break;
 		        case ItemModifyingTypeEnum.Refresh:
 			        foreach (IDeviceViewModel deviceViewModel in ProjectBrowserViewModel.DeviceViewModels)
 			        {

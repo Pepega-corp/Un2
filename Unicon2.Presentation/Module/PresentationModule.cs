@@ -67,7 +67,6 @@ namespace Unicon2.Presentation.Module
             container.Register(typeof(IFragmentOptionCommandViewModel), typeof(DefaultFragmentOptionCommandViewModel));
             container.Register(typeof(IFragmentOptionGroupViewModel), typeof(DefaultFragmentOptionGroupViewModel));
             container.Register(typeof(IFragmentOptionsViewModel), typeof(DefaultFragmentOptionsViewModel));
-            container.Register(typeof(IFragmentOptionToggleCommandViewModel), typeof(FragmentOptionToggleCommandViewModel));
 
             container.Register(typeof(IFragmentSettingViewModel), typeof(QuickAccessMemorySettingViewModel),
                 ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);

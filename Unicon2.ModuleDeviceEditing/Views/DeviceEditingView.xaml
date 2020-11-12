@@ -8,6 +8,7 @@
     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Unicon2.ModuleDeviceEditing.ViewModels"
     x:Name="DeviceAddingFlyOut"
     Width="Auto"
     HorizontalAlignment="Stretch"
@@ -21,6 +22,7 @@
     IsOpen="{Binding IsFlyoutOpen}"
     IsPinned="True"
     Position="Left"
+    d:DataContext="{d:DesignInstance viewModels:DeviceEditingViewModel}"
     Theme="Adapt"
     mc:Ignorable="d">
     <controls:Flyout.Resources>
@@ -81,7 +83,7 @@
             <TextBox
                 MinWidth="150"
                 Margin="5"
-                Text="{Binding DeviceSignature}" />
+                Text="{Binding DeviceSignature}"/>
         </UniformGrid>
 
         <controls:MetroAnimatedSingleRowTabControl

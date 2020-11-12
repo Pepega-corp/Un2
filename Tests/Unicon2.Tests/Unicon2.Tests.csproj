@@ -123,6 +123,10 @@
       <Project>{f35e1178-260c-4ddc-9bc0-a557ec82a5aa}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Fragments\Measuring\Unicon2.Fragments.Measuring\Unicon2.Fragments.Measuring.csproj">
+      <Project>{AC3F6D9F-5D07-495B-BE6A-4F1E6CE4C392}</Project>
+      <Name>Unicon2.Fragments.Measuring</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
       <Project>{d025ec77-dfd4-444e-8f2c-218a5181c721}</Project>
       <Name>Unicon2.Infrastructure</Name>

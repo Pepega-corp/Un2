@@ -12395,21 +12395,57 @@
             "$values": []
           }
         }
+      },
+      {
+        "$id": "1426",
+        "$type": "Unicon2.Fragments.Measuring.Model.MeasuringMonitor, Unicon2.Fragments.Measuring",
+        "FragmentSettings": null,
+        "MeasuringGroups": {
+          "$id": "1427",
+          "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Measuring.Infrastructure.Model.IMeasuringGroup, Unicon2.Fragments.Measuring.Infrastructure]], mscorlib",
+          "$values": [
+            {
+              "$id": "1428",
+              "$type": "Unicon2.Fragments.Measuring.Model.MeasuringGroup, Unicon2.Fragments.Measuring",
+              "Name": "New",
+              "MeasuringElements": {
+                "$id": "1429",
+                "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Measuring.Infrastructure.Model.Elements.IMeasuringElement, Unicon2.Fragments.Measuring.Infrastructure]], mscorlib",
+                "$values": []
+              },
+              "PresentationSettings": {
+                "$id": "1430",
+                "$type": "Unicon2.Fragments.Measuring.Model.PresentationSettings.MeasuringPresentationSettings, Unicon2.Fragments.Measuring",
+                "GroupsOfElements": {
+                  "$id": "1431",
+                  "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings.IMeasuringPresentationGroup, Unicon2.Fragments.Measuring.Infrastructure]], mscorlib",
+                  "$values": []
+                },
+                "Elements": {
+                  "$id": "1432",
+                  "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings.IMeasuringElementPresentationInfo, Unicon2.Fragments.Measuring.Infrastructure]], mscorlib",
+                  "$values": []
+                }
+              }
+            }
+          ]
+        },
+        "PresentationSettings": null
       }
     ]
   },
   "DeviceSharedResources": {
-    "$id": "1426",
+    "$id": "1433",
     "$type": "Unicon2.Model.DefaultDevice.DeviceSharedResources, Unicon2.Model",
     "SharedResources": {
-      "$id": "1427",
+      "$id": "1434",
       "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Interfaces.INameable, Unicon2.Infrastructure]], mscorlib",
       "$values": [
         {
-          "$id": "1428",
+          "$id": "1435",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1429",
+            "$id": "1436",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Нет",
             "1": "Есть"
@@ -12420,11 +12456,11 @@
           "Name": "Нет/Есть"
         },
         {
-          "$id": "1430",
+          "$id": "1437",
           "$type": "Unicon2.Formatting.Model.FormulaFormatter, Unicon2.Formatting",
           "FormulaString": "x/256",
           "UshortFormattableResources": {
-            "$id": "1431",
+            "$id": "1438",
             "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
             "$values": []
           },
@@ -12432,10 +12468,10 @@
           "Name": "Уставка по току"
         },
         {
-          "$id": "1432",
+          "$id": "1439",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1433",
+            "$id": "1440",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Выведена",
             "1": "Контроль ИО",
@@ -12449,10 +12485,10 @@
           "Name": "Выведена-...-Авария"
         },
         {
-          "$id": "1434",
+          "$id": "1441",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1435",
+            "$id": "1442",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Нет",
             "1": "Д1   Инв",
@@ -12494,10 +12530,10 @@
           "Name": "Табл.3 Сигналы блокировок защит и автоматики"
         },
         {
-          "$id": "1436",
+          "$id": "1443",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1437",
+            "$id": "1444",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Контроль",
             "1": "Разрешено"
@@ -12508,10 +12544,10 @@
           "Name": "Котроль/Разрешено"
         },
         {
-          "$id": "1438",
+          "$id": "1445",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1439",
+            "$id": "1446",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Нет",
             "1": "Д1   Инв",
@@ -12585,11 +12621,11 @@
           "Name": "Табл.2 Сигналы внешних защит"
         },
         {
-          "$id": "1440",
+          "$id": "1447",
           "$type": "Unicon2.Formatting.Model.FormulaFormatter, Unicon2.Formatting",
           "FormulaString": "if(x<32768,x*10,if(x<65536,(x-32768)*100,0))",
           "UshortFormattableResources": {
-            "$id": "1441",
+            "$id": "1448",
             "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
             "$values": []
           },
@@ -12599,11 +12635,11 @@
       ]
     },
     "SharedResourcesInContainers": {
-      "$id": "1442",
+      "$id": "1449",
       "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.DeviceInterfaces.SharedResources.IResourceContainer, Unicon2.Infrastructure]], mscorlib",
       "$values": [
         {
-          "$id": "1443",
+          "$id": "1450",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "defaultPropertyFromSubPropertyDependencySource",
           "Resource": {
@@ -12611,7 +12647,7 @@
           }
         },
         {
-          "$id": "1444",
+          "$id": "1451",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "boolTestDefaultPropertyOutputDependency",
           "Resource": {
@@ -12619,7 +12655,7 @@
           }
         },
         {
-          "$id": "1445",
+          "$id": "1452",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "boolTestSubPropertyDependencySource",
           "Resource": {
@@ -12627,7 +12663,7 @@
           }
         },
         {
-          "$id": "1446",
+          "$id": "1453",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "subToSubPropertySameComplexPropSource",
           "Resource": {
@@ -12635,7 +12671,7 @@
           }
         },
         {
-          "$id": "1447",
+          "$id": "1454",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "Версия",
           "Resource": {
@@ -12647,7 +12683,7 @@
   },
   "DeviceSignature": null,
   "DeviceMetaInfo": {
-    "$id": "1448",
+    "$id": "1455",
     "$type": "Unicon2.Infrastructure.DeviceInterfaces.DeviceMetaInfo, Unicon2.Infrastructure",
     "Id": null,
     "LastEditedDateTime": null

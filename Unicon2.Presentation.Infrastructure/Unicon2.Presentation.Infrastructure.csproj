@@ -74,6 +74,8 @@
     <Compile Include="Factories\ISharedResourcesEditorFactory.cs" />
     <Compile Include="Factories\ISharedResourcesGlobalViewModel.cs" />
     <Compile Include="Factories\IValueViewModelFactory.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\DefaultFragmentOptionCommandViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\FragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="FragmentSettings\IFragmentSettingViewModel.cs" />
     <Compile Include="FragmentSettings\IQuickAccessMemorySettingViewModel.cs" />
     <Compile Include="Keys\PresentationKeys.cs" />
@@ -111,7 +113,6 @@
     <Compile Include="ViewModels\DockingManagerWindows\IAnchorableWindow.cs" />
     <Compile Include="ViewModels\DockingManagerWindows\IDockingWindow.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionGroupViewModel.cs" />
-    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentSettings\IFragmentSettingsViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IDeviceDataProvider.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IFragmentEditorViewModel.cs" />

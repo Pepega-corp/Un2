@@ -15,6 +15,7 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.ViewModel;
 using Unicon2.ModuleDeviceEditing.Interfaces;
+using Unicon2.ModuleDeviceEditing.ViewModels.Validators;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
@@ -260,6 +261,8 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             {
                 _deviceSignature = value;
                 RaisePropertyChanged();
+                OnErrorsChanged(this,null);
+                FireErrorsChanged();
             }
         }
         /// <summary>
@@ -374,13 +377,14 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         /// </summary>
         private void OnValidate()
         {
-            //ValidationResult result = new DeviceEditingViewModelValidator(this._container.Resolve<ILocalizerService>()).Validate(this);
-            //this.SetValidationErrors(result);
+            ValidationResult result = new DeviceEditingViewModelValidator(this._container.Resolve<ILocalizerService>()).Validate(this);
+            this.SetValidationErrors(result);
         }
 
         private static void OnErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
             (sender as DeviceEditingViewModel)?.OnValidate();
+            
         }
         
     }

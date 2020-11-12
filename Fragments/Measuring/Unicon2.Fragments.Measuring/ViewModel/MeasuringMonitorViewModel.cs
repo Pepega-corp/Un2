@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using Unicon2.Fragments.Measuring.Factories;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
@@ -11,6 +12,7 @@ using Unicon2.Fragments.Measuring.MemoryAccess;
 using Unicon2.Fragments.Measuring.Subscriptions;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
@@ -37,8 +39,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 	    public MeasuringMonitorViewModel(IMeasuringGroupViewModelFactory measuringGroupViewModelFactory,
 	        IFragmentOptionsViewModel fragmentOptionsViewModel,
 	        Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelgetFunc,
-	        Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc,
-	        Func<IFragmentOptionToggleCommandViewModel> fragmentOptionToggleCommandViewModelgetFunc)
+	        Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc)
 	    {
 	        _measuringGroupViewModelFactory = measuringGroupViewModelFactory;
 	        MeasuringGroupViewModels = new ObservableCollection<IMeasuringGroupViewModel>();
@@ -59,22 +60,21 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 	        fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
 	        fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
-	        fragmentOptionCommandViewModel = fragmentOptionToggleCommandViewModelgetFunc();
+	        fragmentOptionCommandViewModel = new FragmentOptionToggleCommandViewModel(new RelayCommand<bool?>(isCycleLoadingEnabled =>
+            {
+                if (isCycleLoadingEnabled.HasValue)
+                {
+                    if (isCycleLoadingEnabled.Value)
+                    {
+                        _loader.StartLoading();
+                    }
+                    else
+                    {
+                        _loader.StopLoading();
+                    }
+                }
+            }, (isCycleLoadingEnabled) => DeviceContext.DataProviderContainer.DataProvider.IsSuccess),()=> DeviceContext.DataProviderContainer.DataProvider.IsSuccess);
 	        fragmentOptionCommandViewModel.TitleKey = "CycleLoading";
-	        fragmentOptionCommandViewModel.OptionCommand = new RelayCommand<bool?>(isCycleLoadingEnabled =>
-	        {
-	            if (isCycleLoadingEnabled.HasValue)
-	            {
-	                if (isCycleLoadingEnabled.Value)
-	                {
-	                    _loader.StartLoading();
-	                }
-	                else
-	                {
-	                    _loader.StopLoading();
-	                }
-	            }
-	        });
 	        fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconArrowRightLeft;
 	        fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
@@ -85,16 +85,15 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
 	        fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
 	        fragmentOptionGroupViewModel.NameKey = "Presentation";
-	        fragmentOptionCommandViewModel = fragmentOptionToggleCommandViewModelgetFunc();
-	        fragmentOptionCommandViewModel.TitleKey = "ViewAll";
-	        fragmentOptionCommandViewModel.OptionCommand = new RelayCommand<bool?>(isAllSelected =>
+	        fragmentOptionCommandViewModel = new FragmentOptionToggleCommandViewModel( new RelayCommand<bool?>(isAllSelected =>
 	        {
 	            if (isAllSelected.HasValue)
 	            {
 	                IsListViewSelected = isAllSelected.Value;
 	                _loader.SetCurrentGroup();
 	            }
-	        });
+	        }));
+	        fragmentOptionCommandViewModel.TitleKey = "ViewAll";
 	        fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconAlignJustify;
 	        fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
@@ -212,5 +211,11 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 		}
 
 		public DeviceContext DeviceContext { get; set; }
-	}
+        public async Task OnConnectionChanged()
+        {
+			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
+                model.FragmentOptionCommandViewModels.ForEach(viewModel =>
+                    viewModel.UpdateAvailability()));
+		}
+    }
 }

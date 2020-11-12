@@ -50,7 +50,7 @@ namespace Unicon2.Shell.Behaviors
                     string header = LocalizeDictionary.Instance
                     .GetLocalizedObject(fragmentOptionCommandViewModel.TitleKey, null,
                     LocalizeDictionary.Instance.Culture).ToString();
-                    if (fragmentOptionCommandViewModel is IFragmentOptionToggleCommandViewModel)
+                    if (fragmentOptionCommandViewModel is FragmentOptionToggleCommandViewModel)
                     {
                         CheckBox toggleButton = new CheckBox();
                         toggleButton.Content = header;

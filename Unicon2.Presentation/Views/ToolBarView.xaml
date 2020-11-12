@@ -8,6 +8,7 @@
     xmlns:fragmentOptions="clr-namespace:Unicon2.Presentation.ViewModels.Fragment.FragmentOptions"
     xmlns:local="clr-namespace:Unicon2.Presentation.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fragmentOptions1="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;assembly=Unicon2.Presentation.Infrastructure"
     d:DesignHeight="300"
     d:DesignWidth="300"
     Background="{DynamicResource MahApps.Brushes.Accent4}"
@@ -17,13 +18,14 @@
         <converters:StringToResourceConverter x:Key="StringToResourceConverter" />
         <dataTemplateSelectors:ToolbarButtonDataTemplateSelector x:Key="toolbarButtonDataTemplateSelector">
             <dataTemplateSelectors:ToolbarButtonDataTemplateSelector.ToggleButtonDataTemplate>
-                <DataTemplate DataType="fragmentOptions:FragmentOptionToggleCommandViewModel">
+                <DataTemplate DataType="fragmentOptions1:FragmentOptionToggleCommandViewModel">
                     <ToggleButton
                         Width="35"
                         Height="35"
                         Margin="3"
                         IsChecked="{Binding IsChecked}"
                         Style="{DynamicResource UniconToggleButtonStyle}"
+                        IsEnabled="{Binding IsEnabled}"
                         ToolTip="{Binding Title}">
                         <Rectangle
                             Width="20"
