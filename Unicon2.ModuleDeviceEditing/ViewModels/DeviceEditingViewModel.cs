@@ -28,7 +28,8 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
     /// <summary>
     /// вью-модель для редактирования подключения усторойства
     /// </summary>
-    public class DeviceEditingViewModel : NavigationViewModelBase, IDeviceEditingViewModel, INotifyDataErrorInfo,IFlyoutProvider
+    public class DeviceEditingViewModel : NavigationViewModelBase, IDeviceEditingViewModel, INotifyDataErrorInfo,
+        IFlyoutProvider
     {
         private IViewModel _selectedDeviceConnection;
         private readonly Func<IDeviceDefinitionViewModel> _deviceDefinitionCreator;
@@ -66,7 +67,8 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             OpenDeviceFromFileCommand = new RelayCommand(OnOpenDeviceFromFileExecute);
 
             //подгрузка всех зарегистрированных фабрик разных видов подключений
-            IEnumerable<IDeviceConnectionFactory> deviceConnectionFactories = _container.ResolveAll<IDeviceConnectionFactory>();
+            IEnumerable<IDeviceConnectionFactory> deviceConnectionFactories =
+                _container.ResolveAll<IDeviceConnectionFactory>();
             foreach (IDeviceConnectionFactory deviceConnectionFactory in deviceConnectionFactories)
             {
                 DeviceConnections.Add(deviceConnectionFactory.CreateDeviceConnectionViewModel());
@@ -135,6 +137,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
                 FireErrorsChanged(nameof(SelectedDeviceConnection));
             }
         }
+
         /// <summary>
         /// Комманда подключения
         /// </summary>
@@ -143,19 +146,21 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
 
         private async Task<bool> ConnectDevice(IDevice device, IDeviceConnection deviceConnection)
         {
-              var res=  await _devicesContainerService.ConnectDeviceAsync(device, deviceConnection);
-              if (res.IsSuccess)
-              {
-	              return true;
-              }
-              if (res.Exception != null)
-              {
-	              _dialogCoordinator.ShowModalMessageExternal(this,
-		              _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.PORT_ERROR_MESSAGE),
-		              res.Exception.Message);
-	              return false;
-              }
-              return false;
+            var res = await _devicesContainerService.ConnectDeviceAsync(device, deviceConnection);
+            if (res.IsSuccess)
+            {
+                return true;
+            }
+
+            if (res.Exception != null)
+            {
+                _dialogCoordinator.ShowModalMessageExternal(this,
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.PORT_ERROR_MESSAGE),
+                    res.Exception.Message);
+                return false;
+            }
+
+            return false;
         }
 
 
@@ -169,52 +174,52 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             IDevice connectingDevice = null;
             try
             {
-	            if (HasErrors) return;
-	            if (SelectedDeviceConnection == null) return;
+                if (HasErrors) return;
+                if (SelectedDeviceConnection == null) return;
 
-	            //в режиме редактирования предыдущее подключение нужно удалить
-	            if (CurrentMode == ModesEnum.EditingMode)
-	            {
-		            connectingDevice = _editingDevice;
-		            _previousDeviceConnection?.Dispose();
-	            }
+                //в режиме редактирования предыдущее подключение нужно удалить
+                if (CurrentMode == ModesEnum.EditingMode)
+                {
+                    connectingDevice = _editingDevice;
+                    _previousDeviceConnection?.Dispose();
+                }
 
-	            //В режиме добавления выбранное устройство инициализиреутся
-	            if (CurrentMode == ModesEnum.AddingMode)
-	            {
-		            FireErrorsChanged(nameof(SelectedDevice));
-		            if (SelectedDevice == null) return;
-		            connectingDevice = (SelectedDevice.Model as IDeviceCreator).Create();
-	            }
+                //В режиме добавления выбранное устройство инициализиреутся
+                if (CurrentMode == ModesEnum.AddingMode)
+                {
+                    FireErrorsChanged(nameof(SelectedDevice));
+                    if (SelectedDevice == null) return;
+                    connectingDevice = (SelectedDevice.Model as IDeviceCreator).Create();
+                }
 
-	            if (connectingDevice == null) return;
-	            connectingDevice.DeviceSignature = DeviceSignature;
-	            //модель выбранного подключения клонируется, что не создавать устройства с ссылкой на одно и то же подключкение
-	            //попытка подключения, при неудаче вывод сообщения и прекращение создания устройства
-	            if (!await ConnectDevice(connectingDevice,
-		            (SelectedDeviceConnection.Model as IDeviceConnection)?.Clone() as IDeviceConnection)) return;
-
-
-	            if (CurrentMode == ModesEnum.AddingMode)
-	            {
-		            if (!_devicesContainerService.ConnectableItems.Contains(connectingDevice))
-		            {
-			            _devicesContainerService.AddConnectableItem(connectingDevice);
-		            }
-
-	            }
+                if (connectingDevice == null) return;
+                connectingDevice.DeviceSignature = DeviceSignature;
+                //модель выбранного подключения клонируется, что не создавать устройства с ссылкой на одно и то же подключкение
+                //попытка подключения, при неудаче вывод сообщения и прекращение создания устройства
+                if (!await ConnectDevice(connectingDevice,
+                    (SelectedDeviceConnection.Model as IDeviceConnection)?.Clone() as IDeviceConnection)) return;
 
 
-	            //закрытие представления
-	            IsFlyoutOpen = false;
+                if (CurrentMode == ModesEnum.AddingMode)
+                {
+                    if (!_devicesContainerService.ConnectableItems.Contains(connectingDevice))
+                    {
+                        _devicesContainerService.AddConnectableItem(connectingDevice);
+                    }
+
+                }
+
+
+                //закрытие представления
+                IsFlyoutOpen = false;
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-	            connectingDevice?.DeviceConnection?.Dispose();
+                connectingDevice?.DeviceConnection?.Dispose();
 
                 _dialogCoordinator.ShowModalMessageExternal(this,
-		            _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR),
-		            exception.Message);
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR),
+                    exception.Message);
             }
             finally
             {
@@ -239,6 +244,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             }
 
         }
+
         /// <summary>
         /// текущий режим (редактирование или добавление)
         /// </summary>
@@ -251,6 +257,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
                 RaisePropertyChanged();
             }
         }
+
         /// <summary>
         /// подпись устройства
         /// </summary>
@@ -261,10 +268,11 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             {
                 _deviceSignature = value;
                 RaisePropertyChanged();
-                OnErrorsChanged(this,null);
+                OnErrorsChanged(this, null);
                 FireErrorsChanged();
             }
         }
+
         /// <summary>
         /// Комманда открыть устройство из файла
         /// </summary>
@@ -310,17 +318,23 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             _flyoutService.RegisterFlyout(this);
             IsFlyoutOpen = true;
             Initialize(_deviceDefinitionCreator);
-            if (navigationContext.NavigationParameters.GetParameterByName<IDevice>(ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY) != null)
+            if (navigationContext.NavigationParameters.GetParameterByName<IDevice>(ApplicationGlobalNames
+                .UiGroupingStrings.DEVICE_STRING_KEY) != null)
             {
                 //извлечение из контекста устройства для редактирования
-                IDevice device = navigationContext.NavigationParameters.GetParameterByName<IDevice>(ApplicationGlobalNames.UiGroupingStrings.DEVICE_STRING_KEY);
+                IDevice device =
+                    navigationContext.NavigationParameters.GetParameterByName<IDevice>(ApplicationGlobalNames
+                        .UiGroupingStrings.DEVICE_STRING_KEY);
                 if (device.DeviceConnection != null)
                 {
                     SelectedDeviceConnection =
-                        DeviceConnections.First((model => ((IDeviceConnectionViewModel)model).ConnectionName == device.DeviceConnection.ConnectionName));
+                        DeviceConnections.First((model =>
+                            ((IDeviceConnectionViewModel) model).ConnectionName ==
+                            device.DeviceConnection.ConnectionName));
                     SelectedDeviceConnection.Model = device.DeviceConnection;
                     _previousDeviceConnection = device.DeviceConnection;
                 }
+
                 SelectedDevice = _deviceDefinitionCreator();
                 SelectedDevice.Name = device.DeviceSignature;
                 _editingDevice = device;
@@ -337,11 +351,14 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         }
 
 
-        private readonly Dictionary<string, List<ValidationFailure>> _errorDictionary = new Dictionary<string, List<ValidationFailure>>();
+        private readonly Dictionary<string, List<ValidationFailure>> _errorDictionary =
+            new Dictionary<string, List<ValidationFailure>>();
+
         public bool HasErrors => _errorDictionary.Count != 0;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = OnErrorsChanged;
 
-        public void FireErrorsChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
+        public void FireErrorsChanged([System.Runtime.CompilerServices.CallerMemberName]
+            string propertyName = "")
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
@@ -353,6 +370,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             {
                 return _errorDictionary[propertyName];
             }
+
             return null;
         }
 
@@ -367,7 +385,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
                 }
                 else
                 {
-                    _errorDictionary.Add(error.PropertyName, new List<ValidationFailure> { error });
+                    _errorDictionary.Add(error.PropertyName, new List<ValidationFailure> {error});
                 }
             }
         }
@@ -377,15 +395,16 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         /// </summary>
         private void OnValidate()
         {
-            ValidationResult result = new DeviceEditingViewModelValidator(this._container.Resolve<ILocalizerService>()).Validate(this);
+            ValidationResult result =
+                new DeviceEditingViewModelValidator(this._container.Resolve<ILocalizerService>()).Validate(this);
             this.SetValidationErrors(result);
         }
 
         private static void OnErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
             (sender as DeviceEditingViewModel)?.OnValidate();
-            
+
         }
-        
+
     }
 }

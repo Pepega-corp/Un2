@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Filters
@@ -5,6 +6,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.F
     public interface IFilter
     {
         string Name { get; set; }
-        ICondition Condition { get; set; }
+        List<ICondition> Condition { get; set; }
     }
 }

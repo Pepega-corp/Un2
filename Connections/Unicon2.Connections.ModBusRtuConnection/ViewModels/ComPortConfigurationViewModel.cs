@@ -4,6 +4,7 @@ using System.IO.Ports;
 using Unicon2.Connections.ModBusRtuConnection.Enums;
 using Unicon2.Connections.ModBusRtuConnection.Keys;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Unity.ViewModels;
@@ -13,7 +14,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
     /// <summary>
     /// конфигурация ком-порта
     /// </summary>
-    public class ComPortConfigurationViewModel : ViewModelBase, IComPortConfigurationViewModel
+    public class ComPortConfigurationViewModel : ValidatableBindableBase, IComPortConfigurationViewModel
     {
         private ObservableCollection<int> _baudRates;
         private int _selectedBaudRate;

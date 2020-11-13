@@ -96,7 +96,11 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         public string SelectedPort
         {
             get => _selectedPort;
-            set => SetPort(value);
+            set
+            {
+                SetPort(value);
+                FireErrorsChanged();
+            }
         }
 
         private void SetPort(string value)
@@ -119,6 +123,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
                 _modbusRtuConnection.SlaveId = SlaveId;
                 RaisePropertyChanged();
+
             }
         }
 
