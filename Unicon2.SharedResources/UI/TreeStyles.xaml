@@ -1,19 +1,18 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
-   
-   
-    <Style 
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
+
+
+    <Style
         x:Key="UniconDataGridStyle"
         BasedOn="{StaticResource {x:Type DataGrid}}"
         TargetType="{x:Type DataGrid}">
         <Setter Property="ColumnHeaderStyle">
             <Setter.Value>
-                <Style 
-                    BasedOn="{StaticResource MetroDataGridColumnHeader}" 
-                    TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Style BasedOn="{StaticResource MetroDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
 
                 </Style>
             </Setter.Value>

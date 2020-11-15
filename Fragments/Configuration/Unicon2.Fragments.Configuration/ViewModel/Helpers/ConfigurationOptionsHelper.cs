@@ -145,7 +145,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             // fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
 
-            fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+            //fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
             return fragmentOptionsViewModel;
         }

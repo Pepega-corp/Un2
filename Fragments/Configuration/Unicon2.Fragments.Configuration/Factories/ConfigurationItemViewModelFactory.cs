@@ -8,10 +8,12 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Prope
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProperty;
+using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 
@@ -75,12 +77,17 @@ namespace Unicon2.Fragments.Configuration.Factories
 
             }
 
+            runtimePropertyViewModel.Address = property.Address;
+            if (runtimePropertyViewModel is IDeviceContextConsumer deviceContextConsumer)
+            {
+                deviceContextConsumer.DeviceContext = _deviceContext;
+            }
             InitializeBaseProperties(runtimePropertyViewModel, property);
         }
 
         public FactoryResult<IRuntimeConfigurationItemViewModel> VisitItemsGroup(IItemsGroup itemsGroup)
         {
-            var res = _container.Resolve<IRuntimeItemGroupViewModel>();
+            var res = _container.Resolve<IRuntimeItemGroupViewModel>() as RuntimeItemGroupViewModel;
             res.ChildStructItemViewModels.Clear();
             if (itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiterationInfo &&
                 groupWithReiterationInfo.IsReiterationEnabled)
@@ -123,6 +130,13 @@ namespace Unicon2.Fragments.Configuration.Factories
 
             res.IsMain = itemsGroup.IsMain ?? false;
             res.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
+
+            if (itemsGroup.GroupFilter != null)
+            {
+                res.FilterViewModels = itemsGroup.GroupFilter.Filters.Select(filter =>
+                    new RuntimeFilterViewModel(filter.Name, () => res.TryTransformToTable(),filter.Conditions)).ToList();
+            }
+
             InitializeBaseProperties(res, itemsGroup);
 			return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
 
@@ -380,6 +394,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 		public FactoryResult<IRuntimeConfigurationItemViewModel> VisitSubProperty(ISubProperty subProperty)
         {
             var res = _container.Resolve<IRuntimeSubPropertyViewModel>();
+            res.BitNumbersInWord = subProperty.BitNumbersInWord;
             InitializeProperty(res, subProperty);
             return FactoryResult<IRuntimeConfigurationItemViewModel>.Create(res);
 

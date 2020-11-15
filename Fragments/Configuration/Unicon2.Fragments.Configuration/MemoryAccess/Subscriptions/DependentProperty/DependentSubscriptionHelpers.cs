@@ -6,6 +6,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Depen
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Results;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.Extensions;
@@ -20,7 +21,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 	public class DependentSubscriptionHelpers
 	{
 
-		public static Result<bool> CheckCondition(ICompareResourceCondition condition,
+		public static Result<bool> CheckConditionFromResource(ICompareResourceCondition condition,
 			DeviceContext deviceContext, IFormattingService formattingService, bool isLocal)
 		{
 			var conditionUshortResult = GetConditionPropertyUshort(condition,deviceContext,formattingService,isLocal);
@@ -29,30 +30,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 			{
 				return Result<bool>.Create(false);
 			}
-			var conditionUshort = conditionUshortResult.Item;
-
-			switch (condition.ConditionsEnum)
-			{
-				case ConditionsEnum.Equal:
-					return Result<bool>.Create(conditionUshort == ushortToCompare,true);
-				case ConditionsEnum.HaveFalseBitAt:
-					return Result<bool>.Create(!conditionUshort.GetBoolArrayFromUshort()[ushortToCompare], true);
-				case ConditionsEnum.NotEqual:
-					return Result<bool>.Create(conditionUshort != ushortToCompare, true);
-				case ConditionsEnum.More:
-					return Result<bool>.Create(conditionUshort > ushortToCompare, true);
-				case ConditionsEnum.Less:
-					return Result<bool>.Create(conditionUshort < ushortToCompare, true);
-				case ConditionsEnum.LessOrEqual:
-					return Result<bool>.Create(conditionUshort <= ushortToCompare, true);
-				case ConditionsEnum.MoreOrEqual:
-					return Result<bool>.Create(conditionUshort >= ushortToCompare, true);
-				case ConditionsEnum.HaveTrueBitAt:
-					return Result<bool>.Create(conditionUshort.GetBoolArrayFromUshort()[ushortToCompare], true);
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
+            return ConditionHelper.CheckCondition(condition, conditionUshortResult.Item);
+        }
 
 
 
@@ -70,7 +49,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 								?.Condition is ICompareResourceCondition compareResourceCondition &&
 							conditionResultDependency.Result is IApplyFormatterResult applyFormatterResult)
 						{
-							var checkResult = CheckCondition(compareResourceCondition,
+							var checkResult = CheckConditionFromResource(compareResourceCondition,
 								deviceContext, formattingService, true);
 
 							if (checkResult.IsSuccess)

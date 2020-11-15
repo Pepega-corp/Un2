@@ -149,7 +149,7 @@
                 <StackPanel Grid.Column="1" Margin="10">
                     <TextBlock Text="{lex:Loc ConditionResult}" />
 
-                    <ComboBox ItemsSource="{Binding ResultViewModels}"  SelectedItem="{Binding SelectedResultViewModel}">
+                    <ComboBox ItemsSource="{Binding ResultViewModels}" SelectedItem="{Binding SelectedResultViewModel}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>

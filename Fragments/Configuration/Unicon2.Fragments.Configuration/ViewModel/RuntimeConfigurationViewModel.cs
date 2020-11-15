@@ -256,7 +256,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 					DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(address, 1));
 				devAddresses.ForEach(address =>
 					DeviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(address, 1));
-			}
+                _needRefreshValues = false;
+            }
 		}
 
 		public async Task SetFragmentOpened(bool isOpened)

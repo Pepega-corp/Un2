@@ -405,7 +405,44 @@ namespace Unicon2.Tests.Configuration
 
 
         }
-        
+
+        [Test]
+        public async Task SubPropertyTransferFromDevice()
+        {
+            var boolTestSubProperty =
+                _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty")
+                    .Item as ISubProperty;
+
+            var boolTestSubPropertyViewModel = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "boolTestSubProperty")
+                .Item as IRuntimePropertyViewModel;
+
+            Func<IBoolValueViewModel> deviceValue = () =>
+                boolTestSubPropertyViewModel.DeviceValue as IBoolValueViewModel;
+            Func<EditableBoolValueViewModel> localValue = () =>
+                boolTestSubPropertyViewModel.LocalValue as EditableBoolValueViewModel;
+
+
+            await Read();
+
+            Assert.True(localValue().IsEditEnabled);
+            localValue().BoolValueProperty = true;
+
+           await Write();
+
+           Assert.True(deviceValue().BoolValueProperty);
+           Assert.True(localValue().BoolValueProperty);
+           localValue().BoolValueProperty = false;
+           Assert.True(localValue().IsFormattedValueChanged);
+
+            await TransferFromDeviceToLocal();
+            Assert.True(localValue().BoolValueProperty);
+            Assert.False(localValue().IsFormattedValueChanged);
+
+        }
+
 
         [Test]
         public async Task DependencyDefaultToDefaultPropertyCheckTest()

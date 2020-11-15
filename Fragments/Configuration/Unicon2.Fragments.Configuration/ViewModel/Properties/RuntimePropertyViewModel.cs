@@ -1,6 +1,8 @@
 ﻿using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Properties
@@ -40,7 +42,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         }
 
         public override string TypeName => GetTypeName();
-        public override string StrongName  => ConfigurationKeys.RUNTIME_DEFAULT_PROPERTY+ ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
+        public override string StrongName => ConfigurationKeys.RUNTIME_DEFAULT_PROPERTY +
+                                             ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
         protected virtual string GetTypeName()
         {
@@ -77,6 +81,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
             }
         }
 
+        public ushort Address { get; set; }
+
         public IRangeViewModel RangeViewModel
         {
             get { return _rangeViewModel; }
@@ -86,6 +92,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 RaisePropertyChanged();
             }
         }
-        
+
+        public DeviceContext DeviceContext { get; set; }
     }
 }

@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Unicon2.Fragments.Configuration.Behaviors;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
+using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.ViewModels;
@@ -12,13 +17,20 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 {
     public class TableConfigurationViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<IConfigurationItemViewModel> _itemGroupsToTransform;
-        private DynamicPropertiesTable _dynamicPropertiesTable;
+        private readonly List<IConfigurationItemViewModel> _itemGroupsToTransform;
+        private List<IConfigurationItemViewModel> _filteredGroupsToTransform;
 
-        public TableConfigurationViewModel(
-            ObservableCollection<IConfigurationItemViewModel> itemGroupsToTransform)
+        private readonly List<RuntimeFilterViewModel> _runtimeFilterViewModels;
+        private DynamicPropertiesTable _dynamicPropertiesTable;
+        private DynamicPropertiesTable _filteredPropertiesTable;
+        private bool _isFilterApplied;
+
+
+        public TableConfigurationViewModel(List<IConfigurationItemViewModel> itemGroupsToTransform,
+            List<RuntimeFilterViewModel> runtimeFilterViewModels)
         {
             _itemGroupsToTransform = itemGroupsToTransform;
+            _runtimeFilterViewModels = runtimeFilterViewModels;
             Initialize();
         }
 
@@ -28,8 +40,110 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             set => SetProperty(ref _dynamicPropertiesTable, value);
         }
 
+        public DynamicPropertiesTable FilteredPropertiesTable
+        {
+            get => _filteredPropertiesTable;
+            set => SetProperty(ref _filteredPropertiesTable, value);
+        }
+
+        public bool IsFilterApplied
+        {
+            get => _isFilterApplied;
+            set
+            {
+                _isFilterApplied = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool IsGroupCorrespondToFilters(IEnumerable<IConfigurationItemViewModel> viewModels)
+        {
+            foreach (var viewModel in viewModels)
+            {
+                if (viewModel is RuntimeItemGroupViewModel runtimeItemGroupViewModel)
+                {
+                    if (!IsGroupCorrespondToFilters(runtimeItemGroupViewModel.ChildStructItemViewModels))
+                    {
+                        return true;
+                    }
+                }
+
+                if (viewModel is IRuntimePropertyViewModel propertyViewModel)
+                {
+                    if (CheckConditions(GetValueToCompare(propertyViewModel)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+        private ushort GetValueToCompare(IRuntimePropertyViewModel runtimePropertyViewModel)
+        {
+            var propertyUshort =
+                runtimePropertyViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[runtimePropertyViewModel.Address];
+            if (runtimePropertyViewModel is IRuntimeSubPropertyViewModel subPropertyViewModel)
+            {
+                var resultBitArray = new bool[16];
+                var boolArray = propertyUshort.GetBoolArrayFromUshort();
+                int counter = 0;
+                for (int i = 0; i < 16; i++)
+                {
+                    if (subPropertyViewModel.BitNumbersInWord.Contains(i))
+                    {
+                        resultBitArray[counter] = boolArray[i];
+                        counter++;
+                    }
+
+                }
+
+                propertyUshort = resultBitArray.BoolArrayToUshort();
+            }
+
+            return propertyUshort;
+        }
+
+        private bool CheckConditions(ushort valueToCompare)
+        {
+            foreach (var filterViewModel in _runtimeFilterViewModels)
+            {
+                if (!filterViewModel.IsActivated) continue;
+
+                foreach (var condition in filterViewModel.Conditions)
+                {
+                    var res = ConditionHelper.CheckCondition(condition as ICompareCondition,valueToCompare);
+                    if (res.IsSuccess && !res.Item)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         private void Initialize()
         {
+            IsFilterApplied = _runtimeFilterViewModels.Any(model => model.IsActivated);
+            if (IsFilterApplied)
+            {
+                _filteredGroupsToTransform =
+                    _itemGroupsToTransform.Where(model => IsGroupCorrespondToFilters(model.ChildStructItemViewModels))
+                        .ToList();
+                var columnNamesWithPropertiesFiltered = new List<Tuple<string, IConfigurationItemViewModel>>();
+                FillColumnNames(_filteredGroupsToTransform, columnNamesWithPropertiesFiltered);
+                var lookupFiltered = columnNamesWithPropertiesFiltered.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);
+                var columnNamesFiltered = lookupFiltered.Select(models => models.Key).ToList();
+                FilteredPropertiesTable = new DynamicPropertiesTable(columnNamesFiltered,
+                    _filteredGroupsToTransform.Select((model => model.Header)).ToList(), false);
+                _filteredGroupsToTransform.ForEach((group =>
+                    FilteredPropertiesTable.AddPropertyViewModel(GetRowFromItemGroup(group, lookupFiltered, columnNamesFiltered)
+                        .Select((tuple => tuple.Value)).ToList())));
+            }
+
+
             var columnNamesWithProperties = new List<Tuple<string, IConfigurationItemViewModel>>();
             FillColumnNames(_itemGroupsToTransform, columnNamesWithProperties);
             var lookup = columnNamesWithProperties.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);

@@ -67,6 +67,7 @@
     <Compile Include="DeviceContext\DeviceContext.cs" />
     <Compile Include="Enums\PlacementEnum.cs" />
     <Compile Include="Events\DeviceConnectionChanged.cs" />
+    <Compile Include="Extensions\PresentationExtensions.cs" />
     <Compile Include="Factories\IDeviceViewModelFactory.cs" />
     <Compile Include="Factories\IFormatterViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
@@ -164,5 +165,6 @@
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

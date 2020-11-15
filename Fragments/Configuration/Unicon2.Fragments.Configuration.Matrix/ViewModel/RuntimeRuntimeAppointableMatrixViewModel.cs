@@ -13,7 +13,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
         public RuntimeRuntimeAppointableMatrixViewModel()
         {
-            TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
+           // TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels,null);
         }
         public TableConfigurationViewModel TableConfigurationViewModel
         {

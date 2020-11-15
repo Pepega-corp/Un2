@@ -58,7 +58,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnSubmitExecute(object obj)
         {
             this._model.ExpectedValues = this.ExpectedValues.Select((wrapper => wrapper.StringValue)).ToList();
-            this._model.DefaultComPortConfiguration = this.DefaultComPortConfigurationViewModel.Model as IComPortConfiguration;
+            this._model.DefaultComPortConfiguration = this.DefaultComPortConfigurationViewModel.ComPortConfiguration as IComPortConfiguration;
 
             this.CloseWindow(obj);
         }
@@ -102,7 +102,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 if (this._model.DefaultComPortConfiguration != null)
                 {
                     this._previousComPortConfiguration = this._model.DefaultComPortConfiguration.Clone() as IComPortConfiguration;
-                    this.DefaultComPortConfigurationViewModel.Model = this._model.DefaultComPortConfiguration;
+                    this.DefaultComPortConfigurationViewModel.ComPortConfiguration = this._model.DefaultComPortConfiguration;
                 }
                 this.RaisePropertyChanged(nameof(this.SelectedPropertyString));
             }

@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
@@ -107,6 +108,13 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 	                res.ReiterationStep = groupWithReiterationInfo.ReiterationStep;
 	                groupWithReiterationInfo.SubGroups.ForEach(info =>
 		                res.SubGroupNames.Add(new StringWrapper(info.Name)));
+                }
+
+                if (itemsGroup.GroupFilter != null)
+                {
+                    var filterFillHelper = _container.Resolve<FilterFillHelper>();
+                    res.FilterViewModels.AddCollection(itemsGroup.GroupFilter.Filters
+                        .Select(filter => filterFillHelper.CreateFilterViewModel(filter)));
                 }
 
                 res.IsMain = itemsGroup.IsMain ?? false;

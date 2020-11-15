@@ -17,7 +17,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Factories
         public IComPortConfigurationViewModel CreateComPortConfigurationViewModel(IComPortConfiguration comPortConfiguration)
         {
             IComPortConfigurationViewModel comPortConfigurationViewModel = _container.Resolve<IComPortConfigurationViewModel>();
-            comPortConfigurationViewModel.Model = comPortConfiguration;
+            comPortConfigurationViewModel.ComPortConfiguration = comPortConfiguration;
             return comPortConfigurationViewModel;
         }
     }

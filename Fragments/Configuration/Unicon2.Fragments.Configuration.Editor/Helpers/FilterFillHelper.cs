@@ -7,14 +7,33 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Filte
 using Unicon2.Fragments.Configuration.Model.Conditions;
 using Unicon2.Fragments.Configuration.Model.Filter;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
+using Unicon2.Presentation.Infrastructure.Extensions;
 
 namespace Unicon2.Fragments.Configuration.Editor.Helpers
 {
     public class FilterFillHelper
     {
+        private readonly ConditionFillHelper _conditionFillHelper;
+
+        public FilterFillHelper(ConditionFillHelper conditionFillHelper)
+        {
+            _conditionFillHelper = conditionFillHelper;
+        }
+
         public IFilterViewModel CreateFilterViewModel(IFilter filter)
         {
-            
+            switch (filter)
+            {
+                case DefaultFilter defaultFilter:
+                    return new FilterViewModel(defaultFilter.Conditions
+                        .Select(condition => _conditionFillHelper.CreateConditionViewModel(condition))
+                        .ToObservableCollection())
+                    {
+                        Name = defaultFilter.Name
+                    };
+            }
+
+            return null;
         }
 
         public IFilter CreateFilter(IFilterViewModel filterViewModel)
@@ -23,26 +42,16 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             {
                 case FilterViewModel defaultFilterViewModel:
                     var res = new DefaultFilter();
-                    var conditions = defaultFilterViewModel.ConditionViewModels.Select(model =>
-                    {
-                        var vm = (model as CompareConditionViewModel);
-                        var condition = new CompareCondition();
-                        if (Enum.TryParse<ConditionsEnum>(vm.SelectedCondition,
-                            out var conditionsEnum))
-                        {
-
-                        }
-
-                        return condition;
-                    }).ToList();
-                    res.Condition = conditions.Cast<ICondition>().ToList();
+                    res.Conditions = defaultFilterViewModel.ConditionViewModels
+                        .Select(model => _conditionFillHelper.CreateConditionFromViewModel(model))
+                        .Where(condition => condition != null)
+                        .ToList();
                     res.Name = filterViewModel.Name;
                     return res;
-                    break;
             }
+
             return null;
         }
-        
-        p
+
     }
 }

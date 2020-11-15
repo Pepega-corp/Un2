@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.Module
             container.Register<IHtmlRenderer<IRuntimeConfigurationViewModel, ConfigurationExportSelector>,ConfigurationHtmlRenderer>();
             container.Register<IConfigurationItemRenderer,DefaultPropertyRenderer>(ConfigurationKeys.RUNTIME_DEFAULT_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<IConfigurationItemRenderer, ComplexPropertyRenderer>(ConfigurationKeys.RUNTIME + ConfigurationKeys.COMPLEX_PROPERTY + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            container.Register<IConfigurationItemRenderer, MatrixRenderer>(ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+       //     container.Register<IConfigurationItemRenderer, MatrixRenderer>(ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
             container.Register<IConfigurationItemRenderer, ItemsGroupPropertyRenderer>(ConfigurationKeys.RUNTIME_DEFAULT_ITEM_GROUP +
                                                                                        ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);

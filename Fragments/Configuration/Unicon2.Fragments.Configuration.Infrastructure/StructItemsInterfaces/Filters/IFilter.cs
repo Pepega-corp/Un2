@@ -6,6 +6,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.F
     public interface IFilter
     {
         string Name { get; set; }
-        List<ICondition> Condition { get; set; }
+        List<ICondition> Conditions { get; set; }
     }
 }

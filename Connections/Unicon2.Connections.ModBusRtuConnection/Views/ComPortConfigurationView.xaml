@@ -54,7 +54,7 @@
                         Name="stopbitsComboBox"
                         Margin="2"
                         ItemsSource="{Binding StopBitsCollection}"
-                        SelectedItem="{Binding SelectedStopBits}">
+                        SelectedItem="{Binding SelectedStopBits,ValidatesOnNotifyDataErrors=True}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -77,7 +77,7 @@
                         Name="ParityComboBox"
                         Margin="2"
                         ItemsSource="{Binding ParityCollection}"
-                        SelectedItem="{Binding SelectedParity}">
+                        SelectedItem="{Binding SelectedParity, ValidatesOnNotifyDataErrors=True}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>

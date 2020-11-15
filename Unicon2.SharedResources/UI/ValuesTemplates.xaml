@@ -63,11 +63,12 @@
 
     <DataTemplate x:Key="EditableBoolValueViewModelDataTemplate" DataType="{x:Type editable:EditableBoolValueViewModel}">
         <Grid VerticalAlignment="Stretch">
-            <CheckBox 
-                      HorizontalAlignment="Center" VerticalAlignment="Stretch"
-                      IsChecked="{Binding BoolValueProperty, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                      IsEnabled="{Binding IsEditEnabled}"
-                      IsManipulationEnabled="True" />
+            <CheckBox
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                IsChecked="{Binding BoolValueProperty, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                IsEnabled="{Binding IsEditEnabled}"
+                IsManipulationEnabled="True" />
         </Grid>
     </DataTemplate>
 
@@ -93,12 +94,12 @@
     <DataTemplate x:Key="EditableChosenFromListValueViewModelDataTemplate" DataType="{x:Type editable:EditableChosenFromListValueViewModel}">
         <ComboBox
             MinWidth="100"
-            IsEditable="True"
             HorizontalContentAlignment="Center"
+            IsEditable="True"
+            IsEnabled="{Binding IsEditEnabled}"
             IsTextSearchEnabled="True"
             ItemsSource="{Binding AvailableItemsList}"
             SelectedItem="{Binding SelectedItem, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, Mode=TwoWay}"
-            IsEnabled="{Binding IsEditEnabled}"
             StaysOpenOnEdit="True" />
 
     </DataTemplate>

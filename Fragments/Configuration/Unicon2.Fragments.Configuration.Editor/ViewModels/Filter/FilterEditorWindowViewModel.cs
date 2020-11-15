@@ -1,9 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Filter;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
+using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.Extensions;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Filter
@@ -16,14 +19,29 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Filter
         {
             _groupEditorViewModel = groupEditorViewModel;
             FilterViewModels =
-                new ObservableCollection<IFilterViewModel>(groupEditorViewModel.FilterViewModels.ToList());
+                groupEditorViewModel.FilterViewModels
+                    .Select(model => model.Clone())
+                    .ToObservableCollection();
             AddFilterCommand = new RelayCommand(OnAddFilterExecute);
-            DeleteFilterCommand = new RelayCommand<object>(OnDeleteFilterExecute, CanExecuteDeleteFilter);
+            DeleteFilterCommand = new RelayCommand<object>(OnDeleteFilterExecute);
+            SubmitCommand = new RelayCommand<object>(this.OnSubmitExecute);
+            CancelCommand = new RelayCommand<object>(this.OnCancelExecute);
         }
 
-        private bool CanExecuteDeleteFilter(object obj)
+        private void CloseWindow(object window)
         {
-            return obj != null;
+            (window as Window)?.Close();
+        }
+        private void OnCancelExecute(object obj)
+        {
+            this.CloseWindow(obj);
+        }
+
+        private void OnSubmitExecute(object obj)
+        {
+            _groupEditorViewModel.FilterViewModels.Clear();
+            FilterViewModels.ForEach(model => _groupEditorViewModel.FilterViewModels.Add(model));
+            this.CloseWindow(obj);
         }
 
         private void OnDeleteFilterExecute(object obj)
@@ -36,12 +54,18 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Filter
 
         private void OnAddFilterExecute()
         {
-            FilterViewModels.Add(new FilterViewModel(new ObservableCollection<IConditionViewModel>()));
+            FilterViewModels.Add(new FilterViewModel(new ObservableCollection<IConditionViewModel>())
+            {
+                Name = "Filter" + (FilterViewModels.Count + 1)
+            });
         }
 
         public ObservableCollection<IFilterViewModel> FilterViewModels { get; }
         public ICommand AddFilterCommand { get; }
         public ICommand DeleteFilterCommand { get; }
 
+        public ICommand SubmitCommand { get; }
+
+        public ICommand CancelCommand { get; }
     }
 }

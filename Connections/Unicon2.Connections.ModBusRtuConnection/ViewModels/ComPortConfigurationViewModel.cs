@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
+using System.Linq;
 using Unicon2.Connections.ModBusRtuConnection.Enums;
 using Unicon2.Connections.ModBusRtuConnection.Keys;
+using Unicon2.Connections.ModBusRtuConnection.ViewModels.Validation;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Unity.ViewModels;
 
@@ -29,10 +32,12 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private int _onTransmission;
         private int _offTramsmission;
         private IComPortConfiguration _comPortConfiguration;
+        private readonly ILocalizerService _localizerService;
 
-        public ComPortConfigurationViewModel(IComPortConfiguration comPortConfiguration)
+        public ComPortConfigurationViewModel(IComPortConfiguration comPortConfiguration,ILocalizerService localizerService)
         {
             _comPortConfiguration = comPortConfiguration;
+            _localizerService = localizerService;
             BaudRates = new ObservableCollection<int>();
             foreach (BaudRatesEnum baudRatesEnum in Enum.GetValues(typeof(BaudRatesEnum)))
             {
@@ -67,14 +72,24 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 
         }
 
+        protected override void OnValidate()
+        {
+            SetValidationErrors(new ComPortConfigurationViewModelValidator(_localizerService).Validate(this));
+        }
 
         public int SelectedBaudRate
         {
             get => _selectedBaudRate;
             set
             {
+                if (!BaudRates.Contains(value))
+                {
+                    value = BaudRates.First();
+                }
                 _selectedBaudRate = value;
                 RaisePropertyChanged();
+                FireErrorsChanged();
+
             }
         }
 
@@ -83,8 +98,14 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             get { return _selectedDataBits; }
             set
             {
+                if (!DataBitsCollection.Contains(value))
+                {
+                    value = DataBitsCollection.First();
+                }
                 _selectedDataBits = value;
                 RaisePropertyChanged();
+                FireErrorsChanged();
+
             }
         }
 
@@ -95,6 +116,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
                 _selectedStopBits = value;
                 RaisePropertyChanged();
+                FireErrorsChanged();
             }
         }
 
@@ -105,6 +127,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
                 _selectedParity = value;
                 RaisePropertyChanged();
+                FireErrorsChanged();
             }
         }
 
@@ -115,6 +138,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
                 _waitAnswer = value;
                 RaisePropertyChanged();
+                FireErrorsChanged();
+
             }
         }
 
@@ -135,6 +160,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
                 _onTransmission = value;
                 RaisePropertyChanged();
+                FireErrorsChanged();
+
             }
         }
 
@@ -145,6 +172,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
                 _offTramsmission = value;
                 RaisePropertyChanged();
+                FireErrorsChanged();
+
             }
         }
 
@@ -155,6 +184,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
                 _baudRates = value;
                 RaisePropertyChanged();
+
             }
         }
 
@@ -188,10 +218,11 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             }
         }
 
+        
         public string StrongName => StringKeys.COMPORT_CONFIGURATION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public object Model
+        public IComPortConfiguration ComPortConfiguration
         {
             get
             {

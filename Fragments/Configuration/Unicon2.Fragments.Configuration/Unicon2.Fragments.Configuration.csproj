@@ -135,6 +135,7 @@
     <Compile Include="ViewModelMemoryMapping\MemoryAccessor.cs" />
     <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
     <Compile Include="ViewModel\GroupWithReiterationViewModel.cs" />
+    <Compile Include="ViewModel\Helpers\ConditionHelper.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationExportHelper.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationOptionsHelper.cs" />
     <Compile Include="ViewModel\Helpers\LocalValuesWriteValidator.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimePropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimeSubPropertyViewModel.cs" />
+    <Compile Include="ViewModel\RuntimeFilterViewModel.cs" />
     <Compile Include="ViewModel\RuntimeItemGroupViewModel.cs" />
     <Compile Include="ViewModel\RuntimeConfigurationViewModel.cs" />
     <Compile Include="ViewModel\RuntimeConfigurationItemViewModelBase.cs" />

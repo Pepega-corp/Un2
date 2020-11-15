@@ -127,11 +127,13 @@
             Grid.Column="0"
             Columns="2">
             <Button
+                MinWidth="100"
                 Command="{Binding SubmitCommand}"
                 CommandParameter="{Binding ElementName=complexParameterEditorWindow}"
                 Content="{lex:Loc Ok}"
                 Style="{DynamicResource UniconButtonStyle}" />
             <Button
+                MinWidth="100"
                 Command="{Binding CancelCommand}"
                 CommandParameter="{Binding ElementName=complexParameterEditorWindow}"
                 Content="{lex:Loc Cancel}"

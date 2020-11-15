@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+﻿using System.Collections.Generic;
+using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Properties
@@ -9,5 +10,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         {
             return ConfigurationKeys.SUB_PROPERTY;
         }
+
+        public List<int> BitNumbersInWord { get; set; }
     }
 }

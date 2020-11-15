@@ -57,7 +57,6 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
                 (ushort) (_subProperty.Address + _offset),
                 _subProperty.NumberOfPoints, true);
 
-            _prevUshorts = newUshorts;
 
             var boolArray = newUshorts.GetBoolArrayFromUshortArray();
             bool[] subPropertyBools = new bool[16];
@@ -88,7 +87,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
                         if (conditionResultDependency.Condition is ICompareResourceCondition
                             compareResourceCondition)
                         {
-                            var checkResult = DependentSubscriptionHelpers.CheckCondition(compareResourceCondition,
+                            var checkResult = DependentSubscriptionHelpers.CheckConditionFromResource(compareResourceCondition,
                                 _deviceContext, _formattingService, true);
 
                             if (checkResult.IsSuccess)

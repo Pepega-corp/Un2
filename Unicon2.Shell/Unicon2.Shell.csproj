@@ -287,10 +287,6 @@
       <Project>{143F5015-42FE-4BD5-B642-76B5C489EBEB}</Project>
       <Name>Unicon2.Fragments.Configuration.Exporter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration.Matrix\Unicon2.Fragments.Configuration.Matrix.csproj">
-      <Project>{091C3FCE-7FB2-4852-9B3F-7B7C967B84B4}</Project>
-      <Name>Unicon2.Fragments.Configuration.Matrix</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration\Unicon2.Fragments.Configuration.csproj">
       <Project>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>

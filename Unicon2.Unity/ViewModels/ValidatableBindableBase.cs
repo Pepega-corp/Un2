@@ -1,8 +1,9 @@
-﻿using FluentValidation.Results;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using FluentValidation.Results;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Infrastructure.Common
@@ -27,6 +28,8 @@ namespace Unicon2.Infrastructure.Common
             return null;
         }
 
+        
+
         public void SetValidationErrors(ValidationResult result)
         {
             _errorDictionary.Clear();
@@ -43,6 +46,15 @@ namespace Unicon2.Infrastructure.Common
             }
         }
 
+        public void NotifyAll()
+        {
+            var props = _errorDictionary.Keys.ToList();
+            foreach (var prop in props)
+            {
+                FireErrorsChanged(prop);
+            }
+        }
+
         public bool HasErrors => _errorDictionary.Count != 0;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = OnErrorsChanged;
@@ -54,6 +66,7 @@ namespace Unicon2.Infrastructure.Common
 
         protected virtual void OnValidate()
         {
+           
         }
     }
 }

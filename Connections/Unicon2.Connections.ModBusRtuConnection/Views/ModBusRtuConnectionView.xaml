@@ -8,8 +8,11 @@
     xmlns:local="clr-namespace:Unicon2.Connections.ModBusRtuConnection.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels;assembly=Unicon2.Presentation.Infrastructure"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:viewModels1="clr-namespace:Unicon2.Connections.ModBusRtuConnection.ViewModels"
     d:DesignHeight="600"
     d:DesignWidth="300"
+    d:DataContext="{d:DesignInstance viewModels1:ModBusConnectionViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
         <converter:BoolToVisConverter
@@ -21,8 +24,9 @@
     </UserControl.Resources>
     <Grid>
         <Grid Height="Auto" VerticalAlignment="Top">
-            <TabControl Grid.Row="0" TabStripPlacement="Top">
+            <mah:MetroAnimatedSingleRowTabControl  Grid.Row="0" mah:TabControlHelper.Transition="RightReplace" >
                 <TabItem Header="Com - Port" IsSelected="True">
+                    <AdornerDecorator>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -60,11 +64,11 @@
                                 Text="{Binding SlaveId}" />
                         </UniformGrid>
                         <ContentPresenter Grid.Row="2" Content="{Binding SelectedComPortConfigurationViewModel}" />
-                    </Grid>
+                        </Grid>
+                    </AdornerDecorator>
                 </TabItem>
                 <TabItem
                     Header="{lex:Loc Interrogation}"
-                    IsSelected="True"
                     Visibility="{Binding IsInterrogationEnabled, Converter={StaticResource boolToVisConverter}}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -145,7 +149,7 @@
 
 
                 </TabItem>
-            </TabControl>
+            </mah:MetroAnimatedSingleRowTabControl>
 
 
 

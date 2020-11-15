@@ -186,7 +186,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 	            cloneEditorViewModel.ChildStructItemViewModels.Add(
 		            child);
             });
-        
+            cloneEditorViewModel.FilterViewModels.AddCollection(this.FilterViewModels.Select(model => model.Clone()));
             return cloneEditorViewModel;
         }
 

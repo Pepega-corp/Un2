@@ -7,6 +7,7 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Model.Filter;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.Extensions;
@@ -99,6 +100,17 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 				} );
 				group.GroupInfo = groupWithReiterationInfo;
             }
+
+            if (itemsGroup.FilterViewModels != null)
+            {
+                var filterFillHelper = _container.Resolve<FilterFillHelper>();
+
+                group.GroupFilter = new GroupFilterInfo()
+                {
+                    Filters = itemsGroup.FilterViewModels.Select(model => filterFillHelper.CreateFilter(model)).ToList()
+                };
+            }
+
             group.IsTableViewAllowed = itemsGroup.IsTableViewAllowed;
             group.IsMain = itemsGroup.IsMain;
             return InitDefaults(group, itemsGroup);

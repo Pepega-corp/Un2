@@ -1,10 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO.Ports;
+using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Device
 {
-    public interface IComPortConfigurationViewModel : IViewModel
+    public interface IComPortConfigurationViewModel 
     {
 
         int SelectedBaudRate { get; set; }
@@ -28,5 +29,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.Device
         ObservableCollection<StopBits> StopBitsCollection { get; set; }
         ObservableCollection<Parity> ParityCollection { get; set; }
 
+        IComPortConfiguration ComPortConfiguration { get; set; }
     }
 }

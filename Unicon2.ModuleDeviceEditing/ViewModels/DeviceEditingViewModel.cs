@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
@@ -170,10 +171,19 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
         private async void OnSubmitCommand()
         {
             _canSubmitCommandExecute = false;
-            SubmitCommand.RaiseCanExecuteChanged();
             IDevice connectingDevice = null;
+
             try
             {
+                SubmitCommand.RaiseCanExecuteChanged();
+                NotifyAll();
+                if (SelectedDeviceConnection is ValidatableBindableBase validatableBindableBase && validatableBindableBase.HasErrors)
+                {
+                    validatableBindableBase.NotifyAll();
+                    return;
+                }
+
+
                 if (HasErrors) return;
                 if (SelectedDeviceConnection == null) return;
 
@@ -238,6 +248,11 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             set
             {
                 _selectedDevice = value;
+                if (!DeviceDefinitions.Contains(value) && value != null)
+                {
+                    DeviceDefinitions.Add(value);
+                }
+
                 RaisePropertyChanged();
                 DeviceSignature = _selectedDevice?.Name;
                 FireErrorsChanged(nameof(SelectedDevice));
@@ -268,7 +283,6 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             {
                 _deviceSignature = value;
                 RaisePropertyChanged();
-                OnErrorsChanged(this, null);
                 FireErrorsChanged();
             }
         }
@@ -348,63 +362,21 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
                 //если в параметрах навигации отсутствует устройство, то установка режима добавления устройства
                 CurrentMode = ModesEnum.AddingMode;
             }
-        }
+            FireErrorsChanged(nameof(DeviceSignature));
+            FireErrorsChanged(nameof(SelectedDevice));
 
-
-        private readonly Dictionary<string, List<ValidationFailure>> _errorDictionary =
-            new Dictionary<string, List<ValidationFailure>>();
-
-        public bool HasErrors => _errorDictionary.Count != 0;
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = OnErrorsChanged;
-
-        public void FireErrorsChanged([System.Runtime.CompilerServices.CallerMemberName]
-            string propertyName = "")
-        {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-        }
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            if (string.IsNullOrEmpty(propertyName)) return null;
-            if (_errorDictionary.ContainsKey(propertyName))
-            {
-                return _errorDictionary[propertyName];
-            }
-
-            return null;
-        }
-
-        public void SetValidationErrors(ValidationResult result)
-        {
-            _errorDictionary.Clear();
-            foreach (ValidationFailure error in result.Errors)
-            {
-                if (_errorDictionary.ContainsKey(error.PropertyName))
-                {
-                    _errorDictionary[error.PropertyName].Add(error);
-                }
-                else
-                {
-                    _errorDictionary.Add(error.PropertyName, new List<ValidationFailure> {error});
-                }
-            }
         }
 
         /// <summary>
         /// Валидация вью-модели
         /// </summary>
-        private void OnValidate()
+        protected override void OnValidate()
         {
             ValidationResult result =
                 new DeviceEditingViewModelValidator(this._container.Resolve<ILocalizerService>()).Validate(this);
             this.SetValidationErrors(result);
         }
 
-        private static void OnErrorsChanged(object sender, DataErrorsChangedEventArgs e)
-        {
-            (sender as DeviceEditingViewModel)?.OnValidate();
-
-        }
 
     }
 }

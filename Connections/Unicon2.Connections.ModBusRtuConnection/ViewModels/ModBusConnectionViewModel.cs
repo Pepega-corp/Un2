@@ -54,7 +54,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         {
             get
             {
-                _modbusRtuConnection.ComPortConfiguration = SelectedComPortConfigurationViewModel.Model as IComPortConfiguration;
+                _modbusRtuConnection.ComPortConfiguration = SelectedComPortConfigurationViewModel.ComPortConfiguration as IComPortConfiguration;
                 if (SelectedPort != null)
                 {
                     _connectionManager.SetComPortConfigurationByName(_modbusRtuConnection.ComPortConfiguration,

@@ -1,14 +1,14 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:behaviors="clr-namespace:Unicon2.SharedResources.Behaviors;assembly=Unicon2.SharedResources"
     xmlns:converters="clr-namespace:Unicon2.Fragments.Journals.Converters"
     xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors;assembly=Unicon2.SharedResources"
     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Journals.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Journals.Infrastructure"
-    xmlns:b="http://schemas.microsoft.com/xaml/behaviors">
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Journals.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Journals.Infrastructure">
     <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector x:Key="ValuesDataTemplateSelector" />
     <converters:ListToTables x:Key="listToTables" />
     <DataTemplate x:Key="UniconJournalViewModelDataTemplate" DataType="viewModel:IUniconJournalViewModel">
@@ -24,12 +24,12 @@
             </ListView.View>
         </ListView>-->
         <Border BorderBrush="Gainsboro" BorderThickness="0,1,0,0">
-        <DataGrid dialogs:DialogParticipation.Register="{Binding}" AutoGenerateColumns="False">
-            <b:Interaction.Behaviors>
-                <behaviors:DynamicColumnsDataGridBehavior RowValues="{Binding Table}" />
-            </b:Interaction.Behaviors>
-        </DataGrid>
-</Border>
+            <DataGrid dialogs:DialogParticipation.Register="{Binding}" AutoGenerateColumns="False">
+                <b:Interaction.Behaviors>
+                    <behaviors:DynamicColumnsDataGridBehavior RowValues="{Binding Table}" />
+                </b:Interaction.Behaviors>
+            </DataGrid>
+        </Border>
 
     </DataTemplate>
 

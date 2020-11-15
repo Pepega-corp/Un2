@@ -13,7 +13,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels.Validators
                 .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.SELECTED_DEVICE_NULL_MESSAGE));
             RuleFor(model => model.SelectedDeviceConnection).NotNull()
                 .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.SELECTED_CONNECTION_NULL_MESSAGE));
-            RuleFor(model => model.DeviceSignature).NotNull()
+            RuleFor(model => model.DeviceSignature).Must(s =>!string.IsNullOrWhiteSpace(s))
                 .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.NULL_OR_EMPTY_MESSAGE));
         }
     }

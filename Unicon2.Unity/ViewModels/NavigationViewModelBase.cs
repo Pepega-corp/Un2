@@ -1,9 +1,10 @@
 ﻿using Prism.Regions;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Navigation;
 
 namespace Unicon2.Unity.ViewModels
 {
-    public abstract class NavigationViewModelBase : ViewModelBase, INavigationAware
+    public abstract class NavigationViewModelBase : ValidatableBindableBase, INavigationAware
     {
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {

@@ -111,6 +111,10 @@ namespace Unicon2.Tests.Connection
             Assert.True(isChanagedTriggered > 0);
             Assert.True(isChanagedTriggered1 > 0);
             Assert.True(isChanagedTriggered2 > 0);
+            //open again and it must not start reading
+            _configurationFragmentViewModel.SetFragmentOpened(true);
+
+            Assert.True(optionCommands.All(command => command.CanExecute(null)));
         }
 
         [Test]
@@ -187,7 +191,7 @@ namespace Unicon2.Tests.Connection
             Assert.True(await TestsUtils.WaitUntil(
                 () => _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.ContainsKey(
                     boolTestDefaultProperty.Address), 30000));
-   
+            
         }
 
 
