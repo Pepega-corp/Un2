@@ -1,4 +1,6 @@
-﻿namespace Unicon2.Infrastructure.Connection
+﻿using System;
+
+namespace Unicon2.Infrastructure.Connection
 {
     public interface IQueryResult<T> : IQueryResult
     {
@@ -8,5 +10,7 @@
     public interface IQueryResult
     {
         bool IsSuccessful { get; set; }
+        void AddExeption(Exception e);
+        Exception Exception { get; }
     }
 }

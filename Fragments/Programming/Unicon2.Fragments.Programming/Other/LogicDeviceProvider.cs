@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -116,16 +117,38 @@ namespace Unicon2.Fragments.Programming.Other
             var provider = this.DeviceContext.DataProviderContainer.DataProvider;
             for (int pageIndex = 0; pageIndex < 4; pageIndex++)
             {
-                await provider.WriteSingleRegisterAsync(0x4000, (ushort) pageIndex, "SaveProgrammPage");
-                var values = logbin.Skip(pageIndex * 1024).Take(1024).ToArray();
-                await provider.WriteMultipleRegistersAsync(0x4300, values, "SaveProgrammBin");
+                var pageSaveResult = await provider.WriteSingleRegisterAsync(0x4000, (ushort) pageIndex, "SaveProgrammPage");
+                if (pageSaveResult.IsSuccessful)
+                {
+                    var values = logbin.Skip(pageIndex * 1024).Take(1024).ToArray();
+                    var count = 1024 / 64;
+                    for (var i = 0; i < count; i++)
+                    {
+                        var val = values.Skip(i * 64).Take(64).ToArray();
+                        var programmSaveResult = await provider.WriteMultipleRegistersAsync((ushort)(0x4300 + i*64), val, $"SaveProgrammBin{i}");
+                        if (!programmSaveResult.IsSuccessful)
+                        {
+                            throw new Exception("Can't write logic programm in device");
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("Can't write logic programm page in device");
+                }
             }
         }
 
         public async Task WriteStartlogicProgrammSignal()
         {
             var provider = this.DeviceContext.DataProviderContainer.DataProvider;
-            await provider.WriteSingleRegisterAsync(0x0E00, 0x00FF, "StartLogicProgramm");
+            var result = await provider.WriteSingleCoilAsync(0x0E00, true, "StartLogicProgramm");
+            //var result = await provider.WriteSingleRegisterAsync(0x0E00, 0x00FF, "StartLogicProgramm");
+            //var result = await provider.WriteMultipleRegistersAsync(0x0E00, new ushort[] { 0x00FF }, "StartLogicProgramm");
+            if (!result.IsSuccessful)
+            {
+                throw new Exception("Can't start logic programm");
+            }
         }
     }
 }

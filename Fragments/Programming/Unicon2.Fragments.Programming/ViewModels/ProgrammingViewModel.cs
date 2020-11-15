@@ -180,6 +180,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 this._programModel = this._serializerService.DeserializeFromFile<IProgramModel>(ofd.FileName);
                 this.UpdateCollections(this._programModel);
+                (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -296,21 +297,29 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 MessageBox.Show("Can't write logic. Scheme collection is empty!", "Write logic", MessageBoxButton.OK);
                 return;
             }
-
-            if (this.SchemesCollection.All(sc => sc.CanWriteToDevice))
+            try
             {
-                this.UpdateModelData();
+                if (this.SchemesCollection.All(sc => sc.CanWriteToDevice))
+                {
+                    this.UpdateModelData();
 
-                var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
-                await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
-                var logbin = this.Compile();
-                await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
-                await this._logicDeviceProvider.WriteStartlogicProgrammSignal();
-                //TODO start cycle reading connection values
+                    var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
+                    await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes,
+                        this._programModel.EnableFileDriver);
+                    var logbin = this.Compile();
+                    await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
+                    await this._logicDeviceProvider.WriteStartlogicProgrammSignal();
+                    //TODO start cycle reading connection values
+                    MessageBox.Show("Logic wrote successful!", "Write logic", MessageBoxButton.OK);
+                }
+                else
+                {
+                    throw new Exception("Not all logic elements are connected!");
+                }
             }
-            else
+            catch(Exception e)
             {
-                MessageBox.Show("Not all logic elements are connected!", "Write logic", MessageBoxButton.OK);
+                MessageBox.Show(e.Message, "Write logic", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

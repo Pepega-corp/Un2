@@ -71,6 +71,7 @@ namespace Unicon2.Connections.DataProvider.Model
             {
                 LogQuery(false, dataTitle, "Fun:3" + " Addr:" + startAddress + " Num:" + numberOfPoints, exception: e);
                 queryResult.IsSuccessful = false;
+                queryResult.AddExeption(e);
             }
 
             _semaphoreSlim.Release(1);
@@ -95,6 +96,7 @@ namespace Unicon2.Connections.DataProvider.Model
             {
                 LogQuery(false, dataTitle, "Fun:1" + " Addr:" + coilAddress + " Num:" + 1, exception: e);
                 queryResult.IsSuccessful = false;
+                queryResult.AddExeption(e);
             }
 
             _semaphoreSlim.Release(1);
@@ -127,6 +129,7 @@ namespace Unicon2.Connections.DataProvider.Model
             {
                 LogQuery(false, dataTitle, "Fun:1" + " Addr:" + coilAddress + " Num:" + numberOfPoints, exception: e);
                 queryResult.IsSuccessful = false;
+                queryResult.AddExeption(e);
             }
 
             _semaphoreSlim.Release(1);
@@ -160,7 +163,7 @@ namespace Unicon2.Connections.DataProvider.Model
             {
                 LogQuery(false, dataTitle, "Fun:16" + " Addr:" + startAddress + " Data:" + dataStr, exception: e);
                 queryResult.IsSuccessful = false;
-
+                queryResult.AddExeption(e);
             }
 
             _semaphoreSlim.Release(1);
@@ -186,6 +189,7 @@ namespace Unicon2.Connections.DataProvider.Model
             {
                 LogQuery(false, dataTitle, "Fun:5" + " Addr:" + coilAddress + " Data:" + valueToWrite, exception: e);
                 queryResult.IsSuccessful = false;
+                queryResult.AddExeption(e);
             }
 
             _semaphoreSlim.Release(1);
@@ -211,6 +215,7 @@ namespace Unicon2.Connections.DataProvider.Model
                 LogQuery(false, dataTitle, "Fun:6" + " Addr:" + registerAddress + " Data:" + valueToWrite,
                     exception: e);
                 queryResult.IsSuccessful = false;
+                queryResult.AddExeption(e);
             }
 
             _semaphoreSlim.Release(1);
