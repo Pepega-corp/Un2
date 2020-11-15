@@ -1473,4 +1473,13 @@
   <data name="ConditionResultDependency" xml:space="preserve">
     <value>@ConditionResultDependency</value>
   </data>
+  <data name="AddFilter" xml:space="preserve">
+    <value>@AddFilter</value>
+  </data>
+  <data name="Conditions" xml:space="preserve">
+    <value>@Conditions</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>@Filters</value>
+  </data>
 </root>
