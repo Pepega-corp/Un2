@@ -230,6 +230,8 @@
             /// сообщение об ошибке чтения устройства
             /// </summary> 
             public static string DEVICE_READING_ERROR = "DeviceReadingError";
+
+            public static string MUST_BE_POSITIVE = "MustBePositive";
         }
 
         public static class QueriesNames

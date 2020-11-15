@@ -249,6 +249,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
                 SelectedStopBits = _comPortConfiguration.StopBits;
                 WaitAnswer = _comPortConfiguration.WaitAnswer;
                 WaitByte = _comPortConfiguration.WaitByte;
+                ClearErrors();
             }
         }
     }

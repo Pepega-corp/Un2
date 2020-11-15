@@ -99,7 +99,7 @@
                     <TextBox
                         Name="WaitAnswerTextBox"
                         Margin="2"
-                        Text="{Binding WaitAnswer, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding WaitAnswer, UpdateSourceTrigger=PropertyChanged,ValidatesOnNotifyDataErrors=True}" />
 
 
                     <Label
@@ -109,7 +109,7 @@
                     <TextBox
                         Name="WaitByteTextBox"
                         Margin="2"
-                        Text="{Binding WaitByte, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding WaitByte, UpdateSourceTrigger=PropertyChanged,ValidatesOnNotifyDataErrors=True}" />
 
                     <!--<Label
                         Margin="2"

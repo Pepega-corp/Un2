@@ -362,9 +362,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
                 //если в параметрах навигации отсутствует устройство, то установка режима добавления устройства
                 CurrentMode = ModesEnum.AddingMode;
             }
-            FireErrorsChanged(nameof(DeviceSignature));
-            FireErrorsChanged(nameof(SelectedDevice));
-
+            ClearErrors();
         }
 
         /// <summary>

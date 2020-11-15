@@ -15,6 +15,12 @@ namespace Unicon2.Infrastructure.Common
 
         public void FireErrorsChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
+            this?.OnValidate();
+            OnErrorsChanged(propertyName);
+        }
+
+        private void OnErrorsChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
+        {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
 
@@ -28,7 +34,15 @@ namespace Unicon2.Infrastructure.Common
             return null;
         }
 
-        
+        public void ClearErrors()
+        {
+            var props = _errorDictionary.Keys.ToList();
+            _errorDictionary.Clear();
+            foreach (var prop in props)
+            {
+                OnErrorsChanged(prop);
+            }
+        }
 
         public void SetValidationErrors(ValidationResult result)
         {
@@ -51,19 +65,15 @@ namespace Unicon2.Infrastructure.Common
             var props = _errorDictionary.Keys.ToList();
             foreach (var prop in props)
             {
-                FireErrorsChanged(prop);
+                OnErrorsChanged(prop);
             }
         }
 
         public bool HasErrors => _errorDictionary.Count != 0;
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = OnErrorsChanged;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        private static void OnErrorsChanged(object sender, DataErrorsChangedEventArgs e)
-        {
-            (sender as ValidatableBindableBase)?.OnValidate();
-        }
-
+     
         protected virtual void OnValidate()
         {
            

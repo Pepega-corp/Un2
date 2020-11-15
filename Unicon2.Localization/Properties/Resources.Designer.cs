@@ -2572,6 +2572,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @MustBePositive.
+        /// </summary>
+        public static string MustBePositive {
+            get {
+                return ResourceManager.GetString("MustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Name.
         /// </summary>
         public static string Name {
