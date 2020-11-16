@@ -176,10 +176,11 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <CheckBox
+            <ToggleButton
                 Name="CheckBox"
                 Margin="1"
-                Content="{lex:Loc Transpone}" />
+                Content="{lex:Loc Transpone}"
+                Style="{DynamicResource UniconToggleButtonStyle}"/>
         </StackPanel>
 
     </Grid>

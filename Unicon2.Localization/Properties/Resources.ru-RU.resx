@@ -1494,4 +1494,7 @@
   <data name="MustBePositive" xml:space="preserve">
     <value>Должно быть положительным</value>
   </data>
+  <data name="FilteredData" xml:space="preserve">
+    <value>Фильтрованные данные</value>
+  </data>
 </root>

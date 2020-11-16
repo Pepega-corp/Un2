@@ -177,10 +177,11 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             {
                 SubmitCommand.RaiseCanExecuteChanged();
                 NotifyAll();
-                if (SelectedDeviceConnection is ValidatableBindableBase validatableBindableBase && validatableBindableBase.HasErrors)
+                if (SelectedDeviceConnection is ValidatableBindableBase validatableBindableBase)
                 {
+                    validatableBindableBase.Validate();
                     validatableBindableBase.NotifyAll();
-                    return;
+                    if(validatableBindableBase.HasErrors){return;}
                 }
 
 

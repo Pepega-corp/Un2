@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
@@ -15,15 +16,32 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Table
 {
+
+    public class ConfigItemWrapper
+    {
+        public ConfigItemWrapper(IEnumerable<ConfigItemWrapper> childConfigItemWrappers,
+            IConfigurationItemViewModel relatedConfigurationItemViewModel, bool toInclude)
+        {
+            ChildConfigItemWrappers = childConfigItemWrappers;
+            RelatedConfigurationItemViewModel = relatedConfigurationItemViewModel;
+            ToInclude = toInclude;
+        }
+
+        public bool ToInclude { get; }
+        public IConfigurationItemViewModel RelatedConfigurationItemViewModel { get; }
+        public IEnumerable<ConfigItemWrapper> ChildConfigItemWrappers { get; }
+    }
     public class TableConfigurationViewModel : ViewModelBase
     {
         private readonly List<IConfigurationItemViewModel> _itemGroupsToTransform;
-        private List<IConfigurationItemViewModel> _filteredGroupsToTransform;
+        private List<ConfigItemWrapper> _filteredGroupsToTransform;
 
         private readonly List<RuntimeFilterViewModel> _runtimeFilterViewModels;
         private DynamicPropertiesTable _dynamicPropertiesTable;
         private DynamicPropertiesTable _filteredPropertiesTable;
         private bool _isFilterApplied;
+
+
 
 
         public TableConfigurationViewModel(List<IConfigurationItemViewModel> itemGroupsToTransform,
@@ -56,28 +74,27 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             }
         }
 
-        private bool IsGroupCorrespondToFilters(IEnumerable<IConfigurationItemViewModel> viewModels)
+        private List<ConfigItemWrapper> FillGroupCorrespondToFilters(IEnumerable<IConfigurationItemViewModel> viewModels,bool leftNotCorresponding)
         {
+            var result = new List<ConfigItemWrapper>();
+
             foreach (var viewModel in viewModels)
             {
                 if (viewModel is RuntimeItemGroupViewModel runtimeItemGroupViewModel)
                 {
-                    if (!IsGroupCorrespondToFilters(runtimeItemGroupViewModel.ChildStructItemViewModels))
-                    {
-                        return true;
-                    }
+                    result.Add(new ConfigItemWrapper(
+                        FillGroupCorrespondToFilters(runtimeItemGroupViewModel.ChildStructItemViewModels, false),
+                        viewModel, true));
                 }
 
                 if (viewModel is IRuntimePropertyViewModel propertyViewModel)
                 {
-                    if (CheckConditions(GetValueToCompare(propertyViewModel)))
-                    {
-                        return true;
-                    }
+                    result.Add(new ConfigItemWrapper(new List<ConfigItemWrapper>(), viewModel,
+                        CheckConditions(GetValueToCompare(propertyViewModel))));
                 }
             }
 
-            return false;
+            return result;
         }
 
 
@@ -129,17 +146,19 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             IsFilterApplied = _runtimeFilterViewModels.Any(model => model.IsActivated);
             if (IsFilterApplied)
             {
-                _filteredGroupsToTransform =
-                    _itemGroupsToTransform.Where(model => IsGroupCorrespondToFilters(model.ChildStructItemViewModels))
-                        .ToList();
+                _filteredGroupsToTransform = 
+                    _itemGroupsToTransform.Select(model => new ConfigItemWrapper(FillGroupCorrespondToFilters(model.ChildStructItemViewModels,true),model,true)).ToList();
+                
+
+
                 var columnNamesWithPropertiesFiltered = new List<Tuple<string, IConfigurationItemViewModel>>();
-                FillColumnNames(_filteredGroupsToTransform, columnNamesWithPropertiesFiltered);
+                FillFilteredColumnNames(_filteredGroupsToTransform, columnNamesWithPropertiesFiltered);
                 var lookupFiltered = columnNamesWithPropertiesFiltered.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);
                 var columnNamesFiltered = lookupFiltered.Select(models => models.Key).ToList();
                 FilteredPropertiesTable = new DynamicPropertiesTable(columnNamesFiltered,
-                    _filteredGroupsToTransform.Select((model => model.Header)).ToList(), false);
+                    _filteredGroupsToTransform.Select((model => model.RelatedConfigurationItemViewModel.Header)).ToList(), false);
                 _filteredGroupsToTransform.ForEach((group =>
-                    FilteredPropertiesTable.AddPropertyViewModel(GetRowFromItemGroup(group, lookupFiltered, columnNamesFiltered)
+                    FilteredPropertiesTable.AddPropertyViewModel(GetRowFromItemGroupFiltered(group, lookupFiltered, columnNamesFiltered)
                         .Select((tuple => tuple.Value)).ToList())));
             }
 
@@ -158,6 +177,24 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
 
 
+        private void FillFilteredColumnNames(IEnumerable<ConfigItemWrapper> items,
+            List<Tuple<string, IConfigurationItemViewModel>> columnNamesWithProperties)
+        {
+            foreach (var item in items)
+            {
+                if(!item.ToInclude)continue;
+                
+                if (item.ChildConfigItemWrappers.Any())
+                {
+                    FillFilteredColumnNames(item.ChildConfigItemWrappers, columnNamesWithProperties);
+                }
+                else
+                {
+                    columnNamesWithProperties.Add(
+                        new Tuple<string, IConfigurationItemViewModel>(item.RelatedConfigurationItemViewModel.Header, item.RelatedConfigurationItemViewModel));
+                }
+            }
+        }
 
 
 
@@ -177,7 +214,33 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                 }
             }
         }
+        private Dictionary<string, ILocalAndDeviceValueContainingViewModel> GetRowFromItemGroupFiltered(
+            ConfigItemWrapper group, ILookup<string, IConfigurationItemViewModel> lookup,
+            List<string> columnNames, Dictionary<string, ILocalAndDeviceValueContainingViewModel> initialList = null)
+        {
+            if (initialList == null)
+            {
+                initialList = new Dictionary<string, ILocalAndDeviceValueContainingViewModel>();
+                foreach (var columnName in columnNames)
+                {
+                    initialList.Add(columnName, null);
+                }
+            }
 
+            group.ChildConfigItemWrappers.ForEach((item =>
+            {
+                if(!item.ToInclude)return;
+                if (item.ChildConfigItemWrappers.Any())
+                {
+                    GetRowFromItemGroupFiltered(item, lookup, columnNames, initialList);
+                }
+                else
+                {
+                    InsertProperty(initialList, lookup, item.RelatedConfigurationItemViewModel);
+                }
+            }));
+            return initialList;
+        }
         private Dictionary<string, ILocalAndDeviceValueContainingViewModel> GetRowFromItemGroup(
             IConfigurationItemViewModel group, ILookup<string, IConfigurationItemViewModel> lookup,
             List<string> columnNames, Dictionary<string, ILocalAndDeviceValueContainingViewModel> initialList = null)

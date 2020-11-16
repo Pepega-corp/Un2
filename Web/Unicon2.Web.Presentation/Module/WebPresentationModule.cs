@@ -76,13 +76,13 @@ namespace Unicon2.Web.Presentation.Module
 
             container.Resolve<IApplicationGlobalCommands>().ShellLoaded += () =>
             {
-                container.Resolve<IMainMenuService>().RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(
-                    Guid.NewGuid(), new RelayCommand(
-                        () =>
-                        {
-                            container.Resolve<IApplicationGlobalCommands>().ShowWindowModal(
-                                () => new WebSynchronizationView(), container.Resolve<WebSynchronizationViewModel>());
-                        }), ApplicationGlobalNames.UiCommandStrings.OPEN_WEB_SYNC));
+                //container.Resolve<IMainMenuService>().RegisterMainMenuCommand(new MainMenuCommandRegistrationOptions(
+                //    Guid.NewGuid(), new RelayCommand(
+                //        () =>
+                //        {
+                //            container.Resolve<IApplicationGlobalCommands>().ShowWindowModal(
+                //                () => new WebSynchronizationView(), container.Resolve<WebSynchronizationViewModel>());
+                //        }), ApplicationGlobalNames.UiCommandStrings.OPEN_WEB_SYNC));
             };
 
             

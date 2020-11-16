@@ -1762,6 +1762,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @FilteredData.
+        /// </summary>
+        public static string FilteredData {
+            get {
+                return ResourceManager.GetString("FilteredData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Filters.
         /// </summary>
         public static string Filters {

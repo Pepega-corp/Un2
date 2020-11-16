@@ -17,7 +17,8 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 {
-    public class ModBusConnectionViewModel : ValidatableBindableBase, IModBusConnectionViewModel, IDeviceConnectionViewModel
+    public class ModBusConnectionViewModel : ValidatableBindableBase, IModBusConnectionViewModel,
+        IDeviceConnectionViewModel
     {
         private IComConnectionManager _connectionManager;
         private readonly ITypesContainer _container;
@@ -27,7 +28,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private bool _isInterrogationEnabled;
 
         public ModBusConnectionViewModel(IComConnectionManager connectionManager, ITypesContainer container,
-            IComPortConfigurationViewModelFactory comPortConfigurationViewModelFactory, IComPortInterrogationViewModel comPortInterrogationViewModel)
+            IComPortConfigurationViewModelFactory comPortConfigurationViewModelFactory,
+            IComPortInterrogationViewModel comPortInterrogationViewModel)
         {
             _connectionManager = connectionManager;
             _container = container;
@@ -54,12 +56,14 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         {
             get
             {
-                _modbusRtuConnection.ComPortConfiguration = SelectedComPortConfigurationViewModel.ComPortConfiguration as IComPortConfiguration;
+                _modbusRtuConnection.ComPortConfiguration =
+                    SelectedComPortConfigurationViewModel.ComPortConfiguration as IComPortConfiguration;
                 if (SelectedPort != null)
                 {
                     _connectionManager.SetComPortConfigurationByName(_modbusRtuConnection.ComPortConfiguration,
                         SelectedPort);
                 }
+
                 return _modbusRtuConnection;
             }
             set => SetConnectionModel(value as IModbusRtuConnection);
@@ -68,7 +72,9 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private void SetConnectionModel(IModbusRtuConnection connection)
         {
             _modbusRtuConnection = connection;
-            SelectedComPortConfigurationViewModel = _comPortConfigurationViewModelFactory.CreateComPortConfigurationViewModel(_modbusRtuConnection.ComPortConfiguration);
+            SelectedComPortConfigurationViewModel =
+                _comPortConfigurationViewModelFactory.CreateComPortConfigurationViewModel(_modbusRtuConnection
+                    .ComPortConfiguration);
             SetPort(_modbusRtuConnection.PortName);
             RaisePropertyChanged(nameof(SlaveId));
             RaisePropertyChanged(nameof(ConnectionName));
@@ -110,7 +116,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             RaisePropertyChanged();
             if (_selectedPort == null) return;
             IComPortConfiguration comPortConfiguration = _connectionManager.GetComPortConfiguration(_selectedPort);
-            SelectedComPortConfigurationViewModel = _comPortConfigurationViewModelFactory.CreateComPortConfigurationViewModel(comPortConfiguration);
+            SelectedComPortConfigurationViewModel =
+                _comPortConfigurationViewModelFactory.CreateComPortConfigurationViewModel(comPortConfiguration);
             _modbusRtuConnection.ComPortConfiguration = comPortConfiguration;
             _modbusRtuConnection.PortName = _selectedPort;
             RaisePropertyChanged(nameof(SelectedComPortConfigurationViewModel));
@@ -132,9 +139,26 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 
         protected override void OnValidate()
         {
-            ValidationResult result = new ModBusConnectionViewModelValidator(_container.Resolve<ILocalizerService>()).Validate(this);
+            ValidationResult result =
+                new ModBusConnectionViewModelValidator(_container.Resolve<ILocalizerService>()).Validate(this);
             SetValidationErrors(result);
         }
+
+        public override void Validate()
+        {
+            (SelectedComPortConfigurationViewModel as ValidatableBindableBase)?.Validate();
+            base.Validate();
+        }
+
+        public override void NotifyAll()
+        {
+            (SelectedComPortConfigurationViewModel as ValidatableBindableBase)?.NotifyAll();
+            base.NotifyAll();
+        }
+
+        public override bool HasErrors => base.HasErrors || (SelectedComPortConfigurationViewModel != null &&
+                                          (SelectedComPortConfigurationViewModel as ValidatableBindableBase)
+                                              .HasErrors);
 
         object IViewModel.Model
         {

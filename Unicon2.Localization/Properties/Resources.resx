@@ -1485,4 +1485,7 @@
   <data name="MustBePositive" xml:space="preserve">
     <value>@MustBePositive</value>
   </data>
+  <data name="FilteredData" xml:space="preserve">
+    <value>@FilteredData</value>
+  </data>
 </root>

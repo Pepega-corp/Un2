@@ -60,7 +60,7 @@ namespace Unicon2.Infrastructure.Common
             }
         }
 
-        public void NotifyAll()
+        public virtual void NotifyAll()
         {
             var props = _errorDictionary.Keys.ToList();
             foreach (var prop in props)
@@ -69,11 +69,14 @@ namespace Unicon2.Infrastructure.Common
             }
         }
 
-        public bool HasErrors => _errorDictionary.Count != 0;
+        public virtual bool HasErrors => _errorDictionary.Count != 0;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-     
+        public virtual void Validate()
+        {
+            OnValidate();
+        }
         protected virtual void OnValidate()
         {
            
