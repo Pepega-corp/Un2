@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Connection\ConnectionTests.cs" />
+    <Compile Include="Device\DeviceEditingTests.cs" />
     <Compile Include="Editor\EditorTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -134,6 +135,10 @@
     <ProjectReference Include="..\..\Unicon2.Model\Unicon2.Model.csproj">
       <Project>{2504f838-86e8-48c4-9288-5edfb922f0cc}</Project>
       <Name>Unicon2.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicon2.ModuleDeviceEditing\Unicon2.ModuleDeviceEditing.csproj">
+      <Project>{973b568f-ed39-4b50-bb1f-dede5e61b73a}</Project>
+      <Name>Unicon2.ModuleDeviceEditing</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
       <Project>{ef9bf685-16aa-4942-a33c-d65562bd4215}</Project>

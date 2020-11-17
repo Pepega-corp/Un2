@@ -176,6 +176,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             try
             {
                 SubmitCommand.RaiseCanExecuteChanged();
+                Validate();
                 NotifyAll();
                 if (SelectedDeviceConnection is ValidatableBindableBase validatableBindableBase)
                 {

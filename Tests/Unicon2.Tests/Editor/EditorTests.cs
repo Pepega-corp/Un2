@@ -8,15 +8,21 @@ using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Model;
 using Unicon2.Fragments.Configuration.Editor.Factories;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Filter;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Filter;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Model;
+using Unicon2.Fragments.Configuration.Model.Conditions;
+using Unicon2.Fragments.Configuration.Model.Filter;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Model.DefaultDevice;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
@@ -194,6 +200,93 @@ namespace Unicon2.Tests.Editor
 
             Assert.AreEqual(result.RootConfigurationItemList.Count, 6);
         }
+
+
+        [Test]
+        public async Task GroupFilterSaveLoad()
+        {
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+
+            rootGroup.FilterViewModels.AddRange(new ObservableCollection<IFilterViewModel>()
+            {
+                new FilterViewModel(new ObservableCollection<IConditionViewModel>())
+                {
+                    Name = "F1"
+                },
+                new FilterViewModel(new ObservableCollection<IConditionViewModel>()
+                {
+                    new CompareConditionViewModel(new List<string>()
+                    {
+                        "c1"
+                    })
+                    {
+                        SelectedCondition = ConditionsEnum.Equal.ToString(),
+                        UshortValueToCompare = 1
+                    }
+                })
+                {
+                    Name = "F2"
+                }
+            });
+
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
+
+            var groupFilter = (result.RootConfigurationItemList[0] as IItemsGroup).GroupFilter as GroupFilterInfo;
+            Assert.True(groupFilter.Filters.Count == 2);
+
+            DefaultFilter defaultFilter1 = groupFilter.Filters[0] as DefaultFilter;
+
+            DefaultFilter defaultFilter2 = groupFilter.Filters[1] as DefaultFilter;
+            Assert.True(defaultFilter1.Conditions.Count == 0);
+            Assert.True(defaultFilter1.Name == "F1");
+
+            Assert.True(defaultFilter2.Conditions.Count == 1);
+            Assert.True(defaultFilter2.Name == "F2");
+
+            var condition = defaultFilter2.Conditions[0] as CompareCondition;
+
+            Assert.True(condition.ConditionsEnum == ConditionsEnum.Equal);
+            Assert.True(condition.UshortValueToCompare == 1);
+
+
+            ConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory =
+                ConfigurationItemEditorViewModelFactory.Create();
+
+            var loadedRootItem =
+                configurationItemEditorViewModelFactory.VisitItemsGroup(
+                    result.RootConfigurationItemList[0] as IItemsGroup);
+
+
+            FilterViewModel filterViewModel1 =
+                (loadedRootItem as IConfigurationGroupEditorViewModel).FilterViewModels[0] as FilterViewModel;
+
+            FilterViewModel filterViewModel2 =
+                (loadedRootItem as IConfigurationGroupEditorViewModel).FilterViewModels[1] as FilterViewModel;
+
+            Assert.True(filterViewModel1.Name == "F1");
+            Assert.True(filterViewModel2.Name == "F2");
+
+            Assert.True(filterViewModel1.ConditionViewModels.Count == 0);
+            Assert.True(filterViewModel2.ConditionViewModels.Count == 1);
+
+            CompareConditionViewModel compareConditionViewModel =
+                filterViewModel2.ConditionViewModels[0] as CompareConditionViewModel;
+
+            Assert.True(compareConditionViewModel.SelectedCondition == ConditionsEnum.Equal.ToString());
+            Assert.True(compareConditionViewModel.UshortValueToCompare == 1);
+
+
+        }
+
 
         private IUshortsFormatterViewModel CreateFormatterViewModel(int identity)
         {

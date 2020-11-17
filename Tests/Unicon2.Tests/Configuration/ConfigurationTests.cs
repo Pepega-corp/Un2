@@ -51,7 +51,6 @@ namespace Unicon2.Tests.Configuration
         {
             _typesContainer =
                 new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
-            var serializerService = _typesContainer.Resolve<ISerializerService>();
 
             _device = Program.GetDevice();
             _configuration =
@@ -875,6 +874,15 @@ namespace Unicon2.Tests.Configuration
 
         }
 
+        
+        [Test]
+        public async Task GroupFilterCompareResourceCheck()
+        {
+            var groupViewModel =
+                _configurationFragmentViewModel.RootConfigurationItemViewModels.First(model => model.Header == "Входные логические сигналы") as RuntimeItemGroupViewModel;
+            groupViewModel.IsTableView = true;
+            groupViewModel.FilterViewModels[0].IsActivated = true;
+        }
         private async Task ReadAndTransfer()
         {
             await Read();
