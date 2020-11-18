@@ -882,7 +882,23 @@ namespace Unicon2.Tests.Configuration
                 _configurationFragmentViewModel.RootConfigurationItemViewModels.First(model => model.Header == "Входные логические сигналы") as RuntimeItemGroupViewModel;
             groupViewModel.IsTableView = true;
             groupViewModel.FilterViewModels[0].IsActivated = true;
+            Assert.AreEqual(groupViewModel.TableConfigurationViewModel.FilteredPropertiesTable.Values.Count, 0);
+            Assert.AreEqual(groupViewModel.TableConfigurationViewModel.FilteredPropertiesTable.RowHeadersStrings.Count, 0);
+            Assert.AreEqual(groupViewModel.TableConfigurationViewModel.FilteredPropertiesTable.ColumnNamesStrings.Count, 0);
+
+
+            ((groupViewModel.ChildStructItemViewModels[5].ChildStructItemViewModels[5] as IRuntimePropertyViewModel).LocalValue as
+                EditableBoolValueViewModel).BoolValueProperty = true;
+            groupViewModel.FilterViewModels[0].IsActivated = false;  
+            groupViewModel.FilterViewModels[0].IsActivated = true;
+
+            
+            Assert.AreEqual(groupViewModel.TableConfigurationViewModel.FilteredPropertiesTable.Values[0].Count, 1);
+            Assert.AreEqual(groupViewModel.TableConfigurationViewModel.FilteredPropertiesTable.RowHeadersStrings.Count, 1);
+            Assert.AreEqual(groupViewModel.TableConfigurationViewModel.FilteredPropertiesTable.ColumnNamesStrings.Count, 1);
+
         }
+        
         private async Task ReadAndTransfer()
         {
             await Read();

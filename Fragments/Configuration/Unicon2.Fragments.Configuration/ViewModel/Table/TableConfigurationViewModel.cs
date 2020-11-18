@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Documents;
 using Unicon2.Fragments.Configuration.Behaviors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
@@ -27,7 +28,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             ToInclude = toInclude;
         }
 
-        public bool ToInclude { get; }
+        public bool ToInclude { get; set; }
         public IConfigurationItemViewModel RelatedConfigurationItemViewModel { get; }
         public IEnumerable<ConfigItemWrapper> ChildConfigItemWrappers { get; }
     }
@@ -146,20 +147,45 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             IsFilterApplied = _runtimeFilterViewModels.Any(model => model.IsActivated);
             if (IsFilterApplied)
             {
-                _filteredGroupsToTransform = 
-                    _itemGroupsToTransform.Select(model => new ConfigItemWrapper(FillGroupCorrespondToFilters(model.ChildStructItemViewModels,true),model,true)).ToList();
-                
+                _filteredGroupsToTransform =
+                    _itemGroupsToTransform.Select(model =>
+                        new ConfigItemWrapper(FillGroupCorrespondToFilters(model.ChildStructItemViewModels, true),
+                            model, true)).ToList();
 
+
+                //filter rows
+                _filteredGroupsToTransform = _filteredGroupsToTransform.Where(wrapper =>
+                    wrapper.ChildConfigItemWrappers.Any(itemWrapper => itemWrapper.ToInclude)).ToList();
+
+                if (_filteredGroupsToTransform.Any())
+                {
+                    var columnsNumber = _filteredGroupsToTransform.First().ChildConfigItemWrappers.Count();
+
+                    for (int i = 0; i < columnsNumber; i++)
+                    {
+                        var column = _filteredGroupsToTransform
+                            .Select(wrapper => wrapper.ChildConfigItemWrappers.ToList()[i])
+                            .ToList();
+                        bool toIncludeColumn = column.Any(wrapper => wrapper.ToInclude);
+                        if (toIncludeColumn)
+                        {
+                            column.ForEach(wrapper => wrapper.ToInclude = true);
+                        }
+                    }
+                }
 
                 var columnNamesWithPropertiesFiltered = new List<Tuple<string, IConfigurationItemViewModel>>();
                 FillFilteredColumnNames(_filteredGroupsToTransform, columnNamesWithPropertiesFiltered);
-                var lookupFiltered = columnNamesWithPropertiesFiltered.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);
+                var lookupFiltered =
+                    columnNamesWithPropertiesFiltered.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);
                 var columnNamesFiltered = lookupFiltered.Select(models => models.Key).ToList();
                 FilteredPropertiesTable = new DynamicPropertiesTable(columnNamesFiltered,
-                    _filteredGroupsToTransform.Select((model => model.RelatedConfigurationItemViewModel.Header)).ToList(), false);
+                    _filteredGroupsToTransform.Select((model => model.RelatedConfigurationItemViewModel.Header))
+                        .ToList(), false);
                 _filteredGroupsToTransform.ForEach((group =>
-                    FilteredPropertiesTable.AddPropertyViewModel(GetRowFromItemGroupFiltered(group, lookupFiltered, columnNamesFiltered)
-                        .Select((tuple => tuple.Value)).ToList())));
+                    FilteredPropertiesTable.AddPropertyViewModel(
+                        GetRowFromItemGroupFiltered(group, lookupFiltered, columnNamesFiltered)
+                            .Select((tuple => tuple.Value)).ToList())));
             }
 
 

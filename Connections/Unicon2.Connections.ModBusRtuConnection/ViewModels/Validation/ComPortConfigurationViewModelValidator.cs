@@ -9,8 +9,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels.Validation
     {
         public ComPortConfigurationViewModelValidator(ILocalizerService localizerService)
         {
-            RuleFor(model => model.SelectedParity).Must(parity => parity != Parity.None).WithMessage(
-                localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.NULL_OR_EMPTY_MESSAGE));
+        //    RuleFor(model => model.SelectedParity).Must(parity => parity != Parity.None).WithMessage(
+        //        localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.NULL_OR_EMPTY_MESSAGE));
             RuleFor(model => model.SelectedStopBits).Must(sb => sb != StopBits.None).WithMessage(
                 localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.NULL_OR_EMPTY_MESSAGE));
             RuleFor(model => model.WaitAnswer).Must(sb => sb >0).WithMessage(
