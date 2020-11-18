@@ -105,9 +105,11 @@
                     <controls:SplitButton
                         Name="AddingElementSplitButton"
                         Margin="4"
+                        IsEnabled="True"
                         BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
+                        SelectedItem="{Binding SelectedElementsAddingCommand}"
                         Command="{Binding ElementName=AddingElementSplitButton, Path=SelectedItem.AddingCommand}"
-                        ItemsSource="{Binding ElementsAddingCommandCollection}"
+                        ItemsSource="{Binding ElementsAddingCommandCollectionFiltered}"
                         SelectedIndex="0">
                         <controls:SplitButton.ItemTemplate>
                             <DataTemplate>

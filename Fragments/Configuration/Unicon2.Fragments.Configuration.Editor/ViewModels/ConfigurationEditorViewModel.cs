@@ -17,6 +17,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.ElementAdding;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
+using Unicon2.Presentation.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Dependencies;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
@@ -43,6 +44,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private bool _isAdditionalSettingsOpened;
         private bool _isMultiEditMode;
         private List<IEditorConfigurationItemViewModel> _selectedRows;
+        private ObservableCollection<IElementAddingCommand> _elementsAddingCommandCollectionFiltered;
+        private IElementAddingCommand _selectedElementsAddingCommand;
 
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
@@ -334,6 +337,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
+
         public IEditorConfigurationItemViewModel SelectedRow
         {
             get { return _selectedRow; }
@@ -345,10 +349,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 	            }
 
 	            _selectedRow = value;
-	            foreach (IElementAddingCommand elementAddingCommand in ElementsAddingCommandCollection)
+                ElementsAddingCommandCollectionFiltered = ElementsAddingCommandCollection
+                    .Where(command => command.AddingCommand.CanExecute(null)).ToObservableCollection();
+                SelectedElementsAddingCommand = ElementsAddingCommandCollectionFiltered.FirstOrDefault();
+                foreach (IElementAddingCommand elementAddingCommand in ElementsAddingCommandCollection)
 	            {
 		            (elementAddingCommand.AddingCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            }
+
 
 	            (EditDescriptionCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (AddSelectedElementAsResourceCommand as RelayCommand)?.RaiseCanExecuteChanged();
@@ -403,6 +411,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 		        _addressIteratorValue = value; 
 				RaisePropertyChanged();
 	        }
+        }
+
+        public ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollectionFiltered
+        {
+            get => _elementsAddingCommandCollectionFiltered;
+            set
+            {
+                _elementsAddingCommandCollectionFiltered = value;
+                RaisePropertyChanged();
+            }
         }
 
 
@@ -642,6 +660,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
         public object ShowFiltersCommand { get; }
+
+        public IElementAddingCommand SelectedElementsAddingCommand
+        {
+            get => _selectedElementsAddingCommand;
+            set
+            {
+                _selectedElementsAddingCommand = value; 
+                RaisePropertyChanged();
+            }
+        }
 
         public void Initialize(IDeviceFragment deviceFragment)
         {

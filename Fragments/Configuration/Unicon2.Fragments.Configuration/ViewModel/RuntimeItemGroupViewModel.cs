@@ -84,5 +84,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         }
 
         public bool IsMain { get; set; }
+        public int Offset { get; set; }
     }
 }

@@ -75,7 +75,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             }
         }
 
-        private List<ConfigItemWrapper> FillGroupCorrespondToFilters(IEnumerable<IConfigurationItemViewModel> viewModels,bool leftNotCorresponding)
+        private List<ConfigItemWrapper> FillGroupCorrespondToFilters(
+            IEnumerable<IConfigurationItemViewModel> viewModels, bool leftNotCorresponding, int? offset)
         {
             var result = new List<ConfigItemWrapper>();
 
@@ -84,14 +85,14 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                 if (viewModel is RuntimeItemGroupViewModel runtimeItemGroupViewModel)
                 {
                     result.Add(new ConfigItemWrapper(
-                        FillGroupCorrespondToFilters(runtimeItemGroupViewModel.ChildStructItemViewModels, false),
+                        FillGroupCorrespondToFilters(runtimeItemGroupViewModel.ChildStructItemViewModels, false, runtimeItemGroupViewModel.Offset),
                         viewModel, true));
                 }
 
                 if (viewModel is IRuntimePropertyViewModel propertyViewModel)
                 {
                     result.Add(new ConfigItemWrapper(new List<ConfigItemWrapper>(), viewModel,
-                        CheckConditions(GetValueToCompare(propertyViewModel))));
+                        CheckConditions(GetValueToCompare(propertyViewModel,offset ?? 0))));
                 }
             }
 
@@ -99,10 +100,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
         }
 
 
-        private ushort GetValueToCompare(IRuntimePropertyViewModel runtimePropertyViewModel)
+        private ushort GetValueToCompare(IRuntimePropertyViewModel runtimePropertyViewModel, int offset)
         {
             var propertyUshort =
-                runtimePropertyViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[runtimePropertyViewModel.Address];
+                runtimePropertyViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[(ushort)(runtimePropertyViewModel.Address+offset)];
             if (runtimePropertyViewModel is IRuntimeSubPropertyViewModel subPropertyViewModel)
             {
                 var resultBitArray = new bool[16];
@@ -149,10 +150,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             {
                 _filteredGroupsToTransform =
                     _itemGroupsToTransform.Select(model =>
-                        new ConfigItemWrapper(FillGroupCorrespondToFilters(model.ChildStructItemViewModels, true),
+                        new ConfigItemWrapper(FillGroupCorrespondToFilters(model.ChildStructItemViewModels, true,(model as RuntimeItemGroupViewModel)?.Offset),
                             model, true)).ToList();
-
-
+          
                 //filter rows
                 _filteredGroupsToTransform = _filteredGroupsToTransform.Where(wrapper =>
                     wrapper.ChildConfigItemWrappers.Any(itemWrapper => itemWrapper.ToInclude)).ToList();

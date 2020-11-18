@@ -116,8 +116,10 @@ namespace Unicon2.Fragments.Configuration.Factories
 		            }
 
 		            res.ChildStructItemViewModels.Add(subGroup);
-		            offset += groupWithReiterationInfo.ReiterationStep;
-	            }
+                    subGroup.Offset = offset;
+
+                    offset += groupWithReiterationInfo.ReiterationStep;
+                }
             }
             else
 			{
