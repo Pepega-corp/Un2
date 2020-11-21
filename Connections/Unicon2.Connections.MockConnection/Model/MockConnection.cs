@@ -27,8 +27,14 @@ namespace Unicon2.Connections.MockConnection.Model
 
         private IDeviceLogger _currentDeviceLogger;
         private ITypesContainer _typesContainer;
+        private bool _isConnectionLost;
 
-
+        public void SetConnectionLost(bool isConnectionLost)
+        {
+            _isConnectionLost = isConnectionLost;
+        }
+        
+        
         [JsonProperty] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
         public object Clone()
@@ -60,6 +66,14 @@ namespace Unicon2.Connections.MockConnection.Model
         public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints,
             string dataTitle)
         {
+            if (_isConnectionLost)
+            {  
+                TransactionCompleteSubscription?.Execute();
+                return new DefaultQueryResult<ushort[]>()
+                {
+                    IsSuccessful = false
+                };
+            }
             await Task.Delay(2);
             PopulateMemoryIfNeeded(startAddress, numberOfPoints);
             return new DefaultQueryResult<ushort[]>()

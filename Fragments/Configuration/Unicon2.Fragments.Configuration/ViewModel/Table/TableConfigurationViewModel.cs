@@ -41,9 +41,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
         private DynamicPropertiesTable _dynamicPropertiesTable;
         private DynamicPropertiesTable _filteredPropertiesTable;
         private bool _isFilterApplied;
+        private bool _isTransponed;
 
 
-
+        public bool IsTransponed
+        {
+            get => _isTransponed;
+            set
+            {
+                _isTransponed = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public TableConfigurationViewModel(List<IConfigurationItemViewModel> itemGroupsToTransform,
             List<RuntimeFilterViewModel> runtimeFilterViewModels)

@@ -320,8 +320,18 @@ namespace Unicon2.Tests.Connection
 
             Assert.True(await TestsUtils.WaitUntil(
                 () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+        }
 
-
+        [Test]
+        public async Task ConnectionLost()
+        {         
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+            
+            
+            
+            
         }
     }
 }

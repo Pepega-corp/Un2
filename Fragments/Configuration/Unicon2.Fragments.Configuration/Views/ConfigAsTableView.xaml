@@ -179,6 +179,7 @@
             <ToggleButton
                 Name="CheckBox"
                 Margin="1"
+                IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsTransponed, Mode=TwoWay}"
                 Content="{lex:Loc Transpone}"
                 Style="{DynamicResource UniconToggleButtonStyle}"/>
         </StackPanel>

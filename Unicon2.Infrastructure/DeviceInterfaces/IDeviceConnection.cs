@@ -9,7 +9,6 @@ namespace Unicon2.Infrastructure.DeviceInterfaces
     {
         string ConnectionName { get; }
         Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger);
-        Action<bool> LastQueryStatusChangedAction { get; set; }
         void CloseConnection();
     }
 }

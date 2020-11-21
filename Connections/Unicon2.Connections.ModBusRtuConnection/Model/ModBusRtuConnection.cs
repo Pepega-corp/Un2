@@ -103,9 +103,6 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
             return Result.Create(true);
         }
 
-        public Action<bool> LastQueryStatusChangedAction { get; set; }
-
-
         public void CloseConnection()
         {
             _currentModbusMaster?.Dispose();
@@ -146,7 +143,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
                 if (_isConnectionLost)
                 {
                     _isConnectionLost = false;
-                    LastQueryStatusChangedAction?.Invoke(true);
+                    _lastQuerySucceed = true;
                 }
                 _deviceLogger?.LogSuccessfulQuery("[" + queryDescription + "]" + " " + localizedDataTitle + ". " + queryResult);
             }
@@ -155,7 +152,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
                 if (!_isConnectionLost)
                 {
                     _isConnectionLost = true;
-                    LastQueryStatusChangedAction?.Invoke(false);
+                    _lastQuerySucceed = false;
                 }
                 string exceptionDescription;
                 if (exception is SlaveException)
