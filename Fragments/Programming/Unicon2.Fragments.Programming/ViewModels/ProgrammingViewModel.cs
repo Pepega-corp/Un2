@@ -94,6 +94,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
             set
             {
                 _isLogicStarted = value;
+                foreach (var connection in ConnectionCollection)
+                {
+                    connection.DebugMode = _isLogicStarted;
+                }
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(IsHitTestVisible));
             }
@@ -283,7 +287,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             if (deviceFragment is IProgramModel model)
             {
-                //this._programModel = model;
                 this.ProjectName = model.ProjectName;
                 this._programModel.WithHeader = model.WithHeader;
                 this._programModel.EnableFileDriver = model.EnableFileDriver;
@@ -312,6 +315,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 if (this.SchemesCollection.All(sc => sc.CanWriteToDevice))
                 {
                     IsLogicStarted = true;
+
                     this.UpdateModelData();
                     var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
                     await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
@@ -319,7 +323,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
                     this.CalcCrc(logbin);
                     await this._logicDeviceProvider.WriteStartlogicProgrammSignal();
-                    //TODO start cycle reading connection values
+
+                    CycleReadingConnectionValues();
 
                     MessageBox.Show("Logic wrote successful!", "Write logic", MessageBoxButton.OK);
                 }
@@ -361,9 +366,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 var filler = new ushort[4096 - binFile.Count];
                 binFile.AddRange(filler);
             }
-
-
-
             return binFile.ToArray();
         }
 
@@ -438,7 +440,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private byte[] CalcCrc(ushort[] programmBinary)
         {
             if (programmBinary.Length <= 0) return null;
-            byte[] tbuff = programmBinary.UshortArrayToByteArray(false);//Common.TOBYTES(programmBinary, false);
+            byte[] tbuff = programmBinary.UshortArrayToByteArray(false);
             ushort crc = CRC16.CalcCrcFast(tbuff, tbuff.Length - 2);
             tbuff[tbuff.Length - 1] = (byte)(crc & 0xFF);
             tbuff[tbuff.Length - 2] = (byte)(crc >> 8);
@@ -451,6 +453,18 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private void OnStopEmulation()
         {
             IsLogicStarted = false;
+        }
+
+        private async void CycleReadingConnectionValues()
+        {
+            while (IsLogicStarted)
+            {
+                var values = await _logicDeviceProvider.ReadConnectionValues(ConnectionCollection.Count);
+                for(var i=0; i < ConnectionCollection.Count; i++)
+                {
+                    ConnectionCollection[i].CurrentValue = values[i];
+                }
+            }
         }
 
         private async void OnReadCommand()

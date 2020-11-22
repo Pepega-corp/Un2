@@ -150,5 +150,17 @@ namespace Unicon2.Fragments.Programming.Other
                 throw new Exception("Can't start logic programm");
             }
         }
+
+        public async Task<ushort[]> ReadConnectionValues(int connectionsCount)
+        {
+            var provider = this.DeviceContext.DataProviderContainer.DataProvider;
+            var response = await provider.ReadHoldingResgistersAsync(0x4100, (ushort)connectionsCount, "ReadLogProgSignals");
+            if (response.IsSuccessful)
+            {
+                return response.Result;
+            }
+
+            throw new Exception("Can't read connections values");
+        }
     }
 }
