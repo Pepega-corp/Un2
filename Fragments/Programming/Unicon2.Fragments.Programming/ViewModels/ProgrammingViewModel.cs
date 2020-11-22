@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
+using Unicon2.Fragments.Programming.Infrastructure.HelperClasses;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
@@ -18,6 +19,7 @@ using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -35,6 +37,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private readonly ISerializerService _serializerService;
         private readonly LogicDeviceProvider _logicDeviceProvider;
         private IProgramModel _programModel;
+        private bool _isLogicStarted;
 
         public ProgrammingViewModel(IProgramModel model, LogicDeviceProvider logicDeviceProvider,
             ILogicElementFactory factory, IApplicationGlobalCommands globalCommands, ISerializerService serializerService)
@@ -59,6 +62,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
             this.WriteLogicCommand = new RelayCommand(this.OnWriteCommand);
             this.ReadLogicCommand = new RelayCommand(this.OnReadCommand);
+            this.StopEmulationLogic = new RelayCommand(this.OnStopEmulation);
         }
 
         public string NameForUiKey => ProgrammingKeys.PROGRAMMING;
@@ -71,7 +75,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this._logicDeviceProvider.SetDeviceContext(value);
             }
         }
-
         public string ProjectName
         {
             get => this._programModel.ProjectName;
@@ -83,15 +86,22 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this.RaisePropertyChanged();
             }
         }
-        public string StrongName => ProgrammingKeys.PROGRAMMING +
-                                    ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
+        public string StrongName => ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         public int SelectedTabIndex { get; set; }
-
+        public bool IsLogicStarted
+        {
+            get => _isLogicStarted;
+            set
+            {
+                _isLogicStarted = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsHitTestVisible));
+            }
+        }
+        public bool IsHitTestVisible => !IsLogicStarted;
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
         public ObservableCollection<ILogicElementViewModel> ElementsLibrary { get; }
         public ObservableCollection<IConnectionViewModel> ConnectionCollection { get; }
-
         public ICommand NewSchemeCommand { get; }
         public ICommand SaveProjectCommand { get; }
         public ICommand LoadProjectCommand { get; }
@@ -100,7 +110,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         //READ/WRITE logic commands
         public ICommand ReadLogicCommand { get; }
         public ICommand WriteLogicCommand { get; }
-        public ICommand StartEmulationCommand { get; }
+        public ICommand StopEmulationLogic { get; }
 
         public void AddConnection(IConnectionViewModel connectionViewModel)
         {
@@ -301,15 +311,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 if (this.SchemesCollection.All(sc => sc.CanWriteToDevice))
                 {
+                    IsLogicStarted = true;
                     this.UpdateModelData();
-
                     var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
-                    await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes,
-                        this._programModel.EnableFileDriver);
+                    await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
                     var logbin = this.Compile();
                     await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
+                    this.CalcCrc(logbin);
                     await this._logicDeviceProvider.WriteStartlogicProgrammSignal();
                     //TODO start cycle reading connection values
+
                     MessageBox.Show("Logic wrote successful!", "Write logic", MessageBoxButton.OK);
                 }
                 else
@@ -350,6 +361,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 var filler = new ushort[4096 - binFile.Count];
                 binFile.AddRange(filler);
             }
+
+
 
             return binFile.ToArray();
         }
@@ -420,6 +433,24 @@ namespace Unicon2.Fragments.Programming.ViewModels
             var bindata = new ushort[1];
             bindata[0] = 0x0001;
             return bindata;
+        }
+
+        private byte[] CalcCrc(ushort[] programmBinary)
+        {
+            if (programmBinary.Length <= 0) return null;
+            byte[] tbuff = programmBinary.UshortArrayToByteArray(false);//Common.TOBYTES(programmBinary, false);
+            ushort crc = CRC16.CalcCrcFast(tbuff, tbuff.Length - 2);
+            tbuff[tbuff.Length - 1] = (byte)(crc & 0xFF);
+            tbuff[tbuff.Length - 2] = (byte)(crc >> 8);
+            programmBinary[programmBinary.Length - 1] = (ushort)(
+                (ushort)((ushort)(crc >> (ushort)8) & (ushort)0x00ff) +
+                (ushort)((ushort)(crc << (ushort)8) & (ushort)0xff00));
+            return tbuff;
+        }
+
+        private void OnStopEmulation()
+        {
+            IsLogicStarted = false;
         }
 
         private async void OnReadCommand()

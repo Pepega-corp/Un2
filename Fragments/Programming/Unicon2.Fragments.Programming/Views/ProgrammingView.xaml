@@ -52,44 +52,57 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Menu
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="2">
-                <MenuItem
-                    Margin="0,0,10,0"
-                    VerticalAlignment="Center"
-                    Header="File">
+            <StackPanel Orientation="Horizontal" 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2">
+                <Menu VerticalAlignment="Center" HorizontalAlignment="Center">
                     <MenuItem
-                        Command="{Binding NewSchemeCommand}"
-                        Header="New File"
-                        InputGestureText="Ctrl+N" />
-                    <Separator />
-                    <MenuItem
-                        Command="{Binding SaveProjectCommand}"
-                        Header="Save Project"
-                        InputGestureText="Ctrl+S" />
-                    <MenuItem
-                        Command="{Binding LoadProjectCommand}"
-                        Header="Load Project"
-                        InputGestureText="Ctrl+L" />
-                    <!-- <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" /> -->
-                </MenuItem>
-                <StackPanel Orientation="Horizontal">
+                        Header="File">
+                        <MenuItem
+                            Command="{Binding NewSchemeCommand}"
+                            Header="New File"
+                            InputGestureText="Ctrl+N" />
+                        <Separator />
+                        <MenuItem
+                            Command="{Binding SaveProjectCommand}"
+                            Header="Save Project"
+                            InputGestureText="Ctrl+S" />
+                        <MenuItem
+                            Command="{Binding LoadProjectCommand}"
+                            Header="Load Project"
+                            InputGestureText="Ctrl+L" />
+                        <!-- <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" /> -->
+                    </MenuItem>
+                </Menu>
+                <StackPanel Margin="15,0,0,0" Orientation="Horizontal" >
                     <Button
-                        Width="35"
-                        Height="35"
-                        Margin="5"
+                        Margin="0,0,5,0"
+                        Width="30"
+                        Height="30"
                         Command="{Binding WriteLogicCommand}"
-                        Content="W" />
+                        Style="{DynamicResource SquareButtonStyle}">
+                        <Image Width="20" Height="20" Source="../Resources/compileanddownload.bmp"/>
+                    </Button>
                     <Button
-                        Width="35"
-                        Height="35"
-                        Margin="5"
+                        Margin="0,0,5,0"
+                        Width="30"
+                        Height="30"
                         Command="{Binding ReadLogicCommand}"
-                        Content="R" />
+                        Style="{DynamicResource SquareButtonStyle}">
+                        <Image Width="20" Height="20" Source="../Resources/openfromdevice.bmp"/>
+                    </Button>
+                    <Button
+                        Margin="0,0,5,0"
+                        Width="30"
+                        Height="30"
+                        IsEnabled="{Binding IsLogicStarted}"
+                        Command="{Binding StopCompileLogic}"
+                        Style="{DynamicResource SquareButtonStyle}">
+                        <Image Width="20" Height="20" Source="../Resources/stop.bmp"/>
+                    </Button>
                 </StackPanel>
-            </Menu>
+            </StackPanel>
             <GroupBox
                 Grid.Row="1"
                 Grid.Column="0"

@@ -218,5 +218,9 @@
   <ItemGroup>
     <Resource Include="Resources\compileanddownload.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\openfromdevice.bmp" />
+    <Resource Include="Resources\stop.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -114,10 +114,10 @@
                             BorderBrush="{DynamicResource BorderMediumBrush}"
                             BorderThickness="1">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <Grid Name="OuterBorder" IsHitTestVisible="True">
+                                <Grid Name="OuterBorder">
                                     <!--  Для того,чтобы отображать на схеме все существующие элементы, используется ItemsControl, итемы которого размещены на Canvas  -->
                                     <!--  Это позволяет использовать привязку коллекции из базовых VM элементов к колекции визуально отображаемых элементов на Canvas  -->
-                                    <ItemsControl IsHitTestVisible="True" ItemsSource="{Binding ElementCollection}">
+                                    <ItemsControl IsHitTestVisible="{Binding IsHitTestVisible}" ItemsSource="{Binding ElementCollection}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <Canvas

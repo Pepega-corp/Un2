@@ -45,6 +45,7 @@
     <Compile Include="Enums\Group.cs" />
     <Compile Include="Factories\LogicElementFactory.cs" />
     <Compile Include="HelperClasses\DragElement.cs" />
+    <Compile Include="HelperClasses\CRC16.cs" />
     <Compile Include="Keys\ProgrammingKeys.cs" />
     <Compile Include="Model\EditorElements\IInputEditor.cs" />
     <Compile Include="Model\EditorElements\IInversionEditor.cs" />
