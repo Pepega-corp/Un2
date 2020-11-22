@@ -368,9 +368,15 @@ namespace Unicon2.Shell.ViewModels
 		        case ItemModifyingTypeEnum.Add:
                     if (connectableItemChangingContext.Connectable != null)
                     {
-                        var devicevm = _deviceViewModelFactory.CreateDeviceViewModel(
+                        var devicevm = _deviceViewModelFactory.CreateDeviceViewModel(this,
                             connectableItemChangingContext.Connectable as IDevice);
                         ProjectBrowserViewModel.DeviceViewModels.Add(devicevm);
+
+                        if (connectableItemChangingContext.Connectable.DeviceConnection is IDataProvider dataProvider)
+                        {
+                            dataProvider.TransactionCompleteSubscription =
+                                devicevm.TransactionCompleteSubscription;
+                        }
                         foreach (IFragmentViewModel fragment in devicevm.FragmentViewModels)
                         {
                             if (fragment is IFragmentConnectionChangedListener fragmentConnectionChangedListener)
@@ -406,7 +412,12 @@ namespace Unicon2.Shell.ViewModels
 			        IDeviceViewModel deviceViewModel = ProjectBrowserViewModel.DeviceViewModels.FirstOrDefault((model =>
 				        model.Model == connectableItemChangingContext.Connectable));
 			        if (deviceViewModel != null)
-			        {                 
+			        {
+                        if (connectableItemChangingContext.Connectable.DeviceConnection is IDataProvider dataProvider)
+                        {
+                            dataProvider.TransactionCompleteSubscription =
+                                deviceViewModel.TransactionCompleteSubscription;
+                        }
                         deviceViewModel.TransactionCompleteSubscription.Execute();
                         foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)
 				        {

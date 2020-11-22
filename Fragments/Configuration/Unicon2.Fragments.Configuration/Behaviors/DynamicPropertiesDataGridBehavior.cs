@@ -193,6 +193,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                         _journalDataTable.ColumnNamesStrings[_collection.Count];
                     IPropertyViewModel propertyViewModel = new RuntimePropertyViewModel();
                     (propertyViewModel as ILocalAndDeviceValueContainingViewModel).DeviceValue = stringValueViewModel;
+                    (propertyViewModel as ILocalAndDeviceValueContainingViewModel).LocalValue = stringValueViewModel;
+
                     listToInsert.Insert(0, propertyViewModel as ILocalAndDeviceValueContainingViewModel);
                 }
 

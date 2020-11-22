@@ -817,6 +817,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @CannotConnectDevice.
+        /// </summary>
+        public static string CannotConnectDevice {
+            get {
+                return ResourceManager.GetString("CannotConnectDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @CharacterClass.
         /// </summary>
         public static string CharacterClass {
@@ -984,6 +993,15 @@ namespace Unicon2.Localization.Properties {
         public static string ConfigurationEditor {
             get {
                 return ResourceManager.GetString("ConfigurationEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ConnectionLostGoOfflineQuestion.
+        /// </summary>
+        public static string ConnectionLostGoOfflineQuestion {
+            get {
+                return ResourceManager.GetString("ConnectionLostGoOfflineQuestion", resourceCulture);
             }
         }
         
@@ -3027,6 +3045,15 @@ namespace Unicon2.Localization.Properties {
         public static string PortErrorMessage {
             get {
                 return ResourceManager.GetString("PortErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @PortNotSelected.
+        /// </summary>
+        public static string PortNotSelected {
+            get {
+                return ResourceManager.GetString("PortNotSelected", resourceCulture);
             }
         }
         

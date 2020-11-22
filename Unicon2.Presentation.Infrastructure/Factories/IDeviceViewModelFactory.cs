@@ -7,6 +7,6 @@ namespace Unicon2.Presentation.Infrastructure.Factories
 {
     public interface IDeviceViewModelFactory
     {
-        IDeviceViewModel CreateDeviceViewModel(IDevice device);
+        IDeviceViewModel CreateDeviceViewModel(object context,IDevice device);
     }
 }

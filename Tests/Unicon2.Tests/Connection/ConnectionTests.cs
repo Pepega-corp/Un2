@@ -26,6 +26,7 @@ using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
 using Unicon2.Shell.ViewModels;
 using Unicon2.Tests.Utils;
+using Unicon2.Tests.Utils.Mocks;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
@@ -46,6 +47,7 @@ namespace Unicon2.Tests.Connection
 
         private ShellViewModel _shell;
         private IDeviceViewModel _deviceViewModel;
+        private RelayCommand _readCommand;
 
         public ConnectionTests()
         {
@@ -69,6 +71,11 @@ namespace Unicon2.Tests.Connection
             _measuringMonitorViewModel=_shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
                     .First(model => model.NameForUiKey == "MeasuringMonitor") as
                 MeasuringMonitorViewModel;
+
+            _readCommand = _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY)
+                .OptionCommand as RelayCommand;
         }
 
         [Test]
@@ -302,10 +309,6 @@ namespace Unicon2.Tests.Connection
             Assert.True(await TestsUtils.WaitUntil(
                 () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
 
-            
-            
-            
-            
             await _configurationFragmentViewModel.SetFragmentOpened(true);
             
             await _typesContainer.Resolve<IDevicesContainerService>()
@@ -324,14 +327,36 @@ namespace Unicon2.Tests.Connection
 
         [Test]
         public async Task ConnectionLost()
-        {         
+        {
+
+            var applicationGlobalCommandsMock = ApplicationGlobalCommandsMock.Create().WithAskUserGlobalResult(true);
+            _typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
+            
+
+
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            var connection = new MockConnection(_typesContainer);
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device,connection);
             
+            connection.SetConnectionLost(true);
+
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+            _readCommand.Execute(null);
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
             
-            
-            
+            connection.SetConnectionLost(false);
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+            _readCommand.Execute(null);
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => _deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+
+
+            Assert.True(applicationGlobalCommandsMock.IsAskUserGlobalTriggered);
+
         }
     }
 }

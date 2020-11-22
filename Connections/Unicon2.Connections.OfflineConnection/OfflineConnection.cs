@@ -44,6 +44,7 @@ namespace Unicon2.Connections.OfflineConnection
             //
         }
 
+       
 
         public object Clone()
         {

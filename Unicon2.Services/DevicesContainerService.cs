@@ -55,15 +55,22 @@ namespace Unicon2.Services
         public async Task<Result> ConnectDeviceAsync(IDevice device, IDeviceConnection deviceConnection)
         {
             var res = await deviceConnection.TryOpenConnectionAsync(device.DeviceLogger);
+
             if (device.DeviceLogger == null)
             {
                 device.DeviceLogger = _loggerGetFunc();
             }
+
             //инициализация подключения (добавление логгеров, датапровайдеров)
             device.InitializeConnection(deviceConnection);
             ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Connected));
             if (res.IsSuccess)
             {
+                if (device.DeviceConnection != deviceConnection)
+                {
+                    device.DeviceConnection.Dispose();
+                }
+
                 return Result.Create(true);
             }
 

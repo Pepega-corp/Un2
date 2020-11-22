@@ -28,6 +28,7 @@ namespace Unicon2.Connections.MockConnection.Model
         private IDeviceLogger _currentDeviceLogger;
         private ITypesContainer _typesContainer;
         private bool _isConnectionLost;
+        private bool _lastQuerySucceed = true;
 
         public void SetConnectionLost(bool isConnectionLost)
         {
@@ -46,8 +47,10 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public void Dispose()
         {
-
+            TransactionCompleteSubscription = null;
         }
+
+        
 
         public string ConnectionName => StringKeys.MOCK_CONNECTION;
 
@@ -56,9 +59,7 @@ namespace Unicon2.Connections.MockConnection.Model
             _currentDeviceLogger = currentDeviceLogger;
             return Task.FromResult(Result.Create(true));
         }
-
-        public Action<bool> LastQueryStatusChangedAction { get; set; }
-
+        
         public void CloseConnection()
         {
         }
@@ -67,8 +68,11 @@ namespace Unicon2.Connections.MockConnection.Model
             string dataTitle)
         {
             if (_isConnectionLost)
-            {  
+            {
+                _lastQuerySucceed = false;
                 TransactionCompleteSubscription?.Execute();
+
+
                 return new DefaultQueryResult<ushort[]>()
                 {
                     IsSuccessful = false
@@ -76,6 +80,9 @@ namespace Unicon2.Connections.MockConnection.Model
             }
             await Task.Delay(2);
             PopulateMemoryIfNeeded(startAddress, numberOfPoints);
+            _lastQuerySucceed = true;
+            TransactionCompleteSubscription?.Execute();
+
             return new DefaultQueryResult<ushort[]>()
             {
                 IsSuccessful = true,
@@ -127,7 +134,7 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public IDeviceSubscription TransactionCompleteSubscription { get; set; }
 
-        public bool LastQuerySucceed { get; } = true;
+        public bool LastQuerySucceed => _lastQuerySucceed;
 
         public bool IsInitialized { get; }
 

@@ -8,6 +8,7 @@ using Unicon2.Fragments.Configuration.Editor.View;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
@@ -154,6 +155,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 			ISubPropertyEditorViewModel subPropertyEditorViewModelToRemove= configurationItemViewModelToRemove as ISubPropertyEditorViewModel;
 			this.SubPropertyEditorViewModels.Remove(subPropertyEditorViewModelToRemove);
 			this.ChildStructItemViewModels.Remove(subPropertyEditorViewModelToRemove);
+
+			MainBitNumbersInWordCollection.ForEach(model =>
+            {
+                if (model.Owner == configurationItemViewModelToRemove&&model.Value)
+                {
+                    model.ChangeValueByOwnerCommand.Execute(configurationItemViewModelToRemove);
+                }
+            } );
 		}
 
 		public override object Clone()

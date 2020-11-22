@@ -28,10 +28,10 @@ namespace Unicon2.Fragments.Measuring.Commands
 
         private bool CanExecute()
         {
-            return !this._dateTimeMeasuringElementViewModel.HasErrors;
+            return !this._dateTimeMeasuringElementViewModel.HasErrors||_isSystemTime;
         }
 
-        private void Execute()
+        private async void Execute()
         {
             if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
             {
@@ -44,6 +44,7 @@ namespace Unicon2.Fragments.Measuring.Commands
             {
                 ushortstoWrite[i] = 0;
             }
+
             if (this._isSystemTime)
             {
                 var dateTime = DateTime.Now;
@@ -69,8 +70,16 @@ namespace Unicon2.Fragments.Measuring.Commands
                 ushortstoWrite[6] = ushort.Parse(timeParts[3]);
 
             }
-            this._deviceContext.DataProviderContainer.DataProvider.Item.WriteMultipleRegistersAsync(
-                this._dateTimeMeasuringElement.StartAddress, ushortstoWrite, "Set date time");
+
+            var res =
+                await this._deviceContext.DataProviderContainer.DataProvider.Item.WriteMultipleRegistersAsync(
+                    this._dateTimeMeasuringElement.StartAddress, ushortstoWrite, "Set date time");
+            if (res.IsSuccessful)
+            {
+                this._dateTimeMeasuringElementViewModel.SetDateTime(
+                    $"{ushortstoWrite[2]:00},{ushortstoWrite[1]:00},{ushortstoWrite[1]:00}",
+                    $"{ushortstoWrite[3]:00}:{ushortstoWrite[4]:00}:{ushortstoWrite[5]:00},{ushortstoWrite[6]}");
+            }
         }
 
 

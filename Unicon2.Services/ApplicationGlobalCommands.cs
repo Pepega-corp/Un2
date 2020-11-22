@@ -85,6 +85,17 @@ namespace Unicon2.Services
             return false;
         }
 
+        public bool AskUserGlobal(object context,string message, string title)
+        {
+            if (_dialogCoordinator.ShowModalMessageExternal(context, title,
+                message,
+                MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void ShowErrorMessage(string errorKey, object context)
         {
             _dialogCoordinator.ShowModalMessageExternal(context,

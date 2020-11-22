@@ -156,21 +156,34 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             {
                 return;
             }
+
             try
             {
                 SetQueriesLock(true);
                 ReadConfigurationCommand.RaiseCanExecuteChanged();
                 await new MemoryReaderVisitor(_deviceConfiguration,
-                    _runtimeConfigurationViewModel.DeviceContext, 0,triggerSubscriptions).ExecuteRead();
+                    _runtimeConfigurationViewModel.DeviceContext, 0, triggerSubscriptions).ExecuteRead();
             }
             finally
             {
                 SetQueriesLock(false);
                 ReadConfigurationCommand.RaiseCanExecuteChanged();
+                TryUpdateTable();
             }
-
         }
 
+        private void TryUpdateTable()
+        {
+            if (_runtimeConfigurationViewModel.SelectedConfigDetails is MainConfigItemViewModel
+                mainConfigItemViewModel)
+            {
+                if (mainConfigItemViewModel.RelatedConfigurationItemViewModel is RuntimeItemGroupViewModel
+                    runtimeItemGroupViewModel)
+                {
+                    runtimeItemGroupViewModel.TryTransformToTable();
+                }
+            }
+        } 
 
         private async void OnExecuteReadConfiguration(bool triggerSubscriptions)
         {
@@ -324,9 +337,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             {
                 SetQueriesLock(false);
                 WriteConfigurationCommand.RaiseCanExecuteChanged();
+                TryUpdateTable();
             }
-
-
+            
         }
 
 
@@ -335,6 +348,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             var memoryAccessor = new ConfigurationMemoryAccessor(_deviceConfiguration,
                 _runtimeConfigurationViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal,true);
             await memoryAccessor.Process();
+            TryUpdateTable();
+
         }
     }
 }

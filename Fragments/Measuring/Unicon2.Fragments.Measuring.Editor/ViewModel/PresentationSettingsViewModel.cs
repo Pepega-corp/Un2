@@ -147,7 +147,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 			else if (measuringElementViewModel is IDateTimeMeasuringElementViewModel dateTimeMeasuringElement)
 			{
 			    var now = DateTime.Now;
-			    dateTimeMeasuringElement.Date = $"{now.Day}.{now.Month}.{(now.Year-2000)}";
+			    dateTimeMeasuringElement.Date = $"{now.Day},{now.Month},{(now.Year-2000)}";
 			    dateTimeMeasuringElement.Time = $"{now.Hour}:{now.Minute}:{now.Second},{now.Millisecond.ToString().Substring(0,2)}";
 
             }

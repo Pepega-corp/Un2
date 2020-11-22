@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Unicon2.Formatting.Editor.ViewModels;
@@ -13,6 +15,7 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.Filter;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Filter;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -284,6 +287,81 @@ namespace Unicon2.Tests.Editor
             Assert.True(compareConditionViewModel.SelectedCondition == ConditionsEnum.Equal.ToString());
             Assert.True(compareConditionViewModel.UshortValueToCompare == 1);
 
+
+        }
+
+        [Test]
+        public async Task RemoveSubproperty()
+        {
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+
+
+            var complexPropertyEditorViewModel =
+                ConfigurationItemEditorViewModelFactory.Create().VisitComplexProperty(null) as
+                    IComplexPropertyEditorViewModel;
+
+            var subprop1 = ConfigurationItemEditorViewModelFactory.Create().WithParent(complexPropertyEditorViewModel)
+                .VisitSubProperty(null) as ISubPropertyEditorViewModel;
+            var subprop2 = ConfigurationItemEditorViewModelFactory.Create().WithParent(complexPropertyEditorViewModel)
+                .VisitSubProperty(null) as ISubPropertyEditorViewModel;
+
+
+            complexPropertyEditorViewModel.ChildStructItemViewModels.Add(subprop1);
+            complexPropertyEditorViewModel.ChildStructItemViewModels.Add(subprop2);
+            complexPropertyEditorViewModel.SubPropertyEditorViewModels.Add(subprop1);
+            complexPropertyEditorViewModel.SubPropertyEditorViewModels.Add(subprop2);
+
+            subprop1.BitNumbersInWord =
+                complexPropertyEditorViewModel.MainBitNumbersInWordCollection;
+            subprop2.BitNumbersInWord =
+                complexPropertyEditorViewModel.MainBitNumbersInWordCollection;
+
+            complexPropertyEditorViewModel.MainBitNumbersInWordCollection[0].ChangeValueByOwnerCommand
+                .Execute(subprop1);
+            complexPropertyEditorViewModel.MainBitNumbersInWordCollection[1].ChangeValueByOwnerCommand
+                .Execute(subprop1);
+            complexPropertyEditorViewModel.MainBitNumbersInWordCollection[2].ChangeValueByOwnerCommand
+                .Execute(subprop2);
+            complexPropertyEditorViewModel.MainBitNumbersInWordCollection[3].ChangeValueByOwnerCommand
+                .Execute(subprop2);
+
+            rootGroup.ChildStructItemViewModels.Add(complexPropertyEditorViewModel);
+
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
+
+            var resSubProp1 =
+                ((result.RootConfigurationItemList[0] as IItemsGroup).ConfigurationItemList[0] as IComplexProperty)
+                .SubProperties[0];
+            var resSubProp2 =
+                ((result.RootConfigurationItemList[0] as IItemsGroup).ConfigurationItemList[0] as IComplexProperty)
+                .SubProperties[1];
+
+            Assert.True(resSubProp1.BitNumbersInWord.Count == 2);
+            Assert.True(resSubProp2.BitNumbersInWord.Count == 2);
+
+            Assert.True(resSubProp1.BitNumbersInWord.Contains(15));
+            Assert.True(resSubProp1.BitNumbersInWord.Contains(14));
+            Assert.True(resSubProp2.BitNumbersInWord.Contains(13));
+            Assert.True(resSubProp2.BitNumbersInWord.Contains(12));
+
+
+            complexPropertyEditorViewModel.RemoveChildItem(subprop2);
+
+            Assert.True(complexPropertyEditorViewModel.MainBitNumbersInWordCollection.All(model =>model.Owner!=subprop2 ));
+            Assert.True(complexPropertyEditorViewModel.MainBitNumbersInWordCollection.First(model => model.NumberOfBit==13).Value==false);
+            Assert.True(complexPropertyEditorViewModel.MainBitNumbersInWordCollection.First(model => model.NumberOfBit == 12).Value == false);
+
+            Assert.True(complexPropertyEditorViewModel.MainBitNumbersInWordCollection.First(model => model.NumberOfBit == 13).Owner == null);
+            Assert.True(complexPropertyEditorViewModel.MainBitNumbersInWordCollection.First(model => model.NumberOfBit == 12).Owner ==null);
 
         }
 

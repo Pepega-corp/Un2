@@ -10,6 +10,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess
@@ -60,7 +61,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                     ushort rangeFrom = (ushort) range.RangeFrom;
                     ushort rangeTo = (ushort) range.RangeTo;
                     MemoryAccessor.ClearRangeTo(rangeFrom, rangeTo, _deviceContext.DeviceMemory.DeviceMemoryValues);
-                    return ReadRange(_deviceContext.DataProviderContainer.DataProvider.Item, rangeFrom, rangeTo,
+                    return ReadRange(_deviceContext.DataProviderContainer.DataProvider, rangeFrom, rangeTo,
                         _deviceContext.DeviceMemory);
                 };
 
@@ -100,7 +101,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         public async Task VisitProperty(IProperty property)
         {
 
-            await ReadRange(_deviceContext.DataProviderContainer.DataProvider.Item, (ushort) (property.Address + _offset),
+            await ReadRange(_deviceContext.DataProviderContainer.DataProvider, (ushort) (property.Address + _offset),
 		        (ushort) (property.Address
 		                  + _offset + property.NumberOfPoints), _deviceContext.DeviceMemory);
    
@@ -121,15 +122,15 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 	        throw new NotImplementedException();
 		}
 
-        private async Task ReadRange(IDataProvider dataProvider, ushort rangeFrom, ushort rangeTo,
+        private async Task ReadRange(Result<IDataProvider> dataProvider, ushort rangeFrom, ushort rangeTo,
             IDeviceMemory memory)
         {
-            if (IfMemoryContainsRange(memory.DeviceMemoryValues, rangeFrom, rangeTo))
+            if (!dataProvider.IsSuccess||IfMemoryContainsRange(memory.DeviceMemoryValues, rangeFrom, rangeTo))
             {
                 return;
             }
-
-            var res = await dataProvider.ReadHoldingResgistersAsync(rangeFrom,
+            
+            var res = await dataProvider.Item.ReadHoldingResgistersAsync(rangeFrom,
                 (ushort) (rangeTo - rangeFrom), ConfigurationKeys.READING_CONFIGURATION_QUERY);
             if (res.IsSuccessful)
             {

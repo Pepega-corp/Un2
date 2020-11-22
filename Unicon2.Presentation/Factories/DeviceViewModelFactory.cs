@@ -2,6 +2,8 @@
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
@@ -22,7 +24,7 @@ namespace Unicon2.Presentation.Factories
             _container = container;
         }
 
-        public IDeviceViewModel CreateDeviceViewModel(IDevice device)
+        public IDeviceViewModel CreateDeviceViewModel(object contextForDialogs, IDevice device)
         {
             IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
             if (device.DeviceMemory == null)
@@ -55,7 +57,18 @@ namespace Unicon2.Presentation.Factories
             }
 
             deviceViewModel.TransactionCompleteSubscription = new TransactionCompleteSubscription(context,
-                device.ConnectionState, deviceViewModel.ConnectionStateViewModel, _container);
+                device.ConnectionState, deviceViewModel.ConnectionStateViewModel, _container, () =>
+                {
+                    if (_container.Resolve<IApplicationGlobalCommands>().AskUserGlobal(contextForDialogs,
+                        _container.Resolve<ILocalizerService>()
+                            .GetLocalizedString(ApplicationGlobalNames.StatusMessages.CONNECTION_LOST_GO_OFFLINE),
+                        deviceViewModel.DeviceSignature))
+                    {
+                        _container.Resolve<IDevicesContainerService>().ConnectDeviceAsync(device,
+                            _container.Resolve<IDeviceConnectionFactory>(ApplicationGlobalNames
+                                .OFFLINE_CONNECTION_FACTORY_NAME).CreateDeviceConnection());
+                    }
+                });
             deviceViewModel.TransactionCompleteSubscription.Execute();
 
             deviceViewModel.Model = device;

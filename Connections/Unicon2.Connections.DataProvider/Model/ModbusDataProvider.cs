@@ -229,5 +229,11 @@ namespace Unicon2.Connections.DataProvider.Model
         {
             _lastQuerySucceed = isSuccessful;
         }
+
+        protected override void OnDisposing()
+        {
+            TransactionCompleteSubscription = null;
+            base.OnDisposing();
+        }
     }
 }

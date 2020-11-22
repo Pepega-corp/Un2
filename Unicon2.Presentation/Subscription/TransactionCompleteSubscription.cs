@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Services;
@@ -14,16 +18,20 @@ namespace Unicon2.Presentation.Subscription
         private readonly IConnectionState _connectionState;
         private readonly IConnectionStateViewModel _connectionStateViewModel;
         private readonly ITypesContainer _container;
+        private Action _onConnectionRetriesCounterOverflow;
         private IConnectionService _connectionService;
-        private Result<Task> _currentTask = Result<Task>.Create(false);
+        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private ushort _lostConnectionRetriesCounter = 0;
+
 
         public TransactionCompleteSubscription(DeviceContext deviceContext, IConnectionState connectionState,
-            IConnectionStateViewModel connectionStateViewModel, ITypesContainer container)
+            IConnectionStateViewModel connectionStateViewModel, ITypesContainer container, Action onConnectionRetriesCounterOverflow)
         {
             _deviceContext = deviceContext;
             _connectionState = connectionState;
             _connectionStateViewModel = connectionStateViewModel;
             _container = container;
+            _onConnectionRetriesCounterOverflow = onConnectionRetriesCounterOverflow;
             _connectionService = container.Resolve<IConnectionService>();
         }
 
@@ -39,12 +47,14 @@ namespace Unicon2.Presentation.Subscription
                 _isPrevCheckOffline = true;
                 return;
             }
+            _isPrevCheckOffline = false;
 
             if (_deviceContext.DataProviderContainer.DataProvider.Item.LastQuerySucceed &&
                 _connectionStateViewModel.TestValue != null)
             {
                 _connectionStateViewModel.IsDeviceConnected = true;
                 _isPreviousCheckSuccessful = true;
+                _lostConnectionRetriesCounter = 0;
             }
             else
             {
@@ -55,6 +65,7 @@ namespace Unicon2.Presentation.Subscription
                     {
                         _connectionStateViewModel.IsDeviceConnected = false;
                         _isPreviousCheckSuccessful = false;
+                        _lostConnectionRetriesCounter++;
                     }
                     else
                     {
@@ -63,19 +74,40 @@ namespace Unicon2.Presentation.Subscription
                         _isPreviousCheckSuccessful = true;
                     }
                 }
+                else
+                {
+                    _lostConnectionRetriesCounter++;
+                }
+            }
 
+            if (_lostConnectionRetriesCounter > 5)
+            {
+                _onConnectionRetriesCounterOverflow?.Invoke();
+                _onConnectionRetriesCounterOverflow = null;
+            }
+        }
+
+        private async Task TryDequeueAndExecute()
+        {
+            if (_semaphoreSlim.CurrentCount > 0)
+            {
+                try
+                {
+                    await _semaphoreSlim.WaitAsync();
+                    await ExecuteAsync();
+                }
+                finally
+                {
+                    _semaphoreSlim.Release(1);
+                }
             }
         }
 
         public async void Execute()
         {
-            if (_currentTask.IsSuccess && !_currentTask.Item.IsCompleted)
-            {
-                _currentTask.Item.Dispose();
-            }
-            _currentTask = Result<Task>.Create(ExecuteAsync(), true);
-            await _currentTask.Item;
+            await TryDequeueAndExecute();
         }
+
 
         public int Priority { get; set; } = 1;
     }

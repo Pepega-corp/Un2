@@ -46,8 +46,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
-            <ListBox ItemsSource="{Binding DependencyViewModels}" SelectedItem="{Binding SelectedDependency}">
-            </ListBox>
+            <ListBox ItemsSource="{Binding DependencyViewModels}" SelectedItem="{Binding SelectedDependency}" />
         </Grid>
         <Grid Grid.Row="2">
             <StackPanel Orientation="Horizontal">

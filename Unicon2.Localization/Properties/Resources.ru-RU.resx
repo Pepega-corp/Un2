@@ -1497,4 +1497,13 @@
   <data name="FilteredData" xml:space="preserve">
     <value>Фильтрованные данные</value>
   </data>
+  <data name="CannotConnectDevice" xml:space="preserve">
+    <value>Невозможно подключить устройство, проверьте настройки подключения</value>
+  </data>
+  <data name="PortNotSelected" xml:space="preserve">
+    <value>Порт не выбран</value>
+  </data>
+  <data name="ConnectionLostGoOfflineQuestion" xml:space="preserve">
+    <value>Похоже, есть проблемы со связью устройства. Перейти в оффлайн режим?</value>
+  </data>
 </root>

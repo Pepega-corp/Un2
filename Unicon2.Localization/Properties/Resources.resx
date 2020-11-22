@@ -1488,4 +1488,13 @@
   <data name="FilteredData" xml:space="preserve">
     <value>@FilteredData</value>
   </data>
+  <data name="CannotConnectDevice" xml:space="preserve">
+    <value>@CannotConnectDevice</value>
+  </data>
+  <data name="PortNotSelected" xml:space="preserve">
+    <value>@PortNotSelected</value>
+  </data>
+  <data name="ConnectionLostGoOfflineQuestion" xml:space="preserve">
+    <value>@ConnectionLostGoOfflineQuestion</value>
+  </data>
 </root>

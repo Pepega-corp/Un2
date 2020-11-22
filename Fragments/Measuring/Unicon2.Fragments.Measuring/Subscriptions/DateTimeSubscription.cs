@@ -35,7 +35,7 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
             {
                 this._dateTimeMeasuringElementViewModel.SetDateTime(
                     $"{res.Result[2]:00},{res.Result[1]:00},{res.Result[1]:00}",
-                    $"{res.Result[3]:00}:{res.Result[4]:00}:{res.Result[5]:00},{res.Result[6]:00}");
+                    $"{res.Result[3]:00}:{res.Result[4]:00}:{res.Result[5]:00},{res.Result[6]}");
             }
         }
     }

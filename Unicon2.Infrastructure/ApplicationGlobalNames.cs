@@ -171,9 +171,18 @@
             public const string PORT_ERROR_MESSAGE = "PortErrorMessage";
 
             /// <summary>
+            ///  строка сообщения об ошибке порта
+            /// </summary>
+            public const string CANNOT_CONNECT_DEVICE = "CannotConnectDevice";
+            /// <summary>
             ///  строка сообщения об ошибке формата
             /// </summary>
             public const string FORMAT_ERROR = "FormatError";
+
+            /// <summary>
+            ///  строка сообщения о потере связи + вопрос о переходе в оффлайн
+            /// </summary>
+            public const string CONNECTION_LOST_GO_OFFLINE = "ConnectionLostGoOfflineQuestion";
 
             /// <summary>
             ///  строка сообщения об ошибке формата

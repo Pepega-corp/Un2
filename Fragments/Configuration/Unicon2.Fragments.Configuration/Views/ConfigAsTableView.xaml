@@ -30,7 +30,7 @@
             <ColumnDefinition Width="2" />
             <ColumnDefinition Width="*" MinWidth="150" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0"  Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsFilterApplied, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToInVisConverter}, Mode=OneWay}">
+        <Grid Grid.Column="0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsFilterApplied, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToInVisConverter}, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -69,7 +69,7 @@
                 </b:Interaction.Behaviors>
             </DataGrid>
         </Grid>
-        <Grid Grid.Column="0"  Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsFilterApplied, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+        <Grid Grid.Column="0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsFilterApplied, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -91,7 +91,11 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ContentControl">
-                                                <Border BorderThickness="1" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay}">
+                                                <Border
+                                                    Margin="-2"
+                                                    BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
+                                                    BorderThickness="0,0,3,0"
+                                                    ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay}">
                                                     <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
                                                         <ContentPresenter.ContentTemplateSelector>
                                                             <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
@@ -179,9 +183,9 @@
             <ToggleButton
                 Name="CheckBox"
                 Margin="1"
-                IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsTransponed, Mode=TwoWay}"
                 Content="{lex:Loc Transpone}"
-                Style="{DynamicResource UniconToggleButtonStyle}"/>
+                IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsTransponed, Mode=TwoWay}"
+                Style="{DynamicResource UniconToggleButtonStyle}" />
         </StackPanel>
 
     </Grid>
