@@ -22,7 +22,7 @@ namespace Unicon2.Services.UniconProject
     {
         private readonly IUniconProject _uniconProject;
         private readonly ILocalizerService _localizerService;
-        private readonly IDialogCoordinator _dialogCoordinator;
+        private readonly Func<IDialogCoordinator> _dialogCoordinator;
         private readonly IApplicationSettingsService _applicationSettingsService;
         private readonly IDevicesContainerService _devicesContainerService;
         private readonly ITypesContainer _container;
@@ -31,8 +31,9 @@ namespace Unicon2.Services.UniconProject
         private object _dialogContext;
 
 
+        
         public UniconProjectService(IUniconProject uniconProject, ILocalizerService localizerService,
-            IDialogCoordinator dialogCoordinator, IApplicationSettingsService applicationSettingsService,
+            Func<IDialogCoordinator> dialogCoordinator, IApplicationSettingsService applicationSettingsService,
             IDevicesContainerService devicesContainerService, ITypesContainer container, ILogService logService,
             ISerializerService serializerService
         )
@@ -77,7 +78,7 @@ namespace Unicon2.Services.UniconProject
         {
             if (GetIsProjectChanged(_uniconProject))
             {
-                MessageDialogResult result = _dialogCoordinator.ShowModalMessageExternal(_dialogContext,
+                MessageDialogResult result = _dialogCoordinator().ShowModalMessageExternal(_dialogContext,
                     "Сохранение",
                     "Проект не был сохранен. Сохранить проект?",
                     MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
@@ -167,16 +168,20 @@ namespace Unicon2.Services.UniconProject
 		        {
 			        if (connectableItem.DeviceConnection != null)
 			        {
-				        var res=await _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
+				        var res = await _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
 					        connectableItem.DeviceConnection);
-				       
-					        if (!_devicesContainerService.ConnectableItems.Contains(connectableItem as IDevice))
-					        {
-						        _devicesContainerService.AddConnectableItem(connectableItem as IDevice);
-					        }
+				        if (!res.IsSuccess)
+				        {
+					        _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
+						        _container.Resolve<IDeviceConnectionFactory>(ApplicationGlobalNames
+							        .OFFLINE_CONNECTION_FACTORY_NAME).CreateDeviceConnection());
+				        }
 
-                        
-                    }
+				        if (!_devicesContainerService.ConnectableItems.Contains(connectableItem as IDevice))
+				        {
+					        _devicesContainerService.AddConnectableItem(connectableItem as IDevice);
+				        }
+			        }
 		        }
 
 		        string message = string.Empty;

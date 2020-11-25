@@ -251,7 +251,7 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         private void OnNewMessage(ILogMessage logMessage)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 _allLogMessages.Insert(0, logMessage);
                 _newNotificationsCount++;

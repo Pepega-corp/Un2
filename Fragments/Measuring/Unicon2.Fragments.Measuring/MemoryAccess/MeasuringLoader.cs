@@ -8,6 +8,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.MemoryAccess
@@ -18,16 +19,18 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 		private MeasuringSubscriptionSet _measuringSubscriptionSet;
 		private readonly IMeasuringMonitor _measuringMonitor;
 	    private readonly RelayCommand _dependentCommand;
+	    private readonly FragmentOptionToggleCommandViewModel _readCycleCommand;
 	    private string _groupName;
 		private bool _isQueriesStarted = false;
 	    private bool _isLoadInProgress;
 
-	    public MeasuringLoader(DeviceContext deviceContext, MeasuringSubscriptionSet measuringSubscriptionSet,IMeasuringMonitor measuringMonitor,RelayCommand dependentCommand)
+	    public MeasuringLoader(DeviceContext deviceContext, MeasuringSubscriptionSet measuringSubscriptionSet,IMeasuringMonitor measuringMonitor,RelayCommand dependentCommand,FragmentOptionToggleCommandViewModel readCycleCommand)
 		{
 			_deviceContext = deviceContext;
 			_measuringSubscriptionSet = measuringSubscriptionSet;
 			_measuringMonitor = measuringMonitor;
 		    this._dependentCommand = dependentCommand;
+		    _readCycleCommand = readCycleCommand;
 		}
 
 	    public async void StartLoading()
@@ -55,18 +58,19 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 			_groupName = groupName;
 		}
 
-	    public bool IsLoadInProgress
-	    {
-	        get { return this._isLoadInProgress; }
-	        private set
-	        {
-                this._isLoadInProgress = value;
-	            this._dependentCommand?.RaiseCanExecuteChanged();
+		public bool IsLoadInProgress
+		{
+			get { return this._isLoadInProgress; }
+			private set
+			{
+				this._isLoadInProgress = value;
+				this._dependentCommand?.RaiseCanExecuteChanged();
+				if (!value)
+					_readCycleCommand.IsChecked = false;
+			}
+		}
 
-            }
-        }
-
-	    public bool ErrorOccured { get; set; }
+		public bool ErrorOccured { get; set; }
 
 	    public async void ExecuteLoad()
 	    {
@@ -86,11 +90,6 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
             this.IsLoadInProgress = true;
 	        while (true)
 	        {
-		        if (!this._isQueriesStarted)
-		        {
-			        this.IsLoadInProgress = false;
-			        return;
-		        }
 		        if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
 		        {
 			        this.IsLoadInProgress = false;

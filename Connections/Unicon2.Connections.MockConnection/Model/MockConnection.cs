@@ -13,6 +13,8 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Connections.MockConnection.Model
 {
+
+
     /// <summary>
     /// класс иммитации подключения
     /// </summary>
@@ -27,15 +29,12 @@ namespace Unicon2.Connections.MockConnection.Model
 
         private IDeviceLogger _currentDeviceLogger;
         private ITypesContainer _typesContainer;
-        private bool _isConnectionLost;
+        public static bool IsConnectionLost { get; set; }
         private bool _lastQuerySucceed = true;
 
-        public void SetConnectionLost(bool isConnectionLost)
-        {
-            _isConnectionLost = isConnectionLost;
-        }
-        
-        
+
+
+
         [JsonProperty] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
         public object Clone()
@@ -58,9 +57,9 @@ namespace Unicon2.Connections.MockConnection.Model
         public Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger)
         {
             _currentDeviceLogger = currentDeviceLogger;
-            return Task.FromResult(Result.Create(true));
+            return Task.FromResult(Result.Create(!IsConnectionLost));
         }
-        
+
         public void CloseConnection()
         {
         }
@@ -68,17 +67,18 @@ namespace Unicon2.Connections.MockConnection.Model
         public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints,
             string dataTitle)
         {
-            if (_isConnectionLost)
+            if (IsConnectionLost)
             {
                 _lastQuerySucceed = false;
                 TransactionCompleteSubscription?.Execute();
-_currentDeviceLogger.LogFailedQuery("pup");
+                _currentDeviceLogger.LogFailedQuery("pup");
 
                 return new DefaultQueryResult<ushort[]>()
                 {
                     IsSuccessful = false
                 };
             }
+
             await Task.Delay(2);
             PopulateMemoryIfNeeded(startAddress, numberOfPoints);
             _lastQuerySucceed = true;
@@ -110,6 +110,18 @@ _currentDeviceLogger.LogFailedQuery("pup");
         public async Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite,
             string dataTitle)
         {
+            if (IsConnectionLost)
+            {
+                _lastQuerySucceed = false;
+                TransactionCompleteSubscription?.Execute();
+                _currentDeviceLogger.LogFailedQuery("pup");
+
+                return new DefaultQueryResult<ushort[]>()
+                {
+                    IsSuccessful = false
+                };
+            }
+
             await Task.Delay(2);
             PopulateMemoryIfNeeded(startAddress, (ushort) dataToWrite.Count());
             for (ushort i = startAddress; i < startAddress + (ushort) dataToWrite.Count(); i++)

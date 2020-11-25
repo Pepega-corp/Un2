@@ -157,7 +157,7 @@ namespace Unicon2.ModuleDeviceEditing.ViewModels
             {
                 _dialogCoordinator.ShowModalMessageExternal(this,
                     _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.PORT_ERROR_MESSAGE),
-                    ApplicationGlobalNames.StatusMessages.CANNOT_CONNECT_DEVICE);
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.CANNOT_CONNECT_DEVICE));
                 return false;
             }
 

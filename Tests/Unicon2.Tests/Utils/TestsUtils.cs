@@ -61,7 +61,7 @@ namespace Unicon2.Tests.Utils
         }
 
 
-        public static async Task<bool> WaitUntil(Func<bool> predicate, int millisecondsToWait, int interval=50)
+        public static async Task<bool> WaitUntil(Func<bool> predicate, int millisecondsToWait=10000, int interval=50)
         {
             int iterations = millisecondsToWait / interval;
             bool result = false;
