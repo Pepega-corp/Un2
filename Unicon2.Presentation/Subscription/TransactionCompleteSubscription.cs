@@ -18,11 +18,15 @@ namespace Unicon2.Presentation.Subscription
         private readonly IConnectionState _connectionState;
         private readonly IConnectionStateViewModel _connectionStateViewModel;
         private readonly ITypesContainer _container;
-        private Action _onConnectionRetriesCounterOverflow;
+        private Result<Action> _onConnectionRetriesCounterOverflow;
         private IConnectionService _connectionService;
         private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
         private ushort _lostConnectionRetriesCounter = 0;
 
+        public void ResetOnConnectionRetryCounter(bool enable)
+        {
+            _onConnectionRetriesCounterOverflow = Result<Action>.Create(_onConnectionRetriesCounterOverflow.Item, enable);
+        }
 
         public TransactionCompleteSubscription(DeviceContext deviceContext, IConnectionState connectionState,
             IConnectionStateViewModel connectionStateViewModel, ITypesContainer container, Action onConnectionRetriesCounterOverflow)
@@ -31,7 +35,7 @@ namespace Unicon2.Presentation.Subscription
             _connectionState = connectionState;
             _connectionStateViewModel = connectionStateViewModel;
             _container = container;
-            _onConnectionRetriesCounterOverflow = onConnectionRetriesCounterOverflow;
+            _onConnectionRetriesCounterOverflow = Result<Action>.Create(onConnectionRetriesCounterOverflow,true);
             _connectionService = container.Resolve<IConnectionService>();
         }
 
@@ -47,6 +51,7 @@ namespace Unicon2.Presentation.Subscription
                 _isPrevCheckOffline = true;
                 return;
             }
+
             _isPrevCheckOffline = false;
 
             if (_deviceContext.DataProviderContainer.DataProvider.Item.LastQuerySucceed &&
@@ -82,8 +87,12 @@ namespace Unicon2.Presentation.Subscription
 
             if (_lostConnectionRetriesCounter > 5)
             {
-                _onConnectionRetriesCounterOverflow?.Invoke();
-                _onConnectionRetriesCounterOverflow = null;
+                _onConnectionRetriesCounterOverflow.OnSuccess(action =>
+                {
+                    action();
+                    _onConnectionRetriesCounterOverflow =
+                        Result<Action>.Create(_onConnectionRetriesCounterOverflow.Item, false);
+                });
             }
         }
 

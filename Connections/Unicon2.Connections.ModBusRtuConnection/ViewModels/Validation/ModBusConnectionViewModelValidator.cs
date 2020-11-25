@@ -12,7 +12,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels.Validation
         {
             RuleFor(model => model.SelectedPort).Must(s => !string.IsNullOrWhiteSpace(s)).WithMessage(
                 localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
-                    .SELECTED_DEVICE_NULL_MESSAGE));
+                    .PORT_NOT_SELECTED));
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services.LogService;
 
 namespace Unicon2.Services.LogService
@@ -7,11 +8,9 @@ namespace Unicon2.Services.LogService
     [JsonObject(MemberSerialization.OptIn)]
     public class DeviceLogger : IDeviceLogger
     {
-        private Func<ILogMessage> _logMessageGettingFunc;
 
-        public DeviceLogger(Func<ILogMessage> logMessageGettingFunc)
+        public DeviceLogger()
         {
-            _logMessageGettingFunc = logMessageGettingFunc;
             IsInfoMessagesLoggingEnabled = true;
             IsErrorsLoggingEnabled = true;
             IsFailedQueriesLoggingEnabled = true;
@@ -63,7 +62,7 @@ namespace Unicon2.Services.LogService
 
         private ILogMessage GetRawMessage()
         {
-            ILogMessage logMessageRaw = _logMessageGettingFunc();
+            ILogMessage logMessageRaw = StaticContainer.Container.Resolve<ILogMessage>();
             logMessageRaw.MessageSubject = SourceName;
             logMessageRaw.MessageDateTime = DateTime.Now;
             return logMessageRaw;
@@ -88,7 +87,7 @@ namespace Unicon2.Services.LogService
 
         public object Clone()
         {
-            IDeviceLogger deviceLogger=new DeviceLogger(_logMessageGettingFunc);
+            IDeviceLogger deviceLogger=new DeviceLogger();
            deviceLogger.SetLoggerSubject(SourceName);
             return deviceLogger;
         }

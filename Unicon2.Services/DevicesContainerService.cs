@@ -60,7 +60,13 @@ namespace Unicon2.Services
             {
                 device.DeviceLogger = _loggerGetFunc();
             }
-
+            if (res.IsSuccess)
+            {
+                if (device.DeviceConnection != deviceConnection)
+                {
+                    device?.DeviceConnection?.Dispose();
+                }
+            }
             //инициализация подключения (добавление логгеров, датапровайдеров)
             device.InitializeConnection(deviceConnection);
             ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(device, ItemModifyingTypeEnum.Connected));
@@ -70,7 +76,6 @@ namespace Unicon2.Services
                 {
                     device.DeviceConnection.Dispose();
                 }
-
                 return Result.Create(true);
             }
 

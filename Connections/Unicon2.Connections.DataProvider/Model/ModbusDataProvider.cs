@@ -87,7 +87,6 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteSubscription?.Execute();
                 queryResult.Result = (await _currentModbusMaster.ReadCoilsAsync(_slaveId, coilAddress, 1))[0];
                 LogQuery(true, dataTitle,
                     "Fun:1" + " Addr:" + coilAddress + " Num:" + 1 + " Data:" + queryResult.Result);
@@ -112,7 +111,6 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteSubscription?.Execute();
                 queryResult.Result = await _currentModbusMaster.ReadCoilsAsync(_slaveId, coilAddress, numberOfPoints);
                 string resStr = "";
                 foreach (bool res in queryResult.Result)
@@ -151,7 +149,6 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteSubscription?.Execute();
                 await _currentModbusMaster.WriteMultipleRegistersAsync(_slaveId, startAddress, dataToWrite);
 
                 LogQuery(true, dataTitle, "Fun:16" + " Addr:" + startAddress + " Data:" + dataStr);
@@ -179,7 +176,6 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteSubscription?.Execute();
                 await _currentModbusMaster.WriteSingleCoilAsync(_slaveId, coilAddress, valueToWrite);
                 LogQuery(true, dataTitle, "Fun:5" + " Addr:" + coilAddress + " Data:" + valueToWrite);
                 queryResult.IsSuccessful = true;
@@ -203,7 +199,6 @@ namespace Unicon2.Connections.DataProvider.Model
 
             try
             {
-                TransactionCompleteSubscription?.Execute();
                 await _currentModbusMaster.WriteSingleRegisterAsync(_slaveId, registerAddress, valueToWrite);
                 LogQuery(true, dataTitle, "Fun:6" + " Addr:" + registerAddress + " Data:" + valueToWrite);
                 queryResult.IsSuccessful = true;
@@ -228,6 +223,7 @@ namespace Unicon2.Connections.DataProvider.Model
             string queryResult = "", Exception exception = null)
         {
             _lastQuerySucceed = isSuccessful;
+            TransactionCompleteSubscription?.Execute();
         }
 
         protected override void OnDisposing()

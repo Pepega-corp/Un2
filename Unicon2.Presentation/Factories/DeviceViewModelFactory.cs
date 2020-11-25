@@ -67,6 +67,7 @@ namespace Unicon2.Presentation.Factories
                         _container.Resolve<IDevicesContainerService>().ConnectDeviceAsync(device,
                             _container.Resolve<IDeviceConnectionFactory>(ApplicationGlobalNames
                                 .OFFLINE_CONNECTION_FACTORY_NAME).CreateDeviceConnection());
+                        (deviceViewModel.TransactionCompleteSubscription as TransactionCompleteSubscription)?.ResetOnConnectionRetryCounter(false);
                     }
                 });
             deviceViewModel.TransactionCompleteSubscription.Execute();

@@ -22,7 +22,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Measuring.ViewModel
 {
-	public class MeasuringMonitorViewModel : DisposableBindableBase, IMeasuringMonitorViewModel
+	public class MeasuringMonitorViewModel : ValidatableBindableBase, IMeasuringMonitorViewModel
 	{
 		private readonly IMeasuringGroupViewModelFactory _measuringGroupViewModelFactory;
 
@@ -209,6 +209,8 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
 			//    this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
 		}
+
+		public override bool HasErrors => base.HasErrors || _loader.ErrorOccured;
 
 		public DeviceContext DeviceContext { get; set; }
         public async Task OnConnectionChanged()

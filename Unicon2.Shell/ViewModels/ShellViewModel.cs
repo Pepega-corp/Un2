@@ -19,6 +19,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
+using Unicon2.Presentation.Subscription;
 using Unicon2.Presentation.ViewModels;
 using Unicon2.Shell.Factories;
 using Unicon2.Shell.ViewModels.Helpers;
@@ -376,7 +377,11 @@ namespace Unicon2.Shell.ViewModels
                         {
                             dataProvider.TransactionCompleteSubscription =
                                 devicevm.TransactionCompleteSubscription;
+                            (devicevm.TransactionCompleteSubscription as TransactionCompleteSubscription)
+                                ?.ResetOnConnectionRetryCounter(true);
+
                         }
+
                         foreach (IFragmentViewModel fragment in devicevm.FragmentViewModels)
                         {
                             if (fragment is IFragmentConnectionChangedListener fragmentConnectionChangedListener)
@@ -417,6 +422,7 @@ namespace Unicon2.Shell.ViewModels
                         {
                             dataProvider.TransactionCompleteSubscription =
                                 deviceViewModel.TransactionCompleteSubscription;
+                            (deviceViewModel.TransactionCompleteSubscription as TransactionCompleteSubscription)?.ResetOnConnectionRetryCounter(true);
                         }
                         deviceViewModel.TransactionCompleteSubscription.Execute();
                         foreach (IFragmentViewModel fragment in deviceViewModel.FragmentViewModels)

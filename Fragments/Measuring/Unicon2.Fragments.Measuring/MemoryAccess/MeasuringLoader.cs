@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
@@ -33,8 +34,15 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	    {
 		    if (this._isQueriesStarted) return;
 		    _isQueriesStarted = true;
-            if(IsLoadInProgress)return;
-		    await this.Load();
+		    if (IsLoadInProgress) return;
+		    try
+		    {
+			    await this.Load();
+		    }
+		    catch
+		    {
+			    ErrorOccured = true;
+		    }
 	    }
 
 	    public void StopLoading()
@@ -58,17 +66,36 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
             }
         }
 
+	    public bool ErrorOccured { get; set; }
+
 	    public async void ExecuteLoad()
-		{
+	    {
 		    if (this._isQueriesStarted) return;
-            await Load();
-		}
+		    try
+		    {
+			    await Load();
+		    }
+		    catch
+		    {
+			    ErrorOccured = true;
+		    }
+	    }
 
 	    private async Task Load()
 	    {
             this.IsLoadInProgress = true;
 	        while (true)
 	        {
+		        if (!this._isQueriesStarted)
+		        {
+			        this.IsLoadInProgress = false;
+			        return;
+		        }
+		        if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
+		        {
+			        this.IsLoadInProgress = false;
+			        return;
+		        }
                 await LoadMemory();
 	            foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
 	            {
@@ -148,6 +175,10 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	            await Task.Delay(1000);
 	        }
 
+	        if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
+	        {
+		        return;
+	        }
 	        foreach (var addressUshort in addressesToLoadFun3)
 	        {
 	            if (!memoryDictionaryUshort.ContainsKey(addressUshort))

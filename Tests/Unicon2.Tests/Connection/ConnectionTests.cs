@@ -77,7 +77,7 @@ namespace Unicon2.Tests.Connection
                 .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY)
                 .OptionCommand as RelayCommand;
         }
-
+        
         [Test]
         public async Task OfflineConnectionConfigurationButtonsAvailbility()
         {
@@ -325,14 +325,29 @@ namespace Unicon2.Tests.Connection
                 () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
         }
 
+        
+        [Test]
+        public async Task ConnectionFromOfflineToOnline()
+        {
+            var offlineConnection = new OfflineConnection();
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device,offlineConnection);
+            Assert.True(await TestsUtils.WaitUntil(
+                () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+            
+            var connection = new MockConnection(_typesContainer);
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device,connection);
+            Assert.True(await TestsUtils.WaitUntil(
+                () => _deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+        }
+        
         [Test]
         public async Task ConnectionLost()
         {
 
-            var applicationGlobalCommandsMock = ApplicationGlobalCommandsMock.Create().WithAskUserGlobalResult(true);
+            var applicationGlobalCommandsMock = ApplicationGlobalCommandsMock.Create().WithAskUserGlobalResult(false);
             _typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
-            
-
 
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
             var connection = new MockConnection(_typesContainer);
@@ -356,6 +371,78 @@ namespace Unicon2.Tests.Connection
 
 
             Assert.True(applicationGlobalCommandsMock.IsAskUserGlobalTriggered);
+
+        }
+        
+        
+        [Test]
+        public async Task ConnectionLostUserSayGoOffline()
+        {
+            var prevConnection = new MockConnection(_typesContainer);
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device,prevConnection);
+            var applicationGlobalCommandsMock = ApplicationGlobalCommandsMock.Create().WithAskUserGlobalResult(true);
+            _typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
+
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            var connection = new MockConnection(_typesContainer);
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device,connection);
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+
+
+            
+            connection.SetConnectionLost(true);
+
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+            _readCommand.Execute(null);
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+            
+            Assert.True((prevConnection as MockConnection).IsDisposed);
+            
+            connection.SetConnectionLost(false);
+            Assert.True(await TestsUtils.WaitUntil(() => !_readCommand.CanExecute(null), 30000));
+        }
+        
+        [Test]
+        public async Task ConnectionLostUserSayGoOfflineWhenMeasuringInLoadingCycle()
+        {
+            var prevConnection = new MockConnection(_typesContainer);
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device,prevConnection);
+            var applicationGlobalCommandsMock = ApplicationGlobalCommandsMock.Create().WithAskUserGlobalResult(true);
+            _typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
+
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            var connection = new MockConnection(_typesContainer);
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device,connection);
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+
+            var loadCycleCommand = _measuringMonitorViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Loading").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == "CycleLoading") as FragmentOptionToggleCommandViewModel;
+
+            loadCycleCommand.IsChecked = true;
+
+            connection.SetConnectionLost(true);
+
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+            _readCommand.Execute(null);
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+            await Task.Delay(3000);
+
+            Assert.False(_measuringMonitorViewModel.HasErrors);
+            
+            loadCycleCommand.IsChecked = false;
 
         }
     }

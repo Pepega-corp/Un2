@@ -48,9 +48,10 @@ namespace Unicon2.Connections.MockConnection.Model
         public void Dispose()
         {
             TransactionCompleteSubscription = null;
+            IsDisposed = true;
         }
 
-        
+        public bool IsDisposed { get; set; }
 
         public string ConnectionName => StringKeys.MOCK_CONNECTION;
 
@@ -71,7 +72,7 @@ namespace Unicon2.Connections.MockConnection.Model
             {
                 _lastQuerySucceed = false;
                 TransactionCompleteSubscription?.Execute();
-
+_currentDeviceLogger.LogFailedQuery("pup");
 
                 return new DefaultQueryResult<ushort[]>()
                 {

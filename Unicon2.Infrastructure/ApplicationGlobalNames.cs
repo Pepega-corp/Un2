@@ -212,7 +212,12 @@
             /// сообщение о невыбранном устройстве
             /// </summary>
             public static string SELECTED_DEVICE_NULL_MESSAGE = "SelectedDeviceNullMessage";
-
+            
+          /// <summary>
+            /// сообщение о невыбранном устройстве
+            /// </summary>
+            public static string PORT_NOT_SELECTED = "PortNotSelected";
+          
             /// <summary>
             /// сообщение о невыбранном подключении
             /// </summary> 
