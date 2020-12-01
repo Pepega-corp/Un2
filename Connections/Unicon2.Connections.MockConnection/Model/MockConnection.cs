@@ -128,8 +128,11 @@ namespace Unicon2.Connections.MockConnection.Model
             return new DefaultQueryResult() {IsSuccessful = true};
         }
 
+        public bool IsWriteSingleCoilAsyncTriggered { get; set; }
+        
         public Task<IQueryResult> WriteSingleCoilAsync(ushort coilAddress, bool valueToWrite, string dataTitle)
         {
+            IsWriteSingleCoilAsyncTriggered = true;
             return Task.FromResult(
                 new DefaultQueryResult() {IsSuccessful = false} as IQueryResult);
         }

@@ -88,6 +88,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationTests.cs" />
+    <Compile Include="Configuration\WriteConfigurationIfNothingChangesCase.cs" />
+    <Compile Include="Connection\ChangeConnectionCycleMeasuringLoadingCase.cs" />
     <Compile Include="Connection\ConnectionTests.cs" />
     <Compile Include="Connection\ProjectConnectionTests.cs" />
     <Compile Include="Device\DeviceEditingTests.cs" />

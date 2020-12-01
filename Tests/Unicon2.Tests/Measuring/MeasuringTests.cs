@@ -35,6 +35,7 @@ namespace Unicon2.Tests.Measuring
         [SetUp]
         public async Task OnSetup()
         {
+            Program.RefreshProject();
             _typesContainer =
                 new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
 
@@ -84,7 +85,7 @@ namespace Unicon2.Tests.Measuring
 
             var analogSignal =
                 _measuringMonitorViewModel.MeasuringElementViewModels.First(model => model.Header == "analogSignal");
-            await TestsUtils.WaitUntil(() => analogSignal.FormattedValueViewModel != null, 10000);
+            Assert.True(await TestsUtils.WaitUntil(() => analogSignal.FormattedValueViewModel != null));
 
             Assert.True((analogSignal.FormattedValueViewModel as NumericValueViewModel).NumValue=="0");
                 

@@ -31,11 +31,11 @@ namespace Unicon2.Tests.Connection
         public async Task OpenProjectTryReconnect()
         {
             var app = Program.GetApp();
-
+            Program.GetDevice();
             var shell = app.Container.Resolve<ShellViewModel>();
 
             var projectService = app.Container.Resolve<IUniconProjectService>();
-            await projectService.LoadProject("testProject.uniproj");
+            await projectService.LoadProject("FileAssets/testProject.uniproj");
             var deviceViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0];
             var deviceContainerService = app.Container.Resolve<IDevicesContainerService>();
             var device = deviceContainerService.ConnectableItems[0] as DefaultDevice;

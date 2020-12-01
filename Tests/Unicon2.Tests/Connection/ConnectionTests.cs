@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Prism.Ioc;
 using Unicon2.Connections.MockConnection.Model;
 using Unicon2.Connections.OfflineConnection;
 using Unicon2.Formatting.Model;
@@ -13,9 +14,11 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Measuring.ViewModel;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Model.DefaultDevice;
 using Unicon2.Model.Memory;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
@@ -158,49 +161,8 @@ namespace Unicon2.Tests.Connection
                            isChanagedTriggered1 > 0;
                 }, 30000));
         }
-        
-        
-        [Test]
-        public async Task OfflineConnectionMeasuringButtonsAvailbilityWhenCycleExecuting()
-        {
-
-            await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection());
-
-            int isChanagedTriggered1 = 0;
 
 
-            var loadCommand = _measuringMonitorViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == "Loading").FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == "Load")
-                .OptionCommand as RelayCommand;
-            var loadCycleCommand = _measuringMonitorViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == "Loading").FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == "CycleLoading") as FragmentOptionToggleCommandViewModel;
-
-            Assert.True(loadCycleCommand.IsEnabled);
-            Assert.True(loadCommand.CanExecute(null));
-
-            loadCycleCommand.IsChecked = true;
-            
-            
-            await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new OfflineConnection());
-            Assert.True(await TestsUtils.WaitUntil(
-                () => !loadCycleCommand.IsChecked));
-       
-            Assert.False(loadCycleCommand.IsEnabled);
-            Assert.False(loadCommand.CanExecute(null));
-            
-            
-            await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection());
-            
-            
-            Assert.True(loadCycleCommand.IsEnabled);
-            Assert.True(loadCommand.CanExecute(null));
-            
-        }
 
         [Test]
         public async Task OfflineConnectionValuesInit()
