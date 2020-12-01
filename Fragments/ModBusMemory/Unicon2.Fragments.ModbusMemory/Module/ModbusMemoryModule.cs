@@ -34,9 +34,9 @@ namespace Unicon2.Fragments.ModbusMemory.Module
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ModbusMemoryTemplates.xaml", GetType().Assembly);
 
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(Model.ModbusMemory));
-            serializerService.AddNamespaceAttribute("modbusMemory", "ModbusMemoryNS");
+            //ISerializerService serializerService = container.Resolve<ISerializerService>();
+            //serializerService.AddKnownTypeForSerialization(typeof(Model.ModbusMemory));
+            //serializerService.AddNamespaceAttribute("modbusMemory", "ModbusMemoryNS");
         }
     }
 }

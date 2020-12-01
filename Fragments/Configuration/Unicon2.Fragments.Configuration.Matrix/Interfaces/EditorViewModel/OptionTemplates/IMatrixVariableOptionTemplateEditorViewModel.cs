@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates
 {
-   public interface IMatrixVariableOptionTemplateEditorViewModel:IViewModel
+    public interface IMatrixVariableOptionTemplateEditorViewModel : IViewModel
     {
     }
 }

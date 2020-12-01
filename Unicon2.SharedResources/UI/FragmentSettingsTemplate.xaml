@@ -45,7 +45,7 @@
                             <DataTemplate DataType="values:IRangeViewModel">
                                 <Border
                                     Margin="5"
-                                    BorderBrush="{DynamicResource AccentColorBrush3}"
+                                    BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
                                     BorderThickness="1">
                                     <!--<Border.ContextMenu>
                                         <ContextMenu>

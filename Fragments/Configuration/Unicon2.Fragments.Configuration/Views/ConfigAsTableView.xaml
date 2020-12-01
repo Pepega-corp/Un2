@@ -2,6 +2,7 @@
     x:Class="Unicon2.Fragments.Configuration.Views.ConfigAsTableView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:behaviors="clr-namespace:Unicon2.SharedResources.Behaviors;assembly=Unicon2.SharedResources"
     xmlns:behaviors1="clr-namespace:Unicon2.Fragments.Configuration.Behaviors"
     xmlns:converters="clr-namespace:Unicon2.Fragments.Configuration.Converters"
@@ -11,6 +12,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
@@ -19,27 +21,31 @@
         <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
     </UserControl.Resources>
     <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="150" />
             <ColumnDefinition Width="2" />
             <ColumnDefinition Width="*" MinWidth="150" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsFilterApplied, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToInVisConverter}, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center" Text="{lex:Loc DeviceData}" />
             <DataGrid
-                GridLinesVisibility="All"
                 Grid.Row="1"
                 AutoGenerateColumns="False"
                 BorderThickness="1"
                 CanUserAddRows="False"
+                GridLinesVisibility="All"
                 HorizontalScrollBarVisibility="Auto">
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
-                    <behaviors1:DynamicPropertiesDataGridBehavior RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
+                    <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox, Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
                         <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                             <Style TargetType="ContentControl">
                                 <Style.Setters>
@@ -60,7 +66,50 @@
                             </Style>
                         </behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                     </behaviors1:DynamicPropertiesDataGridBehavior>
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Column="0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsFilterApplied, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Center" Text="{lex:Loc FilteredData}" />
+            <DataGrid
+                Grid.Row="1"
+                AutoGenerateColumns="False"
+                BorderThickness="1"
+                CanUserAddRows="False"
+                GridLinesVisibility="All"
+                HorizontalScrollBarVisibility="Auto">
+                <b:Interaction.Behaviors>
+                    <behaviors:BubbleScrollBehavior />
+                    <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox, Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.FilteredPropertiesTable}">
+                        <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
+                            <Style TargetType="ContentControl">
+                                <Style.Setters>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ContentControl">
+                                                <Border
+                                                    Margin="-2"
+                                                    BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
+                                                    BorderThickness="0,0,3,0"
+                                                    ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay}">
+                                                    <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
+                                                        <ContentPresenter.ContentTemplateSelector>
+                                                            <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
+                                                        </ContentPresenter.ContentTemplateSelector>
+                                                    </ContentPresenter>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style.Setters>
+                            </Style>
+                        </behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
+                    </behaviors1:DynamicPropertiesDataGridBehavior>
+                </b:Interaction.Behaviors>
             </DataGrid>
         </Grid>
         <GridSplitter
@@ -75,15 +124,15 @@
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center" Text="{lex:Loc LocalData}" />
             <DataGrid
-                GridLinesVisibility="All"
                 Grid.Row="1"
                 AutoGenerateColumns="False"
                 BorderThickness="1"
                 CanUserAddRows="False"
+                GridLinesVisibility="All"
                 HorizontalScrollBarVisibility="Auto">
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
-                    <behaviors1:DynamicPropertiesDataGridBehavior RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
+                    <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox, Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
                         <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                             <Style TargetType="ContentControl">
                                 <Style.Setters>
@@ -91,9 +140,10 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ContentControl">
                                                 <Border
+                                                    Margin="-2"
                                                     BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
-                                                    BorderThickness="1"
-                                                    ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.DeviceValue, Converter={StaticResource PropertyTooltipConverter}}">
+                                                    BorderThickness="0,0,3,0"
+                                                    ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}}">
                                                     <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
                                                         <ContentPresenter.ContentTemplateSelector>
                                                             <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
@@ -107,9 +157,37 @@
                             </Style>
                         </behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                     </behaviors1:DynamicPropertiesDataGridBehavior>
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
             </DataGrid>
         </Grid>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal">
+            <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.FilterViewModels}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="viewModel:RuntimeFilterViewModel">
+                        <ToggleButton
+                            Content="{Binding Name}"
+                            IsChecked="{Binding IsActivated}"
+                            Style="{DynamicResource UniconToggleButtonStyle}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ToggleButton
+                Name="CheckBox"
+                Margin="1"
+                Content="{lex:Loc Transpone}"
+                IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentPresenter}, Path=DataContext.TableConfigurationViewModel.IsTransponed, Mode=TwoWay}"
+                Style="{DynamicResource UniconToggleButtonStyle}" />
+        </StackPanel>
+
     </Grid>
 </UserControl>
 

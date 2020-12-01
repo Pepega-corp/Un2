@@ -5,7 +5,7 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Journals.Editor.Interfaces
 {
-    public interface IRecordTemplateEditorViewModel:IViewModel
+    public interface IRecordTemplateEditorViewModel : IViewModel
     {
         ObservableCollection<IJournalParameterEditorViewModel> AllJournalParameterEditorViewModels { get; set; }
 

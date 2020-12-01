@@ -1,75 +1,40 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
-using Unicon2.Formatting.Infrastructure.Keys;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Model.Base;
-using Unicon2.Infrastructure.Values;
-using Unicon2.Unity.Interfaces;
+using Unicon2.Infrastructure.Interfaces.Visitors;
 
 namespace Unicon2.Formatting.Model
 {
-    [DataContract(IsReference = true, Namespace = "DefaultBitMaskFormatterNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultBitMaskFormatter : UshortsFormatterBase, IBitMaskFormatter
     {
-        private Func<IBitMaskValue> _bitMaskValueGettingFunc;
-
-        public DefaultBitMaskFormatter(Func<IBitMaskValue> bitMaskValueGettingFunc)
-        {
-            this._bitMaskValueGettingFunc = bitMaskValueGettingFunc;
-        }
-
-        public override ushort[] FormatBack(IFormattedValue formattedValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IFormattedValue OnFormatting(ushort[] ushorts)
-        {
-            IBitMaskValue bitMaskValue = this._bitMaskValueGettingFunc();
-            foreach (ushort uUshort in ushorts)
-            {
-                List<bool> bools = new List<bool>();
-                BitArray bitArray = new BitArray(new[] { (int)uUshort });
-                foreach (bool o in bitArray)
-                {
-                    bools.Add(o);
-                }
-                bitMaskValue.BitArray.Add(bools.Take(16).Reverse().ToList());
-            }
-            bitMaskValue.BitSignatures.AddRange(this.BitSignatures);
-            return bitMaskValue;
-        }
-
-        public override string StrongName => StringKeys.DEFAULT_BIT_MASK_FORMATTER;
+        
         public override object Clone()
         {
-            DefaultBitMaskFormatter clone = new DefaultBitMaskFormatter(this._bitMaskValueGettingFunc);
-            clone.BitSignatures = new List<string>(this.BitSignatures);
+            DefaultBitMaskFormatter clone = new DefaultBitMaskFormatter();
+            clone.BitSignatures = new List<string>(BitSignatures);
             return clone;
         }
 
-        [DataMember]
+        public override T Accept<T>(IFormatterVisitor<T> visitor)
+        {
+            return visitor.VisitBitMaskFormatter(this);
+        }
+
+        [JsonProperty]
         public string BitSignaturesInOneLine { get; set; }
 
         public List<string> BitSignatures { get; set; }
 
-
-        public override void InitializeFromContainer(ITypesContainer container)
-        {
-            this._bitMaskValueGettingFunc = container.Resolve<Func<IBitMaskValue>>();
-            base.InitializeFromContainer(container);
-        }
-
         [OnDeserialized]
         private void OnDeserialized(StreamingContext sc)
         {
-            if (this.BitSignaturesInOneLine == null) return;
-            string[] bitSignatures = this.BitSignaturesInOneLine.Split(',');
-            this.BitSignatures = new List<string>();
+            if (BitSignaturesInOneLine == null) return;
+            string[] bitSignatures = BitSignaturesInOneLine.Split(',');
+            BitSignatures = new List<string>();
             foreach (string bitSignature in bitSignatures)
             {
                 string preparedString = bitSignature.Replace("&lt", "<").Replace("&gt", ">");
@@ -79,7 +44,7 @@ namespace Unicon2.Formatting.Model
                     preparedString = preparedString.Remove(0, preparedString.IndexOf("\""));
 
 
-                    this.BitSignatures.Add(preparedString.Replace("\"", ""));
+                    BitSignatures.Add(preparedString.Replace("\"", ""));
                 }
             }
         }
@@ -90,18 +55,18 @@ namespace Unicon2.Formatting.Model
         {
 
             StringBuilder sb = new StringBuilder();
-            this.BitSignatures.ForEach((s =>
+            BitSignatures.ForEach((s =>
             {
                 sb.Append("\"");
                 string preparedString = s.Replace("<", "&lt").Replace(">", "&gt");
                 sb.Append(preparedString);
                 sb.Append("\"");
-                if (this.BitSignatures.IndexOf(s) != this.BitSignatures.Count - 1)
+                if (BitSignatures.IndexOf(s) != BitSignatures.Count - 1)
                 {
                     sb.Append(",");
                 }
             }));
-            this.BitSignaturesInOneLine = sb.ToString();
+            BitSignaturesInOneLine = sb.ToString();
         }
 
     }

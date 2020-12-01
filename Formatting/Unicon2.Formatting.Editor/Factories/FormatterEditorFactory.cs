@@ -1,8 +1,8 @@
-﻿using Unicon2.Formatting.Editor.ViewModels;
+﻿using System.Collections.Generic;
+using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Formatting.Editor.Views;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.Factories
@@ -13,13 +13,22 @@ namespace Unicon2.Formatting.Editor.Factories
 
         public FormatterEditorFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
+        }
+        public void EditFormatterByUser(List<IUshortFormattableEditorViewModel> ushortFormattableViewModel)
+        {
+            IApplicationGlobalCommands applicationGlobalCommands =
+                _container.Resolve<IApplicationGlobalCommands>();
+            applicationGlobalCommands?.ShowWindowModal(() => new FormatterView(),
+                new FormatterSelectionViewModel(_container, ushortFormattableViewModel));
         }
 
-        public void EditFormatterByUser(IUshortFormattable model)
+        public void EditFormatterByUser(IUshortFormattableEditorViewModel ushortFormattableViewModel)
         {
-            IApplicationGlobalCommands applicationGlobalCommands = this._container.Resolve<IApplicationGlobalCommands>();
-            applicationGlobalCommands?.ShowWindowModal(() => new FormatterView(), new FormatterSelectionViewModel(this._container, model));
+            IApplicationGlobalCommands applicationGlobalCommands =
+                _container.Resolve<IApplicationGlobalCommands>();
+            applicationGlobalCommands?.ShowWindowModal(() => new FormatterView(),
+                new FormatterSelectionViewModel(_container, new List<IUshortFormattableEditorViewModel>(){ushortFormattableViewModel}));
         }
     }
 }

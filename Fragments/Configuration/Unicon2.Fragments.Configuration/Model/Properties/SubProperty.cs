@@ -1,54 +1,31 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model.Properties
 {
-    [DataContract(Namespace = "SubPropertyNS", Name = nameof(SubProperty), IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class SubProperty : DefaultProperty, ISubProperty
     {
-        private IComplexProperty _complexProperty;
 
-        public SubProperty(Func<IRange> range) : base(range)
+        public SubProperty()
         {
-            this.BitNumbersInWord = new List<int>();
-        }
-
-
-        public void SetParent(IComplexProperty complexProperty)
-        {
-            this._complexProperty = complexProperty;
-            this._complexProperty.ConfigurationItemChangedAction += this.OnParentsPropertyValueChanged;
-        }
-
-        private void OnParentsPropertyValueChanged()
-        {
-            if (this._complexProperty.DeviceUshortsValue != null)
-            {
-                this.DeviceUshortsValue = this.GetUshortValueFromParentsValue(this._complexProperty.DeviceUshortsValue);
-            }
-            if (this._complexProperty.LocalUshortsValue != null)
-            {
-                this.LocalUshortsValue = this.GetUshortValueFromParentsValue(this._complexProperty.LocalUshortsValue);
-            }
-            this.ConfigurationItemChangedAction?.Invoke();
+            BitNumbersInWord = new List<int>();
         }
 
 
         private ushort[] GetUshortValueFromParentsValue(ushort[] parentUshorts)
         {
-            bool[] bools = new bool[this.BitNumbersInWord.Count];
+            bool[] bools = new bool[BitNumbersInWord.Count];
             BitArray bitArray = new BitArray(new int[] { parentUshorts[0] });
             int index = 0;
-            foreach (int bitNum in this.BitNumbersInWord)
+            foreach (int bitNum in BitNumbersInWord)
             {
                 bools[index] = bitArray[bitNum];
                 index++;
@@ -56,43 +33,28 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             return new[] { (ushort)(new BitArray(bools).GetIntFromBitArray()) };
         }
 
-
-
-        [DataMember]
+        [JsonProperty]
         public List<int> BitNumbersInWord { get; set; }
 
-        public Action LocalValueChanged { get; set; }
-
-
-        public override string StrongName => ConfigurationKeys.SUB_PROPERTY;
-
-
-
-        public override async Task Load()
-        {
-            //напрямую не загружать
-        }
-
-
-        public override async Task<bool> Write()
-        {
-            //напрямую не записывать
-            return false;
-        }
-
-
+        
         protected override IConfigurationItem OnCloning()
         {
-            SubProperty subProperty = new SubProperty(this._rangeGetFunc);
-            subProperty.UshortsFormatter = this.UshortsFormatter;
-            subProperty.Address = this.Address;
-            subProperty.NumberOfPoints = this.NumberOfPoints;
-            subProperty.MeasureUnit = this.MeasureUnit;
-            subProperty.IsMeasureUnitEnabled = this.IsMeasureUnitEnabled;
-            subProperty.Range = this.Range.Clone() as IRange;
-            subProperty.IsRangeEnabled = this.IsRangeEnabled;
-            this.BitNumbersInWord.ForEach((i => subProperty.BitNumbersInWord.Add(i)));
+            SubProperty subProperty = new SubProperty
+            {
+                UshortsFormatter = UshortsFormatter,
+                Address = Address,
+                NumberOfPoints = NumberOfPoints,
+                MeasureUnit = MeasureUnit,
+                IsMeasureUnitEnabled = IsMeasureUnitEnabled,
+                Range = Range.Clone() as IRange,
+                IsRangeEnabled = IsRangeEnabled
+            };
+            BitNumbersInWord.ForEach((i => subProperty.BitNumbersInWord.Add(i)));
             return subProperty;
+        }
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
+        {
+            return visitor.VisitSubProperty(this);
         }
     }
 }

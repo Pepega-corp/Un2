@@ -4,8 +4,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces.ComPortInterrogation;
+using Unicon2.Connections.ModBusRtuConnection.Model;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -18,6 +21,8 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private readonly IDevicesContainerService _devicesContainerService;
         private readonly IModbusRtuConnection _modbusRtuConnection;
         private readonly IComConnectionManager _comConnectionManager;
+        private readonly IConnectionService _connectionService;
+        private readonly IFlyoutService _flyoutService;
         private bool _is1200Checked;
         private bool _is2400Checked;
         private bool _is4800Checked;
@@ -30,22 +35,34 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private bool _is460800Checked;
         private bool _is921600Checked;
         private byte _slaveId;
-        private IComPortInterrogationViewModel _comPortInterrogationViewModelImplementation;
         private bool _isInterrogationStopped;
 
         public ComPortInterrogationViewModel(Func<IDeviceDefinitionViewModel> deviceDefinitionCreator, IDevicesContainerService devicesContainerService,
-            IModbusRtuConnection modbusRtuConnection, IComConnectionManager comConnectionManager)
+            IModbusRtuConnection modbusRtuConnection, IComConnectionManager comConnectionManager, 
+            IConnectionService connectionService,IFlyoutService flyoutService)
         {
-            this._deviceDefinitionCreator = deviceDefinitionCreator;
-            this._devicesContainerService = devicesContainerService;
-            this._modbusRtuConnection = modbusRtuConnection;
-            this._comConnectionManager = comConnectionManager;
-            this.InterrogateCommand = new RelayCommand(this.OnInterrogateExecute);
-            this.DeviceDefinitionViewModels = new ObservableCollection<IDeviceDefinitionViewModel>();
-            this.SlaveId = 1;
-            this.IsInterrogationNotInProcess = true;
-            this.AddDeviceCommand = new RelayCommand<object>(this.OnAddDeviceExecute, (b) => this.IsInterrogationNotInProcess);
-            this.StopInterrogationCommand = new RelayCommand(this.OnStopInterrogationExecute, (() => !this._isInterrogationStopped));
+            _deviceDefinitionCreator = deviceDefinitionCreator;
+            _devicesContainerService = devicesContainerService;
+            _modbusRtuConnection = modbusRtuConnection;
+            _comConnectionManager = comConnectionManager;
+            this._connectionService = connectionService;
+            _flyoutService = flyoutService;
+            InterrogateCommand = new RelayCommand(OnInterrogateExecute);
+            DeviceDefinitionViewModels = new ObservableCollection<IDeviceDefinitionViewModel>();
+            SlaveId = 1;
+            IsInterrogationNotInProcess = true;
+            AddDeviceCommand = new RelayCommand<object>(OnAddDeviceExecute, (b) =>
+            {
+                if (b is IDeviceDefinitionViewModel deviceDefinitionViewModel)
+                {
+                    if (deviceDefinitionViewModel.IsAddedToProject)
+                    {
+                        return false;
+                    }
+                }
+                return IsInterrogationNotInProcess;
+            });
+            StopInterrogationCommand = new RelayCommand(OnStopInterrogationExecute, (() => !_isInterrogationStopped));
         }
 
         private async void OnAddDeviceExecute(object obj)
@@ -53,134 +70,109 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             IDeviceCreator deviceCreator = (obj as IDeviceDefinitionViewModel)?.Model as IDeviceCreator;
             if (deviceCreator == null) return;
             if (deviceCreator.AvailableConnection == null) return;
-            this._comConnectionManager.SetComPortConfigurationByName((deviceCreator.AvailableConnection as IModbusRtuConnection).ComPortConfiguration, (deviceCreator.AvailableConnection as IModbusRtuConnection).PortName);
-
-            await this._devicesContainerService.ConnectDeviceAsync(deviceCreator.Create(), deviceCreator.AvailableConnection);
-            this.DeviceDefinitionViewModels.Remove(obj as IDeviceDefinitionViewModel);
-            this.IsDevicesNotFound = false;
+            _comConnectionManager.SetComPortConfigurationByName((deviceCreator.AvailableConnection as IModbusRtuConnection).ComPortConfiguration, (deviceCreator.AvailableConnection as IModbusRtuConnection).PortName);
+            var device = deviceCreator.Create();
+            device.DeviceSignature = device.Name;
+            await _devicesContainerService.ConnectDeviceAsync(device, deviceCreator.AvailableConnection);
+            if (!_devicesContainerService.ConnectableItems.Contains(device))
+            {
+	            _devicesContainerService.AddConnectableItem(device);
+            }
+            //DeviceDefinitionViewModels.Remove(obj as IDeviceDefinitionViewModel);
+            IsDevicesNotFound = false;
+            (obj as IDeviceDefinitionViewModel).IsAddedToProject = true;
+            await Task.Delay(300);
+            _flyoutService.CloseFlyout();
 
         }
 
         private void OnStopInterrogationExecute()
         {
-            this._isInterrogationStopped = true;
-            (this.StopInterrogationCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            _isInterrogationStopped = true;
+            IsInterrogationNotInProcess = true;
+            (StopInterrogationCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (AddDeviceCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
+            RaisePropertyChanged(nameof(IsInterrogationNotInProcess));
+
         }
 
         private async void OnInterrogateExecute()
         {
-            this.IsDevicesNotFound = false;
-            this.RaisePropertyChanged(nameof(this.IsDevicesNotFound));
-            this.IsInterrogationNotInProcess = false;
-            (this.AddDeviceCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
-            this.RaisePropertyChanged(nameof(this.IsInterrogationNotInProcess));
-            this.DeviceDefinitionViewModels.Clear();
-            if (this.Is115200Checked)
-            {
-                await this.CheckDevices(115200);
-            }
-            if (this.Is1200Checked)
-            {
-                await this.CheckDevices(1200);
-            }
-            if (this.Is19200Checked)
-            {
-                await this.CheckDevices(19200);
-            }
-            if (this.Is230400Checked)
-            {
-                await this.CheckDevices(230400);
-            }
-            if (this.Is2400Checked)
-            {
-                await this.CheckDevices(2400);
-            }
-            if (this.Is38400Checked)
-            {
-                await this.CheckDevices(38400);
-            }
-            if (this.Is460800Checked)
-            {
-                await this.CheckDevices(460800);
-            }
-            if (this.Is4800Checked)
-            {
-                await this.CheckDevices(4800);
-            }
-            if (this.Is57600Checked)
-            {
-                await this.CheckDevices(57600);
-            }
-            if (this.Is921600Checked)
-            {
-                await this.CheckDevices(921600);
-            }
-            if (this.Is9600Checked)
-            {
-                await this.CheckDevices(9600);
-            }
-            this.IsInterrogationNotInProcess = true;
-            this._isInterrogationStopped = false;
-            (this.StopInterrogationCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            IsDevicesNotFound = false;
+            RaisePropertyChanged(nameof(IsDevicesNotFound));
+            IsInterrogationNotInProcess = false;
+            (AddDeviceCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
+            RaisePropertyChanged(nameof(IsInterrogationNotInProcess));
+            DeviceDefinitionViewModels.Clear();
+            await CheckDevices();
+            IsInterrogationNotInProcess = true;
+            _isInterrogationStopped = false;
+            (StopInterrogationCommand as RelayCommand)?.RaiseCanExecuteChanged();
 
-            (this.AddDeviceCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
+            (AddDeviceCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
 
 
 
-            this.IsDevicesNotFound = this.DeviceDefinitionViewModels.Count == 0;
-            this.RaisePropertyChanged(nameof(this.IsDevicesNotFound));
+            IsDevicesNotFound = DeviceDefinitionViewModels.Count == 0;
+            RaisePropertyChanged(nameof(IsDevicesNotFound));
 
-            this.RaisePropertyChanged(nameof(this.IsInterrogationNotInProcess));
+            RaisePropertyChanged(nameof(IsInterrogationNotInProcess));
         }
 
-        private async Task CheckDevices(int baudRate)
+        private async Task CheckDevices()
         {
-            if (this._isInterrogationStopped)
+            if (_isInterrogationStopped)
             {
                 return;
             }
 
-            foreach (IDeviceCreator creator in this._devicesContainerService.Creators)
-            {
-                if (creator.ConnectionState.DefaultComPortConfiguration == null) return;
-                this._modbusRtuConnection.ComPortConfiguration = creator.ConnectionState.DefaultComPortConfiguration;
-                this._modbusRtuConnection.SlaveId = this.SlaveId;
-                this._modbusRtuConnection.ComPortConfiguration.BaudRate = baudRate;
-                System.Collections.Generic.List<string> ports = this._modbusRtuConnection.GetAvailablePorts();
-
-                foreach (string port in ports)
+            if (_devicesContainerService?.Creators != null)
+                foreach (IDeviceCreator creator in _devicesContainerService.Creators)
                 {
-                    this._modbusRtuConnection.PortName = port;
-                    this._comConnectionManager.SetComPortConfigurationByName(this._modbusRtuConnection.ComPortConfiguration, port);
-                    if (await this._modbusRtuConnection.TryOpenConnectionAsync(false, null))
+                    try
                     {
-                        try
+                        if (creator?.ConnectionState?.DefaultComPortConfiguration == null) continue;
+                        _modbusRtuConnection.ComPortConfiguration = creator.ConnectionState.DefaultComPortConfiguration;
+                        _modbusRtuConnection.SlaveId = SlaveId;
+                        System.Collections.Generic.List<string> ports = _modbusRtuConnection.GetAvailablePorts();
+                        var device = creator.Create();
+                        foreach (string port in ports)
                         {
-                            creator.ConnectionState.Initialize(this._modbusRtuConnection, null);
-                            await creator.ConnectionState.CheckConnection();
-                            bool isMatches = creator.ConnectionState.GetIsExpectedValueMatchesDevice();
-                            if (isMatches)
+                            _modbusRtuConnection.PortName = port;
+                            _comConnectionManager.SetComPortConfigurationByName(
+                                _modbusRtuConnection.ComPortConfiguration,
+                                port);
+                            if ((await _modbusRtuConnection.TryOpenConnectionAsync(null)).IsSuccess)
                             {
-                                IDeviceDefinitionViewModel deviceDefinitionViewModel = this._deviceDefinitionCreator();
-                                creator.AvailableConnection = this._modbusRtuConnection.Clone() as IDeviceConnection;
-                                deviceDefinitionViewModel.Model = creator;
-                                deviceDefinitionViewModel.ConnectionDescription = this._modbusRtuConnection.PortName;
-                                this.DeviceDefinitionViewModels.Add(deviceDefinitionViewModel);
+                                try
+                                {
+                                    var res = await this._connectionService.CheckConnection(creator.ConnectionState,
+                                        new DeviceContext(null, null, "test",
+                                            new ConnectionContainer(this._modbusRtuConnection),
+                                            device.DeviceSharedResources));
+                                    bool isMatches = res.IsSuccess;
+                                    if (isMatches)
+                                    {
+                                        IDeviceDefinitionViewModel deviceDefinitionViewModel =
+                                            _deviceDefinitionCreator();
+                                        creator.AvailableConnection = _modbusRtuConnection.Clone() as IDeviceConnection;
+                                        deviceDefinitionViewModel.Model = creator;
+                                        deviceDefinitionViewModel.ConnectionDescription = _modbusRtuConnection.PortName;
+                                        DeviceDefinitionViewModels.Add(deviceDefinitionViewModel);
+                                    }
+                                }
+                                finally
+                                {
+                                    await Task.Run(() => { _modbusRtuConnection.CloseConnection(); });
+                                }
                             }
                         }
-                        finally
-                        {
-                            await Task.Run(() =>
-                            {
-                                this._modbusRtuConnection.CloseConnection();
-                            });
+                    }
+                    finally
+                    {
 
-                        }
                     }
                 }
-
-            }
-
         }
 
         public ObservableCollection<IDeviceDefinitionViewModel> DeviceDefinitionViewModels { get; }
@@ -191,123 +183,14 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
 
         public ICommand AddDeviceCommand { get; }
 
-        public bool Is1200Checked
-        {
-            get { return this._is1200Checked; }
-            set
-            {
-                this._is1200Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is2400Checked
-        {
-            get { return this._is2400Checked; }
-            set
-            {
-                this._is2400Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is4800Checked
-        {
-            get { return this._is4800Checked; }
-            set
-            {
-                this._is4800Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is9600Checked
-        {
-            get { return this._is9600Checked; }
-            set
-            {
-                this._is9600Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is19200Checked
-        {
-            get { return this._is19200Checked; }
-            set
-            {
-                this._is19200Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is38400Checked
-        {
-            get { return this._is38400Checked; }
-            set
-            {
-                this._is38400Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is57600Checked
-        {
-            get { return this._is57600Checked; }
-            set
-            {
-                this._is57600Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is115200Checked
-        {
-            get { return this._is115200Checked; }
-            set
-            {
-                this._is115200Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is230400Checked
-        {
-            get { return this._is230400Checked; }
-            set
-            {
-                this._is230400Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is460800Checked
-        {
-            get { return this._is460800Checked; }
-            set
-            {
-                this._is460800Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool Is921600Checked
-        {
-            get { return this._is921600Checked; }
-            set
-            {
-                this._is921600Checked = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
+   
         public byte SlaveId
         {
-            get { return this._slaveId; }
+            get { return _slaveId; }
             set
             {
-                this._slaveId = value;
-                this.RaisePropertyChanged();
+                _slaveId = value;
+                RaisePropertyChanged();
             }
         }
 

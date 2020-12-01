@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
+using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Presentation.Values.Editable;
 using Unicon2.SharedResources.Behaviors;
 
@@ -22,7 +19,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers
             return ushortsFromTable.ToArray();
         }
 
-        public ushort[] GetUshortsFromVariable(IMatrixMemoryVariable variable, IMatrixValue matrixValue, DynamicDataTable dynamicDataTable)
+        private ushort[] GetUshortsFromVariable(IMatrixMemoryVariable variable, IMatrixValue matrixValue, DynamicDataTable dynamicDataTable)
         {
             var indexOfVariable = matrixValue.MatrixTemplate.MatrixMemoryVariables.IndexOf(variable);
             var row = dynamicDataTable.Values[indexOfVariable];

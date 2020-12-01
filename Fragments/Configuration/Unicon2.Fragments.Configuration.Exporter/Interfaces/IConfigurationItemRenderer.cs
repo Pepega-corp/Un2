@@ -1,62 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Unicon2.Fragments.Configuration.Exporter.Utils;
 using Unicon2.Fragments.Configuration.Infrastructure.Export;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Functional;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 
 namespace Unicon2.Fragments.Configuration.Exporter.Interfaces
 {
     public interface IConfigurationItemRenderer
     {
-        Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem,
+        Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItemViewModel configurationItem,
             SelectorForItemsGroup selectorForItemsGroup, int depthLevel = 0);
     }
-
-    public class Result<T>
-    {
-        private Result(T item, bool isSuccess)
-        {
-            Item = item;
-            IsSuccess = isSuccess;
-        }
-        private Result(bool isSuccess)
-        {
-            IsSuccess = isSuccess;
-        }
-        public static Result<T> Create(T item, bool isSuccess)
-        {
-            return new Result<T>(item, isSuccess);
-        }
-        public static Result<T> Create(bool isSuccess)
-        {
-            return new Result<T>(isSuccess);
-        }
-        public static Result<T> Create(Func<T> creator,bool isSuccess)
-        {
-            return isSuccess ? new Result<T>(creator(), true) : new Result<T>(false);
-        }
-        public static Result<T> Create(Func<T> creator, Func<bool> isSuccess)
-        {
-            return isSuccess() ? new Result<T>(creator(), true) : new Result<T>(false);
-        }
-        public T OnSuccess(Action<T> onSuccessFunc)
-        {
-            if (IsSuccess)
-            {
-                onSuccessFunc(Item);
-            }
-
-            return Item;
-        }
-
-        public T Item { get; }
-
-        public bool IsSuccess { get; }
-    }
-
  
     public class RenderData
     {

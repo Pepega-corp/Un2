@@ -2,7 +2,7 @@
 
 namespace Unicon2.Connections.OfflineConnection.Interfaces
 {
-    public interface IOfflineConnectionViewModel:IDeviceConnectionViewModel
+    public interface IOfflineConnectionViewModel : IDeviceConnectionViewModel
     {
     }
 }

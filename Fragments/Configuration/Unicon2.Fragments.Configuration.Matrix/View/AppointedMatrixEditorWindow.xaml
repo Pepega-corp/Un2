@@ -12,6 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:optionTemplates="clr-namespace:Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates"
     xmlns:view="clr-namespace:Unicon2.Fragments.Configuration.Matrix.View"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     Name="appointableMatrixEditorWindow"
     Title="{lex:Loc AppointableMatrix}"
     Width="800"
@@ -71,12 +72,12 @@
         </UniformGrid>
         <controls:MetroAnimatedSingleRowTabControl SelectedItem="{Binding SelectedTab,Mode=TwoWay}" x:Name="SingleTabControl" Grid.Row="1">
 
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="SelectionChanged">
                     <!--<command:EventToCommand  PassEventArgsToCommand="True" Command="{Binding OnSelectionChangedCommand}" />-->
-                    <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=SingleTabControl}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+                    <b:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" CommandParameter="{Binding ElementName=SingleTabControl}"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
 
             <TabItem Header="{lex:Loc Memory}">
                 <Grid>

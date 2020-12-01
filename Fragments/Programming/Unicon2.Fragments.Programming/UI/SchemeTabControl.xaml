@@ -120,6 +120,7 @@
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <Canvas
+                                                    Name="DesignerCanvas"
                                                     Width="{Binding SchemeWidth}"
                                                     Height="{Binding SchemeHeight}"
                                                     AllowDrop="True"

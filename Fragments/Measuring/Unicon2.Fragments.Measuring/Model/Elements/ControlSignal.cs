@@ -1,53 +1,24 @@
-﻿using System.Runtime.Serialization;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Address;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
-using Unicon2.Infrastructure.Connection;
-using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Fragments.Measuring.Model.Address;
 
 namespace Unicon2.Fragments.Measuring.Model.Elements
 {
-    [DataContract(Namespace = "ControlSignalNS")]
+	[JsonObject(MemberSerialization.OptIn)]
     public class ControlSignal : MeasuringElementBase, IControlSignal
     {
-        private IDataProvider _dataProvider;
 
-        public ControlSignal(IWritingValueContext writingValueContext)
+        public ControlSignal()
         {
-            this.WritingValueContext = writingValueContext;
+            WritingValueContext = new WritingValueContext();
         }
 
         public override string StrongName => MeasuringKeys.CONTROL_SIGNAL;
 
-        [DataMember]
+        [JsonProperty]
         public IWritingValueContext WritingValueContext { get; set; }
 
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this._dataProvider = dataProvider;
-        }
-
-        public async Task<bool> Write()
-        {
-            IQueryResult queryResult = null;
-            if (this.WritingValueContext.NumberOfFunction == 16)
-            {
-                queryResult = await this._dataProvider.WriteMultipleRegistersAsync(this.WritingValueContext.Address,
-                    new[] { this.WritingValueContext.ValueToWrite }, "Write");
-
-            }
-            else if (this.WritingValueContext.NumberOfFunction == 5)
-            {
-                queryResult = await this._dataProvider.WriteSingleCoilAsync(this.WritingValueContext.Address,
-                     this.WritingValueContext.ValueToWrite != 0, "Write");
-
-            }
-            if (queryResult != null)
-            {
-                return queryResult.IsSuccessful;
-            }
-            return false;
-        }
     }
 }

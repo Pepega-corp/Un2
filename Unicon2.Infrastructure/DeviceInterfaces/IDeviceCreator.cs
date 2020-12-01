@@ -7,6 +7,7 @@ namespace Unicon2.Infrastructure.DeviceInterfaces
 
         string DeviceDescriptionFilePath { get; set; }
         string DeviceName { get; set; }
+        DeviceMetaInfo DeviceMetaInfo { get; set; }
         IConnectionState ConnectionState { get; set; }
         IDeviceConnection AvailableConnection { get; set; }
         IDevice Create();

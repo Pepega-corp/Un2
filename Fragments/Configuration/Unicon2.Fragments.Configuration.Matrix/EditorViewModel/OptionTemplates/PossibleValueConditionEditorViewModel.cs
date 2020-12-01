@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
@@ -18,43 +18,43 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         {
             get
             {
-                this._model.BoolConditionRule = this.BoolConditionRule;
-                this._model.RelatedOptionPossibleValue =
-                    this.RelatedOptionPossibleValueEditorViewModel.Model as IOptionPossibleValue;
-                return this._model;
+                _model.BoolConditionRule = BoolConditionRule;
+                _model.RelatedOptionPossibleValue =
+                    RelatedOptionPossibleValueEditorViewModel.Model as IOptionPossibleValue;
+                return _model;
             }
             set
             {
-                this._model = value as IPossibleValueCondition;
-                this.BoolConditionRule = this._model.BoolConditionRule;
+                _model = value as IPossibleValueCondition;
+                BoolConditionRule = _model.BoolConditionRule;
             }
         }
 
         public bool BoolConditionRule
         {
-            get { return this._boolConditionRule; }
+            get { return _boolConditionRule; }
             set
             {
-                this._boolConditionRule = value;
-                this.RaisePropertyChanged();
+                _boolConditionRule = value;
+                RaisePropertyChanged();
             }
         }
 
         public IOptionPossibleValueEditorViewModel RelatedOptionPossibleValueEditorViewModel
         {
-            get { return this._relatedOptionPossibleValueEditorViewModel; }
+            get { return _relatedOptionPossibleValueEditorViewModel; }
             set
             {
-                this._relatedOptionPossibleValueEditorViewModel = value;
-                this.RaisePropertyChanged();
+                _relatedOptionPossibleValueEditorViewModel = value;
+                RaisePropertyChanged();
             }
         }
 
         public void SetAvailableOptionPossibleValueEditorViewModel(List<IOptionPossibleValueEditorViewModel> availableOptionPossibleValueEditorViewModels)
         {
-            this.RelatedOptionPossibleValueEditorViewModel =
+            RelatedOptionPossibleValueEditorViewModel =
                 availableOptionPossibleValueEditorViewModels.First((model =>
-                    model.Model.Equals(this._model.RelatedOptionPossibleValue)));
+                    model.Model.Equals(_model.RelatedOptionPossibleValue)));
         }
     }
 }

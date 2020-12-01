@@ -1,15 +1,13 @@
 ﻿using System.Windows.Input;
-using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
-using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources
 {
-    public interface IResourcesAddingViewModel:IViewModel
+    public interface IResourcesAddingViewModel
     {
-        bool IsResourceAdded { get; }
-        string NameKey { get; set; }
+        bool IsResourceAdded { get; set; }
         ICommand SubmitCommand { get; }
         ICommand CloseCommand { get; }
-        void Initialize(IDeviceSharedResources deviceSharedResources);
+        INameable ResourceWithName { get; set; }
     }
 }

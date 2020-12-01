@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 
 namespace Unicon2.Infrastructure.Services.UniconProject
 {
     public interface IUniconProjectService
     {
-        /// <summary>
-        /// Создать новый проект 
-        /// </summary>
-        void CreateNewProject();
+	    /// <summary>
+	    /// Создать новый проект 
+	    /// </summary>
+	    /// <param name="shellViewModel"></param>
+	    void CreateNewProject();
         /// <summary>
         /// Сохранить текущий проект
         /// </summary>
@@ -20,21 +21,16 @@ namespace Unicon2.Infrastructure.Services.UniconProject
         /// Проверить сохранен ли проект
         /// </summary>
         /// <returns>Результат проверки</returns>
-        ProjectSaveCheckingResultEnum CheckIfProjectSaved(object context);
+        ProjectSaveCheckingResultEnum CheckIfProjectSaved();
         /// <summary>
         /// Строка файла текущего проекта для вывода пользователю
         /// </summary>
         string CurrentProjectString { get; }
         /// <summary>
-        /// Получить список последних проектов
-        /// </summary>
-        /// <returns></returns>
-        List<string> GetLastProjectsList();
-        /// <summary>
         /// Открыть проект
         /// </summary>
         /// <param name="lastProjectString">Необязательная строка, обозначающая предыдущий проект</param>
-        void OpenProject(string lastProjectString = "", object context = null);
+        void OpenProject();
 
         /// <summary>
         /// Установить контекст для вывода диалоговых сообщений
@@ -47,7 +43,10 @@ namespace Unicon2.Infrastructure.Services.UniconProject
         /// Получить путь к проекту в файловой системе
         /// </summary>
         /// <returns>путь к проекту</returns>
-        string GetProjectPath();
+        string GetProjectTitle();
+
+        void LoadDefaultProject();
+        Task LoadProject(string path);
     }
 
 }

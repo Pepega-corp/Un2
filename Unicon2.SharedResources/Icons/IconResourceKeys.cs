@@ -18,6 +18,8 @@
         public static string IconArrowRightLeft = "appbar_arrow_right_left";
         public static string IconAlignJustify = "appbar_align_justify";
         public static string IconPrintText = "appbar_printer_text";
+        public static string IconMagnifyAdd = "appbar_magnify_add";
+        public static string IconMagnifyMinus = "appbar_magnify_minus";
 
     }
 }

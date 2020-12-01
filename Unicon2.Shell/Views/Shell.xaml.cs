@@ -1,8 +1,4 @@
-﻿using System;
-using MahApps.Metro.Controls;
-using System.Windows;
-using Unicon2.Infrastructure.Common;
-using Unicon2.Presentation.Infrastructure.Events;
+﻿using MahApps.Metro.Controls;
 
 namespace Unicon2.Shell.Views
 {
@@ -13,24 +9,7 @@ namespace Unicon2.Shell.Views
     {
         public Shell()
         {
-            this.InitializeComponent();
-        }
-          
-
-        private void Shell_Initialized(object sender, System.EventArgs e)
-        {
-            foreach (var item in fileContextMenu.Items)
-            {
-                ((FrameworkElement)item).DataContext = DataContext;
-            }
-
-            foreach (var item in deviceContextMenu.Items)
-            {
-                ((FrameworkElement)item).DataContext = DataContext;
-            }
-
-            oscOpenButton.DataContext = DataContext;
-            dynamicContentButton.DataContext = DataContext;
+            InitializeComponent();
         }
 
     }

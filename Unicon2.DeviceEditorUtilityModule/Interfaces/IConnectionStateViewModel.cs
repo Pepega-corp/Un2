@@ -6,12 +6,12 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 
 namespace Unicon2.DeviceEditorUtilityModule.Interfaces
 {
-    public interface IConnectionStateViewModel:IViewModel
+    public interface IConnectionStateViewModel : IViewModel
     {
-        ObservableCollection<StringWrapper> ExpectedValues { get;  }
+        ObservableCollection<StringWrapper> ExpectedValues { get; }
         IComPortConfigurationViewModel DefaultComPortConfigurationViewModel { get; }
-        string SelectedPropertyString { get;}
-        ICommand SelectTestConnectionProperty { get;}
+        string SelectedPropertyString { get; }
+        ICommand SelectTestConnectionProperty { get; }
         ICommand SubmitCommand { get; }
         ICommand CancelCommand { get; }
         ICommand DeleteExpectedValueCommand { get; }

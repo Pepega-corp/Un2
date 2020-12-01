@@ -1,49 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+﻿using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Matrix.Helpers;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
-using Unicon2.Fragments.Configuration.Model.Base;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Model.Properties;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Unity.Interfaces;
+using Unicon2.Infrastructure.Values.Matrix;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(AppointableMatrix), IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class AppointableMatrix : DefaultProperty, IAppointableMatrix
     {
-        public AppointableMatrix(Func<IRange> rangeGetFunc, IMatrixTemplate matrixTemplate) : base(rangeGetFunc)
+        public AppointableMatrix(IMatrixTemplate matrixTemplate) 
         {
-            UshortsFormatter = new MatrixValueFormatter(this);
-            this.MatrixTemplate = matrixTemplate;
+            UshortsFormatter = new MatrixValueFormatter();
+            MatrixTemplate = matrixTemplate;
         }
 
-        public override Task<bool> Write()
+        [JsonProperty] public IMatrixTemplate MatrixTemplate { get; set; }
+
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
         {
-          return MatrixUshortLoadingHelper.WriteMatrixUshorts(this, _dataProvider,LocalUshortsValue);
-        }
-
-        public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
-
-        public override async Task Load()
-        {
-            await MatrixUshortLoadingHelper.FillMatrixUshorts(this, _dataProvider);
-            this.ConfigurationItemChangedAction?.Invoke();
-        }
-
-
-        [DataMember]
-        public IMatrixTemplate MatrixTemplate { get; set; }
-
-        public override void InitializeFromContainer(ITypesContainer container)
-        {
-            UshortsFormatter=new MatrixValueFormatter(this);
-            base.InitializeFromContainer(container);
+            return visitor.VisitMatrix(this);
         }
     }
+
 }

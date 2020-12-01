@@ -1,10 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
-using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Presentation.Infrastructure.TreeGrid
 {
-    public interface IConfigurationItemViewModel : IViewModel
+    public interface IConfigurationItemViewModel:IStronglyNamed
     {
         string Header { get; set; }
 

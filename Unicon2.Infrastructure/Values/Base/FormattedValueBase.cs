@@ -1,20 +1,15 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Infrastructure.Values.Base
 {
-    [DataContract]
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class FormattedValueBase : IFormattedValue
     {
         public abstract string StrongName { get; }
-
-        [DataMember]
-
+        [JsonProperty]
         public string Header { get; set; }
-
-        [DataMember]
-
-        public ushort[] UshortsValue { get; set; }
-
         public abstract string AsString();
+        public abstract T Accept<T>(IValueVisitor<T> visitor);
     }
 }

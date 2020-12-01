@@ -11,10 +11,10 @@
     <ItemsControl Name="possibleValueConditionsItemsControl"  ItemsSource="{Binding PossibleValueConditionViewModels}">
         <ItemsControl.ItemTemplate>
             <DataTemplate >
-                <VirtualizingStackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
                     <ComboBox SelectedItem="{Binding SelectedMatrixPossibleValueEditorViewModel}" ItemsSource="{Binding Source={x:Reference listMatrixTemplateListBox},Path=DataContext.PossibleValuesCollection}"></ComboBox>
-                    <controls:ToggleSwitch Header="{lex:Loc MustBe}"  OnLabel="{lex:Loc True}" OffLabel="{lex:Loc False}" IsChecked="{Binding IsMustBeEqual}"/>
-                    <VirtualizingStackPanel.ContextMenu>
+                    <controls:ToggleSwitch Header="{lex:Loc MustBe}"  OnContent="{lex:Loc True}" OffContent="{lex:Loc False}" IsOn="{Binding IsMustBeEqual}"/>
+                    <StackPanel.ContextMenu>
                         <ContextMenu>
                             <MenuItem 
                                      Header="{lex:Loc Delete}" 
@@ -22,13 +22,13 @@
                                      CommandParameter="{Binding .}">
                             </MenuItem>
                         </ContextMenu>
-                    </VirtualizingStackPanel.ContextMenu>
-                </VirtualizingStackPanel>
+                    </StackPanel.ContextMenu>
+                </StackPanel>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <VirtualizingStackPanel Orientation="Vertical"></VirtualizingStackPanel>
+                <StackPanel Orientation="Vertical"></StackPanel>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
     </ItemsControl>

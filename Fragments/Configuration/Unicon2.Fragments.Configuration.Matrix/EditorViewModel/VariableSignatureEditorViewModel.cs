@@ -1,5 +1,5 @@
 ﻿using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
@@ -16,36 +16,36 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         {
             get
             {
-                this._model.Signature = this.Signature;
-                this._model.IsMultipleAssignmentAllowed = this.IsMultipleAssgnmentAllowed;
-                return this._model;
+                _model.Signature = Signature;
+                _model.IsMultipleAssignmentAllowed = IsMultipleAssgnmentAllowed;
+                return _model;
 
             }
             set
             {
-                this._model = value as IVariableColumnSignature;
-                this.Signature = this._model.Signature;
-                this.IsMultipleAssgnmentAllowed = this._model.IsMultipleAssignmentAllowed;
+                _model = value as IVariableColumnSignature;
+                Signature = _model.Signature;
+                IsMultipleAssgnmentAllowed = _model.IsMultipleAssignmentAllowed;
             }
         }
 
         public string Signature
         {
-            get { return this._signature; }
+            get { return _signature; }
             set
             {
-                this._signature = value;
-                this.RaisePropertyChanged();
+                _signature = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsMultipleAssgnmentAllowed
         {
-            get { return this._isMultipleAssgnmentAllowed; }
+            get { return _isMultipleAssgnmentAllowed; }
             set
             {
-                this._isMultipleAssgnmentAllowed = value;
-                this.RaisePropertyChanged();
+                _isMultipleAssgnmentAllowed = value;
+                RaisePropertyChanged();
             }
         }
     }

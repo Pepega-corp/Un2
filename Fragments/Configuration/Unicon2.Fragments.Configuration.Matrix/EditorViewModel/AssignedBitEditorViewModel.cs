@@ -15,12 +15,12 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         public AssignedBitEditorViewModel()
         {
-            this.ResetCommand = new RelayCommand(this.OnResetExecute);
+            ResetCommand = new RelayCommand(OnResetExecute);
         }
 
         private void OnResetExecute()
         {
-            this.SelectedBitOptionEditorViewModel = null;
+            SelectedBitOptionEditorViewModel = null;
         }
 
 
@@ -28,56 +28,56 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         public IBitOptionEditorViewModel SelectedBitOptionEditorViewModel
         {
-            get { return this._selectedBitOptionEditorViewModel; }
+            get { return _selectedBitOptionEditorViewModel; }
             set
             {
-                IBitOptionEditorViewModel prevBitOptionEditorViewModel = this._selectedBitOptionEditorViewModel;
+                IBitOptionEditorViewModel prevBitOptionEditorViewModel = _selectedBitOptionEditorViewModel;
 
                 if (prevBitOptionEditorViewModel == value) return;
 
                 if (prevBitOptionEditorViewModel != null &&
-                    prevBitOptionEditorViewModel.NumbersOfAssotiatedBits.Contains(this.NumberOfBit))
+                    prevBitOptionEditorViewModel.NumbersOfAssotiatedBits.Contains(NumberOfBit))
                 {
-                    prevBitOptionEditorViewModel.NumbersOfAssotiatedBits.Remove(this.NumberOfBit);
+                    prevBitOptionEditorViewModel.NumbersOfAssotiatedBits.Remove(NumberOfBit);
                 }
 
 
-                this._selectedBitOptionEditorViewModel = value;
-                if (this._selectedBitOptionEditorViewModel != null)
+                _selectedBitOptionEditorViewModel = value;
+                if (_selectedBitOptionEditorViewModel != null)
                 {
-                    if (!this._selectedBitOptionEditorViewModel.NumbersOfAssotiatedBits.Contains(this.NumberOfBit))
+                    if (!_selectedBitOptionEditorViewModel.NumbersOfAssotiatedBits.Contains(NumberOfBit))
                     {
-                        this._selectedBitOptionEditorViewModel.NumbersOfAssotiatedBits.Add(this.NumberOfBit);
+                        _selectedBitOptionEditorViewModel.NumbersOfAssotiatedBits.Add(NumberOfBit);
                     }
-                    this.IsBitAssigned = true;
+                    IsBitAssigned = true;
                 }
                 else
                 {
-                    this.IsBitAssigned = false;
+                    IsBitAssigned = false;
                 }
 
-                this.BitOptionEditorViewModels?.ForEach(model => model.UpdateIsEnabled());
-                this.RaisePropertyChanged();
+                BitOptionEditorViewModels?.ForEach(model => model.UpdateIsEnabled());
+                RaisePropertyChanged();
             }
         }
 
         public ObservableCollection<IBitOptionEditorViewModel> BitOptionEditorViewModels
         {
-            get { return this._bitOptionEditorViewModels; }
+            get { return _bitOptionEditorViewModels; }
             set
             {
-                this._bitOptionEditorViewModels = value;
-                this.RaisePropertyChanged();
+                _bitOptionEditorViewModels = value;
+                RaisePropertyChanged();
             }
         }
 
         public bool IsBitAssigned
         {
-            get { return this._isBitAssigned; }
+            get { return _isBitAssigned; }
             set
             {
-                this._isBitAssigned = value;
-                this.RaisePropertyChanged();
+                _isBitAssigned = value;
+                RaisePropertyChanged();
             }
         }
 

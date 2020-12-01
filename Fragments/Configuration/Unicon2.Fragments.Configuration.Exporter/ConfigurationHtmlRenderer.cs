@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Unicon2.Fragments.Configuration.Exporter.Interfaces;
 using Unicon2.Fragments.Configuration.Exporter.Utils;
 using Unicon2.Fragments.Configuration.Infrastructure.Export;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Infrastructure.Services;
 
 
 namespace Unicon2.Fragments.Configuration.Exporter
 {
-    public class ConfigurationHtmlRenderer : IHtmlRenderer<IDeviceConfiguration, ConfigurationExportSelector>
+    public class ConfigurationHtmlRenderer : IHtmlRenderer<IRuntimeConfigurationViewModel, ConfigurationExportSelector>
     {
         private readonly IItemRendererFactory _itemRendererFactory;
         private readonly ILocalizerService _localizerService;
@@ -23,7 +22,7 @@ namespace Unicon2.Fragments.Configuration.Exporter
             _localizerService = localizerService;
         }
 
-        public async Task<string> RenderHtmlString(IDeviceConfiguration deviceConfiguration,
+        public async Task<string> RenderHtmlString(IRuntimeConfigurationViewModel deviceConfiguration,
             ConfigurationExportSelector configurationExportSelector)
         {
             string main =
@@ -49,7 +48,7 @@ namespace Unicon2.Fragments.Configuration.Exporter
                     configurationExportSelector.IsPrintLocalValuesAllowed));
 
 
-                foreach (var rootConfigurationItem in deviceConfiguration.RootConfigurationItemList)
+                foreach (var rootConfigurationItem in deviceConfiguration.RootConfigurationItemViewModels)
                 {
                     var selector = configurationExportSelector.SelectorForItemsGroup.FirstOrDefault(
                                        group => group.RelatedItemsGroup == rootConfigurationItem) ??

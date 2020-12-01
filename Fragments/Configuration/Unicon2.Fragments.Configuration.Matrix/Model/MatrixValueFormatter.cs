@@ -1,39 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Model.Base;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
-using Unicon2.Infrastructure.Values;
+using Unicon2.Infrastructure.Interfaces.Visitors;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Name = nameof(MatrixValueFormatter), Namespace = "MatrixValueFormatterNS", IsReference = true)]
-    public class MatrixValueFormatter: UshortsFormatterBase
+    [JsonObject(MemberSerialization.OptIn)]
+    public class MatrixValueFormatter : UshortsFormatterBase
     {
-        private IAppointableMatrix _appointableMatrix;
 
-        public MatrixValueFormatter(IAppointableMatrix appointableMatrix)
-        {
-            _appointableMatrix = appointableMatrix;
-        }
-
-        public override ushort[] FormatBack(IFormattedValue formattedValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IFormattedValue OnFormatting(ushort[] ushorts)
-        {
-            return new MatrixValue(){MatrixTemplate=_appointableMatrix.MatrixTemplate,UshortsValue=ushorts};
-        }
-
-        public override string StrongName { get; }
         public override object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public override T Accept<T>(IFormatterVisitor<T> visitor)
+        {
+            return visitor.VisitMatrixFormatter(this);
         }
     }
 }

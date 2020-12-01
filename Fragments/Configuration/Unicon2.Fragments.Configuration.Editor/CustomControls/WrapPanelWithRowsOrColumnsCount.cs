@@ -13,22 +13,22 @@
 
         public int RowsOrColumnsCount
         {
-            get { return (int)this.GetValue(RowsOrColumnsCountProperty); }
-            set { this.SetValue(RowsOrColumnsCountProperty, Math.Max(value, 1)); }
+            get { return (int)GetValue(RowsOrColumnsCountProperty); }
+            set { SetValue(RowsOrColumnsCountProperty, Math.Max(value, 1)); }
         }
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (this.Children.Count > 0)
+            if (Children.Count > 0)
             {
                 Size newAvailableSize;
 
-                if (this.Orientation == Orientation.Horizontal)
+                if (Orientation == Orientation.Horizontal)
                 {
-                    double suitableWidth = this.EstimateSuitableRowOrColumnLength(this.Children.Cast<UIElement>(),
+                    double suitableWidth = EstimateSuitableRowOrColumnLength(Children.Cast<UIElement>(),
                                                                         true,
                                                                         availableSize,
-                                                                        this.RowsOrColumnsCount);
+                                                                        RowsOrColumnsCount);
 
                     newAvailableSize =
                         double.IsNaN(suitableWidth) || suitableWidth <= 0
@@ -37,10 +37,10 @@
                 }
                 else
                 {
-                    double suitableHeigth = this.EstimateSuitableRowOrColumnLength(this.Children.Cast<UIElement>(),
+                    double suitableHeigth = EstimateSuitableRowOrColumnLength(Children.Cast<UIElement>(),
                                                                         false,
                                                                         availableSize,
-                                                                        this.RowsOrColumnsCount);
+                                                                        RowsOrColumnsCount);
                     newAvailableSize =
                         double.IsNaN(suitableHeigth) || suitableHeigth <= 0
                             ? availableSize
@@ -62,7 +62,7 @@
         {
             List<UIElement> elementsList = elements.ToList();
 
-            List<double> desiredLengths = elementsList.Select(el => this.DesiredLength(el, availableSize, trueRowsFalseColumns)).ToList();
+            List<double> desiredLengths = elementsList.Select(el => DesiredLength(el, availableSize, trueRowsFalseColumns)).ToList();
 
             double maxLength = desiredLengths.Where(length => !double.IsNaN(length)).Concat(new[] { 0.0 }).Max();
 
@@ -81,7 +81,7 @@
 
             double nextLengthIncrement;
 
-            while (this.CountRowsOrColumnsNumber(desiredLengthsRepaired, suitableRowOrColumnLength, out nextLengthIncrement) > maxCount)
+            while (CountRowsOrColumnsNumber(desiredLengthsRepaired, suitableRowOrColumnLength, out nextLengthIncrement) > maxCount)
             {
                 suitableRowOrColumnLength += nextLengthIncrement;
             }

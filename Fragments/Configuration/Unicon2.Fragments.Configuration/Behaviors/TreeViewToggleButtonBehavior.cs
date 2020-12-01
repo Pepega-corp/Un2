@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
-using System.Windows.Interactivity;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Microsoft.Xaml.Behaviors;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 
@@ -17,8 +16,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         protected override void OnAttached()
         {
-            this._assToggleButton = this.AssociatedObject;
-            if (!(this._assToggleButton.DataContext is IConfigurationItemViewModel)) return;
+            _assToggleButton = AssociatedObject;
+            if (!(_assToggleButton.DataContext is IConfigurationItemViewModel)) return;
             InitTree(AssociatedObject);
             base.OnAttached();
         }
@@ -56,7 +55,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     if (!isAdded)
                     {
                         index++;
-                        this.AddTreeGridItem(treeGridItems, newItem, oldItem, index);
+                        AddTreeGridItem(treeGridItems, newItem, oldItem, index);
                     }
                 }
             }

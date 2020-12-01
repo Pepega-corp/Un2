@@ -4,11 +4,13 @@ using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Address;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
+using Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Model;
 using Unicon2.Fragments.Measuring.Model.Address;
 using Unicon2.Fragments.Measuring.Model.Elements;
+using Unicon2.Fragments.Measuring.Model.PresentationSettings;
 using Unicon2.Fragments.Measuring.ViewModel;
 using Unicon2.Fragments.Measuring.ViewModel.Elements;
 using Unicon2.Infrastructure;
@@ -18,45 +20,61 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Module
 {
-    public class MeasuringModule : IUnityModule
-    {
-        public void Initialize(ITypesContainer container)
-        {
-            container.Register<IMeasuringMonitor, MeasuringMonitor>();
-            container.Register<IFragmentViewModel, MeasuringMonitorViewModel>(MeasuringKeys.MEASURING_MONITOR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+	public class MeasuringModule : IUnityModule
+	{
+		public void Initialize(ITypesContainer container)
+		{
+			container.Register<IMeasuringMonitor, MeasuringMonitor>();
+			container.Register<IFragmentViewModel, MeasuringMonitorViewModel>(
+				MeasuringKeys.MEASURING_MONITOR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+			container.Register<IAnalogMeasuringElement, AnalogMeasuringElement>();
+			container.Register<IDateTimeMeasuringElement, DateTimeMeasuringElement>();
 
-            container.Register<IMeasuringGroup, MeasuringGroup>();
-            container.Register<IMeasuringElement, DescretMeasuringElement>(MeasuringKeys.DISCRET_MEASURING_ELEMENT);
-            container.Register<IMeasuringElement, AnalogMeasuringElement>(MeasuringKeys.ANALOG_MEASURING_ELEMENT);
-            container.Register<IMeasuringElementViewModel, DiscretMeasuringElementViewModel>(MeasuringKeys.DISCRET_MEASURING_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            container.Register<IMeasuringElementViewModel, AnalogMeasuringElementViewModel>(MeasuringKeys.ANALOG_MEASURING_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            container.Register<IMeasuringElementViewModel, ControlSignalViewModel>(MeasuringKeys.CONTROL_SIGNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+			container.Register<IDiscretMeasuringElement, DescretMeasuringElement>();
+			container.Register<IControlSignal, ControlSignal>();
+			container.Register<IMeasuringElement, DateTimeMeasuringElement>(MeasuringKeys.DATE_TIME_ELEMENT);
 
-            container.Register<IAddressOfBit, AddressOfBit>();
-            container.Register<IMeasuringElementViewModelFactory, MeasuringElementViewModelFactory>();
-            container.Register<IMeasuringElementFactory, MeasuringElementFactory>();
-            container.Register<IMeasuringGroupViewModel, MeasuringGroupViewModel>();
-            container.Register<IMeasuringElement, ControlSignal>(MeasuringKeys.CONTROL_SIGNAL);
+			container.Register<IMeasuringGroup, MeasuringGroup>();
+			container.Register<IMeasuringElement, DescretMeasuringElement>(MeasuringKeys.DISCRET_MEASURING_ELEMENT);
+			container.Register<IMeasuringElement, AnalogMeasuringElement>(MeasuringKeys.ANALOG_MEASURING_ELEMENT);
+			container.Register<IMeasuringElementViewModel, DiscretMeasuringElementViewModel>(
+				MeasuringKeys.DISCRET_MEASURING_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+			container.Register<IMeasuringElementViewModel, AnalogMeasuringElementViewModel>(
+				MeasuringKeys.ANALOG_MEASURING_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+			container.Register<IMeasuringElementViewModel, ControlSignalViewModel>(
+				MeasuringKeys.CONTROL_SIGNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+	container.Register<IMeasuringElementViewModel, DateTimeMeasuringElementViewModel>(
+				MeasuringKeys.DATE_TIME_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+			container.Register<IAddressOfBit, AddressOfBit>();
+			container.Register<IMeasuringElementViewModelFactory, MeasuringElementViewModelFactory>();
+			container.Register<IMeasuringElementFactory, MeasuringElementFactory>();
+			container.Register<IMeasuringGroupViewModel, MeasuringGroupViewModel>();
+			container.Register<IMeasuringElement, ControlSignal>(MeasuringKeys.CONTROL_SIGNAL);
+
+			container.Register<MeasuringMemorySubscriptionFactory>();
+
+			container.Register<IPresentationSettings, MeasuringPresentationSettings>();
+			container.Register<IMeasuringPresentationGroup, MeasuringPresentationGroup>();
+			container.Register<IMeasuringElementPresentationInfo, MeasuringElementPresentationInfo>();
+			container.Register<IPositioningInfo, PositioningInfo>();
 
 
-            container.Register<IWritingValueContext, WritingValueContext>();
-            container.Register<IAddressOfBit, AddressOfBit>();
-            container.Register<IMeasuringElementViewModelFactory, MeasuringElementViewModelFactory>();
-            container.Register<IMeasuringElementFactory, MeasuringElementFactory>();
-            container.Register<IMeasuringGroupViewModelFactory, MeasuringGroupViewModelFactory>();
-        
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerializationRange(new[] { typeof(MeasuringMonitor), typeof(MeasuringGroup), typeof(AnalogMeasuringElement), typeof(DescretMeasuringElement), typeof(AddressOfBit), typeof(AddressOfBit), typeof(ControlSignal), typeof(WritingValueContext) });
-            serializerService.AddNamespaceAttribute("measuringMonitor", "MeasuringMonitorNS");
-            serializerService.AddNamespaceAttribute("measuringGroup", "MeasuringGroupNS");
-            serializerService.AddNamespaceAttribute("analogMeasuringElement", "AnalogMeasuringElementNS");
-            serializerService.AddNamespaceAttribute("descretMeasuringElement", "DescretMeasuringElementNS");
-            serializerService.AddNamespaceAttribute("addressOfBit", "AddressOfBitNS");
-            serializerService.AddNamespaceAttribute("controlSignal", "ControlSignalNS");
-            serializerService.AddNamespaceAttribute("writingValueContext", "WritingValueContextNS");
+			container.Register<IWritingValueContext, WritingValueContext>();
+			container.Register<IAddressOfBit, AddressOfBit>();
+			container.Register<IMeasuringGroupViewModelFactory, MeasuringGroupViewModelFactory>();
 
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml",
-                this.GetType().Assembly);
-        }
-    }
+			//ISerializerService serializerService = container.Resolve<ISerializerService>();
+			//serializerService.AddKnownTypeForSerializationRange(new[] { typeof(MeasuringMonitor), typeof(MeasuringGroup), typeof(AnalogMeasuringElement), typeof(DescretMeasuringElement), typeof(AddressOfBit), typeof(AddressOfBit), typeof(ControlSignal), typeof(WritingValueContext) });
+			//serializerService.AddNamespaceAttribute("measuringMonitor", "MeasuringMonitorNS");
+			//serializerService.AddNamespaceAttribute("measuringGroup", "MeasuringGroupNS");
+			//serializerService.AddNamespaceAttribute("analogMeasuringElement", "AnalogMeasuringElementNS");
+			//serializerService.AddNamespaceAttribute("descretMeasuringElement", "DescretMeasuringElementNS");
+			//serializerService.AddNamespaceAttribute("addressOfBit", "AddressOfBitNS");
+			//serializerService.AddNamespaceAttribute("controlSignal", "ControlSignalNS");
+			//serializerService.AddNamespaceAttribute("writingValueContext", "WritingValueContextNS");
+
+			container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml",
+				GetType().Assembly);
+		}
+	}
 }

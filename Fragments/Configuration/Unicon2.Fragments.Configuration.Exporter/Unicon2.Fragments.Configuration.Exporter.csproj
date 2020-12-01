@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unicon2.Fragments.Configuration.Exporter</RootNamespace>
     <AssemblyName>Unicon2.Fragments.Configuration.Exporter</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -103,16 +103,13 @@
       <Project>{B809ED9D-0916-49FB-8B7E-D7693836C55E}</Project>
       <Name>Unicon2.Fragments.Configuration.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicon2.Fragments.Configuration.Matrix\Unicon2.Fragments.Configuration.Matrix.csproj">
-      <Project>{091C3FCE-7FB2-4852-9B3F-7B7C967B84B4}</Project>
-      <Name>Unicon2.Fragments.Configuration.Matrix</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Unicon2.Fragments.Configuration\Unicon2.Fragments.Configuration.csproj">
       <Project>{F35E1178-260C-4DDC-9BC0-A557EC82A5AA}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

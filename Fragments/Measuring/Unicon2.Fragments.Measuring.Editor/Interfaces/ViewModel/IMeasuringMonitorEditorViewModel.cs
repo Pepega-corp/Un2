@@ -4,7 +4,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel
 {
-    public interface IMeasuringMonitorEditorViewModel:IFragmentEditorViewModel
+    public interface IMeasuringMonitorEditorViewModel : IFragmentEditorViewModel
     {
         ICommand OpenConfigurationSettingsCommand { get; }
         ICommand AddMeasuringGroupCommand { get; }
@@ -13,6 +13,5 @@ namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel
         ICommand DeleteGroupCommand { get; }
         ICommand CheckElementsPositionCommand { get; set; }
         ObservableCollection<IMeasuringGroupEditorViewModel> MeasuringGroupEditorViewModels { get; set; }
-
     }
 }

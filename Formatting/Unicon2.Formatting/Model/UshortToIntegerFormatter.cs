@@ -1,46 +1,20 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 using Unicon2.Formatting.Model.Base;
-using Unicon2.Infrastructure.Extensions;
-using Unicon2.Infrastructure.Values;
-using Unicon2.Unity.Interfaces;
+using Unicon2.Infrastructure.Interfaces.Visitors;
 
 namespace Unicon2.Formatting.Model
 {
-    [DataContract(IsReference = true, Namespace = "UshortToIntegerFormatterNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class UshortToIntegerFormatter : UshortsFormatterBase
     {
-        private Func<INumericValue> _numValueGettingFunc;
-
-        public UshortToIntegerFormatter(Func<INumericValue> numValueGettingFunc)
-        {
-            this._numValueGettingFunc = numValueGettingFunc;
-        }
-
-        public override ushort[] FormatBack(IFormattedValue formattedValue)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override IFormattedValue OnFormatting(ushort[] ushorts)
-        {
-            if (ushorts.Length != 2) throw new ArgumentException("Number of words must be equal 2");
-            INumericValue numValue = this._numValueGettingFunc();
-            numValue.NumValue = ushorts.GetIntFromTwoUshorts();
-            return numValue;
-        }
-
-        public override string StrongName => nameof(UshortToIntegerFormatter);
         public override object Clone()
         {
-            throw new System.NotImplementedException();
+            return new UshortToIntegerFormatter();
         }
 
-
-        public override void InitializeFromContainer(ITypesContainer container)
+        public override T Accept<T>(IFormatterVisitor<T> visitor)
         {
-            this._numValueGettingFunc = container.Resolve<Func<INumericValue>>();
-            base.InitializeFromContainer(container);
+            return visitor.VisitUshortToIntegerFormatter(this);
         }
     }
 }

@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
 using Unicon2.Infrastructure.GeneralFactories;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -14,24 +14,23 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         private readonly IGeneralViewModelFactory<IPossibleValueConditionEditorViewModel> _generalViewModelFactory;
         private IOptionPossibleValue _model;
         private string _possibleValueName;
-        private IPossibleValueConditionEditorViewModel _possibleValueConditionEditorViewModel;
 
         public OptionPossibleValueEditorViewModel(IGeneralViewModelFactory<IPossibleValueConditionEditorViewModel> generalViewModelFactory)
         {
-            this._generalViewModelFactory = generalViewModelFactory;
-            this.PossibleValueConditionEditorViewModels = new ObservableCollection<IPossibleValueConditionEditorViewModel>();
-            this.AddConditionCommand = new RelayCommand(this.OnAddConditionExecute);
-            this.ResetConditionsCommand = new RelayCommand(this.OnResetConditionsExecute);
+            _generalViewModelFactory = generalViewModelFactory;
+            PossibleValueConditionEditorViewModels = new ObservableCollection<IPossibleValueConditionEditorViewModel>();
+            AddConditionCommand = new RelayCommand(OnAddConditionExecute);
+            ResetConditionsCommand = new RelayCommand(OnResetConditionsExecute);
         }
 
         private void OnAddConditionExecute()
         {
-            this.PossibleValueConditionEditorViewModels.Add(this._generalViewModelFactory.CreateViewModelWithModelByModelType(typeof(IPossibleValueCondition)));
+            PossibleValueConditionEditorViewModels.Add(_generalViewModelFactory.CreateViewModelWithModelByModelType(typeof(IPossibleValueCondition)));
         }
 
         private void OnResetConditionsExecute()
         {
-            this.PossibleValueConditionEditorViewModels.Clear();
+            PossibleValueConditionEditorViewModels.Clear();
         }
 
 
@@ -41,34 +40,34 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         {
             get
             {
-                this._model.PossibleValueConditions.Clear();
-                foreach (IPossibleValueConditionEditorViewModel possibleValueConditionEditorViewModel in this.PossibleValueConditionEditorViewModels)
+                _model.PossibleValueConditions.Clear();
+                foreach (IPossibleValueConditionEditorViewModel possibleValueConditionEditorViewModel in PossibleValueConditionEditorViewModels)
                 {
-                    this._model.PossibleValueConditions.Add(possibleValueConditionEditorViewModel.Model as IPossibleValueCondition);
+                    _model.PossibleValueConditions.Add(possibleValueConditionEditorViewModel.Model as IPossibleValueCondition);
                 }
-                this._model.PossibleValueName = this.PossibleValueName;
-                return this._model;
+                _model.PossibleValueName = PossibleValueName;
+                return _model;
 
             }
             set
             {
-                this._model = value as IOptionPossibleValue;
-                this.PossibleValueConditionEditorViewModels.Clear();
-                foreach (IPossibleValueCondition possibleValueCondition in this._model.PossibleValueConditions)
+                _model = value as IOptionPossibleValue;
+                PossibleValueConditionEditorViewModels.Clear();
+                foreach (IPossibleValueCondition possibleValueCondition in _model.PossibleValueConditions)
                 {
-                    this.PossibleValueConditionEditorViewModels.Add(this._generalViewModelFactory.CreateViewModelByModelType(possibleValueCondition));
+                    PossibleValueConditionEditorViewModels.Add(_generalViewModelFactory.CreateViewModelByModelType(possibleValueCondition));
                 }
-                this.PossibleValueName = this._model.PossibleValueName;
+                PossibleValueName = _model.PossibleValueName;
             }
         }
 
         public string PossibleValueName
         {
-            get { return this._possibleValueName; }
+            get { return _possibleValueName; }
             set
             {
-                this._possibleValueName = value;
-                this.RaisePropertyChanged();
+                _possibleValueName = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -81,7 +80,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         public ICommand ResetConditionsCommand { get; }
         public void SetAvailableOptionPossibleValues(List<IOptionPossibleValueEditorViewModel> optionPossibleValueEditorViewModels)
         {
-            foreach (IPossibleValueConditionEditorViewModel possibleValueConditionEditorViewModel in this.PossibleValueConditionEditorViewModels)
+            foreach (IPossibleValueConditionEditorViewModel possibleValueConditionEditorViewModel in PossibleValueConditionEditorViewModels)
             {
                 possibleValueConditionEditorViewModel.SetAvailableOptionPossibleValueEditorViewModel(optionPossibleValueEditorViewModels);
             }

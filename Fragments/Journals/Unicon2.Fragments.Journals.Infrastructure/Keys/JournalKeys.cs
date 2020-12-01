@@ -12,5 +12,6 @@
         public const string INDEX_LOADING_SEQUENCE = "IndexLoadingSequence";
         public const string RECORD_TEMPLATE = "RecordTempate";
 
+
     }
 }

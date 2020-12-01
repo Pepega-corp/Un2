@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.BaseItems;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services.LogService;
-using Unicon2.Connections.OfflineConnection.Interfaces;
+using Unicon2.Infrastructure.Functional;
 
 namespace Unicon2.Connections.OfflineConnection
 {
 
-    [DataContract(IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class OfflineConnection : Disposable, IDeviceConnection
     {
         private IDeviceLogger _currentDeviceLogger;
 
         public void SetLogger(IDeviceLogger currentDeviceLogger)
         {
-            this._currentDeviceLogger = currentDeviceLogger;
+            _currentDeviceLogger = currentDeviceLogger;
         }
 
         public string ConnectionName => "Offline";
@@ -27,9 +27,9 @@ namespace Unicon2.Connections.OfflineConnection
             return true;
         }
 
-        public async Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger currentDeviceLogger)
+        public Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger)
         {
-            return false;
+            return Task.FromResult(Result.Create(true));
         }
 
         public Action<bool> LastQueryStatusChangedAction { get; set; }
@@ -44,6 +44,7 @@ namespace Unicon2.Connections.OfflineConnection
             //
         }
 
+       
 
         public object Clone()
         {

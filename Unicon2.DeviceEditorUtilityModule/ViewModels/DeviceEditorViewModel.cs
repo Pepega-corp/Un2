@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Input;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
+using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -20,78 +21,88 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private readonly IDialogCoordinator _dialogCoordinator;
         private IResultingDeviceViewModel _resultingDeviceViewModel;
         private readonly IDevicesContainerService _devicesContainerService;
+        private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private bool _isOpen;
 
         private string _currentFolder;
 
 
         public DeviceEditorViewModel(ILocalizerService localizerService, IDialogCoordinator dialogCoordinator,
-            IResultingDeviceViewModel resultingDeviceViewModel, IDevicesContainerService devicesContainerService)
+            IResultingDeviceViewModel resultingDeviceViewModel, IDevicesContainerService devicesContainerService, IApplicationGlobalCommands applicationGlobalCommands)
         {
-            this._localizerService = localizerService;
-            this._dialogCoordinator = dialogCoordinator;
-            this._resultingDeviceViewModel = resultingDeviceViewModel;
-            this._devicesContainerService = devicesContainerService;
-            this.LoadExistingDevice = new RelayCommand(this.OnLoadExistingDevice);
-            this.CreateDeviceCommand = new RelayCommand(this.OnCreateDeviceExecute);
-            this.SaveInFileCommand = new RelayCommand(this.OnSaveInFileExecute);
-            this.OpenSharedResourcesCommand = new RelayCommand(this.OnOpenSharedResourcesExecute);
-            this.DeleteFragmentCommand = new RelayCommand<object>(this.OnDeleteFragmentExecute);
+            _localizerService = localizerService;
+            _dialogCoordinator = dialogCoordinator;
+            _resultingDeviceViewModel = resultingDeviceViewModel;
+            _devicesContainerService = devicesContainerService;
+            _applicationGlobalCommands = applicationGlobalCommands;
+            LoadExistingDevice = new RelayCommand(OnLoadExistingDevice);
+            CreateDeviceCommand = new RelayCommand(OnCreateDeviceExecute);
+            SaveInFileCommand = new RelayCommand(OnSaveInFileExecute);
+            OpenSharedResourcesCommand = new RelayCommand(OnOpenSharedResourcesExecute);
+            DeleteFragmentCommand = new RelayCommand<object>(OnDeleteFragmentExecute);
+            OpenAddFragmentWindowCommand=new RelayCommand(OnOpenAddFragmentWindowCommand);
+            _currentFolder =
+                Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
+        }
 
-            this._currentFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
+        private void OnOpenAddFragmentWindowCommand()
+        {
+	        _applicationGlobalCommands.ShowWindowModal(()=>new AddFragmentView(), new AddFragmentViewModel(ResultingDeviceViewModel));
         }
 
         private void OnDeleteFragmentExecute(object obj)
         {
             if (!(obj is IFragmentEditorViewModel)) return;
-            if (this._dialogCoordinator.ShowModalMessageExternal(this,
-                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.DELETE),
-                    this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings
-                        .DELETE_SELECTED_ITEM_QUESTION) + " (" + this._localizerService.GetLocalizedString((obj as IFragmentEditorViewModel).NameForUiKey) + ") ", MessageDialogStyle.AffirmativeAndNegative) ==
+            if (_dialogCoordinator.ShowModalMessageExternal(this,
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.DELETE),
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings
+                        .DELETE_SELECTED_ITEM_QUESTION) + " (" +
+                    _localizerService.GetLocalizedString((obj as IFragmentEditorViewModel).NameForUiKey) + ") ",
+                    MessageDialogStyle.AffirmativeAndNegative) ==
                 MessageDialogResult.Affirmative)
             {
-                this.ResultingDeviceViewModel.FragmentEditorViewModels.Remove(obj as IFragmentEditorViewModel);
+                ResultingDeviceViewModel.FragmentEditorViewModels.Remove(obj as IFragmentEditorViewModel);
             }
         }
 
 
         private void OnOpenSharedResourcesExecute()
         {
-            this._resultingDeviceViewModel.OpenSharedResources();
+            _resultingDeviceViewModel.OpenSharedResources();
         }
 
         private void OnSaveInFileExecute()
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = " XML файл (*.xml)|*.xml" + "|Все файлы (*.*)|*.* ";
-            sfd.DefaultExt = ".xml";
-            sfd.FileName = this.ResultingDeviceViewModel.DeviceName;
-            sfd.InitialDirectory = this._currentFolder;
+            sfd.Filter = " JSON файл (*.json)|*.json" + "|Все файлы (*.*)|*.* ";
+            sfd.DefaultExt = ".json";
+            sfd.FileName = ResultingDeviceViewModel.DeviceName;
+            sfd.InitialDirectory = _currentFolder;
             if (sfd.ShowDialog() == true)
             {
-                this.ResultingDeviceViewModel.SaveDevice(sfd.FileName, false);
-                this._currentFolder = Path.GetDirectoryName(sfd.FileName);
+                ResultingDeviceViewModel.SaveDevice(sfd.FileName, false);
+                _currentFolder = Path.GetDirectoryName(sfd.FileName);
             }
         }
 
         private void OnCreateDeviceExecute()
         {
             if (File.Exists(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH + "//" +
-                            this.ResultingDeviceViewModel.DeviceName + ".xml"))
+                            ResultingDeviceViewModel.DeviceName + ".json"))
             {
-                if (this._dialogCoordinator.ShowModalMessageExternal(this,
-                        this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.SAVING),
-                        this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings
+                if (_dialogCoordinator.ShowModalMessageExternal(this,
+                        _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.SAVING),
+                        _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings
                             .REPLACE_EXISTING_ITEM_QUESTION), MessageDialogStyle.AffirmativeAndNegative) ==
                     MessageDialogResult.Affirmative)
                 {
-                    this._resultingDeviceViewModel.SaveDevice(this.ResultingDeviceViewModel.DeviceName);
-                    this._devicesContainerService.UpdateDeviceDefinition(this._resultingDeviceViewModel.DeviceName);
+                    _resultingDeviceViewModel.SaveDevice(ResultingDeviceViewModel.DeviceName);
+                    _devicesContainerService.UpdateDeviceDefinition(_resultingDeviceViewModel.DeviceName);
                 }
             }
             else
             {
-                this._resultingDeviceViewModel.SaveDevice(this.ResultingDeviceViewModel.DeviceName);
+                _resultingDeviceViewModel.SaveDevice(ResultingDeviceViewModel.DeviceName);
 
             }
         }
@@ -100,20 +111,20 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
-            ofd.Filter = " XML файл (*.xml)|*.xml" + "|Все файлы (*.*)|*.* ";
+            ofd.Filter = " JSON файл (*.json)|*.json" + "|Все файлы (*.*)|*.* ";
             ofd.CheckFileExists = true;
-            ofd.InitialDirectory = this._currentFolder;
+            ofd.InitialDirectory = _currentFolder;
             if (ofd.ShowDialog() == true)
             {
-                this.ResultingDeviceViewModel.LoadDevice(ofd.FileName);
-                this._currentFolder =  Path.GetDirectoryName(ofd.FileName);
+                ResultingDeviceViewModel.LoadDevice(ofd.FileName);
+                _currentFolder = Path.GetDirectoryName(ofd.FileName);
             }
         }
-
 
         public ICommand LoadExistingDevice { get; }
         public ICommand CreateDeviceCommand { get; }
         public ICommand SaveInFileCommand { get; }
+        public ICommand OpenAddFragmentWindowCommand { get; }
 
         public ICommand OpenSharedResourcesCommand { get; }
 
@@ -124,27 +135,29 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public bool IsOpen
         {
-            get { return this._isOpen; }
+            get { return _isOpen; }
             set
             {
-                this._isOpen = value;
-                this.RaisePropertyChanged();
+                _isOpen = value;
+                RaisePropertyChanged();
             }
         }
 
+   
+
         public IResultingDeviceViewModel ResultingDeviceViewModel
         {
-            get { return this._resultingDeviceViewModel; }
+            get { return _resultingDeviceViewModel; }
             set
             {
-                this._resultingDeviceViewModel = value;
-                this.RaisePropertyChanged();
+                _resultingDeviceViewModel = value;
+                RaisePropertyChanged();
             }
         }
 
         protected override void OnNavigatedTo(UniconNavigationContext navigationContext)
         {
-            this.IsOpen = true;
+            IsOpen = true;
         }
     }
 }

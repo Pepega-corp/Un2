@@ -6,7 +6,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations
     {
         IConfigurationItemViewModel AddChildElement();
         IConfigurationItemViewModel AddChildGroupElement();
-        IConfigurationItemViewModel AddDependentProperty();
         IConfigurationItemViewModel AddComplexProperty();
 
         IConfigurationItemViewModel AddMatrix();

@@ -1,34 +1,33 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Model.Values.Range
 {
-    [DataContract(Namespace = "DefaultRangeNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultRange : IRange
     {
-        [DataMember(Name = nameof(RangeFrom))]
+        [JsonProperty]
         public double RangeFrom { get; set; }
-        [DataMember(Name = nameof(RangeTo))]
-
+        [JsonProperty]
         public double RangeTo { get; set; }
         public bool CheckValue(double valueToCheck)
         {
-            if (valueToCheck > this.RangeTo) return false;
-            if (valueToCheck < this.RangeFrom) return false;
+            if (valueToCheck > RangeTo) return false;
+            if (valueToCheck < RangeFrom) return false;
             return true;
         }
 
         public bool CheckNesting(IRange range)
         {
-            return (this.RangeFrom <= range.RangeFrom) && (this.RangeTo >= range.RangeTo);
+            return (RangeFrom <= range.RangeFrom) && (RangeTo >= range.RangeTo);
         }
 
         public object Clone()
         {
             return new DefaultRange()
             {
-                RangeFrom = this.RangeFrom,
-                RangeTo = this.RangeTo
+                RangeFrom = RangeFrom,
+                RangeTo = RangeTo
             };
         }
     }

@@ -8,7 +8,7 @@
     <OutputType>library</OutputType>
     <RootNamespace>Unicon2.Presentation.Infrastructure</RootNamespace>
     <AssemblyName>Unicon2.Presentation.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -62,13 +62,21 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ICommandFactory.cs" />
+    <Compile Include="Commands\IUserCommand.cs" />
+    <Compile Include="DeviceContext\DeviceContext.cs" />
     <Compile Include="Enums\PlacementEnum.cs" />
-    <Compile Include="Events\IGlobalEventsService.cs" />
-    <Compile Include="Events\ValueChangedEvent.cs" />
+    <Compile Include="Events\DeviceConnectionChanged.cs" />
+    <Compile Include="Extensions\PresentationExtensions.cs" />
     <Compile Include="Factories\IDeviceViewModelFactory.cs" />
+    <Compile Include="Factories\IFormatterViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\IFragmentPaneViewModelFactory.cs" />
+    <Compile Include="Factories\ISharedResourcesEditorFactory.cs" />
+    <Compile Include="Factories\ISharedResourcesGlobalViewModel.cs" />
     <Compile Include="Factories\IValueViewModelFactory.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\DefaultFragmentOptionCommandViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\FragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="FragmentSettings\IFragmentSettingViewModel.cs" />
     <Compile Include="FragmentSettings\IQuickAccessMemorySettingViewModel.cs" />
     <Compile Include="Keys\PresentationKeys.cs" />
@@ -85,17 +93,27 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\Dependencies\IDependenciesService.cs" />
+    <Compile Include="Services\Formatting\IFormattingService.cs" />
+    <Compile Include="Services\IConnectionService.cs" />
+    <Compile Include="Services\IFlyoutService.cs" />
+    <Compile Include="Services\IMainMenuService.cs" />
+    <Compile Include="Services\IPropertyValueService.cs" />
+    <Compile Include="Services\ISaveFormatterService.cs" />
     <Compile Include="Services\IToolBarService.cs" />
+    <Compile Include="SharedResources\IDeviceSharedResourcesViewModelContainer.cs" />
+    <Compile Include="Subscription\IDeviceEventsDispatcher.cs" />
     <Compile Include="TreeGrid\IAsTableViewModel.cs" />
     <Compile Include="TreeGrid\IConfigurationItemViewModel.cs" />
     <Compile Include="TreeGrid\IGroupedConfigurationItemViewModel.cs" />
     <Compile Include="ViewModels\Connection\IConnectionStateViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\IDependenciesViewModelContainer.cs" />
+    <Compile Include="ViewModels\Dependencies\IDependencyViewModel.cs" />
     <Compile Include="ViewModels\Device\IComPortConfigurationViewModel.cs" />
     <Compile Include="ViewModels\Device\IDeviceLoggerViewModel.cs" />
     <Compile Include="ViewModels\DockingManagerWindows\IAnchorableWindow.cs" />
     <Compile Include="ViewModels\DockingManagerWindows\IDockingWindow.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionGroupViewModel.cs" />
-    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\IFragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentSettings\IFragmentSettingsViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IDeviceDataProvider.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IFragmentEditorViewModel.cs" />
@@ -106,13 +124,17 @@
     <Compile Include="ViewModels\IDeviceConnectionViewModel.cs" />
     <Compile Include="ViewModels\IDeviceDefinitionViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IFragmentPaneViewModel.cs" />
+    <Compile Include="ViewModels\IFormatterEditorFactory.cs" />
+    <Compile Include="ViewModels\IFormatterParametersViewModel.cs" />
     <Compile Include="ViewModels\ILocalAndDeviceValueContainingViewModel.cs" />
     <Compile Include="ViewModels\IUshortFormattableEditorViewModel.cs" />
+    <Compile Include="ViewModels\IUshortsFormatterViewModel.cs" />
     <Compile Include="ViewModels\Resources\IResourceViewModel.cs" />
     <Compile Include="ViewModels\Values\IBitMaskValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IBoolValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IEditableValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IErrorValueViewModel.cs" />
+    <Compile Include="ViewModels\Values\IMatrixValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IRangeableViewModel.cs" />
     <Compile Include="ViewModels\Values\IRangeViewModel.cs" />
     <Compile Include="ViewModels\Windows\ILogServiceViewModel.cs" />
@@ -122,6 +144,8 @@
     <Compile Include="ViewModels\Values\INumericValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IStringValueViewModel.cs" />
     <Compile Include="ViewModels\Windows\IProjectBrowserViewModel.cs" />
+    <Compile Include="Visitors\IEditableValueFetchingFromViewModelVisitor.cs" />
+    <Compile Include="Visitors\IEditableValueViewModelVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -135,6 +159,10 @@
     <ProjectReference Include="..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
       <Project>{d025ec77-dfd4-444e-8f2c-218a5181c721}</Project>
       <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Unity\Unicon2.Unity.csproj">
+      <Project>{4d5a6b2a-5ac6-4d18-a126-a3e2f873c2f8}</Project>
+      <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

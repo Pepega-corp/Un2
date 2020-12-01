@@ -16,19 +16,19 @@ namespace Unicon2.Presentation.Factories
 
         public FragmentPaneViewModelFactory(Func<IFragmentPaneViewModel> fragmentPaneViewModelgettingFunc, ILocalizerService localizerService)
         {
-            this._fragmentPaneViewModelgettingFunc = fragmentPaneViewModelgettingFunc;
-            this._localizerService = localizerService;
+            _fragmentPaneViewModelgettingFunc = fragmentPaneViewModelgettingFunc;
+            _localizerService = localizerService;
         }
 
 
         public IFragmentPaneViewModel GetFragmentPaneViewModel(IFragmentViewModel fragmentViewModel,
             IEnumerable<IDeviceViewModel> deviceViewModels)
         {
-            IFragmentPaneViewModel fragmentPaneViewModel = this._fragmentPaneViewModelgettingFunc();
+            IFragmentPaneViewModel fragmentPaneViewModel = _fragmentPaneViewModelgettingFunc();
             fragmentPaneViewModel.FragmentViewModel = fragmentViewModel;
 
 
-            IDeviceViewModel deviceViewModel = this.GetParentDevice(deviceViewModels, fragmentViewModel);
+            IDeviceViewModel deviceViewModel = GetParentDevice(deviceViewModels, fragmentViewModel);
 
             //событие изменения подписи устройства
             void OnDeviceViewModelOnPropertyChanged(object s, PropertyChangedEventArgs e)
@@ -38,7 +38,7 @@ namespace Unicon2.Presentation.Factories
                     IDeviceViewModel dvm = s as IDeviceViewModel;
                     if (e.PropertyName == nameof(dvm.DeviceSignature))
                     {
-                        this.SetPaneTitle(fragmentPaneViewModel, fragmentViewModel, dvm);
+                        SetPaneTitle(fragmentPaneViewModel, fragmentViewModel, dvm);
                     }
                 }
             }
@@ -48,10 +48,10 @@ namespace Unicon2.Presentation.Factories
 
             LocalizeDictionary.Instance.PropertyChanged += (o, e) =>
             {
-                this.SetPaneTitle(fragmentPaneViewModel, fragmentViewModel, deviceViewModel);
+                SetPaneTitle(fragmentPaneViewModel, fragmentViewModel, deviceViewModel);
             };
 
-            this.SetPaneTitle(fragmentPaneViewModel, fragmentViewModel, deviceViewModel);
+            SetPaneTitle(fragmentPaneViewModel, fragmentViewModel, deviceViewModel);
 
             return fragmentPaneViewModel;
         }
@@ -59,7 +59,7 @@ namespace Unicon2.Presentation.Factories
 
         private void SetPaneTitle(IFragmentPaneViewModel fragmentPaneViewModel, IFragmentViewModel fragmentViewModel, IDeviceViewModel deviceViewModel)
         {
-            if (!(this._localizerService.TryGetLocalizedString(fragmentViewModel.NameForUiKey, out string title)))
+            if (!(_localizerService.TryGetLocalizedString(fragmentViewModel.NameForUiKey, out string title)))
             {
                 title = fragmentViewModel.NameForUiKey;
             }

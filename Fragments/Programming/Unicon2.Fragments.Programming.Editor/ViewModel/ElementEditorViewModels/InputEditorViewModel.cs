@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
@@ -17,14 +17,14 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
     public class InputEditorViewModel : ViewModelBase, IInputEditorViewModel
     {
         private const string BASE_NAMING = "Base";
-        private IInput _model;
+        private IInputEditor _model;
         private List<Dictionary<int, string>> _allInputSignals;
         private BindableKeyValuePair<int, string> _selectedInputSignal;
         private EditableListItem _selectedBase;
 
         public string ElementName => "Вход";
 
-       public string Description =>"Входной логический сигнал";
+        public string Description =>"Входной логический сигнал";
 
         public string StrongName => ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
@@ -117,7 +117,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             }
         }
 
-        private IInput GetModel()
+        private IInputEditor GetModel()
         {
             if (this._model != null)
             {
@@ -148,7 +148,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         private void SetModel(object value)
         {
-            var model = value as IInput;
+            var model = value as IInputEditor;
             if(model == null) 
                 return;
 
@@ -221,8 +221,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public object Clone()
         {
-            InputEditorViewModel clone = new InputEditorViewModel {Model = this._model.Clone()};
-            return clone;
+            return new InputEditorViewModel();
         }
     }
 }

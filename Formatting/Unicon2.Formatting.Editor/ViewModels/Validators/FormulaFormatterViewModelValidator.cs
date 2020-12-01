@@ -1,10 +1,8 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using org.mariuszgromada.math.mxparser;
-using Unicon2.Formatting.Infrastructure.Model;
 
 namespace Unicon2.Formatting.Editor.ViewModels.Validators
 {
@@ -15,7 +13,7 @@ namespace Unicon2.Formatting.Editor.ViewModels.Validators
             RuleFor(model => model.FormulaString).NotEmpty()
                 .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
                     .NULL_OR_EMPTY_MESSAGE));
-            RuleFor(model => model.FormulaString).Must(((args,s) => IsFormulaStringValid(s,args)))
+            RuleFor(model => model.FormulaString).Must(((args, s) => IsFormulaStringValid(s, args)))
                 .WithMessage(localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMAT_ERROR));
         }
 
@@ -28,13 +26,12 @@ namespace Unicon2.Formatting.Editor.ViewModels.Validators
 
 
                 int index = 1;
-                if ((arg.Model as IFormulaFormatter).UshortFormattables != null)
+
+                foreach (var argument in (arg.ArgumentViewModels))
                 {
-                    foreach (var ushortFormattable in (arg.Model as IFormulaFormatter).UshortFormattables)
-                    {
-                        expression.addArguments(new Argument("x" + index++, 1));
-                    }
+                    expression.addArguments(new Argument("x" + index++, 1));
                 }
+
 
                 return !double.IsNaN(expression.calculate());
             }

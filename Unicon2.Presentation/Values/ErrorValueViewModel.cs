@@ -1,27 +1,25 @@
-﻿using Unicon2.Infrastructure.Values;
-using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+﻿using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-   public class ErrorValueViewModel:FormattableValueViewModelBase,IErrorValueViewModel
+    public class ErrorValueViewModel : FormattableValueViewModelBase, IErrorValueViewModel
     {
         private string _errorMessage;
 
         public override string StrongName => nameof(ErrorValueViewModel);
-
-        public override void InitFromValue(IFormattedValue value)
+        public override string AsString()
         {
-            Header = value.Header;
-            ErrorMessage = (value as IErrorValue).ErrorMessage;
+	        return ErrorMessage;
         }
+
 
         public string ErrorMessage
         {
             get { return _errorMessage; }
             set
             {
-                _errorMessage = value; 
+                _errorMessage = value;
                 RaisePropertyChanged();
             }
         }

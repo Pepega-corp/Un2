@@ -2,7 +2,7 @@
 
 namespace Unicon2.Infrastructure.Values
 {
-    public interface IBitMaskValue:IFormattedValue
+    public interface IBitMaskValue : IFormattedValue
     {
         List<List<bool>> BitArray { get; set; }
         List<string> BitSignatures { get; set; }

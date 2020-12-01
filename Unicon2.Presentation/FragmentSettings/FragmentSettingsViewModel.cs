@@ -24,26 +24,28 @@ namespace Unicon2.Presentation.FragmentSettings
 
         public FragmentSettingsViewModel(ITypesContainer container)
         {
-            this._container = container;
-            this.CancelCommand = new RelayCommand<object>(this.OnExecuteCancel);
-            this.SubmitCommand = new RelayCommand<object>(this.OnExecuteSubmit);
-            this.AddSelectedSettingCommand = new RelayCommand(this.OnAddSelectedSettingExecute);
-            this._configurationSettings =
-            this._container.Resolve<IFragmentSettings>();
+            _container = container;
+            CancelCommand = new RelayCommand<object>(OnExecuteCancel);
+            SubmitCommand = new RelayCommand<object>(OnExecuteSubmit);
+            AddSelectedSettingCommand = new RelayCommand(OnAddSelectedSettingExecute);
+            _configurationSettings =
+            _container.Resolve<IFragmentSettings>();
         }
 
         private void OnAddSelectedSettingExecute()
         {
-            if (this.SelectedSettingToAdd != null)
+            if (SelectedSettingToAdd != null)
             {
-                if (this._configurationSettings.FragmentSettings.Any(
-                    (setting => setting.StrongName == this._selectedSettingToAdd))) ;
+                if (_configurationSettings.FragmentSettings.Any(
+                    (setting => setting.StrongName == _selectedSettingToAdd)))
+                {
+                }
             }
         }
 
         private void OnExecuteSubmit(object obj)
         {
-            this.SaveModel();
+            SaveModel();
             (obj as Window)?.Close();
         }
 
@@ -57,45 +59,49 @@ namespace Unicon2.Presentation.FragmentSettings
 
         public object Model
         {
-            get => this.SaveModel();
-            set => this.SetModel(value);
+            get => SaveModel();
+            set => SetModel(value);
         }
 
         private object SaveModel()
         {
 
-            this._configurationSettings.FragmentSettings.Clear();
+            _configurationSettings.FragmentSettings.Clear();
             foreach (IFragmentSettingViewModel configurationSettingViewModel in
-                this.ConfigurationSettingViewModelCollection)
+                ConfigurationSettingViewModelCollection)
             {
                 if (configurationSettingViewModel.IsSettingEnabled)
                 {
-                    this._configurationSettings.FragmentSettings.Add(
+                    _configurationSettings.FragmentSettings.Add(
                         configurationSettingViewModel.Model as IFragmentSetting);
                 }
             }
-            return this._configurationSettings;
+            return _configurationSettings;
         }
 
         private void SetModel(object value)
         {
+            if (value == null)
+            {
+                value = _container.Resolve<IFragmentSettings>();
+            }
             if (value is IFragmentSettings)
             {
-                this._configurationSettings = value as IFragmentSettings;
-                this.ConfigurationSettingViewModelCollection.Clear();
-                this._availableConfigurationSettings = new List<IFragmentSetting>(this._container.ResolveAll<IFragmentSetting>());
-                foreach (IFragmentSetting configurationSetting in this._availableConfigurationSettings)
+                _configurationSettings = value as IFragmentSettings;
+                ConfigurationSettingViewModelCollection.Clear();
+                _availableConfigurationSettings = new List<IFragmentSetting>(_container.ResolveAll<IFragmentSetting>());
+                foreach (IFragmentSetting configurationSetting in _availableConfigurationSettings)
                 {
                     IFragmentSettingViewModel configurationSettingViewModel =
-                        this._container.Resolve<IFragmentSettingViewModel>(configurationSetting.StrongName +
+                        _container.Resolve<IFragmentSettingViewModel>(configurationSetting.StrongName +
                         ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                    this.ConfigurationSettingViewModelCollection.Add(configurationSettingViewModel);
+                    ConfigurationSettingViewModelCollection.Add(configurationSettingViewModel);
                 }
                 foreach (IFragmentSetting configurationSetting in (value as IFragmentSettings)
                     .FragmentSettings)
                 {
                     IFragmentSettingViewModel configurationSettingViewModel =
-                        this.ConfigurationSettingViewModelCollection.FirstOrDefault(
+                        ConfigurationSettingViewModelCollection.FirstOrDefault(
                             (model => (model.Model as IFragmentSetting).StrongName == configurationSetting.StrongName));
                     if (configurationSettingViewModel != null)
                     {
@@ -115,11 +121,11 @@ namespace Unicon2.Presentation.FragmentSettings
 
         public string SelectedSettingToAdd
         {
-            get { return this._selectedSettingToAdd; }
+            get { return _selectedSettingToAdd; }
             set
             {
-                this._selectedSettingToAdd = value;
-                this.RaisePropertyChanged();
+                _selectedSettingToAdd = value;
+                RaisePropertyChanged();
             }
         }
 

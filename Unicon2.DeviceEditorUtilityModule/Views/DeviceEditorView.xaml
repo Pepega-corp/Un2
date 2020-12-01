@@ -34,8 +34,11 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <VirtualizingStackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Margin="10" Text="{lex:Loc Device}" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock
+                MinWidth="100"
+                Margin="10"
+                Text="{lex:Loc Device}" />
             <TextBox
                 MinWidth="250"
                 Margin="5"
@@ -46,37 +49,64 @@
                 Command="{Binding LoadExistingDevice}"
                 Content="{lex:Loc LoadExisting}"
                 Style="{DynamicResource UniconButtonStyle}" />
-        </VirtualizingStackPanel>
+            <Button
+                Margin="5"
+                Command="{Binding CreateDeviceCommand}"
+                Content="{lex:Loc SaveInDefaultDirectory}"
+                Style="{DynamicResource UniconButtonStyle}"
+                ToolTip="{lex:Loc SaveInDefaultDirectoryDescription}" />
+            <Button
+                Margin="5"
+                Command="{Binding SaveInFileCommand}"
+                Content="{lex:Loc SaveInFile}"
+                Style="{DynamicResource UniconButtonStyle}" />
+        </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <VirtualizingStackPanel Grid.Column="0" Orientation="Horizontal">
-                <TextBlock Margin="10" Text="{lex:Loc AddBlock}" />
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <TextBlock
+                    MinWidth="100"
+                    Margin="10"
+                    Text="{lex:Loc Block}" />
                 <ComboBox
-                    Name="AvailableFragmentsComboBox"
-                    MinWidth="250"
+                    Name="FragmentsComboBox"
+                    Grid.Column="1"
+                    MinWidth="100"
                     Margin="5"
-                    DisplayMemberPath=""
-                    ItemsSource="{Binding ResultingDeviceViewModel.AvailableEditorFragments}">
+                    HorizontalContentAlignment="Stretch"
+                    ItemsSource="{Binding ResultingDeviceViewModel.FragmentEditorViewModels}"
+                    SelectedItem="{Binding ResultingDeviceViewModel.SelectedFragmentEditorViewModel}">
+
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Text="{Binding ElementName=FragmentNameProxy, Path=Result}" />
+                                <TextBlock
+                                    HorizontalAlignment="Stretch"
+                                    Background="Transparent"
+                                    Text="{Binding ElementName=FragmentNameProxy, Path=Result}">
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem
+                                                Command="{Binding DataContext.DeleteFragmentCommand, Source={x:Reference FragmentsComboBox}}"
+                                                CommandParameter="{Binding}"
+                                                Header="{lex:Loc Delete}" />
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
                                 <lex:LocProxy Name="FragmentNameProxy" Source="{Binding NameForUiKey}" />
                             </Grid>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-
                 <Button
-                    Margin="3"
-                    Command="{Binding ResultingDeviceViewModel.AddFragmentCommand}"
-                    CommandParameter="{Binding ElementName=AvailableFragmentsComboBox, Path=SelectedItem}"
-                    Content="{lex:Loc Add}"
+                    VerticalAlignment="Center"
+                    Command="{Binding OpenAddFragmentWindowCommand}"
+                    Content="{lex:Loc AddBlock}"
                     Style="{DynamicResource UniconButtonStyle}" />
-            </VirtualizingStackPanel>
+            </StackPanel>
             <UniformGrid Grid.Column="1" Columns="2">
                 <Button
                     Margin="3"
@@ -91,77 +121,12 @@
             </UniformGrid>
 
         </Grid>
-        <ScrollViewer
+        <Border
             Grid.Row="2"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto">
-            <ItemsControl Name="FragmentsItemsControl" ItemsSource="{Binding ResultingDeviceViewModel.FragmentEditorViewModels}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="fragmentInterfaces:IFragmentEditorViewModel">
-                        <Grid>
-                            <lex:LocProxy Name="FragmentNameLocProxy" Source="{Binding NameForUiKey}" />
-                            <Expander>
-                                <Expander.Header>
-                                    <TextBlock Text="{Binding Result, ElementName=FragmentNameLocProxy}">
-                                        <TextBlock.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem
-                                                    Command="{Binding DataContext.DeleteFragmentCommand, Source={x:Reference FragmentsItemsControl}}"
-                                                    CommandParameter="{Binding}"
-                                                    Header="{lex:Loc Delete}" />
-                                            </ContextMenu>
-                                        </TextBlock.ContextMenu>
-                                    </TextBlock>
-                                </Expander.Header>
-                                <ContentPresenter Content="{Binding .}" ContentTemplateSelector="{StaticResource FragmentsEditorTemplateSelector}" />
-                            </Expander>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-        <!--<Expander
-                Name="ResourcesExpander"
-                Width="auto"
-                HorizontalContentAlignment="Stretch"
-                BorderThickness="0"
-                DataContext="{Binding Path=StructEditorViewModel}"
-                Header="{lex:Loc Resources}"
-                IsExpanded="True">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+            BorderBrush="{DynamicResource MahApps.Brushes.Accent4}"
+            BorderThickness="1">
+            <ContentPresenter Content="{Binding ResultingDeviceViewModel.SelectedFragmentEditorViewModel}" ContentTemplateSelector="{StaticResource FragmentsEditorTemplateSelector}" />
 
-
-                    <TextBlock Grid.Column="0" Text="{lex:Loc SharedTables}" />
-                    <ListBox Grid.Column="1" />
-                </Grid>
-
-            </Expander>-->
-
-        <VirtualizingStackPanel
-            Grid.Row="3"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-            <Button
-                Margin="5"
-                Command="{Binding CreateDeviceCommand}"
-                Content="{lex:Loc SaveInDefaultDirectory}"
-                Style="{DynamicResource UniconButtonStyle}"
-                ToolTip="{lex:Loc SaveInDefaultDirectoryDescription}" />
-            <Button
-                Margin="5"
-                Command="{Binding SaveInFileCommand}"
-                Content="{lex:Loc SaveInFile}"
-                Style="{DynamicResource UniconButtonStyle}" />
-
-            <!--<Button Margin="5" Content="{lex:Loc CreateAndAddInProject}" Style="{DynamicResource UniconButtonStyle}" />-->
-
-        </VirtualizingStackPanel>
+        </Border>
     </Grid>
 </controls:Flyout>

@@ -19,7 +19,7 @@ namespace Unicon2.Fragments.Programming.Module
     {
         public void Initialize(ITypesContainer container)
         {
-            container.Register<IProgrammModel, ProgrammModel>();
+            container.Register<IProgramModel, ProgramModel>();
 
             container.Register<IFragmentViewModel, ProgrammingViewModel>(ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ISchemeTabViewModel, SchemeTabViewModel>(ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
@@ -30,13 +30,18 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, InputViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ILogicElement, Output>(ProgrammingKeys.OUTPUT);
             container.Register<ILogicElementViewModel, OutputViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-
-            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(ProgrammModel));
+            
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
 
             ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(ProgrammModel));
-            serializerService.AddNamespaceAttribute("programmModel", "ProgrammModelNS");
+            serializerService.AddKnownTypeForSerialization(typeof(ProgramModel));
+            serializerService.AddNamespaceAttribute("programModel", "ProgrammModelEditorNS");
+            serializerService.AddKnownTypeForSerialization(typeof(SchemeModel));
+            serializerService.AddNamespaceAttribute("schemeModel", "SchemeModelNS");
+            serializerService.AddKnownTypeForSerialization(typeof(Connection));
+            serializerService.AddNamespaceAttribute("connection", "ConnectionNS");
+            serializerService.AddKnownTypeForSerialization(typeof(Connector));
+            serializerService.AddNamespaceAttribute("connector", "ConnectorNS");
             serializerService.AddKnownTypeForSerialization(typeof(Input));
             serializerService.AddNamespaceAttribute("input", "InputNS");
             serializerService.AddKnownTypeForSerialization(typeof(Output));

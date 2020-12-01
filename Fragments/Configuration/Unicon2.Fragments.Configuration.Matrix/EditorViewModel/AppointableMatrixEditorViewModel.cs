@@ -2,9 +2,7 @@
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
 using Unicon2.Fragments.Configuration.Matrix.View;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
@@ -13,13 +11,18 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
     {
         public AppointableMatrixEditorViewModel(IMatrixTemplateEditorViewModel matrixTemplateEditorViewModel)
         {
-            this.MatrixTemplateEditorViewModel = matrixTemplateEditorViewModel;
+            MatrixTemplateEditorViewModel = matrixTemplateEditorViewModel;
         }
 
-        public override string TypeName => this.StrongName;
+        public override string TypeName => StrongName;
         public override object Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public override T Accept<T>(IConfigurationItemViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitMatrix(this);
         }
 
         public override string StrongName => ConfigurationKeys.APPOINTABLE_MATRIX;
@@ -28,10 +31,10 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         public void StartEditElement()
         {
             AppointableMatrixEditorWindow appointableMatrixEditorWindow = new AppointableMatrixEditorWindow();
-            appointableMatrixEditorWindow.DataContext = this.MatrixTemplateEditorViewModel;
+            appointableMatrixEditorWindow.DataContext = MatrixTemplateEditorViewModel;
             appointableMatrixEditorWindow.ShowDialog();
-            this._model.Name = this.MatrixTemplateEditorViewModel.MatrixName;
-            this.Header = this._model.Name;
+            //this._model.Name = this.MatrixTemplateEditorViewModel.MatrixName;
+            //this.Header = this._model.Name;
         }
 
         public void StopEditElement()
@@ -41,23 +44,23 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         public void DeleteElement()
         {
-            if (this.Parent != null)
+            if (Parent != null)
             {
-                if (this.Parent is IChildItemRemovable)
+                if (Parent is IChildItemRemovable)
                 {
-                    (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
+                 //   (this.Parent as IChildItemRemovable).RemoveChildItem((this._model as IProperty));
                 }
             }
         }
 
         public IMatrixTemplateEditorViewModel MatrixTemplateEditorViewModel { get; }
 
-        protected override void SetModel(object model)
-        {
-            IAppointableMatrix matrix = model as IAppointableMatrix;
-            this.MatrixTemplateEditorViewModel.Model = matrix.MatrixTemplate;
-            this.MatrixTemplateEditorViewModel.MatrixName = matrix.Name;
-            base.SetModel(model);
-        }
+        //protected override void SetModel(object model)
+        //{
+        //    IAppointableMatrix matrix = model as IAppointableMatrix;
+        //    this.MatrixTemplateEditorViewModel.Model = matrix.MatrixTemplate;
+        //    this.MatrixTemplateEditorViewModel.MatrixName = matrix.Name;
+        //    base.SetModel(model);
+        //}
     }
 }

@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Linq;
 using Unicon2.Infrastructure.Services;
-using Unicon2.Services.Properties;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Extensions;
 
@@ -16,16 +15,16 @@ namespace Unicon2.Services
         /// <param name="culture"></param>
         public LocalizerService(string culture)
         {
-            this.SupportedLanguages = CultureInfo.GetCultures(CultureTypes.AllCultures)
+            SupportedLanguages = CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Where(c => c.IetfLanguageTag.Equals("ru-RU") || c.IetfLanguageTag.Equals("en-US")).ToList();
-            this.SetLocale(culture);
+            SetLocale(culture);
 
-            CultureInfo selectedLanguage = this.SupportedLanguages.FirstOrDefault(t => t.Name == Settings.Default.Language);
+          //  CultureInfo selectedLanguage = SupportedLanguages.FirstOrDefault(t => t.Name == Settings.Default.Language);
 
-            if (selectedLanguage != null)
-            {
-                this.SelectedLanguage = selectedLanguage;
-            }
+            //if (selectedLanguage != null)
+           // {
+           //     SelectedLanguage = selectedLanguage;
+          //  }
         }
 
         /// <summary>
@@ -44,8 +43,8 @@ namespace Unicon2.Services
         public void SetLocale(CultureInfo culture)
         {
             LocalizeDictionary.Instance.Culture = culture;
-            Settings.Default.Language = culture.Name;
-            Settings.Default.Save();
+           // Settings.Default.Language = culture.Name;
+           // Settings.Default.Save();
         }
 
         /// <summary>
@@ -56,9 +55,9 @@ namespace Unicon2.Services
         public string GetLocalizedString(string key)
         {
             LocExtension locExtension = new LocExtension(key);
-            locExtension.ResolveLocalizedValue(out string uiString);
-            return uiString;
-
+            if (locExtension.ResolveLocalizedValue(out string uiString))
+                return uiString;
+            return key;
             //var assemblyProp = ResxLocalizationProvider.Instance.FallbackAssembly;
             //var uiString = LocExtension.GetLocalizedValue<string>(assemblyProp + ":Resources:" + key);
             //return uiString;
@@ -83,7 +82,7 @@ namespace Unicon2.Services
             get { return LocalizeDictionary.Instance.Culture; }
             set
             {
-                this.SetLocale(value);
+                SetLocale(value);
 
             }
         }

@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Infrastructure.Factories;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
-using Unicon2.Infrastructure.Common;
-using Unicon2.Presentation.Infrastructure.Events;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
-using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-   public class MainConfigItemViewModel:ViewModelBase
+    public class MainConfigItemViewModel : ViewModelBase
     {
         private bool _isSelected;
         private List<IConfigurationItemViewModel> _relatedRows;
@@ -31,27 +22,27 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             IsTableEnabled =
                 (relatedConfigurationItemViewModel is IItemGroupViewModel groupViewModel) &&
                 groupViewModel.IsTableViewAllowed;
-            
-            IGroupWithReiterationInfo groupWithReiterationInfo = null;
 
-            if (RelatedConfigurationItemViewModel is IItemGroupViewModel groupViewModelWithreit &&
-                groupViewModelWithreit.Model is IItemsGroup itemsGroup &&
-                itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiteration)
-            {
-                IsGroupWithReiteration = groupWithReiteration.IsReiterationEnabled;
-                groupWithReiterationInfo = groupWithReiteration;
-            }
+           // IGroupWithReiterationInfo groupWithReiterationInfo = null;
 
-            if (!childConfigItemViewModels.Any()|| IsGroupWithReiteration)
+            //if (RelatedConfigurationItemViewModel is IItemGroupViewModel groupViewModelWithreit &&
+            //    groupViewModelWithreit.Model is IItemsGroup itemsGroup &&
+            //    itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiteration)
+            //{
+            //    IsGroupWithReiteration = groupWithReiteration.IsReiterationEnabled;
+            //    groupWithReiterationInfo = groupWithReiteration;
+            //}
+
+            if (!childConfigItemViewModels.Any() || IsGroupWithReiteration)
             {
                 var relatedRows = new List<IConfigurationItemViewModel>();
                 if (IsGroupWithReiteration)
                 {
-                    var factory = StaticContainer.Container.Resolve<IRuntimeConfigurationItemViewModelFactory>();
-                    var children = groupWithReiterationInfo.SubGroups.Select(
-                        (info => factory.CreateGroupWithReiterationViewModel(info))).ToList();
+                    //var factory = StaticContainer.Container.Resolve<IRuntimeConfigurationItemViewModelFactory>();
+                    //var children = groupWithReiterationInfo.SubGroups.Select(
+                    //    (info => factory.CreateGroupWithReiterationViewModel(info))).ToList();
 
-                    FillRelatedRows(relatedRows, children, 0);
+                    //FillRelatedRows(relatedRows, children, 0);
 
                 }
                 else
@@ -66,13 +57,14 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public MainConfigItemViewModel(IEnumerable<MainConfigItemViewModel> childConfigItemViewModels)
         {
-            
+
         }
 
         public bool IsGroupWithReiteration { get; set; }
 
 
-        private void FillRelatedRows(List<IConfigurationItemViewModel> currentRows, IEnumerable<IConfigurationItemViewModel> children, int level)
+        private void FillRelatedRows(List<IConfigurationItemViewModel> currentRows,
+            IEnumerable<IConfigurationItemViewModel> children, int level)
         {
             foreach (var child in children)
             {
@@ -102,11 +94,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             get => _isSelected;
             set
             {
-                _isSelected = value; 
+                _isSelected = value;
                 RaisePropertyChanged();
             }
         }
+
         public bool IsTableEnabled { get; }
+
         public bool IsTableSelected
         {
             get => _isTableSelected;

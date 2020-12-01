@@ -12,8 +12,8 @@ namespace Unicon2.Shell.Models
         /// </summary>
         public string Name
         {
-            get { return this._name; }
-            set { SetProperty(ref this._name, value); }
+            get { return _name; }
+            set { SetProperty(ref _name, value); }
         }
 
         private Brush colorBrush;
@@ -24,7 +24,7 @@ namespace Unicon2.Shell.Models
         public Brush ColorBrush
         {
             get { return colorBrush; }
-            set { SetProperty(ref this.colorBrush, value); }
+            set { SetProperty(ref colorBrush, value); }
         }
 
         private Brush borderColorBrush;
@@ -35,7 +35,7 @@ namespace Unicon2.Shell.Models
         public Brush BorderColorBrush
         {
             get { return borderColorBrush; }
-            set { SetProperty(ref this.borderColorBrush, value); }
+            set { SetProperty(ref borderColorBrush, value); }
         }
     }
 }

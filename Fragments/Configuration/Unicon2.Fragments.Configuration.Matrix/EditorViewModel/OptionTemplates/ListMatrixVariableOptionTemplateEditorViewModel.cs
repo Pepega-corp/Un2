@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.GeneralFactories;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -22,23 +22,23 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
 
         public ListMatrixVariableOptionTemplateEditorViewModel(IGeneralViewModelFactory<IOptionPossibleValueEditorViewModel> generalViewModelFactory)
         {
-            this._generalViewModelFactory = generalViewModelFactory;
-            this.OptionPossibleValueEditorViewModels = new ObservableCollection<IOptionPossibleValueEditorViewModel>();
-            this.AddNewOptionPossibleValueCommand = new RelayCommand(this.OnAddNewOptionPossibleValueExecute);
-            this.DeletePossibleValueCommand = new RelayCommand<object>(this.OnDeletePossibleValueExecute);
+            _generalViewModelFactory = generalViewModelFactory;
+            OptionPossibleValueEditorViewModels = new ObservableCollection<IOptionPossibleValueEditorViewModel>();
+            AddNewOptionPossibleValueCommand = new RelayCommand(OnAddNewOptionPossibleValueExecute);
+            DeletePossibleValueCommand = new RelayCommand<object>(OnDeletePossibleValueExecute);
         }
 
         private void OnDeletePossibleValueExecute(object obj)
         {
             if (obj is IOptionPossibleValueEditorViewModel)
             {
-                this.OptionPossibleValueEditorViewModels.Remove(obj as IOptionPossibleValueEditorViewModel);
+                OptionPossibleValueEditorViewModels.Remove(obj as IOptionPossibleValueEditorViewModel);
             }
         }
         
         private void OnAddNewOptionPossibleValueExecute()
         {
-            this.OptionPossibleValueEditorViewModels.Add(this._generalViewModelFactory.CreateViewModelWithModelByModelType(typeof(IOptionPossibleValue)));
+            OptionPossibleValueEditorViewModels.Add(_generalViewModelFactory.CreateViewModelWithModelByModelType(typeof(IOptionPossibleValue)));
         }
 
 
@@ -48,22 +48,22 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates
         {
             get
             {
-                this._model.OptionPossibleValues.Clear();
-                foreach (IOptionPossibleValueEditorViewModel optionPossibleValue in this.OptionPossibleValueEditorViewModels)
+                _model.OptionPossibleValues.Clear();
+                foreach (IOptionPossibleValueEditorViewModel optionPossibleValue in OptionPossibleValueEditorViewModels)
                 {
-                    this._model.OptionPossibleValues.Add(optionPossibleValue.Model as IOptionPossibleValue);
+                    _model.OptionPossibleValues.Add(optionPossibleValue.Model as IOptionPossibleValue);
                 }
-                return this._model;
+                return _model;
             }
             set
             {
-                this._model = value as ListMatrixVariableOptionTemplate;
-                this.OptionPossibleValueEditorViewModels.Clear();
-                foreach (IOptionPossibleValue optionPossibleValue in this._model.OptionPossibleValues)
+                _model = value as ListMatrixVariableOptionTemplate;
+                OptionPossibleValueEditorViewModels.Clear();
+                foreach (IOptionPossibleValue optionPossibleValue in _model.OptionPossibleValues)
                 {
-                    this.OptionPossibleValueEditorViewModels.Add(this._generalViewModelFactory.CreateViewModelByModelType(optionPossibleValue));
+                    OptionPossibleValueEditorViewModels.Add(_generalViewModelFactory.CreateViewModelByModelType(optionPossibleValue));
                 }
-                this.OptionPossibleValueEditorViewModels.ForEach((model => model.SetAvailableOptionPossibleValues(this.OptionPossibleValueEditorViewModels.ToList())));
+                OptionPossibleValueEditorViewModels.ForEach((model => model.SetAvailableOptionPossibleValues(OptionPossibleValueEditorViewModels.ToList())));
             }
         }
 

@@ -4,7 +4,7 @@ using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
 using Unicon2.DeviceEditorUtilityModule.ViewModels;
 using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 using Unicon2.Unity.Interfaces;
 
@@ -18,7 +18,7 @@ namespace Unicon2.DeviceEditorUtilityModule.Module
             container.Register<object, DeviceEditorView>(ApplicationGlobalNames.ViewNames.DEVICEEDITOR_VIEW_NAME);
 
             container.Register(typeof(IResultingDeviceViewModel), typeof(ResultingDeviceViewModel));
-            container.Register(typeof(ISharedResourcesViewModelFactory), typeof(SharedResourcesViewModelFactory), true);
+            container.Register(typeof(ISharedResourcesGlobalViewModel), typeof(DeviceSharedResourcesViewModel), true);
             container.Register(typeof(IDeviceSharedResourcesViewModel), typeof(DeviceSharedResourcesViewModel));
             container.Register(typeof(IResourcesAddingViewModel), typeof(ResourcesAddingViewModel));
             container.Register(typeof(IResourceViewModel), typeof(ResourceViewModel));

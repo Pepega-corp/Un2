@@ -11,10 +11,10 @@ namespace Unicon2.SharedResources.Behaviors
 
         public DynamicDataTable(List<string> columnNamesStrings, List<string> rowHeadersStrings, bool isBaseNumeration)
         {
-            this.IsBaseNumeration = isBaseNumeration;
-            this.ColumnNamesStrings = columnNamesStrings;
-            this.RowHeadersStrings = rowHeadersStrings;
-            this.Values = new List<List<IFormattedValueViewModel>>();
+            IsBaseNumeration = isBaseNumeration;
+            ColumnNamesStrings = columnNamesStrings;
+            RowHeadersStrings = rowHeadersStrings;
+            Values = new List<List<IFormattedValueViewModel>>();
         }
 
         public List<string> ColumnNamesStrings { get; }
@@ -25,19 +25,19 @@ namespace Unicon2.SharedResources.Behaviors
 
         public int GetCurrentValueCount()
         {
-            return this.Values.Count;
+            return Values.Count;
         }
 
        public void AddFormattedValueViewModel(List<IFormattedValueViewModel> rowList)
         {
-            this.Values.Add(rowList);
-            this.FormattedValueViewModelAddedAction?.Invoke(rowList);
+            Values.Add(rowList);
+            FormattedValueViewModelAddedAction?.Invoke(rowList);
         }
         public void Reset()
         {
-            this.Values.Clear();
-            this.ColumnNamesStrings.Clear();
-            this.RowHeadersStrings.Clear();
+            Values.Clear();
+            ColumnNamesStrings.Clear();
+            RowHeadersStrings.Clear();
         }
         
 

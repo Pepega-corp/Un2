@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace Unicon2.Fragments.ModbusMemory.Converters
 {
-   public class SplittingBitMarginConverter:IValueConverter
+    public class SplittingBitMarginConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -13,13 +13,14 @@ namespace Unicon2.Fragments.ModbusMemory.Converters
             {
                 if ((int) value == 8)
                 {
-                    return new Thickness(2,2,20,2);
+                    return new Thickness(2, 2, 20, 2);
                 }
                 else
                 {
                     return new Thickness(2);
                 }
             }
+
             throw new ArgumentException();
         }
 

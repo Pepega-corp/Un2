@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Views;
@@ -17,15 +18,13 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         protected string _caption;
         protected bool _validationError;
         protected string _description;
-        protected double _x;
-        protected double _y;
 
         protected LogicElementViewModel(string strongName, IApplicationGlobalCommands globalCommands)
         {
             this.StrongName = strongName;
             this._globalCommands = globalCommands;
         }
-        
+
         public string ElementName { get; protected set; }
 
         public bool IsSelected
@@ -34,13 +33,13 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             set
             {
                 this._isSelected = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
         public string StrongName { get; protected set; }
 
-        public object Model
+        public ILogicElement Model
         {
             get => this.GetModel();
             set => this.SetModel(value);
@@ -54,7 +53,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             set
             {
                 this._caption = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -64,42 +63,76 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             protected set
             {
                 this._description = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
-        public ObservableCollection<IConnectorViewModel> Connectors { get; protected set; }
+        public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
+
+        private Point _deltaPosition;
+        private bool xChanged;
+        private bool yChanged;
 
         public double X
         {
-            get { return this._x; }
+            get { return this._model.X; }
             set
             {
-                if (Math.Abs(this._x - value) < 0.01) return;
-                this._x = value;
+                this._deltaPosition.X = value - this._model.X;
+                if (this.yChanged)
+                {
+                    this.yChanged = false;
+                    this.xChanged = false;
+                    this.UpdateConnectorsPosition(this._deltaPosition);
+                }
+                else
+                {
+                    this.xChanged = true;
+                }
+
+                this._model.X = value;
                 RaisePropertyChanged();
             }
         }
 
         public double Y
         {
-            get { return this._y; }
+            get { return this._model.Y; }
             set
             {
-                if (Math.Abs(this._y - value) < 0.01) return;
-                this._y = value;
+                this._deltaPosition.Y = value - this._model.Y;
+                if (this.xChanged)
+                {
+                    this.yChanged = false;
+                    this.xChanged = false;
+                    this.UpdateConnectorsPosition(this._deltaPosition);
+                }
+                else
+                {
+                    this.yChanged = true;
+                }
+
+                this._model.Y = value;
                 RaisePropertyChanged();
+            }
+        }
+
+        private void UpdateConnectorsPosition(Point deltaPosition)
+        {
+            foreach (var connectorViewModel in this.ConnectorViewModels)
+            {
+                connectorViewModel.UpdateConnectorPosition(deltaPosition);
             }
         }
 
         protected abstract ILogicElement GetModel();
         protected abstract void SetModel(object modelObj);
-
         public abstract object Clone();
 
         public virtual void OpenPropertyWindow()
         {
-            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(), new LogicElementSettingsViewModel(this));
+            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(),
+                new LogicElementSettingsViewModel(this));
         }
     }
 }

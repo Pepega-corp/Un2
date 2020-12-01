@@ -11,34 +11,34 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
 
         public SharedBitViewModel()
         {
-            this.ChangeValueByOwnerCommand = new RelayCommand<object>(this.OnChangeValueByOwnerExecute);
+            ChangeValueByOwnerCommand = new RelayCommand<object>(OnChangeValueByOwnerExecute);
         }
 
 
         private void OnChangeValueByOwnerExecute(object initiator)
         {
-            if (this.Value)
+            if (Value)
             {
-                if (this.Owner == initiator)
-                    this.Value = false;
-                this.Owner = null;
+                if (Owner == initiator)
+                    Value = false;
+                Owner = null;
             }
             else
             {
-                this.Value = true;
-                this.Owner = initiator;
+                Value = true;
+                Owner = initiator;
             }
-            this.RaisePropertyChanged(nameof(this.Value));
-            this.RaisePropertyChanged(nameof(this.Owner));
+            RaisePropertyChanged(nameof(Value));
+            RaisePropertyChanged(nameof(Owner));
         }
 
         public int NumberOfBit
         {
-            get { return this._numberOfBit; }
+            get { return _numberOfBit; }
             set
             {
-                this._numberOfBit = value;
-                this.RaisePropertyChanged();
+                _numberOfBit = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -49,10 +49,10 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
         public ICommand ChangeValueByOwnerCommand { get; set; }
         public void Refresh()
         {
-            this.Value = false;
-            this.Owner = null;
-            this.RaisePropertyChanged(nameof(this.Value));
-            this.RaisePropertyChanged(nameof(this.Owner));
+            Value = false;
+            Owner = null;
+            RaisePropertyChanged(nameof(Value));
+            RaisePropertyChanged(nameof(Owner));
         }
     }
 }

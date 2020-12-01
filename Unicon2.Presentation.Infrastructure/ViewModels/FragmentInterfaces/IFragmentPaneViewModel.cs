@@ -4,7 +4,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
 {
-    public interface IFragmentPaneViewModel:IDockingWindow
+    public interface IFragmentPaneViewModel : IDockingWindow
     {
         IFragmentViewModel FragmentViewModel { get; set; }
         ICommand CloseFragmentCommand { get; set; }

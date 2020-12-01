@@ -6,12 +6,12 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Presentation.Infrastructure.Enums;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 
 namespace Unicon2.Presentation.ViewModels.Windows
 {
@@ -33,59 +33,60 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         public LogServiceViewModel(ILogService logService, ILocalizerService localizerService)
         {
-            this._allLogMessages = new List<ILogMessage>();
-            this._logService = logService;
-            this._logService.LoggersChangedAction += this.LoggersCollectionChanged;
+            _allLogMessages = new List<ILogMessage>();
+            _logService = logService;
+            _logService.LoggersChangedAction += LoggersCollectionChanged;
 
-            this._localizerService = localizerService;
-            this._logService.NewMessageAction += this.OnNewMessage;
-            this.InfoMessageCollectionToShow = new ObservableCollection<ILogMessage>();
-            this.SetLogFilePathCommand = new RelayCommand(this.OnSetLogFilePathExecute);
-            this.RefreshHeaderStringCommand = new RelayCommand(this.RefreshHeaderString);
-            this.ClearLoggerCommand = new RelayCommand(this.OnExecuteClearLogger);
-            this.RefreshHeaderString();
-            this.IsVisible = true;
-            this.WindowNameKey = ApplicationGlobalNames.WindowsStrings.NOTIFICATIONS_STRING_KEY;
-            this.AnchorableDefaultPlacementEnum = PlacementEnum.Bottom;
-            this.LoggersCollectionChanged();
-            this.SelectedFilteringMessageSource = this.FilteringMessageSourceCollection.FirstOrDefault();
+            _localizerService = localizerService;
+            _logService.NewMessageAction += OnNewMessage;
+            InfoMessageCollectionToShow = new ObservableCollection<ILogMessage>();
+            SetLogFilePathCommand = new RelayCommand(OnSetLogFilePathExecute);
+            RefreshHeaderStringCommand = new RelayCommand(RefreshHeaderString);
+            ClearLoggerCommand = new RelayCommand(OnExecuteClearLogger);
+            RefreshHeaderString();
+            IsVisible = true;
+            WindowNameKey = ApplicationGlobalNames.WindowsStrings.NOTIFICATIONS_STRING_KEY;
+            AnchorableDefaultPlacementEnum = PlacementEnum.Bottom;
+            LoggersCollectionChanged();
+            SelectedFilteringMessageSource = FilteringMessageSourceCollection.FirstOrDefault();
+            Content = this;
         }
 
         private void LoggersCollectionChanged()
         {
-            this.FilteringMessageSourceCollection = new ObservableCollection<string>(this._logService.GetLoggersEnumerable().Select((logger => logger.SourceName)));
-            this.FilteringMessageSourceCollection.Insert(0, this._localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.ALL_STRING_KEY));
-            this.RaisePropertyChanged(nameof(this.FilteringMessageSourceCollection));
+            FilteringMessageSourceCollection = new ObservableCollection<string>(_logService.GetLoggersEnumerable().Select((logger => logger.SourceName)));
+            FilteringMessageSourceCollection.Insert(0, _localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.ALL_STRING_KEY));
+            RaisePropertyChanged(nameof(FilteringMessageSourceCollection));
         }
 
         public string HeaderString
         {
-            get { return this._headerString; }
+            get { return _headerString; }
             set
             {
-                this._headerString = value;
-                this.RaisePropertyChanged();
+                _headerString = value;
+                RaisePropertyChanged();
             }
         }
 
         public string LastMessageString
         {
-            get { return this._lastMessageString; }
+            get { return _lastMessageString; }
             set
             {
-                this._lastMessageString = value;
-                this.RaisePropertyChanged();
+                _lastMessageString = value;
+                RaisePropertyChanged();
             }
         }
 
 
         public ObservableCollection<object> LogSubjectCollection
         {
-            get { return this._logSubjectCollection; }
+            get { return _logSubjectCollection; }
             set
             {
-                this._logSubjectCollection = value;
-                this.RaisePropertyChanged();
+                _logSubjectCollection = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -95,48 +96,48 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         public bool IsInfoMessagesShowing
         {
-            get { return this._isInfoMessagesShowing; }
+            get { return _isInfoMessagesShowing; }
             set
             {
-                this._isInfoMessagesShowing = value;
-                this.RaisePropertyChanged();
-                this.FilterMessages();
+                _isInfoMessagesShowing = value;
+                RaisePropertyChanged();
+                FilterMessages();
 
             }
         }
 
         public bool IsErrorsShowing
         {
-            get { return this._isErrorsShowing; }
+            get { return _isErrorsShowing; }
             set
             {
-                this._isErrorsShowing = value;
-                this.RaisePropertyChanged();
-                this.FilterMessages();
+                _isErrorsShowing = value;
+                RaisePropertyChanged();
+                FilterMessages();
 
             }
         }
 
         public bool IsSuccessfulQueryShowing
         {
-            get { return this._isSuccessfulQueryShowing; }
+            get { return _isSuccessfulQueryShowing; }
             set
             {
-                this._isSuccessfulQueryShowing = value;
-                this.RaisePropertyChanged();
-                this.FilterMessages();
+                _isSuccessfulQueryShowing = value;
+                RaisePropertyChanged();
+                FilterMessages();
 
             }
         }
 
         public bool IsFailedQueryShowing
         {
-            get { return this._isFailedQueryShowing; }
+            get { return _isFailedQueryShowing; }
             set
             {
-                this._isFailedQueryShowing = value;
-                this.RaisePropertyChanged();
-                this.FilterMessages();
+                _isFailedQueryShowing = value;
+                RaisePropertyChanged();
+                FilterMessages();
 
             }
         }
@@ -158,19 +159,19 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         public bool IsLoggingToFileEnabled
         {
-            get { return this._isLoggingToFileEnabled; }
+            get { return _isLoggingToFileEnabled; }
             set
             {
-                if (String.IsNullOrEmpty(this._logService.FilePath))
+                if (String.IsNullOrEmpty(_logService.FilePath))
                 {
-                    this.SetLogFilePathCommand.Execute(null);
+                    SetLogFilePathCommand.Execute(null);
                 }
-                if (!String.IsNullOrEmpty(this._logService.FilePath))
+                if (!String.IsNullOrEmpty(_logService.FilePath))
                 {
-                    this._isLoggingToFileEnabled = value;
+                    _isLoggingToFileEnabled = value;
                 }
-                this._logService.IsLoggingToFileEnabled = this._isLoggingToFileEnabled;
-                this.RaisePropertyChanged();
+                _logService.IsLoggingToFileEnabled = _isLoggingToFileEnabled;
+                RaisePropertyChanged();
 
             }
         }
@@ -179,12 +180,12 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         public string SelectedFilteringMessageSource
         {
-            get { return this._selectedFilteringMessageSource; }
+            get { return _selectedFilteringMessageSource; }
             set
             {
-                this._selectedFilteringMessageSource = value;
-                this.RaisePropertyChanged();
-                this.FilterMessages();
+                _selectedFilteringMessageSource = value;
+                RaisePropertyChanged();
+                FilterMessages();
             }
         }
 
@@ -194,54 +195,54 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         private void OnExecuteClearLogger()
         {
-            this._allLogMessages.Clear();
-            this.InfoMessageCollectionToShow.Clear();
-            this.RaisePropertyChanged(nameof(this.InfoMessageCollectionToShow));
-            this.ErrorMessagesCount = 0;
-            this.InfoMessagesCount = 0;
-            this.FailedQueryMessagesCount = 0;
-            this.SuccessfulQueryMessagesCount = 0;
-            this.RaisePropertyChanged(nameof(this.ErrorMessagesCount));
-            this.RaisePropertyChanged(nameof(this.InfoMessageCollectionToShow));
-            this.RaisePropertyChanged(nameof(this.SuccessfulQueryMessagesCount));
-            this.RaisePropertyChanged(nameof(this.FailedQueryMessagesCount));
-            this.RefreshHeaderString();
+            _allLogMessages.Clear();
+            InfoMessageCollectionToShow.Clear();
+            RaisePropertyChanged(nameof(InfoMessageCollectionToShow));
+            ErrorMessagesCount = 0;
+            InfoMessagesCount = 0;
+            FailedQueryMessagesCount = 0;
+            SuccessfulQueryMessagesCount = 0;
+            RaisePropertyChanged(nameof(ErrorMessagesCount));
+            RaisePropertyChanged(nameof(InfoMessageCollectionToShow));
+            RaisePropertyChanged(nameof(SuccessfulQueryMessagesCount));
+            RaisePropertyChanged(nameof(FailedQueryMessagesCount));
+            RefreshHeaderString();
         }
 
         private void RefreshHeaderString()
         {
-            this.HeaderString =
-                this._localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.RECENT_NOTIFICATIONS_STRING_KEY) + " 0";
-            this._newNotificationsCount = 0;
+            HeaderString =
+                _localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.RECENT_NOTIFICATIONS_STRING_KEY) + " 0";
+            _newNotificationsCount = 0;
         }
 
 
         private void FilterMessages()
         {
-            this.InfoMessageCollectionToShow.Clear();
+            InfoMessageCollectionToShow.Clear();
 
-            List<LogMessageTypeEnum> listTypesToHide = this.GetTypesToHide();
-            IEnumerable<ILogMessage> messagesFilteredByType = this._allLogMessages.Where((message => !listTypesToHide.Contains(message.LogMessageType)));
+            List<LogMessageTypeEnum> listTypesToHide = GetTypesToHide();
+            IEnumerable<ILogMessage> messagesFilteredByType = _allLogMessages.Where((message => !listTypesToHide.Contains(message.LogMessageType)));
 
-            if (this.FilteringMessageSourceCollection[0] != this._selectedFilteringMessageSource)
+            if (FilteringMessageSourceCollection[0] != _selectedFilteringMessageSource)
             {
-                this.InfoMessageCollectionToShow.AddCollection(messagesFilteredByType.Where((message => message.MessageSubject == this._selectedFilteringMessageSource)));
+                InfoMessageCollectionToShow.AddCollection(messagesFilteredByType.Where((message => message.MessageSubject == _selectedFilteringMessageSource)));
             }
             else
             {
-                this.InfoMessageCollectionToShow.AddCollection(messagesFilteredByType);
+                InfoMessageCollectionToShow.AddCollection(messagesFilteredByType);
             }
 
-            this.RaisePropertyChanged(nameof(this.InfoMessageCollectionToShow));
+            RaisePropertyChanged(nameof(InfoMessageCollectionToShow));
         }
 
         private List<LogMessageTypeEnum> GetTypesToHide()
         {
             List<LogMessageTypeEnum> typesToHide = new List<LogMessageTypeEnum>();
-            if (!this.IsInfoMessagesShowing) typesToHide.Add(LogMessageTypeEnum.Info);
-            if (!this.IsErrorsShowing) typesToHide.Add(LogMessageTypeEnum.Error);
-            if (!this.IsFailedQueryShowing) typesToHide.Add(LogMessageTypeEnum.FailedQuery);
-            if (!this.IsSuccessfulQueryShowing) typesToHide.Add(LogMessageTypeEnum.SuccsessfulQuery);
+            if (!IsInfoMessagesShowing) typesToHide.Add(LogMessageTypeEnum.Info);
+            if (!IsErrorsShowing) typesToHide.Add(LogMessageTypeEnum.Error);
+            if (!IsFailedQueryShowing) typesToHide.Add(LogMessageTypeEnum.FailedQuery);
+            if (!IsSuccessfulQueryShowing) typesToHide.Add(LogMessageTypeEnum.SuccsessfulQuery);
 
             return typesToHide;
 
@@ -250,25 +251,25 @@ namespace Unicon2.Presentation.ViewModels.Windows
 
         private void OnNewMessage(ILogMessage logMessage)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                this._allLogMessages.Insert(0, logMessage);
-                this._newNotificationsCount++;
-                this.HeaderString = this._localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi
-                                   .RECENT_NOTIFICATIONS_STRING_KEY) + " " + this._newNotificationsCount;
+                _allLogMessages.Insert(0, logMessage);
+                _newNotificationsCount++;
+                HeaderString = _localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi
+                                   .RECENT_NOTIFICATIONS_STRING_KEY) + " " + _newNotificationsCount;
 
                 if (logMessage.LogMessageType != LogMessageTypeEnum.SuccsessfulQuery)
-                    this.LastMessageString = logMessage.Description;
-                if (!this.GetTypesToHide().Contains(logMessage.LogMessageType))
+                    LastMessageString = logMessage.Description;
+                if (!GetTypesToHide().Contains(logMessage.LogMessageType))
                 {
-                    if ((this.FilteringMessageSourceCollection[0] == this._selectedFilteringMessageSource) ||
-                        (logMessage.MessageSubject == this._selectedFilteringMessageSource))
+                    if ((FilteringMessageSourceCollection[0] == _selectedFilteringMessageSource) ||
+                        (logMessage.MessageSubject == _selectedFilteringMessageSource))
                     {
-                        this.InfoMessageCollectionToShow.Insert(0, logMessage);
+                        InfoMessageCollectionToShow.Insert(0, logMessage);
                     }
                 }
 
-                this.AddMessagesCount(logMessage.LogMessageType);
+                AddMessagesCount(logMessage.LogMessageType);
             });
         }
 
@@ -277,22 +278,22 @@ namespace Unicon2.Presentation.ViewModels.Windows
             switch (logMessageType)
             {
                 case LogMessageTypeEnum.Info:
-                    this.InfoMessagesCount++;
-                    this.RaisePropertyChanged(nameof(this.InfoMessagesCount));
+                    InfoMessagesCount++;
+                    RaisePropertyChanged(nameof(InfoMessagesCount));
                     break;
                 case LogMessageTypeEnum.Error:
-                    this.ErrorMessagesCount++;
-                    this.RaisePropertyChanged(nameof(this.ErrorMessagesCount));
+                    ErrorMessagesCount++;
+                    RaisePropertyChanged(nameof(ErrorMessagesCount));
 
                     break;
                 case LogMessageTypeEnum.SuccsessfulQuery:
-                    this.SuccessfulQueryMessagesCount++;
-                    this.RaisePropertyChanged(nameof(this.SuccessfulQueryMessagesCount));
+                    SuccessfulQueryMessagesCount++;
+                    RaisePropertyChanged(nameof(SuccessfulQueryMessagesCount));
 
                     break;
                 case LogMessageTypeEnum.FailedQuery:
-                    this.FailedQueryMessagesCount++;
-                    this.RaisePropertyChanged(nameof(this.FailedQueryMessagesCount));
+                    FailedQueryMessagesCount++;
+                    RaisePropertyChanged(nameof(FailedQueryMessagesCount));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(logMessageType), logMessageType, null);
@@ -309,7 +310,7 @@ namespace Unicon2.Presentation.ViewModels.Windows
             };
             if (sfd.ShowDialog() == true)
             {
-                this._logService.FilePath = sfd.FileName;
+                _logService.FilePath = sfd.FileName;
             }
 
         }

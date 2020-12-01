@@ -1,0 +1,78 @@
+﻿<mah:WindowCommands
+    x:Class="Unicon2.Shell.Views.DynamicMainMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:Unicon2.Shell.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dataTemplateSelectors="clr-namespace:Unicon2.SharedResources.DataTemplateSelectors;assembly=Unicon2.SharedResources"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:infrastructure="clr-namespace:Unicon2.Infrastructure;assembly=Unicon2.Infrastructure"
+    xmlns:interactivity="http://prismlibrary.com/"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:Unicon2.Shell.Views"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:templateSelectors="clr-namespace:Unicon2.Shell.TemplateSelectors"
+    xmlns:viewModels="clr-namespace:Unicon2.Shell.ViewModels"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    d:DataContext="{d:DesignInstance viewModels:DynamicMainMenuViewModel}"
+    d:DesignHeight="50"
+    d:DesignWidth="800"
+    ItemsSource="{Binding MenuItems}"
+    mc:Ignorable="d">
+
+
+
+    <mah:WindowCommands.ItemTemplate>
+        <DataTemplate>
+            <ContentPresenter Content="{Binding .}">
+                <ContentPresenter.ContentTemplateSelector>
+                    <templateSelectors:MainMenuItemTemplateSelector>
+                        <templateSelectors:MainMenuItemTemplateSelector.MenuItemCommandDataTemplate>
+                            <DataTemplate DataType="viewModels:MenuItemCommandViewModel">
+                                <Grid>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                            <interactivity:InvokeCommandAction Command="{Binding Command}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                    <lex:LocProxy Name="titleCommandProxy" Source="{Binding Path=NameKey}" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{Binding ElementName=titleCommandProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </templateSelectors:MainMenuItemTemplateSelector.MenuItemCommandDataTemplate>
+                        <templateSelectors:MainMenuItemTemplateSelector.MenuItemDataTemplate>
+                            <DataTemplate DataType="viewModels:MenuItemViewModel">
+                                <ContentPresenter Content="{Binding StronglyNamedViewModel}">
+                                    <ContentPresenter.ContentTemplateSelector>
+                                        <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
+                                    </ContentPresenter.ContentTemplateSelector>
+                                </ContentPresenter>
+                            </DataTemplate>
+                        </templateSelectors:MainMenuItemTemplateSelector.MenuItemDataTemplate>
+                        <templateSelectors:MainMenuItemTemplateSelector.GroupedItemDataTemplate>
+                            <DataTemplate DataType="viewModels:GroupMenuItemViewModel">
+                                <Grid Name="Grid">
+                                    <b:Interaction.Behaviors>
+                                        <behaviors:ButtonContextMenuOpenBehavior />
+                                        <behaviors:DynamicMainMenuBehavior MenuItems="{Binding ChildMenuItems}" />
+                                    </b:Interaction.Behaviors>
+                                    <lex:LocProxy Name="titleProxy" Source="{Binding Path=GroupNameKey}" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{Binding ElementName=titleProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </templateSelectors:MainMenuItemTemplateSelector.GroupedItemDataTemplate>
+                    </templateSelectors:MainMenuItemTemplateSelector>
+                </ContentPresenter.ContentTemplateSelector>
+            </ContentPresenter>
+        </DataTemplate>
+    </mah:WindowCommands.ItemTemplate>
+</mah:WindowCommands>

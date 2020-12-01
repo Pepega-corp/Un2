@@ -37,10 +37,10 @@ namespace Unicon2.Services.LogService
         private void SetFilePath()
         {
             var config = new NLog.Config.LoggingConfiguration();
-            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = FilePath };
+            var logfile = new FileTarget("logfile") { FileName = FilePath };
 
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
-            NLog.LogManager.Configuration = config;
+            LogManager.Configuration = config;
 
 
             //FileTarget target = (FileTarget)LogManager.Configuration.FindTargetByName("file");
@@ -74,7 +74,7 @@ namespace Unicon2.Services.LogService
             if (IsLoggingToFileEnabled)
             {
                 var logger = LogManager.GetLogger(logMessage.MessageSubject);
-                logger.Trace(logMessage.ToString);
+                logger.Info(logMessage.ToString);
             }
             NewMessageAction?.Invoke(logMessage);
         }
@@ -101,7 +101,7 @@ namespace Unicon2.Services.LogService
         public void LogMessage(string messageKey, LogMessageTypeEnum messageType = LogMessageTypeEnum.Info)
         {
             ILogMessage logMessage = _logMessageGettingFunc();
-            logMessage.LogMessageType = LogMessageTypeEnum.Info;
+            logMessage.LogMessageType = messageType;
             logMessage.MessageSubject =_localizerService.GetLocalizedString(ApplicationGlobalNames.GENERAL);
             string localizedString = String.Empty;
             if (!_localizerService.TryGetLocalizedString(messageKey, out localizedString))

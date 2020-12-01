@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace Unicon2.SharedResources.Converter
 {
-   public class DebugConverter :IValueConverter
+    public class DebugConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

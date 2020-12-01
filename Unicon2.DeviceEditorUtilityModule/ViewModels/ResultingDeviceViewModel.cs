@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
@@ -8,8 +10,6 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.FragmentInterfaces;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -25,136 +25,136 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private ITypesContainer _container;
         private IDeviceSharedResources _deviceSharedResources;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
-        private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
+        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private readonly IFragmentEditorViewModelFactory _fragmentEditorViewModelFactory;
         private readonly IConnectionStateViewModelFactory _connectionStateViewModelFactory;
+        private readonly ISerializerService _serializerService;
         private string _deviceName;
         private ObservableCollection<IFragmentEditorViewModel> _fragmentEditorViewModels;
-        private ObservableCollection<IFragmentEditorViewModel> _availableEditorFragments;
+        private IFragmentEditorViewModel _selectedFragmentEditorViewModel;
 
         public ResultingDeviceViewModel(IDevice device, ITypesContainer container, ILocalizerService localizerService,
             IDeviceSharedResources deviceSharedResources, IApplicationGlobalCommands applicationGlobalCommands,
-            ISharedResourcesViewModelFactory sharedResourcesViewModelFactory,
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,
             IFragmentEditorViewModelFactory fragmentEditorViewModelFactory,
-            IConnectionStateViewModelFactory connectionStateViewModelFactory)
+            IConnectionStateViewModelFactory connectionStateViewModelFactory, ISerializerService serializerService)
         {
-            this._device = device;
-            this._container = container;
-            this._deviceSharedResources = deviceSharedResources;
-            this._applicationGlobalCommands = applicationGlobalCommands;
-            this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
-            this._fragmentEditorViewModelFactory = fragmentEditorViewModelFactory;
-            this._connectionStateViewModelFactory = connectionStateViewModelFactory;
-            this._availableEditorFragments = new ObservableCollection<IFragmentEditorViewModel>();
-            this.AddFragmentCommand = new RelayCommand<IFragmentEditorViewModel>(this.OnExecuteAddFragment);
+            _device = device;
+            _container = container;
+            _deviceSharedResources = deviceSharedResources;
+            _applicationGlobalCommands = applicationGlobalCommands;
+            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+            _fragmentEditorViewModelFactory = fragmentEditorViewModelFactory;
+            _connectionStateViewModelFactory = connectionStateViewModelFactory;
+            _serializerService = serializerService;
 
-            IEnumerable<IFragmentEditorViewModel> fragments = this._container.ResolveAll<IFragmentEditorViewModel>();
-            foreach (IFragmentEditorViewModel fragment in fragments)
-            {
-                (fragment as IResourceContaining)?.SetResources(deviceSharedResources);
-                this.AvailableEditorFragments.Add(fragment);
-            }
-
-            this.DeviceName = localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.NEW_DEVICE_STRING);
-            this.FragmentEditorViewModels = new ObservableCollection<IFragmentEditorViewModel>();
-            sharedResourcesViewModelFactory.InitializeFromResources(deviceSharedResources);
-            this.NavigateToConnectionTestingCommand = new RelayCommand(this.OnNavigateToConnectionTestingExecute);
+            DeviceName =
+                localizerService.GetLocalizedString(ApplicationGlobalNames.DefaultStringsForUi.NEW_DEVICE_STRING);
+            FragmentEditorViewModels = new ObservableCollection<IFragmentEditorViewModel>();
+            sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
+            NavigateToConnectionTestingCommand = new RelayCommand(OnNavigateToConnectionTestingExecute);
         }
 
         private void OnNavigateToConnectionTestingExecute()
         {
-            this._applicationGlobalCommands.ShowWindowModal(
-                () => new ConnectionTestingWindow(), this._connectionStateViewModelFactory.CreateConnectionStateViewModel(this._device.ConnectionState));
+            _applicationGlobalCommands.ShowWindowModal(
+                () => new ConnectionTestingWindow(),
+                _connectionStateViewModelFactory.CreateConnectionStateViewModel(_device.ConnectionState));
         }
 
 
-        private void OnExecuteAddFragment(IFragmentEditorViewModel fragmentEditorViewModel)
+
+        public IFragmentEditorViewModel SelectedFragmentEditorViewModel
         {
-            if (fragmentEditorViewModel == null) return;
-            if (!(fragmentEditorViewModel is INameable))
-            {
-                if (this.FragmentEditorViewModels.Any((model => model.StrongName == fragmentEditorViewModel.StrongName)))
-                    return;
-                this.FragmentEditorViewModels.Add(fragmentEditorViewModel);
-            }
-            else
-            {
-                this.FragmentEditorViewModels.Add(this._container.Resolve<IFragmentEditorViewModel>(fragmentEditorViewModel.StrongName));
-            }
+	        get => _selectedFragmentEditorViewModel;
+	        set
+	        {
+		        _selectedFragmentEditorViewModel = value;
+		        RaisePropertyChanged();
+	        }
         }
-
-
         public ICommand NavigateToConnectionTestingCommand { get; }
 
-        public ObservableCollection<IFragmentEditorViewModel> AvailableEditorFragments
-        {
-            get { return this._availableEditorFragments; }
-            set
-            {
-                this._availableEditorFragments = value;
-                this.RaisePropertyChanged();
-            }
-        }
 
         public void OpenSharedResources()
         {
-            this._sharedResourcesViewModelFactory.OpenSharedResourcesForEditing();
+            _sharedResourcesGlobalViewModel.OpenSharedResourcesForEditing();
         }
 
 
 
         public ObservableCollection<IFragmentEditorViewModel> FragmentEditorViewModels
         {
-            get { return this._fragmentEditorViewModels; }
+            get { return _fragmentEditorViewModels; }
             set
             {
-                this._fragmentEditorViewModels = value;
-                this.RaisePropertyChanged();
+                _fragmentEditorViewModels = value;
+                RaisePropertyChanged();
             }
         }
 
 
         public void LoadDevice(string path)
         {
-            this._device.DeserializeFromFile(path);
-            this.FragmentEditorViewModels.Clear();
-            foreach (IDeviceFragment fragment in this._device.DeviceFragments)
+            _device = _serializerService.DeserializeFromFile<IDevice>(path);
+            FragmentEditorViewModels.Clear();
+            _sharedResourcesGlobalViewModel.InitializeFromResources(_device.DeviceSharedResources);
+            foreach (IDeviceFragment fragment in _device.DeviceFragments)
             {
-                IFragmentEditorViewModel fragmentEditorViewModel = this._fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
-                fragmentEditorViewModel.Model = fragment;
-                if (fragmentEditorViewModel is IResourceContaining)
-                {
-                    (fragmentEditorViewModel as IResourceContaining).SetResources(this._device.DeviceSharedResources);
-                }
-                this.FragmentEditorViewModels.Add(fragmentEditorViewModel);
+                IFragmentEditorViewModel fragmentEditorViewModel =
+                    _fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(fragment);
+                FragmentEditorViewModels.Add(fragmentEditorViewModel);
             }
-            this._deviceSharedResources = this._device.DeviceSharedResources;
-            this._sharedResourcesViewModelFactory.InitializeFromResources(this._deviceSharedResources);
-            this.DeviceName = this._device.Name;
+
+            SelectedFragmentEditorViewModel = FragmentEditorViewModels.FirstOrDefault();
+            _deviceSharedResources = _device.DeviceSharedResources;
+            DeviceName = _device.Name;
         }
 
         public void SaveDevice(string path, bool isDefaultSaving = true)
         {
-            this._device.Name = this.DeviceName;
-            this._device.DeviceFragments = new List<IDeviceFragment>();
-            this._device.DeviceSharedResources = this._deviceSharedResources;
-            foreach (IFragmentEditorViewModel fragmentEditorViewModel in this.FragmentEditorViewModels)
+            _device.Name = DeviceName;
+            _device.DeviceFragments = new List<IDeviceFragment>();
+            foreach (IFragmentEditorViewModel fragmentEditorViewModel in FragmentEditorViewModels)
             {
-                (this._device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.Model as IDeviceFragment);
+                (_device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.BuildDeviceFragment());
             }
-            this._device.SerializeInFile(path, isDefaultSaving);
+
+            _device.DeviceSharedResources = _sharedResourcesGlobalViewModel.GetSharedResources();
+            if (isDefaultSaving)
+            {
+
+                if (!(Directory.Exists(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH)))
+                {
+                    Directory.CreateDirectory(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH);
+                }
+
+                path = Path.Combine(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH, path + ".json");
+            }
+
+            try
+            {
+
+                _serializerService.SerializeInFile(_device, path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
+
+  
 
         public string DeviceName
         {
-            get { return this._deviceName; }
+            get { return _deviceName; }
             set
             {
-                this._deviceName = value;
-                this.RaisePropertyChanged();
+                _deviceName = value;
+                RaisePropertyChanged();
             }
         }
 
-        public ICommand AddFragmentCommand { get; }
     }
 }

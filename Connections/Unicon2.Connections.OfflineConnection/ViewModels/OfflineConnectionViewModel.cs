@@ -6,12 +6,9 @@ namespace Unicon2.Connections.OfflineConnection.ViewModels
 {
     public class OfflineConnectionViewModel : ViewModelBase, IOfflineConnectionViewModel
     {
-        private IDeviceConnection _model;
-
-
         public OfflineConnectionViewModel()
         {
-            this.DeviceConnection = new OfflineConnection();
+            DeviceConnection = new OfflineConnection();
         }
 
         public IDeviceConnection DeviceConnection { get; set; }
@@ -19,17 +16,17 @@ namespace Unicon2.Connections.OfflineConnection.ViewModels
         public string StrongName => nameof(OfflineConnectionViewModel);
         public object Model
         {
-            get => this.DeviceConnection;
+            get => DeviceConnection;
             set
             {
                 if (value is OfflineConnection)
-                    this.DeviceConnection = (OfflineConnection) value;
+                    DeviceConnection = (OfflineConnection) value;
             }
         }
 
         public string ConnectionName
         {
-            get { return this.DeviceConnection.ConnectionName; }
+            get { return DeviceConnection.ConnectionName; }
         }
     }
 }

@@ -3,6 +3,6 @@
     public interface IStronglyNamed
     {
         string StrongName { get; }
-     
+
     }
 }

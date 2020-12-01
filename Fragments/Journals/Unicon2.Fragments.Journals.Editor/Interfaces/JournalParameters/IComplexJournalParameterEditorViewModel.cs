@@ -4,7 +4,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters
 {
-    public interface IComplexJournalParameterEditorViewModel:IJournalParameterEditorViewModel
+    public interface IComplexJournalParameterEditorViewModel : IJournalParameterEditorViewModel
     {
         ISubJournalParameterEditorViewModel AddSubJournalParameterEditorViewModel();
         ICommand AddSubParameterCommand { get; }
@@ -13,9 +13,9 @@ namespace Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters
 
         ObservableCollection<ISubJournalParameterEditorViewModel> SubJournalParameterEditorViewModels { get; set; }
         ObservableCollection<ISharedBitViewModel> MainBitNumbersInWordCollection { get; set; }
-        ICommand SubmitCommand { get;  }
+        ICommand SubmitCommand { get; }
         ICommand CancelCommand { get; }
-        
+
 
     }
 

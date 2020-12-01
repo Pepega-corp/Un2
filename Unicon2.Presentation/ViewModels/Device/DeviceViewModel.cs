@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ItemChangingContext;
@@ -18,34 +19,35 @@ namespace Unicon2.Presentation.ViewModels.Device
         private ObservableCollection<IFragmentViewModel> _fragmentViewModels;
         private IDeviceLoggerViewModel _deviceLoggerViewModel;
 
-        public DeviceViewModel(IDevicesContainerService devicesContainerService, IConnectionStateViewModel connectionStateViewModel, IDeviceLoggerViewModel deviceLoggerViewModel)
+        public DeviceViewModel(IDevicesContainerService devicesContainerService, IConnectionStateViewModel connectionStateViewModel,
+            IDeviceLoggerViewModel deviceLoggerViewModel)
         {
-            this._devicesContainerService = devicesContainerService;
-            this._fragmentViewModels = new ObservableCollection<IFragmentViewModel>();
-            this.NavigateToDeviceEditingCommand = new RelayCommand(this.OnNavigateToDeviceEditing);
-            this.DeleteSelectedDeviceCommand = new RelayCommand(this.OnDeleteSelectedDevice);
-            this.ConnectionStateViewModel = connectionStateViewModel;
-            this.DeviceLoggerViewModel = deviceLoggerViewModel;
+            _devicesContainerService = devicesContainerService;
+            _fragmentViewModels = new ObservableCollection<IFragmentViewModel>();
+            NavigateToDeviceEditingCommand = new RelayCommand(OnNavigateToDeviceEditing);
+            DeleteSelectedDeviceCommand = new RelayCommand(OnDeleteSelectedDevice);
+            ConnectionStateViewModel = connectionStateViewModel;
+            DeviceLoggerViewModel = deviceLoggerViewModel;
         }
 
         private void OnDeleteSelectedDevice()
         {
-            this._devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(this._device, ItemModifyingTypeEnum.Delete));
+            _devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(_device, ItemModifyingTypeEnum.Delete));
         }
 
         private void OnNavigateToDeviceEditing()
         {
-            this._devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(this._device, ItemModifyingTypeEnum.Edit));
+            _devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(_device, ItemModifyingTypeEnum.Edit));
         }
 
 
         public string DeviceSignature
         {
-            get { return this._device.DeviceSignature; }
+            get { return _device.DeviceSignature; }
             set
             {
-                this._device.DeviceSignature = value;
-                this.RaisePropertyChanged();
+                _device.DeviceSignature = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -56,41 +58,42 @@ namespace Unicon2.Presentation.ViewModels.Device
 
         public IDeviceLoggerViewModel DeviceLoggerViewModel
         {
-            get { return this._deviceLoggerViewModel; }
+            get { return _deviceLoggerViewModel; }
             set
             {
-                this._deviceLoggerViewModel = value;
-                this.RaisePropertyChanged();
+                _deviceLoggerViewModel = value;
+                RaisePropertyChanged();
             }
         }
+
+        public IDeviceSubscription TransactionCompleteSubscription { get; set; }
 
 
         private void SetDeviceModel(IDevice device)
         {
-            this._device = device;
-            this.DeviceLoggerViewModel.Model = this._device.DeviceLogger;
-            this.ConnectionStateViewModel.Model = this._device.ConnectionState;
+            _device = device;
+            DeviceLoggerViewModel.Model = _device.DeviceLogger;
         }
 
 
 
         public ObservableCollection<IFragmentViewModel> FragmentViewModels
         {
-            get { return this._fragmentViewModels; }
+            get { return _fragmentViewModels; }
             set
             {
-                this._fragmentViewModels = value;
-                this.RaisePropertyChanged();
+                _fragmentViewModels = value;
+                RaisePropertyChanged();
             }
         }
 
         public string DeviceName
         {
-            get { return this._device.Name; }
+            get { return _device.Name; }
             set
             {
-                this._device.Name = value;
-                this.RaisePropertyChanged();
+                _device.Name = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -98,8 +101,8 @@ namespace Unicon2.Presentation.ViewModels.Device
 
         public object Model
         {
-            get => this._device;
-            set => this.SetDeviceModel(value as IDevice);
+            get => _device;
+            set => SetDeviceModel(value as IDevice);
         }
     }
 }

@@ -10,6 +10,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:values="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.Values;assembly=Unicon2.Presentation.Infrastructure"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Measuring.Infrastructure.ViewModel;assembly=Unicon2.Fragments.Measuring.Infrastructure"
+    xmlns:viewModel1="clr-namespace:Unicon2.Fragments.Measuring.ViewModel"
+    xmlns:elements="clr-namespace:Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;assembly=Unicon2.Fragments.Measuring.Infrastructure"
     d:DesignHeight="300"
     d:DesignWidth="300"
     lex:LocalizeDictionary.DesignCulture="ru-RU"
@@ -30,11 +32,11 @@
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
                             <Setter Property="Foreground" Value="Black" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
                             <Setter Property="Foreground" Value="Black" />
                         </Trigger>
                     </Style.Triggers>
@@ -46,22 +48,21 @@
                     Binding="{Binding Header}"
                     Header="{lex:Loc Name}"
                     IsReadOnly="True" />
-                <DataGridTemplateColumn Header="{lex:Loc Value}" 
-                                        IsReadOnly="True">
+                <DataGridTemplateColumn Header="{lex:Loc Value}" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="values:IFormattedValueViewModel">
-                            <ContentPresenter Content="{Binding}" 
-                                              ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" 
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
+                        <DataTemplate DataType="elements:IMeasuringElementViewModel">
+                            <ContentPresenter
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{Binding  }"
+                                ContentTemplateSelector="{StaticResource ViewModelByStrongNameDataTemplateSelector}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn
                     Binding="{Binding GroupName}"
                     Header="{lex:Loc Group}"
-                    IsReadOnly="True" 
-                    />
+                    IsReadOnly="True" />
             </DataGrid.Columns>
             <DataGrid.GroupStyle>
                 <GroupStyle>
@@ -95,55 +96,43 @@
             SelectedItem="{Binding SelectedMeasuringGroupViewModel}"
             Visibility="{Binding IsListViewSelected, Converter={StaticResource BoolToInVisConverter}}">
             <TabControl.ContentTemplate>
-                <DataTemplate DataType="viewModel:IMeasuringGroupViewModel">
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl
-                            Name="elementsListBox"
-                            Width="Auto"
-                            ItemsSource="{Binding MeasuringElementViewModels}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Margin="2"
-                                        Columns="4" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border
-                                        Height="Auto"
-                                        MinWidth="200"
-                                        Margin="5"
-                                        HorizontalAlignment="Stretch"
-                                        BorderBrush="{DynamicResource AccentColorBrush}"
-                                        BorderThickness="1">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <Grid Margin="5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                MinWidth="100"
-                                                Margin="5"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Header}" />
-                                            <ContentPresenter Grid.Column="1" Content="{Binding}" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                <DataTemplate DataType="viewModel1:MeasuringGroupViewModel">
+                    <ScrollViewer
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto">
+                        <Grid Grid.Column="0">
+                            <ItemsControl ItemsSource="{Binding PresentationMeasuringElements}">
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="FrameworkElement">
+                                        <Setter Property="Canvas.Left" Value="{Binding Path=PositioningInfo.OffsetLeft}" />
+                                        <Setter Property="Canvas.Top" Value="{Binding Path=PositioningInfo.OffsetTop}" />
+                                        <Setter Property="Canvas.Width" Value="{Binding Path=PositioningInfo.SizeWidth}" />
+                                        <Setter Property="Canvas.Height" Value="{Binding Path=PositioningInfo.SizeHeight}" />
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentPresenter Content="{Binding TemplatedObjectOnCanvas}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas
+                                            Width="1200"
+                                            Height="800"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            IsItemsHost="True">
+                                            <Canvas.RenderTransform>
+                                                <ScaleTransform ScaleX="{Binding Path=DataContext.Scale, Source={x:Reference groupsTabControl}}" ScaleY="{Binding Path=DataContext.Scale, Source={x:Reference groupsTabControl}}" />
+                                            </Canvas.RenderTransform>
+                                        </Canvas>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Grid>
                     </ScrollViewer>
                 </DataTemplate>
             </TabControl.ContentTemplate>

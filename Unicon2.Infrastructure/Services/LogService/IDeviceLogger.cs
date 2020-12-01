@@ -1,9 +1,8 @@
 ﻿using System;
-using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Infrastructure.Services.LogService
 {
-    public interface IDeviceLogger:ICloneable,IInitializableFromContainer
+    public interface IDeviceLogger : ICloneable
     {
         void LogInfoMessage(string description);
         void LogError(string description);
@@ -14,14 +13,7 @@ namespace Unicon2.Infrastructure.Services.LogService
         bool IsInfoMessagesLoggingEnabled { get; set; }
         bool IsFailedQueriesLoggingEnabled { get; set; }
         bool IsSuccessfulQueriesLoggingEnabled { get; set; }
-
         bool IsErrorsLoggingEnabled { get; set; }
-
-
-
-
-
-
         string SourceName { get; set; }
     }
 }

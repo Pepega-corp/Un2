@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.ModbusMemory.Model
 {
-   public class ModbusMemorySettings: IModbusMemorySettings
+    public class ModbusMemorySettings : IModbusMemorySettings
     {
         public int BaseAdress { get; set; }
         public int NumberOfPoints { get; set; }

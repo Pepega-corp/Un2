@@ -1,0 +1,44 @@
+﻿using Unicon2.Infrastructure.Connection;
+using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels;
+
+namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
+{
+	public class EditableValueSetUnchangedSubscription : IDeviceSubscription
+	{
+		private readonly ILocalAndDeviceValueContainingViewModel _localAndDeviceValueContainingViewModel;
+		private readonly IDeviceMemory _deviceMemory;
+		private readonly ushort _address;
+		private readonly ushort _numberOfPoints;
+        public int Priority { get; set; } = 1;
+
+		public EditableValueSetUnchangedSubscription(ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
+			IDeviceMemory deviceMemory, ushort address, ushort numberOfPoints)
+		{
+			_localAndDeviceValueContainingViewModel = localAndDeviceValueContainingViewModel;
+			_deviceMemory = deviceMemory;
+			_address = address;
+			_numberOfPoints = numberOfPoints;
+		}
+
+		public void Execute()
+		{
+			var isMemoryEqualOnAddresses = true;
+			for (ushort i = _address; i < _address + _numberOfPoints; i++)
+			{
+				if (!_deviceMemory.LocalMemoryValues.ContainsKey(i) || !_deviceMemory.DeviceMemoryValues.ContainsKey(i))
+				{
+					break;
+				}
+
+				if (_deviceMemory.DeviceMemoryValues[i] == _deviceMemory.LocalMemoryValues[i]) continue;
+				isMemoryEqualOnAddresses = false;
+				break;
+			}
+
+            if (_localAndDeviceValueContainingViewModel?.LocalValue != null)
+	            _localAndDeviceValueContainingViewModel.LocalValue.IsFormattedValueChanged = !isMemoryEqualOnAddresses;
+        }
+
+	}
+}

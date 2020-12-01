@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unicon2.Fragments.Measuring.Editor</RootNamespace>
     <AssemblyName>Unicon2.Fragments.Measuring.Editor</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -33,63 +33,94 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\gong-wpf-dragdrop.1.1.0\lib\net45\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\gong-wpf-dragdrop.2.2.0\lib\net45\GongSolutions.WPF.DragDrop.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.2.3.3\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
-    <Reference Include="WPFLocalizeExtension, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\WPFLocalizeExtension.3.3.1\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    <Reference Include="WPFLocalizeExtension, Version=3.8.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WPFLocalizeExtension.3.8.0\lib\net452\WPFLocalizeExtension.dll</HintPath>
     </Reference>
-    <Reference Include="XAMLMarkupExtensions, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.5.1\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    <Reference Include="XAMLMarkupExtensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\XAMLMarkupExtensions.2.0.0\lib\net472\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentTemplateSelectors\SelectedPresentationElementTemplateSelector.cs" />
+    <Compile Include="Converters\FilterStringToGroupAddRemoveVisiblityConverter.cs" />
+    <Compile Include="Converters\PresentationElementNameConverter.cs" />
+    <Compile Include="Factories\BitAddressEditorViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringElementEditorViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringGroupEditorViewModelFactory.cs" />
+    <Compile Include="Factories\PresentationSettingsViewModelFactory.cs" />
+    <Compile Include="Factories\WritingValueContextViewModelFactory.cs" />
+    <Compile Include="Helpers\BitAddressSaver.cs" />
+    <Compile Include="Helpers\MeasuringElementSaver.cs" />
+    <Compile Include="Helpers\MeasuringGroupsSaver.cs" />
+    <Compile Include="Helpers\PresentationSettingsSaver.cs" />
+    <Compile Include="Helpers\WritingValueContextSaver.cs" />
     <Compile Include="Interfaces\Factories\IMeasuringElementEditorViewModelFactory.cs" />
     <Compile Include="Interfaces\Factories\IMeasuringGroupEditorViewModelFactory.cs" />
     <Compile Include="Interfaces\ViewModel\Address\IBitAddressEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Address\IWritingValueConrextViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Elements\IAnalogMeasuringElementEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Elements\IControlSignalEditorViewModel.cs" />
+    <Compile Include="Interfaces\ViewModel\Elements\IDateTimeMeasuringEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Elements\IDiscretMeasuringElementEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\Elements\IMeasuringElementEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\IMeasuringGroupEditorViewModel.cs" />
     <Compile Include="Interfaces\ViewModel\IMeasuringMonitorEditorViewModel.cs" />
     <Compile Include="Module\MeasuringEditorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subscriptions\PresentationPositionChangedSubscription.cs" />
     <Compile Include="ViewModel\Address\BitAddressEditorViewModel.cs" />
     <Compile Include="ViewModel\Address\WritingValueConrextViewModel.cs" />
+    <Compile Include="ViewModel\Dependencies\BoolToAddressDependencyViewModel.cs" />
     <Compile Include="ViewModel\Elements\AnalogMeasuringElementEditorViewModel.cs" />
     <Compile Include="ViewModel\Elements\ControlSignalEditorViewModel.cs" />
+    <Compile Include="ViewModel\Elements\DateTimeMeasuringEditorViewModel.cs" />
     <Compile Include="ViewModel\Elements\DiscretMeasuringElementEditorViewModel.cs" />
     <Compile Include="ViewModel\Elements\MeasuringElementEditorViewModelBase.cs" />
     <Compile Include="ViewModel\MeasuringGroupEditorViewModel.cs" />
     <Compile Include="ViewModel\MeasuringMonitorEditorViewModel.cs" />
+    <Compile Include="ViewModel\PresentationSettingsViewModel.cs" />
+    <Compile Include="ViewModel\PresentationSettings\PositioningInfoViewModel.cs" />
+    <Compile Include="ViewModel\PresentationSettings\PresentationElementViewModel.cs" />
+    <Compile Include="ViewModel\PresentationSettings\PresentationGroupViewModel.cs" />
     <Compile Include="View\MeasuringSettingsView.xaml.cs">
       <DependentUpon>MeasuringSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MeasuringMonitorEditorView.xaml.cs">
       <DependentUpon>MeasuringMonitorEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PresentationSettings\AdornedControl.cs" />
+    <Compile Include="View\PresentationSettings\AdornerPlacement.cs" />
+    <Compile Include="View\PresentationSettings\FrameworkElementAdorner.cs" />
+    <Compile Include="View\PresentationSettings\PresentationSettingsWindow.xaml.cs">
+      <DependentUpon>PresentationSettingsWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +158,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\PresentationSettings\PresentationSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Commands\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,7 +8,7 @@
     <OutputType>library</OutputType>
     <RootNamespace>Unicon2.Formatting.Infrastructure</RootNamespace>
     <AssemblyName>Unicon2.Formatting.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -49,8 +49,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="XAMLMarkupExtensions, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\XAMLMarkupExtensions.1.5.1\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    <Reference Include="XAMLMarkupExtensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\XAMLMarkupExtensions.2.0.0\lib\net472\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +67,6 @@
     <Compile Include="ViewModel\IFormulaFormatterViewModel.cs" />
     <Compile Include="ViewModel\InnerMembers\IArgumentViewModel.cs" />
     <Compile Include="ViewModel\IStaticFormatterViewModel.cs" />
-    <Compile Include="ViewModel\IUshortsFormatterViewModel.cs" />
     <Compile Include="Model\IDictionaryMatchingFormatter.cs" />
     <Compile Include="Model\IFormulaFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -97,6 +96,10 @@
     <ProjectReference Include="..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
       <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>
       <Name>Unicon2.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicon2.Presentation.Infrastructure\Unicon2.Presentation.Infrastructure.csproj">
+      <Project>{EF9BF685-16AA-4942-A33C-D65562BD4215}</Project>
+      <Name>Unicon2.Presentation.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

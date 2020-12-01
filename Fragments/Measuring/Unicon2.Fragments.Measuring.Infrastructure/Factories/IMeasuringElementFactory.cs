@@ -4,9 +4,10 @@ namespace Unicon2.Fragments.Measuring.Infrastructure.Factories
 {
     public interface IMeasuringElementFactory
     {
-        IMeasuringElement CreateAnalogMeasuringElement();
-        IMeasuringElement CreateDiscretMeasuringElement();
-        IMeasuringElement CreateControlSignal();
+	    IAnalogMeasuringElement CreateAnalogMeasuringElement();
+        IDiscretMeasuringElement CreateDiscretMeasuringElement();
+        IControlSignal CreateControlSignal();
+        IDateTimeMeasuringElement CreateDateTimeMeasuringElement();
 
     }
 }

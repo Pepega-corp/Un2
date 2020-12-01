@@ -15,7 +15,7 @@ namespace NModbus4.IO
             throw new NotImplementedException();
         }
 
-        internal override byte[] BuildMessageFrame(Message.IModbusMessage message)
+        internal override byte[] BuildMessageFrame(IModbusMessage message)
         {
             throw new NotImplementedException();
         }

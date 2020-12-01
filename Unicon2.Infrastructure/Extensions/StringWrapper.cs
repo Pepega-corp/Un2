@@ -6,7 +6,7 @@ namespace Unicon2.Infrastructure.Extensions
     {
         public StringWrapper(string value)
         {
-            this.StringValue = value;
+            StringValue = value;
         }
 
 
@@ -14,11 +14,11 @@ namespace Unicon2.Infrastructure.Extensions
 
         public string StringValue
         {
-            get { return this._stringValue; }
+            get { return _stringValue; }
             set
             {
-                this._stringValue = value;
-                this.RaisePropertyChanged();
+                _stringValue = value;
+                RaisePropertyChanged();
             }
         }
     }

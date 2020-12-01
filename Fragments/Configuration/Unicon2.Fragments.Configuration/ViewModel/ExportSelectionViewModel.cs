@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.Win32;
 using Unicon2.Fragments.Configuration.Infrastructure.Export;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -26,12 +22,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         {
             return selectorViewModels.Select((model =>
                 new SelectorForItemsGroup(MapSelectorForItemsGroups(model.Selectors), model.RelatedItemsGroup,
-                    model.IsSelected,IsDeviceDataPrinting,IsLocalDataPrinting)));
+                    model.IsSelected, IsDeviceDataPrinting, IsLocalDataPrinting)));
         }
 
         private void OnSubmitExecute()
         {
-            _onSubmit(new ConfigurationExportSelector(IsDeviceDataPrinting, IsLocalDataPrinting, MapSelectorForItemsGroups(Selectors).ToList()));
+            _onSubmit(new ConfigurationExportSelector(IsDeviceDataPrinting, IsLocalDataPrinting,
+                MapSelectorForItemsGroups(Selectors).ToList()));
         }
 
         private Action<ConfigurationExportSelector> _onSubmit;
@@ -40,11 +37,11 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         private bool _isDeviceDataPrinting;
         private bool _isLocalDataPrinting;
 
-        public void Initialize(Action<ConfigurationExportSelector> onSubmit, IDeviceConfiguration deviceConfiguration)
+        public void Initialize(Action<ConfigurationExportSelector> onSubmit, IRuntimeConfigurationViewModel deviceConfiguration)
         {
             _onSubmit = onSubmit;
             List<SelectorForItemsGroupViewModel> selectors = new List<SelectorForItemsGroupViewModel>();
-            MapConfigItemsOnSelector(selectors, ItemsGroupSelectorFunc(deviceConfiguration.RootConfigurationItemList));
+            MapConfigItemsOnSelector(selectors, ItemsGroupSelectorFunc(deviceConfiguration.RootConfigurationItemViewModels));
             Selectors = selectors;
             IsDeviceDataPrinting = true;
             IsLocalDataPrinting = true;
@@ -56,18 +53,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             set => SetProperty(ref _selectors, value);
         }
 
-        private IEnumerable<IItemsGroup> ItemsGroupSelectorFunc(IEnumerable<IConfigurationItem> configurationItems)
+        private IEnumerable<IRuntimeItemGroupViewModel> ItemsGroupSelectorFunc(IEnumerable<IRuntimeConfigurationItemViewModel> configurationItems)
         {
-            return configurationItems.Where((item => item is IItemsGroup)).Cast<IItemsGroup>();
+            return configurationItems.Where((item => item is IRuntimeItemGroupViewModel)).Cast<IRuntimeItemGroupViewModel>();
         }
 
         private void MapConfigItemsOnSelector(List<SelectorForItemsGroupViewModel> selectors,
-            IEnumerable<IItemsGroup> itemsGroup)
+            IEnumerable<IRuntimeItemGroupViewModel> itemsGroup)
         {
             selectors.AddRange(itemsGroup.Select((group =>
             {
                 List<SelectorForItemsGroupViewModel> innerSelectors = new List<SelectorForItemsGroupViewModel>();
-                var innerGroups = ItemsGroupSelectorFunc(group.ConfigurationItemList).ToArray();
+                var innerGroups = ItemsGroupSelectorFunc(group.ChildStructItemViewModels.Cast<IRuntimeConfigurationItemViewModel>()).ToArray();
                 if (innerGroups.Any())
                 {
                     MapConfigItemsOnSelector(innerSelectors, innerGroups);
@@ -101,7 +98,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
     public class SelectorForItemsGroupViewModel : ViewModelBase
     {
         public SelectorForItemsGroupViewModel(IEnumerable<SelectorForItemsGroupViewModel> selectors,
-            IItemsGroup relatedItemsGroup)
+	        IRuntimeItemGroupViewModel relatedItemsGroup)
         {
             Selectors = selectors;
             RelatedItemsGroup = relatedItemsGroup;
@@ -122,7 +119,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
         public IEnumerable<SelectorForItemsGroupViewModel> Selectors { get; }
 
-        public IItemsGroup RelatedItemsGroup { get; }
+        public IRuntimeItemGroupViewModel RelatedItemsGroup { get; }
 
     }
 }

@@ -13,7 +13,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Interfaces
         IComPortConfiguration GetComPortConfiguration(string portName);
         void SetComPortConfigurationByName(IComPortConfiguration comPortConfiguration, string portName);
         SerialPortAdapter GetSerialPortAdapter(string portName);
-        SerialPortAdapter GetSerialPortAdapter(string portName,IComPortConfiguration comPortConfiguration);
+        SerialPortAdapter GetSerialPortAdapter(string portName, IComPortConfiguration comPortConfiguration);
 
     }
 }

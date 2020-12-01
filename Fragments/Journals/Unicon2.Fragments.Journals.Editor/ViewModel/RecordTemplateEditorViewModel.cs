@@ -6,7 +6,7 @@ using Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -19,7 +19,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         private IRecordTemplate _recordTemplate;
         private IJournalParameterEditorViewModel _selectedJournalParameterEditorViewModel;
-        private object _model;
 
         public RecordTemplateEditorViewModel(IJournalParametersEditorViewModelFactory journalParametersEditorViewModelFactory,
             IFormatterEditorFactory formatterEditorFactory, IRecordTemplate recordTemplate
@@ -76,7 +75,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
 
         private void OnShowFormatterParametersExecute()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this.SelectedJournalParameterEditorViewModel.Model as IJournalParameter);
+            this._formatterEditorFactory.EditFormatterByUser(SelectedJournalParameterEditorViewModel);
             this.SelectedJournalParameterEditorViewModel.StopEditElement();
         }
 
@@ -246,5 +245,6 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
             get { return this.GetModel(); }
             set { this.SetModel(value); }
         }
+        
     }
 }

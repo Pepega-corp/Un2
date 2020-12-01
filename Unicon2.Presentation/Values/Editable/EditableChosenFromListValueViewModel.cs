@@ -1,74 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.Keys;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Infrastructure.Visitors;
 using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values.Editable
 {
-    public class EditableChosenFromListValueViewModel : EditableValueViewModelBase, IChosenFromListValueViewModel
+    public class EditableChosenFromListValueViewModel : EditableValueViewModelBase,
+        IChosenFromListValueViewModel
     {
         private ObservableCollection<string> _availableItemsList;
-        private string _selectedItemInitialValue;
-        private IChosenFromListValue _chosenFromListValue;
-        private object _model;
-
+        private string _selectedItem;
+        
         public override string StrongName => ApplicationGlobalNames.CommonInjectionStrings.EDITABLE +
                                              PresentationKeys.CHOSEN_FROM_LIST_VALUE_KEY +
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public override void InitFromValue(IFormattedValue value)
+        public override string AsString()
         {
-            _chosenFromListValue = value as IChosenFromListValue;
-            InitList(_chosenFromListValue.AvailableItemsList);
-            _selectedItemInitialValue = _chosenFromListValue.SelectedItem;
+	        return SelectedItem;
         }
 
-        public override void SetBaseValueToCompare(ushort[] ushortsToCompare)
-        {
-            try
-            {
-                _selectedItemInitialValue = (_ushortsFormatter.Format(ushortsToCompare) as IChosenFromListValue)
-                    .SelectedItem;
-                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue != SelectedItem);
-            }
-            catch (Exception e)
-            {
-                _selectedItemInitialValue=String.Empty;
-                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue != SelectedItem);
-            }
-        }
 
-        public override object Model
-        {
-            get { return _chosenFromListValue; }
-            set { _chosenFromListValue = value as IChosenFromListValue; }
-        }
-
-        public ObservableCollection<string> AvailableItemsList
-        {
-            get { return _availableItemsList; }
-        }
+        public ObservableCollection<string> AvailableItemsList => _availableItemsList;
 
         public string SelectedItem
         {
-            get { return _chosenFromListValue.SelectedItem; }
+            get { return _selectedItem; }
             set
             {
-                _chosenFromListValue.SelectedItem = value;
+                _selectedItem = value;
                 RaisePropertyChanged();
-                SetIsChangedProperty(nameof(SelectedItem), _selectedItemInitialValue!= value);
-                _chosenFromListValue.UshortsValue = _ushortsFormatter?.FormatBack(_chosenFromListValue);
-                ValueChangedAction?.Invoke(_chosenFromListValue.UshortsValue);
+                SetIsChangedProperty();
             }
         }
-
         public void InitList(IEnumerable<string> stringEnumerable)
         {
-            _availableItemsList=new ObservableCollection<string>(stringEnumerable);
+            _availableItemsList = new ObservableCollection<string>(stringEnumerable);
+        }
+
+        public void SetValue(string value)
+        {
+	        _selectedItem = value;
+	        RaisePropertyChanged(nameof(SelectedItem));
+		}
+
+        public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitChosenFromListViewModel(this);
         }
     }
 }

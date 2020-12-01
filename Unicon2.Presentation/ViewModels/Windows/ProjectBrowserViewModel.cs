@@ -6,13 +6,14 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 
 namespace Unicon2.Presentation.ViewModels.Windows
 {
-  public class ProjectBrowserViewModel:AnchorableWindowBase,IProjectBrowserViewModel
+    public class ProjectBrowserViewModel : AnchorableWindowBase, IProjectBrowserViewModel
     {
         public ProjectBrowserViewModel()
         {
             WindowNameKey = ApplicationGlobalNames.WindowsStrings.PROJECT_STRING_KEY;
-            AnchorableDefaultPlacementEnum=PlacementEnum.Left;
+            AnchorableDefaultPlacementEnum = PlacementEnum.Left;
             DeviceViewModels = new ObservableCollection<IDeviceViewModel>();
+            Content = this;
         }
 
 
@@ -23,7 +24,7 @@ namespace Unicon2.Presentation.ViewModels.Windows
             get => _deviceViewModels;
             set
             {
-                _deviceViewModels = value; 
+                _deviceViewModels = value;
                 RaisePropertyChanged();
             }
         }

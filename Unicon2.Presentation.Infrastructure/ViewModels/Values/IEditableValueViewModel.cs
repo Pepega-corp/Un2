@@ -1,16 +1,19 @@
 ﻿using System;
+using System.ComponentModel;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.Subscription;
+using Unicon2.Presentation.Infrastructure.Visitors;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {
-    public interface IEditableValueViewModel : IFormattedValueViewModel,IViewModel
+    public interface IEditableValueViewModel : IFormattedValueViewModel, IUniqueId, INotifyDataErrorInfo,IDisposable
     {
-        bool IsFormattedValueChanged { get; }
-        void SetBaseValueToCompare(ushort[] ushortsToCompare);
-        void SetUshortFormatter(IUshortsFormatter ushortsFormatter);
-        Action<ushort[]> ValueChangedAction { get; set; }
+        bool IsFormattedValueChanged { get; set; }
         bool IsEditEnabled { get; set; }
+        void InitDispatcher(IDeviceEventsDispatcher deviceEventsDispatcher);
+        T Accept<T>(IEditableValueViewModelVisitor<T> visitor);
+        IFormattedValue FormattedValue { get; set; }
         
     }
 }

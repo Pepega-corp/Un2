@@ -17,13 +17,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mvvm="http://prismlibrary.com/"
     xmlns:services="clr-namespace:Unicon2.Shell.Services"
+    xmlns:viewModels="clr-namespace:Unicon2.Shell.ViewModels"
     xmlns:views="clr-namespace:Unicon2.Shell.Views"
-    xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
     xmlns:views1="clr-namespace:Unicon2.Presentation.Views;assembly=Unicon2.Presentation"
+    xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
+    xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
     x:Name="MainWindow"
-    Title="Unicon 2"
+    Title="{Binding ShellTitle}"
     Width="900"
     Height="600"
+    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}"
     dialogs:DialogParticipation.Register="{Binding}"
     lex:LocalizeDictionary.DesignCulture="ru-RU"
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
@@ -34,31 +39,39 @@
     SaveWindowPosition="True"
     ShowDialogsOverTitleBar="True"
     ShowSystemMenuOnRightClick="False"
+    TitleCharacterCasing="Normal"
     WindowButtonCommandsOverlayBehavior="Always"
     WindowState="Maximized"
     mc:Ignorable="d">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closing">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Closing">
             <mvvm:InvokeCommandAction Command="{Binding OnClosingCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+        </b:EventTrigger>
+        <b:EventTrigger EventName="Loaded">
+            <mvvm:InvokeCommandAction Command="{Binding OnLoadedCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
 
     <controls:MetroWindow.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/mahapps.xaml" />
+        </ResourceDictionary.MergedDictionaries>
         <layoutHelpers:ActiveDocumentConverter x:Key="ActiveDocumentConverter" />
-        <xcad:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
         <Style TargetType="{x:Type fluent:RibbonTabItem}">
             <Setter Property="Background" Value="White" />
             <Setter Property="BorderBrush" Value="Transparent" />
-        </Style>
+            </Style>
+        </ResourceDictionary>
     </controls:MetroWindow.Resources>
 
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl mvvm:RegionManager.RegionName="{x:Static infrastructure:ApplicationGlobalNames+ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME}">
             <views:ShellSettingsFlyOut
                 x:Name="menuFlyOut"
-                IsOpen="{Binding IsMenuFlyOutOpen, Mode=TwoWay}"
+                IsOpen="{Binding DataContext.IsMenuFlyOutOpen, Mode=TwoWay, ElementName=MainWindow}"
                 IsPinned="False"
                 Position="Left"
                 Theme="Accent" />
@@ -66,62 +79,12 @@
     </controls:MetroWindow.Flyouts>
 
     <controls:MetroWindow.LeftWindowCommands>
-        <controls:WindowCommands Initialized="Shell_Initialized">
-            <ToggleButton Cursor="Hand" IsChecked="{Binding IsOpen, ElementName=menuFlyOut}">
-                <Rectangle 
-Width="15" 
-Height="15" 
-Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_cog}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </ToggleButton>
-            <Button Name="toggleButtonFile" FontSize="14" Foreground="{DynamicResource IdealForegroundColorBrush}" Content="{lex:Loc Key=File}" >
-                <i:Interaction.Behaviors>
-                    <behaviors:ButtonContextMenuOpenBehavior/>
-                </i:Interaction.Behaviors>
-                <Button.ContextMenu>
-                    <ContextMenu Name="fileContextMenu">
-                        <MenuItem Command="{Binding OpenProjectCommand}" Header="{lex:Loc Key=OpenProject}"></MenuItem>
-                        <MenuItem Command="{Binding NewProjectCommand}" Header="{lex:Loc Key=NewProject}"></MenuItem>
-                        <MenuItem Command="{Binding SaveProjectCommand}" Header="{lex:Loc Key=Save}"></MenuItem>
-                        <MenuItem Command="{Binding SaveAsProjectCommand}" Header="{lex:Loc Key=SaveAs}"></MenuItem>
-                        <MenuItem Command="{Binding ExitCommand}" Header="{lex:Loc Key=Exit}"></MenuItem>
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
-
-            <Button Name="toggleButtonDevice" FontSize="14" Foreground="{DynamicResource IdealForegroundColorBrush}" Content="{lex:Loc Key=Device}" >
-                <i:Interaction.Behaviors>
-                    <behaviors:ButtonContextMenuOpenBehavior/>
-                </i:Interaction.Behaviors>
-                <Button.ContextMenu>
-                    <ContextMenu Name="deviceContextMenu">
-                        <MenuItem Command="{Binding NavigateToDeviceAddingCommand}" 
-                                  CommandParameter="{x:Static infrastructure:ApplicationGlobalNames.ADDING_MODE}" 
-                                  Header="{lex:Loc Key=Add}"></MenuItem>
-                        <MenuItem Command="{Binding NavigateToDeviceEditorCommand}" Header="{lex:Loc OpenDeviceEditor}"></MenuItem>
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
-
-
-
-
-            <Button Name="oscOpenButton" FontSize="14" Foreground="{DynamicResource IdealForegroundColorBrush}" Command="{Binding OpenOscillogramCommand}" Content="{lex:Loc OpenOscillogram}"></Button>
-            <Button Name="dynamicContentButton" FontSize="14" Foreground="{DynamicResource IdealForegroundColorBrush}" Content="{Binding ActiveFragmentViewModel.FragmentTitle}" Visibility="{Binding ActiveFragmentViewModel, TargetNullValue=Collapsed}">
-                <i:Interaction.Behaviors>
-                    <behaviors:ButtonContextMenuOpenBehavior/>
-                    <behaviors:DynamicMenuTabItemBehavior TabItems="{Binding ActiveFragmentViewModel.FragmentViewModel.FragmentOptionsViewModel}" />
-                </i:Interaction.Behaviors>
-            </Button>
-        </controls:WindowCommands>
+        <views:DynamicMainMenu DataContext="{Binding DynamicMainMenuViewModel}" />
     </controls:MetroWindow.LeftWindowCommands>
 
-    <i:Interaction.Behaviors>
+    <b:Interaction.Behaviors>
         <behaviours:BorderlessWindowBehavior />
-    </i:Interaction.Behaviors>
+    </b:Interaction.Behaviors>
 
     <Grid ZIndex="2">
         <Grid.RowDefinitions>
@@ -130,7 +93,27 @@ Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, Ancestor
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <views1:ToolBarView Grid.Row="0" Grid.Column="0" DataContext="{Binding ToolBarViewModel}"></views1:ToolBarView>
+        <views1:ToolBarView
+            Grid.Row="0"
+            Grid.Column="0"
+            DataContext="{Binding ToolBarViewModel}" />
+
+
+
+        <!--<dockablz:Layout Grid.Row="1" FloatingItemHeaderMemberPath="Header" FloatingItemDisplayMemberPath="Content">
+          
+            <dragablz:TabablzControl ItemsSource="{Binding AnchorableWindows}"  x:Name="InitialTabablzControl"                                 
+                                     HeaderMemberPath="WindowNameKey"
+                                     Margin="4 0 4 4">
+            
+                <dragablz:TabablzControl.ContentTemplate>
+                    <DataTemplate DataType="{x:Type dockingManagerWindows:IAnchorableWindow}">
+                        <ContentControl Content="{Binding Content}"/>
+                    </DataTemplate>
+                </dragablz:TabablzControl.ContentTemplate>
+                
+            </dragablz:TabablzControl>
+        </dockablz:Layout>-->
 
         <xcad:DockingManager
             x:Name="DockingManager"
@@ -178,7 +161,10 @@ Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, Ancestor
                 <layoutHelpers:DockingManagerTemplateSelector>
                     <layoutHelpers:DockingManagerTemplateSelector.FragmentPaneTemplate>
                         <DataTemplate DataType="fragmentInterfaces:IFragmentPaneViewModel">
-                            <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                            <ScrollViewer
+                                CanContentScroll="True"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Disabled">
                                 <ContentControl Content="{Binding FragmentViewModel}">
                                     <ContentControl.ContentTemplateSelector>
                                         <layoutHelpers:FragmentsLayoutTemplateSelector />
@@ -194,14 +180,14 @@ Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, Ancestor
                 <layoutHelpers:PanesStyleSelector>
                     <layoutHelpers:PanesStyleSelector.BottomWindowStyle>
                         <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
-                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                             <Setter Property="CanClose" Value="False" />
                             <Setter Property="CanHide" Value="False" />
                         </Style>
                     </layoutHelpers:PanesStyleSelector.BottomWindowStyle>
                     <layoutHelpers:PanesStyleSelector.LeftWindowStyle>
                         <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
-                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
                             <Setter Property="CanClose" Value="False" />
                             <Setter Property="CanHide" Value="False" />
                         </Style>
@@ -224,9 +210,9 @@ Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, Ancestor
 
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Vertical">
-                    <xcad:LayoutPanel DockHeight="2*" Orientation="Horizontal">
+                    <xcad:LayoutPanel DockHeight="2*" Orientation="Horizontal" >
                         <xcad:LayoutAnchorablePane Name="LeftAnchorablePane" DockWidth="250" />
-                        <xcad:LayoutDocumentPane DockWidth="*" />
+                        <xcad:LayoutDocumentPane DockWidth="*"/>
                     </xcad:LayoutPanel>
                     <xcad:LayoutAnchorablePane
                         Name="BottomAnchorablePane"
@@ -237,11 +223,13 @@ Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, Ancestor
 
         </xcad:DockingManager>
 
+
+
         <Border
             Grid.Row="2"
             Height="20"
             Padding="2"
-            Background="{DynamicResource AccentColorBrush2}">
+            Background="{DynamicResource MahApps.Brushes.Accent2}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

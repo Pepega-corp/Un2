@@ -1,6 +1,6 @@
 ﻿using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.Factories;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
@@ -11,13 +11,13 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
 
         public VariableSignatureEditorViewModelFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public IVariableSignatureEditorViewModel CreateVariableSignatureEditorViewModel(IVariableColumnSignature variableColumnSignature)
         {
             IVariableSignatureEditorViewModel variableSignatureEditorViewModel =
-                this._container.Resolve<IVariableSignatureEditorViewModel>();
+                _container.Resolve<IVariableSignatureEditorViewModel>();
             variableSignatureEditorViewModel.Model = variableColumnSignature;
             return variableSignatureEditorViewModel;
         }
@@ -25,8 +25,8 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories
         public IVariableSignatureEditorViewModel CreateVariableSignatureEditorViewModel()
         {
             IVariableSignatureEditorViewModel variableSignatureEditorViewModel =
-                this._container.Resolve<IVariableSignatureEditorViewModel>();
-            variableSignatureEditorViewModel.Model = this._container.Resolve<IVariableColumnSignature>();
+                _container.Resolve<IVariableSignatureEditorViewModel>();
+            variableSignatureEditorViewModel.Model = _container.Resolve<IVariableColumnSignature>();
             return variableSignatureEditorViewModel;
         }
     }

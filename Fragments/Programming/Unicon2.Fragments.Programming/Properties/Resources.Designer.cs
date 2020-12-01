@@ -59,5 +59,15 @@ namespace Unicon2.Fragments.Programming.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap compileanddownload {
+            get {
+                object obj = ResourceManager.GetObject("compileanddownload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

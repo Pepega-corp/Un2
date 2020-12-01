@@ -8,7 +8,7 @@
     <OutputType>library</OutputType>
     <RootNamespace>Unicon2.Fragments.Configuration.Infrastructure</RootNamespace>
     <AssemblyName>Unicon2.Fragments.Configuration.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -48,23 +48,31 @@
     <Compile Include="Export\SelectorForItemsGroup.cs" />
     <Compile Include="Factories\IConfigurationItemFactory.cs" />
     <Compile Include="Factories\IConfigurationItemViewModelFactory.cs" />
-    <Compile Include="Factories\IPropertyValueViewModelFactory.cs" />
+    <Compile Include="MemoryViewModelMapping\ILocalDataMemorySubscription.cs" />
+    <Compile Include="MemoryViewModelMapping\IDeviceDataMemorySubscription.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\Conditions\ICompareCondition.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\Conditions\ICompareResourceCondition.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\ICondition.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\IConditionResultDependency.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\IDependencyResult.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\Results\IApplyFormatterResult.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\Results\IBlockInteractionResult.cs" />
+    <Compile Include="StructItemsInterfaces\Filters\IFilter.cs" />
+    <Compile Include="StructItemsInterfaces\Filters\IGroupFilterInfo.cs" />
+    <Compile Include="StructItemsInterfaces\IAppointableMatrix.cs" />
     <Compile Include="StructItemsInterfaces\IGroupWithReiterationInfo.cs" />
     <Compile Include="StructItemsInterfaces\Properties\ISubProperty.cs" />
     <Compile Include="Keys\ConfigurationKeys.cs" />
     <Compile Include="StructItemsInterfaces\ConfigurationSettings\IActivatedSetting.cs" />
-    <Compile Include="StructItemsInterfaces\DependentProperty\ConditionResultChangingEventArgs.cs" />
     <Compile Include="StructItemsInterfaces\DependentProperty\IDependancyCondition.cs" />
     <Compile Include="StructItemsInterfaces\Properties\IComplexProperty.cs" />
-    <Compile Include="StructItemsInterfaces\Properties\IDependentProperty.cs" />
     <Compile Include="StructItemsInterfaces\IDeviceConfiguration.cs" />
     <Compile Include="StructItemsInterfaces\Properties\IProperty.cs" />
     <Compile Include="StructItemsInterfaces\IConfigurationItem.cs" />
     <Compile Include="StructItemsInterfaces\IItemsGroup.cs" />
     <Compile Include="ViewModel\Base\ConfigurationItemViewModelBase.cs" />
     <Compile Include="ViewModel\ElementAdding\IElementAddingCommand.cs" />
-    <Compile Include="ViewModel\Properties\IDependentPropertyViewModel.cs" />
-    <Compile Include="ViewModel\IEditorConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModel\IConfigurationItemVisitor.cs" />
     <Compile Include="ViewModel\Properties\IPropertyViewModel.cs" />
     <Compile Include="ViewModel\IItemGroupViewModel.cs" />
     <Compile Include="ViewModel\IConfigurationViewModel.cs" />
@@ -81,9 +89,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModel\IRuntimeConfigurationItemViewModel.cs" />
-    <Compile Include="ViewModel\IRuntimeConfigurationViewModel.cs" />
-    <Compile Include="ViewModel\Properties\IRuntimePropertyViewModel.cs" />
+    <Compile Include="ViewModel\Runtime\IRuntimeAppointableMatrixViewModel.cs" />
+    <Compile Include="ViewModel\Runtime\IRuntimeComplexPropertyViewModel.cs" />
+    <Compile Include="ViewModel\Runtime\IRuntimeConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModel\Runtime\IRuntimeConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\Runtime\IRuntimeItemGroupViewModel.cs" />
+    <Compile Include="ViewModel\Runtime\IRuntimePropertyViewModel.cs" />
+    <Compile Include="ViewModel\Runtime\IRuntimeSubPropertyViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -107,6 +119,5 @@
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

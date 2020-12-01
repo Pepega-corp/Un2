@@ -8,8 +8,14 @@
     <Setting Name="BaseColor" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cyan</Value>
     </Setting>
-    <Setting Name="LastProjectsStringCollection" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="RecentProjects" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UrlToServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:5000/</Value>
+    </Setting>
+    <Setting Name="ClientSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Admin</Value>
     </Setting>
   </Settings>
 </SettingsFile>

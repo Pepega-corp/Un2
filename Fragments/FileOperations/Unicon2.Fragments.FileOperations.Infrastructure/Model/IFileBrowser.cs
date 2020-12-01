@@ -7,9 +7,9 @@ using Unicon2.Infrastructure.Interfaces.DataOperations;
 
 namespace Unicon2.Fragments.FileOperations.Infrastructure.Model
 {
-    public interface IFileBrowser:IDataProviderContaining,IDeviceFragment,IInitializableFromContainer
-    {
-        IDeviceDirectory RootDeviceDirectory { get; }
-        Task LoadRootDirectory();
-    }
+	public interface IFileBrowser : IDeviceFragment
+	{
+		IDeviceDirectory RootDeviceDirectory { get; }
+		Task LoadRootDirectory();
+	}
 }

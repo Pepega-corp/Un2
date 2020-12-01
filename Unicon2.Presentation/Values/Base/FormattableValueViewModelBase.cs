@@ -1,12 +1,10 @@
-﻿using System;
-using Unicon2.Infrastructure.Common;
+﻿using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Presentation.Values.Base
 {
-    public abstract class FormattableValueViewModelBase : ValidatableBindableBase, IFormattedValueViewModel
+    public abstract class FormattableValueViewModelBase : ValidatableBindableBase, IFormattedValueViewModel, IStronglyNamed
     {
         private string _header;
         private string _measureUnit;
@@ -17,18 +15,15 @@ namespace Unicon2.Presentation.Values.Base
 
         public string Header
         {
-            get { return this._header; }
+            get { return _header; }
             set
             {
-                this._header = value;
-                this.RaisePropertyChanged();
+                _header = value;
+                RaisePropertyChanged();
             }
         }
 
-        public abstract void InitFromValue(IFormattedValue value);
-
-        public Action<object, object> FormattedValueChanged { get; set; }
-
+        public abstract string AsString();
 
         public bool IsRangeEnabled { get; set; }
         public IRange Range { get; set; }
@@ -44,5 +39,6 @@ namespace Unicon2.Presentation.Values.Base
             get => _isMeasureUnitEnabled;
             set => SetProperty(ref _isMeasureUnitEnabled, value);
         }
+
     }
 }

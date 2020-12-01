@@ -8,7 +8,7 @@
     <OutputType>library</OutputType>
     <RootNamespace>Unicon2.Fragments.Configuration.Editor</RootNamespace>
     <AssemblyName>Unicon2.Fragments.Configuration.Editor</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -34,38 +34,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FluentValidation.8.1.3\lib\net45\FluentValidation.dll</HintPath>
+    <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0">
+      <HintPath>..\..\..\packages\FluentValidation.9.2.2\lib\net461\FluentValidation.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.2.3.3\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFLocalizeExtension, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\WPFLocalizeExtension.3.3.1\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    <Reference Include="WPFLocalizeExtension, Version=3.8.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WPFLocalizeExtension.3.8.0\lib\net452\WPFLocalizeExtension.dll</HintPath>
     </Reference>
-    <Reference Include="XAMLMarkupExtensions, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.5.1\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    <Reference Include="XAMLMarkupExtensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\XAMLMarkupExtensions.2.0.0\lib\net472\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -74,10 +77,34 @@
     <Compile Include="Converters\IsDependentResultFormattableToVisConverter.cs" />
     <Compile Include="Converters\IsFormattableToVisibilityConverter.cs" />
     <Compile Include="CustomControls\WrapPanelWithRowsOrColumnsCount.cs" />
-    <Compile Include="Factories\ConfigurationItemEditorViewModelFactory.cs" />
-    <Compile Include="Factories\GroupWithReiterationEditorWindowFactory.cs" />
+    <Compile Include="Factories\ConfigurationFragmentFactory.cs" />
+    <Compile Include="Helpers\ConditionFillHelper.cs" />
+    <Compile Include="Helpers\DependencyFillHelper.cs" />
+    <Compile Include="Helpers\FilterFillHelper.cs" />
+    <Compile Include="Helpers\ResultFillHelper.cs" />
+    <Compile Include="Interfaces\Dependencies\IConditionViewModel.cs">
+      <Link>Interfaces\Dependencies\IConditionViewModel.cs</Link>
+    </Compile>
+    <Compile Include="Interfaces\Dependencies\IResultViewModel.cs">
+      <Link>Interfaces\Dependencies\IResultViewModel.cs</Link>
+    </Compile>
+    <Compile Include="Interfaces\Filter\IFilterViewModel.cs" />
+    <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
+    <Compile Include="ViewModels\Dependencies\ConditionResultDependencyViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\Results\ApplyFormatterResultViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\Results\BlockInteractionResultViewModel.cs" />
+    <Compile Include="ViewModels\Filter\CompareConditionViewModel.cs" />
+    <Compile Include="ViewModels\Filter\FilterEditorWindowViewModel.cs" />
+    <Compile Include="ViewModels\Filter\FilterViewModel.cs" />
+    <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
+    <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
+    <Compile Include="View\FilterEditingWindow.xaml.cs">
+      <DependentUpon>FilterEditingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visitors\ConfigurationItemEditorViewModelFactory.cs" />
+    <Compile Include="Visitors\GroupWithReiterationEditorWindowFactory.cs" />
     <Compile Include="Interfaces\ConfigurationSettings\IActivatedConfigurationSettingViewModel.cs" />
-    <Compile Include="Interfaces\DependentProperty\IConditionViewModel.cs" />
     <Compile Include="Interfaces\EditOperations\IChildAddable.cs" />
     <Compile Include="Interfaces\EditOperations\IChilditemRemovable.cs" />
     <Compile Include="Interfaces\EditOperations\ICompositeEditOperations.cs" />
@@ -86,8 +113,7 @@
     <Compile Include="Interfaces\IChildPositionChangeable.cs" />
     <Compile Include="Interfaces\Tree\IAddressIncreaseable.cs" />
     <Compile Include="Interfaces\Tree\IComplexPropertyEditorViewModel.cs" />
-    <Compile Include="Interfaces\Tree\IDependentPropertyEditorViewModel.cs" />
-    <Compile Include="Interfaces\Tree\IPropertyEditorEditorViewModel.cs" />
+    <Compile Include="Interfaces\Tree\IPropertyEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\IConfigurationEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\IConfigurationGroupEditorViewModel.cs" />
     <Compile Include="Interfaces\Tree\ISubPropertyEditorViewModel.cs" />
@@ -108,12 +134,10 @@
     <Compile Include="ViewModels\ConfigurationSettings\ActivatedConfigurationSettingViewModel.cs" />
     <Compile Include="ViewModels\GroupWithReiterationEditorViewModel.cs" />
     <Compile Include="ViewModels\Properties\ComplexPropertyEditorViewModel.cs" />
-    <Compile Include="ViewModels\Properties\DependentPropertyEditorViewModel.cs" />
-    <Compile Include="ViewModels\DependentProperty\ConditionViewModel.cs" />
     <Compile Include="ViewModels\DescriptionEditingViewModel.cs" />
     <Compile Include="ViewModels\EditorConfigurationItemViewModelBase.cs" />
     <Compile Include="ViewModels\ElementAdding\ElementAddingCommand.cs" />
-    <Compile Include="ViewModels\Properties\PropertyEditorEditorViewModel.cs" />
+    <Compile Include="ViewModels\Properties\PropertyEditorViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationEditorViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationGroupEditorViewModel.cs" />
     <Compile Include="ViewModels\Properties\SubPropertyEditorViewModel.cs" />
@@ -127,26 +151,24 @@
     <Compile Include="View\ComplexPropertyEditorWindow.xaml.cs">
       <DependentUpon>ComplexPropertyEditorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DependentPropertyEditorWindow.xaml.cs">
-      <DependentUpon>DependentPropertyEditorWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\DescriptionEditingWindow.xaml.cs">
       <DependentUpon>DescriptionEditingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GroupWithReiterationInfoEditorView.xaml.cs">
       <DependentUpon>GroupWithReiterationInfoEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visitors\SaveEditorConfigurationItemViewModelVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Resources\DeviceStructDataTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -164,11 +186,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\DependentPropertyEditorWindow.xaml">
+    <Page Include="View\DescriptionEditingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DescriptionEditingWindow.xaml">
+    <Page Include="View\FilterEditingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,6 +219,13 @@
       <Project>{CA06A2C8-E39C-4D5C-B19B-3C60E7151AEF}</Project>
       <Name>Unicon2.SharedResources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Unicon2.Fragments.Configuration\Unicon2.Fragments.Configuration.csproj">
+      <Project>{f35e1178-260c-4ddc-9bc0-a557ec82a5aa}</Project>
+      <Name>Unicon2.Fragments.Configuration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\Dependencies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

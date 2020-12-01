@@ -1,14 +1,12 @@
 ﻿using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel.Factories;
 using Unicon2.Fragments.Configuration.Matrix.EditorViewModel.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.Factories;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.Helpers;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
 using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.Model;
 using Unicon2.Fragments.Configuration.Matrix.Model.Helpers;
@@ -17,8 +15,9 @@ using Unicon2.Fragments.Configuration.Matrix.ViewModel;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
-using Unicon2.Infrastructure.ViewModel;
-using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Infrastructure.Values.Matrix;
+using Unicon2.Infrastructure.Values.Matrix.Helpers;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
 
@@ -42,18 +41,16 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
             container.Register<IBitOption, ListMatrixBitOption>(MatrixKeys.LIST_MATRIX_BIT_OPTION);
             container.Register<MatrixViewModelTableFactory>();
 
-            container.Register(typeof(IViewModel), typeof(AppointableMatrixEditorViewModel),
-                ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-            container.Register(typeof(IViewModel), typeof(BoolMatrixVariableOptionTemplateEditorViewModel),
-                     MatrixKeys.BOOL_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
-            container.Register(typeof(IViewModel), typeof(ListMatrixVariableOptionTemplateEditorViewModel),
-                MatrixKeys.LIST_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            //container.Register(typeof(IViewModel), typeof(AppointableMatrixEditorViewModel),
+            //    ConfigurationKeys.APPOINTABLE_MATRIX + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            //container.Register(typeof(IViewModel), typeof(BoolMatrixVariableOptionTemplateEditorViewModel),
+            //         MatrixKeys.BOOL_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            //container.Register(typeof(IViewModel), typeof(ListMatrixVariableOptionTemplateEditorViewModel),
+            //    MatrixKeys.LIST_MATRIX_TEMPLATE + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
 
 
-            container.Register(typeof(IConfigurationItemViewModel), typeof(RuntimeAppointableMatrixViewModel),
-                ConfigurationKeys.RUNTIME + ConfigurationKeys.APPOINTABLE_MATRIX +
-                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register(typeof(IRuntimeAppointableMatrixViewModel), typeof(RuntimeRuntimeAppointableMatrixViewModel));
 
 
             container.Register<IMatrixTemplateEditorViewModel, MatrixTemplateEditorViewModel>();
@@ -83,25 +80,25 @@ namespace Unicon2.Fragments.Configuration.Matrix.Module
 
             container.Register<IAssignedBitEditorViewModel, AssignedBitEditorViewModel>();
         
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(AppointableMatrix));
-            serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixTemplate));
-            serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixMemoryVariable));
-            serializerService.AddKnownTypeForSerialization(typeof(DefaultVariableColumnSignature));
-            serializerService.AddKnownTypeForSerialization(typeof(ListMatrixVariableOptionTemplate));
-            serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixVariableOptionTemplate));
-            serializerService.AddKnownTypeForSerialization(typeof(OptionPossibleValue));
-            serializerService.AddKnownTypeForSerialization(typeof(PossibleValueCondition));
-            serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixBitOption));
-            serializerService.AddKnownTypeForSerialization(typeof(ListMatrixBitOption));
-            serializerService.AddKnownTypeForSerialization(typeof(MatrixValueFormatter));
+            //ISerializerService serializerService = container.Resolve<ISerializerService>();
+            //serializerService.AddKnownTypeForSerialization(typeof(AppointableMatrix));
+            //serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixTemplate));
+            //serializerService.AddKnownTypeForSerialization(typeof(DefaultMatrixMemoryVariable));
+            //serializerService.AddKnownTypeForSerialization(typeof(DefaultVariableColumnSignature));
+            //serializerService.AddKnownTypeForSerialization(typeof(ListMatrixVariableOptionTemplate));
+            //serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixVariableOptionTemplate));
+            //serializerService.AddKnownTypeForSerialization(typeof(OptionPossibleValue));
+            //serializerService.AddKnownTypeForSerialization(typeof(PossibleValueCondition));
+            //serializerService.AddKnownTypeForSerialization(typeof(BoolMatrixBitOption));
+            //serializerService.AddKnownTypeForSerialization(typeof(ListMatrixBitOption));
+            //serializerService.AddKnownTypeForSerialization(typeof(MatrixValueFormatter));
 
-            serializerService.AddNamespaceAttribute("appointableMatrix", "AppointableMatrixNS");
-            serializerService.AddNamespaceAttribute("matrixValueFormatter", "MatrixValueFormatterNS");
+            //serializerService.AddNamespaceAttribute("appointableMatrix", "AppointableMatrixNS");
+            //serializerService.AddNamespaceAttribute("matrixValueFormatter", "MatrixValueFormatterNS");
 
 
             //регистрация ресурсов
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MatrixDataTemplates.xaml", this.GetType().Assembly);
+            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MatrixDataTemplates.xaml", GetType().Assembly);
 
         }
 

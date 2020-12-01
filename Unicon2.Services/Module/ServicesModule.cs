@@ -29,14 +29,13 @@ namespace Unicon2.Services.Module
             container.Register(typeof(IGeneralViewModelFactory<>), typeof(GeneralViewModelFactory<>));
             container.Register<IExceptionLoggerService, ExceptionLoggerService>();
 
-            container.Register<ILogService, LogService.LogService>();
-            container.RegisterInstance(container.Resolve<ILogService>());
+            container.Register<ILogService, LogService.LogService>(true);
 
             container.RegisterInstance<IApplicationGlobalCommands>(
                 new ApplicationGlobalCommands(container, container.Resolve<IDialogCoordinator>(), container.Resolve<ILocalizerService>()));
 
-            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(DeviceLogger));
-            container.Resolve<ISerializerService>().AddNamespaceAttribute("deviceLogger", "DeviceLoggerNS");
+           // container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(DeviceLogger));
+           // container.Resolve<ISerializerService>().AddNamespaceAttribute("deviceLogger", "DeviceLoggerNS");
         }
     }
 }

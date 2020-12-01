@@ -29,7 +29,7 @@ namespace NModbus4.IO
         {
             Debug.Assert(streamResource != null, "Argument streamResource cannot be null.");
 
-            this._streamResource = streamResource;
+            _streamResource = streamResource;
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace NModbus4.IO
         /// </summary>
         public int Retries
         {
-            get { return this._retries; }
-            set { this._retries = value; }
+            get { return _retries; }
+            set { _retries = value; }
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace NModbus4.IO
         {
             get
             {
-                return this._waitToRetryMilliseconds;
+                return _waitToRetryMilliseconds;
             }
 
             set
@@ -72,7 +72,7 @@ namespace NModbus4.IO
                     throw new ArgumentException(Resources.WaitRetryGreaterThanZero);
                 }
 
-                this._waitToRetryMilliseconds = value;
+                _waitToRetryMilliseconds = value;
             }
         }
 
@@ -81,8 +81,8 @@ namespace NModbus4.IO
         /// </summary>
         public int ReadTimeout
         {
-            get { return this.StreamResource.ReadTimeout; }
-            set { this.StreamResource.ReadTimeout = value; }
+            get { return StreamResource.ReadTimeout; }
+            set { StreamResource.ReadTimeout = value; }
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace NModbus4.IO
         /// </summary>
         public int WriteTimeout
         {
-            get { return this.StreamResource.WriteTimeout; }
-            set { this.StreamResource.WriteTimeout = value; }
+            get { return StreamResource.WriteTimeout; }
+            set { StreamResource.WriteTimeout = value; }
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace NModbus4.IO
         /// </summary>
         internal IStreamResource StreamResource
         {
-            get { return this._streamResource; }
+            get { return _streamResource; }
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace NModbus4.IO
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -122,15 +122,15 @@ namespace NModbus4.IO
             {
                 try
                 {
-                    lock (this._syncLock)
+                    lock (_syncLock)
                     {
-                        this.Write(message);
+                        Write(message);
 
                         bool readAgain;
                         do
                         {
                             readAgain = false;
-                            response = this.ReadResponse<T>();
+                            response = ReadResponse<T>();
 
                             if (response is SlaveExceptionResponse exceptionResponse)
                             {
@@ -139,15 +139,15 @@ namespace NModbus4.IO
 
                                 if (readAgain)
                                 {
-                                    Debug.WriteLine($"Received ACKNOWLEDGE slave exception response, waiting {this._waitToRetryMilliseconds} milliseconds and retrying to read response.");
-                                    Sleep(this.WaitToRetryMilliseconds);
+                                    Debug.WriteLine($"Received ACKNOWLEDGE slave exception response, waiting {_waitToRetryMilliseconds} milliseconds and retrying to read response.");
+                                    Sleep(WaitToRetryMilliseconds);
                                 }
                                 else
                                 {
                                     throw new SlaveException(exceptionResponse);
                                 }
                             }
-                            else if (this.ShouldRetryResponse(message, response))
+                            else if (ShouldRetryResponse(message, response))
                             {
                                 readAgain = true;
                             }
@@ -155,7 +155,7 @@ namespace NModbus4.IO
                         while (readAgain);
                     }
 
-                    this.ValidateResponse(message, response);
+                    ValidateResponse(message, response);
                     success = true;
                 }
                 catch (SlaveException se)
@@ -165,13 +165,13 @@ namespace NModbus4.IO
                         throw;
                     }
 
-                    if (this.SlaveBusyUsesRetryCount && attempt++ > this._retries)
+                    if (SlaveBusyUsesRetryCount && attempt++ > _retries)
                     {
                         throw;
                     }
 
-                    Debug.WriteLine($"Received SLAVE_DEVICE_BUSY exception response, waiting {this._waitToRetryMilliseconds} milliseconds and resubmitting request.");
-                    Sleep(this.WaitToRetryMilliseconds);
+                    Debug.WriteLine($"Received SLAVE_DEVICE_BUSY exception response, waiting {_waitToRetryMilliseconds} milliseconds and resubmitting request.");
+                    Sleep(WaitToRetryMilliseconds);
                 }
                 catch (Exception e)
                 {
@@ -180,9 +180,9 @@ namespace NModbus4.IO
                         e is TimeoutException ||
                         e is IOException)
                     {
-                        Debug.WriteLine($"{e.GetType().Name}, {this._retries - attempt + 1} retries remaining - {e}");
+                        Debug.WriteLine($"{e.GetType().Name}, {_retries - attempt + 1} retries remaining - {e}");
 
-                        if (attempt++ > this._retries)
+                        if (attempt++ > _retries)
                         {
                             throw;
                         }
@@ -239,7 +239,7 @@ namespace NModbus4.IO
                 req.ValidateResponse(response);
             }
 
-            this.OnValidateResponse(request, response);
+            OnValidateResponse(request, response);
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace NModbus4.IO
                 return false;
             }
 
-            return this.OnShouldRetryResponse(request, response);
+            return OnShouldRetryResponse(request, response);
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace NModbus4.IO
         {
             if (disposing)
             {
-                DisposableUtility.Dispose(ref this._streamResource);
+                DisposableUtility.Dispose(ref _streamResource);
             }
         }
 

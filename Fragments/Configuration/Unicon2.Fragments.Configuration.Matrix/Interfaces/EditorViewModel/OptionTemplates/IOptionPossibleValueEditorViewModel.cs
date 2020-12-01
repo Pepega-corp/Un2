@@ -5,7 +5,7 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.OptionTemplates
 {
-    public interface IOptionPossibleValueEditorViewModel:IViewModel
+    public interface IOptionPossibleValueEditorViewModel : IViewModel
     {
         string PossibleValueName { get; set; }
         ObservableCollection<IPossibleValueConditionEditorViewModel> PossibleValueConditionEditorViewModels { get; }

@@ -1,22 +1,17 @@
-﻿using System;
-using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces;
+﻿using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
-using Unicon2.Infrastructure.Interfaces.Values;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty
 {
-    public interface IDependancyCondition : IUshortFormattable,IInitializableFromContainer
+    public interface IDependancyCondition : IUshortFormattable
     {
-
-        /// <summary>
-        /// Ссылаемое свойство
+	    /// <summary>
+        /// Ссылаемый ресурс
         /// </summary>
-        ILocalAndDeviceValuesContaining LocalAndDeviceValuesContaining { get; set; }
+        string ReferencedPropertyResourceName { get; set; }
         ConditionsEnum ConditionsEnum { get; set; }
         ushort UshortValueToCompare { get; set; }
         ConditionResultEnum ConditionResult { get; set; }
-        Action<ConditionResultChangingEventArgs> ConditionResultChangedAction { get; set; }
 
        
     }

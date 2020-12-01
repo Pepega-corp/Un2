@@ -1,43 +1,44 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel.Table;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Extensions;
-using Unicon2.Presentation.Infrastructure.Events;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
-using Unicon2.Unity.Commands;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IItemGroupViewModel, IAsTableViewModel
+    public class RuntimeItemGroupViewModel : RuntimeConfigurationItemViewModelBase, IRuntimeItemGroupViewModel, IAsTableViewModel
     {
-        private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
-        private readonly IGlobalEventsService _globalEventsService;
+
         private bool _isTableView;
         private TableConfigurationViewModel _tableConfigurationViewModel;
         private bool _isTableViewAllowed;
+        private List<RuntimeFilterViewModel> _filterViewModels;
 
-        public RuntimeItemGroupViewModel(IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
+        public RuntimeItemGroupViewModel()
         {
-            this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
-            this.IsCheckable = true;
+            IsCheckable = true;
         }
 
         private void OnTryTransformToTable()
         {
             if (!IsTableView) return;
-            if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel)) &&
-                TableConfigurationViewModel == null) 
+            if (TableConfigurationViewModel == null) 
             {
-                TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels);
+                TryTransformToTable();
             }
         }
-
+        public void TryTransformToTable()
+        {
+            if (!IsTableView) return;
+            if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel || model is IRuntimeComplexPropertyViewModel)))
+            {
+                TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels.ToList(), FilterViewModels);
+            }
+        }
         public TableConfigurationViewModel TableConfigurationViewModel
         {
             get => _tableConfigurationViewModel;
@@ -53,17 +54,16 @@ namespace Unicon2.Fragments.Configuration.ViewModel
                                              ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
 
-        protected override void SetModel(object model)
+        public List<RuntimeFilterViewModel> FilterViewModels
         {
-            this.ChildStructItemViewModels.Clear();
-            foreach (IConfigurationItem configurationItem in ((IItemsGroup) model).ConfigurationItemList)
+            get => _filterViewModels;
+            set
             {
-                this.ChildStructItemViewModels.Add(this._runtimeConfigurationItemViewModelFactory
-                    .CreateRuntimeConfigurationItemViewModel(configurationItem));
+                _filterViewModels = value;
+                RaisePropertyChanged();
             }
-            IsTableViewAllowed = ((IItemsGroup) model).IsTableViewAllowed;
-            base.SetModel(model);
         }
+
 
         public bool IsTableView
         {
@@ -82,5 +82,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             get => _isTableViewAllowed;
             set => SetProperty(ref _isTableViewAllowed, value);
         }
+
+        public bool IsMain { get; set; }
+        public int Offset { get; set; }
     }
 }

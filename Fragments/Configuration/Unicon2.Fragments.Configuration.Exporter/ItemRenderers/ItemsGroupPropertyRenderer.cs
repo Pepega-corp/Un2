@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using Unicon2.Fragments.Configuration.Exporter.Interfaces;
-using Unicon2.Fragments.Configuration.Exporter.Utils;
 using Unicon2.Fragments.Configuration.Infrastructure.Export;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 
 namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
 {
@@ -19,7 +19,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
             _itemRendererFactory = itemRendererFactory;
         }
 
-        public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItem configurationItem,
+        public Maybe<List<TagBuilder>> RenderHtmlFromItem(IConfigurationItemViewModel configurationItem,
             SelectorForItemsGroup selectorForItemsGroup, int depthLevel = 0)
         {
             if (selectorForItemsGroup == null || !selectorForItemsGroup.IsSelected)
@@ -27,19 +27,19 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                 return Maybe<List<TagBuilder>>.Empty();
             }
 
-            var group = configurationItem as IItemsGroup;
+            var group = configurationItem as IItemGroupViewModel;
             List<TagBuilder> tagBuilders = new List<TagBuilder>
             {
                 ConfigTableRowRenderer
                     .Create()
-                    .SetName(new RenderData(group.Name, depthLevel == 0 ? "rootItem" : null))
+                    .SetName(new RenderData(group.Header, depthLevel == 0 ? "rootItem" : null))
                     .SetDepth(depthLevel)
                     .SetShouldRenderEmptyItems(depthLevel != 0)
                     .SetSelectors(selectorForItemsGroup.IsPrintDeviceValuesAllowed,selectorForItemsGroup.IsPrintLocalValuesAllowed)
                     .Render()
             };
 
-            group.ConfigurationItemList.ForEach((item =>
+            group.ChildStructItemViewModels.ForEach((item =>
             {
                 _itemRendererFactory
                     .GetConfigurationItemRenderer(item)

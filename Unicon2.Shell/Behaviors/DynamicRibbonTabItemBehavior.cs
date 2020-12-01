@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using WPFLocalizeExtension.Engine;
 
@@ -49,11 +50,11 @@ namespace Unicon2.Shell.Behaviors
                     string header = LocalizeDictionary.Instance
                     .GetLocalizedObject(fragmentOptionCommandViewModel.TitleKey, null,
                     LocalizeDictionary.Instance.Culture).ToString();
-                    if (fragmentOptionCommandViewModel is IFragmentOptionToggleCommandViewModel)
+                    if (fragmentOptionCommandViewModel is FragmentOptionToggleCommandViewModel)
                     {
                         CheckBox toggleButton = new CheckBox();
                         toggleButton.Content = header;
-                        toggleButton.SetBinding(CheckBox.IsCheckedProperty,
+                        toggleButton.SetBinding(ToggleButton.IsCheckedProperty,
                         new Binding("IsChecked")
                         {
                             Source = fragmentOptionCommandViewModel,

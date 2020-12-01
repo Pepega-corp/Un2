@@ -1,7 +1,8 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
@@ -15,157 +16,215 @@ using Unicon2.Services.Keys;
 using Unicon2.Unity.Interfaces;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
-namespace Unicon2.Services.UniconProject                                                                                                                                       
+namespace Unicon2.Services.UniconProject
 {
     public class UniconProjectService : IUniconProjectService
     {
         private readonly IUniconProject _uniconProject;
         private readonly ILocalizerService _localizerService;
-        private readonly IDialogCoordinator _dialogCoordinator;
+        private readonly Func<IDialogCoordinator> _dialogCoordinator;
         private readonly IApplicationSettingsService _applicationSettingsService;
         private readonly IDevicesContainerService _devicesContainerService;
         private readonly ITypesContainer _container;
         private readonly ILogService _logService;
+        private readonly ISerializerService _serializerService;
         private object _dialogContext;
 
 
+        
         public UniconProjectService(IUniconProject uniconProject, ILocalizerService localizerService,
-            IDialogCoordinator dialogCoordinator, IApplicationSettingsService applicationSettingsService,
-            IDevicesContainerService devicesContainerService, ITypesContainer container, ILogService logService)
+            Func<IDialogCoordinator> dialogCoordinator, IApplicationSettingsService applicationSettingsService,
+            IDevicesContainerService devicesContainerService, ITypesContainer container, ILogService logService,
+            ISerializerService serializerService
+        )
         {
-            this._uniconProject = uniconProject;
-            this._localizerService = localizerService;
-            this._dialogCoordinator = dialogCoordinator;
-            this._applicationSettingsService = applicationSettingsService;
-            this._devicesContainerService = devicesContainerService;
-            this._container = container;
-            this._logService = logService;
+            _uniconProject = uniconProject;
+            _localizerService = localizerService;
+            _dialogCoordinator = dialogCoordinator;
+            _applicationSettingsService = applicationSettingsService;
+            _devicesContainerService = devicesContainerService;
+            _container = container;
+            _logService = logService;
+            _serializerService = serializerService;
         }
 
 
         public void CreateNewProject()
         {
-            if (this.CheckIfProjectSaved(this) != ProjectSaveCheckingResultEnum.CancelledByUser)
+            if (CheckIfProjectSaved() != ProjectSaveCheckingResultEnum.CancelledByUser)
             {
-                this._devicesContainerService.Refresh();
-                this._uniconProject.Dispose();
-                this._devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
+                _devicesContainerService.Refresh();
+                _uniconProject.Dispose();
+                _devicesContainerService.ConnectableItemChanged?.Invoke(
+                    new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
             }
         }
 
         public void SaveProject()
         {
-            this.SaveProjectInFile(true);
+            SaveProjectInFile(true);
         }
 
         public void SaveProjectAs()
         {
-            this.SaveProjectInFile(false);
+            SaveProjectInFile(false);
         }
 
         /// <summary>
         /// Проверить сохранен ли проект
         /// </summary>
         /// <returns>Было ли взаимодействие с пользователем по сохранению проекта</returns>
-        public ProjectSaveCheckingResultEnum CheckIfProjectSaved(object dialogContext = null)
+        public ProjectSaveCheckingResultEnum CheckIfProjectSaved()
         {
-            if (dialogContext != null)
-                this._dialogContext = dialogContext;
-            if (this._uniconProject.GetIsProjectChanged())
+            if (GetIsProjectChanged(_uniconProject))
             {
-                MessageDialogResult result = this._dialogCoordinator.ShowModalMessageExternal(this._dialogContext,
+                MessageDialogResult result = _dialogCoordinator().ShowModalMessageExternal(_dialogContext,
                     "Сохранение",
                     "Проект не был сохранен. Сохранить проект?",
                     MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
                     new MetroDialogSettings
                     {
                         FirstAuxiliaryButtonText =
-                            this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.CANCEL),
+                            _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.CANCEL),
                         AffirmativeButtonText =
-                            this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.YES),
+                            _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.YES),
                         NegativeButtonText =
-                            this._localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.NO)
+                            _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.NO)
                     });
                 if (result == MessageDialogResult.FirstAuxiliary)
                 {
                     return ProjectSaveCheckingResultEnum.CancelledByUser;
                 }
+
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    this.SaveProjectInFile(false);
+                    SaveProjectInFile(false);
                     return ProjectSaveCheckingResultEnum.ProjectSavedByUserInDialog;
                 }
+
                 if (result == MessageDialogResult.Negative)
                 {
                     return ProjectSaveCheckingResultEnum.UserRejectedSaving;
                 }
             }
+
             return ProjectSaveCheckingResultEnum.ProjectAlreadySaved;
         }
-
-        public string CurrentProjectString => this._uniconProject.Name;
-
-        public List<string> GetLastProjectsList()
+        private bool GetIsProjectChanged(IUniconProject uniconProject)
         {
-            List<string> t = this._applicationSettingsService.GetLastProjectStringCollection();
-            return t;
+	        if ((uniconProject.ProjectPath != null) && (uniconProject.Name != null))
+	        {
+		        if (File.Exists(uniconProject.ProjectPath + "\\" + uniconProject.Name + ".uniproj"))
+		        {
+			        try
+			        {
+				        string existing = _serializerService.SerializeInString(_uniconProject);
+				        string xmlString = File.ReadAllText(uniconProject.ProjectPath + "\\" + uniconProject.Name + ".uniproj");
+
+				        string existing1 = existing.Remove(0, existing.IndexOf("UniconProject"));
+				        string xmlString1 = xmlString.Remove(0, xmlString.IndexOf("UniconProject"));
+				        //var t = existing1.Length==xmlString1.Length;
+				        if (xmlString1 == existing1)
+				        {
+					        return false;
+				        }
+			        }
+			        catch
+			        {
+				        return true;
+			        }
+		        }
+	        }
+
+	        return true;
         }
+        public string CurrentProjectString => _uniconProject.Name;
 
-        public async void OpenProject(string lastProjectString = "", object dialogContext = null)
+     
+
+        public async void OpenProject()
         {
-            if (dialogContext != null)
-                this._dialogContext = dialogContext;
-            if (this.CheckIfProjectSaved(_dialogContext) == ProjectSaveCheckingResultEnum.CancelledByUser) return;
+            if (CheckIfProjectSaved() == ProjectSaveCheckingResultEnum.CancelledByUser) return;
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
             ofd.Filter = "Unicon Project file (*.uniproj)|*.uniproj";
             ofd.CheckFileExists = true;
             if (ofd.ShowDialog() == true)
             {
-                try
-                {
-                    this._uniconProject.DeserializeFromFile(ofd.FileName);
-                    this._uniconProject.ProjectPath = Path.GetDirectoryName(ofd.FileName);
-                    this._uniconProject.Name = Path.GetFileNameWithoutExtension(ofd.FileName);
-                    this._devicesContainerService.Refresh();
-                    foreach (IConnectable connectableItem in this._uniconProject.ConnectableItems)
-                    {
-                        if (connectableItem is IInitializableFromContainer)
-                        {
-                            (connectableItem as IInitializableFromContainer).InitializeFromContainer(this._container);
-                        }
-                        if (connectableItem.DeviceConnection != null)
-                        {
-                            await this._devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
-                                   connectableItem.DeviceConnection);
-                        }
-                    }
-                    string message = string.Empty;
-                    message += this._localizerService.GetLocalizedString(ServicesKeys.PROJECT_OPENED);
-                    message += " " + this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj";
-                    this._logService.LogMessage(message);
-                }
-                catch (Exception ex) { this._logService.LogMessage(ex.Message); }
+               await LoadProject(ofd.FileName);
             }
+        }
+        public async Task LoadProject(string path)
+        {
+	        try
+	        {
+		        var deserialized = _serializerService.DeserializeFromFile<IUniconProject>(path);
+		        _uniconProject.ConnectableItems = deserialized.ConnectableItems;
+		        _uniconProject.LayoutString = deserialized.LayoutString;
+		        _uniconProject.ProjectPath = Path.GetDirectoryName(path);
+		        _uniconProject.Name = Path.GetFileNameWithoutExtension(path);
+		        _devicesContainerService.Refresh();
+		        foreach (IConnectable connectableItem in _uniconProject.ConnectableItems)
+		        {
+			        if (connectableItem.DeviceConnection != null)
+			        {
+				        var res = await _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
+					        connectableItem.DeviceConnection);
+				        if (!res.IsSuccess)
+				        {
+					        _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
+						        _container.Resolve<IDeviceConnectionFactory>(ApplicationGlobalNames
+							        .OFFLINE_CONNECTION_FACTORY_NAME).CreateDeviceConnection());
+				        }
+
+				        if (!_devicesContainerService.ConnectableItems.Contains(connectableItem as IDevice))
+				        {
+					        _devicesContainerService.AddConnectableItem(connectableItem as IDevice);
+				        }
+			        }
+		        }
+
+		        string message = string.Empty;
+		        message += _localizerService.GetLocalizedString(ServicesKeys.PROJECT_OPENED);
+		        message += " " + _uniconProject.ProjectPath + "\\" + _uniconProject.Name + ".uniproj";
+
+		        _logService.LogMessage(message);
+		        _applicationSettingsService.AddRecentProject(path);
+	        }
+	        catch (Exception ex)
+	        {
+		        _logService.LogMessage(ex.Message);
+	        }
+
         }
 
         public void SetDialogContext(object obj)
         {
-            this._dialogContext = obj;
+            _dialogContext = obj;
         }
 
-        public string GetProjectPath()
+        public string GetProjectTitle()
         {
-            return this._uniconProject.ProjectPath;
+            return $"{_localizerService.GetLocalizedString("Project")}: {_uniconProject.Name} ({_uniconProject.ProjectPath})";
         }
+
+        public async void LoadDefaultProject()
+        {
+	        var projectPath=_applicationSettingsService.GetRecentProjectStringCollection().FirstOrDefault();
+	        if (projectPath != null)
+	        {
+                await LoadProject(projectPath);
+	        }
+        }
+
 
         private void SaveProjectInFile(bool isDefaultSaving)
         {
-            this._uniconProject.ConnectableItems = this._devicesContainerService.ConnectableItems;
-            string projectPath = Path.Combine(this._uniconProject.ProjectPath, this._uniconProject.Name + ".uniproj");
-            if (isDefaultSaving && this._uniconProject.IsProjectSaved)
+            _uniconProject.ConnectableItems = _devicesContainerService.ConnectableItems;
+            string projectPath = Path.Combine(_uniconProject.ProjectPath, _uniconProject.Name + ".uniproj");
+            if (isDefaultSaving && _uniconProject.IsProjectSaved)
             {
-                this._uniconProject.SerializeInFile(projectPath, false);
+                _serializerService.SerializeInFile(_uniconProject, projectPath);
             }
             else
             {
@@ -173,16 +232,19 @@ namespace Unicon2.Services.UniconProject
                 sfd.Filter = "Unicon Project file (*.uniproj)|*.uniproj";
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    this._uniconProject.ProjectPath = projectPath = Path.GetDirectoryName(sfd.FileName);
-                    this._uniconProject.Name = Path.GetFileNameWithoutExtension(sfd.FileName);
-                    this._uniconProject.SerializeInFile(this._uniconProject.ProjectPath + "\\" + this._uniconProject.Name + ".uniproj", false);
+                    _uniconProject.ProjectPath = projectPath = Path.GetDirectoryName(sfd.FileName);
+                    _uniconProject.Name = Path.GetFileNameWithoutExtension(sfd.FileName);
+                    _serializerService.SerializeInFile(_uniconProject,
+                        _uniconProject.ProjectPath + "\\" + _uniconProject.Name + ".uniproj");
                 }
                 else return;
             }
+
             string message = string.Empty;
-            message += this._localizerService.GetLocalizedString(ServicesKeys.PROJECT_SAVED);
+            message += _localizerService.GetLocalizedString(ServicesKeys.PROJECT_SAVED);
             message += " " + projectPath;
-            this._logService.LogMessage(message);
+            _logService.LogMessage(message);
+            _applicationSettingsService.AddRecentProject(Path.Combine(_uniconProject.ProjectPath, _uniconProject.Name + ".uniproj"));
         }
     }
 }

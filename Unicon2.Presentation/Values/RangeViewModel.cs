@@ -16,7 +16,7 @@ namespace Unicon2.Presentation.Values
         private string _rangeTo;
 
 
-        public RangeViewModel(IRange range,ILocalizerService localizerService)
+        public RangeViewModel(IRange range, ILocalizerService localizerService)
         {
             _range = range;
             _localizerService = localizerService;
@@ -29,16 +29,17 @@ namespace Unicon2.Presentation.Values
             get
             {
                 SaveRange();
-              return  _range; 
+                return _range;
             }
             set
             {
-                if(value==null)return;
+                if (value == null) return;
                 if (!(value is IRange))
                 {
                     throw new ArgumentException();
                 }
-              SetRange(value as IRange);
+
+                SetRange(value as IRange);
             }
         }
 
@@ -49,6 +50,7 @@ namespace Unicon2.Presentation.Values
             {
                 _range.RangeTo = rangeTo;
             }
+
             double rangeFrom;
             if (double.TryParse(_rangeFrom, out rangeFrom))
             {
@@ -89,7 +91,7 @@ namespace Unicon2.Presentation.Values
                 _rangeTo = value;
                 FireErrorsChanged(nameof(RangeFrom));
                 FireErrorsChanged();
-
+                
                 RaisePropertyChanged();
 
             }
@@ -97,7 +99,11 @@ namespace Unicon2.Presentation.Values
 
         public object Clone()
         {
-            return new RangeViewModel(_range.Clone() as IRange,_localizerService);
+	        return new RangeViewModel(_range.Clone() as IRange, _localizerService)
+	        {
+		        RangeFrom = RangeFrom,
+		        RangeTo = RangeTo
+	        };
         }
     }
 }

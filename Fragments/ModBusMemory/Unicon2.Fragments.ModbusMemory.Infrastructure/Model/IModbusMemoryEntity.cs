@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.ModbusMemory.Infrastructure.Model
 {
-    public interface IModbusMemoryEntity:ICloneable
+    public interface IModbusMemoryEntity : ICloneable
     {
         void SetUshortValue(ushort value);
         void SetConversion(IMemoryConversionParameters memoryConversionParameters);

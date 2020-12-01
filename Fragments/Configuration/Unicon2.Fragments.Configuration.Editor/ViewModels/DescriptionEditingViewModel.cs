@@ -10,12 +10,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
     {
         public DescriptionEditingViewModel()
         {
-            this.SubmitCommand = new RelayCommand<object>(this.OnSubmitExecute);
+            SubmitCommand = new RelayCommand<object>(OnSubmitExecute);
         }
 
         private void OnSubmitExecute(object window)
         {
-            (this.Item as IEditable)?.StopEditElement();
+            (Item as IEditable)?.StopEditElement();
             (window as Window)?.Close();
         }
 

@@ -5,7 +5,7 @@ using Unicon2.Infrastructure.Services;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
 {
-   public class PropertyEditorEditorViewModelValidator:AbstractValidator<IPropertyEditorEditorViewModel>
+    public class PropertyEditorEditorViewModelValidator : AbstractValidator<IPropertyEditorViewModel>
     {
         public PropertyEditorEditorViewModelValidator(ILocalizerService localizerService)
         {

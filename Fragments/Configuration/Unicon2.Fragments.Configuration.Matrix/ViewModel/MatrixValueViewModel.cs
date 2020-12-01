@@ -1,23 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.ViewModel;
-using Unicon2.Fragments.Configuration.Matrix.Keys;
-using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
+﻿using Unicon2.Fragments.Configuration.Matrix.Keys;
 using Unicon2.Fragments.Configuration.Matrix.ViewModel.Helpers;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Extensions;
-using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
-using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Base;
 using Unicon2.SharedResources.Behaviors;
-using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 {
@@ -34,30 +20,36 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
 
 
         public override string StrongName => MatrixKeys.MATRIX_VALUE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-        public override void InitFromValue(IFormattedValue value)
-        {
-            Model = value;
-            FillTable();
-        }
 
-        private void FillTable()
+        public override string AsString()
         {
-            IMatrixValue matrixValue = Model as IMatrixValue;
-            if (matrixValue == null) return;
-            try
-            {
-                Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, false);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+	        return "Matrix";
         }
+        //public override void InitFromValue(IFormattedValue value)
+        //{
+        //    Model = value;
+        //    FillTable();
+        //    base.InitFromValue(value);
+        //}
+
+        //private void FillTable()
+        //{
+        //    IMatrixValue matrixValue = Model as IMatrixValue;
+        //    if (matrixValue == null) return;
+        //    try
+        //    {
+        //        Table = _matrixViewModelTableFactory.CreateMatrixDataTable(matrixValue, false);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //        throw;
+        //    }
+        //}
 
         public object Clone()
         {
-            IMatrixValueViewModel matrixItem = this.OnCloning();
+            IMatrixValueViewModel matrixItem = OnCloning();
 
             return matrixItem;
         }
@@ -88,7 +80,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.ViewModel
             set
             {
                 _table = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 

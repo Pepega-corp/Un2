@@ -1,106 +1,118 @@
 ﻿using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+using Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services.Dependencies;
+using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 {
-    public class AnalogMeasuringElementEditorViewModel : MeasuringElementEditorViewModelBase, IAnalogMeasuringElementEditorViewModel
-    {
-        private readonly IFormatterEditorFactory _formatterEditorFactory;
-        private string _measureUnit;
-        private bool _isMeasureUnitEnabled;
-        private ushort _address;
-        private ushort _numberOfPoints;
+	public class AnalogMeasuringElementEditorViewModel : MeasuringElementEditorViewModelBase,
+		IAnalogMeasuringElementEditorViewModel,IDependenciesViewModelContainer
+	{
+		private readonly IFormatterEditorFactory _formatterEditorFactory;
+		private readonly IApplicationGlobalCommands _applicationGlobalCommands;
+	    private readonly IDependenciesService _dependenciesService;
+	    private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
+	    private string _measureUnit;
+		private bool _isMeasureUnitEnabled;
+		private ushort _address;
+		private ushort _numberOfPoints;
+		private IFormatterParametersViewModel _formatterParametersViewModel;
 
-        public AnalogMeasuringElementEditorViewModel(IFormatterEditorFactory formatterEditorFactory)
-        {
-            this._formatterEditorFactory = formatterEditorFactory;
-            this.ShowFormatterParametersCommand = new RelayCommand(this.OnShowFormatterParametersExecute);
-        }
+		public AnalogMeasuringElementEditorViewModel(IFormatterEditorFactory formatterEditorFactory,
+			IApplicationGlobalCommands applicationGlobalCommands,
+			IDependenciesService dependenciesService,ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
+		{
+			_formatterEditorFactory = formatterEditorFactory;
+			_applicationGlobalCommands = applicationGlobalCommands;
+		    _dependenciesService = dependenciesService;
+		    _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+		    ShowFormatterParametersCommand = new RelayCommand(OnShowFormatterParametersExecute);
+			ShowDependenciesCommand = new RelayCommand(OnShowDependenciesExecute);
+		}
 
-        private void OnShowFormatterParametersExecute()
-        {
-            this._formatterEditorFactory.EditFormatterByUser(this._measuringElement as IUshortFormattable);
-            this.RaisePropertyChanged(nameof(this.FormatterString));
-        }
+	    private void OnShowDependenciesExecute()
+	    {
+	        _dependenciesService.EditDependencies(this,
+	            new DependenciesConfiguration(("BoolToAddressDependency",
+	                () => new BoolToAddressDependencyViewModel(_formatterEditorFactory,_sharedResourcesGlobalViewModel))));
 
+	    }
 
-        public string MeasureUnit
-        {
-            get { return this._measureUnit; }
-            set
-            {
-                this._measureUnit = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public bool IsMeasureUnitEnabled
-        {
-            get { return this._isMeasureUnitEnabled; }
-            set
-            {
-                this._isMeasureUnitEnabled = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public ICommand ShowFormatterParametersCommand { get; }
-
-        public ushort Address
-        {
-            get { return this._address; }
-            set
-            {
-                this._address = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public ushort NumberOfPoints
-        {
-            get { return this._numberOfPoints; }
-            set
-            {
-                this._numberOfPoints = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public string FormatterString
-        {
-            get { return (this._measuringElement as IAnalogMeasuringElement)?.UshortsFormatter?.StrongName; }
-        }
-
-        public override string StrongName => MeasuringKeys.ANALOG_MEASURING_ELEMENT +
-                                             ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
+	    private void OnShowFormatterParametersExecute()
+		{
+			_formatterEditorFactory.EditFormatterByUser(this);
+			// this.RaisePropertyChanged(nameof(this.FormatterString));
+		}
 
 
-        protected override void SetModel(object value)
-        {
-            base.SetModel(value);
-            this.Address = (this._measuringElement as IAnalogMeasuringElement).Address;
-            this.NumberOfPoints = (this._measuringElement as IAnalogMeasuringElement).NumberOfPoints;
-            this.MeasureUnit = (this._measuringElement as IAnalogMeasuringElement).MeasureUnit;
-            this.IsMeasureUnitEnabled = (this._measuringElement as IAnalogMeasuringElement).IsMeasureUnitEnabled;
-        }
+		public string MeasureUnit
+		{
+			get { return _measureUnit; }
+			set
+			{
+				_measureUnit = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public bool IsMeasureUnitEnabled
+		{
+			get { return _isMeasureUnitEnabled; }
+			set
+			{
+				_isMeasureUnitEnabled = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public ICommand ShowFormatterParametersCommand { get; }
+
+		public ushort Address
+		{
+			get { return _address; }
+			set
+			{
+				_address = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public ushort NumberOfPoints
+		{
+			get { return _numberOfPoints; }
+			set
+			{
+				_numberOfPoints = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		
+
+		public override string StrongName => MeasuringKeys.ANALOG_MEASURING_ELEMENT +
+		                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
 
 
 
-        protected override IMeasuringElement GetModel()
-        {
-            (this._measuringElement as IAnalogMeasuringElement).Address = this.Address;
-            (this._measuringElement as IAnalogMeasuringElement).NumberOfPoints = this.NumberOfPoints;
-            (this._measuringElement as IAnalogMeasuringElement).MeasureUnit = this.MeasureUnit;
-            (this._measuringElement as IAnalogMeasuringElement).IsMeasureUnitEnabled = this.IsMeasureUnitEnabled;
-            return base.GetModel();
-        }
+		public override string NameForUiKey => MeasuringKeys.ANALOG_MEASURING_ELEMENT;
 
-        public override string NameForUiKey => MeasuringKeys.ANALOG_MEASURING_ELEMENT;
-    }
+
+		public ICommand ShowDependenciesCommand { get; }
+
+		public IFormatterParametersViewModel FormatterParametersViewModel
+		{
+			get => _formatterParametersViewModel;
+			set
+			{
+				_formatterParametersViewModel = value;
+				RaisePropertyChanged();
+			}
+		}
+	}
 }

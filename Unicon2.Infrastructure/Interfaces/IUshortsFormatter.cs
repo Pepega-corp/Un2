@@ -1,11 +1,10 @@
 ﻿using System;
-using Unicon2.Infrastructure.Values;
+using Unicon2.Infrastructure.Interfaces.Visitors;
 
 namespace Unicon2.Infrastructure.Interfaces
 {
-    public interface IUshortsFormatter : IStronglyNamed, ICloneable, INameable
+    public interface IUshortsFormatter : ICloneable, INameable
     {
-        IFormattedValue Format(ushort[] ushorts);
-        ushort[] FormatBack(IFormattedValue formattedValue);
+        T Accept<T>(IFormatterVisitor<T> visitor);
     }
 }

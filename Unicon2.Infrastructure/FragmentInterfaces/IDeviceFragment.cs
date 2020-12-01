@@ -3,7 +3,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Infrastructure.FragmentInterfaces
 {
-    public interface IDeviceFragment:IStronglyNamed
+    public interface IDeviceFragment : IStronglyNamed
     {
         IFragmentSettings FragmentSettings { get; set; }
     }

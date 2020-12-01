@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicon2.Fragments.Configuration.Exporter.Interfaces;
+﻿using Unicon2.Fragments.Configuration.Exporter.Interfaces;
 using Unicon2.Fragments.Configuration.Exporter.ItemRenderers;
-using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Exporter.Factories
@@ -19,7 +14,7 @@ namespace Unicon2.Fragments.Configuration.Exporter.Factories
             _typesContainer = typesContainer;
         }
 
-        public IConfigurationItemRenderer GetConfigurationItemRenderer(IConfigurationItem configurationItem)
+        public IConfigurationItemRenderer GetConfigurationItemRenderer(IConfigurationItemViewModel configurationItem)
         {
             try
             {

@@ -6,77 +6,42 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 {
     public class ResourceViewModel : ViewModelBase, IResourceViewModel
     {
-        private INameable _resource;
-        private string _name;
         private bool _isInEditMode;
-        private string _resourceStrongName;
+        private string _resourceName;
 
         public string StrongName => nameof(ResourceViewModel);
 
-        public object Model
-        {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
-        }
-
-        private void SetModel(object value)
-        {
-            if (value is INameable)
-            {
-                this._resource = value as INameable;
-                this.Name = (value as INameable).Name;
-                if (value is IStronglyNamed)
-                {
-                    this.ResourceStrongName = (value as IStronglyNamed).StrongName;
-                }
-            }
-        }
-
-        private object GetModel()
-        {
-            this._resource.Name = this.Name;
-            return this._resource;
-        }
-
-        public string Name
-        {
-            get { return this._name; }
-            set
-            {
-                this._name = value;
-                RaisePropertyChanged();
-            }
-        }
-
+      
         public bool IsInEditMode
         {
-            get { return this._isInEditMode; }
+            get { return _isInEditMode; }
             set
             {
-                this._isInEditMode = value;
+                _isInEditMode = value;
                 RaisePropertyChanged();
             }
         }
 
         public void StartEditElement()
         {
-            this.IsInEditMode = true;
+            IsInEditMode = true;
         }
 
         public void StopEditElement()
         {
-            this._resource.Name = this.Name;
-            this.IsInEditMode = false;
+            IsInEditMode = false;
         }
 
-        public string ResourceStrongName
+        public string Name
         {
-            get { return this._resourceStrongName; }
+            get { return _resourceName; }
             set
             {
-                this._resourceStrongName = value;
+	            _resourceName = value;
                 RaisePropertyChanged();
             }
         }
+
+        public INameable RelatedEditorItemViewModel { get; set; }
     }
 }

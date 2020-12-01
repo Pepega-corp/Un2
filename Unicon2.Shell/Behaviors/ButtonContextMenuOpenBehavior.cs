@@ -1,19 +1,19 @@
-﻿using System.Windows.Controls;
-using System.Windows.Interactivity;
+﻿using System.Windows;
+using Microsoft.Xaml.Behaviors;
 
 namespace Unicon2.Shell.Behaviors
 {
-    public class ButtonContextMenuOpenBehavior : Behavior<Button>
+    public class ButtonContextMenuOpenBehavior : Behavior<FrameworkElement>
     {
         protected override void OnAttached()
         {
-            AssociatedObject.Click += AssociatedObject_Click;
+            AssociatedObject.MouseUp += AssociatedObject_Click;
             base.OnAttached();
         }
 
         protected override void OnDetaching()
         {
-            AssociatedObject.Click -= AssociatedObject_Click;
+            AssociatedObject.MouseUp -= AssociatedObject_Click;
             base.OnDetaching();
         }
 

@@ -17,10 +17,10 @@ namespace Unicon2.SharedResources.LayoutHelpers
 
         public Style LeftWindowStyle { get; set; }
 
-        public override System.Windows.Style SelectStyle(object item, System.Windows.DependencyObject container)
+        public override Style SelectStyle(object item, DependencyObject container)
         {
             if (item is IFragmentPaneViewModel)
-                return this.FragmentsPaneStyle;
+                return FragmentsPaneStyle;
             if (item is IAnchorableWindow)
             {
 
@@ -29,13 +29,11 @@ namespace Unicon2.SharedResources.LayoutHelpers
                     case PlacementEnum.Top:
                         break;
                     case PlacementEnum.Left:
-                        return this.LeftWindowStyle;
-                        break;
+                        return LeftWindowStyle;
                     case PlacementEnum.Right:
                         break;
                     case PlacementEnum.Bottom:
-                        return this.BottomWindowStyle;
-                        break;
+                        return BottomWindowStyle;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

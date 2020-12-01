@@ -1,8 +1,9 @@
-﻿using Unicon2.Infrastructure.Interfaces;
+﻿using System;
+using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Infrastructure.DeviceInterfaces
 {
-    public interface IUshortFormattable:IStronglyNamed,INameable
+    public interface IUshortFormattable : INameable, ICloneable
     {
         IUshortsFormatter UshortsFormatter { get; set; }
     }

@@ -4,6 +4,11 @@ namespace Unicon2.Infrastructure.Services.ApplicationSettingsService
 {
     public interface IApplicationSettingsService
     {
-        List<string> GetLastProjectStringCollection();
+        List<string> GetRecentProjectStringCollection();
+        void AddRecentProject(string projectPath);
+
+        string UrlToServer { get; set; }
+        string ClientSecret { get; set; }
+
     }
 }

@@ -1368,4 +1368,136 @@
   <data name="Step" xml:space="preserve">
     <value>@Step</value>
   </data>
+  <data name="Groups" xml:space="preserve">
+    <value>@Groups</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>@Height</value>
+  </data>
+  <data name="OffsetLeft" xml:space="preserve">
+    <value>@OffsetLeft</value>
+  </data>
+  <data name="OffsetTop" xml:space="preserve">
+    <value>@OffsetTop</value>
+  </data>
+  <data name="PasteSizeOnly" xml:space="preserve">
+    <value>@PasteSizeOnly</value>
+  </data>
+  <data name="PresentationSettings" xml:space="preserve">
+    <value>@PresentationSettings</value>
+  </data>
+  <data name="SelectedElement" xml:space="preserve">
+    <value>@SelectedElement</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>@Width</value>
+  </data>
+  <data name="MoveWithChildren" xml:space="preserve">
+    <value>@MoveWithChildren</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>@ZoomIn</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>@ZoomOut</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>@Block</value>
+  </data>
+  <data name="BoolToAddressDependency" xml:space="preserve">
+    <value>@BoolToAddressDependency</value>
+  </data>
+  <data name="AddressIfFalse" xml:space="preserve">
+    <value>@AddressIfFalse</value>
+  </data>
+  <data name="AddressIfTrue" xml:space="preserve">
+    <value>@AddressIfTrue</value>
+  </data>
+  <data name="Dependencies" xml:space="preserve">
+    <value>@Dependencies</value>
+  </data>
+  <data name="AddDateTime" xml:space="preserve">
+    <value>@AddDateTime</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>@Date</value>
+  </data>
+  <data name="DateTimeMeasuringElement" xml:space="preserve">
+    <value>@DateTimeMeasuringElement</value>
+  </data>
+  <data name="IndexWritingAddress" xml:space="preserve">
+    <value>@IndexWritingAddress</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>@Set</value>
+  </data>
+  <data name="SetSystem" xml:space="preserve">
+    <value>@SetSystem</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>@Time</value>
+  </data>
+  <data name="SaveForPrint" xml:space="preserve">
+    <value>@SaveForPrint</value>
+  </data>
+  <data name="Recent" xml:space="preserve">
+    <value>@Recent</value>
+  </data>
+  <data name="FormattingIfFalse" xml:space="preserve">
+    <value>@FormattingIfFalse</value>
+  </data>
+  <data name="FormattingIfTrue" xml:space="preserve">
+    <value>@FormattingIfTrue</value>
+  </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>@DateFormat</value>
+  </data>
+  <data name="DefaultMessage" xml:space="preserve">
+    <value>@DefaultMessage</value>
+  </data>
+  <data name="UseDefaultMessage" xml:space="preserve">
+    <value>@UseDefaultMessage</value>
+  </data>
+  <data name="WriteFunction" xml:space="preserve">
+    <value>@WriteFunction</value>
+  </data>
+  <data name="ApplyFormatterResult" xml:space="preserve">
+    <value>@ApplyFormatterResult</value>
+  </data>
+  <data name="BlockInteractionResult" xml:space="preserve">
+    <value>@BlockInteractionResult</value>
+  </data>
+  <data name="CompareResourceCondition" xml:space="preserve">
+    <value>@CompareResourceCondition</value>
+  </data>
+  <data name="ConditionResultDependency" xml:space="preserve">
+    <value>@ConditionResultDependency</value>
+  </data>
+  <data name="AddFilter" xml:space="preserve">
+    <value>@AddFilter</value>
+  </data>
+  <data name="Conditions" xml:space="preserve">
+    <value>@Conditions</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>@Filters</value>
+  </data>
+  <data name="MustBePositive" xml:space="preserve">
+    <value>@MustBePositive</value>
+  </data>
+  <data name="FilteredData" xml:space="preserve">
+    <value>@FilteredData</value>
+  </data>
+  <data name="CannotConnectDevice" xml:space="preserve">
+    <value>@CannotConnectDevice</value>
+  </data>
+  <data name="PortNotSelected" xml:space="preserve">
+    <value>@PortNotSelected</value>
+  </data>
+  <data name="ConnectionLostGoOfflineQuestion" xml:space="preserve">
+    <value>@ConnectionLostGoOfflineQuestion</value>
+  </data>
+  <data name="WriteIndexOnlyFirstTime" xml:space="preserve">
+    <value>@WriteIndexOnlyFirstTime</value>
+  </data>
 </root>

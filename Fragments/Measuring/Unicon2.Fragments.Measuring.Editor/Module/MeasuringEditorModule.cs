@@ -25,13 +25,15 @@ namespace Unicon2.Fragments.Measuring.Editor.Module
             container.Register<IMeasuringElementEditorViewModel, AnalogMeasuringElementEditorViewModel>(MeasuringKeys.ANALOG_MEASURING_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<IMeasuringElementEditorViewModel, DiscretMeasuringElementEditorViewModel>(MeasuringKeys.DISCRET_MEASURING_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<IMeasuringElementEditorViewModel, ControlSignalEditorViewModel>(MeasuringKeys.CONTROL_SIGNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            container.Register<IMeasuringElementEditorViewModel, DateTimeMeasuringEditorViewModel>(MeasuringKeys.DATE_TIME_ELEMENT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
             container.Register<IBitAddressEditorViewModel, BitAddressEditorViewModel>();
             container.Register<IMeasuringElementEditorViewModelFactory, MeasuringElementEditorViewModelFactory>();
             container.Register<IMeasuringGroupEditorViewModelFactory, MeasuringGroupEditorViewModelFactory>();
             container.Register<IWritingValueContextViewModel, WritingValueContextViewModel>();
+         
 
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml", this.GetType().Assembly);
+            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/MeasuringDataTemplates.xaml", GetType().Assembly);
         }
     }
 }

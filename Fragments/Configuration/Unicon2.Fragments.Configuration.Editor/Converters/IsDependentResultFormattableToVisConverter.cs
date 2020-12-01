@@ -6,7 +6,7 @@ using Unicon2.Infrastructure.Interfaces.Dependancy;
 
 namespace Unicon2.Fragments.Configuration.Editor.Converters
 {
-   public class IsDependentResultFormattableToVisConverter:IValueConverter
+    public class IsDependentResultFormattableToVisConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

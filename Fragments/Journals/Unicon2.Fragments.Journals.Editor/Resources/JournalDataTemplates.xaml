@@ -69,7 +69,16 @@
                     MinWidth="150"
                     Margin="5"
                     Text="{Binding NumberOfPointsInRecord}" />
+                <TextBlock Margin="5" Text="{lex:Loc IndexWritingAddress}" />
+                <TextBox
+                    MinWidth="150"
+                    Margin="5"
+                    Text="{Binding IndexWritingAddress}" />
             </UniformGrid>
+            <CheckBox
+                Margin="5"
+                Content="{lex:Loc WriteIndexOnlyFirstTime}"
+                IsChecked="{Binding WriteIndexOnlyFirstTime}" />
             <CheckBox
                 Margin="5"
                 Content="{lex:Loc WordFormatNotForTheWholeRecord}"

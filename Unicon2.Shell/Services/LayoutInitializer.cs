@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Linq;
 using Unicon2.Presentation.Infrastructure.Enums;
 using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
@@ -49,7 +51,7 @@ namespace Unicon2.Shell.Services
 
         public void AfterInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableShown)
         {
-
+            
         }
 
         public bool BeforeInsertDocument(LayoutRoot layout, LayoutDocument anchorableToShow, ILayoutContainer destinationContainer)
@@ -59,7 +61,6 @@ namespace Unicon2.Shell.Services
 
         public void AfterInsertDocument(LayoutRoot layout, LayoutDocument anchorableShown)
         {
-
         }
     }
 }

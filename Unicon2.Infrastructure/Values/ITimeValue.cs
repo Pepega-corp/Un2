@@ -2,7 +2,7 @@
 
 namespace Unicon2.Infrastructure.Values
 {
-    public interface ITimeValue:IFormattedValue
+    public interface ITimeValue : IFormattedValue
     {
         int MillisecondsDecimalsPlaces { get; set; }
         int NumberOfPointsInUse { get; set; }

@@ -1,60 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Services;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace Unicon2.Services.SerializerService
 {
     public class SerializerService : ISerializerService
     {
-        private List<Type> _allTypes;
-        private Dictionary<string, string> _attributesNamespacesDictionary;
-
-
-        public SerializerService()
+        public void SerializeInFile<T>(T objectToSerialize, string fileName)
         {
-            this._allTypes = new List<Type>();
-            this._attributesNamespacesDictionary = new Dictionary<string, string>();
-        }
-
-        public void AddKnownTypeForSerializationRange(IEnumerable<Type> types)
-        {
-            foreach (Type type in types)
+            try
             {
-                this.AddType(type);
+                using (StreamWriter writer = new StreamWriter(fileName))
+                {
+                    var jsonSerializerSettings = new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All,
+                        PreserveReferencesHandling = PreserveReferencesHandling.All,
+                        Formatting = Formatting.Indented
+                    };
+                    writer.Write(JsonConvert.SerializeObject(objectToSerialize, jsonSerializerSettings));
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public string SerializeInString<T>(T objectToSerialize)
+        {
+            try
+            {
+                var res = string.Empty;
+                using (StringWriter writer = new StringWriter())
+                {
+                    var jsonSerializerSettings = new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All,
+                        PreserveReferencesHandling = PreserveReferencesHandling.All,
+                        Formatting = Formatting.Indented
+                    };
+                    writer.Write(JsonConvert.SerializeObject(objectToSerialize, jsonSerializerSettings));
+                    res = writer.ToString();
+                }
+
+                return res;
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 
-        public void AddKnownTypeForSerialization(Type type)
+        public T DeserializeFromFile<T>(string path)
         {
-            this.AddType(type);
-        }
-
-        public void AddNamespaceAttribute(string attributeName, string namespaceString)
-        {
-            if (this._attributesNamespacesDictionary.ContainsKey(attributeName))
+            try
             {
-                if (this._attributesNamespacesDictionary[attributeName] != namespaceString)
-                    throw new Exception("Попытка добавления простанства имен xml, отличающегося от уже определенного");
-                return;
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    var jsonSerializerSettings = new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All,
+                        PreserveReferencesHandling = PreserveReferencesHandling.All,
+                        Formatting = Formatting.Indented
+                    };
+                    return JsonConvert.DeserializeObject<T>(reader.ReadToEnd(), jsonSerializerSettings);
+                }
             }
-            this._attributesNamespacesDictionary.Add(attributeName, namespaceString);
-        }
-
-        public List<Type> GetTypesForSerialiation()
-        {
-            return this._allTypes;
-        }
-
-        public Dictionary<string, string> GetNamespacesAttributes()
-        {
-            return this._attributesNamespacesDictionary;
-        }
-
-
-        private void AddType(Type type)
-        {
-            if (this._allTypes.Contains(type)) return;
-            this._allTypes.Add(type);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
         }
     }
 }

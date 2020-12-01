@@ -1,28 +1,31 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Unicon2.Formatting.Editor.ViewModels.InnerMembers;
 using Unicon2.Formatting.Editor.ViewModels.Validators;
+using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Editor.ViewModels
 {
-
-    public class FormulaFormatterViewModel : UshortsFormatterViewModelBase, IFormulaFormatterViewModel, IInitializableFromContainer
+    public class FormulaFormatterViewModel : UshortsFormatterViewModelBase, IFormulaFormatterViewModel
     {
         private readonly ILocalizerService _localizerService;
         private readonly ITypesContainer _container;
         private readonly Func<IArgumentViewModel> _argumentViewModelGettingFunc;
-        private readonly ISharedResourcesViewModelFactory _sharedResourcesViewModelFactory;
+        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
+        private readonly IFormattingService _formattingService;
         private IFormulaFormatter _formulaFormatter;
         private string _formulaString;
         private string _testResult;
@@ -31,153 +34,176 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private string _formulaTooltipString;
 
         public FormulaFormatterViewModel(ILocalizerService localizerService, ITypesContainer container,
-            Func<IArgumentViewModel> argumentViewModelGettingFunc, ISharedResourcesViewModelFactory sharedResourcesViewModelFactory)
+            Func<IArgumentViewModel> argumentViewModelGettingFunc,
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel, IFormattingService formattingService)
         {
-            this._localizerService = localizerService;
-            this._container = container;
-            this._argumentViewModelGettingFunc = argumentViewModelGettingFunc;
-            this._sharedResourcesViewModelFactory = sharedResourcesViewModelFactory;
-            this.ArgumentViewModels = new ObservableCollection<IArgumentViewModel>();
-            this._formulaFormatter = this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
+            _localizerService = localizerService;
+            _container = container;
+            _argumentViewModelGettingFunc = argumentViewModelGettingFunc;
+            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+            _formattingService = formattingService;
+            ArgumentViewModels = new ObservableCollection<IArgumentViewModel>();
+            _formulaFormatter =
+                _container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
 
-            if (this._formulaFormatter == null)
+            if (_formulaFormatter == null)
                 throw new ArgumentException();
 
-            this.CheckCommand = new RelayCommand(this.OnCheckCommandExecute);
-            this.DeleteArgumentCommand = new RelayCommand<IArgumentViewModel>(this.OnDeleteArgumentExecute);
-            this.AddArgumentCommand = new RelayCommand(this.OnAddArgumentExecute);
-            this._formulaFormatter.NumberOfSimbolsAfterComma = 3;
+            CheckCommand = new RelayCommand(OnCheckCommandExecute);
+            DeleteArgumentCommand = new RelayCommand<IArgumentViewModel>(OnDeleteArgumentExecute);
+            AddArgumentCommand = new RelayCommand(OnAddArgumentExecute);
+            _formulaFormatter.NumberOfSimbolsAfterComma = 3;
 
-            this.InitializeFormulaTooltip();
+            InitializeFormulaTooltip();
+        }
+
+        public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
+        {
+            return visitor.VisitFormulaFormatter(this);
         }
 
         private void OnAddArgumentExecute()
         {
-            this.SaveChanges();
-            IUshortFormattable resource =
-                this._sharedResourcesViewModelFactory.OpenSharedResourcesForSelecting(typeof(IUshortFormattable)) as IUshortFormattable;
-            if (resource != null)
+            SaveChanges();
+            var resourceString =
+                _sharedResourcesGlobalViewModel.OpenSharedResourcesForSelectingString<IPropertyEditorViewModel>();
+            if (resourceString != null)
             {
-                this._formulaFormatter.UshortFormattables.Add(resource);
+                _formulaFormatter.UshortFormattableResources.Add(resourceString);
             }
-            this.InitFromFormatter(this._formulaFormatter);
+            this.ArgumentViewModels.Add(new ArgumentViewModel()
+            {
+                ResourceNameString = resourceString,
+                ArgumentName = resourceString,
+                TestValue = 10,
+            });
+            //  this.InitFromFormatter(this._formulaFormatter);
         }
 
         private void OnDeleteArgumentExecute(IArgumentViewModel argumentViewModel)
         {
-            this.ArgumentViewModels.Remove(argumentViewModel);
-            this._formulaFormatter.UshortFormattables.Remove(argumentViewModel.Model as IUshortFormattable);
+            ArgumentViewModels.Remove(argumentViewModel);
+            _formulaFormatter.UshortFormattableResources.Remove(argumentViewModel.ResourceNameString);
         }
 
         private void OnCheckCommandExecute()
         {
-            this.FireErrorsChanged(nameof(this.TestValueOfX));
-            this.FireErrorsChanged(nameof(this.FormulaString));
-            if (this.HasErrors) return;
-            this._formulaFormatter.FormulaString = this.FormulaString;
-            this._formulaFormatter.NumberOfSimbolsAfterComma = this.NumberOfSimbolsAfterComma;
-            if (this.ArgumentViewModels.Count > 0)
+            FireErrorsChanged(nameof(TestValueOfX));
+            FireErrorsChanged(nameof(FormulaString));
+            if (HasErrors) return;
+            _formulaFormatter.FormulaString = FormulaString;
+            _formulaFormatter.NumberOfSimbolsAfterComma = NumberOfSimbolsAfterComma;
+            if (ArgumentViewModels.Count > 0)
             {
-                this.TestResult = this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.DYNAMIC_VALUES_CHECKING_IMPOSSIBLE);
+                TestResult =
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
+                        .DYNAMIC_VALUES_CHECKING_IMPOSSIBLE);
                 return;
             }
+
             try
             {
-                this.TestResult = this._formulaFormatter.Format(new[] { (ushort)this.TestValueOfX }).ToString();
+                TestResult = _formattingService.FormatValue(_formulaFormatter, new[] {(ushort) TestValueOfX})
+                    .ToString();
             }
             catch
             {
-                this.TestResult = this._localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR);
+                TestResult =
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR);
             }
         }
 
 
         protected override void OnValidate()
         {
-            FluentValidation.Results.ValidationResult result = new FormulaFormatterViewModelValidator(this._localizerService).Validate(this);
-            this.SetValidationErrors(result);
+            FluentValidation.Results.ValidationResult result =
+                new FormulaFormatterViewModelValidator(_localizerService).Validate(this);
+            SetValidationErrors(result);
         }
 
-        public override IUshortsFormatter GetFormatter()
-        {
-            this.SaveChanges();
-            return this._formulaFormatter;
-        }
+        //public override IUshortsFormatter GetFormatter()
+        //{
+        //    this.SaveChanges();
+        //    return this._formulaFormatter;
+        //}
 
         private void SaveChanges()
         {
-            this._formulaFormatter.FormulaString = this.FormulaString;
-            this._formulaFormatter.NumberOfSimbolsAfterComma = this.NumberOfSimbolsAfterComma;
+            _formulaFormatter.FormulaString = FormulaString;
+            _formulaFormatter.NumberOfSimbolsAfterComma = NumberOfSimbolsAfterComma;
         }
 
-        public override void InitFromFormatter(IUshortsFormatter ushortsFormatter)
-        {
-            if (ushortsFormatter == null)
-            {
-                this._formulaFormatter = this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
-                this.ArgumentViewModels.Clear();
-                this.FormulaString = string.Empty;
-                this.NumberOfSimbolsAfterComma = 4;
-            }
-            if (!(ushortsFormatter is IFormulaFormatter)) return;
+        //public override void InitFromFormatter(IUshortsFormatter ushortsFormatter)
+        //{
+        //    if (ushortsFormatter == null)
+        //    {
+        //        this._formulaFormatter =
+        //            this._container.Resolve<IUshortsFormatter>(StringKeys.FORMULA_FORMATTER) as IFormulaFormatter;
+        //        this.ArgumentViewModels.Clear();
+        //        this.FormulaString = string.Empty;
+        //        this.NumberOfSimbolsAfterComma = 4;
+        //    }
 
-            this._formulaFormatter = ushortsFormatter as IFormulaFormatter;
+        //    if (!(ushortsFormatter is IFormulaFormatter)) return;
+
+        //    this._formulaFormatter = ushortsFormatter as IFormulaFormatter;
 
 
-            this.ArgumentViewModels.Clear();
-            int index = 1;
-            if (this._formulaFormatter.UshortFormattables != null)
-            {
-                foreach (IUshortFormattable resource in this._formulaFormatter.UshortFormattables)
-                {
+        //    this.ArgumentViewModels.Clear();
+        //    int index = 1;
+        //    if (this._formulaFormatter.UshortFormattables != null)
+        //    {
+        //        foreach (IUshortFormattable resource in this._formulaFormatter.UshortFormattables)
+        //        {
 
-                    IArgumentViewModel argumentViewModel = this._argumentViewModelGettingFunc();
-                    argumentViewModel.ArgumentName = "x" + index++;
-                    argumentViewModel.Model = resource;
-                    this.ArgumentViewModels.Add(argumentViewModel);
-                }
-            }
-            this.NumberOfSimbolsAfterComma = this._formulaFormatter.NumberOfSimbolsAfterComma;
-            this.FormulaString = this._formulaFormatter.FormulaString;
-        }
+        //            IArgumentViewModel argumentViewModel = this._argumentViewModelGettingFunc();
+        //            argumentViewModel.ArgumentName = "x" + index++;
+        //            argumentViewModel.Model = resource;
+        //            this.ArgumentViewModels.Add(argumentViewModel);
+        //        }
+        //    }
+
+        //    this.NumberOfSimbolsAfterComma = this._formulaFormatter.NumberOfSimbolsAfterComma;
+        //    this.FormulaString = this._formulaFormatter.FormulaString;
+        //}
 
         public string FormulaToolTipString
         {
             get { return _formulaTooltipString; }
             set
             {
-                this._formulaTooltipString = value;
-                this.RaisePropertyChanged();
+                _formulaTooltipString = value;
+                RaisePropertyChanged();
             }
         }
 
         public string FormulaString
         {
-            get { return this._formulaString; }
+            get { return _formulaString; }
             set
             {
-                this._formulaString = value;
-                this.RaisePropertyChanged();
+                _formulaString = value;
+                RaisePropertyChanged();
             }
         }
 
         public double TestValueOfX
         {
-            get { return this._testValueOfX; }
+            get { return _testValueOfX; }
             set
             {
-                this._testValueOfX = value;
-                this.RaisePropertyChanged();
+                _testValueOfX = value;
+                RaisePropertyChanged();
             }
         }
 
         public string TestResult
         {
-            get { return this._testResult; }
+            get { return _testResult; }
             set
             {
-                this._testResult = value;
-                this.RaisePropertyChanged();
+                _testResult = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -191,32 +217,24 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public ushort NumberOfSimbolsAfterComma
         {
-            get { return this._numberOfSimbolsAfterComma; }
+            get { return _numberOfSimbolsAfterComma; }
             set
             {
-                this._numberOfSimbolsAfterComma = value;
-                this.RaisePropertyChanged();
+                _numberOfSimbolsAfterComma = value;
+                RaisePropertyChanged();
             }
         }
 
 
-        public override string StrongName => this._formulaFormatter?.StrongName;
-
-        public override object Model
-        {
-            get { return this._formulaFormatter; }
-            set
-            {
-                if (value is IFormulaFormatter)
-                    this.InitFromFormatter(value as IUshortsFormatter);
-            }
-        }
+        public override string StrongName => StringKeys.FORMULA_FORMATTER;
 
         public override object Clone()
         {
-            FormulaFormatterViewModel cloneFormulaFormatterViewModel = new FormulaFormatterViewModel(this._localizerService, this._container, this._argumentViewModelGettingFunc, this._sharedResourcesViewModelFactory);
-            this.SaveChanges();
-            cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
+            FormulaFormatterViewModel cloneFormulaFormatterViewModel =
+                new FormulaFormatterViewModel(_localizerService, _container,
+                    _argumentViewModelGettingFunc, _sharedResourcesGlobalViewModel, _formattingService);
+            SaveChanges();
+            // cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
             return cloneFormulaFormatterViewModel;
         }
 
@@ -224,19 +242,19 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             get
             {
-                this.FireErrorsChanged(nameof(this.FormulaString));
-                if (this.HasErrors)
+                FireErrorsChanged(nameof(FormulaString));
+                if (HasErrors)
                 {
-                    if (this.GetErrors(nameof(this.FormulaString)) == null) return true;
+                    if (GetErrors(nameof(FormulaString)) == null) return true;
                     return false;
                 }
+
                 return true;
             }
         }
 
         private void InitializeFormulaTooltip()
         {
-
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.AppendLine("Some text");
             sb.AppendLine("Some text");
@@ -247,29 +265,19 @@ namespace Unicon2.Formatting.Editor.ViewModels
             sb.AppendLine("Some text");
 
             _formulaTooltipString = sb.ToString();
-
         }
 
         public bool IsInEditMode { get; set; }
 
         public void StartEditElement()
         {
-            this.IsInEditMode = true;
+            IsInEditMode = true;
         }
 
         public void StopEditElement()
         {
-            this.SaveChanges();
-            this.IsInEditMode = false;
-        }
-
-
-        public bool IsInitialized { get; private set; }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            this.IsInitialized = true;
-            this._formulaFormatter?.InitializeFromContainer(container);
+            SaveChanges();
+            IsInEditMode = false;
         }
     }
 }

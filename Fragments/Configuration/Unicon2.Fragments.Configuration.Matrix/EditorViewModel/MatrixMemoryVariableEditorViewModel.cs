@@ -1,5 +1,5 @@
 ﻿using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
@@ -18,58 +18,58 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         {
             get
             {
-                this._model.Name = this.Name;
-                this._model.StartAddressBit = this.StartAddressBit;
-                this._model.StartAddressWord = this.StartAddressWord;
-                return this._model;
+                _model.Name = Name;
+                _model.StartAddressBit = StartAddressBit;
+                _model.StartAddressWord = StartAddressWord;
+                return _model;
 
             }
             set
             {
-                this._model = value as IMatrixMemoryVariable;
-                this.Name = this._model.Name;
-                this.StartAddressBit = this._model.StartAddressBit;
-                this.StartAddressWord = this._model.StartAddressWord;
+                _model = value as IMatrixMemoryVariable;
+                Name = _model.Name;
+                StartAddressBit = _model.StartAddressBit;
+                StartAddressWord = _model.StartAddressWord;
             }
         }
 
         public string Name
         {
-            get { return this._name; }
+            get { return _name; }
             set
             {
-                this._name = value;
-                this.RaisePropertyChanged();
+                _name = value;
+                RaisePropertyChanged();
             }
         }
 
         public ushort StartAddress
         {
-            get { return this._startAddress; }
+            get { return _startAddress; }
             set
             {
-                this._startAddress = value;
-                this.RaisePropertyChanged();
+                _startAddress = value;
+                RaisePropertyChanged();
             }
         }
 
         public ushort StartAddressWord
         {
-            get { return this._startAddressWord; }
+            get { return _startAddressWord; }
             set
             {
-                this._startAddressWord = value;
-                this.RaisePropertyChanged();
+                _startAddressWord = value;
+                RaisePropertyChanged();
             }
         }
 
         public ushort StartAddressBit
         {
-            get { return this._startAddressBit; }
+            get { return _startAddressBit; }
             set
             {
-                this._startAddressBit = value;
-                this.RaisePropertyChanged();
+                _startAddressBit = value;
+                RaisePropertyChanged();
             }
         }
     }

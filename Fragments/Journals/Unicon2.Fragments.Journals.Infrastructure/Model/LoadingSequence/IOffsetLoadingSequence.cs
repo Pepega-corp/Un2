@@ -8,6 +8,5 @@
         ushort WordFormatFrom { get; set; }
         ushort WordFormatTo { get; set; }
         bool IsWordFormatNotForTheWholeRecord { get; set; }
-
     }
 }

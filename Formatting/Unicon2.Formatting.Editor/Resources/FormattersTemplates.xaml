@@ -119,7 +119,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type formatters:DefaultBitMaskFormatterViewModel}">
-        <VirtualizingStackPanel>
+        <StackPanel>
             <TextBlock
                 Margin="3"
                 Text="{lex:Loc DefaultBitMaskFormatterDescription}"
@@ -152,7 +152,7 @@
                     Content="{lex:Loc DeleteSignature}"
                     Style="{DynamicResource UniconButtonStyle}" />
             </Grid>
-        </VirtualizingStackPanel>
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type formatters:DictionaryMatchingFormatterViewModel}">
@@ -161,6 +161,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -220,6 +221,14 @@
                 Grid.Row="4"
                 Content="{lex:Loc IsKeysAreNumbersOfBits}"
                 IsChecked="{Binding IsKeysAreNumbersOfBits}" />
+            <StackPanel Grid.Row="5" Orientation="Horizontal">
+                <CheckBox Content="{lex:Loc UseDefaultMessage}" IsChecked="{Binding UseDefaultMessage}" />
+                <TextBox
+                    MinWidth="200"
+                    Margin="100,0,0,0"
+                    IsEnabled="{Binding UseDefaultMessage}"
+                    Text="{Binding DefaultMessage}" />
+            </StackPanel>
         </Grid>
     </DataTemplate>
 
@@ -237,7 +246,7 @@
                 Margin="5"
                 Text="{lex:Loc FormulaFormatterDescription}"
                 TextWrapping="Wrap" />
-            <VirtualizingStackPanel
+            <StackPanel
                 Grid.Row="1"
                 Margin="10"
                 Orientation="Horizontal">
@@ -248,10 +257,10 @@
                     MinWidth="200"
                     Margin="5"
                     FontSize="20"
-                    Text="{Binding FormulaString}" 
-                    ToolTip="{Binding FormulaToolTipString}"/>
-            </VirtualizingStackPanel>
-            <VirtualizingStackPanel Grid.Row="2" Orientation="Vertical">
+                    Text="{Binding FormulaString}"
+                    ToolTip="{Binding FormulaToolTipString}" />
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Vertical">
                 <Button
                     Width="150"
                     Height="auto"
@@ -276,8 +285,8 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </VirtualizingStackPanel>
-            <VirtualizingStackPanel Grid.Row="3" Orientation="Horizontal">
+            </StackPanel>
+            <StackPanel Grid.Row="3" Orientation="Horizontal">
                 <UniformGrid
                     Margin="10"
                     Columns="2"
@@ -293,15 +302,15 @@
                     Command="{Binding CheckCommand}"
                     Content="{lex:Loc Check}"
                     Style="{DynamicResource UniconButtonStyle}" />
-            </VirtualizingStackPanel>
-            <VirtualizingStackPanel
+            </StackPanel>
+            <StackPanel
                 Grid.Row="4"
                 Margin="10"
                 HorizontalAlignment="Left"
                 Orientation="Horizontal">
                 <TextBlock Width="250" Text="{lex:Loc NumberOfSimbolsAfterComma}" />
                 <TextBox Width="250" Text="{Binding NumberOfSimbolsAfterComma}" />
-            </VirtualizingStackPanel>
+            </StackPanel>
         </Grid>
     </DataTemplate>
 
@@ -337,7 +346,7 @@
             <DataGrid
                 Grid.Row="2"
                 HorizontalAlignment="Stretch"
-                AlternatingRowBackground="{DynamicResource AccentColorBrush2}"
+                AlternatingRowBackground="{DynamicResource MahApps.Brushes.Accent2}"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 GridLinesVisibility="All"

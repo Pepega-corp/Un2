@@ -13,7 +13,7 @@ namespace Unicon2.Fragments.Configuration.Converters
             {
                 if ((value as bool?).Value)
                 {
-                    return Brushes.Yellow;
+                    return Brushes.Gold;
                 }
                 else
                 {

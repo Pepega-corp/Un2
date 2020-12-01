@@ -4,17 +4,18 @@ using System.Windows.Data;
 
 namespace Unicon2.SharedResources.Converter
 {
-  public  class IgnoringFailedLocalizationConverter:IValueConverter
+    public class IgnoringFailedLocalizationConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string)
             {
-                if (((string)value).Contains("Key:"))
+                if (((string) value).Contains("Key: "))
                 {
-                    return ((string) value).Replace("Key:", "");
+                    return ((string) value).Replace("Key: ", "");
                 }
             }
+
             return value;
         }
 

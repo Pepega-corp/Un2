@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Journals.Infrastructure.ViewModel.LoadingSequence
 {
-    public interface IJournalLoadingSequenceEditorViewModel:IViewModel
+    public interface IJournalLoadingSequenceEditorViewModel : IViewModel
     {
         string NameForUiKey { get; }
     }

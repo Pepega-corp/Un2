@@ -1,11 +1,9 @@
 ﻿using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Threading;
-using Unicon2.Infrastructure.Connection;
-using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.Connection;
-using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -14,15 +12,19 @@ namespace Unicon2.Presentation.Connection
     public class ConnectionStateViewModel : ViewModelBase, IConnectionStateViewModel
     {
         private readonly IValueViewModelFactory _valueViewModelFactory;
-        private IConnectionState _connectionState;
+        private readonly IConnectionService _connectionService;
         private double _indicatorOpacity;
         private SemaphoreSlim _semaphoreSlim;
+        private bool _isDeviceConnected;
+        private string _testValueViewModel;
 
 
-        public ConnectionStateViewModel(IValueViewModelFactory valueViewModelFactory)
+        public ConnectionStateViewModel(IValueViewModelFactory valueViewModelFactory,
+            IConnectionService connectionService)
         {
-            this._valueViewModelFactory = valueViewModelFactory;
-            this.CheckConnectionCommand = new RelayCommand(OnCheckConnectionExecute);
+            _valueViewModelFactory = valueViewModelFactory;
+            this._connectionService = connectionService;
+            CheckConnectionCommand = new RelayCommand(OnCheckConnectionExecute);
 
             _semaphoreSlim = new SemaphoreSlim(1);
             IndicatorOpacity = 1;
@@ -32,55 +34,35 @@ namespace Unicon2.Presentation.Connection
 
         private void OnCheckConnectionExecute()
         {
-            this._connectionState.TryReconnect();
-            this._connectionState.CheckConnection();
+
         }
 
-
-        public string StrongName { get; }
-
-        public object Model
+        public bool IsDeviceConnected
         {
-            get { return this._connectionState; }
-            set { this.SetModel(value); }
-        }
-
-        private void SetModel(object value)
-        {
-            if (value is IConnectionState)
-            {
-                IConnectionState connectionState = (value as IConnectionState);
-                this._connectionState = connectionState;
-
-
-                this._connectionState.ConnectionStateChangedAction += () =>
-                {
-                    if (_connectionState.DataProvider is IDataProvider)
-                        _connectionState.DataProvider.TransactionCompleteAction += () => { this?.BeginIndication(); };
-                    this.IsDeviceConnected = this._connectionState.IsConnected;
-                    if (this.IsDeviceConnected)
-                    {
-                        this.TestValueViewModel =
-                            this._valueViewModelFactory.CreateFormattedValueViewModel(this._connectionState.TestResultValue);
-                    }
-                    this.RaisePropertyChanged(nameof(this.IsDeviceConnected));
-                };
-                this._connectionState.ConnectionStateChangedAction?.Invoke();
-            }
-        }
-
-        public bool IsDeviceConnected { get; private set; }
-
-        public double IndicatorOpacity
-        {
-            get { return this._indicatorOpacity; }
+            get { return this._isDeviceConnected; }
             set
             {
-                this._indicatorOpacity = value;
+                if (this._isDeviceConnected == value)
+                {
+                    return;
+                }
+
+                this._isDeviceConnected = value;
                 RaisePropertyChanged();
             }
         }
-        private async Task BeginIndication()
+
+        public double IndicatorOpacity
+        {
+            get { return _indicatorOpacity; }
+            set
+            {
+                _indicatorOpacity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public async Task BeginIndication()
         {
             try
             {
@@ -100,7 +82,16 @@ namespace Unicon2.Presentation.Connection
             }
         }
 
-        public IFormattedValueViewModel TestValueViewModel { get; set; }
+        public string TestValue
+        {
+            get { return this._testValueViewModel; }
+            set
+            {
+                this._testValueViewModel = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ICommand CheckConnectionCommand { get; }
     }
 }

@@ -24,10 +24,8 @@ namespace Unicon2.Connections.ModBusTcpConnection.Module
             //регистрация фабрики 
             container.Register<IDeviceConnectionFactory, ModBusTcpConnectionFactory>(ModBusTcpKeys.MODBUSTCP_CONNECTION_FACTORY_NAME);
 
-            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(ModbusTcpConnection));
-            container.Resolve<ISerializerService>().AddNamespaceAttribute("modbusTcpConnection", "ModbusTcpConnectionNS");
 
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ModBusTcpConnectionResources.xaml", this.GetType().Assembly);
+            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ModBusTcpConnectionResources.xaml", GetType().Assembly);
         }
     }
 }

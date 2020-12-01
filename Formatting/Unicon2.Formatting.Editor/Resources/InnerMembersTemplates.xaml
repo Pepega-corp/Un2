@@ -76,7 +76,7 @@
 
     <Style
         x:Key="BitCheckBoxStyle"
-        BasedOn="{StaticResource MetroCheckBox}"
+        BasedOn="{StaticResource MahApps.Styles.CheckBox}"
         TargetType="CheckBox">
 
         <Setter Property="Background" Value="Transparent" />

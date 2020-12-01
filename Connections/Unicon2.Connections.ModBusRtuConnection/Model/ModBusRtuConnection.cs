@@ -3,13 +3,15 @@ using NModbus4.Device;
 using NModbus4.IO;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unicon2.Connections.DataProvider.Model;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces;
 using Unicon2.Connections.ModBusRtuConnection.Interfaces.Factories;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Unity.Interfaces;
@@ -20,7 +22,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
     /// <summary>
     /// класс подключения по ModBusRtu
     /// </summary>
-    [DataContract(Namespace = "ModBusRtuConnectionNS", IsReference = true)]
+    [JsonObject(MemberSerialization.OptIn)]
     public class ModBusRtuConnection : ModbusDataProvider, IModbusRtuConnection
     {
         private IComConnectionManager _connectionManager;
@@ -33,24 +35,33 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
         public ModBusRtuConnection(IComConnectionManager connectionManager, ITypesContainer container, ILocalizerService localizerService,
             IComPortConfigurationFactory comPortConfigurationFactory, IQueryResultFactory queryResultFactory) : base(queryResultFactory)
         {
-            this._connectionManager = connectionManager;
-            this._container = container;
-            this._localizerService = localizerService;
-            this._comPortConfigurationFactory = comPortConfigurationFactory;
+            _connectionManager = connectionManager;
+            _container = container;
+            _localizerService = localizerService;
+            _comPortConfigurationFactory = comPortConfigurationFactory;
 
-            this.ComPortConfiguration = this._comPortConfigurationFactory.CreateComPortConfiguration();
+            ComPortConfiguration = _comPortConfigurationFactory?.CreateComPortConfiguration();
+            if (_container == null) 
+            {
+	            _connectionManager = StaticContainer.Container.Resolve<IComConnectionManager>();
+	            _container = StaticContainer.Container.Resolve<ITypesContainer>();
+                _localizerService = StaticContainer.Container.Resolve<ILocalizerService>();
+                _comPortConfigurationFactory = StaticContainer.Container.Resolve<IComPortConfigurationFactory>();
+            }
         }
 
-        [DataMember]
+        [JsonProperty]
         public string PortName { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public IComPortConfiguration ComPortConfiguration { get; set; }
 
         public List<string> GetAvailablePorts()
         {
-            return this._connectionManager.GetSerialPortNames();
+            return _connectionManager.GetSerialPortNames();
         }
+
+      
 
 
         /// <summary>
@@ -58,7 +69,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
         /// </summary>
         public string ConnectionName => "ModBus RTU";
 
-        public async Task<bool> TryOpenConnectionAsync(bool isThrowingException, IDeviceLogger deviceLogger)
+        public async Task<Result> TryOpenConnectionAsync(IDeviceLogger deviceLogger)
         {
             try
             {
@@ -66,105 +77,87 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
                 IModbusSerialMaster modbusSerialMaster = null;
                 await Task.Run(() =>
                 {
-                    streamResource = this._connectionManager.GetSerialPortAdapter(this.PortName);
+                    streamResource = _connectionManager.GetSerialPortAdapter(PortName);
                     modbusSerialMaster = ModbusSerialMaster.CreateRtu(streamResource);
                 });
 
                 if (modbusSerialMaster != null)
                 {
-                    this._currentModbusMaster?.Dispose();
-                    this._currentModbusMaster = modbusSerialMaster;
+                    _currentModbusMaster?.Dispose();
+                    _currentModbusMaster = modbusSerialMaster;
                 }
                 else
                 {
                     throw new Exception();
                 }
-                this._slaveId = this.SlaveId;
-                this._deviceLogger = deviceLogger;
+                _slaveId = SlaveId;
+                _deviceLogger = deviceLogger;
 
-                this._isConnectionLost = false;
-                this._lastQuerySucceed = true;
+                _isConnectionLost = false;
+                _lastQuerySucceed = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                if (isThrowingException) throw;
-                return false;
+	            return Result.Create(e);
             }
-            return true;
+            return Result.Create(true);
         }
-
-        public Action<bool> LastQueryStatusChangedAction { get; set; }
-
 
         public void CloseConnection()
         {
-            this._currentModbusMaster.Dispose();
+            _currentModbusMaster?.Dispose();
 
         }
 
 
-        [DataMember]
+        [JsonProperty]
 
         public byte SlaveId
         {
-            get { return this._slaveId; }
-            set { this._slaveId = value; }
+            get { return _slaveId; }
+            set { _slaveId = value; }
         }
 
         protected override void OnDisposing()
         {
-            this._currentModbusMaster?.Dispose();
+            _currentModbusMaster?.Dispose();
             base.OnDisposing();
         }
 
         public object Clone()
         {
-            IModbusRtuConnection modbusRtuConnection = this._container.Resolve<IModbusRtuConnection>();
-            modbusRtuConnection.ComPortConfiguration = this.ComPortConfiguration.Clone() as IComPortConfiguration;
-            modbusRtuConnection.PortName = this.PortName;
-            modbusRtuConnection.SlaveId = this.SlaveId;
+            IModbusRtuConnection modbusRtuConnection = _container.Resolve<IModbusRtuConnection>();
+            modbusRtuConnection.ComPortConfiguration = ComPortConfiguration.Clone() as IComPortConfiguration;
+            modbusRtuConnection.PortName = PortName;
+            modbusRtuConnection.SlaveId = SlaveId;
             return modbusRtuConnection;
         }
-
-
-        public override void InitializeFromContainer(ITypesContainer container)
-        {
-            if (this._isInitialized) return;
-            this._container = container;
-            this._connectionManager = container.Resolve<IComConnectionManager>();
-            this._localizerService = container.Resolve<ILocalizerService>();
-            this._comPortConfigurationFactory = container.Resolve<IComPortConfigurationFactory>();
-            this.ComPortConfiguration = this._comPortConfigurationFactory.CreateComPortConfiguration();
-            this._isInitialized = true;
-            base.InitializeFromContainer(container);
-        }
-
 
         protected override void LogQuery(bool isSuccessful, string dataTitle, string queryDescription, string queryResult = "", Exception exception = null)
         {
             base.LogQuery(isSuccessful, dataTitle, queryDescription, queryResult, exception);
             string localizedDataTitle;
-            this._localizerService.TryGetLocalizedString(dataTitle, out localizedDataTitle);
+            _localizerService.TryGetLocalizedString(dataTitle, out localizedDataTitle);
             if (isSuccessful)
             {
-                if (this._isConnectionLost)
+                if (_isConnectionLost)
                 {
-                    this._isConnectionLost = false;
-                    this.LastQueryStatusChangedAction?.Invoke(true);
+                    _isConnectionLost = false;
+                    _lastQuerySucceed = true;
                 }
-                this._deviceLogger?.LogSuccessfulQuery("[" + queryDescription + "]" + " " + localizedDataTitle + ". " + queryResult);
+                _deviceLogger?.LogSuccessfulQuery("[" + queryDescription + "]" + " " + localizedDataTitle + ". " + queryResult);
             }
             else
             {
-                if (!this._isConnectionLost)
+                if (!_isConnectionLost)
                 {
-                    this._isConnectionLost = true;
-                    this.LastQueryStatusChangedAction?.Invoke(false);
+                    _isConnectionLost = true;
+                    _lastQuerySucceed = false;
                 }
                 string exceptionDescription;
                 if (exception is SlaveException)
                 {
-                    this._localizerService.TryGetLocalizedString((exception as SlaveException).MessageKey,
+                    _localizerService.TryGetLocalizedString((exception as SlaveException).MessageKey,
                         out exceptionDescription);
                 }
                 else
@@ -172,7 +165,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.Model
                     exceptionDescription = exception?.Message;
                 }
                 queryResult = exceptionDescription;
-                this._deviceLogger?.LogFailedQuery($"[{queryDescription}] {localizedDataTitle}  {queryResult}");
+                _deviceLogger?.LogFailedQuery($"[{queryDescription}] {localizedDataTitle}  {queryResult}");
             }
         }
     }

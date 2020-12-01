@@ -1,16 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Address;
 
 namespace Unicon2.Fragments.Measuring.Model.Address
 {
-    [DataContract(Namespace = "AddressOfBitNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class AddressOfBit : IAddressOfBit
     {
-        [DataMember]
+        [JsonProperty]
         public int NumberOfFunction { get; set; }
-        [DataMember]
+        [JsonProperty]
         public ushort Address { get; set; }
-        [DataMember]
+        [JsonProperty]
         public ushort BitAddressInWord { get; set; }
     }
 }

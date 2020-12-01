@@ -1,107 +1,95 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services.LogService;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Services.LogService
 {
-    [DataContract(Namespace = "DeviceLoggerNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DeviceLogger : IDeviceLogger
     {
-        private Func<ILogMessage> _logMessageGettingFunc;
 
-        public DeviceLogger(Func<ILogMessage> logMessageGettingFunc)
+        public DeviceLogger()
         {
-            this._logMessageGettingFunc = logMessageGettingFunc;
-            this.IsInfoMessagesLoggingEnabled = true;
-            this.IsErrorsLoggingEnabled = true;
-            this.IsFailedQueriesLoggingEnabled = true;
+            IsInfoMessagesLoggingEnabled = true;
+            IsErrorsLoggingEnabled = true;
+            IsFailedQueriesLoggingEnabled = true;
         }
 
 
         public void LogInfoMessage(string description)
         {
-            if (!this.IsInfoMessagesLoggingEnabled) return;
-            ILogMessage logMessage = this.GetRawMessage();
+            if (!IsInfoMessagesLoggingEnabled) return;
+            ILogMessage logMessage = GetRawMessage();
             logMessage.Description = description;
             logMessage.LogMessageType = LogMessageTypeEnum.Info;
-            this.LogMessageAriseAction?.Invoke(logMessage);
+            LogMessageAriseAction?.Invoke(logMessage);
         }
 
         public void LogError(string description)
         {
-            if(!this.IsErrorsLoggingEnabled)return;
-            ILogMessage logMessage = this.GetRawMessage();
+            if(!IsErrorsLoggingEnabled)return;
+            ILogMessage logMessage = GetRawMessage();
             logMessage.Description = description;
             logMessage.LogMessageType = LogMessageTypeEnum.Error;
-            this.LogMessageAriseAction?.Invoke(logMessage);
+            LogMessageAriseAction?.Invoke(logMessage);
         }
 
         public void LogSuccessfulQuery(string description)
         {
-            if (!this.IsSuccessfulQueriesLoggingEnabled) return;
-            ILogMessage logMessage = this.GetRawMessage();
+            if (!IsSuccessfulQueriesLoggingEnabled) return;
+            ILogMessage logMessage = GetRawMessage();
             logMessage.Description = description;
             logMessage.LogMessageType = LogMessageTypeEnum.SuccsessfulQuery;
-            this.LogMessageAriseAction?.Invoke(logMessage);
+            LogMessageAriseAction?.Invoke(logMessage);
         }
 
         public void LogFailedQuery(string description)
         {
-            if (!this.IsFailedQueriesLoggingEnabled) return;
-            ILogMessage logMessage = this.GetRawMessage();
+            if (!IsFailedQueriesLoggingEnabled) return;
+            ILogMessage logMessage = GetRawMessage();
             logMessage.Description = description;
             logMessage.LogMessageType = LogMessageTypeEnum.FailedQuery;
-            this.LogMessageAriseAction?.Invoke(logMessage);
+            LogMessageAriseAction?.Invoke(logMessage);
 
         }
 
         public void SetLoggerSubject(string subjectName)
         {
-            this.SourceName = subjectName;
+            SourceName = subjectName;
         }
 
 
         private ILogMessage GetRawMessage()
         {
-            ILogMessage logMessageRaw = this._logMessageGettingFunc();
-            logMessageRaw.MessageSubject = this.SourceName;
+            ILogMessage logMessageRaw = StaticContainer.Container.Resolve<ILogMessage>();
+            logMessageRaw.MessageSubject = SourceName;
             logMessageRaw.MessageDateTime = DateTime.Now;
             return logMessageRaw;
         }
 
         public Action<ILogMessage> LogMessageAriseAction { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsInfoMessagesLoggingEnabled { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsFailedQueriesLoggingEnabled { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsSuccessfulQueriesLoggingEnabled { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public bool IsErrorsLoggingEnabled { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public string SourceName { get; set; }
 
         public object Clone()
         {
-            IDeviceLogger deviceLogger=new DeviceLogger(this._logMessageGettingFunc);
-           deviceLogger.SetLoggerSubject(this.SourceName);
+            IDeviceLogger deviceLogger=new DeviceLogger();
+           deviceLogger.SetLoggerSubject(SourceName);
             return deviceLogger;
-        }
-
-        public bool IsInitialized { get; private set; }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            if (this.IsInitialized) return;
-
-            this._logMessageGettingFunc = container.Resolve<Func<ILogMessage>>();
-            this.IsInitialized = true;
         }
     }
 }

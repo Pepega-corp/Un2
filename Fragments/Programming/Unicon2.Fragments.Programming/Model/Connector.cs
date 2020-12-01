@@ -1,22 +1,26 @@
-﻿using Unicon2.Fragments.Programming.Infrastructure;
+﻿using System.Runtime.Serialization;
+using System.Windows;
+using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model
 {
+    [DataContract(Name = "connector",Namespace = "ConnectorNS")]
     public class Connector: IConnector
     {
         /// <summary>
         /// Ориентация вывода по отношению к элементу: расположение справа или слева
         /// </summary>
-        public ConnectorOrientation Orientation { get; }
+        [DataMember] public ConnectorOrientation Orientation { get; set; }
         /// <summary>
         /// Тип вывода: прямой или инверсный
         /// </summary>
-        public ConnectorType Type { get; set; }
+        [DataMember] public ConnectorType Type { get; set; }
+        [DataMember] public Point ConnectorPosition { get; set; }
         /// <summary>
         /// Номер связи
         /// </summary>
-        public int ConnectionNumber { get; set; }
+        [DataMember] public int ConnectionNumber { get; set; }
 
         public Connector(ConnectorOrientation orientation, ConnectorType type)
         {

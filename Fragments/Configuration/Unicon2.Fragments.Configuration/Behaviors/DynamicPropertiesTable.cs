@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Behaviors
@@ -16,10 +13,10 @@ namespace Unicon2.Fragments.Configuration.Behaviors
         public DynamicPropertiesTable(List<string> columnNamesStrings, List<string> rowHeadersStrings,
             bool isBaseNumeration)
         {
-            this.IsBaseNumeration = isBaseNumeration;
-            this.ColumnNamesStrings = columnNamesStrings;
-            this.RowHeadersStrings = rowHeadersStrings;
-            this.Values = new List<List<ILocalAndDeviceValueContainingViewModel>>();
+            IsBaseNumeration = isBaseNumeration;
+            ColumnNamesStrings = columnNamesStrings;
+            RowHeadersStrings = rowHeadersStrings;
+            Values = new List<List<ILocalAndDeviceValueContainingViewModel>>();
         }
 
         public List<string> ColumnNamesStrings { get; }
@@ -29,20 +26,20 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public int GetCurrentValueCount()
         {
-            return this.Values.Count;
+            return Values.Count;
         }
 
         public void AddPropertyViewModel(List<ILocalAndDeviceValueContainingViewModel> rowList)
         {
-            this.Values.Add(rowList);
-            this.FormattedValueViewModelAddedAction?.Invoke(rowList);
+            Values.Add(rowList);
+            FormattedValueViewModelAddedAction?.Invoke(rowList);
         }
 
         public void Reset()
         {
-            this.Values.Clear();
-            this.ColumnNamesStrings.Clear();
-            this.RowHeadersStrings.Clear();
+            Values.Clear();
+            ColumnNamesStrings.Clear();
+            RowHeadersStrings.Clear();
         }
 
 

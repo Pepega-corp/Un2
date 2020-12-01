@@ -2,9 +2,10 @@
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows
 {
-    public interface IAnchorableWindow:IDockingWindow
+    public interface IAnchorableWindow : IDockingWindow
     {
         bool IsVisible { get; set; }
         PlacementEnum AnchorableDefaultPlacementEnum { get; }
+        object Content { get; set; }
     }
 }

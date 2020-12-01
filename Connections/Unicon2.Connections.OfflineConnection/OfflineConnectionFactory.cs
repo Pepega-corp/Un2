@@ -5,16 +5,16 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Connections.OfflineConnection
 {
-   public class OfflineConnectionFactory:IDeviceConnectionFactory
+    public class OfflineConnectionFactory : IDeviceConnectionFactory
     {
         public IDeviceConnection CreateDeviceConnection()
         {
-          return new OfflineConnection();
+            return new OfflineConnection();
         }
 
         public IViewModel CreateDeviceConnectionViewModel()
         {
-           return new OfflineConnectionViewModel();
+            return new OfflineConnectionViewModel();
         }
     }
 }

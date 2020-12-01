@@ -34,8 +34,22 @@
             ///    строка read
             /// </summary>
             public const string READ_STRING_KEY = "Read";
+  
+            public const string SAVE_FOR_PRINT = "SaveForPrint";
+            public const string COMMAND = "CommandMenuItem";
+
+            public const string OPEN_PROJECT = "OpenProject";
+            public const string NEW_PROJECT = "NewProject";
+            public const string SAVE_PROJECT = "Save";
+            public const string SAVE_AS_PROJECT = "SaveAs";
+            public const string EXIT = "Exit";
+            public const string ADD = "Add";
+            public const string OPEN_DEVICE_EDITOR = "OpenDeviceEditor";
+            public const string OPEN_OSC = "OpenOscillogram";
+            public const string OPEN_WEB_SYNC = "OpenWebSync";
+
         }
-        
+
         public static class WindowsStrings
         {
             /// <summary>
@@ -52,24 +66,29 @@
         public static class CommonInjectionStrings
         {
             /// <summary>
-            ///    строка вью-модель
+            /// строка вью-модель
             /// </summary>
             public const string VIEW_MODEL = "ViewModel";
 
             /// <summary>
-            /// строка  Editor
+            /// Строка Editor
             /// </summary>
-            public static string EDITOR_VIEWMODEL = "EditorViewModel";
+            public const string EDITOR = "Editor";
+
+            /// <summary>
+            /// строка  EditorViewModel
+            /// </summary>
+            public const string EDITOR_VIEWMODEL = "EditorViewModel";
 
             /// <summary>
             /// строка DataTemplate
             /// </summary>
-            public static string DATATEMPLATE = "DataTemplate";
+            public const string DATATEMPLATE = "DataTemplate";
 
             /// <summary>
             /// строка Editable
             /// </summary>
-            public static string EDITABLE = "Editable";
+            public const string EDITABLE = "Editable";
         }
 
         
@@ -152,10 +171,23 @@
             public const string PORT_ERROR_MESSAGE = "PortErrorMessage";
 
             /// <summary>
+            ///  строка сообщения об ошибке порта
+            /// </summary>
+            public const string CANNOT_CONNECT_DEVICE = "CannotConnectDevice";
+            /// <summary>
             ///  строка сообщения об ошибке формата
             /// </summary>
             public const string FORMAT_ERROR = "FormatError";
 
+            /// <summary>
+            ///  строка сообщения о потере связи + вопрос о переходе в оффлайн
+            /// </summary>
+            public const string CONNECTION_LOST_GO_OFFLINE = "ConnectionLostGoOfflineQuestion";
+
+            /// <summary>
+            ///  строка сообщения об ошибке формата
+            /// </summary>
+            public const string DATE_FORMAT = "DateFormat";
             /// <summary>
             ///  строка сообщения о неверном диапазоне
             /// </summary>
@@ -180,11 +212,18 @@
             /// сообщение о невыбранном устройстве
             /// </summary>
             public static string SELECTED_DEVICE_NULL_MESSAGE = "SelectedDeviceNullMessage";
-
+            
+          /// <summary>
+            /// сообщение о невыбранном устройстве
+            /// </summary>
+            public static string PORT_NOT_SELECTED = "PortNotSelected";
+          
             /// <summary>
             /// сообщение о невыбранном подключении
             /// </summary> 
             public static string SELECTED_CONNECTION_NULL_MESSAGE = "SelectedConnectionNullMessage";
+
+      
 
             /// <summary>
             /// сообщение о несоответствии значению его пределов
@@ -205,6 +244,8 @@
             /// сообщение об ошибке чтения устройства
             /// </summary> 
             public static string DEVICE_READING_ERROR = "DeviceReadingError";
+
+            public static string MUST_BE_POSITIVE = "MustBePositive";
         }
 
         public static class QueriesNames
@@ -336,6 +377,8 @@
         /// папка с устройствами по умолчаню
         /// </summary>
         public const string DEFAULT_DEVICES_FOLDER_PATH = "Devices";
+        public const string DEFAULT_BACKUP_FOLDER_PATH = "Devices\\Backup";
+
 
         public const string QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING = "QuickAccessMemoryConfigurationSetting";
 

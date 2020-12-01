@@ -21,28 +21,28 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
 
         public ModbusTcpConnectionViewModel(IModbusTcpConnection modbusTcpConnection)
         {
-            this._model = modbusTcpConnection;
-            this.PingDeviceCommand = new RelayCommand(this.OnPingDeviceCommand);
+            _model = modbusTcpConnection;
+            PingDeviceCommand = new RelayCommand(OnPingDeviceCommand);
         }
 
 
         public int Port
         {
-            get { return this._port; }
+            get { return _port; }
             set
             {
-                this._port = value;
-                this.RaisePropertyChanged();
+                _port = value;
+                RaisePropertyChanged();
             }
         }
 
         public string IpAddress
         {
-            get { return this._ipAddress; }
+            get { return _ipAddress; }
             set
             {
-                this._ipAddress = value;
-                this.RaisePropertyChanged();
+                _ipAddress = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -82,7 +82,7 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
             IsPinging = pingable;
 
         }
-        public string ConnectionName => this._model.ConnectionName;
+        public string ConnectionName => _model.ConnectionName;
 
         public string StrongName => ModBusTcpKeys.MODBUS_TCP_CONNECTION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
@@ -91,15 +91,15 @@ namespace Unicon2.Connections.ModBusTcpConnection.ViewModel
         {
             get
             {
-                this._model.IpAddress = this.IpAddress;
-                this._model.Port = this.Port;
-                return this._model;
+                _model.IpAddress = IpAddress;
+                _model.Port = Port;
+                return _model;
             }
             set
             {
-                this._model = value as IModbusTcpConnection;
-                this.Port = this._model.Port;
-                this.IpAddress = this._model.IpAddress;
+                _model = value as IModbusTcpConnection;
+                Port = _model.Port;
+                IpAddress = _model.IpAddress;
             }
         }
     }

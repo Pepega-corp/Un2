@@ -1,11 +1,9 @@
-﻿using System;
-using System.Windows;
-using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
+﻿using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
 using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.Factories;
-using Unicon2.Infrastructure.ViewModel;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.DeviceEditorUtilityModule.Factories
@@ -16,34 +14,25 @@ namespace Unicon2.DeviceEditorUtilityModule.Factories
 
         public SharedResourcesEditorFactory(ITypesContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
-        public void OpenResourceForEdit(INameable resource, object _owner)
+        public void OpenResourceForEdit(IResourceViewModel resource, object _owner)
         {
-            IStronglyNamed stronglyNamed = resource as IStronglyNamed;
-
-            if (stronglyNamed == null) return;
-
-            IApplicationGlobalCommands applicationGlobalCommands = this._container.Resolve<IApplicationGlobalCommands>();
+            IApplicationGlobalCommands applicationGlobalCommands = _container.Resolve<IApplicationGlobalCommands>();
             if (applicationGlobalCommands != null)
             {
-                IResourceEditingViewModel resourceEditingViewModel = this._container.Resolve<IResourceEditingViewModel>();
-                IViewModel resViewModel;
-                try
+                IResourceEditingViewModel resourceEditingViewModel = _container.Resolve<IResourceEditingViewModel>();
+
+                if (resource.RelatedEditorItemViewModel is IFormatterParametersViewModel
+                    formatterParametersViewModel)
                 {
-                    resViewModel = this._container.Resolve<IViewModel>(stronglyNamed.StrongName +
-                        ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                    resourceEditingViewModel.ResourceEditorViewModel = formatterParametersViewModel.RelatedUshortsFormatterViewModel;
+                    applicationGlobalCommands.ShowWindowModal(() => new ResourcesEditingWindow(), resourceEditingViewModel, _owner);
                 }
-                catch (Exception)
-                {
-                    return;
-                }
-                if (resViewModel == null) return;
-                resViewModel.Model = resource;
-                (resource as IInitializableFromContainer)?.InitializeFromContainer(this._container);
-                resourceEditingViewModel.ResourceEditorViewModel = resViewModel;
-                applicationGlobalCommands.ShowWindowModal(() => new ResourcesEditingWindow(), resourceEditingViewModel, _owner);
+
+
+            
             }
         }
     }

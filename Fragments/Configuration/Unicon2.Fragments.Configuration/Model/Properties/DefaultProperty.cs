@@ -1,117 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
-using Unicon2.Fragments.Configuration.Model.Base;
-using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Connection;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Infrastructure.Dependencies;
 using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Model.Properties
 {
-    [DataContract(Namespace = "DefaultPropertyNS", Name = nameof(DefaultProperty),IsReference = true)]
-    public class DefaultProperty : LocalDeviceValuesConfigurationItemBase, IProperty
+    [JsonObject(MemberSerialization.OptIn)]
+    public class DefaultProperty : ConfigurationItemBase, IProperty
     {
-        [DataMember(Name =nameof(UshortsFormatter),Order =0)]
-        public IUshortsFormatter UshortsFormatter { get; set; }
+        [JsonProperty] public IUshortsFormatter UshortsFormatter { get; set; }
 
-        [DataMember(Name =nameof(Address),Order =1)]
-        
-        public ushort Address { get; set; }
-        
+        [JsonProperty] public ushort Address { get; set; } = 1;
+        [JsonProperty] public ushort NumberOfPoints { get; set; } = 1;
 
-        [DataMember(Order =2)]
-        public ushort NumberOfPoints { get; set; }
+        [DefaultValue(16)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        public ushort NumberOfWriteFunction { get; set; }
 
-        public override string StrongName => nameof(DefaultProperty);
+        [JsonProperty] public string MeasureUnit { get; set; }
 
+        [JsonProperty] public bool IsMeasureUnitEnabled { get; set; }
 
-        [DataMember(Order = 3)]
-        public string MeasureUnit { get; set; }
+        [JsonProperty] public bool IsRangeEnabled { get; set; }
 
-        [DataMember(Order = 4)]
-        public bool IsMeasureUnitEnabled { get; set; }
-
-        [DataMember(Order = 5)]
-
-        public bool IsRangeEnabled { get; set; }
-
-        [DataMember(Order =6)]
-        public IRange Range { get; set; }
-
-
-        public override async Task Load()
-        {
-            IQueryResult<ushort[]> queryResult = await _dataProvider.ReadHoldingResgistersAsync(Address, NumberOfPoints,
-                  ApplicationGlobalNames.QueriesNames.READING_PROPERTY_QUERY);
-            if (queryResult.IsSuccessful)
-            {
-                DeviceUshortsValue = queryResult.Result;
-                await base.Load();
-            }
-        }
-
-
-        protected override void FillAddressRanges(List<IRange> ranges)
-        {
-            IRange range = _rangeGetFunc();
-            range.RangeFrom = this.Address;
-            range.RangeTo = this.Address + NumberOfPoints;
-            ranges.Add(range);
-        }
-
-        public override async Task<bool> Write()
-        {
-            if (IsValuesEqual) return false;
-            if (LocalUshortsValue == null) return false;
-            IQueryResult queryResult = await _dataProvider.WriteMultipleRegistersAsync(Address, LocalUshortsValue, ApplicationGlobalNames.QueriesNames.WRITE_CONFIGURATION_QUERY_KEY);
-            if (queryResult.IsSuccessful)
-            {
-                return await base.Write();
-            }
-            return false;
-        }
-
-
-
-        public override void TransferDeviceLocalData(bool isFromDeviceToLocal)
-        {
-            if (isFromDeviceToLocal)
-            {
-                if (DeviceUshortsValue == null) return;
-                LocalUshortsValue = DeviceUshortsValue.Clone() as ushort[];
-            }
-            else
-            {
-                if (LocalUshortsValue == null) return;
-                DeviceUshortsValue = LocalUshortsValue.Clone() as ushort[];
-            }
-            base.TransferDeviceLocalData(isFromDeviceToLocal);
-        }
-
-
-
-        public override void InitializeLocalValue(IConfigurationItem localConfigurationItem)
-        {
-            if (localConfigurationItem is DefaultProperty)
-            {
-                LocalUshortsValue = (localConfigurationItem as DefaultProperty).LocalUshortsValue;
-            }
-            base.InitializeLocalValue(localConfigurationItem);
-        }
-
-        public override void InitializeValue(IConfigurationItem localConfigurationItem)
-        {
-            base.InitializeValue(localConfigurationItem);
-        }
-
+        [JsonProperty] public IRange Range { get; set; }
+        [JsonProperty] public List<IDependency> Dependencies { get; set; } = new List<IDependency>();
 
         protected override IConfigurationItem OnCloning()
         {
-            DefaultProperty cloneProperty = new DefaultProperty(_rangeGetFunc);
+            DefaultProperty cloneProperty = new DefaultProperty();
             cloneProperty.UshortsFormatter = UshortsFormatter;
             cloneProperty.Address = Address;
             cloneProperty.NumberOfPoints = NumberOfPoints;
@@ -122,16 +43,9 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             return cloneProperty;
         }
 
-
-        public override void InitializeFromContainer(ITypesContainer container)
+        public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
         {
-            (this.UshortsFormatter as IInitializableFromContainer)?.InitializeFromContainer(container);
-            base.InitializeFromContainer(container);
-        }
-
-
-        public DefaultProperty(Func<IRange> rangeGetFunc) : base(rangeGetFunc)
-        {
+            return visitor.VisitProperty(this);
         }
     }
 }

@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using Unicon2.Fragments.Programming.Infrastructure;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
+using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
@@ -12,6 +17,8 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         private const int BIN_SIZE = 3;
 
         [DataMember]
+        public IConnector[] Connectors { get; set; }
+        [DataMember]
         public List<Dictionary<int, string>> AllInputSignals { get; set; }
         [DataMember]
         public int InputSignalNum { get; set; }
@@ -20,15 +27,18 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         [DataMember]
         public int BaseNum { get; set; }
         [DataMember]
-        public int ConnectionNumber { get; set; }
-
-        public string Name { get; set; }
+        public double X { get; set; }
+        [DataMember]
+        public double Y { get; set; }
+        public ElementType ElementType => ElementType.In;
+        public string Name => this.ElementType.ToString();
+        public Functional Functional => Functional.BOOLEAN;
+        public Group Group => Group.INPUT_OUTPUT;
+        public int BinSize => BIN_SIZE;
 
         public Input()
         {
-            this.Functional = Functional.BOOLEAN;
-            this.Group = Group.INPUT_OUTPUT;
-
+            this.Connectors = new IConnector[] { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
             this.Bases = new List<string> {"Base0"};
 
             this.AllInputSignals =
@@ -38,29 +48,31 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 };
         }
 
-        private Input(Input cloneable)
-        {
-            this.Bases = new List<string>();
-            this.CopyValues(cloneable);
-        }
-
-        public Functional Functional { get; private set; }
-        public Group Group { get; private set; }
-        public int BinSize => BIN_SIZE;
-
         public void CopyValues(ILogicElement source)
         {
             if (!(source is Input inputSource))
             {
                 throw new ArgumentException("Copied source is not " + typeof(Input));
             }
-
-            this.Name = inputSource.Name;
-            this.Functional = inputSource.Functional;
-            this.Group = inputSource.Group;
+            
             this.InputSignalNum = inputSource.InputSignalNum;
             this.BaseNum = inputSource.BaseNum;
-            this.ConnectionNumber = inputSource.ConnectionNumber;
+            this.Bases.Clear();
+            this.Bases.AddRange(inputSource.Bases);
+            this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
+            for (int i = 0; i < this.Bases.Count; i++)
+            {
+                var copiedDictionary = inputSource.AllInputSignals[i];
+                this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
+            }
+        }
+
+        public void CopyValues(ILibraryElement source)
+        {
+            if (!(source is IInputEditor inputSource))
+            {
+                throw new ArgumentException("Copied source is not " + typeof(Input));
+            }
             this.Bases.Clear();
             this.Bases.AddRange(inputSource.Bases);
             this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
@@ -104,7 +116,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 }
             }
             bindata[1] = (ushort)this.InputSignalNum;
-            bindata[2] = (ushort)this.ConnectionNumber;
+            bindata[2] = (ushort)this.Connectors.First().ConnectionNumber;
             return bindata;
         }
 
@@ -112,14 +124,9 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         {
             this.BaseNum = bin[0];
             this.InputSignalNum = bin[1];
-            this.ConnectionNumber = bin[2];
+            this.Connectors[0].ConnectionNumber = bin[2];
         }
 
         public string StrongName => ProgrammingKeys.INPUT;
-
-        public object Clone()
-        {
-            return new Input(this);
-        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+﻿using Unicon2.Infrastructure.Values.Matrix;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel.Factories
 {

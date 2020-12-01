@@ -1,14 +1,10 @@
-﻿using System;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Values;
+﻿using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Presentation.Infrastructure.ViewModels.Values
 {
-    public interface IFormattedValueViewModel:IStronglyNamed,IRangeable, IMeasurable
+    public interface IFormattedValueViewModel : IRangeable, IMeasurable
     {
         string Header { get; set; }
-        void InitFromValue(IFormattedValue value);
-        Action<object,object> FormattedValueChanged { get; set; }
-        
+        string AsString();
     }
 }

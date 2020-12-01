@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unicon2.Fragments.Measuring</RootNamespace>
     <AssemblyName>Unicon2.Fragments.Measuring</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -33,51 +33,92 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0">
+      <HintPath>..\..\..\packages\FluentValidation.9.2.2\lib\net461\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.2.3.3\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
-    <Reference Include="WPFLocalizeExtension, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\WPFLocalizeExtension.3.3.1\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    <Reference Include="WPFLocalizeExtension, Version=3.8.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WPFLocalizeExtension.3.8.0\lib\net452\WPFLocalizeExtension.dll</HintPath>
     </Reference>
-    <Reference Include="XAMLMarkupExtensions, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.5.1\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+    <Reference Include="XAMLMarkupExtensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\XAMLMarkupExtensions.2.0.0\lib\net472\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\WriteDateTimeCommand.cs" />
+    <Compile Include="Commands\WriteDiscretCommand.cs" />
+    <Compile Include="Converters\CommandSuccessToColorConverter.cs" />
+    <Compile Include="Factories\IMeasuringGroupViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringElementFactory.cs" />
     <Compile Include="Factories\MeasuringElementViewModelFactory.cs" />
     <Compile Include="Factories\MeasuringGroupViewModelFactory.cs" />
+    <Compile Include="Factories\MeasuringMemorySubscriptionFactory.cs" />
+    <Compile Include="Helpers\AnalogElementHelpers.cs" />
+    <Compile Include="Helpers\DiscretElementHelper.cs" />
+    <Compile Include="MemoryAccess\MeasuringLoader.cs" />
     <Compile Include="Model\Address\AddressOfBit.cs" />
     <Compile Include="Model\Address\WritingValueContext.cs" />
     <Compile Include="Model\Elements\AnalogMeasuringElement.cs" />
     <Compile Include="Model\Elements\ControlSignal.cs" />
+    <Compile Include="Model\Elements\DateTimeMeasuringElement.cs" />
     <Compile Include="Model\Elements\DescretMeasuringElement.cs" />
     <Compile Include="Model\Elements\MeasuringElementBase.cs" />
     <Compile Include="Model\MeasuringGroup.cs" />
     <Compile Include="Model\MeasuringMonitor.cs" />
+    <Compile Include="Model\PresentationSettings\MeasuringElementPresentationInfo.cs" />
+    <Compile Include="Model\PresentationSettings\MeasuringPresentationElementBase.cs" />
+    <Compile Include="Model\PresentationSettings\MeasuringPresentationGroup.cs" />
+    <Compile Include="Model\PresentationSettings\MeasuringPresentationSettings.cs" />
+    <Compile Include="Model\PresentationSettings\PositioningInfo.cs" />
     <Compile Include="Module\MeasuringModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subscriptions\AnalogSubscription.cs" />
+    <Compile Include="Subscriptions\DateTimeSubscription.cs" />
+    <Compile Include="Subscriptions\DeviceDataChangedSubscription.cs" />
+    <Compile Include="Subscriptions\DiscretSubscription.cs" />
+    <Compile Include="Subscriptions\IMeasuringMemorySubscription.cs" />
+    <Compile Include="Subscriptions\MeasuringSubsctiptionSet.cs" />
     <Compile Include="ViewModel\Elements\AnalogMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\ControlSignalViewModel.cs" />
+    <Compile Include="ViewModel\Elements\DateTimeMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\DiscretMeasuringElementViewModel.cs" />
     <Compile Include="ViewModel\Elements\MeasuringElementViewModelBase.cs" />
     <Compile Include="ViewModel\MeasuringGroupViewModel.cs" />
     <Compile Include="ViewModel\MeasuringMonitorViewModel.cs" />
+    <Compile Include="ViewModel\Presentation\PresentationGroupViewModel.cs" />
+    <Compile Include="ViewModel\Presentation\PresentationMeasuringElementViewModel.cs" />
+    <Compile Include="ViewModel\Validators\DateTimeViewModelValidator.cs" />
     <Compile Include="Views\MeasuringMonitorView.xaml.cs">
       <DependentUpon>MeasuringMonitorView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +152,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Dependencies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

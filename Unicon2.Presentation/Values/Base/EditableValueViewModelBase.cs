@@ -1,62 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Infrastructure.Visitors;
 
 namespace Unicon2.Presentation.Values.Base
 {
-    public abstract class EditableValueViewModelBase : FormattableValueViewModelBase, IEditableValueViewModel
+    public abstract class EditableValueViewModelBase : FormattableValueViewModelBase,
+        IEditableValueViewModel
     {
-        internal IUshortsFormatter _ushortsFormatter;
+	    public bool IsFormattedValueChanged
+	    {
+		    get => _isFormattedValueChanged;
+		    set
+		    {
+                _isFormattedValueChanged = value; 
+				RaisePropertyChanged();
+		    }
+	    }
 
-        public abstract override string StrongName { get; }
-
-        public abstract override void InitFromValue(IFormattedValue value);
-
-        public bool IsFormattedValueChanged => this._signaturedIsChangedPropertyDictionary.ContainsValue(true);
-        public abstract void SetBaseValueToCompare(ushort[] ushortsToCompare);
-
-        public void SetUshortFormatter(IUshortsFormatter ushortsFormatter)
+	    public bool IsEditEnabled
         {
-            this._ushortsFormatter = ushortsFormatter;
-        }
-
-        public Action<ushort[]> ValueChangedAction { get; set; }
-
-        public bool IsEditEnabled
-        {
-            get { return this._isEditEnabled; }
+            get => _isEditEnabled;
             set
             {
-                this._isEditEnabled = value;
-                this.RaisePropertyChanged();
+                _isEditEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
-        private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary = new Dictionary<string, bool>();
+        public void InitDispatcher(IDeviceEventsDispatcher deviceEventsDispatcher)
+        {
+            _deviceEventsDispatcher = deviceEventsDispatcher;
+        }
+        public abstract T Accept<T>(IEditableValueViewModelVisitor<T> visitor);
+        public IFormattedValue FormattedValue { get; set; }
+   
+
+        private readonly Dictionary<string, bool> _signaturedIsChangedPropertyDictionary =
+            new Dictionary<string, bool>();
+
         private bool _isEditEnabled;
-  
+        private IDeviceEventsDispatcher _deviceEventsDispatcher;
 
-        protected void SetIsChangedProperty(string propertyName, bool isChanged)
+        protected void SetIsChangedProperty()
         {
-            if (!this._signaturedIsChangedPropertyDictionary.ContainsKey(propertyName))
-            {
-                this._signaturedIsChangedPropertyDictionary.Add(propertyName, isChanged);
-            }
-            else
-            {
-                this._signaturedIsChangedPropertyDictionary[propertyName] = isChanged;
-            }
-            RaisePropertyChanged(nameof(this.IsFormattedValueChanged));
+	        _deviceEventsDispatcher?.TriggerSubscriptionById(Id);
         }
 
-        public abstract object Model { get; set; }
-
-        protected override void OnDisposing()
-        {
-            this.ValueChangedAction = null;
-            base.OnDisposing();
-        }
+        private readonly Lazy<Guid> _idLazy = new Lazy<Guid>(Guid.NewGuid);
+        private bool _isFormattedValueChanged;
+        public Guid Id => _idLazy.Value;
     }
 }

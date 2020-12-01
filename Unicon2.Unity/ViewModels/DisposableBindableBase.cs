@@ -20,7 +20,7 @@ namespace Unicon2.Unity.ViewModels
         /// <param name="lockObject"></param>
         protected DisposableBindableBase(object lockObject)
         {
-            this.LockObject = lockObject ?? throw new ObjectDisposedException(DISPOSED_MESSAGE);
+            LockObject = lockObject ?? throw new ObjectDisposedException(DISPOSED_MESSAGE);
         }
 
 
@@ -41,13 +41,13 @@ namespace Unicon2.Unity.ViewModels
         /// <param name="disposing">A value which specifies whether this method is called from Dispose method or from finalize method</param>
         protected void Dispose(bool disposing)
         {
-            if (this.IsDisposed) return;
+            if (IsDisposed) return;
             if (disposing)
             {
-                lock (this.LockObject)
-                    this.OnDisposing();
+                lock (LockObject)
+                    OnDisposing();
             }
-            this.IsDisposed = true;
+            IsDisposed = true;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Unicon2.Unity.ViewModels
         /// </summary>
         protected void ThrowIfDisposed()
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 throw new ObjectDisposedException(DISPOSED_MESSAGE);
         }
 
@@ -75,7 +75,7 @@ namespace Unicon2.Unity.ViewModels
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
     }

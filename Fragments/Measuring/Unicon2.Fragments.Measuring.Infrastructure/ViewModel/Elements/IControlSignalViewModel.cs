@@ -2,8 +2,9 @@
 
 namespace Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements
 {
-    public interface IControlSignalViewModel:IMeasuringElementViewModel
+    public interface IControlSignalViewModel : IMeasuringElementViewModel
     {
         ICommand WriteValueCommand { get; set; }
+        bool? IsCommandSucceed { get; set; }
     }
 }

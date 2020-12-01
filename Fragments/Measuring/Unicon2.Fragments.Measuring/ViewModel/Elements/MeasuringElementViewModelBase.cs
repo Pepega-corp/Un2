@@ -1,58 +1,48 @@
-﻿using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
+﻿using System;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
-using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Measuring.ViewModel.Elements
 {
-    public abstract class MeasuringElementViewModelBase : ViewModelBase, IMeasuringElementViewModel
+    public abstract class MeasuringElementViewModelBase : ValidatableBindableBase, IMeasuringElementViewModel
     {
-        protected IMeasuringElement _measuringElement;
         private IFormattedValueViewModel _formattedValueViewModel;
         private string _groupName;
 
+
         public abstract string StrongName { get; }
 
-        public object Model
-        {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
-        }
-
-
-
-        protected virtual void SetModel(object model)
-        {
-            this._measuringElement = model as IMeasuringElement;
-            this.Header = this._measuringElement.Name;
-        }
-
-
-        protected virtual IMeasuringElement GetModel()
-        {
-            return this._measuringElement;
-        }
-
-        public string Header { get; private set; }
+        public string Header { get; set; }
 
         public string GroupName
         {
-            get { return this._groupName; }
+            get { return _groupName; }
             set
             {
-                this._groupName = value;
-                this.RaisePropertyChanged();
+                _groupName = value;
+                RaisePropertyChanged();
             }
         }
 
         public IFormattedValueViewModel FormattedValueViewModel
         {
-            get { return this._formattedValueViewModel; }
+            get { return _formattedValueViewModel; }
             set
             {
-                this._formattedValueViewModel = value;
-                this.RaisePropertyChanged();
+                _formattedValueViewModel = value;
+                RaisePropertyChanged();
             }
+        }
+
+  
+
+
+        public Guid Id { get; set; }
+
+        public void SetId(Guid id)
+        {
+	        Id = id;
         }
     }
 }

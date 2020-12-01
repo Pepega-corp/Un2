@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters
 {
-    public interface IDependentJournalParameter:IJournalParameter
+    public interface IDependentJournalParameter : IJournalParameter
     {
         List<IJournalCondition> JournalParameterDependancyConditions { get; set; }
     }

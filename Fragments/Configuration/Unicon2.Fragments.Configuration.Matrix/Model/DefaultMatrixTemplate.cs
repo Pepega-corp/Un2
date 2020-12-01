@@ -1,35 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.Helpers;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model.OptionTemplates;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Matrix.Model.OptionTemplates;
-using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Values.Matrix;
+using Unicon2.Infrastructure.Values.Matrix.OptionTemplates;
 
 namespace Unicon2.Fragments.Configuration.Matrix.Model
 {
-    [DataContract(Namespace = "AppointableMatrixNS", Name = nameof(DefaultMatrixTemplate), IsReference = true)]
-
+    [JsonObject(MemberSerialization.OptIn)]
     public class DefaultMatrixTemplate : IMatrixTemplate
     {
         public DefaultMatrixTemplate()
         {
-            this.ResultBitOptions = new List<IBitOption>();
-            this.MatrixMemoryVariables = new List<IMatrixMemoryVariable>();
-            this.VariableColumnSignatures = new List<IVariableColumnSignature>();
-            this.MatrixVariableOptionTemplate = new BoolMatrixVariableOptionTemplate();
+            ResultBitOptions = new List<IBitOption>();
+            MatrixMemoryVariables = new List<IMatrixMemoryVariable>();
+            VariableColumnSignatures = new List<IVariableColumnSignature>();
+            MatrixVariableOptionTemplate = new BoolMatrixVariableOptionTemplate();
         }
 
-        [DataMember]
+        [JsonProperty]
         public int NumberOfBitsOnEachVariable { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<IMatrixMemoryVariable> MatrixMemoryVariables { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<IVariableColumnSignature> VariableColumnSignatures { get; set; }
-        [DataMember]
+        [JsonProperty]
         public IMatrixVariableOptionTemplate MatrixVariableOptionTemplate { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public List<IBitOption> ResultBitOptions { get; set; }
 
         public object Clone()

@@ -1,26 +1,24 @@
-﻿using System.Collections.Generic;
-using Unicon2.Infrastructure.Interfaces.DataOperations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces
 {
-    public interface IGroupWithReiterationInfo : IGroupInfo, ILoadable, IWriteable
+    public interface IGroupWithReiterationInfo : IGroupInfo
     {
         int ReiterationStep { get; set; }
 
         List<IReiterationSubGroupInfo> SubGroups { get; set; }
         bool IsReiterationEnabled { get; set; }
-        void SetGroupItems(List<IConfigurationItem> items);
     }
 
-    public interface IGroupInfo
+    public interface IGroupInfo : ICloneable
     {
 
     }
 
 
-    public interface IReiterationSubGroupInfo: ILoadable,IWriteable
+    public interface IReiterationSubGroupInfo : ICloneable
     {
         string Name { get; set; }
-        List<IConfigurationItem> ConfigurationItems { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using Prism.Events;
 using Unicon2.Connections.MockConnection.Module;
 using Unicon2.Connections.ModBusRtuConnection.Module;
 using Unicon2.Connections.ModBusTcpConnection.Module;
@@ -15,39 +16,47 @@ using Unicon2.Connections.OfflineConnection;
 using Unicon2.Formatting.Editor.Module;
 using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;
-using Unicon2.Fragments.Configuration.Matrix.Module;
-using Unicon2.Fragments.Configuration.Module;
-//using Unicon2.Fragments.DateTime.Module;
-//using Unicon2.Fragments.DateTime.Editor.Module;
 using Unicon2.Fragments.Configuration.Exporter.Module;
-using Unicon2.Fragments.FileOperations.Editor.Module;
-using Unicon2.Fragments.FileOperations.Module;
+using Unicon2.Fragments.Configuration.Module;
 using Unicon2.Fragments.Journals.Editor.Module;
+using Unicon2.Fragments.Journals.Exporter.Module;
 using Unicon2.Fragments.Journals.Module;
 using Unicon2.Fragments.Measuring.Editor.Module;
 using Unicon2.Fragments.Measuring.Module;
+//using Unicon2.Fragments.DateTime.Module;
+//using Unicon2.Fragments.DateTime.Editor.Module;
+//using Unicon2.Fragments.Configuration.Exporter.Module;
+//using Unicon2.Fragments.FileOperations.Editor.Module;
+//using Unicon2.Fragments.FileOperations.Module;
+//using Unicon2.Fragments.Journals.Editor.Module;
+//using Unicon2.Fragments.Journals.Module;
+//using Unicon2.Fragments.Measuring.Editor.Module;
+//using Unicon2.Fragments.Measuring.Module;
 using Unicon2.Fragments.ModbusMemory.Module;
-using Unicon2.Fragments.Oscilliscope.Editor.Module;
-using Unicon2.Fragments.Oscilliscope.Module;
-using Unicon2.Fragments.Programming.Editor.Module;
-using Unicon2.Fragments.Programming.Module;
+//using Unicon2.Fragments.Oscilliscope.Editor.Module;
+//using Unicon2.Fragments.Oscilliscope.Module;
+//using Unicon2.Fragments.Programming.Editor.Module;
+//using Unicon2.Fragments.Programming.Module;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Model.Module;
 using Unicon2.ModuleDeviceEditing;
-using Unicon2.Presentation.Infrastructure.Events;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Module;
 using Unicon2.Presentation.ViewModels;
 using Unicon2.Services.Module;
 using Unicon2.Shell.ControlRegionAdapter;
-using Unicon2.Shell.EventAggregator;
+using Unicon2.Shell.Factories;
 using Unicon2.Shell.Services;
 using Unicon2.Shell.ViewModels;
 using Unicon2.Shell.Views;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
+using Unicon2.Web.Presentation.Module;
+
+//using Unicon2.Web.Presentation.Module;
 
 namespace Unicon2.Shell
 {
@@ -73,18 +82,18 @@ namespace Unicon2.Shell
             }
             else
             {
-                this._bootstrapperInitialized = false;
+                _bootstrapperInitialized = false;
                 UniconSplashScreenViewModel uniconSplashScreenViewModel = new UniconSplashScreenViewModel(this);
-                this.WaitForCreation = new AutoResetEvent(false);
+                WaitForCreation = new AutoResetEvent(false);
                 //local function
                 void ShowSplash()
                 {
                     Dispatcher.CurrentDispatcher.BeginInvoke((Action)(() =>
                    {
-                       this._uniconSplashScreen = new UniconSplashScreen();
-                       this._uniconSplashScreen.DataContext = uniconSplashScreenViewModel;
-                       this._uniconSplashScreen.Show();
-                       this.WaitForCreation.Set();
+                       _uniconSplashScreen = new UniconSplashScreen();
+                       _uniconSplashScreen.DataContext = uniconSplashScreenViewModel;
+                       _uniconSplashScreen.Show();
+                       WaitForCreation.Set();
                    }));
 
                     Dispatcher.Run();
@@ -93,15 +102,20 @@ namespace Unicon2.Shell
                 Thread thread = new Thread(ShowSplash) { Name = "Splash Thread", IsBackground = true };
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.Start();
-                this.WaitForCreation.WaitOne();
-                this._uniconSplashScreen.Closed += (o, ea) =>
+                WaitForCreation.WaitOne();
+                _uniconSplashScreen.Closed += (o, ea) =>
                 {
-                    if (!this._bootstrapperInitialized)
+                    if (!_bootstrapperInitialized)
                     {
                         Environment.Exit(0);
                     }
                 };
             }
+        }
+
+        public void InitializePublic()
+        {
+            Initialize();
         }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -113,27 +127,44 @@ namespace Unicon2.Shell
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            this.BootsrapperMessageAction?.Invoke("Register Types");
+            BootsrapperMessageAction?.Invoke("Register Types");
             //Register TypesContainer that represent IUnityContainer
             containerRegistry.RegisterSingleton<ITypesContainer, TypesContainer>();
+            containerRegistry.RegisterSingleton<IMainMenuService, MainMenuService>();
+            containerRegistry.RegisterSingleton<IFlyoutService, FlyoutService>();
+
             StaticContainer.SetContainer(Container.Resolve<ITypesContainer>());
-            containerRegistry.RegisterSingleton<IGlobalEventsService,GlobalEventsService>();
             containerRegistry.RegisterInstance(DialogCoordinator.Instance);
             containerRegistry.Register<IDeviceDefinitionViewModel, DeviceDefinitionViewModel>();
             containerRegistry.RegisterInstance<IApplicationSettingsService>(new ApplicationSettingsService());
             containerRegistry.RegisterInstance(new ShellSettingsViewModel(StaticContainer.Container));
+            containerRegistry.Register<RecentProjectsViewModelFactory>();
             //регистрация вью-моделей
             containerRegistry.Register<Views.Shell>();
-            StaticContainer.Container.RegisterViewModel<Views.Shell, ShellViewModel>();
+            //StaticContainer.Container.RegisterViewModel<Views.Shell, ShellViewModel>();
             StaticContainer.Container.RegisterViewModel<ShellSettingsFlyOut, ShellSettingsViewModel>();
+            containerRegistry.RegisterInstance(new DynamicMainMenuViewModel());
+            containerRegistry.RegisterInstance(typeof(IGlobalEventManager),new GlobalEventManager(Container.Resolve<IEventAggregator>()));
+            
+            StaticContainer.Container.Register<ShellViewModel>(true);
+
+            
             //модули
-            this.RegisterModuleCatalogs(StaticContainer.Container);
-            this.InitializeUnityModules();
+            RegisterModuleCatalogs(StaticContainer.Container);
+            InitializeUnityModules();
         }
 
         protected override Window CreateShell()
         {
-            return Container.Resolve<Views.Shell>();
+            try
+            {
+                return Container.Resolve<Views.Shell>();
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         protected override void InitializeShell(Window shell)
@@ -141,15 +172,15 @@ namespace Unicon2.Shell
             Current.MainWindow = shell;
             Current.MainWindow?.Show();
             Current.MainWindow?.Activate();
-            this._bootstrapperInitialized = true;
-            this._uniconSplashScreen.Dispatcher.Invoke(this._uniconSplashScreen.Close);
+            _bootstrapperInitialized = true;
+            _uniconSplashScreen.Dispatcher.Invoke(_uniconSplashScreen.Close);
             ShellSettingsViewModel settingsViewModel = Container.Resolve<ShellSettingsViewModel>();
             settingsViewModel.Initialize();
         }
 
         protected void RegisterModuleCatalogs(ITypesContainer container)
         {
-            this.BootsrapperMessageAction?.Invoke("Adding Modules To Catalog");
+            BootsrapperMessageAction?.Invoke("Adding Modules To Catalog");
             container.Register<IUnityModule, ServicesModule>(nameof(ServicesModule));
             container.Register<IUnityModule, ModuleDeviceEditingModule>(nameof(ModuleDeviceEditingModule));
             container.Register<IUnityModule, MockConnectionModule>(nameof(MockConnectionModule));
@@ -166,33 +197,38 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, ConfigurationExporterModule>(nameof(ConfigurationExporterModule));
             container.Register<IUnityModule, ConfigurationEditorModule>(nameof(ConfigurationEditorModule));
             //container.Register<IUnityModule, UniconDateTimeModule>(nameof(UniconDateTimeModule));
-            //container.Register<IUnityModule, UniconDateTimeEditorModule>(nameof(UniconDateTimeEditorModule));
+            //container.Register<IUnityModule, UniconDateTimeEditorModule>(nameof(UniconDateTimeEditorModule)); 
+            //container.Register<IUnityModule, MatrixConfigurationModule>(nameof(MatrixConfigurationModule));
             container.Register<IUnityModule, ModbusMemoryModule>(nameof(ModbusMemoryModule));
             container.Register<IUnityModule, JournaEditorModule>(nameof(JournaEditorModule));
             container.Register<IUnityModule, UniconJournalModule>(nameof(UniconJournalModule));
+            container.Register<IUnityModule, JournalExporterModule>(nameof(JournalExporterModule));
+
             container.Register<IUnityModule, MeasuringModule>(nameof(MeasuringModule));
-            container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));
-            container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
-            container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));
-            container.Register<IUnityModule, FileOperationsModule>(nameof(FileOperationsModule));
-            container.Register<IUnityModule, FileOperationsEditorModule>(nameof(FileOperationsEditorModule));
-            container.Register<IUnityModule, MatrixConfigurationModule>(nameof(MatrixConfigurationModule));
-            container.Register<IUnityModule, ProgrammingModule>(nameof(ProgrammingModule));
-            container.Register<IUnityModule, ProgrammingEditorModule>(nameof(ProgrammingEditorModule));
+			container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));
+            //container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
+            //container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));
+            //container.Register<IUnityModule, FileOperationsModule>(nameof(FileOperationsModule));
+            //container.Register<IUnityModule, FileOperationsEditorModule>(nameof(FileOperationsEditorModule));
+
+            //container.Register<IUnityModule, ProgrammingModule>(nameof(ProgrammingModule));
+            //container.Register<IUnityModule, ProgrammingEditorModule>(nameof(ProgrammingEditorModule));
+            container.Register<IUnityModule, WebPresentationModule>(nameof(WebPresentationModule));
+
         }
 
         protected override void InitializeModules()
         {
             base.InitializeModules();
 
-            this.BootsrapperMessageAction?.Invoke("Initializing Devices");
+            BootsrapperMessageAction?.Invoke("Initializing Devices");
             IDevicesContainerService devicesContainerService = StaticContainer.Container.Resolve<IDevicesContainerService>();
             devicesContainerService.LoadDevicesDefinitions();
         }
 
         private void InitializeUnityModules()
         {
-            this.BootsrapperMessageAction?.Invoke("Initializing Modules");
+            BootsrapperMessageAction?.Invoke("Initializing Modules");
             System.Collections.Generic.IEnumerable<IUnityModule> modules = StaticContainer.Container.ResolveAll<IUnityModule>();
             foreach (IUnityModule module in modules)
             {

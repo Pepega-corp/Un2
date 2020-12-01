@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unicon2.Fragments.Journals.Infrastructure</RootNamespace>
     <AssemblyName>Unicon2.Fragments.Journals.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -40,13 +40,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Export\JournalExportSelector.cs" />
     <Compile Include="Factories\IJournalRecordFactory.cs" />
     <Compile Include="Factories\IJournalRecordViewModelFactory.cs" />
     <Compile Include="Factories\IJournalSequenceEditorViewModelFactory.cs" />
     <Compile Include="Keys\JournalKeys.cs" />
-    <Compile Include="Model\EvenrArgs\RecordChangingEnum.cs" />
-    <Compile Include="Model\EvenrArgs\RecordChangingEventArgs.cs" />
-    <Compile Include="Model\IIndexLoadingSequence.cs" />
+    <Compile Include="Model\LoadingSequence\IIndexLoadingSequence.cs" />
     <Compile Include="Model\JournalParameters\IComplexJournalParameter.cs" />
     <Compile Include="Model\JournalParameters\IDependentJournalParameter.cs" />
     <Compile Include="Model\IJournalParameter.cs" />
@@ -79,6 +78,9 @@
       <Project>{CA06A2C8-E39C-4D5C-B19B-3C60E7151AEF}</Project>
       <Name>Unicon2.SharedResources</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

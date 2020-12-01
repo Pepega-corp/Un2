@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements
 {
-    public interface IDiscretMeasuringElementEditorViewModel: IMeasuringElementEditorViewModel
+    public interface IDiscretMeasuringElementEditorViewModel : IMeasuringElementEditorViewModel
     {
         IBitAddressEditorViewModel BitAddressEditorViewModel { get; set; }
     }

@@ -8,32 +8,43 @@ namespace Unicon2.Presentation.ViewModels
     {
         private IDeviceCreator _model;
         private string _connectionDescription;
+        private bool _isAddedToProject;
         public string Name { get; set; }
 
         public string ConnectionDescription
         {
-            get { return this._connectionDescription; }
+            get { return _connectionDescription; }
             set
             {
-                this._connectionDescription = value;
-                this.RaisePropertyChanged();
+                _connectionDescription = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsAddedToProject
+        {
+            get => _isAddedToProject;
+            set
+            {
+                _isAddedToProject = value;
+                RaisePropertyChanged();
             }
         }
 
         public override string ToString()
         {
-            return this.Name;
+            return Name;
         }
 
         public string StrongName => nameof(DeviceDefinitionViewModel);
 
         public object Model
         {
-            get { return this._model; }
+            get { return _model; }
             set
             {
-                this._model = value as IDeviceCreator;
-                this.Name = this._model.DeviceName;
+                _model = value as IDeviceCreator;
+                Name = _model.DeviceName;
             }
         }
     }

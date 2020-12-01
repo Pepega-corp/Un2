@@ -3,7 +3,7 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.FileOperations.Infrastructure.FileOperations
 {
-    public interface ICommandSender:IDataProviderContaining
+    public interface ICommandSender
     {
         Task SetCommand(string command);
     }

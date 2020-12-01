@@ -17,16 +17,11 @@ namespace Unicon2.Connections.MockConnection.Module
             container.Register<IDeviceConnection, Model.MockConnection>(StringKeys.MOCK_CONNECTION);
             container.Register<IDeviceConnectionViewModel, MockConnectionViewModel>(StringKeys.MOCK_CONNECTION + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<Model.MockConnection>();
-
             //регистрация фабрики 
             container.Register<IDeviceConnectionFactory, MockConnectionFactory>(StringKeys.MOCK_CONNECTION_FACTORY_NAME);
-            //регистрация известных для сериализации типов
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(Model.MockConnection));
-            serializerService.AddNamespaceAttribute("mockConnection", "MockConnectionNS");
             //регистрация ресурсов
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();
-            xamlResourcesService.AddResourceAsGlobal("Resources/MockConnectionResources.xaml", this.GetType().Assembly);
+            xamlResourcesService.AddResourceAsGlobal("Resources/MockConnectionResources.xaml", GetType().Assembly);
         }
     }
 }

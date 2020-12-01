@@ -6,5 +6,6 @@
         Delete,
         Add,
         Refresh,
+        Connected
     }
 }

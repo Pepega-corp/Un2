@@ -1,28 +1,20 @@
 ﻿using System.IO.Ports;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.DeviceInterfaces;
 
 namespace Unicon2.Connections.ModBusRtuConnection.Model
 {
-    [DataContract(Namespace = "ComPortConfigurationNS")]
-   public class ComPortConfiguration: IComPortConfiguration
+    [JsonObject(MemberSerialization.OptIn)]
+    public class ComPortConfiguration : IComPortConfiguration
     {
-        [DataMember]
-        public int BaudRate { get; set; }
-        [DataMember]
-        public int DataBits { get; set; }
-        [DataMember]
-        public StopBits StopBits { get; set; }
-        [DataMember]
-        public Parity Parity { get; set; }
-        [DataMember]
-        public int WaitAnswer { get; set; }
-        [DataMember]
-        public int WaitByte { get; set; }
-        [DataMember]
-        public int OnTransmission { get; set; }
-        [DataMember]
-        public int OffTramsmission { get; set; }
+        [JsonProperty] public int BaudRate { get; set; }
+        [JsonProperty] public int DataBits { get; set; }
+        [JsonProperty] public StopBits StopBits { get; set; }
+        [JsonProperty] public Parity Parity { get; set; }
+        [JsonProperty] public int WaitAnswer { get; set; }
+        [JsonProperty] public int WaitByte { get; set; }
+        [JsonProperty] public int OnTransmission { get; set; }
+        [JsonProperty] public int OffTramsmission { get; set; }
 
         public object Clone()
         {

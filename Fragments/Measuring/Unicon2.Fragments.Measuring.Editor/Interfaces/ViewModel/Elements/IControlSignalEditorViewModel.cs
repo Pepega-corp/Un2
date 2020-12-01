@@ -2,7 +2,7 @@
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements
 {
-   public interface IControlSignalEditorViewModel:IMeasuringElementEditorViewModel
+    public interface IControlSignalEditorViewModel : IMeasuringElementEditorViewModel
     {
         IWritingValueContextViewModel WritingValueContextViewModel { get; set; }
     }

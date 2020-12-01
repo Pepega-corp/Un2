@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unicon2.Fragments.Configuration.Matrix.Interfaces.EditorViewModel;
-using Unicon2.Fragments.Configuration.Matrix.Interfaces.Model;
+using Unicon2.Infrastructure.Values.Matrix;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
@@ -14,19 +14,19 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
 
         public List<int> NumbersOfAssotiatedBits
         {
-            get { return this._numbersOfAssotiatedBits; }
+            get { return _numbersOfAssotiatedBits; }
             set
             {
-                this._numbersOfAssotiatedBits = value;
-                this.RaisePropertyChanged();
-                this.RaisePropertyChanged(nameof(this.IsEnabled));
+                _numbersOfAssotiatedBits = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsEnabled));
             }
         }
 
-        public bool IsEnabled => !(this.NumbersOfAssotiatedBits.Count > 0 && !this._model.VariableColumnSignature.IsMultipleAssignmentAllowed);
+        public bool IsEnabled => !(NumbersOfAssotiatedBits.Count > 0 && !_model.VariableColumnSignature.IsMultipleAssignmentAllowed);
         public void UpdateIsEnabled()
         {
-            this.RaisePropertyChanged(nameof(this.IsEnabled));
+            RaisePropertyChanged(nameof(IsEnabled));
         }
 
         public string StrongName => nameof(BitOptionEditorViewModel);
@@ -35,16 +35,16 @@ namespace Unicon2.Fragments.Configuration.Matrix.EditorViewModel
         {
             get
             {
-                this._model.NumbersOfAssotiatedBits = this.NumbersOfAssotiatedBits;
-                return this._model;
+                _model.NumbersOfAssotiatedBits = NumbersOfAssotiatedBits;
+                return _model;
             }
             set
             {
 
-                this._model = value as IBitOption;
-                this.FullSugnature = this._model.FullSignature;
-                this.NumbersOfAssotiatedBits = this._model.NumbersOfAssotiatedBits;
-                this.RaisePropertyChanged(nameof(this.FullSugnature));
+                _model = value as IBitOption;
+                FullSugnature = _model.FullSignature;
+                NumbersOfAssotiatedBits = _model.NumbersOfAssotiatedBits;
+                RaisePropertyChanged(nameof(FullSugnature));
             }
         }
 

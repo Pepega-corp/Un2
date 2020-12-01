@@ -6,7 +6,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.Factories
     {
         IConfigurationItem ResolveConfigurationItem();
         IConfigurationItem ResolveGroupConfigurationItem();
-        IConfigurationItem ResolveDependentConfigurationItem();
 
         IConfigurationItem ResolveSubPropertyItem();
         IConfigurationItem ResolveComplexPropertyItem();

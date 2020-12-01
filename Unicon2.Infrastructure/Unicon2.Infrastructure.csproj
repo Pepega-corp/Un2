@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unicon2.Infrastructure</RootNamespace>
     <AssemblyName>Unicon2.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -51,9 +51,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentValidation.8.1.3\lib\net45\FluentValidation.dll</HintPath>
+    <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0">
+      <HintPath>..\packages\FluentValidation.9.2.2\lib\net461\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -75,62 +79,64 @@
     <Compile Include="BaseItems\Disposable.cs" />
     <Compile Include="Common\BindableKeyValuePair.cs" />
     <Compile Include="Common\CRC16.cs" />
+    <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Maybe.cs" />
     <Compile Include="Common\StaticContainer.cs" />
-    <Compile Include="Common\ValidatableBindableBase.cs" />
     <Compile Include="Connection\IConnectionState.cs" />
+    <Compile Include="Connection\IDeviceSubscription.cs" />
     <Compile Include="Connection\IQueryResultFactory.cs" />
+    <Compile Include="Dependencies\IBoolToAddressDependency.cs" />
+    <Compile Include="Dependencies\IDependency.cs" />
+    <Compile Include="DeviceInterfaces\DeviceMetaInfo.cs" />
     <Compile Include="DeviceInterfaces\IComPortConfiguration.cs" />
+    <Compile Include="DeviceInterfaces\IDeviceMemory.cs" />
     <Compile Include="DeviceInterfaces\IDataProvider.cs" />
     <Compile Include="DeviceInterfaces\IDevice.cs" />
     <Compile Include="DeviceInterfaces\IDeviceConnection.cs" />
     <Compile Include="DeviceInterfaces\IDeviceCreator.cs" />
     <Compile Include="Connection\IQueryResult.cs" />
     <Compile Include="DeviceInterfaces\SharedResources\IDeviceSharedResources.cs" />
-    <Compile Include="DeviceInterfaces\SharedResources\IResourceContaining.cs" />
+    <Compile Include="DeviceInterfaces\SharedResources\IResourceContainer.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\StringWrapper.cs" />
+    <Compile Include="Extensions\StronglyNamedExtensions.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSetting.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\IFragmentSettings.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\ISettingApplyingContext.cs" />
+    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IActivatedSettingApplyingContext.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IAddressableItem.cs" />
-    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IAddressRangeableWithDataProvider.cs" />
-    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IMemoryValuesSet.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickAccessMemoryApplyingContext.cs" />
-    <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessDataProviderStub.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\IQuickMemoryAccessSetting.cs" />
     <Compile Include="FragmentInterfaces\FagmentSettings\QuickMemoryAccess\QuickAccessModeEnum.cs" />
     <Compile Include="FragmentInterfaces\IDeviceFragment.cs" />
     <Compile Include="DeviceInterfaces\IUshortFormattable.cs" />
     <Compile Include="FragmentInterfaces\IFragmentOptions.cs" />
+    <Compile Include="Functional\Result.cs" />
+    <Compile Include="Functional\ResultExtensions.cs" />
     <Compile Include="GeneralFactories\IGeneralViewModelFactory.cs" />
     <Compile Include="IApplicationGlobalCommands.cs" />
     <Compile Include="Interfaces\DataOperations\IHtmlRenderer.cs" />
-    <Compile Include="Interfaces\DataOperations\ISerializableInFile.cs" />
     <Compile Include="Interfaces\DataOperations\IWriteable.cs" />
     <Compile Include="Interfaces\Dependancy\ConditionresultEnum.cs" />
     <Compile Include="Interfaces\Dependancy\ConditionsEnum.cs" />
     <Compile Include="Interfaces\EditOperations\IAsChlidPasteable.cs" />
     <Compile Include="Interfaces\EditOperations\IDeletable.cs" />
     <Compile Include="Interfaces\EditOperations\IEditable.cs" />
-    <Compile Include="Interfaces\Factories\IFormatterEditorFactory.cs" />
-    <Compile Include="Interfaces\Factories\ISharedResourcesEditorFactory.cs" />
-    <Compile Include="Interfaces\Factories\ISharedResourcesViewModelFactory.cs" />
+    <Compile Include="Interfaces\ICloneable.cs" />
     <Compile Include="Interfaces\IConnectable.cs" />
-    <Compile Include="Interfaces\IDataProviderContaining.cs" />
+    <Compile Include="Interfaces\IDataProviderContainer.cs" />
     <Compile Include="Interfaces\IDeviceConnectionFactory.cs" />
-    <Compile Include="Interfaces\IParentDeviceNameRequirable.cs" />
-    <Compile Include="Interfaces\Values\IDeviceValueContaining.cs" />
-    <Compile Include="Interfaces\IInitializableFromContainer.cs" />
-    <Compile Include="Interfaces\Values\ILocalAndDeviceValuesContaining.cs" />
     <Compile Include="Interfaces\IMeasurable.cs" />
     <Compile Include="Interfaces\INameable.cs" />
     <Compile Include="Interfaces\IRange.cs" />
     <Compile Include="Interfaces\IRangeable.cs" />
     <Compile Include="Interfaces\ISharedValueViewModel.cs" />
     <Compile Include="Interfaces\IStronglyNamed.cs" />
+    <Compile Include="Interfaces\IUniqueId.cs" />
+    <Compile Include="Interfaces\Visitors\IFormatterVisitor.cs" />
     <Compile Include="Progress\ITaskProgressReport.cs" />
     <Compile Include="Services\ApplicationSettingsService\IApplicationSettingsService.cs" />
+    <Compile Include="Services\IGlobalEventManager.cs" />
     <Compile Include="Services\IHtmlExportService.cs" />
     <Compile Include="Services\ItemChangingContext\ConnectableItemChangingContext.cs" />
     <Compile Include="Services\ItemChangingContext\ItemModifyingTypeEnum.cs" />
@@ -147,7 +153,16 @@
     <Compile Include="Values\INumericValue.cs" />
     <Compile Include="Values\IStringValue.cs" />
     <Compile Include="Values\ITimeValue.cs" />
-    <Compile Include="ViewModel\IUshortFormattableViewModel.cs" />
+    <Compile Include="Values\Matrix\Helpers\IBitOptionUpdatingStrategy.cs" />
+    <Compile Include="Values\Matrix\IBitOption.cs" />
+    <Compile Include="Values\Matrix\IMatrixMemoryVariable.cs" />
+    <Compile Include="Values\Matrix\IMatrixTemplate.cs" />
+    <Compile Include="Values\Matrix\IMatrixValue.cs" />
+    <Compile Include="Values\Matrix\IVariableColumnSignature.cs" />
+    <Compile Include="Values\Matrix\OptionTemplates\IMatrixVariableOptionTemplate.cs" />
+    <Compile Include="Values\Matrix\OptionTemplates\IOptionPossibleValue.cs" />
+    <Compile Include="Values\Matrix\OptionTemplates\IPossibleValueCondition.cs" />
+    <Compile Include="Values\ValueKind.cs" />
     <Compile Include="Interfaces\IUshortsFormatter.cs" />
     <Compile Include="Interfaces\DataOperations\ILoadable.cs" />
     <Compile Include="Services\IDevicesContainerService.cs" />
@@ -162,6 +177,7 @@
     <Compile Include="Values\ICollectionValue.cs" />
     <Compile Include="Values\IFormattedValue.cs" />
     <Compile Include="ViewModel\IViewModel.cs" />
+    <Compile Include="Visitors\IValueVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

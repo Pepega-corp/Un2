@@ -14,21 +14,21 @@ namespace Unicon2.Presentation.ViewModels.Fragment
 
         public FragmentPaneViewModel()
         {
-            this.CloseFragmentCommand = new RelayCommand(OnExecuteCloseFragment);
+            CloseFragmentCommand = new RelayCommand(OnExecuteCloseFragment);
         }
 
         private void OnExecuteCloseFragment()
         {
-            this.FragmentPaneClosedAction?.Invoke(this);
+            FragmentPaneClosedAction?.Invoke(this);
         }
 
         public IFragmentViewModel FragmentViewModel
         {
-            get { return this._fragmentViewModel; }
+            get { return _fragmentViewModel; }
             set
             {
-                this._fragmentViewModel = value;
-                this.RaisePropertyChanged();
+                _fragmentViewModel = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -38,15 +38,15 @@ namespace Unicon2.Presentation.ViewModels.Fragment
 
         public string FragmentTitle
         {
-            get { return this._fragmentTitle; }
+            get { return _fragmentTitle; }
             set
             {
-                this._fragmentTitle = value;
-                this.RaisePropertyChanged();
-                this.RaisePropertyChanged(nameof(this.WindowNameKey));
+                _fragmentTitle = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(WindowNameKey));
             }
         }
 
-        public string WindowNameKey => this.FragmentTitle;
+        public string WindowNameKey => FragmentTitle;
     }
 }

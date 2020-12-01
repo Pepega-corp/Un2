@@ -27,7 +27,7 @@ namespace Unicon2.Infrastructure.DeviceInterfaces
         Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite, string dataTitle);
 
 
-        Action TransactionCompleteAction { get; set; }
+        IDeviceSubscription TransactionCompleteSubscription { get; set; }
         bool LastQuerySucceed { get; }
     }
 }

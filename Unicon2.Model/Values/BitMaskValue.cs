@@ -1,35 +1,40 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Infrastructure.Values.Base;
+using Unicon2.Infrastructure.Visitors;
 
 namespace Unicon2.Model.Values
 {
-    [DataContract(Namespace = "ValuesNS")]
-    public class BitMaskValue:FormattedValueBase,IBitMaskValue
+    [JsonObject(MemberSerialization.OptIn)]
+    public class BitMaskValue : FormattedValueBase, IBitMaskValue
     {
         public BitMaskValue()
         {
-            this.BitSignatures=new List<string>();
-            this.BitArray=new List<List<bool>>();
+            BitSignatures = new List<string>();
+            BitArray = new List<List<bool>>();
         }
 
 
         public override string StrongName => nameof(BitMaskValue);
+
         public override string AsString()
         {
-           return nameof(BitMaskValue);
+            return nameof(BitMaskValue);
         }
 
-        [DataMember]
-        public List<List<bool>> BitArray { get; set; }
-        [DataMember]
+        public override T Accept<T>(IValueVisitor<T> visitor)
+        {
+            return visitor.VisitBitMaskValue(this);
+        }
 
-        public List<string> BitSignatures { get; set; }
+        [JsonProperty] public List<List<bool>> BitArray { get; set; }
+        [JsonProperty] public List<string> BitSignatures { get; set; }
+
         public List<bool> GetAllBits()
         {
-            List<bool> allBools=new List<bool>();
-            this.BitArray.ForEach((list =>allBools.AddRange(list) ));
+            List<bool> allBools = new List<bool>();
+            BitArray.ForEach((list => allBools.AddRange(list)));
             return allBools;
         }
     }

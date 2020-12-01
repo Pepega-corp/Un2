@@ -16,32 +16,34 @@ namespace Unicon2.Presentation.FragmentSettings
     public class QuickAccessMemorySettingViewModel : ViewModelBase, IQuickAccessMemorySettingViewModel
     {
         private readonly Func<IRangeViewModel> _rangeViewModelGettingFunc;
+        private readonly ITypesContainer _container;
         private IQuickMemoryAccessSetting _quickMemoryAccessSetting;
         private bool _isSettingEnabled;
         private IRangeViewModel _selectedRangeViewModel;
 
         public QuickAccessMemorySettingViewModel(Func<IRangeViewModel> rangeViewModelGettingFunc, ITypesContainer container)
         {
-            this._rangeViewModelGettingFunc = rangeViewModelGettingFunc;
-            this.AddRangeCommand = new RelayCommand(this.OnAddRangeExecute);
-            this.DeleteRangeCommand = new RelayCommand(this.OnDeleteRangeExecute, this.CanExecuteDeleteRange);
-            this.RangeViewModels = new ObservableCollection<IRangeViewModel>();
-            this._quickMemoryAccessSetting = container.Resolve<IFragmentSetting>(ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING) as IQuickMemoryAccessSetting;
+            _rangeViewModelGettingFunc = rangeViewModelGettingFunc;
+            _container = container;
+            AddRangeCommand = new RelayCommand(OnAddRangeExecute);
+            DeleteRangeCommand = new RelayCommand(OnDeleteRangeExecute, CanExecuteDeleteRange);
+            RangeViewModels = new ObservableCollection<IRangeViewModel>();
+            _quickMemoryAccessSetting = container.Resolve<IFragmentSetting>(ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING) as IQuickMemoryAccessSetting;
         }
 
         private bool CanExecuteDeleteRange()
         {
-            return this.SelectedRangeViewModel != null;
+            return SelectedRangeViewModel != null;
         }
 
         private void OnDeleteRangeExecute()
         {
-            this.RangeViewModels.Remove(this.SelectedRangeViewModel);
+            RangeViewModels.Remove(SelectedRangeViewModel);
         }
 
         private void OnAddRangeExecute()
         {
-            this.RangeViewModels.Add(this._rangeViewModelGettingFunc());
+            RangeViewModels.Add(_rangeViewModelGettingFunc());
         }
 
 
@@ -50,8 +52,8 @@ namespace Unicon2.Presentation.FragmentSettings
 
         public object Model
         {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
+            get { return GetModel(); }
+            set { SetModel(value); }
         }
 
         private void SetModel(object value)
@@ -60,36 +62,42 @@ namespace Unicon2.Presentation.FragmentSettings
             {
 
                 IQuickMemoryAccessSetting setting = value as IQuickMemoryAccessSetting;
-                this._quickMemoryAccessSetting = setting;
+                _quickMemoryAccessSetting = setting;
                 foreach (IRange range in setting.QuickAccessAddressRanges)
                 {
-                    IRangeViewModel rangeViewModel = this._rangeViewModelGettingFunc();
-                    rangeViewModel.Model = range;
-                    this.RangeViewModels.Add(rangeViewModel);
+                    IRangeViewModel rangeViewModel = _rangeViewModelGettingFunc();
+                    rangeViewModel.RangeFrom = range.RangeFrom.ToString();
+                    rangeViewModel.RangeTo = range.RangeTo.ToString();
+
+                    RangeViewModels.Add(rangeViewModel);
                 }
-                this.IsSettingEnabled = this._quickMemoryAccessSetting.IsSettingEnabled;
+                IsSettingEnabled = _quickMemoryAccessSetting.IsSettingEnabled;
             }
         }
 
         private object GetModel()
         {
-            this._quickMemoryAccessSetting.QuickAccessAddressRanges.Clear();
+            _quickMemoryAccessSetting.QuickAccessAddressRanges.Clear();
 
-            foreach (IRangeViewModel rangeViewModel in this.RangeViewModels)
+            foreach (IRangeViewModel rangeViewModel in RangeViewModels)
             {
-                this._quickMemoryAccessSetting.QuickAccessAddressRanges.Add(rangeViewModel.Model as IRange);
+                var range=_container.Resolve<IRange>();
+                range.RangeTo = double.Parse(rangeViewModel.RangeTo);
+                range.RangeFrom = double.Parse(rangeViewModel.RangeFrom);
+
+                _quickMemoryAccessSetting.QuickAccessAddressRanges.Add(range);
             }
-            this._quickMemoryAccessSetting.IsSettingEnabled = this.IsSettingEnabled;
-            return this._quickMemoryAccessSetting;
+            _quickMemoryAccessSetting.IsSettingEnabled = IsSettingEnabled;
+            return _quickMemoryAccessSetting;
         }
 
         public bool IsSettingEnabled
         {
-            get { return this._isSettingEnabled; }
+            get { return _isSettingEnabled; }
             set
             {
-                this._isSettingEnabled = value;
-                this.RaisePropertyChanged();
+                _isSettingEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -97,11 +105,11 @@ namespace Unicon2.Presentation.FragmentSettings
 
         public IRangeViewModel SelectedRangeViewModel
         {
-            get { return this._selectedRangeViewModel; }
+            get { return _selectedRangeViewModel; }
             set
             {
-                this._selectedRangeViewModel = value;
-                (this.DeleteRangeCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                _selectedRangeViewModel = value;
+                (DeleteRangeCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 RaisePropertyChanged();
             }
         }

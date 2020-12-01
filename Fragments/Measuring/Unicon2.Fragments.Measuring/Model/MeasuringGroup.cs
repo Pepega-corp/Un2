@@ -1,91 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
-using Unicon2.Infrastructure.DeviceInterfaces;
-using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.QuickMemoryAccess;
-using Unicon2.Infrastructure.Interfaces;
-using Unicon2.Infrastructure.Interfaces.DataOperations;
-using Unicon2.Unity.Interfaces;
+using Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings;
 
 namespace Unicon2.Fragments.Measuring.Model
 {
-    [DataContract(Namespace = "MeasuringGroupNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class MeasuringGroup : IMeasuringGroup
     {
-        private Func<IRange> _rangesGettingFunc;
-
-        public MeasuringGroup(Func<IRange> rangesGettingFunc)
+        public MeasuringGroup()
         {
-            this._rangesGettingFunc = rangesGettingFunc;
-            this.MeasuringElements = new List<IMeasuringElement>();
+            MeasuringElements = new List<IMeasuringElement>();
         }
 
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            foreach (IMeasuringElement measuringElement in this.MeasuringElements)
-            {
-                if (measuringElement is IDataProviderContaining)
-                {
-                    (measuringElement as IDataProviderContaining).SetDataProvider(dataProvider);
-                }
-            }
-        }
+        [JsonProperty] public string Name { get; set; }
 
-
-        public List<IRange> GetAddressesRanges()
-        {
-            List<IRange> ranges = new List<IRange>();
-            foreach (IMeasuringElement measuringElement in this.MeasuringElements)
-            {
-                if (measuringElement is IAddressableItem)
-                {
-                    IRange range = this._rangesGettingFunc();
-                    range.RangeFrom = (measuringElement as IAddressableItem).Address;
-                    range.RangeTo = range.RangeFrom + (measuringElement as IAddressableItem).NumberOfPoints;
-                    ranges.Add(range);
-                }
-            }
-            return ranges;
-        }
-
-        public async Task Load()
-        {
-            if (this.MeasuringElements.Any((element => !(element is ILoadable))))
-            {
-                await Task.Delay(10);
-                return;
-            }
-            for (int i = 0; i < this.MeasuringElements.Count; i++)
-            {
-                if (this.MeasuringElements[i] is ILoadable)
-                {
-                    await (this.MeasuringElements[i] as ILoadable).Load();
-                }
-            }
-
-        }
-
-        [DataMember]
-        public string Name { get; set; }
-
-        [DataMember]
-        public List<IMeasuringElement> MeasuringElements { get; set; }
-
-        public bool IsInitialized { get; private set; }
-
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            if (this.IsInitialized) return;
-            foreach (IMeasuringElement measuringElement in this.MeasuringElements)
-            {
-                (measuringElement as IInitializableFromContainer)?.InitializeFromContainer(container);
-            }
-            this._rangesGettingFunc = container.Resolve<Func<IRange>>();
-            this.IsInitialized = true;
-        }
+        [JsonProperty] public List<IMeasuringElement> MeasuringElements { get; set; }
+        [JsonProperty] public IPresentationSettings PresentationSettings { get; set; }
     }
 }

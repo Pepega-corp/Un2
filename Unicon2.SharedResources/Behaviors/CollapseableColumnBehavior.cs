@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 
 namespace Unicon2.SharedResources.Behaviors
 {
@@ -12,7 +12,7 @@ namespace Unicon2.SharedResources.Behaviors
 
         public static bool GetCollapseableColumn(DependencyObject d)
         {
-            return (bool)d.GetValue(CollapseableColumnProperty);
+            return (bool) d.GetValue(CollapseableColumnProperty);
         }
 
         public static void SetCollapseableColumn(DependencyObject d, bool value)
@@ -20,7 +20,8 @@ namespace Unicon2.SharedResources.Behaviors
             d.SetValue(CollapseableColumnProperty, value);
         }
 
-        private static void OnCollapseableColumnChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private static void OnCollapseableColumnChanged(DependencyObject sender,
+            DependencyPropertyChangedEventArgs args)
         {
             GridViewColumnHeader header = sender as GridViewColumnHeader;
             if (header == null)
@@ -38,7 +39,7 @@ namespace Unicon2.SharedResources.Behaviors
             if (header.Visibility == Visibility.Collapsed)
                 header.Column.Width = 0;
             else
-                header.Column.Width = double.NaN;   // "Auto"
+                header.Column.Width = double.NaN; // "Auto"
         }
     }
 }

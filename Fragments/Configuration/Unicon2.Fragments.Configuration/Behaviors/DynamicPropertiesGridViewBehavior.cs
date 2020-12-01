@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Interactivity;
 using System.Windows.Markup;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
-using Unicon2.Fragments.Configuration.ViewModel.Properties;
-using Unicon2.Infrastructure.Common;
-using Unicon2.Presentation.Infrastructure.Factories;
-using Unicon2.Presentation.Infrastructure.ViewModels;
+using Microsoft.Xaml.Behaviors;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.SharedResources.DataTemplateSelectors;
 
@@ -36,18 +26,19 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public bool IsDeviceValues
         {
-            get { return (bool)this.GetValue(IsDeviceValuesProperty); }
-            set { this.SetValue(IsDeviceValuesProperty, value); }
+            get { return (bool) GetValue(IsDeviceValuesProperty); }
+            set { SetValue(IsDeviceValuesProperty, value); }
         }
 
         public static readonly DependencyProperty RowValuesProperty =
-            DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable), typeof(DynamicPropertiesGridViewBehavior),
+            DependencyProperty.Register("RowValues", typeof(DynamicPropertiesTable),
+                typeof(DynamicPropertiesGridViewBehavior),
                 new PropertyMetadata(null, OnRowValuesPropertyChanged));
 
         public DynamicPropertiesTable RowValues
         {
-            get { return (DynamicPropertiesTable) this.GetValue(RowValuesProperty); }
-            set { this.SetValue(RowValuesProperty, value); }
+            get { return (DynamicPropertiesTable) GetValue(RowValuesProperty); }
+            set { SetValue(RowValuesProperty, value); }
         }
 
         private static void OnRowValuesPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -58,55 +49,55 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         private void OnRowValuesChanged()
         {
-            if (this.AssociatedObject == null) return;
-            if (this.RowValues == null) return;
-            this._journalDataTable = this.RowValues;
+            if (AssociatedObject == null) return;
+            if (RowValues == null) return;
+            _journalDataTable = RowValues;
 
-            this.AssociatedObject.Columns.Clear();
+            AssociatedObject.Columns.Clear();
 
             int index = 0;
-            if (this.IsTransponed)
+            if (IsTransponed)
             {
 
-                if (this._journalDataTable.IsBaseNumeration && this._journalDataTable.RowHeadersStrings != null)
+                if (_journalDataTable.IsBaseNumeration && _journalDataTable.RowHeadersStrings != null)
                 {
-                    this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index++, "#"));
+                    AssociatedObject.Columns.Add(CreateGridTemplateColumn(index++, "#"));
                 }
 
-                this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index++, ""));
-                if (this._journalDataTable.RowHeadersStrings != null)
+                AssociatedObject.Columns.Add(CreateGridTemplateColumn(index++, ""));
+                if (_journalDataTable.RowHeadersStrings != null)
                 {
-                    foreach (string rowHeadersString in this._journalDataTable.RowHeadersStrings)
+                    foreach (string rowHeadersString in _journalDataTable.RowHeadersStrings)
                     {
-                        this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index, rowHeadersString));
+                        AssociatedObject.Columns.Add(CreateGridTemplateColumn(index, rowHeadersString));
                         index++;
                     }
                 }
             }
             else
             {
-                if (this._journalDataTable.RowHeadersStrings != null)
+                if (_journalDataTable.RowHeadersStrings != null)
                 {
-                    this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index++, ""));
+                    AssociatedObject.Columns.Add(CreateGridTemplateColumn(index++, ""));
 
                 }
 
-                if ((this._journalDataTable.ColumnNamesStrings != null) && (this._journalDataTable.IsBaseNumeration))
+                if ((_journalDataTable.ColumnNamesStrings != null) && (_journalDataTable.IsBaseNumeration))
                 {
-                    this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index++, "№"));
+                    AssociatedObject.Columns.Add(CreateGridTemplateColumn(index++, "№"));
                 }
 
-                if (this._journalDataTable.ColumnNamesStrings != null)
+                if (_journalDataTable.ColumnNamesStrings != null)
                 {
-                    foreach (string columnName in this._journalDataTable.ColumnNamesStrings)
+                    foreach (string columnName in _journalDataTable.ColumnNamesStrings)
                     {
-                        this.AssociatedObject.Columns.Add(this.CreateGridTemplateColumn(index, columnName));
+                        AssociatedObject.Columns.Add(CreateGridTemplateColumn(index, columnName));
                         index++;
                     }
                 }
             }
-            
-            this._journalDataTable.TableUpdateAction = this.OnRowValuesChanged;
+
+            _journalDataTable.TableUpdateAction = OnRowValuesChanged;
         }
 
 
@@ -116,8 +107,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public bool IsTransponed
         {
-            get { return (bool) this.GetValue(IsTransponedProperty); }
-            set { this.SetValue(IsTransponedProperty, value); }
+            get { return (bool) GetValue(IsTransponedProperty); }
+            set { SetValue(IsTransponedProperty, value); }
         }
 
         private static void OnIsTransponedPropertyChanged(DependencyObject sender,
@@ -149,13 +140,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             // DataTemplateSelector dataTemplateSelector1 = new ViewModelByStrongNameDataTemplateSelector();
             // dataTemplate1.VisualTree.SetValue(ContentPresenter.ContentTemplateSelectorProperty, dataTemplateSelector1);
 
-             DataTemplate cellDataTemplate = new DataTemplate();
+            DataTemplate cellDataTemplate = new DataTemplate();
 
 
 
 
             var innerVisualTree = new FrameworkElementFactory(typeof(ContentControl));
-            innerVisualTree.SetValue(FrameworkElement.StyleProperty,CellStyle);
+            innerVisualTree.SetValue(FrameworkElement.StyleProperty, CellStyle);
             if (IsDeviceValues)
             {
                 Binding b11 = new Binding(".[" + index + "].DeviceValue");
@@ -168,6 +159,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 //dataTemplate1.VisualTree.SetValue(ContentPresenter.HorizontalAlignmentProperty,HorizontalAlignment.Center);
                 innerVisualTree.SetValue(ContentControl.ContentProperty, b11);
             }
+
             DataTemplateSelector dataTemplateSelector1 = new ViewModelByStrongNameDataTemplateSelector();
             innerVisualTree.SetValue(ContentControl.ContentTemplateSelectorProperty, dataTemplateSelector1);
 
@@ -180,8 +172,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                 Header = columnName,
                 //IsReadOnly = true,
                 CellTemplate = cellDataTemplate
-            }; 
-            
+            };
+
             return dataGridTemplateColumn;
         }
 
@@ -190,8 +182,8 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public Style CellStyle
         {
-            get { return (Style)this.GetValue(CellStyleProperty); }
-            set { this.SetValue(CellStyleProperty, value); }
+            get { return (Style) GetValue(CellStyleProperty); }
+            set { SetValue(CellStyleProperty, value); }
         }
 
         public static readonly DependencyProperty SelectedIndexesProperty =
@@ -200,14 +192,14 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         public List<int> SelectedIndexes
         {
-            get { return (List<int>) this.GetValue(SelectedIndexesProperty); }
-            set { this.SetValue(SelectedIndexesProperty, value); }
+            get { return (List<int>) GetValue(SelectedIndexesProperty); }
+            set { SetValue(SelectedIndexesProperty, value); }
         }
 
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems != null && e.AddedItems.Count > 0 && this.SelectedIndexes != null)
+            if (e.AddedItems != null && e.AddedItems.Count > 0 && SelectedIndexes != null)
             {
                 foreach (List<IFormattedValueViewModel> formattedValueViewModels in e.AddedItems)
                 {
@@ -215,13 +207,13 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     if (int.TryParse((formattedValueViewModels[0] as INumericValueViewModel).NumValue,
                         out selectedIndex))
                     {
-                        this.SelectedIndexes.Add(selectedIndex);
+                        SelectedIndexes.Add(selectedIndex);
 
                     }
                 }
             }
 
-            if (e.RemovedItems != null && e.RemovedItems.Count > 0 && this.SelectedIndexes != null)
+            if (e.RemovedItems != null && e.RemovedItems.Count > 0 && SelectedIndexes != null)
             {
                 foreach (List<IFormattedValueViewModel> formattedValueViewModels in e.RemovedItems)
                 {
@@ -229,7 +221,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
                     if (int.TryParse((formattedValueViewModels[0] as INumericValueViewModel).NumValue,
                         out selectedIndex))
                     {
-                        this.SelectedIndexes.Remove(selectedIndex);
+                        SelectedIndexes.Remove(selectedIndex);
 
                     }
                 }
@@ -239,9 +231,9 @@ namespace Unicon2.Fragments.Configuration.Behaviors
 
         protected override void OnAttached()
         {
-          //  this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
+            //  this.AssociatedObject.SelectionChanged += this.OnSelectionChanged;
             //  _dataTableOfRecords = new DataTable();
-            this.OnRowValuesChanged();
+            OnRowValuesChanged();
             base.OnAttached();
         }
     }
@@ -263,7 +255,7 @@ namespace Unicon2.Fragments.Configuration.Behaviors
             }
 
             if (clone is T)
-                return (T)clone;
+                return (T) clone;
             else
                 return null;
         }

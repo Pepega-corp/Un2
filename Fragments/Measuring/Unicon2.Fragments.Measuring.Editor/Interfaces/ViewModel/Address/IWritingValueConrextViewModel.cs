@@ -1,8 +1,8 @@
-﻿using Unicon2.Infrastructure.ViewModel;
+﻿using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Address
 {
-    public interface IWritingValueContextViewModel:IViewModel
+    public interface IWritingValueContextViewModel : IStronglyNamed
     {
         ushort Address { get; set; }
         ushort NumberOfFunction { get; set; }

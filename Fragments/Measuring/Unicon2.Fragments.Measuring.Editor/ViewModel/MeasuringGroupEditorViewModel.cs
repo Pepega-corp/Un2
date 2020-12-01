@@ -1,14 +1,17 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
+using Unicon2.Fragments.Measuring.Editor.View.PresentationSettings;
+using Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
-using Unicon2.Fragments.Measuring.Infrastructure.Model;
-using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
+using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -17,29 +20,41 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
     public class MeasuringGroupEditorViewModel : ViewModelBase, IMeasuringGroupEditorViewModel, IDropTarget
     {
         private readonly IMeasuringElementEditorViewModelFactory _measuringElementEditorViewModelFactory;
+        private readonly IApplicationGlobalCommands _applicationGlobalCommands;
+        private readonly ILogService _logService;
         private string _header;
-        private IMeasuringGroup _measuringGroup;
         private int _discretGroupElementsCount;
         private string _discretGroupName;
         private ushort _discretGroupStartAddress;
         private ushort _discretGroupStartingBit;
 
         private static int FUNCTION_CODE = 3;
+        private PresentationSettingsViewModel _presentationSettingsViewModel;
 
-        public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory)
+        public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory,IApplicationGlobalCommands applicationGlobalCommands, ILogService logService)
         {
-            this._measuringElementEditorViewModelFactory = measuringElementEditorViewModelFactory;
-            this.MeasuringElementEditorViewModels = new ObservableCollection<IMeasuringElementEditorViewModel>();
-            this.AddDiscretMeasuringElementCommand = new RelayCommand(this.OnAddDiscretMeasuringElementExecute);
-            this.AddDiscretMeasuringElementGroupCommand = new RelayCommand(this.OnAddDiscretMeasuringElementGroupCommandExecute);
-            this.AddAnalogMeasuringElementCommand = new RelayCommand(this.OnAddAnalogMeasuringElementExecute);
-            this.DeleteMeasuringElementCommand = new RelayCommand<object>(this.OnDeleteMeasuringElementExecute);
-            this.AddControlSignalCommand = new RelayCommand(this.OnAddControlSignalExecute);
+            _measuringElementEditorViewModelFactory = measuringElementEditorViewModelFactory;
+            _applicationGlobalCommands = applicationGlobalCommands;
+            _logService = logService;
+            MeasuringElementEditorViewModels = new ObservableCollection<IMeasuringElementEditorViewModel>();
+            AddDiscretMeasuringElementCommand = new RelayCommand(OnAddDiscretMeasuringElementExecute);
+            AddDiscretMeasuringElementGroupCommand = new RelayCommand(OnAddDiscretMeasuringElementGroupCommandExecute);
+            AddAnalogMeasuringElementCommand = new RelayCommand(OnAddAnalogMeasuringElementExecute);
+            DeleteMeasuringElementCommand = new RelayCommand<object>(OnDeleteMeasuringElementExecute);
+            AddControlSignalCommand = new RelayCommand(OnAddControlSignalExecute);
+            OpenPresentationSettingsCommand = new RelayCommand(OnOpenPresentationSettingsCommand);
+            PresentationSettingsViewModel = new PresentationSettingsViewModel(this,new Dictionary<Guid, PositioningInfoViewModel>());
+            AddDateTimeCommand=new RelayCommand(OnAddDateTimeExecute);
+        }
+
+        private void OnAddDateTimeExecute()
+        {
+            MeasuringElementEditorViewModels.Add(_measuringElementEditorViewModelFactory.CreateDateTimeEditorViewModel());
         }
 
         private void OnAddControlSignalExecute()
         {
-            this.MeasuringElementEditorViewModels.Add(this._measuringElementEditorViewModelFactory.CreateControlSignalEditorViewModel());
+            MeasuringElementEditorViewModels.Add(_measuringElementEditorViewModelFactory.CreateControlSignalEditorViewModel());
         }
 
 
@@ -47,19 +62,24 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         {
             if (obj is IMeasuringElementEditorViewModel)
             {
-                this.MeasuringElementEditorViewModels.Remove(obj as IMeasuringElementEditorViewModel);
+                MeasuringElementEditorViewModels.Remove(obj as IMeasuringElementEditorViewModel);
             }
         }
-
-
+        private void OnOpenPresentationSettingsCommand()
+        {
+            PresentationSettingsViewModel.UpdateMeasuringElements();
+            _applicationGlobalCommands.ShowWindowModal(() => new PresentationSettingsWindow(),
+		        PresentationSettingsViewModel);
+        }
+        
         private void OnAddAnalogMeasuringElementExecute()
         {
-            this.MeasuringElementEditorViewModels.Add(this._measuringElementEditorViewModelFactory.CreateAnalogMeasuringElementEditorViewModel());
+            MeasuringElementEditorViewModels.Add(_measuringElementEditorViewModelFactory.CreateAnalogMeasuringElementEditorViewModel());
         }
 
         private void OnAddDiscretMeasuringElementExecute()
         {
-            this.MeasuringElementEditorViewModels.Add(this._measuringElementEditorViewModelFactory.CreateDiscretMeasuringElementEditorViewModel());
+            MeasuringElementEditorViewModels.Add(_measuringElementEditorViewModelFactory.CreateDiscretMeasuringElementEditorViewModel());
         }
 
         private void OnAddDiscretMeasuringElementGroupCommandExecute()
@@ -68,25 +88,31 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
             {
                 for (int i = 0; i < DiscretGroupElementsCount; i++)
                 {
-                    if(DiscretGroupStartingBit > 15)
+                    if (DiscretGroupStartingBit > 15)
                     {
                         DiscretGroupStartAddress++;
                         DiscretGroupStartingBit = 0;
                     }
-                    var item = this._measuringElementEditorViewModelFactory.CreateDiscretMeasuringElementEditorViewModel() as IDiscretMeasuringElementEditorViewModel;
+
+                    var item =
+                        _measuringElementEditorViewModelFactory.CreateDiscretMeasuringElementEditorViewModel() as
+                            IDiscretMeasuringElementEditorViewModel;
                     item.BitAddressEditorViewModel.Address = DiscretGroupStartAddress;
                     item.BitAddressEditorViewModel.BitNumberInWord = DiscretGroupStartingBit;
                     item.BitAddressEditorViewModel.FunctionNumber = FUNCTION_CODE;
                     item.Header = DiscretGroupName + " " + (i + 1);
 
-                    this.MeasuringElementEditorViewModels.Add(item);
+                    MeasuringElementEditorViewModels.Add(item);
 
                     DiscretGroupStartingBit++;
 
                 }
 
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                _logService.LogMessage(ex.Message);
+            }
             finally
             {
 
@@ -96,90 +122,74 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
         public string StrongName => MeasuringKeys.MEASURING_GROUP;
 
-        public object Model
-        {
-            get { return this.GetModel(); }
-            set { this.SetModel(value as IMeasuringGroup); }
-        }
-
-        private void SetModel(IMeasuringGroup measuringGroup)
-        {
-            this._measuringGroup = measuringGroup;
-            this.MeasuringElementEditorViewModels.Clear();
-            foreach (IMeasuringElement measuringElement in this._measuringGroup.MeasuringElements)
-            {
-                this.MeasuringElementEditorViewModels.Add(this._measuringElementEditorViewModelFactory.CreateMeasuringElementEditorViewModel(measuringElement));
-            }
-            this.Header = this._measuringGroup.Name;
-        }
-
-        private IMeasuringGroup GetModel()
-        {
-
-            this._measuringGroup.Name = this.Header;
-            this._measuringGroup.MeasuringElements.Clear();
-            foreach (IMeasuringElementEditorViewModel measuringElementEditorViewModel in this.MeasuringElementEditorViewModels)
-            {
-                this._measuringGroup.MeasuringElements.Add(measuringElementEditorViewModel.Model as IMeasuringElement);
-            }
-            return this._measuringGroup;
-        }
-
+     
+     
 
         public string Header
         {
-            get { return this._header; }
+            get { return _header; }
             set
             {
                 if (value == String.Empty) return;
-                this._header = value;
-                this.RaisePropertyChanged();
+                _header = value;
+                RaisePropertyChanged();
             }
         }
 
         public int DiscretGroupElementsCount
         {
-            get { return this._discretGroupElementsCount; }
+            get { return _discretGroupElementsCount; }
             set
             {
-                this._discretGroupElementsCount = value;
+                _discretGroupElementsCount = value;
                 RaisePropertyChanged();
             }
         }
         public string DiscretGroupName
         {
-            get { return this._discretGroupName; }
+            get { return _discretGroupName; }
             set
             {
-                this._discretGroupName = value;
+                _discretGroupName = value;
                 RaisePropertyChanged();
             }
         }
         public ushort DiscretGroupStartAddress
         {
-            get { return this._discretGroupStartAddress; }
+            get { return _discretGroupStartAddress; }
             set
             {
-                this._discretGroupStartAddress = value;
+                _discretGroupStartAddress = value;
                 RaisePropertyChanged();
             }
         }
         public ushort DiscretGroupStartingBit
         {
-            get { return this._discretGroupStartingBit; }
+            get { return _discretGroupStartingBit; }
             set
             {
-                this._discretGroupStartingBit = value;
+                _discretGroupStartingBit = value;
                 RaisePropertyChanged();
             }
         }
 
-
+        public PresentationSettingsViewModel PresentationSettingsViewModel
+        {
+	        get => _presentationSettingsViewModel;
+	        set
+	        {
+		        _presentationSettingsViewModel = value;
+		        RaisePropertyChanged();
+	        }
+        }
         public ObservableCollection<IMeasuringElementEditorViewModel> MeasuringElementEditorViewModels { get; set; }
         public ICommand AddAnalogMeasuringElementCommand { get; }
         public ICommand AddDiscretMeasuringElementCommand { get; }
         public ICommand AddDiscretMeasuringElementGroupCommand { get; }
+        public ICommand AddDateTimeCommand { get; }
+
         public ICommand AddControlSignalCommand { get; }
+        public ICommand OpenPresentationSettingsCommand { get; }
 
         public ICommand DeleteMeasuringElementCommand { get; }
 

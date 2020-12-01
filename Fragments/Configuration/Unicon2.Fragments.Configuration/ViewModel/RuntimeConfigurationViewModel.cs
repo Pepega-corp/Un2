@@ -1,224 +1,269 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Unicon2.Fragments.Configuration.Infrastructure.Factories;
+using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
+using Unicon2.Fragments.Configuration.MemoryAccess;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-    public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel, IDeviceDataProvider
-    {
-        private IDeviceConfiguration _deviceConfiguration;
-        private readonly ITypesContainer _container;
-        private readonly IRuntimeConfigurationItemViewModelFactory _runtimeConfigurationItemViewModelFactory;
+	public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel,
+		IFragmentConnectionChangedListener, IFragmentOpenedListener
+	{
+		private readonly ITypesContainer _container;
 
-        public RuntimeConfigurationViewModel(ITypesContainer container,
-            IRuntimeConfigurationItemViewModelFactory runtimeConfigurationItemViewModelFactory)
-        {
-            this._container = container;
-            this._runtimeConfigurationItemViewModelFactory = runtimeConfigurationItemViewModelFactory;
-            this.AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
-            this.MainRows = new ObservableCollection<MainConfigItemViewModel>();
-            this.FragmentOptionsViewModel =
-                (new ConfigurationOptionsHelper()).CreateConfigurationFragmentOptionsViewModel(this, this._container);
-            this.RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
-            MainItemSelectedCommand = new RelayCommand<object>(OnMainItemSelected);
-            ShowTableCommand = new RelayCommand<object>(OnShowTable);
-        }
+		private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
+		private IFragmentOptionsViewModel _fragmentOptionsViewModel;
+		private ObservableCollection<IRuntimeConfigurationItemViewModel> _rootConfigurationItemViewModels;
+		private ObservableCollection<MainConfigItemViewModel> _mainRows;
+		private object _selectedConfigDetails;
+		private string _nameForUiKey;
+		private IDeviceConfiguration _deviceConfiguration;
+		private ConfigurationOptionsHelper _configurationOptionsHelper;
 
-     
+		public RuntimeConfigurationViewModel(ITypesContainer container)
+		{
+			_container = container;
 
-        private void OnShowTable(object obj)
-        {
-            if (!(obj is MainConfigItemViewModel mainItem)) return;
-            if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails)
-            {
-                selectedConfigDetails.IsSelected = false;
-                selectedConfigDetails.IsTableSelected = false;
+			AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
+			MainRows = new ObservableCollection<MainConfigItemViewModel>();
+
+			RootConfigurationItemViewModels = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
+			MainItemSelectedCommand = new RelayCommand<object>(OnMainItemSelected);
+			ShowTableCommand = new RelayCommand<object>(OnShowTable);
+		}
+
+
+
+		private void OnShowTable(object obj)
+		{
+			if (!(obj is MainConfigItemViewModel mainItem)) return;
+			if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails && obj !=
+				SelectedConfigDetails)
+			{
+				selectedConfigDetails.IsSelected = false;
+				selectedConfigDetails.IsTableSelected = false;
+			}
+
+			mainItem.IsTableSelected = !mainItem.IsTableSelected;
+			if (mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
+			{
+				tableViewModel.IsTableView = mainItem.IsTableSelected;
+			}
+
+			mainItem.IsSelected = true;
+			SelectedConfigDetails = null;
+			SelectedConfigDetails = mainItem;
+
+		}
+
+		public RelayCommand<object> ShowTableCommand { get; }
+
+
+		public object SelectedConfigDetails
+		{
+			get => _selectedConfigDetails;
+			set
+			{
+				_selectedConfigDetails = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		private void OnMainItemSelected(object obj)
+		{
+			if (!(obj is MainConfigItemViewModel mainItem)) return;
+			if (mainItem.ChildConfigItemViewModels.Any() && !mainItem.IsGroupWithReiteration) return;
+			if (mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
+			{
+				tableViewModel.IsTableView = false;
+			}
+
+			if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails)
+			{
+				selectedConfigDetails.IsSelected = false;
+				selectedConfigDetails.IsTableSelected = false;
+			}
+
+			mainItem.IsSelected = true;
+			SelectedConfigDetails = mainItem;
+		}
+
+
+		public ICommand MainItemSelectedCommand { get; }
+
+		public ObservableCollection<IRuntimeConfigurationItemViewModel> RootConfigurationItemViewModels
+		{
+			get { return _rootConfigurationItemViewModels; }
+			set
+			{
+				_rootConfigurationItemViewModels = value;
+				RaisePropertyChanged();
+
+			}
+		}
+
+		public ObservableCollection<MainConfigItemViewModel> MainRows
+		{
+			get { return _mainRows; }
+			set
+			{
+				_mainRows = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public ObservableCollection<IRuntimeConfigurationItemViewModel> AllRows
+		{
+			get { return _allRows; }
+			set
+			{
+				_allRows = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL;
+
+		public string NameForUiKey => _nameForUiKey;
+
+		public IFragmentOptionsViewModel FragmentOptionsViewModel
+		{
+			get { return _fragmentOptionsViewModel; }
+			set
+			{
+				_fragmentOptionsViewModel = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		private void ClearDeviceValues(List<IConfigurationItemViewModel> list)
+		{
+			foreach (var viewModel in list)
+			{
+				if (viewModel.ChildStructItemViewModels.Count > 0)
+				{
+					ClearDeviceValues(viewModel.ChildStructItemViewModels.ToList());
+				}
+
+				if (viewModel is ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel)
+				{
+					localAndDeviceValueContainingViewModel.DeviceValue = null;
+				}
+			}
+		}
+		
+		private async Task TryLoadValuesAutomatically()
+		{
+			
+			DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+			ClearDeviceValues(RootConfigurationItemViewModels.Cast<IConfigurationItemViewModel>().ToList());
+			
+			if (!DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
+			{
+				await new ConfigurationMemoryAccessor(_deviceConfiguration, DeviceContext,
+					MemoryAccessEnum.InitalizeZeroForLocals, false).Process();
+			}
+		}
+		
+		public async void Initialize(IDeviceFragment deviceFragment)
+		{
+			AllRows.Clear();
+			RootConfigurationItemViewModels.Clear();
+
+
+			if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return;
+
+			_deviceConfiguration = deviceConfiguration;
+
+			_nameForUiKey = deviceConfiguration.StrongName;
+			if (deviceConfiguration.RootConfigurationItemList != null)
+			{
+				foreach (IConfigurationItem configurationItem in deviceConfiguration.RootConfigurationItemList)
+				{
+
+					configurationItem.Accept(
+							new RuntimeConfigurationItemViewModelFactory(_container, DeviceContext))
+						.OnAddingNeeded(RootConfigurationItemViewModels.Add);
+				}
+			}
+
+			AllRows.AddCollection(RootConfigurationItemViewModels);
+			_configurationOptionsHelper = new ConfigurationOptionsHelper();
+			FragmentOptionsViewModel =
+				_configurationOptionsHelper.CreateConfigurationFragmentOptionsViewModel(this, _container,
+					deviceConfiguration);
+			MainRows = FilterMainConfigItems(RootConfigurationItemViewModels);
+			await TryLoadValuesAutomatically();
+		}
+
+		private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
+			IEnumerable<IConfigurationItemViewModel> rootItems)
+		{
+			var resultCollection = new ObservableCollection<MainConfigItemViewModel>();
+			resultCollection.AddCollection(rootItems.Where(item =>
+				item is IItemGroupViewModel itemGroupViewModel &&
+				itemGroupViewModel.IsMain).Select(item => new MainConfigItemViewModel(
+				FilterMainConfigItems(item.ChildStructItemViewModels), item)));
+			return resultCollection;
+		}
+
+		public DeviceContext DeviceContext { get; set; }
+
+		private bool _needRefreshValues = false;
+		private bool _isOpened;
+
+		public async Task OnConnectionChanged()
+		{
+			await TryLoadValuesAutomatically();
+			_needRefreshValues = true;
+			await RefreshValuesIfNeeded();
+			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
+				model.FragmentOptionCommandViewModels.ForEach(viewModel =>
+					(viewModel.OptionCommand as RelayCommand)?.RaiseCanExecuteChanged()));
+		}
+
+		private async Task RefreshValuesIfNeeded()
+		{
+			if (_needRefreshValues && _isOpened)
+			{
+				if (DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
+				{
+					await _configurationOptionsHelper.ReadConfiguration(true);
+				}
+
+				var localAddresses = DeviceContext.DeviceMemory.LocalMemoryValues.Select(pair => pair.Key).ToList();
+				var devAddresses = DeviceContext.DeviceMemory.DeviceMemoryValues.Select(pair => pair.Key).ToList();
+
+				localAddresses.ForEach(address =>
+					DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(address, 1));
+				devAddresses.ForEach(address =>
+					DeviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(address, 1));
+                _needRefreshValues = false;
             }
+		}
 
-            mainItem.IsTableSelected = true;
-            if(mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
-            {
-                tableViewModel.IsTableView = true;
-            }
-            mainItem.IsSelected = true;
-            SelectedConfigDetails = mainItem;
-
-        }
-
-        public RelayCommand<object> ShowTableCommand { get; }
-        
-
-        public object SelectedConfigDetails
-        {
-            get => _selectedConfigDetails;
-            set
-            {
-                _selectedConfigDetails = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private void OnMainItemSelected(object obj)
-        {
-            if (!(obj is MainConfigItemViewModel mainItem)) return;
-            if (mainItem.ChildConfigItemViewModels.Any()&&!mainItem.IsGroupWithReiteration) return;
-            if (mainItem.RelatedConfigurationItemViewModel is IAsTableViewModel tableViewModel)
-            {
-                tableViewModel.IsTableView = false;
-            }
-            if (SelectedConfigDetails is MainConfigItemViewModel selectedConfigDetails)
-            {
-                selectedConfigDetails.IsSelected = false;
-                selectedConfigDetails.IsTableSelected = false;
-            }
-            mainItem.IsSelected = true;
-            SelectedConfigDetails = mainItem;
-        }
-
-
-        private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
-        private IFragmentOptionsViewModel _fragmentOptionsViewModel;
-        private ObservableCollection<IRuntimeConfigurationItemViewModel> _rootConfigurationItemViewModels;
-        private string _deviceName;
-        private ObservableCollection<MainConfigItemViewModel> _mainRows;
-        private object _selectedConfigDetails;
-
-        public ICommand MainItemSelectedCommand { get; }
-
-        public ObservableCollection<IRuntimeConfigurationItemViewModel> RootConfigurationItemViewModels
-        {
-            get { return this._rootConfigurationItemViewModels; }
-            set
-            {
-                this._rootConfigurationItemViewModels = value;
-                this.RaisePropertyChanged();
-
-            }
-        }
-
-        public ObservableCollection<MainConfigItemViewModel> MainRows
-        {
-            get { return this._mainRows; }
-            set
-            {
-                this._mainRows = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public ObservableCollection<IRuntimeConfigurationItemViewModel> AllRows
-        {
-            get { return this._allRows; }
-            set
-            {
-                this._allRows = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-        public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL;
-
-        public string NameForUiKey => this._deviceConfiguration.StrongName;
-
-
-        public IFragmentOptionsViewModel FragmentOptionsViewModel
-        {
-            get { return this._fragmentOptionsViewModel; }
-            set
-            {
-                this._fragmentOptionsViewModel = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-
-        public object Model
-        {
-            get { return this._deviceConfiguration; }
-            set
-            {
-                if (!(value is IDeviceConfiguration)) throw new ArgumentException();
-                this.SetModel(value as IDeviceConfiguration);
-
-            }
-        }
-
-
-        private void SetModel(IDeviceConfiguration deviceConfiguration)
-        {
-            if (this._deviceConfiguration == deviceConfiguration) return;
-            this._deviceConfiguration?.Dispose();
-            this.AllRows.Clear();
-            this.RootConfigurationItemViewModels.Clear();
-            this._deviceConfiguration = deviceConfiguration;
-            if (!this._deviceConfiguration.IsInitialized)
-            {
-                this._deviceConfiguration.InitializeFromContainer(this._container);
-            }
-
-            if (this._deviceConfiguration.RootConfigurationItemList != null)
-            {
-                foreach (IConfigurationItem configurationItem in this._deviceConfiguration.RootConfigurationItemList)
-                {
-                    this.RootConfigurationItemViewModels.Add(this._runtimeConfigurationItemViewModelFactory
-                        .CreateRuntimeConfigurationItemViewModel(configurationItem));
-
-                }
-            }
-
-            this.AllRows.AddCollection(this.RootConfigurationItemViewModels);
-            this.MainRows.AddCollection(FilterMainConfigItems(this.RootConfigurationItemViewModels,false));
-
-        }
-
-        private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
-            IEnumerable<IConfigurationItemViewModel> rootItems,bool isParentReiterable, IGroupWithReiterationInfo groupWithReiterationInfo=null)
-        {
-            var resultCollection = new ObservableCollection<MainConfigItemViewModel>();
-            resultCollection.AddCollection(rootItems.Where(item =>
-                item is IItemGroupViewModel itemGroupViewModel &&
-                ((itemGroupViewModel.Model as IItemsGroup).IsMain ?? true)).Select(item =>
-            {
-                //if (item is IItemGroupViewModel groupViewModelWithreit &&
-                //    groupViewModelWithreit.Model is IItemsGroup itemsGroup &&
-                //    itemsGroup.GroupInfo is IGroupWithReiterationInfo groupWithReiteration &&
-                //    groupWithReiteration.IsReiterationEnabled)
-                //{
-                //    return new MainConfigItemViewModel(
-                //        FilterMainConfigItems(item.ChildStructItemViewModels, true,groupWithReiterationInfo.SubGroups), item);
-                //}
-                //else
-                //{
-                    return new MainConfigItemViewModel(
-                        FilterMainConfigItems(item.ChildStructItemViewModels, isParentReiterable), item);
-                
-
-            }));
-            return resultCollection;
-        }
-
-        public void SetDeviceData(string deviceName)
-        {
-            _deviceName = deviceName;
-        }
-
-        public string GetDeviceName()
-        {
-            return _deviceName;
-        }
-    }
+		public async Task SetFragmentOpened(bool isOpened)
+		{
+			_isOpened = isOpened;
+			await RefreshValuesIfNeeded();
+		}
+	}
 }

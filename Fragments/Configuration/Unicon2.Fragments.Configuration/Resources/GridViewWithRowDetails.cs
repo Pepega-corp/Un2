@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Unicon2.Fragments.Configuration.Resources
@@ -27,7 +22,7 @@ namespace Unicon2.Fragments.Configuration.Resources
         protected override void PrepareItem(ListViewItem item)
         {
             base.PrepareItem(item);
-            item.SetValue(RowDetailsTemplateProperty, this.GetValue(RowDetailsTemplateProperty));
+            item.SetValue(RowDetailsTemplateProperty, GetValue(RowDetailsTemplateProperty));
 
         }
 
@@ -35,7 +30,7 @@ namespace Unicon2.Fragments.Configuration.Resources
         {
             get
             {
-                return new ComponentResourceKey(this.GetType(), "ItemContainerStyleKey");
+                return new ComponentResourceKey(GetType(), "ItemContainerStyleKey");
             }
         }
     }

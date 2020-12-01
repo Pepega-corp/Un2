@@ -5,8 +5,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Interfaces.Factories
 {
     public interface IMeasuringGroupEditorViewModelFactory
     {
-        IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel(IMeasuringGroup measuringGroup);
-        IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel();
+        IMeasuringGroupEditorViewModel CreateMeasuringGroupEditorViewModel(IMeasuringGroup measuringGroup=null);
 
     }
 }
