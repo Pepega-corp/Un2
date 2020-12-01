@@ -40,6 +40,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
                 this.NumberOfRecords = this._offsetLoadingSequence.NumberOfRecords;
                 this.WordFormatTo = this._offsetLoadingSequence.WordFormatTo;
                 this.WordFormatFrom = this._offsetLoadingSequence.WordFormatFrom;
+        
             }
         }
 
@@ -102,6 +103,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
                 this.RaisePropertyChanged();
             }
         }
+  
 
         public string NameForUiKey => this._offsetLoadingSequence.StrongName;
     }

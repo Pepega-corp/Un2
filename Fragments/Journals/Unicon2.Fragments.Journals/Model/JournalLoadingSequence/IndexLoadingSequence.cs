@@ -24,6 +24,9 @@ namespace Unicon2.Fragments.Journals.Model.JournalLoadingSequence
 
         [JsonProperty]
         public ushort IndexWritingAddress { get; set; }
+        [JsonProperty] 
+        public bool WriteIndexOnlyFirstTime { get; set; }
+
 
         public string StrongName => JournalKeys.INDEX_LOADING_SEQUENCE;
     }

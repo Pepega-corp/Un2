@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unicon2.Connections.MockConnection.Keys;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Functional;
@@ -21,25 +22,20 @@ namespace Unicon2.Connections.MockConnection.Model
     [JsonObject(MemberSerialization.OptIn)]
     public class MockConnection : IDeviceConnection, IDataProvider
     {
-        public MockConnection(ITypesContainer typesContainer)
+        public MockConnection()
         {
             MemorySlotDictionary = new Dictionary<ushort, ushort>();
-            _typesContainer = typesContainer;
         }
 
         private IDeviceLogger _currentDeviceLogger;
-        private ITypesContainer _typesContainer;
         public static bool IsConnectionLost { get; set; }
         private bool _lastQuerySucceed = true;
-
-
-
 
         [JsonProperty] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
         public object Clone()
         {
-            var o = _typesContainer.Resolve<MockConnection>();
+            var o = StaticContainer.Container.Resolve<MockConnection>();
             o.MemorySlotDictionary = MemorySlotDictionary.ToDictionary(entry => entry.Key, entry => entry.Value);
             return o;
         }
@@ -151,10 +147,7 @@ namespace Unicon2.Connections.MockConnection.Model
 
         public bool IsInitialized { get; }
 
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            _typesContainer = container;
-        }
+       
 
         private void PopulateMemoryIfNeeded(ushort address, ushort numberOfPoints)
         {

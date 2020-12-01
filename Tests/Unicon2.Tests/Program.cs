@@ -1,6 +1,7 @@
 using Prism.Ioc;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Infrastructure.Services.ItemChangingContext;
 using Unicon2.Model.DefaultDevice;
 using Unicon2.Presentation.Infrastructure.ViewModels.Windows;
 using Unicon2.Shell;
@@ -32,6 +33,15 @@ namespace Unicon2.Tests
         }
 
 
+        public static void RefreshProject()
+        {
+            GetApp().Container.Resolve<IDevicesContainerService>().Refresh();
+            GetApp().Container.Resolve<IDevicesContainerService>().ConnectableItemChanged?.Invoke(
+                new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
+            GetApp().Container.Resolve<IDevicesContainerService>()
+                .AddConnectableItem(GetDevice());
+        }
+
         public static DefaultDevice GetDevice()
         {
             if (_defaultDevice == null)
@@ -39,7 +49,7 @@ namespace Unicon2.Tests
 
                 var serializerService = GetApp().Container.Resolve<ISerializerService>();
 
-                _defaultDevice = serializerService.DeserializeFromFile<IDevice>("testFile.json") as DefaultDevice;
+                _defaultDevice = serializerService.DeserializeFromFile<IDevice>("FileAssets/testFile.json") as DefaultDevice;
                 GetApp().Container.Resolve<IDevicesContainerService>()
                     .AddConnectableItem(_defaultDevice);
             }

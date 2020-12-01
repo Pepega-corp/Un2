@@ -33,11 +33,19 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
             {
                 return Result<ushort[]>.Create(false);
             }
-           var res= await _dataProviderContainer.DataProvider.Item.WriteSingleRegisterAsync(
-                _indexLoadingSequence.IndexWritingAddress, _currentRecordIndex, "Write");
-            _currentRecordIndex++;
 
+            if (_indexLoadingSequence.WriteIndexOnlyFirstTime && _currentRecordIndex == 0 ||
+                !_indexLoadingSequence.WriteIndexOnlyFirstTime)
+            {
+                var res = await _dataProviderContainer.DataProvider.Item.WriteSingleRegisterAsync(
+                    _indexLoadingSequence.IndexWritingAddress, _currentRecordIndex, "Write");
+            }
+
+
+            _currentRecordIndex++;
             
+
+
             IQueryResult<ushort[]> queryResult = await _dataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
                 _indexLoadingSequence.JournalStartAddress,
                 _indexLoadingSequence.NumberOfPointsInRecord,

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
@@ -31,8 +32,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             _writtenAddresses = writtenAddresses;
         }
 
+        private bool _wasSomethingWritten = false;
         public async Task ExecuteWrite()
         {
+            _wasSomethingWritten = false;
             await ApplyMemorySettingsBefore();
             foreach (var rootConfigurationItem in _configuration.RootConfigurationItemList)
             {
@@ -44,7 +47,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
         private async Task ApplyMemorySettingsAfter()
         {
-
+            if (!_wasSomethingWritten)
+            {
+                return;
+            }
             var activatedApplyingContext =
                 StaticContainer.Container.Resolve<IActivatedSettingApplyingContext>();
             activatedApplyingContext.DataProvider = _deviceContext.DataProviderContainer.DataProvider.Item;
@@ -184,6 +190,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             }
             if (res!=null&&res.IsSuccessful)
             {
+                _wasSomethingWritten = true;
                 for (var i = rangeFrom; i < rangeTo; i++)
                 {
                     if (memory.LocalMemoryValues.ContainsKey(i))

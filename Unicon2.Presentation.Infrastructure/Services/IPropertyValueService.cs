@@ -6,6 +6,6 @@ namespace Unicon2.Presentation.Infrastructure.Services
 {
     public interface IPropertyValueService
     {
-        Task<Result<IFormattedValue>> GetValueOfProperty(object property, DeviceContext.DeviceContext deviceContext);
+        Task<Result<IFormattedValue>> GetValueOfProperty(object property, DeviceContext.DeviceContext deviceContext, bool cacheAllowed);
     }
 }

@@ -28,15 +28,19 @@ namespace Unicon2.Fragments.Measuring.Helpers
                 }
                 else
                 {
-                    var res = await deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
-                        discretMeasuringElement.AddressOfBit
-                            .Address, discretMeasuringElement.NumberOfPoints,
-                        "Read discret: " + discretMeasuringElement.Name);
-                    if (res.IsSuccessful)
+                    if (deviceContext.DataProviderContainer.DataProvider.IsSuccess)
                     {
-                        return Result<bool>.Create(
-                            res.Result.First().GetBoolArrayFromUshort()[
-                                discretMeasuringElement.AddressOfBit.BitAddressInWord], true);
+                        var res =
+                            await deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(
+                                discretMeasuringElement.AddressOfBit
+                                    .Address, discretMeasuringElement.NumberOfPoints,
+                                "Read discret: " + discretMeasuringElement.Name);
+                        if (res.IsSuccessful)
+                        {
+                            return Result<bool>.Create(
+                                res.Result.First().GetBoolArrayFromUshort()[
+                                    discretMeasuringElement.AddressOfBit.BitAddressInWord], true);
+                        }
                     }
                 }
             }
@@ -52,18 +56,21 @@ namespace Unicon2.Fragments.Measuring.Helpers
                 }
                 else
                 {
-
-                    var res = await deviceContext.DataProviderContainer.DataProvider.Item.ReadCoilStatusAsync(
-                        discretMeasuringElement.AddressOfBit.Address, "Read discret: " + discretMeasuringElement.Name);
-                    if (res.IsSuccessful)
+                    if (deviceContext.DataProviderContainer.DataProvider.IsSuccess)
                     {
-                        deviceContext.DeviceMemory.DeviceBitMemoryValues.Add(discretMeasuringElement
-                            .AddressOfBit
-                            .Address, res.Result);
-                        return Result<bool>.Create(deviceContext.DeviceMemory.DeviceBitMemoryValues[
-                            discretMeasuringElement.AddressOfBit
-                                .Address], true);
+                        var res = await deviceContext.DataProviderContainer.DataProvider.Item.ReadCoilStatusAsync(
+                            discretMeasuringElement.AddressOfBit.Address,
+                            "Read discret: " + discretMeasuringElement.Name);
+                        if (res.IsSuccessful)
+                        {
+                            deviceContext.DeviceMemory.DeviceBitMemoryValues.Add(discretMeasuringElement
+                                .AddressOfBit
+                                .Address, res.Result);
+                            return Result<bool>.Create(deviceContext.DeviceMemory.DeviceBitMemoryValues[
+                                discretMeasuringElement.AddressOfBit
+                                    .Address], true);
 
+                        }
                     }
                 }
 

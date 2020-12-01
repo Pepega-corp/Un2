@@ -73,7 +73,7 @@ namespace Unicon2.Tests.Configuration
                 .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY)
                 .OptionCommand as RelayCommand;
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device, new MockConnection());
             _shell.ActiveFragmentViewModel = new FragmentPaneViewModel()
             {
                 FragmentViewModel = _configurationFragmentViewModel

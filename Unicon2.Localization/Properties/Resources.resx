@@ -1497,4 +1497,7 @@
   <data name="ConnectionLostGoOfflineQuestion" xml:space="preserve">
     <value>@ConnectionLostGoOfflineQuestion</value>
   </data>
+  <data name="WriteIndexOnlyFirstTime" xml:space="preserve">
+    <value>@WriteIndexOnlyFirstTime</value>
+  </data>
 </root>

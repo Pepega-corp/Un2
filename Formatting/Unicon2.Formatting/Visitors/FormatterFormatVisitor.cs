@@ -164,7 +164,7 @@ namespace Unicon2.Formatting.Visitors
 			            container => container.ResourceName == formattableUshortResource);
 
 		            var propValue = await StaticContainer.Container.Resolve<IPropertyValueService>()
-			            .GetValueOfProperty(resource.Resource, deviceContext);
+			            .GetValueOfProperty(resource.Resource, deviceContext,true);
 
 		            if (propValue.Item is INumericValue numericValue)
 		            {

@@ -24,6 +24,7 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.Frag
                 if (_isChecked != value)
                     OptionCommand?.Execute(value);
                 _isChecked = value;
+                RaisePropertyChanged();
             }
         }
 

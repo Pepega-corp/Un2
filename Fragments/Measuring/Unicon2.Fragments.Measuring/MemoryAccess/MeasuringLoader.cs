@@ -72,67 +72,70 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 
 		public bool ErrorOccured { get; set; }
 
-	    public async void ExecuteLoad()
-	    {
-		    if (this._isQueriesStarted) return;
-		    try
-		    {
-			    await Load();
-		    }
-		    catch
-		    {
-			    ErrorOccured = true;
-		    }
-	    }
+		public async void ExecuteLoad()
+		{
+			if (this._isQueriesStarted) return;
+			await Load();
+		}
 
-	    private async Task Load()
-	    {
-            this.IsLoadInProgress = true;
-	        while (true)
-	        {
-		        if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
-		        {
-			        this.IsLoadInProgress = false;
-			        return;
-		        }
-                await LoadMemory();
-	            foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
-	            {
-	                if (_groupName != null && discreteSubscription.GroupName != _groupName)
-	                {
-	                    continue;
-	                }
+		private async Task Load()
+		{
+			try
+			{
+				this.IsLoadInProgress = true;
+				while (true)
+				{
+					if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
+					{
+						this.IsLoadInProgress = false;
+						return;
+					}
 
-	                await discreteSubscription.Execute();
-	            }
-	            foreach (var analogSubscription in _measuringSubscriptionSet.AnalogSubscriptions)
-	            {
-	                if (_groupName != null && analogSubscription.GroupName != _groupName)
-	                {
-	                    continue;
-	                }
+					await LoadMemory();
+					foreach (var discreteSubscription in _measuringSubscriptionSet.DiscreteSubscriptions)
+					{
+						if (_groupName != null && discreteSubscription.GroupName != _groupName)
+						{
+							continue;
+						}
 
-	                await analogSubscription.Execute();
-	            }
-	            foreach (var dateTimeSubscription in _measuringSubscriptionSet.DateTimeSubscriptions)
-	            {
-	                if (_groupName != null && dateTimeSubscription.GroupName != _groupName)
-	                {
-	                    continue;
-	                }
+						await discreteSubscription.Execute();
+					}
 
-	                await dateTimeSubscription.Execute();
-	            }
-	            if (!this._isQueriesStarted)
-	            {
-	                this.IsLoadInProgress = false;
-                    return;
-	            }
-	        }
+					foreach (var analogSubscription in _measuringSubscriptionSet.AnalogSubscriptions)
+					{
+						if (_groupName != null && analogSubscription.GroupName != _groupName)
+						{
+							continue;
+						}
 
-	    }
+						await analogSubscription.Execute();
+					}
 
-	    private async Task LoadMemory()
+					foreach (var dateTimeSubscription in _measuringSubscriptionSet.DateTimeSubscriptions)
+					{
+						if (_groupName != null && dateTimeSubscription.GroupName != _groupName)
+						{
+							continue;
+						}
+
+						await dateTimeSubscription.Execute();
+					}
+
+					if (!this._isQueriesStarted)
+					{
+						this.IsLoadInProgress = false;
+						return;
+					}
+				}
+			}
+			catch
+			{
+				ErrorOccured = true;
+			}
+		}
+
+		private async Task LoadMemory()
 		{
 			List<ushort> addressesToLoadFun3=new List<ushort>();
 		    List<ushort> addressesToLoadFun1 = new List<ushort>();
@@ -169,15 +172,13 @@ namespace Unicon2.Fragments.Measuring.MemoryAccess
 	    private async Task LoadAddresses(Dictionary<ushort, ushort> memoryDictionaryUshort, Dictionary<ushort, bool> memoryDictionaryBit,
             List<ushort> addressesToLoadFun3, List<ushort> addressesToLoadFun1)
 	    {
-	        if (!(addressesToLoadFun3.Any() && addressesToLoadFun1.Any()))
+	        if ((!(addressesToLoadFun3.Any() && addressesToLoadFun1.Any()))||!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
 	        {
-	            await Task.Delay(1000);
+	            await Task.Delay(100);
+	            return;
 	        }
 
-	        if (!_deviceContext.DataProviderContainer.DataProvider.IsSuccess)
-	        {
-		        return;
-	        }
+	     
 	        foreach (var addressUshort in addressesToLoadFun3)
 	        {
 	            if (!memoryDictionaryUshort.ContainsKey(addressUshort))

@@ -31,6 +31,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
                 this._indexLoadingSequence.WordFormatTo = this.WordFormatTo;
                 this._indexLoadingSequence.WordFormatFrom = this.WordFormatFrom;
                 this._indexLoadingSequence.IndexWritingAddress = this.IndexWritingAddress;
+                this._indexLoadingSequence.WriteIndexOnlyFirstTime = this.WriteIndexOnlyFirstTime;
 
                 return this._indexLoadingSequence;
             }
@@ -43,10 +44,21 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.LoadingSequence
                 this.WordFormatTo = this._indexLoadingSequence.WordFormatTo;
                 this.WordFormatFrom = this._indexLoadingSequence.WordFormatFrom;
                 this.IndexWritingAddress = this._indexLoadingSequence.IndexWritingAddress;
+                WriteIndexOnlyFirstTime = this._indexLoadingSequence.WriteIndexOnlyFirstTime;
 
             }
         }
+        private bool _writeIndexOnlyFirstTime;
 
+        public bool WriteIndexOnlyFirstTime
+        {
+            get => _writeIndexOnlyFirstTime;
+            set
+            {
+                _writeIndexOnlyFirstTime = value;
+                RaisePropertyChanged();
+            }
+        }
         public ushort JournalStartAddress
         {
             get { return this._journalStartAddress; }

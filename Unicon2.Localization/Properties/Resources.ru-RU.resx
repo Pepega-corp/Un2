@@ -1506,4 +1506,7 @@
   <data name="ConnectionLostGoOfflineQuestion" xml:space="preserve">
     <value>Похоже, есть проблемы со связью устройства. Перейти в оффлайн режим?</value>
   </data>
+  <data name="WriteIndexOnlyFirstTime" xml:space="preserve">
+    <value>Записывать индекс только первый раз</value>
+  </data>
 </root>

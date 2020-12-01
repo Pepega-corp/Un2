@@ -77,6 +77,10 @@
             </UniformGrid>
             <CheckBox
                 Margin="5"
+                Content="{lex:Loc WriteIndexOnlyFirstTime}"
+                IsChecked="{Binding WriteIndexOnlyFirstTime}" />
+            <CheckBox
+                Margin="5"
                 Content="{lex:Loc WordFormatNotForTheWholeRecord}"
                 IsChecked="{Binding IsWordFormatNotForTheWholeRecord}" />
             <StackPanel IsEnabled="{Binding IsWordFormatNotForTheWholeRecord}" Orientation="Horizontal">

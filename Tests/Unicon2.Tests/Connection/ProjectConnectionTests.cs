@@ -45,7 +45,7 @@ namespace Unicon2.Tests.Connection
             
             projectService.CreateNewProject();
 
-            RefreshProject();
+            Program.RefreshProject();
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace Unicon2.Tests.Connection
             MockConnection.IsConnectionLost = true;
 
             var projectService = app.Container.Resolve<IUniconProjectService>();
-            await projectService.LoadProject("testProject.uniproj");
+            await projectService.LoadProject("FileAssets/testProject.uniproj");
             var deviceViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0];
 
             Assert.True(await TestsUtils.WaitUntil(() => !deviceViewModel.ConnectionStateViewModel.IsDeviceConnected));
@@ -74,18 +74,11 @@ namespace Unicon2.Tests.Connection
             MockConnection.IsConnectionLost = false;
 
             projectService.CreateNewProject();
-            RefreshProject();
+            Program.RefreshProject();
         }
 
 
-        public void RefreshProject()
-        {
-            Program.GetApp().Container.Resolve<IDevicesContainerService>().Refresh();
-            Program.GetApp().Container.Resolve<IDevicesContainerService>().ConnectableItemChanged?.Invoke(
-                new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));
-            Program.GetApp().Container.Resolve<IDevicesContainerService>()
-                .AddConnectableItem(Program.GetDevice());
-        }
+ 
     }
 
 }

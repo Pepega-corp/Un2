@@ -19,7 +19,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             this._formattingService = formattingService;
         }
 
-        public async Task<Result<IFormattedValue>> GetValueOfProperty(object propertyMaybe, DeviceContext deviceContext)
+        public async Task<Result<IFormattedValue>> GetValueOfProperty(object propertyMaybe, DeviceContext deviceContext,bool cacheAllowed)
         {
             IProperty property = propertyMaybe as IProperty;
             if (property == null||!deviceContext.DataProviderContainer.DataProvider.IsSuccess)
@@ -27,25 +27,23 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
                 return Result<IFormattedValue>.Create(false);
             }
 
-            if (deviceContext.DeviceMemory != null && MemoryAccessor.IsMemoryContainsAddresses(
+            if (cacheAllowed && deviceContext.DeviceMemory != null && MemoryAccessor.IsMemoryContainsAddresses(
                     deviceContext.DeviceMemory, property.Address,
                     property.NumberOfPoints, false))
             {
-                return await GetValueFromUshorts(MemoryAccessor.GetUshortsFromMemory(deviceContext.DeviceMemory,
+               return await GetValueFromUshorts(MemoryAccessor.GetUshortsFromMemory(deviceContext.DeviceMemory,
                     property.Address,
                     property.NumberOfPoints, false), property.UshortsFormatter);
             }
-            else
+
+            var ushorts =
+                await deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(property.Address,
+                    property.NumberOfPoints, "Read property");
+            if (ushorts.IsSuccessful)
             {
-                var ushorts =
-                    await deviceContext.DataProviderContainer.DataProvider.Item.ReadHoldingResgistersAsync(property.Address,
-                        property.NumberOfPoints, "Read property");
-                if (ushorts.IsSuccessful)
-                {
-                    MemoryAccessor.SetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result,
-                        false);
-                    return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter);
-                }
+                MemoryAccessor.SetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result,
+                    false);
+                return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter);
             }
 
             return Result<IFormattedValue>.Create(false);

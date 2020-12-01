@@ -1503,4 +1503,7 @@
   <data name="ConnectionLostGoOfflineQuestion" xml:space="preserve">
     <value>Connection lost. Go offline?</value>
   </data>
+  <data name="WriteIndexOnlyFirstTime" xml:space="preserve">
+    <value>Write Index only first time</value>
+  </data>
 </root>

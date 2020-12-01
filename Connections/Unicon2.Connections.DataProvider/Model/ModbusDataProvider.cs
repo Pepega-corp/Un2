@@ -53,7 +53,6 @@ namespace Unicon2.Connections.DataProvider.Model
             if (!CheckConnection(queryResult)) return queryResult;
             try
             {
-                TransactionCompleteSubscription?.Execute();
                 queryResult.Result =
                     await _currentModbusMaster.ReadHoldingRegistersAsync(_slaveId, startAddress, numberOfPoints);
                 List<string> results = queryResult.Result.Select((arg => arg.ToString())).ToList();
@@ -128,7 +127,6 @@ namespace Unicon2.Connections.DataProvider.Model
                 LogQuery(false, dataTitle, "Fun:1" + " Addr:" + coilAddress + " Num:" + numberOfPoints, exception: e);
                 queryResult.IsSuccessful = false;
             }
-
             _semaphoreSlim.Release(1);
             return queryResult;
         }

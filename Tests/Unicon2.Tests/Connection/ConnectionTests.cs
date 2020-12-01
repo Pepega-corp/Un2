@@ -22,6 +22,7 @@ using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+using Unicon2.Presentation.Subscription;
 using Unicon2.Presentation.Values;
 using Unicon2.Presentation.Values.Editable;
 using Unicon2.Shell.ViewModels;
@@ -111,7 +112,7 @@ namespace Unicon2.Tests.Connection
             optionCommands[2].CanExecuteChanged += (sender, args) => { isChanagedTriggered2++; };
 
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device, new MockConnection());
             await _configurationFragmentViewModel.SetFragmentOpened(true);
             Assert.True(await TestsUtils.WaitUntil(
                 () => optionCommands.All(command => command.CanExecute(null)), 30000));
@@ -149,13 +150,56 @@ namespace Unicon2.Tests.Connection
             loadCommand.CanExecuteChanged += (sender, args) => { isChanagedTriggered1++; };
 
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device, new MockConnection());
             Assert.True(await TestsUtils.WaitUntil(
                 () =>
                 {
                     return loadCycleCommand.IsEnabled && loadCommand.CanExecute(null) &&
                            isChanagedTriggered1 > 0;
                 }, 30000));
+        }
+        
+        
+        [Test]
+        public async Task OfflineConnectionMeasuringButtonsAvailbilityWhenCycleExecuting()
+        {
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection());
+
+            int isChanagedTriggered1 = 0;
+
+
+            var loadCommand = _measuringMonitorViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Loading").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == "Load")
+                .OptionCommand as RelayCommand;
+            var loadCycleCommand = _measuringMonitorViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Loading").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == "CycleLoading") as FragmentOptionToggleCommandViewModel;
+
+            Assert.True(loadCycleCommand.IsEnabled);
+            Assert.True(loadCommand.CanExecute(null));
+
+            loadCycleCommand.IsChecked = true;
+            
+            
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new OfflineConnection());
+            Assert.True(await TestsUtils.WaitUntil(
+                () => !loadCycleCommand.IsChecked));
+       
+            Assert.False(loadCycleCommand.IsEnabled);
+            Assert.False(loadCommand.CanExecute(null));
+            
+            
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, new MockConnection());
+            
+            
+            Assert.True(loadCycleCommand.IsEnabled);
+            Assert.True(loadCommand.CanExecute(null));
+            
         }
 
         [Test]
@@ -186,7 +230,7 @@ namespace Unicon2.Tests.Connection
 
             await _configurationFragmentViewModel.SetFragmentOpened(true);
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device, new MockConnection());
 
             Assert.True(
                 _configurationFragmentViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[
@@ -219,7 +263,7 @@ namespace Unicon2.Tests.Connection
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
             await _configurationFragmentViewModel.SetFragmentOpened(true);
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device, new MockConnection());
 
             var commandRead = _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
                 .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
@@ -261,7 +305,7 @@ namespace Unicon2.Tests.Connection
 
             await _configurationFragmentViewModel.SetFragmentOpened(true);
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device, new MockConnection());
 
             var commandRead = _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
                 .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
@@ -298,7 +342,7 @@ namespace Unicon2.Tests.Connection
             await _configurationFragmentViewModel.SetFragmentOpened(false);
 
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device, new MockConnection());
 
             Assert.True(await TestsUtils.WaitUntil(
                 () => _deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
@@ -313,7 +357,7 @@ namespace Unicon2.Tests.Connection
             await _configurationFragmentViewModel.SetFragmentOpened(true);
 
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(_device, new MockConnection(_typesContainer));
+                .ConnectDeviceAsync(_device, new MockConnection());
 
             Assert.True(await TestsUtils.WaitUntil(
                 () => _deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
@@ -336,7 +380,7 @@ namespace Unicon2.Tests.Connection
             Assert.True(await TestsUtils.WaitUntil(
                 () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
 
-            var connection = new MockConnection(_typesContainer);
+            var connection = new MockConnection();
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, connection);
             Assert.True(await TestsUtils.WaitUntil(
@@ -351,7 +395,7 @@ namespace Unicon2.Tests.Connection
             _typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
 
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
-            var connection = new MockConnection(_typesContainer);
+            var connection = new MockConnection();
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, connection);
 
@@ -379,7 +423,7 @@ namespace Unicon2.Tests.Connection
         [Test]
         public async Task ConnectionLostUserSayGoOffline()
         {
-            var prevConnection = new MockConnection(_typesContainer);
+            var prevConnection = new MockConnection();
 
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, prevConnection);
@@ -387,7 +431,7 @@ namespace Unicon2.Tests.Connection
             _typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
 
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
-            var connection = new MockConnection(_typesContainer);
+            var connection = new MockConnection();
 
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, connection);
@@ -412,7 +456,7 @@ namespace Unicon2.Tests.Connection
         [Test]
         public async Task ConnectionLostUserSayGoOfflineWhenMeasuringInLoadingCycle()
         {
-            var prevConnection = new MockConnection(_typesContainer);
+            var prevConnection = new MockConnection();
 
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, prevConnection);
@@ -420,7 +464,7 @@ namespace Unicon2.Tests.Connection
             _typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
 
             _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
-            var connection = new MockConnection(_typesContainer);
+            var connection = new MockConnection();
 
             await _typesContainer.Resolve<IDevicesContainerService>()
                 .ConnectDeviceAsync(_device, connection);
@@ -445,6 +489,65 @@ namespace Unicon2.Tests.Connection
             Assert.True(await TestsUtils.WaitUntil(
                 () => !loadCycleCommand.IsChecked));
             MockConnection.IsConnectionLost = false;
+
+        }
+
+        [Test]
+        public async Task ConnectionLostOnWrite()
+        {
+            var prevConnection = new MockConnection();
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, prevConnection);
+            var applicationGlobalCommandsMock = ApplicationGlobalCommandsMock.Create().WithAskUserGlobalResult(true);
+            _typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
+
+            _configurationFragmentViewModel.DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
+            var connection = new MockConnection();
+
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(_device, connection);
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+            _readCommand.Execute(null);
+            Assert.True(await TestsUtils.WaitUntil(() => _readCommand.CanExecute(null), 30000));
+            (_device.DataProvider.Item.TransactionCompleteSubscription as TransactionCompleteSubscription).ResetOnConnectionRetryCounter(true);
+
+            _device.DataProvider.Item.TransactionCompleteSubscription.Execute();
+
+            var defaultPropertyWithBoolFormatting = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "boolTestDefaultProperty")
+                .Item as IRuntimePropertyViewModel;
+
+            (defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel).BoolValueProperty = true;
+
+
+            var writeCommand = _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == ConfigurationKeys.WRITE_LOCAL_VALUES_TO_DEVICE_STRING_KEY)
+                .OptionCommand as RelayCommand;
+            MockConnection.IsConnectionLost = true;
+
+
+            while (!applicationGlobalCommandsMock.IsAskUserGlobalTriggered)
+            {
+                writeCommand.Execute(null);
+                await TestsUtils.WaitUntil(() => writeCommand.CanExecute(null), 2000); 
+            }
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () => !_deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+
+            Assert.True((prevConnection as MockConnection).IsDisposed);
+            Assert.True((connection as MockConnection).IsDisposed);
+
+            Assert.True(applicationGlobalCommandsMock.IsAskUserGlobalTriggered);
+            MockConnection.IsConnectionLost = false;
+            (defaultPropertyWithBoolFormatting.LocalValue as EditableBoolValueViewModel).BoolValueProperty = false;
+
+            Assert.True(await TestsUtils.WaitUntil(() => !_readCommand.CanExecute(null), 30000));
 
         }
     }

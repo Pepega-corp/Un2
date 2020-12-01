@@ -150,6 +150,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
             {
                 _waitByte = value;
                 RaisePropertyChanged();
+                FireErrorsChanged();
             }
         }
 

@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Unicon2.Infrastructure.Common;
 
 namespace Unicon2.Infrastructure.Functional
 {
+    
     public class Result<T>
     {
         private Result(T item, bool isSuccess)
@@ -15,6 +17,7 @@ namespace Unicon2.Infrastructure.Functional
         {
             IsSuccess = isSuccess;
         }
+
 
         public static Result<T> Create(T item, bool isSuccess)
         {
@@ -35,7 +38,13 @@ namespace Unicon2.Infrastructure.Functional
         {
             return isSuccess() ? new Result<T>(creator(), true) : new Result<T>(false);
         }
-
+        public static implicit operator Result<T>(T value)
+        {
+            if(value == null)
+                return new Result<T>(false);
+ 
+            return new Result<T>(value,true);
+        }
         public T OnSuccess(Action<T> onSuccessFunc)
         {
             if (IsSuccess)
@@ -45,7 +54,15 @@ namespace Unicon2.Infrastructure.Functional
 
             return Item;
         }
-       
+        public async Task<T> OnSuccessAsync(Func<T,Task<T>> onSuccessFunc)
+        {
+            if (IsSuccess)
+            {
+               return await onSuccessFunc(Item);
+            }
+
+            return Item;
+        }
         public T OnFail(Action<T> onFailFunc)
         {
 	        if (!IsSuccess)

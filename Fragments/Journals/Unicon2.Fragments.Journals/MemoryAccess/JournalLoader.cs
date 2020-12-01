@@ -7,6 +7,7 @@ using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 
 namespace Unicon2.Fragments.Journals.MemoryAccess
@@ -14,17 +15,17 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
     public class JournalLoader
     {
         private readonly IUniconJournalViewModel _uniconJournalViewModel;
-        private readonly IDataProviderContainer _dataProviderContainer;
+        private readonly DeviceContext _deviceContext;
         private readonly IUniconJournal _uniconJournal;
         private readonly IJournalRecordFactory _journalRecordFactory;
         private readonly IValueViewModelFactory _valueViewModelFactory;
 
 
         public JournalLoader(IUniconJournalViewModel uniconJournalViewModel,
-            IDataProviderContainer dataProviderContainer, IUniconJournal uniconJournal)
+            DeviceContext deviceContext, IUniconJournal uniconJournal)
         {
             _uniconJournalViewModel = uniconJournalViewModel;
-            _dataProviderContainer = dataProviderContainer;
+            _deviceContext = deviceContext;
             _uniconJournal = uniconJournal;
             _journalRecordFactory = StaticContainer.Container.Resolve<IJournalRecordFactory>();
             _valueViewModelFactory = StaticContainer.Container.Resolve<IValueViewModelFactory>();
@@ -49,7 +50,7 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
             _uniconJournal.JournalRecords.Clear();
             var sequenceLoader =
                 new SequenceLoaderFactory().CreateSequenceLoader(_uniconJournal.JournalLoadingSequence,
-                    _dataProviderContainer);
+                    _deviceContext.DataProviderContainer);
             _uniconJournalViewModel.Table.Values.Clear();
             while (sequenceLoader.GetIsNextRecordAvailable())
             {
@@ -59,7 +60,7 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
                     break;
                 }
                 IJournalRecord newRec =
-                    _journalRecordFactory.CreateJournalRecord(recordValues.Item, _uniconJournal.RecordTemplate);
+                    await _journalRecordFactory.CreateJournalRecord(recordValues.Item, _uniconJournal.RecordTemplate,_deviceContext);
                 if (newRec != null)
                 {
                     _uniconJournal.JournalRecords.Add(newRec);

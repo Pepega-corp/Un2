@@ -25,6 +25,7 @@ namespace Unicon2.Presentation.Subscription
 
         public void ResetOnConnectionRetryCounter(bool enable)
         {
+            _lostConnectionRetriesCounter = 0;
             _onConnectionRetriesCounterOverflow = Result<Action>.Create(_onConnectionRetriesCounterOverflow.Item, enable);
         }
 

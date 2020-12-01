@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Journals.Infrastructure.Factories;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
@@ -8,6 +9,7 @@ using Unicon2.Fragments.Journals.Model.JournalParameters;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Unity.Interfaces;
 
@@ -24,7 +26,8 @@ namespace Unicon2.Fragments.Journals.Factory
             _formattingService = formattingService;
         }
 
-        public IJournalRecord CreateJournalRecord(ushort[] values, IRecordTemplate recordTemplate)
+        public async Task<IJournalRecord> CreateJournalRecord(ushort[] values, IRecordTemplate recordTemplate,
+            DeviceContext deviceContext)
         {
             if (values.All(o => o == 0))
                 return null;
@@ -32,13 +35,15 @@ namespace Unicon2.Fragments.Journals.Factory
 
             foreach (IJournalParameter journalParameter in recordTemplate.JournalParameters)
             {
-                journalRecord.FormattedValues.AddRange(GetValuesForRecord(journalParameter, values));
+                journalRecord.FormattedValues.AddRange(
+                    await GetValuesForRecord(journalParameter, values, deviceContext));
             }
 
             return journalRecord;
         }
 
-        private List<IFormattedValue> GetValuesForRecord(IJournalParameter parameter, ushort[] recordUshorts)
+        private async Task<List<IFormattedValue>> GetValuesForRecord(IJournalParameter parameter,
+            ushort[] recordUshorts, DeviceContext deviceContext)
         {
             var formattedValues = new List<IFormattedValue>();
             switch (parameter)
@@ -47,12 +52,13 @@ namespace Unicon2.Fragments.Journals.Factory
                     foreach (ISubJournalParameter childJournalParameter in complexJournalParameter
                         .ChildJournalParameters)
                     {
-                        formattedValues.Add(_formattingService.FormatValue(childJournalParameter.UshortsFormatter,
+                        formattedValues.Add(await _formattingService.FormatValueAsync(
+                            childJournalParameter.UshortsFormatter,
                             new[]
                             {
                                 GetParameterUshortInRecord(recordUshorts, complexJournalParameter,
                                     childJournalParameter)
-                            }));
+                            }, deviceContext));
                     }
 
                     break;
@@ -68,8 +74,8 @@ namespace Unicon2.Fragments.Journals.Factory
                             //Task loadingTask = (journalParameterDependancyCondition.UshortsFormatter as ILoadable)?.Load();
                             //if (loadingTask != null)
                             //    await loadingTask;
-                            formattedValues.Add(_formattingService.FormatValue(
-                                journalParameterDependancyCondition.UshortsFormatter, dependentValuesToFormat));
+                            formattedValues.Add(await _formattingService.FormatValueAsync(
+                                journalParameterDependancyCondition.UshortsFormatter, dependentValuesToFormat,deviceContext));
                         }
                     }
 
@@ -78,8 +84,8 @@ namespace Unicon2.Fragments.Journals.Factory
                     ushort[] valuesToFormat = recordUshorts.Skip(journalParameter.StartAddress)
                         .Take(journalParameter.NumberOfPoints).ToArray();
 
-                    formattedValues.Add(_formattingService.FormatValue(journalParameter.UshortsFormatter,
-                        valuesToFormat));
+                    formattedValues.Add(await _formattingService.FormatValueAsync(journalParameter.UshortsFormatter,
+                        valuesToFormat,deviceContext));
                     break;
             }
 

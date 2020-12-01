@@ -34,7 +34,7 @@ namespace Unicon2.Presentation.Connection
                 if (expectedValue.Replace(" ", "") == testValueResult.Item.Replace(" ", "")) isMatches = true;
             }
 
-            return Result<string>.Create(testValueResult.Item,isMatches);
+            return Result<string>.Create(testValueResult.Item, isMatches);
         }
 
         private async Task<Result<string>> GetTestResultValue(string connectionStateRelatedResourceString,
@@ -46,7 +46,8 @@ namespace Unicon2.Presentation.Connection
             {
                 return Result<string>.Create(false);
             }
-            var res = await this._propertyValueService.GetValueOfProperty(resource.Resource, deviceContext);
+
+            var res = await this._propertyValueService.GetValueOfProperty(resource.Resource, deviceContext, false);
             return Result<string>.Create(() => res.Item.AsString(), () => res.IsSuccess);
         }
     }

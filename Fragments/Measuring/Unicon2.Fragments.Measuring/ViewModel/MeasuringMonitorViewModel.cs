@@ -52,7 +52,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
 		    IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
 		    fragmentOptionCommandViewModel.TitleKey = "Load";
-		    this._readCommand = new RelayCommand(() => { _loader.ExecuteLoad(); },
+		    _readCommand = new RelayCommand(() =>_loader.ExecuteLoad(),
 			    () => DeviceContext.DataProviderContainer.DataProvider.IsSuccess && !this._loader.IsLoadInProgress);
 
 		    fragmentOptionCommandViewModel.OptionCommand = this._readCommand;

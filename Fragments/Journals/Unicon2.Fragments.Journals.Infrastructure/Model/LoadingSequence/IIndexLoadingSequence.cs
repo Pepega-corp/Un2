@@ -8,5 +8,7 @@
         ushort WordFormatTo { get; set; }
         bool IsWordFormatNotForTheWholeRecord { get; set; }
         ushort IndexWritingAddress { get; set; }
+        bool WriteIndexOnlyFirstTime { get; set; }
+
     }
 }

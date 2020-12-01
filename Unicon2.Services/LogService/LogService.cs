@@ -74,7 +74,7 @@ namespace Unicon2.Services.LogService
             if (IsLoggingToFileEnabled)
             {
                 var logger = LogManager.GetLogger(logMessage.MessageSubject);
-                logger.Trace(logMessage.ToString);
+                logger.Info(logMessage.ToString);
             }
             NewMessageAction?.Invoke(logMessage);
         }

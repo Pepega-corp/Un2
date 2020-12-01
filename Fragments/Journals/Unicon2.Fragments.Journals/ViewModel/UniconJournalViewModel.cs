@@ -133,7 +133,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
 	        {
 		        var loadedJournal = _typesContainer.Resolve<ISerializerService>()
 			        .DeserializeFromFile<IUniconJournal>(ofd.FileName); 
-		        new JournalLoader(this, this.DeviceContext.DataProviderContainer, _uniconJournal)
+		        new JournalLoader(this, this.DeviceContext, _uniconJournal)
 			        .LoadFromReadyModelList(loadedJournal.JournalRecords);
 	        }
         }
@@ -150,7 +150,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
                 Table = new DynamicDataTable(JournalParametersNameList, null, true);
                 RaisePropertyChanged(nameof(Table));
                 RaisePropertyChanged(nameof(JournalParametersNameList));
-                await new JournalLoader(this, this.DeviceContext.DataProviderContainer, _uniconJournal).Load();
+                await new JournalLoader(this, this.DeviceContext, _uniconJournal).Load();
             }
             catch (Exception e)
             {
