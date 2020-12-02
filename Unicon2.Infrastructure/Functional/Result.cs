@@ -114,6 +114,10 @@ namespace Unicon2.Infrastructure.Functional
         {
             return Create(previousResult.IsSuccess && isSuccess);
         }
+        public static implicit operator Result(bool isSuccess)
+        {
+            return new Result(isSuccess);
+        }
     }
 
 }

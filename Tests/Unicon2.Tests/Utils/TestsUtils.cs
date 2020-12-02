@@ -4,8 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+using Unicon2.Unity.Commands;
 
 namespace Unicon2.Tests.Utils
 {
@@ -60,6 +64,13 @@ namespace Unicon2.Tests.Utils
             return Result<IConfigurationItem>.Create(false);
         }
 
+
+        public static IFragmentOptionCommandViewModel GetCommand(this IFragmentOptionsViewModel fragmentOptionsViewModel, string groupName, string commandName)
+        {
+           return fragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == groupName).FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == commandName);
+        }
 
         public static async Task<bool> WaitUntil(Func<bool> predicate, int millisecondsToWait=10000, int interval=50)
         {

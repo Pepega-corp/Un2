@@ -58,6 +58,7 @@ namespace Unicon2.Tests.Connection
 
             var applicationGlobalCommandsMock = ApplicationGlobalCommandsMock.Create().WithAskUserGlobalResult(true);
             typesContainer.RegisterInstance<IApplicationGlobalCommands>(applicationGlobalCommandsMock);
+            Program.RefreshProject();
 
             MockConnection.IsConnectionLost = true;
 

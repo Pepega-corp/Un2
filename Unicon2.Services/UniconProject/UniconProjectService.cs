@@ -172,7 +172,7 @@ namespace Unicon2.Services.UniconProject
 					        connectableItem.DeviceConnection);
 				        if (!res.IsSuccess)
 				        {
-					        _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
+					        await _devicesContainerService.ConnectDeviceAsync(connectableItem as IDevice,
 						        _container.Resolve<IDeviceConnectionFactory>(ApplicationGlobalNames
 							        .OFFLINE_CONNECTION_FACTORY_NAME).CreateDeviceConnection());
 				        }

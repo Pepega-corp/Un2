@@ -26,13 +26,16 @@ namespace Unicon2.Connections.MockConnection.Model
         {
             MemorySlotDictionary = new Dictionary<ushort, ushort>();
         }
-
+        
         private IDeviceLogger _currentDeviceLogger;
         public static bool IsConnectionLost { get; set; }
         private bool _lastQuerySucceed = true;
 
         [JsonProperty] public Dictionary<ushort, ushort> MemorySlotDictionary { get; set; }
 
+        
+        
+        
         public object Clone()
         {
             var o = StaticContainer.Container.Resolve<MockConnection>();

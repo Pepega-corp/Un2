@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
 namespace Unicon2.Tests.Helpers.Query
 {
     public class QueryMockDefinition
     {
         public QueryMockDefinition(ushort address, ushort funcNumber, ushort? numberOfPoints = null,
-            ushort[] data = null)
+            List<ushort> data = null)
         {
             Address = address;
             NumberOfPoints = numberOfPoints;
@@ -14,7 +16,7 @@ namespace Unicon2.Tests.Helpers.Query
         public ushort Address { get; }
         public ushort? NumberOfPoints { get; }
         public ushort FuncNumber { get; }
-        public ushort[] Data { get; }
+        public List<ushort> Data { get; }
 
     }
 }

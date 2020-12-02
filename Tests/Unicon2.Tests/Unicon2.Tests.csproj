@@ -100,6 +100,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Mocks\ApplicationGlobalCommandsMock.cs" />
     <Compile Include="Utils\Mocks\DialogCoordinatorMock.cs" />
+    <Compile Include="Utils\QueryUtils.cs" />
     <Compile Include="Utils\TestsUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,10 @@
     <ProjectReference Include="..\..\Fragments\Configuration\Unicon2.Fragments.Configuration\Unicon2.Fragments.Configuration.csproj">
       <Project>{f35e1178-260c-4ddc-9bc0-a557ec82a5aa}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Fragments\Journals\Unicon2.Fragments.Journals\Unicon2.Fragments.Journals.csproj">
+      <Project>{91d9afb4-a011-4df9-8bb7-c730009fb48a}</Project>
+      <Name>Unicon2.Fragments.Journals</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Fragments\Measuring\Unicon2.Fragments.Measuring.Infrastructure\Unicon2.Fragments.Measuring.Infrastructure.csproj">
       <Project>{8860b5a2-74cd-451f-a9c4-290bf6947e0c}</Project>
