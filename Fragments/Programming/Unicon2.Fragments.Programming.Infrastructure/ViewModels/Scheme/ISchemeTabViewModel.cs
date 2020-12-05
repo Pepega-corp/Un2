@@ -15,6 +15,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
         double SchemeWidth { get; }
         double Scale { get; set; }
         string ScaleStr { get; }
+        bool IsLogicStarted { get; set; }
         ObservableCollection<ISchemeElementViewModel> ElementCollection { get; }
 
         ICommand ZoomIncrementCommand { get; }

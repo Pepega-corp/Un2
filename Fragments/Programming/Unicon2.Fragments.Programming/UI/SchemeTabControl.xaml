@@ -117,7 +117,7 @@
                                 <Grid Name="OuterBorder">
                                     <!--  Для того,чтобы отображать на схеме все существующие элементы, используется ItemsControl, итемы которого размещены на Canvas  -->
                                     <!--  Это позволяет использовать привязку коллекции из базовых VM элементов к колекции визуально отображаемых элементов на Canvas  -->
-                                    <ItemsControl IsHitTestVisible="{Binding IsHitTestVisible}" ItemsSource="{Binding ElementCollection}">
+                                    <ItemsControl Name="LogicSchemeCanvas" ItemsSource="{Binding ElementCollection}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <Canvas
@@ -126,7 +126,6 @@
                                                     Height="{Binding SchemeHeight}"
                                                     AllowDrop="True"
                                                     Background="White"
-                                                    IsHitTestVisible="True"
                                                     SnapsToDevicePixels="True">
                                                     <i:Interaction.Behaviors>
                                                         <behaviors:DesignerCanvasBehavior />
@@ -154,11 +153,15 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-
                                 </Grid>
                             </ScrollViewer>
                         </Border>
                     </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsLogicStarted}" Value="True">
+                            <Setter TargetName="LogicSchemeCanvas" Property="IsHitTestVisible" Value="False" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

@@ -30,9 +30,9 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         {
             ushort[] bindata = new ushort[this.BinSize];
             bindata[0] = 9;
-            bindata[1] = (ushort)Connectors[0].ConnectionNumber;// Out
+            bindata[1] = (ushort)Connectors[1].ConnectionNumber;// Out
             bindata[1] |= 0x8000;
-            bindata[2] = (ushort)Connectors[1].ConnectionNumber;// In
+            bindata[2] = (ushort)Connectors[0].ConnectionNumber;// In
             return bindata;
         }
 

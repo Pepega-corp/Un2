@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -98,11 +99,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 {
                     connection.DebugMode = _isLogicStarted;
                 }
+                foreach (var shemeTab in this.SchemesCollection)
+                {
+                    shemeTab.IsLogicStarted = value;
+                }
                 RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsHitTestVisible));
             }
         }
-        public bool IsHitTestVisible => !IsLogicStarted;
         public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
         public ObservableCollection<ILogicElementViewModel> ElementsLibrary { get; }
         public ObservableCollection<IConnectionViewModel> ConnectionCollection { get; }
@@ -320,8 +323,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
                     await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
                     var logbin = this.Compile();
-                    await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
                     this.CalcCrc(logbin);
+                    await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
                     await this._logicDeviceProvider.WriteStartlogicProgrammSignal();
 
                     CycleReadingConnectionValues();
@@ -437,17 +440,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
             return bindata;
         }
 
-        private byte[] CalcCrc(ushort[] programmBinary)
+        private void CalcCrc(ushort[] binFile)
         {
-            if (programmBinary.Length <= 0) return null;
-            byte[] tbuff = programmBinary.UshortArrayToByteArray(false);
+            byte[] tbuff = binFile.UshortArrayToByteArray(false);
             ushort crc = CRC16.CalcCrcFast(tbuff, tbuff.Length - 2);
-            tbuff[tbuff.Length - 1] = (byte)(crc & 0xFF);
-            tbuff[tbuff.Length - 2] = (byte)(crc >> 8);
-            programmBinary[programmBinary.Length - 1] = (ushort)(
+            binFile[binFile.Length - 1] = (ushort)(
                 (ushort)((ushort)(crc >> (ushort)8) & (ushort)0x00ff) +
                 (ushort)((ushort)(crc << (ushort)8) & (ushort)0xff00));
-            return tbuff;
         }
 
         private void OnStopEmulation()

@@ -52,13 +52,13 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" 
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2">
-                <Menu VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <MenuItem
-                        Header="File">
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Orientation="Horizontal">
+                <Menu HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <MenuItem Header="File">
                         <MenuItem
                             Command="{Binding NewSchemeCommand}"
                             Header="New File"
@@ -75,31 +75,40 @@
                         <!-- <MenuItem Command="{Binding CloseTabCommand}" Header="Close Tab" /> -->
                     </MenuItem>
                 </Menu>
-                <StackPanel Margin="15,0,0,0" Orientation="Horizontal" >
+                <StackPanel Margin="15,0,0,0" Orientation="Horizontal">
                     <Button
-                        Margin="0,0,5,0"
                         Width="30"
                         Height="30"
+                        Margin="0,0,5,0"
                         Command="{Binding WriteLogicCommand}"
                         Style="{DynamicResource SquareButtonStyle}">
-                        <Image Width="20" Height="20" Source="../Resources/compileanddownload.bmp"/>
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Source="../Resources/compileanddownload.bmp" />
                     </Button>
                     <Button
-                        Margin="0,0,5,0"
                         Width="30"
                         Height="30"
+                        Margin="0,0,5,0"
                         Command="{Binding ReadLogicCommand}"
                         Style="{DynamicResource SquareButtonStyle}">
-                        <Image Width="20" Height="20" Source="../Resources/openfromdevice.bmp"/>
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Source="../Resources/openfromdevice.bmp" />
                     </Button>
                     <Button
-                        Margin="0,0,5,0"
                         Width="30"
                         Height="30"
+                        Margin="0,0,5,0"
+                        Command="{Binding StopEmulationLogic}"
                         IsEnabled="{Binding IsLogicStarted}"
-                        Command="{Binding StopCompileLogic}"
                         Style="{DynamicResource SquareButtonStyle}">
-                        <Image Width="20" Height="20" Source="../Resources/stop.bmp"/>
+                        <Image
+                            Width="20"
+                            Height="20"
+                            Source="../Resources/stop.bmp" />
                     </Button>
                 </StackPanel>
             </StackPanel>
