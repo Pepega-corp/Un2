@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Configuration\WriteConfigurationIfNothingChangesCase.cs" />
+    <Compile Include="Connection\AutoLoadTabTests.cs" />
     <Compile Include="Connection\ChangeConnectionCycleMeasuringLoadingCase.cs" />
     <Compile Include="Connection\ConnectionTests.cs" />
     <Compile Include="Connection\ProjectConnectionTests.cs" />
@@ -114,6 +115,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="FileAssets\testProject.uniproj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FileAssets\Журнал(Журнал системы) МР301_JA.ujr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="FileAssets\МР301_JA.json">
@@ -157,6 +161,10 @@
     <ProjectReference Include="..\..\Fragments\Configuration\Unicon2.Fragments.Configuration\Unicon2.Fragments.Configuration.csproj">
       <Project>{f35e1178-260c-4ddc-9bc0-a557ec82a5aa}</Project>
       <Name>Unicon2.Fragments.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Fragments\Journals\Unicon2.Fragments.Journals.Infrastructure\Unicon2.Fragments.Journals.Infrastructure.csproj">
+      <Project>{f8a90d45-3732-4915-a58b-833cfa07ee30}</Project>
+      <Name>Unicon2.Fragments.Journals.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Fragments\Journals\Unicon2.Fragments.Journals\Unicon2.Fragments.Journals.csproj">
       <Project>{91d9afb4-a011-4df9-8bb7-c730009fb48a}</Project>

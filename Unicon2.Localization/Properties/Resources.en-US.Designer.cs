@@ -619,6 +619,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load tabs automatically.
+        /// </summary>
+        public static string AutoLoadTabs {
+            get {
+                return ResourceManager.GetString("AutoLoadTabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base adress (Dec).
         /// </summary>
         public static string BaseAdressDec {
@@ -3918,6 +3927,15 @@ namespace Unicon2.Localization.Properties {
         public static string UseDefaultMessage {
             get {
                 return ResourceManager.GetString("UseDefaultMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User settings.
+        /// </summary>
+        public static string UserSettings {
+            get {
+                return ResourceManager.GetString("UserSettings", resourceCulture);
             }
         }
         

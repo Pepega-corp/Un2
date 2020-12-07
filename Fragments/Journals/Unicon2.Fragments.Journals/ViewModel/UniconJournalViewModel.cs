@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Win32;
 using Unicon2.Fragments.Journals.Infrastructure.Export;
@@ -13,6 +14,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -25,12 +27,13 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Journals.ViewModel
 {
-    public class UniconJournalViewModel : ViewModelBase, IUniconJournalViewModel, IFragmentViewModel
+    public class UniconJournalViewModel : ViewModelBase, IUniconJournalViewModel, IFragmentViewModel,IFragmentOpenedListener
     {
         private readonly ILocalizerService _localizerService;
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
         private readonly ITypesContainer _typesContainer;
         private readonly ILogService _logService;
+        private readonly IApplicationSettingsService _applicationSettingsService;
         private List<string> _journalParametersNameList;
         private IUniconJournal _uniconJournal;
         private DynamicDataTable _table;
@@ -40,12 +43,15 @@ namespace Unicon2.Fragments.Journals.ViewModel
             IFragmentOptionsViewModel fragmentOptionsViewModel,
             Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelgetFunc,
             Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc,
-            IApplicationGlobalCommands applicationGlobalCommands,ITypesContainer typesContainer,ILogService logService)
+            IApplicationGlobalCommands applicationGlobalCommands,ITypesContainer typesContainer,ILogService logService
+            ,IApplicationSettingsService applicationSettingsService)
+        
         {
             _localizerService = localizerService;
             _applicationGlobalCommands = applicationGlobalCommands;
             _typesContainer = typesContainer;
             _logService = logService;
+            _applicationSettingsService = applicationSettingsService;
             IFragmentOptionGroupViewModel fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
             fragmentOptionGroupViewModel.NameKey = "Device";
             IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
@@ -147,6 +153,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
         {
             try
             {
+	            CanExecuteJournalLoading = false;
                 Table = new DynamicDataTable(JournalParametersNameList, null, true);
                 RaisePropertyChanged(nameof(Table));
                 RaisePropertyChanged(nameof(JournalParametersNameList));
@@ -158,6 +165,8 @@ namespace Unicon2.Fragments.Journals.ViewModel
                 _applicationGlobalCommands.ShowErrorMessage(ApplicationGlobalNames.StatusMessages.JOURNAL_READING_ERROR,
                     this);
             }
+            CanExecuteJournalLoading = true;
+
 
         }
 
@@ -230,5 +239,20 @@ namespace Unicon2.Fragments.Journals.ViewModel
         }
 
         public DeviceContext DeviceContext { get; set; }
+
+        public IUniconJournal UniconJournal => _uniconJournal;
+
+        private bool _isOpened = false;
+        public async Task SetFragmentOpened(bool isOpened)
+        {
+	        if (isOpened && !_isOpened)
+	        {
+		        if (_applicationSettingsService.IsFragmentAutoLoadEnabled)
+			        LoadCommand?.Execute(null);
+
+	        }
+
+	        _isOpened = isOpened;
+        }
     }
 }

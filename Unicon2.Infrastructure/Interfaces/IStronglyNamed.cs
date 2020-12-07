@@ -4,5 +4,10 @@
     {
         string StrongName { get; }
 
+    }  
+    public interface IStronglyNamedDynamic
+    {
+        void SetStrongName(string name);
+
     }
 }

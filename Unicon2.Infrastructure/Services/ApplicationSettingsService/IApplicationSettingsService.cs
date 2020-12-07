@@ -9,6 +9,8 @@ namespace Unicon2.Infrastructure.Services.ApplicationSettingsService
 
         string UrlToServer { get; set; }
         string ClientSecret { get; set; }
+        
+        bool IsFragmentAutoLoadEnabled { get; set; }
 
     }
 }

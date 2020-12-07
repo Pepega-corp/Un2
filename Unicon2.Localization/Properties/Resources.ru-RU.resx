@@ -1509,4 +1509,10 @@
   <data name="WriteIndexOnlyFirstTime" xml:space="preserve">
     <value>Записывать индекс только первый раз</value>
   </data>
+  <data name="AutoLoadTabs" xml:space="preserve">
+    <value>Автозагрузка при открытии вкладок</value>
+  </data>
+  <data name="UserSettings" xml:space="preserve">
+    <value>Пользовательские настройки</value>
+  </data>
 </root>

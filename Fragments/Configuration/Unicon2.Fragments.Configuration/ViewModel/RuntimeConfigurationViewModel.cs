@@ -13,6 +13,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
@@ -28,6 +29,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 		IFragmentConnectionChangedListener, IFragmentOpenedListener
 	{
 		private readonly ITypesContainer _container;
+		private readonly IApplicationSettingsService _applicationSettingsService;
 
 		private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
 		private IFragmentOptionsViewModel _fragmentOptionsViewModel;
@@ -38,9 +40,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 		private IDeviceConfiguration _deviceConfiguration;
 		private ConfigurationOptionsHelper _configurationOptionsHelper;
 
-		public RuntimeConfigurationViewModel(ITypesContainer container)
+		public RuntimeConfigurationViewModel(ITypesContainer container, IApplicationSettingsService applicationSettingsService)
 		{
 			_container = container;
+			_applicationSettingsService = applicationSettingsService;
 
 			AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
 			MainRows = new ObservableCollection<MainConfigItemViewModel>();
@@ -170,7 +173,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			}
 		}
 		
-		private async Task TryLoadValuesAutomatically()
+		private async Task ClearValues()
 		{
 			
 			DeviceContext.DeviceMemory.DeviceMemoryValues.Clear();
@@ -211,7 +214,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 				_configurationOptionsHelper.CreateConfigurationFragmentOptionsViewModel(this, _container,
 					deviceConfiguration);
 			MainRows = FilterMainConfigItems(RootConfigurationItemViewModels);
-			await TryLoadValuesAutomatically();
+			await ClearValues();
 		}
 
 		private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
@@ -232,7 +235,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 		public async Task OnConnectionChanged()
 		{
-			await TryLoadValuesAutomatically();
+			await ClearValues();
 			_needRefreshValues = true;
 			await RefreshValuesIfNeeded();
 			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
@@ -242,7 +245,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 		private async Task RefreshValuesIfNeeded()
 		{
-			if (_needRefreshValues && _isOpened)
+			if (_needRefreshValues && _isOpened && _applicationSettingsService.IsFragmentAutoLoadEnabled)
 			{
 				if (DeviceContext.DataProviderContainer.DataProvider.IsSuccess)
 				{
@@ -256,8 +259,10 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 					DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(address, 1));
 				devAddresses.ForEach(address =>
 					DeviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(address, 1));
-                _needRefreshValues = false;
+				_needRefreshValues = false;
+
             }
+
 		}
 
 		public async Task SetFragmentOpened(bool isOpened)

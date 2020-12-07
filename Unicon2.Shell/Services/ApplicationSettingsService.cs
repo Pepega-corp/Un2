@@ -13,9 +13,10 @@ namespace Unicon2.Shell.Services
 		{
 			if (Settings.Default.RecentProjects != null)
 			{
-				var res= Settings.Default.RecentProjects.Cast<string>().ToList();
+				var res = Settings.Default.RecentProjects.Cast<string>().ToList();
 				return res.Where(File.Exists).ToList();
 			}
+
 			return new List<string>();
 		}
 
@@ -23,7 +24,7 @@ namespace Unicon2.Shell.Services
 		{
 			var recentProjects = GetRecentProjectStringCollection();
 			recentProjects.Insert(0, projectPath);
-			recentProjects=recentProjects.Distinct().ToList();
+			recentProjects = recentProjects.Distinct().ToList();
 			var recentProjectsToSave = new StringCollection();
 			if (recentProjects.Count > 15)
 			{
@@ -55,6 +56,16 @@ namespace Unicon2.Shell.Services
 			set
 			{
 				Settings.Default.ClientSecret = value;
+				Settings.Default.Save();
+			}
+		}
+
+		public bool IsFragmentAutoLoadEnabled
+		{
+			get => Settings.Default.IsFragmentAutoLoadEnabled;
+			set
+			{
+				Settings.Default.IsFragmentAutoLoadEnabled = value;
 				Settings.Default.Save();
 			}
 		}

@@ -9,6 +9,8 @@ using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProperty;
 using Unicon2.Fragments.Configuration.ViewModel;
+using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Formatting;
@@ -39,15 +41,41 @@ namespace Unicon2.Fragments.Configuration.Factories
         }
 	}
 
+    public class ValueViewModelFactoryWrapper:IValueViewModelFactory
+    {
+	    private readonly IValueViewModelFactory _viewModelFactory;
+
+	    public ValueViewModelFactoryWrapper(IValueViewModelFactory viewModelFactory)
+	    {
+		    _viewModelFactory = viewModelFactory;
+	    }
+	    public IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue)
+	    {
+		    var res = _viewModelFactory.CreateFormattedValueViewModel(formattedValue);
+		    if (res is IBoolValueViewModel boolValueViewModel&&res is IStronglyNamedDynamic stronglyNamedDynamic)
+		    {
+			    stronglyNamedDynamic.SetStrongName("BoolValueAsCheckBoxViewModel");
+		    }
+		    return res;
+	    }
+
+	    public IEditableValueViewModel CreateEditableValueViewModel(FormattedValueInfo formattedValue)
+	    {
+		    return _viewModelFactory.CreateEditableValueViewModel(formattedValue);
+	    }
+    }
+    
+
     public class RuntimeConfigurationItemViewModelFactory : IRuntimeConfigurationItemViewModelFactory, ICloneable
     {
         private readonly ITypesContainer _container;
         private readonly DeviceContext _deviceContext;
-
+        private readonly IValueViewModelFactory _valueViewModelFactory;
         public RuntimeConfigurationItemViewModelFactory(ITypesContainer container, DeviceContext deviceContext)
         {
 	        _container = container;
 	        _deviceContext = deviceContext;
+	        _valueViewModelFactory = new ValueViewModelFactoryWrapper(_container.Resolve<IValueViewModelFactory>());
         }
 		public int AddressOffset { get; set; }
         public IConfigurationItemViewModel Parent { get; set; }
@@ -152,12 +180,12 @@ namespace Unicon2.Fragments.Configuration.Factories
 
             
             _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription((ushort)(property.Address+AddressOffset), property.NumberOfPoints,
-                new DeviceDataPropertyMemorySubscription(property, res, _container.Resolve<IValueViewModelFactory>(),
+                new DeviceDataPropertyMemorySubscription(property, res, _valueViewModelFactory,
                     _deviceContext,(ushort)AddressOffset));
             var localUshorts = InitDefaultUshortsValue(property.NumberOfPoints);
             var localValue = _container.Resolve<IFormattingService>().FormatValue(property.UshortsFormatter,
 	            localUshorts);
-            var editableValue = _container.Resolve<IValueViewModelFactory>()
+            var editableValue = _valueViewModelFactory
                 .CreateEditableValueViewModel(new FormattedValueInfo(localValue, property, property.UshortsFormatter,
                     property));
             var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
@@ -179,7 +207,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
 		            _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
 			            new DeviceDataPropertyMemorySubscription(property, res,
-				            _container.Resolve<IValueViewModelFactory>(),
+				            _valueViewModelFactory,
 				            _deviceContext, (ushort) AddressOffset)));
 
 	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
@@ -243,7 +271,7 @@ namespace Unicon2.Fragments.Configuration.Factories
                 _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(
                     (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints,
                     new DeviceDataSubPropertySubscription(subProperty, subPropertyViewModel, (ushort) AddressOffset,
-                        _container.Resolve<IValueViewModelFactory>(), _deviceContext));
+	                    _valueViewModelFactory, _deviceContext));
 
 
 
@@ -252,7 +280,7 @@ namespace Unicon2.Fragments.Configuration.Factories
                     InitDefaultUshortsValue(subProperty.NumberOfPoints));
 
 
-                var editableValue = _container.Resolve<IValueViewModelFactory>()
+                var editableValue =_valueViewModelFactory
                     .CreateEditableValueViewModel(new FormattedValueInfo(localValue, subProperty,
                         subProperty.UshortsFormatter,
                         subProperty));
@@ -292,7 +320,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 		                _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
 			                new DeviceDataSubPropertySubscription(subProperty, subPropertyViewModel,
 				                (ushort) AddressOffset,
-				                _container.Resolve<IValueViewModelFactory>(), _deviceContext)));
+				                _valueViewModelFactory, _deviceContext)));
 
 	                AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
 		                _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,

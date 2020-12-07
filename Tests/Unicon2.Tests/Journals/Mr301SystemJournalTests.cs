@@ -9,11 +9,13 @@ using NUnit.Framework;
 using Prism.Ioc;
 using Unicon2.Connections.MockConnection.Model;
 using Unicon2.Fragments.Configuration.ViewModel;
+using Unicon2.Fragments.Journals.Model;
 using Unicon2.Fragments.Journals.ViewModel;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Model.DefaultDevice;
+using Unicon2.Presentation.Values;
 using Unicon2.Shell.ViewModels;
 using Unicon2.Tests.Helpers.Query;
 using Unicon2.Tests.Utils;
@@ -25,7 +27,9 @@ namespace Unicon2.Tests.Journals
     {
         [Test]
         public async Task LoadMr301SystemJournalTest()
-        {
+        {        
+            Program.CleanProject();
+
             var serializerService = Program.GetApp().Container.Resolve<ISerializerService>();
 
             var device = serializerService.DeserializeFromFile<IDevice>("FileAssets/МР301_JA.json") as DefaultDevice;
@@ -45,9 +49,19 @@ namespace Unicon2.Tests.Journals
                 UniconJournalViewModel;
 
             var commandViewModel = journalViewModel.FragmentOptionsViewModel.GetCommand("Device", "Load");
+            commandViewModel.OptionCommand.Execute(null);
+            await TestsUtils.WaitUntil(() => commandViewModel.OptionCommand.CanExecute(null));
+
+
+            var str = StaticContainer.Container.Resolve<ISerializerService>().SerializeInString(
+                journalViewModel.UniconJournal
+            );
+
+
+            var str1 = StaticContainer.Container.Resolve<ISerializerService>()
+                .DeserializeFromFile<UniconJournal>("FileAssets/Журнал(Журнал системы) МР301_JA.ujr");
             Program.RefreshProject();
         }
     }
 }
 
-}

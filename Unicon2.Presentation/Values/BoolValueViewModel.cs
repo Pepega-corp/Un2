@@ -1,16 +1,20 @@
-﻿using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+﻿using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values.Base;
 
 namespace Unicon2.Presentation.Values
 {
-    public class BoolValueViewModel : FormattableValueViewModelBase, IBoolValueViewModel
+    public class BoolValueViewModel : FormattableValueViewModelBase, IBoolValueViewModel, IStronglyNamedDynamic
     {
         private bool _boolValueProperty;
 
-        public override string StrongName => nameof(BoolValueViewModel);
+        private string _strongName=nameof(BoolValueViewModel);
+
+        public override string StrongName => _strongName;
+
         public override string AsString()
         {
-	        return BoolValueProperty.ToString();
+            return BoolValueProperty.ToString();
         }
 
         public bool BoolValueProperty
@@ -25,7 +29,12 @@ namespace Unicon2.Presentation.Values
 
         public void SetBoolValueProperty(bool value)
         {
-	        BoolValueProperty = value;
+            BoolValueProperty = value;
+        }
+
+        public void SetStrongName(string name)
+        {
+            _strongName = name;
         }
     }
 }

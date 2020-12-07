@@ -24,6 +24,12 @@
         <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
         <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
         <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToInvertVisibilityConverter" IsInverted="True" />
+        <Style x:Key="ColumnHeaderNormalCased" 
+               BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}" 
+               TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+            <Setter Property="FontWeight" Value="Medium"></Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Name="ConfigGrid">
         <Grid
@@ -45,6 +51,7 @@
             <Border Name="dummywidth5" Grid.Column="4" />
         </Grid>
         <DataGrid
+            ColumnHeaderStyle="{DynamicResource ColumnHeaderNormalCased}"
             Name="ConfigListView"
             Width="auto"
             HorizontalAlignment="Left"
@@ -58,8 +65,7 @@
                 <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsCheckable}" Value="True">
-                            <Setter Property="Background" Value="LightGray"></Setter>
-
+                            <Setter Property="Background" Value="LightSkyBlue"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -120,7 +126,7 @@
                                     Visibility="{Binding IsTableViewAllowed, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
                                     <Rectangle
                                         Width="15"
-                                        Height="15"
+                                        Height="14"
                                         Margin="-2"
                                         Fill="Black">
                                         <Rectangle.OpacityMask>

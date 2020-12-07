@@ -1506,4 +1506,10 @@
   <data name="WriteIndexOnlyFirstTime" xml:space="preserve">
     <value>Write Index only first time</value>
   </data>
+  <data name="UserSettings" xml:space="preserve">
+    <value>User settings</value>
+  </data>
+  <data name="AutoLoadTabs" xml:space="preserve">
+    <value>Load tabs automatically</value>
+  </data>
 </root>

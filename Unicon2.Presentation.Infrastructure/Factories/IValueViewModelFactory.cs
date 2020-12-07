@@ -8,6 +8,7 @@ namespace Unicon2.Presentation.Infrastructure.Factories
     {
         IFormattedValueViewModel CreateFormattedValueViewModel(IFormattedValue formattedValue);
         IEditableValueViewModel CreateEditableValueViewModel(FormattedValueInfo formattedValue);
+        
     }
 
     public class FormattedValueInfo

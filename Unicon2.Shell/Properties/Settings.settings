@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Unicon2.Shell.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
@@ -17,5 +17,9 @@
     <Setting Name="ClientSecret" Type="System.String" Scope="User">
       <Value Profile="(Default)">Admin</Value>
     </Setting>
+    <Setting Name="IsFragmentAutoLoadEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
+

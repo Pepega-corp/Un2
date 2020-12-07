@@ -13,12 +13,29 @@
     xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:PropertyTooltipConverter x:Key="PropertyTooltipConverter" />
-        <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter" />
+        <Style x:Key="ColumnHeaderNormalCased" 
+               BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}" 
+               TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+            <Setter Property="FontWeight" Value="Medium"></Setter>
+        </Style>
+        <converters:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter">
+            <converters:BoolToBorderColorConverter.BrushIfTrue>
+                <SolidColorBrush Color="Gold"></SolidColorBrush>
+            </converters:BoolToBorderColorConverter.BrushIfTrue>
+        </converters:BoolToBorderColorConverter>
+        <converters:BoolToBorderColorConverter x:Key="BoolToBackgroundColorConverter" Invert="True">
+            <converters:BoolToBorderColorConverter.BrushIfTrue>
+                <SolidColorBrush Color="#72D3D3D3"></SolidColorBrush>
+            </converters:BoolToBorderColorConverter.BrushIfTrue>
+        </converters:BoolToBorderColorConverter>
+        <converters:CellToBorderColorConverter x:Key="CellToBorderColorConverter"></converters:CellToBorderColorConverter>
     </UserControl.Resources>
     <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem}, Path=DataContext.IsTableView, FallbackValue=Visible, TargetNullValue=Visible, Converter={StaticResource BoolToVisConverter}, Mode=OneWay}">
         <Grid.RowDefinitions>
@@ -37,12 +54,14 @@
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center" Text="{lex:Loc DeviceData}" />
             <DataGrid
+                ColumnHeaderStyle="{DynamicResource ColumnHeaderNormalCased}"
                 Grid.Row="1"
                 AutoGenerateColumns="False"
                 BorderThickness="1"
                 CanUserAddRows="False"
                 GridLinesVisibility="All"
                 HorizontalScrollBarVisibility="Auto">
+
                 <b:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
                     <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox, Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
@@ -76,23 +95,31 @@
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center" Text="{lex:Loc FilteredData}" />
             <DataGrid
+                ColumnHeaderStyle="{DynamicResource ColumnHeaderNormalCased}"
                 Grid.Row="1"
                 AutoGenerateColumns="False"
                 BorderThickness="1"
                 CanUserAddRows="False"
                 GridLinesVisibility="All"
+                
                 HorizontalScrollBarVisibility="Auto">
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Converter={StaticResource CellToBorderColorConverter}}" />
+                    </Style>
+                </DataGrid.CellStyle>
                 <b:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
                     <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox, Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.FilteredPropertiesTable}">
                         <behaviors1:DynamicPropertiesDataGridBehavior.CellStyle>
                             <Style TargetType="ContentControl">
                                 <Style.Setters>
+                                    <Setter Property="Background" Value="Brown"></Setter>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ContentControl">
                                                 <Border
-                                                    Margin="-2"
+                                                    Margin="0,-2,-2,-2"
                                                     BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
                                                     BorderThickness="0,0,3,0"
                                                     ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay}">
@@ -124,6 +151,7 @@
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center" Text="{lex:Loc LocalData}" />
             <DataGrid
+                ColumnHeaderStyle="{DynamicResource ColumnHeaderNormalCased}"
                 Grid.Row="1"
                 AutoGenerateColumns="False"
                 BorderThickness="1"
@@ -140,7 +168,7 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ContentControl">
                                                 <Border
-                                                    Margin="-2"
+                                                    Margin="0,-2,-2,-2"
                                                     BorderBrush="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
                                                     BorderThickness="0,0,3,0"
                                                     ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}}">

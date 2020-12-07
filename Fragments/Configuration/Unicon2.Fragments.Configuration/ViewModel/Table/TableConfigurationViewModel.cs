@@ -13,25 +13,43 @@ using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Table
 {
 
-    public class ConfigItemWrapper
+    public class ConfigItemWrapper : ILocalAndDeviceValueContainingViewModel
+
     {
         public ConfigItemWrapper(IEnumerable<ConfigItemWrapper> childConfigItemWrappers,
-            IConfigurationItemViewModel relatedConfigurationItemViewModel, bool toInclude)
+            IConfigurationItemViewModel relatedConfigurationItemViewModel, bool toInclude, bool matchesFilter=true)
         {
             ChildConfigItemWrappers = childConfigItemWrappers;
             RelatedConfigurationItemViewModel = relatedConfigurationItemViewModel;
             ToInclude = toInclude;
+            MatchesFilter = matchesFilter;
         }
 
         public bool ToInclude { get; set; }
+        public bool MatchesFilter { get; }
+
         public IConfigurationItemViewModel RelatedConfigurationItemViewModel { get; }
         public IEnumerable<ConfigItemWrapper> ChildConfigItemWrappers { get; }
+
+        public IEditableValueViewModel LocalValue
+        {
+            get { return (RelatedConfigurationItemViewModel as ILocalAndDeviceValueContainingViewModel).LocalValue; }
+            set { }
+        }
+
+        public IFormattedValueViewModel DeviceValue
+        {
+            get { return (RelatedConfigurationItemViewModel as ILocalAndDeviceValueContainingViewModel).DeviceValue; }
+            set { }
+        }
     }
+
     public class TableConfigurationViewModel : ViewModelBase
     {
         private readonly List<IConfigurationItemViewModel> _itemGroupsToTransform;
@@ -100,8 +118,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
                 if (viewModel is IRuntimePropertyViewModel propertyViewModel)
                 {
+                    var matchFilter = CheckConditions(GetValueToCompare(propertyViewModel, offset ?? 0));
                     result.Add(new ConfigItemWrapper(new List<ConfigItemWrapper>(), viewModel,
-                        CheckConditions(GetValueToCompare(propertyViewModel,offset ?? 0))));
+                        matchFilter, matchFilter));
                 }
             }
 
@@ -183,7 +202,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                     }
                 }
 
-                var columnNamesWithPropertiesFiltered = new List<Tuple<string, IConfigurationItemViewModel>>();
+                var columnNamesWithPropertiesFiltered = new List<Tuple<string, ILocalAndDeviceValueContainingViewModel>>();
                 FillFilteredColumnNames(_filteredGroupsToTransform, columnNamesWithPropertiesFiltered);
                 var lookupFiltered =
                     columnNamesWithPropertiesFiltered.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);
@@ -198,7 +217,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
             }
 
 
-            var columnNamesWithProperties = new List<Tuple<string, IConfigurationItemViewModel>>();
+            var columnNamesWithProperties = new List<Tuple<string, ILocalAndDeviceValueContainingViewModel>>();
             FillColumnNames(_itemGroupsToTransform, columnNamesWithProperties);
             var lookup = columnNamesWithProperties.ToLookup(tuple => tuple.Item1, tuple => tuple.Item2);
             var columnNames = lookup.Select(models => models.Key).ToList();
@@ -213,7 +232,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
 
         private void FillFilteredColumnNames(IEnumerable<ConfigItemWrapper> items,
-            List<Tuple<string, IConfigurationItemViewModel>> columnNamesWithProperties)
+            List<Tuple<string, ILocalAndDeviceValueContainingViewModel>> columnNamesWithProperties)
         {
             foreach (var item in items)
             {
@@ -226,7 +245,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                 else
                 {
                     columnNamesWithProperties.Add(
-                        new Tuple<string, IConfigurationItemViewModel>(item.RelatedConfigurationItemViewModel.Header, item.RelatedConfigurationItemViewModel));
+                        new Tuple<string, ILocalAndDeviceValueContainingViewModel>(item.RelatedConfigurationItemViewModel.Header, item.RelatedConfigurationItemViewModel as ILocalAndDeviceValueContainingViewModel));
                 }
             }
         }
@@ -234,7 +253,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
 
         private void FillColumnNames(IEnumerable<IConfigurationItemViewModel> items,
-            List<Tuple<string, IConfigurationItemViewModel>> columnNamesWithProperties)
+            List<Tuple<string, ILocalAndDeviceValueContainingViewModel>> columnNamesWithProperties)
         {
             foreach (var item in items)
             {
@@ -245,12 +264,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                 else
                 {
                     columnNamesWithProperties.Add(
-                        new Tuple<string, IConfigurationItemViewModel>(item.Header, item));
+                        new Tuple<string, ILocalAndDeviceValueContainingViewModel>(item.Header, item as ILocalAndDeviceValueContainingViewModel));
                 }
             }
         }
         private Dictionary<string, ILocalAndDeviceValueContainingViewModel> GetRowFromItemGroupFiltered(
-            ConfigItemWrapper group, ILookup<string, IConfigurationItemViewModel> lookup,
+            ConfigItemWrapper group, ILookup<string, ILocalAndDeviceValueContainingViewModel> lookup,
             List<string> columnNames, Dictionary<string, ILocalAndDeviceValueContainingViewModel> initialList = null)
         {
             if (initialList == null)
@@ -271,13 +290,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                 }
                 else
                 {
-                    InsertProperty(initialList, lookup, item.RelatedConfigurationItemViewModel);
+                    InsertProperty(initialList, lookup, item);
                 }
             }));
             return initialList;
         }
         private Dictionary<string, ILocalAndDeviceValueContainingViewModel> GetRowFromItemGroup(
-            IConfigurationItemViewModel group, ILookup<string, IConfigurationItemViewModel> lookup,
+            IConfigurationItemViewModel group, ILookup<string, ILocalAndDeviceValueContainingViewModel> lookup,
             List<string> columnNames, Dictionary<string, ILocalAndDeviceValueContainingViewModel> initialList = null)
         {
             if (initialList == null)
@@ -297,19 +316,27 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
                 }
                 else
                 {
-                    InsertProperty(initialList, lookup, item);
+                    InsertProperty(initialList, lookup, item as ILocalAndDeviceValueContainingViewModel);
                 }
             }));
             return initialList;
         }
 
-
         private void InsertProperty(Dictionary<string, ILocalAndDeviceValueContainingViewModel> resultList,
-            ILookup<string, IConfigurationItemViewModel> lookup,
-            IConfigurationItemViewModel itemToAdd)
+            ILookup<string, ILocalAndDeviceValueContainingViewModel> lookup,
+            ConfigItemWrapper itemToAdd)
         {
 
-            var columnName = lookup.FirstOrDefault((models => models.Contains(itemToAdd)))?.Key;
+            var columnName = lookup.FirstOrDefault((models => models.Contains(itemToAdd.RelatedConfigurationItemViewModel as ILocalAndDeviceValueContainingViewModel)))?.Key;
+            if (columnName != null)
+                resultList[columnName] = itemToAdd as ILocalAndDeviceValueContainingViewModel;
+        }
+        private void InsertProperty(Dictionary<string, ILocalAndDeviceValueContainingViewModel> resultList,
+            ILookup<string, ILocalAndDeviceValueContainingViewModel> lookup,
+            ILocalAndDeviceValueContainingViewModel itemToAdd)
+        {
+
+            var columnName = lookup.FirstOrDefault((models => models.Contains(itemToAdd as ILocalAndDeviceValueContainingViewModel)))?.Key;
             if (columnName != null)
                 resultList[columnName] = itemToAdd as ILocalAndDeviceValueContainingViewModel;
         }

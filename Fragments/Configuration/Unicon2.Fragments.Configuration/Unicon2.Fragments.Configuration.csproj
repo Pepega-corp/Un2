@@ -78,6 +78,7 @@
     <Compile Include="Behaviors\DynamicPropertiesTable.cs" />
     <Compile Include="Behaviors\GridViewColumnResize.cs" />
     <Compile Include="Behaviors\TreeViewToggleButtonBehavior.cs" />
+    <Compile Include="Converters\CellToBorderColorConverter.cs" />
     <Compile Include="Converters\PropertyTooltipConverter.cs" />
     <Compile Include="Converters\IsItemsGroupToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToBorderColorConverter.cs" />

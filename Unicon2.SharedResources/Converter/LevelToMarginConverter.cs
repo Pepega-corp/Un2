@@ -14,7 +14,7 @@ namespace Unicon2.SharedResources.Converter
 
         public object Convert(object o, Type type, object parameter, CultureInfo culture)
         {
-            return new Thickness((int)o *IndentSize, 0, 3, 0);
+            return new Thickness((int) o * IndentSize + 2, 0, 3, 0);
         }
 
         public object ConvertBack(object o, Type type, object parameter, CultureInfo culture)

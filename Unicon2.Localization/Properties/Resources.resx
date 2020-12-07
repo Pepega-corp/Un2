@@ -1500,4 +1500,10 @@
   <data name="WriteIndexOnlyFirstTime" xml:space="preserve">
     <value>@WriteIndexOnlyFirstTime</value>
   </data>
+  <data name="UserSettings" xml:space="preserve">
+    <value>@UserSettings</value>
+  </data>
+  <data name="AutoLoadTabs" xml:space="preserve">
+    <value>@AutoLoadTabs</value>
+  </data>
 </root>

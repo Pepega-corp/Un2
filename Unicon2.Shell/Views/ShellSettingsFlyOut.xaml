@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://www.codeplex.com/prism"
+    xmlns:viewModels="clr-namespace:Unicon2.Shell.ViewModels"
     Width="auto"
     d:DesignHeight="300"
     d:DesignWidth="300"
@@ -14,7 +15,8 @@
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Header="{lex:Loc VisualSettings}"
+    d:DataContext="{d:DesignInstance viewModels:ShellSettingsViewModel}"
+    Header="{lex:Loc UserSettings}"
     IsModal="True"
     Position="Right"
     Theme="Accent"
@@ -32,11 +34,13 @@
             <RowDefinition Height="3" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="3" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="3" />
         </Grid.RowDefinitions>
 
         <!--  Theme  -->
 
-        <TextBlock
+        <!--<TextBlock
             Grid.Row="0"
             Grid.Column="0"
             Margin="5"
@@ -52,7 +56,7 @@
             ItemsSource="{Binding Path=ApplicationThemes, UpdateSourceTrigger=PropertyChanged}"
             SelectedItem="{Binding Path=SelectedTheme, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-        <!--  Accent  -->
+        ~1~  Accent  @1@
         <TextBlock
             Grid.Row="2"
             Grid.Column="0"
@@ -67,7 +71,7 @@
             DisplayMemberPath="Name"
             Foreground="Black"
             ItemsSource="{Binding Path=AccentColors, UpdateSourceTrigger=PropertyChanged}"
-            SelectedItem="{Binding Path=SelectedAccentColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            SelectedItem="{Binding Path=SelectedAccentColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />-->
 
         <!--  Language  -->
         <TextBlock
@@ -86,5 +90,20 @@
             ItemsSource="{Binding Path=SupportedLanguages, UpdateSourceTrigger=PropertyChanged}"
             SelectedItem="{Binding Path=SelectedLanguage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
+        <!--  Autoload on opening -->
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="0"
+            Margin="5"
+            VerticalAlignment="Center"
+            Text="{lex:Loc AutoLoadTabs}" />
+        <CheckBox
+            Grid.Row="6"
+            Grid.Column="2"
+            Margin="5"
+            Background="White"
+            Foreground="Black"
+            IsChecked="{Binding IsFragmentAutoLoadEnabled}"/>
+        
     </Grid>
 </metro:Flyout>

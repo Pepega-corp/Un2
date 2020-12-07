@@ -13,11 +13,8 @@
     <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector x:Key="ValuesDataTemplateSelector" />
 
     <DataTemplate x:Key="DeviceTreeTemplate" DataType="{x:Type device:DeviceViewModel}">
-        <TreeViewItem ItemsSource="{Binding FragmentViewModels}">
-            <TreeViewItem.Header>
-                <VirtualizingStackPanel Orientation="Horizontal">
-                    <TextBlock Margin="5" Text="{Binding DeviceSignature}">
-                        <TextBlock.ContextMenu>
+        <TreeViewItem HorizontalContentAlignment="Stretch" Background="Transparent" ItemsSource="{Binding FragmentViewModels}">
+            <TreeViewItem.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="{lex:Loc Logging}">
                                     <VirtualizingStackPanel Orientation="Vertical">
@@ -46,7 +43,11 @@
                                 <MenuItem Command="{Binding NavigateToDeviceEditingCommand}" Header="{lex:Loc ConnectionSettings}" />
                                 <MenuItem Command="{Binding DeleteSelectedDeviceCommand}" Header="{lex:Loc DeleteDevice}" />
                             </ContextMenu>
-                        </TextBlock.ContextMenu>
+                        </TreeViewItem.ContextMenu>
+            <TreeViewItem.Header>
+                <VirtualizingStackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5" Text="{Binding DeviceSignature}">
+                        
                     </TextBlock>
                     <Image
                         Width="18"
@@ -68,16 +69,17 @@
             </TreeViewItem.Header>
             <TreeViewItem.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.InputBindings>
+                            <MouseBinding
+                                Command="{Binding ElementName=MainWindow, Path=DataContext.AddNewFragmentCommand}"
+                                CommandParameter="{Binding}"
+                                Gesture="LeftDoubleClick"
+                                MouseAction="LeftDoubleClick" />
+                        </Grid.InputBindings>
                         <lex:LocProxy Name="FragmentNameProxy" Source="{Binding NameForUiKey}" />
-                        <TextBlock Margin="3" Text="{Binding ElementName=FragmentNameProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}">
-                            <TextBlock.InputBindings>
-                                <MouseBinding
-                                    Command="{Binding ElementName=MainWindow, Path=DataContext.AddNewFragmentCommand}"
-                                    CommandParameter="{Binding}"
-                                    Gesture="LeftDoubleClick"
-                                    MouseAction="LeftDoubleClick" />
-                            </TextBlock.InputBindings>
+                        <TextBlock HorizontalAlignment="Stretch" Margin="3" Text="{Binding ElementName=FragmentNameProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}">
+                   
                         </TextBlock>
                     </Grid>
                 </DataTemplate>
