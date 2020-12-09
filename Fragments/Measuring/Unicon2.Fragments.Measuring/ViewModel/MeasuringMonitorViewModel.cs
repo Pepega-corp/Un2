@@ -14,7 +14,9 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Icons;
 using Unicon2.Unity.Commands;
@@ -22,102 +24,106 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Measuring.ViewModel
 {
-	public class MeasuringMonitorViewModel : ValidatableBindableBase, IMeasuringMonitorViewModel
+	public class MeasuringMonitorViewModel : ValidatableBindableBase, IMeasuringMonitorViewModel,
+		IFragmentOpenedListener
 	{
 		private readonly IMeasuringGroupViewModelFactory _measuringGroupViewModelFactory;
+		private readonly IApplicationSettingsService _applicationSettingsService;
 
 		private IMeasuringMonitor _measuringMonitor;
 		private bool _isListViewSelected;
-        
+
 
 		private CollectionView _measuringElementListCollectionView;
 		private IMeasuringGroupViewModel _selectedMeasuringGroupViewModel;
 		private double _scale;
 		private MeasuringLoader _loader;
-	    private RelayCommand _readCommand;
-	    private FragmentOptionToggleCommandViewModel _readCycleCommand;
+		private RelayCommand _readCommand;
+		private FragmentOptionToggleCommandViewModel _readCycleCommand;
 
-	    public MeasuringMonitorViewModel(IMeasuringGroupViewModelFactory measuringGroupViewModelFactory,
-		    IFragmentOptionsViewModel fragmentOptionsViewModel,
-		    Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelgetFunc,
-		    Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc)
-	    {
-		    _measuringGroupViewModelFactory = measuringGroupViewModelFactory;
-		    MeasuringGroupViewModels = new ObservableCollection<IMeasuringGroupViewModel>();
-		    FragmentOptionsViewModel = fragmentOptionsViewModel;
-		    MeasuringElementViewModels = new ObservableCollection<IMeasuringElementViewModel>();
+		public MeasuringMonitorViewModel(IMeasuringGroupViewModelFactory measuringGroupViewModelFactory,
+			IFragmentOptionsViewModel fragmentOptionsViewModel,
+			Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelgetFunc,
+			Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc,
+			IApplicationSettingsService applicationSettingsService)
+		{
+			_measuringGroupViewModelFactory = measuringGroupViewModelFactory;
+			_applicationSettingsService = applicationSettingsService;
+			MeasuringGroupViewModels = new ObservableCollection<IMeasuringGroupViewModel>();
+			FragmentOptionsViewModel = fragmentOptionsViewModel;
+			MeasuringElementViewModels = new ObservableCollection<IMeasuringElementViewModel>();
 
-		    IFragmentOptionGroupViewModel fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
-		    fragmentOptionGroupViewModel.NameKey = "Loading";
+			IFragmentOptionGroupViewModel fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
+			fragmentOptionGroupViewModel.NameKey = "Loading";
 
-		    IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
-		    fragmentOptionCommandViewModel.TitleKey = "Load";
-		    _readCommand = new RelayCommand(() =>_loader.ExecuteLoad(),
-			    () => DeviceContext.DataProviderContainer.DataProvider.IsSuccess && !this._loader.IsLoadInProgress);
+			IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+			fragmentOptionCommandViewModel.TitleKey = "Load";
+			_readCommand = new RelayCommand(() => _loader.ExecuteLoad(),
+				() => DeviceContext.DataProviderContainer.DataProvider.IsSuccess && !this._loader.IsLoadInProgress);
 
-		    fragmentOptionCommandViewModel.OptionCommand = this._readCommand;
-		    fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
-		    fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
-		    _readCycleCommand = new FragmentOptionToggleCommandViewModel(new RelayCommand<bool?>(
-				    isCycleLoadingEnabled =>
-				    {
-					    if (isCycleLoadingEnabled.HasValue)
-					    {
-						    if (isCycleLoadingEnabled.Value)
-						    {
-							    _loader.StartLoading();
-						    }
-						    else
-						    {
-							    _loader.StopLoading();
-						    }
-					    }
-				    }, (isCycleLoadingEnabled) => DeviceContext.DataProviderContainer.DataProvider.IsSuccess),
-			    () => DeviceContext.DataProviderContainer.DataProvider.IsSuccess);
-		    fragmentOptionCommandViewModel = _readCycleCommand;
-		    fragmentOptionCommandViewModel.TitleKey = "CycleLoading";
-		    fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconArrowRightLeft;
-		    fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
-
-
-
-		    FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+			fragmentOptionCommandViewModel.OptionCommand = this._readCommand;
+			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
+			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+			_readCycleCommand = new FragmentOptionToggleCommandViewModel(new RelayCommand<bool?>(
+					isCycleLoadingEnabled =>
+					{
+						if (isCycleLoadingEnabled.HasValue)
+						{
+							if (isCycleLoadingEnabled.Value)
+							{
+								_loader.StartLoading();
+							}
+							else
+							{
+								_loader.StopLoading();
+							}
+						}
+					}, (isCycleLoadingEnabled) => DeviceContext.DataProviderContainer.DataProvider.IsSuccess),
+				() => DeviceContext.DataProviderContainer.DataProvider.IsSuccess);
+			fragmentOptionCommandViewModel = _readCycleCommand;
+			fragmentOptionCommandViewModel.TitleKey = "CycleLoading";
+			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconArrowRightLeft;
+			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
 
-		    fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
-		    fragmentOptionGroupViewModel.NameKey = "Presentation";
-		    fragmentOptionCommandViewModel = new FragmentOptionToggleCommandViewModel(new RelayCommand<bool?>(
-			    isAllSelected =>
-			    {
-				    if (isAllSelected.HasValue)
-				    {
-					    IsListViewSelected = isAllSelected.Value;
-					    _loader.SetCurrentGroup();
-				    }
-			    }));
-		    fragmentOptionCommandViewModel.TitleKey = "ViewAll";
-		    fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconAlignJustify;
-		    fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
-		    fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
-		    fragmentOptionCommandViewModel.TitleKey = "ZoomIn";
-		    fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(() => { Scale += 0.1; });
-		    fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconMagnifyAdd;
+			FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
-		    fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
-		    fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
-		    fragmentOptionCommandViewModel.TitleKey = "ZoomOut";
-		    fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(() => { Scale -= 0.1; });
-		    fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconMagnifyMinus;
+			fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
+			fragmentOptionGroupViewModel.NameKey = "Presentation";
+			fragmentOptionCommandViewModel = new FragmentOptionToggleCommandViewModel(new RelayCommand<bool?>(
+				isAllSelected =>
+				{
+					if (isAllSelected.HasValue)
+					{
+						IsListViewSelected = isAllSelected.Value;
+						_loader.SetCurrentGroup();
+					}
+				}));
+			fragmentOptionCommandViewModel.TitleKey = "ViewAll";
+			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconAlignJustify;
+			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
-		    fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+			fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+			fragmentOptionCommandViewModel.TitleKey = "ZoomIn";
+			fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(() => { Scale += 0.1; });
+			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconMagnifyAdd;
 
-		    FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
-		    Scale = 1;
-	    }
+			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
-	    public double Scale
+			fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+			fragmentOptionCommandViewModel.TitleKey = "ZoomOut";
+			fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(() => { Scale -= 0.1; });
+			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconMagnifyMinus;
+
+			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+
+			FragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+			Scale = 1;
+		}
+
+		public double Scale
 		{
 			get => _scale;
 			set
@@ -196,14 +202,16 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 			{
 				IMeasuringGroupViewModel group =
 					_measuringGroupViewModelFactory.CreateMeasuringGroupViewModel(measuringGroup,
-						measuringSubscriptionSet,DeviceContext);
+						measuringSubscriptionSet, DeviceContext);
 				MeasuringGroupViewModels.Add(group);
 				MeasuringElementViewModels.AddCollection(group.MeasuringElementViewModels);
 			}
+
 			MeasuringElementListCollectionView = new ListCollectionView(MeasuringElementViewModels.ToList());
 			MeasuringElementListCollectionView.GroupDescriptions.Add(
 				new PropertyGroupDescription(nameof(IMeasuringElementViewModel.GroupName)));
-			_loader = new MeasuringLoader(DeviceContext, measuringSubscriptionSet,_measuringMonitor,this._readCommand,_readCycleCommand);
+			_loader = new MeasuringLoader(DeviceContext, measuringSubscriptionSet, _measuringMonitor, this._readCommand,
+				_readCycleCommand);
 			if (MeasuringGroupViewModels.Count > 0)
 			{
 				SelectedMeasuringGroupViewModel = MeasuringGroupViewModels[0];
@@ -215,11 +223,32 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 		public override bool HasErrors => base.HasErrors || _loader.ErrorOccured;
 
 		public DeviceContext DeviceContext { get; set; }
-        public async Task OnConnectionChanged()
-        {
+
+		public async Task OnConnectionChanged()
+		{
 			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
-                model.FragmentOptionCommandViewModels.ForEach(viewModel =>
-                    viewModel.UpdateAvailability()));
+				model.FragmentOptionCommandViewModels.ForEach(viewModel =>
+					viewModel.UpdateAvailability()));
 		}
-    }
+
+		private bool _isOpened = false;
+
+		public async Task SetFragmentOpened(bool isOpened)
+		{
+			if (_readCycleCommand.IsEnabled)
+			{
+				if (isOpened && _applicationSettingsService.IsFragmentAutoLoadEnabled)
+				{
+					_readCycleCommand.IsChecked = true;
+				}
+
+				if (!isOpened)
+				{
+					_readCycleCommand.IsChecked = false;
+				}
+			}
+
+			_isOpened = isOpened;
+		}
+	}
 }

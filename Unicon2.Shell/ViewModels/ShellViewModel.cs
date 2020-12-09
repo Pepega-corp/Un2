@@ -213,6 +213,8 @@ namespace Unicon2.Shell.ViewModels
                 RaisePropertyChanged(nameof(ActiveFragmentViewModel.FragmentTitle));
                 ToolBarViewModel.SetDynamicOptionsGroup(ActiveFragmentViewModel?.FragmentViewModel
                     ?.FragmentOptionsViewModel);
+                TrySetFragmentOpened(_activeFragmentViewModel,true);
+
             }
         }
 
@@ -461,10 +463,7 @@ namespace Unicon2.Shell.ViewModels
 
             ActiveFragmentViewModel = fragmentPaneViewModel;
             
-            if (fragmentViewModel is IFragmentOpenedListener fragmentOpenedListener)
-            {
-                await fragmentOpenedListener.SetFragmentOpened(true);
-            }
+         
         }
 
         private void OnPaneClosed(IFragmentPaneViewModel fragmentPaneViewModel)

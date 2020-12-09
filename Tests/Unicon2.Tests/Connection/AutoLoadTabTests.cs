@@ -13,6 +13,7 @@ using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Model.DefaultDevice;
 using Unicon2.Model.Memory;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Presentation.Values;
 using Unicon2.Shell.ViewModels;
 using Unicon2.Tests.Helpers.Query;
@@ -99,6 +100,35 @@ namespace Unicon2.Tests.Connection
         }
 
 
+        private async Task CycleLoadingMeasuringTab(bool setting)
+        {
+            var setup = Program.RefreshProject();
+
+            var settings = StaticContainer.Container.Resolve<IApplicationSettingsService>();
+            settings.IsFragmentAutoLoadEnabled = setting;
+
+            await StaticContainer
+                .Container.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(setup.device, new MockConnection());
+            
+            Assert.True(await TestsUtils.WaitUntil(
+                () => setup.deviceViewModel.ConnectionStateViewModel.IsDeviceConnected, 30000));
+            await setup.measuringMonitorViewModel.SetFragmentOpened(true);
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () =>
+                    setting == ((FragmentOptionToggleCommandViewModel) setup.measuringMonitorViewModel
+                        .FragmentOptionsViewModel.GetCommand("Loading", "CycleLoading")).IsChecked, 30000));
+            await Task.Delay(5000);
+            await setup.measuringMonitorViewModel.SetFragmentOpened(false);
+
+            Assert.True(await TestsUtils.WaitUntil(
+                () =>
+                    !((FragmentOptionToggleCommandViewModel) setup.measuringMonitorViewModel.FragmentOptionsViewModel
+                        .GetCommand("Loading", "CycleLoading")).IsChecked, 30000));
+
+        }
+
         [Test]
         public async Task AutoLoadConfigurationTabIfSettingFalse()
         {
@@ -123,6 +153,18 @@ namespace Unicon2.Tests.Connection
             await AutoLoadJournalTab(true);
         }
         
+        
+        [Test]
+        public async Task CycleLoadingMeasuringTabIfSettingFalse()
+        {
+            await CycleLoadingMeasuringTab(false);
+        }
+
+        [Test]
+        public async Task CycleLoadingMeasuringTabIfSettingTrue()
+        {
+            await CycleLoadingMeasuringTab(true);
+        }
         
     }
 }

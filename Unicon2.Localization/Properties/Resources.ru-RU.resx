@@ -448,7 +448,7 @@
     <value>Копировать в буффер</value>
   </data>
   <data name="SetLogFile" xml:space="preserve">
-    <value>Установить лог-файл</value>
+    <value>Создать лог-файл</value>
   </data>
   <data name="SlaveId" xml:space="preserve">
     <value>Номер устройства</value>

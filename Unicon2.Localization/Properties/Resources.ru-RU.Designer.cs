@@ -3544,7 +3544,7 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Установить лог-файл.
+        ///   Looks up a localized string similar to Создать лог-файл.
         /// </summary>
         public static string SetLogFile {
             get {
