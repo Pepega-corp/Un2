@@ -13,7 +13,7 @@ namespace Unicon2.Infrastructure.Common
 
         private readonly Dictionary<string, List<ValidationFailure>> _errorDictionary = new Dictionary<string, List<ValidationFailure>>();
 
-        public void FireErrorsChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
+        protected void FireErrorsChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
             this?.OnValidate();
             OnErrorsChanged(propertyName);

@@ -23,6 +23,7 @@ namespace Unicon2.Shell.ViewModels
         public void Initialize()
         {
             _applicationSettingsService = _containerProvider.Resolve<IApplicationSettingsService>();
+            RaisePropertyChanged(nameof(IsFragmentAutoLoadEnabled));
         }
 
         public ShellSettingsViewModel(ITypesContainer containerProvider)

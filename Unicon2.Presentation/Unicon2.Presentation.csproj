@@ -78,6 +78,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -102,6 +103,7 @@
     <Compile Include="Factories\FragmentEditorViewModelFactory.cs" />
     <Compile Include="Factories\FragmentPaneViewModelFactory.cs" />
     <Compile Include="Factories\FormattedValueViewModelFactory.cs" />
+    <Compile Include="Factories\LoadAllFromDeviceWindowViewModelFactory.cs" />
     <Compile Include="Factories\ValueViewModelFactory.cs" />
     <Compile Include="FragmentSettings\FragmentSettingsViewModel.cs" />
     <Compile Include="FragmentSettings\QuickAccessMemorySettingViewModel.cs" />
@@ -145,11 +147,16 @@
     <Compile Include="ViewModels\Fragment\FragmentOptions\DefaultFragmentOptionsViewModel.cs" />
     <Compile Include="ViewModels\Fragment\FragmentPaneViewModel.cs" />
     <Compile Include="ViewModels\ToolBarViewModel.cs" />
+    <Compile Include="ViewModels\Validators\LoadAllFromDeviceWindowViewModelValidator.cs" />
     <Compile Include="ViewModels\Windows\AnchorableWindowBase.cs" />
+    <Compile Include="ViewModels\Windows\LoadAllFromDeviceWindowViewModel.cs" />
     <Compile Include="ViewModels\Windows\LogServiceViewModel.cs" />
     <Compile Include="ViewModels\Windows\ProjectBrowserViewModel.cs" />
     <Compile Include="Views\DependenciesView.xaml.cs">
       <DependentUpon>DependenciesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoadAllFromDeviceWindow.xaml.cs">
+      <DependentUpon>LoadAllFromDeviceWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ToolBarView.xaml.cs">
       <DependentUpon>ToolBarView.xaml</DependentUpon>
@@ -184,6 +191,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\LoadAllFromDeviceWindow.xaml" />
     <Page Include="Views\ToolBarView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

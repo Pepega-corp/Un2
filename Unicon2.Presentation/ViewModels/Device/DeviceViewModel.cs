@@ -19,7 +19,8 @@ namespace Unicon2.Presentation.ViewModels.Device
         private ObservableCollection<IFragmentViewModel> _fragmentViewModels;
         private IDeviceLoggerViewModel _deviceLoggerViewModel;
 
-        public DeviceViewModel(IDevicesContainerService devicesContainerService, IConnectionStateViewModel connectionStateViewModel,
+        public DeviceViewModel(IDevicesContainerService devicesContainerService,
+            IConnectionStateViewModel connectionStateViewModel,
             IDeviceLoggerViewModel deviceLoggerViewModel)
         {
             _devicesContainerService = devicesContainerService;
@@ -32,12 +33,14 @@ namespace Unicon2.Presentation.ViewModels.Device
 
         private void OnDeleteSelectedDevice()
         {
-            _devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(_device, ItemModifyingTypeEnum.Delete));
+            _devicesContainerService.ConnectableItemChanged?.Invoke(
+                new ConnectableItemChangingContext(_device, ItemModifyingTypeEnum.Delete));
         }
 
         private void OnNavigateToDeviceEditing()
         {
-            _devicesContainerService.ConnectableItemChanged?.Invoke(new ConnectableItemChangingContext(_device, ItemModifyingTypeEnum.Edit));
+            _devicesContainerService.ConnectableItemChanged?.Invoke(
+                new ConnectableItemChangingContext(_device, ItemModifyingTypeEnum.Edit));
         }
 
 
@@ -104,5 +107,7 @@ namespace Unicon2.Presentation.ViewModels.Device
             get => _device;
             set => SetDeviceModel(value as IDevice);
         }
+
+        public ICommand NavigateToLoadAllFromDeviceCommand { get; set; }
     }
 }
