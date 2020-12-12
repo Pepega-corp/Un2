@@ -75,18 +75,26 @@ namespace Unicon2.Fragments.Programming.Other
 
 
 
-        public async Task<byte[]> ReadLogicArchive()
+        public async Task<byte[]> ReadLogicArchive(bool hasFileSystem)
         {
-            var compressedLogic = await this._fileDriver.ReadFile(LOGARCH_ZIP);
-            var uncompressedLogic = UncompressProject(compressedLogic);
-            var archLen = uncompressedLogic.Skip(uncompressedLogic.Length - 2).ToArray().ByteArrayToUshortArray()[0];
-
-            if (uncompressedLogic.Length - 2 == archLen)
+            byte[] uncompressedLogic = new byte[0];
+            if (hasFileSystem)
             {
-                return uncompressedLogic;
+                var compressedLogic = await this._fileDriver.ReadFile(LOGARCH_ZIP);
+                uncompressedLogic = UncompressProject(compressedLogic);
+                var archLen = uncompressedLogic.Skip(uncompressedLogic.Length - 2).ToArray()
+                    .ByteArrayToUshortArray()[0];
+                if (uncompressedLogic.Length - 2 == archLen)
+                {
+                    return uncompressedLogic;
+                }
+            }
+            else
+            {
+                
             }
 
-            return new byte[0];
+            return uncompressedLogic;
         }
 
         public byte[] UncompressProject(byte[] compressedBytes)

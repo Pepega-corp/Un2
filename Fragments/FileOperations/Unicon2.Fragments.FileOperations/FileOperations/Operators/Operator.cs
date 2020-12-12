@@ -24,7 +24,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 
         protected async Task<string> ReadDataString(string command)
         {
-            return GetDataString(await ReadData(command));
+            var data = await ReadData(command);
+            var result = GetDataString(data);
+            return result;
         }
 
         protected async Task<ushort[]> ReadData(string command)
@@ -79,9 +81,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 
         private bool CheckState(string[] states)
         {
-
-            int res;
-            if (int.TryParse(states[1], out res))
+            if (int.TryParse(states[1], out var res))
             {
                 LastCommandStatus = res;
                 return true;
@@ -129,14 +129,35 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
         {
             var readBytes = readUshorts.UshortArrayToByteArray(false);
             var chars = new List<char>();
-            for (int i = 0; i < readBytes.Length; i++)
+            foreach (byte b in readBytes)
             {
-                if (readBytes[i] != '\0')
+                if (b != '\0')
                 {
-                    chars.Add((char)readBytes[i]);
+                    chars.Add((char)b);
+                }
+                else
+                {
+                    break;
                 }
             }
             return new string(chars.ToArray());
+        }
+
+        protected async Task WriteData(byte[] writeData, string command)
+        {
+            var result = await this._dataProvider.WriteMultipleRegistersAsync(DATA_ADDRESS,
+                writeData.ByteArrayToUshortArray(), "WriteDataFileDriver");
+
+            if(!result.IsSuccessful)
+                throw new FileOperationException(255);
+
+            await SetCommand(command);
+            await this.ReadCommandStateStrings();
+
+            if (this.LastCommandStatus != 0)
+            {
+                throw new FileOperationException(this.LastCommandStatus);
+            }
         }
     }
 }

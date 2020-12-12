@@ -114,6 +114,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ICommand LoadProjectCommand { get; }
         public ICommand ZoomIncrementCommand { get; }
         public ICommand ZoomDecrementCommand { get; }
+        public ICommand DeleteCommand { get; }
         //READ/WRITE logic commands
         public ICommand ReadLogicCommand { get; }
         public ICommand WriteLogicCommand { get; }
@@ -200,8 +201,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
             }
         }
-
-        public ICommand DeleteCommand { get; }
 
         private void DeleteSelectedElements()
         {
@@ -482,7 +481,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
             try
             {
-                var logicProjectBytes = await this._logicDeviceProvider.ReadLogicArchive();
+                var logicProjectBytes = await this._logicDeviceProvider.ReadLogicArchive(this._programModel.EnableFileDriver);
             }
             catch (Exception e)
             {

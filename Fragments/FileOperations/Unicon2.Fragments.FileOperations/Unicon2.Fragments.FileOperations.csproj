@@ -72,6 +72,7 @@
     <Compile Include="FileOperations\Operators\FileCloseOperator.cs" />
     <Compile Include="FileOperations\Operators\FileOpenOperator.cs" />
     <Compile Include="FileOperations\Operators\FileReadDataOperator.cs" />
+    <Compile Include="FileOperations\Operators\FileWriteDataOperator.cs" />
     <Compile Include="FileOperations\Operators\Operator.cs" />
     <Compile Include="FileOperations\Operators\SessionNumberOperator.cs" />
     <Compile Include="Model\BrowserElements\BrowserElementBase.cs" />

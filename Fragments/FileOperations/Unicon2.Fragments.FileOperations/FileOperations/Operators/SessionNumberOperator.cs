@@ -12,7 +12,15 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
         public async Task ReadSessionNumber()
         {
             var strNum = await ReadDataString(GETNUM_CMD);
-            this.SessionNumber = Convert.ToUInt16(strNum);
+            try
+            {
+                this.SessionNumber = Convert.ToUInt16(strNum);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public string GetPassword()
