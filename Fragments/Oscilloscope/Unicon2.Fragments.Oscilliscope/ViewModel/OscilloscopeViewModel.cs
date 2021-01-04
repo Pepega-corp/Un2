@@ -6,6 +6,7 @@ using Unicon2.Fragments.Oscilliscope.Infrastructure.Keys;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Progress;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
@@ -137,19 +138,14 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel
 
         public string StrongName => OscilloscopeKeys.OSCILLOSCOPE +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        public object Model
-        {
-            get { return this._oscilloscopeModel; }
-            set
-            {
-                this._oscilloscopeModel = value as IOscilloscopeModel;
-                this.OscilloscopeJournalViewModel.Model = this._oscilloscopeModel.OscilloscopeJournal;
-                this.OscilloscopeJournalViewModel.SetParentOscilloscopeModel(this._oscilloscopeModel);
-            }
-        }
-
+        
         public string NameForUiKey => OscilloscopeKeys.OSCILLOSCOPE;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
+        public void Initialize(IDeviceFragment deviceFragment)
+        {
+            this._oscilloscopeModel = deviceFragment as IOscilloscopeModel;
+            this.OscilloscopeJournalViewModel.Initialize(this._oscilloscopeModel.OscilloscopeJournal);
+            this.OscilloscopeJournalViewModel.SetParentOscilloscopeModel(this._oscilloscopeModel);
+        }
     }
 }

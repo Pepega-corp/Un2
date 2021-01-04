@@ -11,6 +11,7 @@ using Unicon2.Fragments.Configuration.Model.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Model.DependentProperty;
 using Unicon2.Fragments.Configuration.Model.Properties;
 using Unicon2.Fragments.Configuration.ViewModel;
+using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
@@ -82,6 +83,10 @@ namespace Unicon2.Fragments.Configuration.Module
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>()
                 .AddResourceAsGlobal("Resources/ConfigurationTemplates.xaml", GetType().Assembly);
+
+            container.Resolve<ILoadAllService>().RegisterFragmentLoadHandler(
+                ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL,
+                LoadAllConfigurationHelper.GetConFigurationLoadingHelper());
         }
     }
 }

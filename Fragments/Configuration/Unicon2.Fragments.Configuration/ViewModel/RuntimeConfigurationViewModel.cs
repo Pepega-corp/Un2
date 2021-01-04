@@ -26,7 +26,7 @@ using Unicon2.Unity.ViewModels;
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
 	public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel,
-		IFragmentConnectionChangedListener, IFragmentOpenedListener
+		IFragmentConnectionChangedListener, IFragmentOpenedListener, IFragmentFileExtension
 	{
 		private readonly ITypesContainer _container;
 		private readonly IApplicationSettingsService _applicationSettingsService;
@@ -265,10 +265,17 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 
 		}
 
+		public async Task Read()
+		{
+			await _configurationOptionsHelper.ReadConfiguration(true);
+		}
+
 		public async Task SetFragmentOpened(bool isOpened)
 		{
 			_isOpened = isOpened;
 			await RefreshValuesIfNeeded();
 		}
+
+		public string FileExtension => "cnf";
 	}
 }

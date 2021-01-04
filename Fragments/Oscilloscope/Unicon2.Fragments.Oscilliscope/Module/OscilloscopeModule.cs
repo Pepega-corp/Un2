@@ -33,7 +33,7 @@ namespace Unicon2.Fragments.Oscilliscope.Module
             container.Register<ICountingTemplate, CountingTemplate>();
             container.Register<IJournalLoadingSequence, OscilloscopeJournalLoadingSequence>(OscilloscopeKeys.OSCILLOSCOPE_JOURNAL_LOADING_SEQUENCE);
         
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
+            /*ISerializerService serializerService = container.Resolve<ISerializerService>();
             serializerService.AddKnownTypeForSerialization(typeof(OscilloscopeModel));
             serializerService.AddNamespaceAttribute("oscilloscopeModel", "OscilloscopeModelNS");
             serializerService.AddNamespaceAttribute("oscillogram", "OscillogramNS");
@@ -44,7 +44,7 @@ namespace Unicon2.Fragments.Oscilliscope.Module
             serializerService.AddKnownTypeForSerialization(typeof(OscilloscopeTag));
             serializerService.AddNamespaceAttribute("oscilloscopeTag", "OscilloscopeTagNS");
             serializerService.AddKnownTypeForSerialization(typeof(CountingTemplate));
-            serializerService.AddNamespaceAttribute("countingTemplate", "CountingTemplateNS");
+            serializerService.AddNamespaceAttribute("countingTemplate", "CountingTemplateNS");*/
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/OscilloscopeDataTemplates.xaml",
                 this.GetType().Assembly);

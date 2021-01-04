@@ -7,6 +7,7 @@ using Unicon2.Fragments.Oscilliscope.Infrastructure.Model;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.CountingTemplate;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.OscillogramLoadingParameters;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.ViewModels;
 
@@ -72,16 +73,11 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel
 
         public string StrongName => OscilloscopeKeys.OSCILLOSCOPE +
                                     ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-        public object Model
+    
+        public string NameForUiKey => OscilloscopeKeys.OSCILLOSCOPE;
+        public IDeviceFragment BuildDeviceFragment()
         {
-            get { return this.GetModel(); }
-            set { this.SetModel(value); }
-        }
-
-        private IOscilloscopeModel GetModel()
-        {
-            this._oscilloscopeModel.OscilloscopeJournal = this.OscilloscopeJournalEditorViewModel.Model as IUniconJournal;
+            this._oscilloscopeModel.OscilloscopeJournal = this.OscilloscopeJournalEditorViewModel.BuildDeviceFragment() as IUniconJournal;
             this._oscilloscopeModel.OscillogramLoadingParameters = this.OscillogramLoadingParametersEditorViewModel.Model as IOscillogramLoadingParameters;
 
             this._countingTemplate.RecordTemplate = this.CountingTemplateEditorViewModel.Model as IRecordTemplate;
@@ -90,17 +86,14 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel
             return this._oscilloscopeModel;
         }
 
-        private void SetModel(object oscilloscopeModel)
+        public void Initialize(IDeviceFragment deviceFragment)
         {
-            this._oscilloscopeModel = oscilloscopeModel as IOscilloscopeModel;
+            this._oscilloscopeModel = deviceFragment as IOscilloscopeModel;
             this.OscilloscopeJournalEditorViewModel = this._fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(this._oscilloscopeModel.OscilloscopeJournal) as IUniconJournalEditorViewModel;
             this.OscillogramLoadingParametersEditorViewModel.Model = this._oscilloscopeModel.OscillogramLoadingParameters;
             this.OscillogramLoadingParametersEditorViewModel.SetAvailableParameters(this._oscilloscopeModel.OscilloscopeJournal.RecordTemplate.JournalParameters);
 
             this.CountingTemplateEditorViewModel.Model = this._oscilloscopeModel.CountingTemplate.RecordTemplate;
         }
-
-
-        public string NameForUiKey => OscilloscopeKeys.OSCILLOSCOPE;
     }
 }

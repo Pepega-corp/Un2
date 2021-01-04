@@ -9,8 +9,10 @@ using Unicon2.Fragments.Journals.Model;
 using Unicon2.Fragments.Journals.Model.JournalLoadingSequence;
 using Unicon2.Fragments.Journals.Model.JournalParameters;
 using Unicon2.Fragments.Journals.ViewModel;
+using Unicon2.Fragments.Journals.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Unity.Interfaces;
 
@@ -63,6 +65,10 @@ namespace Unicon2.Fragments.Journals.Module
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/JournalDataTemplates.xaml",
                 GetType().Assembly);
+            
+            container.Resolve<ILoadAllService>().RegisterFragmentLoadHandler(
+                JournalKeys.UNICON_JOURNAL+ ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL,
+                JournalLoadHelper.GetJournalLoadingHelper());
         }
     }
 }

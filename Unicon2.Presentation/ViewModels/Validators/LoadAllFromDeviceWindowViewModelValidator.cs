@@ -9,7 +9,7 @@ namespace Unicon2.Presentation.ViewModels.Validators
         public LoadAllFromDeviceWindowViewModelValidator()
         {
             RuleFor(model => model.PathToFolderToSave)
-                .Must(s => File.GetAttributes(s).HasFlag(FileAttributes.Directory)).WithMessage("dir");
+                .Must(s =>!string.IsNullOrWhiteSpace(s)&& File.GetAttributes(s).HasFlag(FileAttributes.Directory)).WithMessage("dir");
         }
     }
 }

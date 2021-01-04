@@ -63,15 +63,6 @@ namespace Unicon2.Tests.Utils
 
             return Result<IConfigurationItem>.Create(false);
         }
-
-
-        public static IFragmentOptionCommandViewModel GetCommand(this IFragmentOptionsViewModel fragmentOptionsViewModel, string groupName, string commandName)
-        {
-           return fragmentOptionsViewModel.FragmentOptionGroupViewModels
-                .First(model => model.NameKey == groupName).FragmentOptionCommandViewModels
-                .First(model => model.TitleKey == commandName);
-        }
-
         public static async Task<bool> WaitUntil(Func<bool> predicate, int millisecondsToWait=10000, int interval=50)
         {
             int iterations = millisecondsToWait / interval;

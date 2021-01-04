@@ -43,7 +43,15 @@
             Text="{Binding NumValue}" />
     </DataTemplate>
 
-
+    <DataTemplate x:Key="FilteredEditableNumericValueViewModelDataTemplate">
+        <TextBox
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            dialogs:DialogParticipation.Register="{Binding}"
+            IsEnabled="{Binding IsEditEnabled}"
+            Text="{Binding NumValue}"
+            Background="LightGray"/>
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type values1:StringValueViewModel}">
         <TextBlock Margin="2,0,0,0" Text="{Binding StringValue}" />
@@ -79,6 +87,18 @@
                 IsManipulationEnabled="True" />
         </Grid>
     </DataTemplate>
+    
+    <DataTemplate x:Key="FilteredEditableBoolValueViewModelDataTemplate" DataType="{x:Type editable:EditableBoolValueViewModel}">
+        <Grid VerticalAlignment="Stretch">
+            <CheckBox
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                IsChecked="{Binding BoolValueProperty, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                IsEnabled="{Binding IsEditEnabled}"
+                IsManipulationEnabled="True" 
+                Background="LightGray"/>
+        </Grid>
+    </DataTemplate>
 
     <DataTemplate x:Key="BitMaskValueViewModelDataTemplate" DataType="{x:Type values1:BitMaskValueViewModel}">
         <DataTemplate.Resources>
@@ -112,4 +132,18 @@
 
     </DataTemplate>
 
+    <DataTemplate x:Key="FilteredEditableChosenFromListValueViewModelDataTemplate" DataType="{x:Type editable:EditableChosenFromListValueViewModel}">
+        <ComboBox
+            MinWidth="100"
+            HorizontalContentAlignment="Center"
+            IsEditable="True"
+            IsEnabled="{Binding IsEditEnabled}"
+            IsTextSearchEnabled="True"
+            ItemsSource="{Binding AvailableItemsList}"
+            SelectedItem="{Binding SelectedItem, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, Mode=TwoWay}"
+            StaysOpenOnEdit="True"
+            Background="LightGray"/>
+
+    </DataTemplate>
+    
 </ResourceDictionary>

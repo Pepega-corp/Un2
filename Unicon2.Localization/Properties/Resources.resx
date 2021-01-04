@@ -1506,4 +1506,37 @@
   <data name="AutoLoadTabs" xml:space="preserve">
     <value>@AutoLoadTabs</value>
   </data>
+  <data name="LoadAll" xml:space="preserve">
+    <value>@LoadAll</value>
+  </data>
+  <data name="LoadAllDescription" xml:space="preserve">
+    <value>@LoadAllDescription</value>
+  </data>
+  <data name="SavedWithIssues" xml:space="preserve">
+    <value>@SavedWithIssues</value>
+  </data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>@SavedSuccessfully</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>@InProgress</value>
+  </data>
+  <data name="SavePath" xml:space="preserve">
+    <value>@SavePath</value>
+  </data>
+  <data name="DownloadAll" xml:space="preserve">
+    <value>@DownloadAll</value>
+  </data>
+  <data name="OpenJournal" xml:space="preserve">
+    <value>@OpenJournal</value>
+  </data>
+  <data name="JournalStructureWarningMessage" xml:space="preserve">
+    <value>@JournalStructureWarningMessage</value>
+  </data>
+  <data name="JournalOpened" xml:space="preserve">
+    <value>@JournalOpened</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>@Warning</value>
+  </data>
 </root>

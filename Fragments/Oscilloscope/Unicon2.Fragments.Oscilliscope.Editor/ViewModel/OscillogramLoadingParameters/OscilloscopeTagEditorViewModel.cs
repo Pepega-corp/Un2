@@ -4,6 +4,7 @@ using System.Linq;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Oscilliscope.Editor.Interfaces.OscillogramLoadingParameters;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 

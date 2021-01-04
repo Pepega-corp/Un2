@@ -30,7 +30,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
         private RelayCommand ReadConfigurationCommand;
         private RelayCommand WriteConfigurationCommand;
 
-
+        private Task _readTask;
         private void SetQueriesLock(bool isLocked)
         {
             this._isQueryInProgress = isLocked;
@@ -152,20 +152,23 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         public async Task ReadConfiguration(bool triggerSubscriptions)
         {
-            if (!ReadConfigurationCommand.CanExecute(null))
-            {
-                return;
-            }
-
             try
             {
+                if (_readTask != null)
+                {
+                    await _readTask;
+                    return;
+                }
+
                 SetQueriesLock(true);
                 ReadConfigurationCommand.RaiseCanExecuteChanged();
-                await new MemoryReaderVisitor(_deviceConfiguration,
+                _readTask = new MemoryReaderVisitor(_deviceConfiguration,
                     _runtimeConfigurationViewModel.DeviceContext, 0, triggerSubscriptions).ExecuteRead();
+                await _readTask;
             }
             finally
             {
+                _readTask = null;
                 SetQueriesLock(false);
                 ReadConfigurationCommand.RaiseCanExecuteChanged();
                 TryUpdateTable();

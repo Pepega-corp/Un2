@@ -84,7 +84,11 @@
             /// строка DataTemplate
             /// </summary>
             public const string DATATEMPLATE = "DataTemplate";
-
+            
+            /// <summary>
+            /// строка Filtered
+            /// </summary>
+            public const string FILTERED = "Filtered";
             /// <summary>
             /// строка Editable
             /// </summary>
@@ -234,6 +238,8 @@
             /// сообщение о несоответствии значению его пределов
             /// </summary> 
             public static string JOURNAL_READING_ERROR = "JournalReadingError";
+            
+            public static string JOURNAL_STRUCTURE_WARNING_MESSAGE = "JournalStructureWarningMessage";
 
             /// <summary>
             /// сообщение об успехе сохранения в файл
@@ -246,6 +252,13 @@
             public static string DEVICE_READING_ERROR = "DeviceReadingError";
 
             public static string MUST_BE_POSITIVE = "MustBePositive";
+            
+            public static string SAVED_SUCCESSFULLY = "SavedSuccessfully";
+            public static string SAVED_WITH_ISSUES = "SavedWithIssues";
+
+            public static string FAIL = "Fail";
+            public static string IN_PROGRESS = "InProgress";
+
         }
 
         public static class QueriesNames

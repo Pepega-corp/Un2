@@ -39,7 +39,7 @@
                 </DataTemplate>
             </dataTemplateSelectors:ToolbarButtonDataTemplateSelector.ToggleButtonDataTemplate>
             <dataTemplateSelectors:ToolbarButtonDataTemplateSelector.DefaultButtonDataTemplate>
-                <DataTemplate DataType="fragmentOptions:DefaultFragmentOptionCommandViewModel">
+                <DataTemplate DataType="fragmentOptions1:DefaultFragmentOptionCommandViewModel">
                     <Button
                         Width="35"
                         Height="35"

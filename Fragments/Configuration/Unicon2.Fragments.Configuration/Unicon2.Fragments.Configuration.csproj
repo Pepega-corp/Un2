@@ -82,6 +82,7 @@
     <Compile Include="Converters\PropertyTooltipConverter.cs" />
     <Compile Include="Converters\IsItemsGroupToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToBorderColorConverter.cs" />
+    <Compile Include="DataTemplateSelectors\FilteredViewModelDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\SelectedConfigDetailsSelector.cs" />
     <Compile Include="Factories\ConfigurationItemFactory.cs" />
     <Compile Include="Factories\ConfigurationItemViewModelFactory.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="ViewModel\Helpers\ConditionHelper.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationExportHelper.cs" />
     <Compile Include="ViewModel\Helpers\ConfigurationOptionsHelper.cs" />
+    <Compile Include="ViewModel\Helpers\LoadAllConfigurationHelper.cs" />
     <Compile Include="ViewModel\Helpers\LocalValuesWriteValidator.cs" />
     <Compile Include="ViewModel\MainConfigItemViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />

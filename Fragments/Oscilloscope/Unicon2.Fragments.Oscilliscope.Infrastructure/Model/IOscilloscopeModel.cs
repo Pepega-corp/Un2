@@ -11,7 +11,7 @@ using Unicon2.Infrastructure.Progress;
 
 namespace Unicon2.Fragments.Oscilliscope.Infrastructure.Model
 {
-    public interface IOscilloscopeModel:IDeviceFragment, IParentDeviceNameRequirable
+    public interface IOscilloscopeModel:IDeviceFragment
     {
         IUniconJournal OscilloscopeJournal { get; set; }
         IOscillogramLoadingParameters OscillogramLoadingParameters { get; set; }

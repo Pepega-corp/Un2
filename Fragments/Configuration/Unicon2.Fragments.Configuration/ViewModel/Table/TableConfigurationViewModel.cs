@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Documents;
 using Unicon2.Fragments.Configuration.Behaviors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
-using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Infrastructure.Extensions;
-using Unicon2.Infrastructure.Functional;
-using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
@@ -23,7 +18,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
     {
         public ConfigItemWrapper(IEnumerable<ConfigItemWrapper> childConfigItemWrappers,
-            IConfigurationItemViewModel relatedConfigurationItemViewModel, bool toInclude, bool matchesFilter=true)
+            IConfigurationItemViewModel relatedConfigurationItemViewModel, bool toInclude, bool matchesFilter = true)
         {
             ChildConfigItemWrappers = childConfigItemWrappers;
             RelatedConfigurationItemViewModel = relatedConfigurationItemViewModel;

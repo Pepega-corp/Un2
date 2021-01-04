@@ -1512,4 +1512,37 @@
   <data name="AutoLoadTabs" xml:space="preserve">
     <value>Load tabs automatically</value>
   </data>
+  <data name="LoadAll" xml:space="preserve">
+    <value>Load All</value>
+  </data>
+  <data name="LoadAllDescription" xml:space="preserve">
+    <value>Select components to load and folder path, subfolder for device will be created automatically</value>
+  </data>
+  <data name="SavedWithIssues" xml:space="preserve">
+    <value>Saved with issues</value>
+  </data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>Saved successfully</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In Progress</value>
+  </data>
+  <data name="SavePath" xml:space="preserve">
+    <value>Save path</value>
+  </data>
+  <data name="DownloadAll" xml:space="preserve">
+    <value>Download all</value>
+  </data>
+  <data name="OpenJournal" xml:space="preserve">
+    <value>Open Journal</value>
+  </data>
+  <data name="JournalStructureWarningMessage" xml:space="preserve">
+    <value>Journal scructure is not similar to the one you trying to upload. It could cause unpredictable behavior. Do you want to continue anyway?</value>
+  </data>
+  <data name="JournalOpened" xml:space="preserve">
+    <value>Journal Opened</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
 </root>

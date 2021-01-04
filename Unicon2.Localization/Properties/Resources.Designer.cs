@@ -1537,6 +1537,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @DownloadAll.
+        /// </summary>
+        public static string DownloadAll {
+            get {
+                return ResourceManager.GetString("DownloadAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @DublicateValuesMessage.
         /// </summary>
         public static string DublicateValuesMessage {
@@ -2077,6 +2086,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @InProgress.
+        /// </summary>
+        public static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Interrogate.
         /// </summary>
         public static string Interrogate {
@@ -2221,6 +2239,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @JournalOpened.
+        /// </summary>
+        public static string JournalOpened {
+            get {
+                return ResourceManager.GetString("JournalOpened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @JournalReadingError.
         /// </summary>
         public static string JournalReadingError {
@@ -2235,6 +2262,15 @@ namespace Unicon2.Localization.Properties {
         public static string JournalRecordReadingQuery {
             get {
                 return ResourceManager.GetString("JournalRecordReadingQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @JournalStructureWarningMessage.
+        /// </summary>
+        public static string JournalStructureWarningMessage {
+            get {
+                return ResourceManager.GetString("JournalStructureWarningMessage", resourceCulture);
             }
         }
         
@@ -2316,6 +2352,24 @@ namespace Unicon2.Localization.Properties {
         public static string Load {
             get {
                 return ResourceManager.GetString("Load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @LoadAll.
+        /// </summary>
+        public static string LoadAll {
+            get {
+                return ResourceManager.GetString("LoadAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @LoadAllDescription.
+        /// </summary>
+        public static string LoadAllDescription {
+            get {
+                return ResourceManager.GetString("LoadAllDescription", resourceCulture);
             }
         }
         
@@ -2869,6 +2923,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @OpenJournal.
+        /// </summary>
+        public static string OpenJournal {
+            get {
+                return ResourceManager.GetString("OpenJournal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @OpenLogFile.
         /// </summary>
         public static string OpenLogFile {
@@ -3355,6 +3418,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @SavedSuccessfully.
+        /// </summary>
+        public static string SavedSuccessfully {
+            get {
+                return ResourceManager.GetString("SavedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @SavedWithIssues.
+        /// </summary>
+        public static string SavedWithIssues {
+            get {
+                return ResourceManager.GetString("SavedWithIssues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @SaveForPrint.
         /// </summary>
         public static string SaveForPrint {
@@ -3387,6 +3468,15 @@ namespace Unicon2.Localization.Properties {
         public static string SaveInFile {
             get {
                 return ResourceManager.GetString("SaveInFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @SavePath.
+        /// </summary>
+        public static string SavePath {
+            get {
+                return ResourceManager.GetString("SavePath", resourceCulture);
             }
         }
         
@@ -4071,6 +4161,15 @@ namespace Unicon2.Localization.Properties {
         public static string WaitRetryGreaterThanZero {
             get {
                 return ResourceManager.GetString("WaitRetryGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

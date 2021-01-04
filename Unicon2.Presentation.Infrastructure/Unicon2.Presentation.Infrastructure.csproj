@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Commands\ICommandFactory.cs" />
     <Compile Include="Commands\IUserCommand.cs" />
+    <Compile Include="Converters\BoolToVisConverter.cs" />
     <Compile Include="DeviceContext\DeviceContext.cs" />
     <Compile Include="Enums\PlacementEnum.cs" />
     <Compile Include="Events\DeviceConnectionChanged.cs" />
@@ -75,7 +76,9 @@
     <Compile Include="Factories\ISharedResourcesEditorFactory.cs" />
     <Compile Include="Factories\ISharedResourcesGlobalViewModel.cs" />
     <Compile Include="Factories\IValueViewModelFactory.cs" />
+    <Compile Include="Services\ILoadAllService.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\DefaultFragmentOptionCommandViewModel.cs" />
+    <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\Extensions.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\FragmentOptionToggleCommandViewModel.cs" />
     <Compile Include="FragmentSettings\IFragmentSettingViewModel.cs" />
     <Compile Include="FragmentSettings\IQuickAccessMemorySettingViewModel.cs" />

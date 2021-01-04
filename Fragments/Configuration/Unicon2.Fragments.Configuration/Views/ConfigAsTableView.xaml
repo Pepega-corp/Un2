@@ -14,6 +14,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:dataTemplateSelectors1="clr-namespace:Unicon2.Fragments.Configuration.DataTemplateSelectors"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
@@ -61,7 +62,6 @@
                 CanUserAddRows="False"
                 GridLinesVisibility="All"
                 HorizontalScrollBarVisibility="Auto">
-
                 <b:Interaction.Behaviors>
                     <behaviors:BubbleScrollBehavior />
                     <behaviors1:DynamicPropertiesDataGridBehavior IsTransponed="{Binding ElementName=CheckBox, Path=IsChecked}" RowValues="{Binding TableConfigurationViewModel.DynamicPropertiesTable}">
@@ -101,7 +101,6 @@
                 BorderThickness="1"
                 CanUserAddRows="False"
                 GridLinesVisibility="All"
-                
                 HorizontalScrollBarVisibility="Auto">
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
@@ -124,8 +123,9 @@
                                                     BorderThickness="0,0,3,0"
                                                     ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue, Converter={StaticResource PropertyTooltipConverter}, Mode=OneWay}">
                                                     <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.LocalValue}">
+                                                  
                                                         <ContentPresenter.ContentTemplateSelector>
-                                                            <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
+                                                            <dataTemplateSelectors1:FilteredViewModelDataTemplateSelector />
                                                         </ContentPresenter.ContentTemplateSelector>
                                                     </ContentPresenter>
                                                 </Border>

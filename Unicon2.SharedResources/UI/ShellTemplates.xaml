@@ -41,7 +41,7 @@
                                     <TextBox MinWidth="100" Text="{Binding DeviceSignature, UpdateSourceTrigger=PropertyChanged}" />
                                 </MenuItem>
                                 <MenuItem Command="{Binding NavigateToDeviceEditingCommand}" Header="{lex:Loc ConnectionSettings}" />
-                                <MenuItem Command="{Binding NavigateToLoadAllFromDeviceCommand}" Header="{lex:Loc LoadAllFromDevice}" />
+                                <MenuItem Command="{Binding NavigateToLoadAllFromDeviceCommand}" Header="{lex:Loc DownloadAll}" />
                                 <MenuItem Command="{Binding DeleteSelectedDeviceCommand}" Header="{lex:Loc DeleteDevice}" />
                             </ContextMenu>
                         </TreeViewItem.ContextMenu>

@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Functional;
 
 namespace Unicon2.Infrastructure
 {
@@ -22,7 +23,7 @@ namespace Unicon2.Infrastructure
         Task CallWaitingProgressWindow(object context, bool isToOpen);
         void OpenOscillogram(string oscillogramPath = null);
         
-        Maybe<FileInfo> SelectFileToOpen(string windowTitle, string filters);
+        Result<FileInfo> SelectFileToOpen(string windowTitle, string filters);
 
         Maybe<string> SelectFilePathToSave(string windowTitle, string defaultExtension, string filter,
             string initialName);

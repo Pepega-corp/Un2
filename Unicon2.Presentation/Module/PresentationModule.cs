@@ -69,7 +69,8 @@ namespace Unicon2.Presentation.Module
             container.Register(typeof(IFragmentOptionsViewModel), typeof(DefaultFragmentOptionsViewModel));
 
             container.Register(typeof(IFragmentSettingViewModel), typeof(QuickAccessMemorySettingViewModel),
-                ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                ApplicationGlobalNames.QUICK_ACCESS_MEMORY_CONFIGURATION_SETTING +
+                ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
             container.Register(typeof(IFragmentPaneViewModelFactory), typeof(FragmentPaneViewModelFactory));
             container.Register(typeof(IFragmentPaneViewModel), typeof(FragmentPaneViewModel));
@@ -83,10 +84,12 @@ namespace Unicon2.Presentation.Module
             container.Register<DependenciesViewModel>();
             container.Register(typeof(ILogServiceViewModel), typeof(LogServiceViewModel), true);
             container.Register(typeof(IProjectBrowserViewModel), typeof(ProjectBrowserViewModel), true);
+            container.Register(typeof(ILoadAllService), typeof(LoadAllService), true);
 
             container.Register(typeof(IFragmentEditorViewModelFactory), typeof(FragmentEditorViewModelFactory));
             container.Register(typeof(IFragmentSettingsViewModel), typeof(FragmentSettingsViewModel));
-            container.Register(typeof(IEditableValueFetchingFromViewModelVisitor), typeof(EditableValueFetchingFromViewModelVisitor));
+            container.Register(typeof(IEditableValueFetchingFromViewModelVisitor),
+                typeof(EditableValueFetchingFromViewModelVisitor));
             container.Register<IConnectionService, ConnectionService>();
         }
     }

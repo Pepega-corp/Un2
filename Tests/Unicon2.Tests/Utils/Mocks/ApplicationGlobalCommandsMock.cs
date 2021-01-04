@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Functional;
 
 namespace Unicon2.Tests.Utils.Mocks
 {
@@ -17,6 +18,12 @@ namespace Unicon2.Tests.Utils.Mocks
             applicationGlobalCommands.AskUserGlobalResult = result;
             return applicationGlobalCommands;
         }
+        
+        public static ApplicationGlobalCommandsMock WithSelectFileToOpenResult(this ApplicationGlobalCommandsMock applicationGlobalCommands, string result)
+        {
+            applicationGlobalCommands.SelectFileToOpenResult = result;
+            return applicationGlobalCommands;
+        }
     }
 
 
@@ -24,6 +31,10 @@ namespace Unicon2.Tests.Utils.Mocks
     {
         public bool AskUserGlobalResult { get; set; }
         public bool IsAskUserGlobalTriggered { get; set; }
+        public string SelectFileToOpenResult { get; set; }
+        public bool IsSelectFileToOpenTriggered { get; set; }
+
+        
         public ApplicationGlobalCommandsMock()
         {
             
@@ -96,9 +107,10 @@ namespace Unicon2.Tests.Utils.Mocks
             throw new NotImplementedException();
         }
 
-        public Maybe<FileInfo> SelectFileToOpen(string windowTitle, string filters)
+        public Result<FileInfo> SelectFileToOpen(string windowTitle, string filters)
         {
-            throw new NotImplementedException();
+            IsSelectFileToOpenTriggered = true;
+            return new FileInfo(SelectFileToOpenResult);
         }
 
         public Maybe<string> SelectFilePathToSave(string windowTitle, string defaultExtension, string filter, string initialName)

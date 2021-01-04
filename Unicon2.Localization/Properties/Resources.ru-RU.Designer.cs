@@ -1483,7 +1483,7 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подпись устойства.
+        ///   Looks up a localized string similar to Подпись устройства.
         /// </summary>
         public static string DeviceSignature {
             get {
@@ -1560,6 +1560,15 @@ namespace Unicon2.Localization.Properties {
         public static string Download {
             get {
                 return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Скачать всё.
+        /// </summary>
+        public static string DownloadAll {
+            get {
+                return ResourceManager.GetString("DownloadAll", resourceCulture);
             }
         }
         
@@ -2113,6 +2122,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to В ходе выполнения.
+        /// </summary>
+        public static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Опросить.
         /// </summary>
         public static string Interrogate {
@@ -2266,6 +2284,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Открыт журнал.
+        /// </summary>
+        public static string JournalOpened {
+            get {
+                return ResourceManager.GetString("JournalOpened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ошибка чтения журнала.
         /// </summary>
         public static string JournalReadingError {
@@ -2280,6 +2307,15 @@ namespace Unicon2.Localization.Properties {
         public static string JournalRecordReadingQuery {
             get {
                 return ResourceManager.GetString("JournalRecordReadingQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Структура текущего журнала не совпадает с тем, что вы пытаетесь открыть. Это может привести к непредсказуемому поведению. Продолжить всё равно?.
+        /// </summary>
+        public static string JournalStructureWarningMessage {
+            get {
+                return ResourceManager.GetString("JournalStructureWarningMessage", resourceCulture);
             }
         }
         
@@ -2361,6 +2397,24 @@ namespace Unicon2.Localization.Properties {
         public static string Load {
             get {
                 return ResourceManager.GetString("Load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Загрузить всё.
+        /// </summary>
+        public static string LoadAll {
+            get {
+                return ResourceManager.GetString("LoadAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выберите компоненты для загрузки из устройства, затем выберите папку для сохранения файлов, подпапка для устройства будет создана автоматически..
+        /// </summary>
+        public static string LoadAllDescription {
+            get {
+                return ResourceManager.GetString("LoadAllDescription", resourceCulture);
             }
         }
         
@@ -3400,6 +3454,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сохранение прошло успешно.
+        /// </summary>
+        public static string SavedSuccessfully {
+            get {
+                return ResourceManager.GetString("SavedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сохранение прошло с ошибками.
+        /// </summary>
+        public static string SavedWithIssues {
+            get {
+                return ResourceManager.GetString("SavedWithIssues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Сохранить для печати.
         /// </summary>
         public static string SaveForPrint {
@@ -3432,6 +3504,15 @@ namespace Unicon2.Localization.Properties {
         public static string SaveInFile {
             get {
                 return ResourceManager.GetString("SaveInFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Путь для сохранения.
+        /// </summary>
+        public static string SavePath {
+            get {
+                return ResourceManager.GetString("SavePath", resourceCulture);
             }
         }
         
@@ -4098,6 +4179,15 @@ namespace Unicon2.Localization.Properties {
         public static string WaitRetryGreaterThanZero {
             get {
                 return ResourceManager.GetString("WaitRetryGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Предупреждение.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

@@ -523,7 +523,7 @@
     <value>Редактор конфигурации</value>
   </data>
   <data name="DeviceSignature" xml:space="preserve">
-    <value>Подпись устойства</value>
+    <value>Подпись устройства</value>
   </data>
   <data name="OpeningPortErrorMessage" xml:space="preserve">
     <value>Ошибка открытия порта</value>
@@ -1514,5 +1514,35 @@
   </data>
   <data name="UserSettings" xml:space="preserve">
     <value>Пользовательские настройки</value>
+  </data>
+  <data name="LoadAllDescription" xml:space="preserve">
+    <value>Выберите компоненты для загрузки из устройства, затем выберите папку для сохранения файлов, подпапка для устройства будет создана автоматически.</value>
+  </data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>Сохранение прошло успешно</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>В ходе выполнения</value>
+  </data>
+  <data name="LoadAll" xml:space="preserve">
+    <value>Загрузить всё</value>
+  </data>
+  <data name="SavePath" xml:space="preserve">
+    <value>Путь для сохранения</value>
+  </data>
+  <data name="SavedWithIssues" xml:space="preserve">
+    <value>Сохранение прошло с ошибками</value>
+  </data>
+  <data name="DownloadAll" xml:space="preserve">
+    <value>Скачать всё</value>
+  </data>
+  <data name="JournalStructureWarningMessage" xml:space="preserve">
+    <value>Структура текущего журнала не совпадает с тем, что вы пытаетесь открыть. Это может привести к непредсказуемому поведению. Продолжить всё равно?</value>
+  </data>
+  <data name="JournalOpened" xml:space="preserve">
+    <value>Открыт журнал</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Предупреждение</value>
   </data>
 </root>

@@ -45,7 +45,7 @@ namespace Unicon2.Infrastructure.Functional
  
             return new Result<T>(value,true);
         }
-        public T OnSuccess(Action<T> onSuccessFunc)
+        public Result<T> OnSuccess(Action<T> onSuccessFunc)
         {
             if (IsSuccess)
             {

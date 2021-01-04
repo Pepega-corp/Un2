@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Unity.Interfaces;
 
@@ -170,19 +171,18 @@ namespace Unicon2.Services
                 fileName);
         }
 
-        public Maybe<FileInfo> SelectFileToOpen(string windowTitle, string filter)
+        public Result<FileInfo> SelectFileToOpen(string windowTitle, string filter)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            Maybe<FileInfo> fileInfoMaybe = new Maybe<FileInfo>();
             ofd.Multiselect = false;
             ofd.Title = windowTitle;
             ofd.Filter = filter;
             ofd.CheckFileExists = true;
             if (ofd.ShowDialog() == true)
             {
-                fileInfoMaybe.AddValue(new FileInfo(ofd.FileName));
+                return Result<FileInfo>.Create(new FileInfo(ofd.FileName),true);
             }
-            return fileInfoMaybe;
+            return Result<FileInfo>.Create(false);
         }
 
         public Maybe<string> SelectFilePathToSave(string windowTitle, string defaultExtension, string filter, string initialName)

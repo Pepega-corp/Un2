@@ -1564,6 +1564,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download all.
+        /// </summary>
+        public static string DownloadAll {
+            get {
+                return ResourceManager.GetString("DownloadAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collection has repeatable values.
         /// </summary>
         public static string DublicateValuesMessage {
@@ -2104,6 +2113,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In Progress.
+        /// </summary>
+        public static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interrogate.
         /// </summary>
         public static string Interrogate {
@@ -2248,6 +2266,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Journal Opened.
+        /// </summary>
+        public static string JournalOpened {
+            get {
+                return ResourceManager.GetString("JournalOpened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Journal reading error.
         /// </summary>
         public static string JournalReadingError {
@@ -2262,6 +2289,15 @@ namespace Unicon2.Localization.Properties {
         public static string JournalRecordReadingQuery {
             get {
                 return ResourceManager.GetString("JournalRecordReadingQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Journal scructure is not similar to the one you trying to upload. It could cause unpredictable behavior. Do you want to continue anyway?.
+        /// </summary>
+        public static string JournalStructureWarningMessage {
+            get {
+                return ResourceManager.GetString("JournalStructureWarningMessage", resourceCulture);
             }
         }
         
@@ -2343,6 +2379,24 @@ namespace Unicon2.Localization.Properties {
         public static string Load {
             get {
                 return ResourceManager.GetString("Load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load All.
+        /// </summary>
+        public static string LoadAll {
+            get {
+                return ResourceManager.GetString("LoadAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select components to load and folder path, subfolder for device will be created automatically.
+        /// </summary>
+        public static string LoadAllDescription {
+            get {
+                return ResourceManager.GetString("LoadAllDescription", resourceCulture);
             }
         }
         
@@ -2896,6 +2950,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Journal.
+        /// </summary>
+        public static string OpenJournal {
+            get {
+                return ResourceManager.GetString("OpenJournal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open log file.
         /// </summary>
         public static string OpenLogFile {
@@ -3382,6 +3445,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saved successfully.
+        /// </summary>
+        public static string SavedSuccessfully {
+            get {
+                return ResourceManager.GetString("SavedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved with issues.
+        /// </summary>
+        public static string SavedWithIssues {
+            get {
+                return ResourceManager.GetString("SavedWithIssues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save For Print.
         /// </summary>
         public static string SaveForPrint {
@@ -3414,6 +3495,15 @@ namespace Unicon2.Localization.Properties {
         public static string SaveInFile {
             get {
                 return ResourceManager.GetString("SaveInFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save path.
+        /// </summary>
+        public static string SavePath {
+            get {
+                return ResourceManager.GetString("SavePath", resourceCulture);
             }
         }
         
@@ -4089,6 +4179,15 @@ namespace Unicon2.Localization.Properties {
         public static string WaitRetryGreaterThanZero {
             get {
                 return ResourceManager.GetString("WaitRetryGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         
