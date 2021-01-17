@@ -11,7 +11,6 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
         public async Task<int> OpenFile(string fileName, string directory, FileAccess access, string password)
         {
             var accessStr = access == FileAccess.READ_FILE ? "1" : "10";
-
             var data = await ReadDataString(string.Format(FILEOPEN_PATTERN, password, accessStr, directory, fileName));
             this.Descriptor = Convert.ToInt32(data);
             return this.Descriptor;

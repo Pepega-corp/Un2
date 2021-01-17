@@ -81,15 +81,16 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 
         private bool CheckState(string[] states)
         {
+            if (states == null || states.Length == 0)
+                return false;
+
             if (int.TryParse(states[1], out var res))
             {
                 LastCommandStatus = res;
                 return true;
             }
-            else
-            {
-                LastCommandStatus = 255;
-            }
+
+            this.LastCommandStatus = 255;
 
             return false;
         }

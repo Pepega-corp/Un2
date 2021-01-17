@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
@@ -15,13 +13,12 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 
         public async Task WriteData(int descriptor, byte[] fileData)
         {
-            var count = fileData.Length / MAX_LEN; 
+            var count = fileData.Length / MAX_LEN;
             var residue = fileData.Length % MAX_LEN;
             if (residue != 0)
             {
                 count++;
             }
-
             for (var counter = 0; counter < count; counter++)
             {
                 var curLen = fileData.Skip(MAX_LEN * counter).ToArray().Length >= MAX_LEN

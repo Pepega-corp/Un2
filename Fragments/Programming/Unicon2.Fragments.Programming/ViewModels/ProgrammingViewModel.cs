@@ -337,6 +337,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
             catch(Exception e)
             {
+                IsLogicStarted = false;
                 MessageBox.Show(e.Message, "Write logic", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

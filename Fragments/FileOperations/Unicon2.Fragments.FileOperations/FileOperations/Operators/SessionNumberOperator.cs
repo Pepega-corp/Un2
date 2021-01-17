@@ -12,15 +12,8 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
         public async Task ReadSessionNumber()
         {
             var strNum = await ReadDataString(GETNUM_CMD);
-            try
-            {
-                this.SessionNumber = Convert.ToUInt16(strNum);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            strNum = FixString(strNum);
+            this.SessionNumber = Convert.ToUInt16(strNum);
         }
 
         public string GetPassword()
@@ -35,6 +28,28 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
                 passCode += ((byte)(c + this.SessionNumber)).ToString("X2");
             }
             return passCode;
+        }
+
+        private string FixString(string strNum)
+        {
+            if (strNum.Length > 3)
+            {
+                var fixedStr = string.Empty;
+                for (var i = 0; i < 3; i++)
+                {
+                    if (char.IsDigit(strNum[i]))
+                    {
+                        fixedStr += strNum[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                return fixedStr;
+            }
+
+            return strNum;
         }
     }
 }

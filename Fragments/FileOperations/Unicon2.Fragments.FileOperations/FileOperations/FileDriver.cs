@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.FileOperations.Operators;
@@ -65,13 +66,10 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             }
 
             await this.ReadSessionNumber();
-
             var password = this._sessionNumberOperator.GetPassword();
-            var descriptor = await this._fileOpenOperator.OpenFile(fileName, this._directoryOperator.Directory,
-                access, password);
 
+            var descriptor = await this._fileOpenOperator.OpenFile(fileName, this._directoryOperator.Directory, access, password);
             this._openedFiles.Add(descriptor, fileName);
-
             return descriptor;
         }
 
