@@ -8,12 +8,12 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 {
     public abstract class Operator
     {
-        private const ushort CMD_ADDRESS = 0x5000;
-        private const ushort STATE_ADDRESS = 0x5100;
-        private const ushort WORDS_LENGTH = 64;
-        private const ushort DATA_ADDRESS = 0x5200;
+        protected const ushort CMD_ADDRESS = 0x5000;
+        protected const ushort STATE_ADDRESS = 0x5100;
+        protected const ushort WORDS_LENGTH = 64;
+        protected const ushort DATA_ADDRESS = 0x5200;
 
-        private IDataProvider _dataProvider;
+        protected IDataProvider _dataProvider;
 
         public int LastCommandStatus { get; private set; }
 
@@ -115,7 +115,12 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             return await this.ReadDataCommand(0x400);
         }
 
-        private async Task<ushort[]> ReadDataCommand(ushort dataLen)
+        protected virtual async Task<ushort[]> ReadDataCommand(ushort dataLen)
+        {
+            return await this.ReadDataCommand(DATA_ADDRESS, dataLen);
+        }
+
+        protected virtual async Task<ushort[]> ReadDataCommand(ushort startAddres, ushort dataLen)
         {
             var result = await this._dataProvider.ReadHoldingResgistersAsync(DATA_ADDRESS, dataLen, "ReadDataFileDriver");
             if (result.IsSuccessful)

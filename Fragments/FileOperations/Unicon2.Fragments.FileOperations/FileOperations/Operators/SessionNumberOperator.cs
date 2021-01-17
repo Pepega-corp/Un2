@@ -32,24 +32,19 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
 
         private string FixString(string strNum)
         {
-            if (strNum.Length > 3)
+            var fixedStr = string.Empty;
+            for (var i = 0; i < 3; i++)
             {
-                var fixedStr = string.Empty;
-                for (var i = 0; i < 3; i++)
+                if (char.IsDigit(strNum[i]))
                 {
-                    if (char.IsDigit(strNum[i]))
-                    {
-                        fixedStr += strNum[i];
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    fixedStr += strNum[i];
                 }
-                return fixedStr;
+                else
+                {
+                    break;
+                }
             }
-
-            return strNum;
+            return fixedStr;
         }
     }
 }

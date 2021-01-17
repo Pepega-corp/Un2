@@ -483,6 +483,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
             try
             {
                 var logicProjectBytes = await this._logicDeviceProvider.ReadLogicArchive(this._programModel.EnableFileDriver);
+                this._programModel = this._serializerService.DeserializeFromBytes<IProgramModel>(logicProjectBytes);
+                UpdateCollections(this._programModel);
+
             }
             catch (Exception e)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.Programming.Model;
@@ -80,8 +81,14 @@ namespace Unicon2.Fragments.Programming.Other
             byte[] uncompressedLogic = new byte[0];
             if (hasFileSystem)
             {
-                var compressedLogic = await this._fileDriver.ReadFile(LOGARCH_ZIP);
-                uncompressedLogic = UncompressProject(compressedLogic);
+                var compressedLogic = new List<byte>(await this._fileDriver.ReadFile(LOGARCH_ZIP));
+                var lenght = Extensions.ToUshort(compressedLogic[compressedLogic.Count - 1], compressedLogic[compressedLogic.Count - 2]);
+                if (lenght != compressedLogic.Count - 2)
+                {
+                    throw new Exception("Logic archive has invalid bytes lenght");
+                }
+                compressedLogic.RemoveRange(compressedLogic.Count-2, 2);
+                uncompressedLogic = UncompressProject(compressedLogic.ToArray());
                 var archLen = uncompressedLogic.Skip(uncompressedLogic.Length - 2).ToArray()
                     .ByteArrayToUshortArray()[0];
                 if (uncompressedLogic.Length - 2 == archLen)
@@ -102,7 +109,7 @@ namespace Unicon2.Fragments.Programming.Other
             using (MemoryStream memoryStream = new MemoryStream(compressedBytes))
             {
                 // create a zip
-                using (ZipArchive zip = new ZipArchive(memoryStream, ZipArchiveMode.Read, true))
+                using (ZipArchive zip = new ZipArchive(memoryStream, ZipArchiveMode.Update, true))
                 {
                     // add the item name to the zip
                     ZipArchiveEntry zipItem = zip.GetEntry("logicarchive" + ProgramModel.EXTENSION);
