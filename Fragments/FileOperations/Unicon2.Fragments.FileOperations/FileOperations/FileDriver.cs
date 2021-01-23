@@ -48,9 +48,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             return fileBytes;
         }
 
-        private async Task<byte[]> ReadData(int descriptor)
+        private async Task<byte[]> ReadData(int descriptor, ushort wordsDataLen = 64)
         {
-            return await this._fileReadDataOperator.ReadFileData(descriptor);
+            return await this._fileReadDataOperator.ReadFileData(descriptor, wordsDataLen);
         }
 
         private async Task<int> OpenFile(string fileName, FileAccess access)

@@ -29,7 +29,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             return result;
         }
 
-        protected async Task<ushort[]> ReadData(string command)
+        protected virtual async Task<ushort[]> ReadData(string command)
         {
             await SetCommand(command);
             var stateStrings = await this.ReadCommandStateStrings();
@@ -45,7 +45,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             return new ushort[] { };
         }
 
-        private async Task SetCommand(string command)
+        protected async Task SetCommand(string command)
         {
             var cmdStr = command;
             var cmdChar = cmdStr.ToCharArray();
@@ -65,7 +65,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             await _dataProvider.WriteMultipleRegistersAsync(CMD_ADDRESS, bCmd.ByteArrayToUshortArray(), "SetCmdFileDriver");
         }
 
-        private async Task<string[]> ReadCommandStateStrings()
+        protected async Task<string[]> ReadCommandStateStrings()
         {
             for (var i = 0; i < 4; i++)
             {
@@ -110,17 +110,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             return new string(listChar.ToArray()).Split(new[] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private async Task<ushort[]> ReadDataCommand()
-        {
-            return await this.ReadDataCommand(0x400);
-        }
-
         protected virtual async Task<ushort[]> ReadDataCommand(ushort dataLen)
-        {
-            return await this.ReadDataCommand(DATA_ADDRESS, dataLen);
-        }
-
-        protected virtual async Task<ushort[]> ReadDataCommand(ushort startAddres, ushort dataLen)
         {
             var result = await this._dataProvider.ReadHoldingResgistersAsync(DATA_ADDRESS, dataLen, "ReadDataFileDriver");
             if (result.IsSuccessful)
@@ -158,9 +148,10 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
                 throw new FileOperationException(255);
 
             await SetCommand(command);
-            await this.ReadCommandStateStrings();
 
-            if (this.LastCommandStatus != 0)
+            var states = await this.ReadCommandStateStrings();
+
+            if(CheckState(states))
             {
                 throw new FileOperationException(this.LastCommandStatus);
             }

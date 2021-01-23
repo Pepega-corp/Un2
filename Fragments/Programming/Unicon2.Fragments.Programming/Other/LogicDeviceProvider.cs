@@ -81,14 +81,14 @@ namespace Unicon2.Fragments.Programming.Other
             byte[] uncompressedLogic = new byte[0];
             if (hasFileSystem)
             {
-                var compressedLogic = new List<byte>(await this._fileDriver.ReadFile(LOGARCH_ZIP));
-                var lenght = Extensions.ToUshort(compressedLogic[compressedLogic.Count - 1], compressedLogic[compressedLogic.Count - 2]);
-                if (lenght != compressedLogic.Count - 2)
+                var compressedArchive = new List<byte>(await this._fileDriver.ReadFile(LOGARCH_ZIP));
+                var lenght = Extensions.ToUshort(compressedArchive[compressedArchive.Count - 1], compressedArchive[compressedArchive.Count - 2]);
+                                if (lenght != compressedArchive.Count - 2)
                 {
                     throw new Exception("Logic archive has invalid bytes lenght");
                 }
-                compressedLogic.RemoveRange(compressedLogic.Count-2, 2);
-                uncompressedLogic = UncompressProject(compressedLogic.ToArray());
+                compressedArchive.RemoveRange(compressedArchive.Count-2, 2);
+                uncompressedLogic = UncompressProject(compressedArchive.ToArray());
                 var archLen = uncompressedLogic.Skip(uncompressedLogic.Length - 2).ToArray()
                     .ByteArrayToUshortArray()[0];
                 if (uncompressedLogic.Length - 2 == archLen)
@@ -158,8 +158,6 @@ namespace Unicon2.Fragments.Programming.Other
         {
             var provider = this.DeviceContext.DataProviderContainer.DataProvider;
             var result = await provider.WriteSingleCoilAsync(0x0E00, true, "StartLogicProgramm");
-            //var result = await provider.WriteSingleRegisterAsync(0x0E00, 0x00FF, "StartLogicProgramm");
-            //var result = await provider.WriteMultipleRegistersAsync(0x0E00, new ushort[] { 0x00FF }, "StartLogicProgramm");
             if (!result.IsSuccessful)
             {
                 throw new Exception("Can't start logic programm");
