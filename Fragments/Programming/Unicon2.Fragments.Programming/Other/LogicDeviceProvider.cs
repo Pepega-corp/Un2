@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
-using Unicon2.Fragments.Programming.Model;
+using Unicon2.Fragments.Programming.Infrastructure.HelperClasses;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 
@@ -16,12 +13,14 @@ namespace Unicon2.Fragments.Programming.Other
     {
         private const string LOGARCH_ZIP = "logarch.zip";
         private readonly IFileDriver _fileDriver;
+        private Compressor _compressor;
 
         public DeviceContext DeviceContext { get; private set; }
 
         public LogicDeviceProvider(IFileDriver fileDriver)
         {
             this._fileDriver = fileDriver;
+            _compressor = new Compressor();
         }
 
         public void SetDeviceContext(DeviceContext deviceContext)
@@ -32,7 +31,7 @@ namespace Unicon2.Fragments.Programming.Other
 
         public async Task WriteLogicArchive(byte[] logicPjectBytes, bool hasFileSystem)
         {
-            var compressedArchive = this.CompressProject(logicPjectBytes);
+            var compressedArchive = _compressor.Compress(logicPjectBytes);
             if (hasFileSystem)
             {
                 await this._fileDriver.WriteFile(compressedArchive, LOGARCH_ZIP);
@@ -42,40 +41,6 @@ namespace Unicon2.Fragments.Programming.Other
                 
             }
         }
-
-        private byte[] CompressProject(byte[] logicArchive)
-        {
-            var compressedBytes = new List<byte>();
-
-            // create a working memory stream
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                // create a zip
-                using (ZipArchive zip = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
-                {
-                    // add the item name to the zip
-                    ZipArchiveEntry zipItem = zip.CreateEntry("logicarchive" + ProgramModel.EXTENSION);
-                    // add the item bytes to the zip entry by opening the original file and copying the bytes
-                    using (MemoryStream originalFileMemoryStream = new MemoryStream(logicArchive))
-                    {
-                        using (Stream entryStream = zipItem.Open())
-                        {
-                            originalFileMemoryStream.CopyTo(entryStream);
-                        }
-                    }
-                }
-
-                compressedBytes.AddRange(memoryStream.ToArray());
-                var archLen = (ushort)compressedBytes.Count;
-                //Add archive length
-                compressedBytes.AddRange(archLen.UshortToBytes());
-            }
-
-            return compressedBytes.ToArray();
-        }
-
-
-
         public async Task<byte[]> ReadLogicArchive(bool hasFileSystem)
         {
             byte[] uncompressedLogic = new byte[0];
@@ -88,7 +53,7 @@ namespace Unicon2.Fragments.Programming.Other
                     throw new Exception("Logic archive has invalid bytes lenght");
                 }
                 compressedArchive.RemoveRange(compressedArchive.Count-2, 2);
-                uncompressedLogic = UncompressProject(compressedArchive.ToArray());
+                uncompressedLogic =_compressor.Decompress(compressedArchive.ToArray());
                 var archLen = uncompressedLogic.Skip(uncompressedLogic.Length - 2).ToArray()
                     .ByteArrayToUshortArray()[0];
                 if (uncompressedLogic.Length - 2 == archLen)
@@ -102,29 +67,6 @@ namespace Unicon2.Fragments.Programming.Other
             }
 
             return uncompressedLogic;
-        }
-
-        public byte[] UncompressProject(byte[] compressedBytes)
-        {
-            using (MemoryStream memoryStream = new MemoryStream(compressedBytes))
-            {
-                // create a zip
-                using (ZipArchive zip = new ZipArchive(memoryStream, ZipArchiveMode.Update, true))
-                {
-                    // add the item name to the zip
-                    ZipArchiveEntry zipItem = zip.GetEntry("logicarchive" + ProgramModel.EXTENSION);
-                    // add the item bytes to the zip entry by opening the original file and copying the bytes
-                    using (MemoryStream uncompressedStream = new MemoryStream())
-                    {
-                        using (Stream entryStream = zipItem.Open())
-                        {
-                            entryStream.CopyTo(uncompressedStream);
-                        }
-
-                        return uncompressedStream.ToArray();
-                    }
-                }
-            }
         }
 
         public async Task WriteLogicProgrammBin(ushort[] logbin)

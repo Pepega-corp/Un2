@@ -39,6 +39,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelperClasses\Compressor.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Enums\ElementType.cs" />
     <Compile Include="Enums\Functional.cs" />
