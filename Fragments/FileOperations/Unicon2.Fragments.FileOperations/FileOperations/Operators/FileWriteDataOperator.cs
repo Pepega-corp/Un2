@@ -11,35 +11,29 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
         private const int MAX_LEN = 128; //max data len is 246 bytes
         //Need to create writing 2048 bytes for new devices
 
-        public async Task WriteData(int descriptor, byte[] fileData)
+        public async Task WriteData(int descriptor, byte[] fileData, int dataLength = MAX_LEN)
         {
-            //string file = string.Empty;
-            //foreach (var b in fileData)
-            //{
-            //    file += b.ToString("d") + "\n";
-            //}
-            //File.WriteAllText("D://1.txt", file);
-            var count = fileData.Length / MAX_LEN;
-            var residue = fileData.Length % MAX_LEN;
+            var count = fileData.Length / dataLength;
+            var residue = fileData.Length % dataLength;
             for (var counter = 0; counter < count; counter++)
             {
-                byte[] writeData = fileData.Skip(MAX_LEN * counter).Take(MAX_LEN).ToArray();
-                await Write(descriptor, writeData);
+                byte[] writeData = fileData.Skip(dataLength * counter).Take(dataLength).ToArray();
+                await Write(descriptor, writeData, dataLength);
             }
 
             if (residue != 0)
             {
-                var writeData = fileData.Skip(MAX_LEN * count).Take(residue).ToArray();
-                await Write(descriptor, writeData);
+                var writeData = fileData.Skip(dataLength * count).Take(residue).ToArray();
+                await Write(descriptor, writeData, dataLength);
             }
         }
 
-        private async Task Write(int descriptor, byte[] writeData)
+        private async Task Write(int descriptor, byte[] writeData, int dataLength)
         {
             var crc = CRC16.CalcCrcFast(writeData, writeData.Length);
             byte[] crcBytes = crc.UshortToBytes();
             crc = Extensions.TwoBytesToUshort(crcBytes[1], crcBytes[0]);
-            await WriteData(writeData, $"FILEWRITE {descriptor};{MAX_LEN};{crc}");
+            await WriteData(writeData, $"FILEWRITE {descriptor};{dataLength};{crc}");
         }
     }
 }

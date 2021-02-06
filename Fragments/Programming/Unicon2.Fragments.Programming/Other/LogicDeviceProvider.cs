@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.Programming.Infrastructure.HelperClasses;
-using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.Programming.Other
@@ -46,20 +44,8 @@ namespace Unicon2.Fragments.Programming.Other
             byte[] uncompressedLogic = new byte[0];
             if (hasFileSystem)
             {
-                var compressedArchive = new List<byte>(await this._fileDriver.ReadFile(LOGARCH_ZIP));
-                var lenght = Extensions.ToUshort(compressedArchive[compressedArchive.Count - 1], compressedArchive[compressedArchive.Count - 2]);
-                                if (lenght != compressedArchive.Count - 2)
-                {
-                    throw new Exception("Logic archive has invalid bytes lenght");
-                }
-                compressedArchive.RemoveRange(compressedArchive.Count-2, 2);
-                uncompressedLogic =_compressor.Decompress(compressedArchive.ToArray());
-                var archLen = uncompressedLogic.Skip(uncompressedLogic.Length - 2).ToArray()
-                    .ByteArrayToUshortArray()[0];
-                if (uncompressedLogic.Length - 2 == archLen)
-                {
-                    return uncompressedLogic;
-                }
+                var compressedArchive = await this._fileDriver.ReadFile(LOGARCH_ZIP);
+                uncompressedLogic =_compressor.Decompress(compressedArchive);
             }
             else
             {

@@ -87,7 +87,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             if (int.TryParse(states[1], out var res))
             {
                 LastCommandStatus = res;
-                return true;
+                return LastCommandStatus == 0;
             }
 
             this.LastCommandStatus = 255;
@@ -143,18 +143,13 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
         {
             var result = await this._dataProvider.WriteMultipleRegistersAsync(DATA_ADDRESS,
                 writeData.ByteArrayToUshortArray(), "WriteDataFileDriver");
-
             if(!result.IsSuccessful)
                 throw new FileOperationException(255);
-
             await SetCommand(command);
-
             var states = await this.ReadCommandStateStrings();
-
             if(CheckState(states))
-            {
                 throw new FileOperationException(this.LastCommandStatus);
-            }
+            
         }
     }
 }

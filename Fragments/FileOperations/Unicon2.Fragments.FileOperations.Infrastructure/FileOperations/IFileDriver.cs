@@ -9,7 +9,5 @@ namespace Unicon2.Fragments.FileOperations.Infrastructure.FileOperations
         Task WriteFile(byte[] fileData, string fileName);
         Task<bool> CreateDirectory(string directoryPath);
         Task<bool> DeleteFile(string fileName);
-
-        //Task<List<string>> GetDirectoryByPath(string directoryPath);
     }
 }
