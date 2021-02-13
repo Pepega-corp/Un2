@@ -147,7 +147,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
                 throw new FileOperationException(255);
             await SetCommand(command);
             var states = await this.ReadCommandStateStrings();
-            if(CheckState(states))
+            if(!CheckState(states))
                 throw new FileOperationException(this.LastCommandStatus);
             
         }

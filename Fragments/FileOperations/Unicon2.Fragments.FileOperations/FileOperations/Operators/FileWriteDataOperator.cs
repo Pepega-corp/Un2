@@ -24,7 +24,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
             if (residue != 0)
             {
                 var writeData = fileData.Skip(dataLength * count).Take(residue).ToArray();
-                await Write(descriptor, writeData, dataLength);
+                await Write(descriptor, writeData, residue);
             }
         }
 
