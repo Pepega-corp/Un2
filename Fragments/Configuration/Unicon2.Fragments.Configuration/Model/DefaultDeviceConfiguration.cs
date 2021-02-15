@@ -14,12 +14,11 @@ namespace Unicon2.Fragments.Configuration.Model
         public DefaultDeviceConfiguration()
         {
             RootConfigurationItemList = new List<IConfigurationItem>();
-            FragmentSettings=new DefaultFragmentSettings();
+            FragmentSettings = new DefaultFragmentSettings();
         }
 
         public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
-        [JsonProperty]
-        public List<IConfigurationItem> RootConfigurationItemList { get; set; }
+        [JsonProperty] public List<IConfigurationItem> RootConfigurationItemList { get; set; }
 
         public bool CheckEquality(IDeviceConfiguration deviceConfigurationToCheck)
         {
@@ -45,15 +44,18 @@ namespace Unicon2.Fragments.Configuration.Model
 
             return true;
         }
-        [JsonProperty]
-        public IFragmentSettings FragmentSettings { get; set; }
-       
+
+        [JsonProperty] public IConfigurationBaseValues BaseValues { get; set; }
+
+        [JsonProperty] public IFragmentSettings FragmentSettings { get; set; }
+
         protected override void OnDisposing()
         {
             foreach (IConfigurationItem configurationItem in RootConfigurationItemList)
             {
                 configurationItem.Dispose();
             }
+
             base.OnDisposing();
         }
 

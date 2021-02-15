@@ -113,14 +113,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public void SaveDevice(string path, bool isDefaultSaving = true)
         {
-            _device.Name = DeviceName;
-            _device.DeviceFragments = new List<IDeviceFragment>();
-            foreach (IFragmentEditorViewModel fragmentEditorViewModel in FragmentEditorViewModels)
-            {
-                (_device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.BuildDeviceFragment());
-            }
-
-            _device.DeviceSharedResources = _sharedResourcesGlobalViewModel.GetSharedResources();
+     
             if (isDefaultSaving)
             {
 
@@ -135,13 +128,26 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             try
             {
 
-                _serializerService.SerializeInFile(_device, path);
+                _serializerService.SerializeInFile(GetDevice(), path);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public IDevice GetDevice()
+        {
+            _device.Name = DeviceName;
+            _device.DeviceFragments = new List<IDeviceFragment>();
+            foreach (IFragmentEditorViewModel fragmentEditorViewModel in FragmentEditorViewModels)
+            {
+                (_device.DeviceFragments as List<IDeviceFragment>).Add(fragmentEditorViewModel.BuildDeviceFragment());
+            }
+
+            _device.DeviceSharedResources = _sharedResourcesGlobalViewModel.GetSharedResources();
+            return _device;
         }
 
   

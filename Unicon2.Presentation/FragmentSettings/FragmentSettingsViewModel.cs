@@ -30,6 +30,15 @@ namespace Unicon2.Presentation.FragmentSettings
             AddSelectedSettingCommand = new RelayCommand(OnAddSelectedSettingExecute);
             _configurationSettings =
             _container.Resolve<IFragmentSettings>();
+            ConfigurationSettingViewModelCollection.Clear();
+            _availableConfigurationSettings = new List<IFragmentSetting>(_container.ResolveAll<IFragmentSetting>());
+            foreach (IFragmentSetting configurationSetting in _availableConfigurationSettings)
+            {
+                IFragmentSettingViewModel configurationSettingViewModel =
+                    _container.Resolve<IFragmentSettingViewModel>(configurationSetting.StrongName +
+                                                                  ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                ConfigurationSettingViewModelCollection.Add(configurationSettingViewModel);
+            }
         }
 
         private void OnAddSelectedSettingExecute()
@@ -94,7 +103,7 @@ namespace Unicon2.Presentation.FragmentSettings
                 {
                     IFragmentSettingViewModel configurationSettingViewModel =
                         _container.Resolve<IFragmentSettingViewModel>(configurationSetting.StrongName +
-                        ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+                                                                      ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
                     ConfigurationSettingViewModelCollection.Add(configurationSettingViewModel);
                 }
                 foreach (IFragmentSetting configurationSetting in (value as IFragmentSettings)

@@ -14,6 +14,8 @@ namespace Unicon2.Formatting.Infrastructure.ViewModel
         bool IsKeysAreNumbersOfBits { get; set; }
         bool UseDefaultMessage { get; set; }
         string DefaultMessage { get; set; }
+        ICommand ImportFromExcelCommand { get; }
+        ICommand ExportToExcelCommand { get; }
 
     }
 }

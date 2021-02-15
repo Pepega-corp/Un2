@@ -21,6 +21,7 @@ namespace Unicon2.Services
         private readonly ILocalizerService _localizerService;
         private object _bufferObject;
         private ProgressDialogController _progressDialogController;
+        private object _globalDialogContext;
 
         public ApplicationGlobalCommands(ITypesContainer container, 
             IDialogCoordinator dialogCoordinator, 
@@ -86,9 +87,14 @@ namespace Unicon2.Services
             return false;
         }
 
-        public bool AskUserGlobal(object context,string message, string title)
+        public bool AskUserGlobal(string message, string title,object context=null)
         {
-            if (_dialogCoordinator.ShowModalMessageExternal(context, title,
+            var contextToUse = _globalDialogContext;
+            if (context != null)
+            {
+                contextToUse = context;
+            }
+            if (_dialogCoordinator.ShowModalMessageExternal(contextToUse, title,
                 message,
                 MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
             {
@@ -207,5 +213,9 @@ namespace Unicon2.Services
         }
 
         public Action ShellLoaded { get; set; }
+        public void SetGlobalDialogContext(object context)
+        {
+            _globalDialogContext = context;
+        }
     }
 }

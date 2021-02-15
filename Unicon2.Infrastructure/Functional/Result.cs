@@ -18,6 +18,12 @@ namespace Unicon2.Infrastructure.Functional
             IsSuccess = isSuccess;
         }
 
+        private Result(Exception exception)
+        {
+            Exception = exception;
+            IsSuccess = false;
+        }
+
 
         public static Result<T> Create(T item, bool isSuccess)
         {
@@ -28,7 +34,10 @@ namespace Unicon2.Infrastructure.Functional
         {
             return new Result<T>(isSuccess);
         }
-
+        public static Result<T> CreateWithException(Exception exception)
+        {
+            return new Result<T>(exception);
+        }
         public static Result<T> Create(Func<T> creator, bool isSuccess)
         {
             return isSuccess ? new Result<T>(creator(), true) : new Result<T>(false);
@@ -53,6 +62,15 @@ namespace Unicon2.Infrastructure.Functional
             }
 
             return Item;
+        }
+        
+        public Result<TTo> OnSuccess<TTo>(Func<T,Result<TTo>> onSuccessFunc)
+        {
+            if (IsSuccess)
+            {
+                return onSuccessFunc(Item);
+            }
+            return new Result<TTo>(false);
         }
         public async Task<T> OnSuccessAsync(Func<T,Task<T>> onSuccessFunc)
         {

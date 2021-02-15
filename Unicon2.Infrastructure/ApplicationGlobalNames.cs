@@ -7,19 +7,14 @@
     {
         public static class UiGroupingStrings
         {
-            /// <summary>
-            ///    строка file
-            /// </summary>
+           
             public const string FILE_STRING_KEY = "File";
-            /// <summary>
-            ///   строка, обозначающая устройство
-            /// </summary>
+           
             public const string DEVICE_STRING_KEY = "Device";
 
-            /// <summary>
-            ///   строка, обозначающая устройство
-            /// </summary>
             public const string TREE_STRING_KEY = "Tree";
+           
+            public const string BASE_VALUES_STRING_KEY = "BaseValues";
         }
 
 
@@ -159,6 +154,8 @@
             ///  строка отмена
             /// </summary>
             public const string CANCEL = "Cancel";
+
+            public const string ARE_YOU_SURE_TO_APPLY_VALUES = "AreYouSureToApplyValues";
         }
 
 
@@ -233,6 +230,7 @@
             /// сообщение о несоответствии значению его пределов
             /// </summary> 
             public static string VALUE_OUT_OF_RANGE_MESSAGE_KEY = "ValueOutOfRange";
+            public static string VALUES_MUST_BE_FILLED = "ValuesMustBeFilled";
 
             /// <summary>
             /// сообщение о несоответствии значению его пределов

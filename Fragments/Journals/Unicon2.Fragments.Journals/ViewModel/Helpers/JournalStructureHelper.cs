@@ -24,52 +24,46 @@ namespace Unicon2.Fragments.Journals.ViewModel.Helpers
         private static bool CheckRecordByTemplate(IRecordTemplate recordTemplate, IJournalRecord journalRecord)
         {
             var recordTemplateCounter = 0;
-
             foreach (var journalParameter in recordTemplate.JournalParameters)
             {
                 var res = CheckRecordByParameter(journalRecord, journalParameter, recordTemplateCounter);
-                recordTemplateCounter = res.Item2++;
+                recordTemplateCounter = res.Item2;
                 if (!res.Item1)
                 {
                     return false;
                 }
             }
 
+            if (journalRecord.FormattedValues.Count != recordTemplateCounter)
+            {
+                return false;
+            }
             return true;
         }
-        private static (bool, int) CheckRecordByParameter(IJournalRecord journalRecord, IJournalParameter journalParameter, int recordTemplateCounterInitial)
-        {  
-            var recordTemplateCounter = recordTemplateCounterInitial;
-
+        private static (bool, int) CheckRecordByParameter(IJournalRecord journalRecord, IJournalParameter journalParameter, int recordTemplateCounter)
+        {
             if (journalParameter is IComplexJournalParameter complexJournalParameter)
             {
                 foreach (var childJournalParameter in complexJournalParameter.ChildJournalParameters)
                 {
-                    if (!CheckRecordByParameter(journalRecord, childJournalParameter, ++recordTemplateCounter).Item1)
+                    var res = CheckRecordByParameter(journalRecord, childJournalParameter, recordTemplateCounter);
+                    if (!res.Item1)
                     {
-                        return (false, recordTemplateCounter);
+                        return (false, res.Item2);
                     }
-                } 
+                    recordTemplateCounter = res.Item2;
+                }
+                return (true, recordTemplateCounter);
             }
 
             if (journalRecord.FormattedValues.Count <= recordTemplateCounter)
             {
-                return (false, recordTemplateCounter);
+                return (false, ++recordTemplateCounter);
             }
-
-            try
+            else
             {
-
-           
-            var value = journalRecord.FormattedValues[recordTemplateCounter];
- }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
+                return (true, ++recordTemplateCounter);
             }
-            
-            return (true, recordTemplateCounter);
         }
     }
 }

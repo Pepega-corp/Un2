@@ -15,7 +15,7 @@ namespace Unicon2.Infrastructure
         void ShowWindowModal(Func<Window> getWindow, object dataContext, object _owner);
         void ShowWindowModal(Func<Window> getWindow, object dataContext, bool isTopmost);
         bool AskUserToDeleteSelectedGlobal(object context);
-        bool AskUserGlobal(object context,string message, string title);
+        bool AskUserGlobal(string message, string title,object context=null);
 
         void ShowErrorMessage(string errorKey, object context);
         void SetToBuffer(object bufferObject);
@@ -28,5 +28,6 @@ namespace Unicon2.Infrastructure
         Maybe<string> SelectFilePathToSave(string windowTitle, string defaultExtension, string filter,
             string initialName);
         Action ShellLoaded { get; set; }
+        void SetGlobalDialogContext(object context);
     }
 }

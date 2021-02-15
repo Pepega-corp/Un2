@@ -1,0 +1,22 @@
+<Window x:Class="Unicon2.Formatting.Editor.Views.ExcelListSelectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:viewModels="clr-namespace:Unicon2.Formatting.Editor.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:ExcelListSelectWindowViewModel}"
+        Title="Excel" Height="250" Width="400"
+       Name="ExcelListSelectWindow1" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{lex:Loc ExcelListSelectWindowDescription}" TextWrapping="Wrap"></TextBlock>
+        <ComboBox Grid.Row="1" Margin="5" ItemsSource="{Binding ExcelListsAvailable}" SelectedItem="{Binding SelectedExcelList}"></ComboBox>
+        <Button Grid.Row="2" Margin="5" MinWidth="70" Content="{lex:Loc Ok}" HorizontalAlignment="Right" CommandParameter="{Binding ElementName=ExcelListSelectWindow1}" Command="{Binding OnOk}"></Button>
+    </Grid>
+</Window>

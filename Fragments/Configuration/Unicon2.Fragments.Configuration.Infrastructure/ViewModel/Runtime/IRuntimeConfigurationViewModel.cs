@@ -10,5 +10,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime
 
         ObservableCollection<IRuntimeConfigurationItemViewModel> RootConfigurationItemViewModels { get; set; }
         ObservableCollection<IRuntimeConfigurationItemViewModel> AllRows { get; set; }
+        IRuntimeBaseValuesViewModel BaseValuesViewModel { get; set; }
     }
 }

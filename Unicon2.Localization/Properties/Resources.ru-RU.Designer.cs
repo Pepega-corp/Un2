@@ -583,6 +583,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы уверены что хотите применить значения?.
+        /// </summary>
+        public static string AreYouSureToApplyValues {
+            get {
+                return ResourceManager.GetString("AreYouSureToApplyValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Расставить биты по порядку.
         /// </summary>
         public static string ArrangeBitsInOrder {
@@ -660,6 +669,33 @@ namespace Unicon2.Localization.Properties {
         public static string BaseTheme {
             get {
                 return ResourceManager.GetString("BaseTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Уставки заполнены значениями.
+        /// </summary>
+        public static string BaseValuesFilled {
+            get {
+                return ResourceManager.GetString("BaseValuesFilled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Базовые уставки для конфигурации. Каждый элемент добавит кнопку во вкладке конфигурации при подключении устройства. Файл базовой уставки можно взять из сохраненной конфигурации (.cnf файл).
+        /// </summary>
+        public static string BaseValuesWindowDescription {
+            get {
+                return ResourceManager.GetString("BaseValuesWindowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Базовые Уставки.
+        /// </summary>
+        public static string BasicValues {
+            get {
+                return ResourceManager.GetString("BasicValues", resourceCulture);
             }
         }
         
@@ -1726,6 +1762,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to В загружаемом файле больше одного листа. Пожалуйста, выберите лист из списка для импорта..
+        /// </summary>
+        public static string ExcelListSelectWindowDescription {
+            get {
+                return ResourceManager.GetString("ExcelListSelectWindowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выполнить обмен.
         /// </summary>
         public static string ExecuteQuery {
@@ -1776,6 +1821,15 @@ namespace Unicon2.Localization.Properties {
         public static string ExportConfiguration {
             get {
                 return ResourceManager.GetString("ExportConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Экспорт в Excel.
+        /// </summary>
+        public static string ExportToExcel {
+            get {
+                return ResourceManager.GetString("ExportToExcel", resourceCulture);
             }
         }
         
@@ -2073,6 +2127,15 @@ namespace Unicon2.Localization.Properties {
         public static string IllegalFunction {
             get {
                 return ResourceManager.GetString("IllegalFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Импорт из Excel.
+        /// </summary>
+        public static string ImportFromExcel {
+            get {
+                return ResourceManager.GetString("ImportFromExcel", resourceCulture);
             }
         }
         
@@ -4107,6 +4170,15 @@ namespace Unicon2.Localization.Properties {
         public static string ValueSignatures {
             get {
                 return ResourceManager.GetString("ValueSignatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Значения должны быть заполнены.
+        /// </summary>
+        public static string ValuesMustBeFilled {
+            get {
+                return ResourceManager.GetString("ValuesMustBeFilled", resourceCulture);
             }
         }
         

@@ -583,6 +583,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure to apply values.
+        /// </summary>
+        public static string AreYouSureToApplyValues {
+            get {
+                return ResourceManager.GetString("AreYouSureToApplyValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Arrange Bits In Order.
         /// </summary>
         public static string ArrangeBitsInOrder {
@@ -660,6 +669,33 @@ namespace Unicon2.Localization.Properties {
         public static string BaseTheme {
             get {
                 return ResourceManager.GetString("BaseTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @Base values filled.
+        /// </summary>
+        public static string BaseValuesFilled {
+            get {
+                return ResourceManager.GetString("BaseValuesFilled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base values for configuration. Every item will add new button in configuration tab. You can add base values from saved configuration values..
+        /// </summary>
+        public static string BaseValuesWindowDescription {
+            get {
+                return ResourceManager.GetString("BaseValuesWindowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Basic Values.
+        /// </summary>
+        public static string BasicValues {
+            get {
+                return ResourceManager.GetString("BasicValues", resourceCulture);
             }
         }
         
@@ -1726,6 +1762,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are more than one list in loaded excel file. Please, select list that will be a source for import..
+        /// </summary>
+        public static string ExcelListSelectWindowDescription {
+            get {
+                return ResourceManager.GetString("ExcelListSelectWindowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Execute query.
         /// </summary>
         public static string ExecuteQuery {
@@ -1776,6 +1821,15 @@ namespace Unicon2.Localization.Properties {
         public static string ExportConfiguration {
             get {
                 return ResourceManager.GetString("ExportConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export to excel.
+        /// </summary>
+        public static string ExportToExcel {
+            get {
+                return ResourceManager.GetString("ExportToExcel", resourceCulture);
             }
         }
         
@@ -2064,6 +2118,15 @@ namespace Unicon2.Localization.Properties {
         public static string IllegalFunction {
             get {
                 return ResourceManager.GetString("IllegalFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import from Excel.
+        /// </summary>
+        public static string ImportFromExcel {
+            get {
+                return ResourceManager.GetString("ImportFromExcel", resourceCulture);
             }
         }
         
@@ -4107,6 +4170,15 @@ namespace Unicon2.Localization.Properties {
         public static string ValueSignatures {
             get {
                 return ResourceManager.GetString("ValueSignatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Values must be filled.
+        /// </summary>
+        public static string ValuesMustBeFilled {
+            get {
+                return ResourceManager.GetString("ValuesMustBeFilled", resourceCulture);
             }
         }
         

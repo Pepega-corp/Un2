@@ -1545,4 +1545,28 @@
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>Export to excel</value>
+  </data>
+  <data name="ImportFromExcel" xml:space="preserve">
+    <value>Import from Excel</value>
+  </data>
+  <data name="ExcelListSelectWindowDescription" xml:space="preserve">
+    <value>There are more than one list in loaded excel file. Please, select list that will be a source for import.</value>
+  </data>
+  <data name="BasicValues" xml:space="preserve">
+    <value>Basic Values</value>
+  </data>
+  <data name="BaseValuesWindowDescription" xml:space="preserve">
+    <value>Base values for configuration. Every item will add new button in configuration tab. You can add base values from saved configuration values.</value>
+  </data>
+  <data name="BaseValuesFilled" xml:space="preserve">
+    <value>@Base values filled</value>
+  </data>
+  <data name="ValuesMustBeFilled" xml:space="preserve">
+    <value>Values must be filled</value>
+  </data>
+  <data name="AreYouSureToApplyValues" xml:space="preserve">
+    <value>Are you sure to apply values</value>
+  </data>
 </root>

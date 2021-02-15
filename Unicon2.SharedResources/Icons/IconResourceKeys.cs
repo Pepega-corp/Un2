@@ -20,6 +20,7 @@
         public static string IconPrintText = "appbar_printer_text";
         public static string IconMagnifyAdd = "appbar_magnify_add";
         public static string IconMagnifyMinus = "appbar_magnify_minus";
+        public static string IconBaseValuesTransfer = "appbar_calendar_tomorrow";
 
     }
 }

@@ -1,12 +1,17 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
-using GongSolutions.Wpf.DragDrop;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
+using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Infrastructure.ViewModel;
+using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Commands;
+using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
+
 
 namespace Unicon2.Formatting.Editor.ViewModels
 {
@@ -27,6 +32,37 @@ namespace Unicon2.Formatting.Editor.ViewModels
             DeleteKeyValuePairCommand = new RelayCommand(OnDeleteKeyValuePairExecute, CanExecuteDeleteKeyValuePair);
             ImportFromSharedTablesCommand = new RelayCommand(OnExecuteImportFromSharedTables);
            // this._validator = new DictionaryMatchingFormatterValidator(this._container.Resolve<ILocalizerService>());
+           ImportFromExcelCommand = new RelayCommand(OnImportFromExcel);
+           ExportToExcelCommand = new RelayCommand(OnExportToExcel);
+        }
+
+        private void OnImportFromExcel()
+        {
+            var dictionaryRes = StaticContainer.Container.Resolve<IExcelExportService>()
+                .GetDictionaryFromFile();
+            dictionaryRes.OnSuccess(dictionary =>
+            {
+                KeyValuesDictionary.Clear();
+                foreach (KeyValuePair<ushort, string> kvp in dictionary)
+                {
+                    KeyValuesDictionary.Add(new BindableKeyValuePair<ushort, string>(kvp.Key, kvp.Value));
+                }
+            });
+            if (dictionaryRes.Exception != null)
+            {
+                MessageBox.Show(dictionaryRes.Exception.Message,"Excel");
+            }
+        }
+
+        private async void OnExportToExcel()
+        {
+            
+            var dictionary = new Dictionary<ushort, string>();
+            foreach (BindableKeyValuePair<ushort, string> bkvp in KeyValuesDictionary)
+            {
+                dictionary.Add(bkvp.Key, bkvp.Value);
+            }
+            await StaticContainer.Container.Resolve<IExcelExportService>().SaveDictionaryToFile(dictionary, "dict");
         }
 
         private void OnExecuteImportFromSharedTables()
@@ -132,6 +168,9 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public ICommand ImportFromExcelCommand { get; }
+        public ICommand ExportToExcelCommand { get; }
 
         public BindableKeyValuePair<ushort, string> SelectedKeyValuePair
         {

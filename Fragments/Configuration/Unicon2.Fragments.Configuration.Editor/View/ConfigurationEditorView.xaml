@@ -48,11 +48,23 @@
                         Command="{Binding AddRootElementCommand}"
                         Content="{lex:Loc AddElementRoot}"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <Button
-                        Margin="3"
-                        Command="{Binding OpenConfigurationSettingsCommand}"
-                        Content="{lex:Loc Settings}"
-                        Style="{DynamicResource UniconButtonStyle}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Margin="3"
+                            Command="{Binding OpenConfigurationSettingsCommand}"
+                            Content="{lex:Loc Settings}"
+                            Style="{DynamicResource UniconButtonStyle}" />    
+                        <Button
+                            Grid.Column="1"
+                            Margin="3"
+                            Command="{Binding OpenBasicValuesCommand}"
+                            Content="{lex:Loc BasicValues}"
+                            Style="{DynamicResource UniconButtonStyle}" />  
+                    </Grid>
                 </StackPanel>
             </GroupBox>
 

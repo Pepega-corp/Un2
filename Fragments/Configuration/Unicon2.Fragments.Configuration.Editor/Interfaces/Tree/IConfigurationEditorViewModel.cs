@@ -27,5 +27,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
         ICommand EditDescriptionCommand { get; }
         ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollection { get; set; }
         IFragmentSettingsViewModel FragmentSettingsViewModel { get; }
+        IBaseValuesViewModel BaseValuesViewModel { get; }
     }
 }

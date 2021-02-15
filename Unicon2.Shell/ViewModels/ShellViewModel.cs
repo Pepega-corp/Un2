@@ -107,6 +107,7 @@ namespace Unicon2.Shell.ViewModels
 
             OnLoadedCommand = new RelayCommand(OnLoadedExecute);
             _uniconProjectService.SetDialogContext(this);
+            _applicationGlobalCommands.SetGlobalDialogContext(this);
         }
 
         private void OnNavigateToWebSyncViewExecute()
@@ -371,7 +372,7 @@ namespace Unicon2.Shell.ViewModels
 		        case ItemModifyingTypeEnum.Add:
                     if (connectableItemChangingContext.Connectable != null)
                     {
-                        var devicevm = _deviceViewModelFactory.CreateDeviceViewModel(this,
+                        var devicevm = _deviceViewModelFactory.CreateDeviceViewModel(
                             connectableItemChangingContext.Connectable as IDevice);
                         ProjectBrowserViewModel.DeviceViewModels.Add(devicevm);
 

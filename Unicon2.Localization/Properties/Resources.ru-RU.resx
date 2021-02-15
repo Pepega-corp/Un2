@@ -1545,4 +1545,28 @@
   <data name="Warning" xml:space="preserve">
     <value>Предупреждение</value>
   </data>
+  <data name="ExportToExcel" xml:space="preserve">
+    <value>Экспорт в Excel</value>
+  </data>
+  <data name="ImportFromExcel" xml:space="preserve">
+    <value>Импорт из Excel</value>
+  </data>
+  <data name="ExcelListSelectWindowDescription" xml:space="preserve">
+    <value>В загружаемом файле больше одного листа. Пожалуйста, выберите лист из списка для импорта.</value>
+  </data>
+  <data name="BasicValues" xml:space="preserve">
+    <value>Базовые Уставки</value>
+  </data>
+  <data name="BaseValuesWindowDescription" xml:space="preserve">
+    <value>Базовые уставки для конфигурации. Каждый элемент добавит кнопку во вкладке конфигурации при подключении устройства. Файл базовой уставки можно взять из сохраненной конфигурации (.cnf файл)</value>
+  </data>
+  <data name="BaseValuesFilled" xml:space="preserve">
+    <value>Уставки заполнены значениями</value>
+  </data>
+  <data name="ValuesMustBeFilled" xml:space="preserve">
+    <value>Значения должны быть заполнены</value>
+  </data>
+  <data name="AreYouSureToApplyValues" xml:space="preserve">
+    <value>Вы уверены что хотите применить значения?</value>
+  </data>
 </root>

@@ -46,6 +46,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
             container.Register<ResultFillHelper>();
             container.Register<ConditionFillHelper>();
             container.Register<FilterFillHelper>();
+            container.Register<BaseValuesFillHelper>();
 
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",

@@ -122,8 +122,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
             fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteExportConfiguration);
             fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
-
-
             fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
             // // группа дерево
@@ -146,6 +144,28 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
 
             //fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+
+            // группа базовые уставки
+            if (runtimeConfigurationViewModel.BaseValuesViewModel.BaseValueViewModels.Any())
+            {       
+                fragmentOptionGroupViewModel = fragmentOptionGroupViewModelGettingFunc();
+
+                fragmentOptionGroupViewModel.NameKey = ApplicationGlobalNames.UiGroupingStrings.BASE_VALUES_STRING_KEY;
+                fragmentOptionGroupViewModel.FragmentOptionCommandViewModels =
+                    new List<IFragmentOptionCommandViewModel>();
+                foreach (var baseValueViewModel in runtimeConfigurationViewModel.BaseValuesViewModel.BaseValueViewModels
+                )
+                {
+                    fragmentOptionCommandViewModel = fragmentOptionCommandViewModelGettingFunc();
+                    fragmentOptionCommandViewModel.TitleKey = baseValueViewModel.Name;
+                    fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconBaseValuesTransfer;
+                    fragmentOptionCommandViewModel.OptionCommand = baseValueViewModel.OnBaseValueApply;
+                    fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+                }
+
+                fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+            }
+
 
             return fragmentOptionsViewModel;
         }
@@ -278,7 +298,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
 
         public void OnExecuteLoadConfiguration()
         {
-           
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
             ofd.Filter = " CNF файл (*.cnf)|*.cnf" + "|Все файлы (*.*)|*.* ";
@@ -294,7 +313,6 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
                     _runtimeConfigurationViewModel.DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
                         address, 1, MemoryKind.UshortMemory);
                 }
-
             }
         }
 

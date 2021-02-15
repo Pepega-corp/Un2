@@ -1,6 +1,7 @@
 ﻿using Unicon2.Formatting.Factories;
 using Unicon2.Formatting.Infrastructure.Factories;
 using Unicon2.Formatting.Infrastructure.Keys;
+using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Model;
 using Unicon2.Formatting.Services;
 using Unicon2.Infrastructure.Interfaces;
@@ -28,7 +29,6 @@ namespace Unicon2.Formatting.Module
             container.Register(typeof(IUshortsFormatter), typeof(DefaultBitMaskFormatter),
                 StringKeys.DEFAULT_BIT_MASK_FORMATTER);
             container.Register(typeof(IUshortsFormatter), typeof(StringFormatter1251), StringKeys.STRING_FORMATTER1251);
-            container.Register(typeof(IFormatterFactory), typeof(FormatterFactory));
             container.Register(typeof(IFormattingService), typeof(FormattingService), true);
 
             //ISerializerService serializerService = container.Resolve<ISerializerService>();

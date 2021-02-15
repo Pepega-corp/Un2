@@ -25,11 +25,12 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.ViewModel
 {
-	public class RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel,
+	public class   RuntimeConfigurationViewModel : ViewModelBase, IRuntimeConfigurationViewModel,
 		IFragmentConnectionChangedListener, IFragmentOpenedListener, IFragmentFileExtension
 	{
 		private readonly ITypesContainer _container;
 		private readonly IApplicationSettingsService _applicationSettingsService;
+		private readonly BaseValuesViewModelFactory _baseValuesViewModelFactory;
 
 		private ObservableCollection<IRuntimeConfigurationItemViewModel> _allRows;
 		private IFragmentOptionsViewModel _fragmentOptionsViewModel;
@@ -40,10 +41,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 		private IDeviceConfiguration _deviceConfiguration;
 		private ConfigurationOptionsHelper _configurationOptionsHelper;
 
-		public RuntimeConfigurationViewModel(ITypesContainer container, IApplicationSettingsService applicationSettingsService)
+		public RuntimeConfigurationViewModel(ITypesContainer container,
+			IApplicationSettingsService applicationSettingsService,
+			BaseValuesViewModelFactory baseValuesViewModelFactory)
 		{
 			_container = container;
 			_applicationSettingsService = applicationSettingsService;
+			_baseValuesViewModelFactory = baseValuesViewModelFactory;
 
 			AllRows = new ObservableCollection<IRuntimeConfigurationItemViewModel>();
 			MainRows = new ObservableCollection<MainConfigItemViewModel>();
@@ -143,6 +147,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			}
 		}
 
+		public IRuntimeBaseValuesViewModel BaseValuesViewModel { get; set; }
+
 		public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.RUNTIME_CONFIGURATION_VIEWMODEL;
 
 		public string NameForUiKey => _nameForUiKey;
@@ -207,7 +213,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 						.OnAddingNeeded(RootConfigurationItemViewModels.Add);
 				}
 			}
-
+			BaseValuesViewModel = _baseValuesViewModelFactory.CreateRuntimeBaseValuesViewModel(deviceConfiguration.BaseValues,DeviceContext);
 			AllRows.AddCollection(RootConfigurationItemViewModels);
 			_configurationOptionsHelper = new ConfigurationOptionsHelper();
 			FragmentOptionsViewModel =

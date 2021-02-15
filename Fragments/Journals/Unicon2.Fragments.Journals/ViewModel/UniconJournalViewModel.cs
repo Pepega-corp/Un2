@@ -169,7 +169,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
 					.DeserializeFromFile<IUniconJournal>(info.FullName);
 				if (!JournalStructureHelper.IsJournalStructureSimilar(_uniconJournal, loadedJournal))
 				{
-					if (!_applicationGlobalCommands.AskUserGlobal(this,
+					if (!_applicationGlobalCommands.AskUserGlobal(
 						_localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
 							.JOURNAL_STRUCTURE_WARNING_MESSAGE),
 						_localizerService.GetLocalizedString("Warning")))

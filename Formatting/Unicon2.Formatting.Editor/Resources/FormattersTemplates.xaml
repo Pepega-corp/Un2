@@ -164,6 +164,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock
                 Grid.Row="0"
@@ -228,6 +229,18 @@
                     Margin="100,0,0,0"
                     IsEnabled="{Binding UseDefaultMessage}"
                     Text="{Binding DefaultMessage}" />
+            </StackPanel>
+            <StackPanel Grid.Row="6" Orientation="Horizontal">
+                <Button
+                    Margin="10"
+                    Command="{Binding ImportFromExcelCommand}"
+                    Content="{lex:Loc ImportFromExcel}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+                <Button
+                    Margin="10"
+                    Command="{Binding ExportToExcelCommand}"
+                    Content="{lex:Loc ExportToExcel}"
+                    Style="{DynamicResource UniconButtonStyle}" />
             </StackPanel>
         </Grid>
     </DataTemplate>

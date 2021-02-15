@@ -60,6 +60,7 @@
     <Compile Include="StructItemsInterfaces\Filters\IFilter.cs" />
     <Compile Include="StructItemsInterfaces\Filters\IGroupFilterInfo.cs" />
     <Compile Include="StructItemsInterfaces\IAppointableMatrix.cs" />
+    <Compile Include="StructItemsInterfaces\IConfigurationBaseValues.cs" />
     <Compile Include="StructItemsInterfaces\IGroupWithReiterationInfo.cs" />
     <Compile Include="StructItemsInterfaces\Properties\ISubProperty.cs" />
     <Compile Include="Keys\ConfigurationKeys.cs" />
@@ -90,6 +91,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModel\Runtime\IRuntimeAppointableMatrixViewModel.cs" />
+    <Compile Include="ViewModel\Runtime\IRuntimeBaseValuesViewModel.cs" />
     <Compile Include="ViewModel\Runtime\IRuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Runtime\IRuntimeConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\Runtime\IRuntimeConfigurationViewModel.cs" />

@@ -37,6 +37,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private readonly IDependenciesService _dependenciesService;
         private readonly DependencyFillHelper _dependencyFillHelper;
+        private readonly BaseValuesFillHelper _baseValuesFillHelper;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
         private IEditorConfigurationItemViewModel _bufferConfigurationItem;
@@ -46,12 +47,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private List<IEditorConfigurationItemViewModel> _selectedRows;
         private ObservableCollection<IElementAddingCommand> _elementsAddingCommandCollectionFiltered;
         private IElementAddingCommand _selectedElementsAddingCommand;
+        private IBaseValuesViewModel _baseValuesViewModel;
 
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
             IFormatterEditorFactory formatterEditorFactory, IFragmentSettingsViewModel fragmentSettingsViewModel,
-            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,IDependenciesService dependenciesService ,DependencyFillHelper dependencyFillHelper
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel, IDependenciesService dependenciesService,
+            DependencyFillHelper dependencyFillHelper, BaseValuesFillHelper baseValuesFillHelper
         )
         {
             _allRows = new ObservableCollection<IConfigurationItemViewModel>();
@@ -60,11 +63,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             _dependenciesService = dependenciesService;
             _dependencyFillHelper = dependencyFillHelper;
+            _baseValuesFillHelper = baseValuesFillHelper;
             FragmentSettingsViewModel = fragmentSettingsViewModel;
             RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
             ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
             AddRootElementCommand = new RelayCommand(OnAddRootElement);
-            
+
             AddRootGroupElementCommand = new RelayCommand(OnAddRootGroupElementExecute);
             IElementAddingCommand command = elementAddingCommandAddingFunc();
             command.Name = "AddChildElement";
@@ -90,10 +94,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 new RelayCommand(OnAddAddSubPropertyExecute, CanExecuteAddSubPropertyElement);
             ElementsAddingCommandCollection.Add(command);
 
-            command = elementAddingCommandAddingFunc();
-            command.Name = "AddMatrix";
-            command.AddingCommand = new RelayCommand(OnAddMatrixExecute, CanExecuteAddChildGroupElement);
-            ElementsAddingCommandCollection.Add(command);
+            //command = elementAddingCommandAddingFunc();
+            //command.Name = "AddMatrix";
+            //command.AddingCommand = new RelayCommand(OnAddMatrixExecute, CanExecuteAddChildGroupElement);
+            //ElementsAddingCommandCollection.Add(command);
 
             EditElementCommand = new RelayCommand(OnEditElementExecute, CanExecuteEditElement);
             DeleteElementCommand = new RelayCommand(OnDeleteElementExecute, CanExecuteDeleteElement);
@@ -105,19 +109,29 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             CopyElementCommand = new RelayCommand(OnCopyElementExecute, CanExecuteCopyElement);
             PasteAsChildElementCommand =
                 new RelayCommand(OnPasteAsChildElementExecute, CanPasteAsChildElementElement);
+            
 
             AddSelectedElementAsResourceCommand = new RelayCommand(OnAddSelectedElementAsResourceExecute,
                 CanExecuteAddSelectedElementAsResource);
-            ShowDependenciesCommand=new RelayCommand(OnShowDependenciesExecute,CanExecuteShowDependencies);
-            ShowFiltersCommand=new RelayCommand(OnShowFiltersExecute,CanExecuteShowFilters);
+            ShowDependenciesCommand = new RelayCommand(OnShowDependenciesExecute, CanExecuteShowDependencies);
+            ShowFiltersCommand = new RelayCommand(OnShowFiltersExecute, CanExecuteShowFilters);
             EditDescriptionCommand =
                 new RelayCommand(OnEditDescriptionExecute, CanExecuteEditDescription);
-			IncreaseAddressCommand=new RelayCommand(()=>OnChangeAddress(true), () => SelectedRows.All(model => model is IAddressChangeable));
-            DecreaseAddressCommand = new RelayCommand(() => OnChangeAddress(false), () => SelectedRows.All(model =>model is IAddressChangeable) );
-            TriggerAdditionalSettingsCommand=new RelayCommand(() => { IsAdditionalSettingsOpened = true;});
-			AddressIteratorValue = 1;
-            OnSelectionChangedCommand=new RelayCommand<object>(OnSelectionChangedExecute);
-            SelectedRows=new List<IEditorConfigurationItemViewModel>();
+            IncreaseAddressCommand = new RelayCommand(() => OnChangeAddress(true),
+                () => SelectedRows.All(model => model is IAddressChangeable));
+            DecreaseAddressCommand = new RelayCommand(() => OnChangeAddress(false),
+                () => SelectedRows.All(model => model is IAddressChangeable));
+            TriggerAdditionalSettingsCommand = new RelayCommand(() => { IsAdditionalSettingsOpened = true; });
+            AddressIteratorValue = 1;
+            OnSelectionChangedCommand = new RelayCommand<object>(OnSelectionChangedExecute);
+            SelectedRows = new List<IEditorConfigurationItemViewModel>();
+            OpenBasicValuesCommand = new RelayCommand(OnOpenBasicValuesExacute);
+            BaseValuesViewModel = new BaseValuesViewModel();
+        }
+
+        private void OnOpenBasicValuesExacute()
+        {
+            _applicationGlobalCommands.ShowWindowModal(() => new BaseValuesWindow(), new BaseValuesWindowViewModel(BaseValuesViewModel));
         }
 
         private bool CanExecuteShowFilters()
@@ -162,6 +176,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             SelectedRows.ForEach(model => (model as IAddressChangeable).ChangeAddress(AddressIteratorValue, isIncreasing));
         }
 
+        /*
         private void OnAddMatrixExecute()
         {
             if (SelectedRow is IChildAddable)
@@ -173,6 +188,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 CompleteAdding();
             }
         }
+        */
 
         private void OnAddAddSubPropertyExecute()
         {
@@ -393,6 +409,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ICommand SetElementUpCommand { get; set; }
         public ICommand SetElementDownCommand { get; set; }
         public ICommand OpenConfigurationSettingsCommand { get; set; }
+        public ICommand OpenBasicValuesCommand { get;}
         public ICommand CopyElementCommand { get; }
         public ICommand OnSelectionChangedCommand { get; }
 
@@ -644,6 +661,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         public IFragmentSettingsViewModel FragmentSettingsViewModel { get; }
 
+        public IBaseValuesViewModel BaseValuesViewModel
+        {
+            get => _baseValuesViewModel;
+            set
+            {
+                _baseValuesViewModel = value; 
+                RaisePropertyChanged();
+            }
+        }
+
         public ICommand ShowDependenciesCommand
         {
             get;
@@ -684,6 +711,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                     RootConfigurationItemViewModels.Add(itemEditorViewModel);
                 }
                 FragmentSettingsViewModel.Model = deviceConfiguration.FragmentSettings;
+                BaseValuesViewModel = _baseValuesFillHelper.CreateBaseValuesViewModel(deviceConfiguration.BaseValues);
             }
             InitRows(RootConfigurationItemViewModels, AllRows);
         }

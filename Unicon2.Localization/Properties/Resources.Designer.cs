@@ -574,6 +574,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @AreYouSureToApplyValues.
+        /// </summary>
+        public static string AreYouSureToApplyValues {
+            get {
+                return ResourceManager.GetString("AreYouSureToApplyValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @ArrangeBitsInOrder.
         /// </summary>
         public static string ArrangeBitsInOrder {
@@ -651,6 +660,33 @@ namespace Unicon2.Localization.Properties {
         public static string BaseTheme {
             get {
                 return ResourceManager.GetString("BaseTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @BaseValuesFilled.
+        /// </summary>
+        public static string BaseValuesFilled {
+            get {
+                return ResourceManager.GetString("BaseValuesFilled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @BaseValuesWindowDescription.
+        /// </summary>
+        public static string BaseValuesWindowDescription {
+            get {
+                return ResourceManager.GetString("BaseValuesWindowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @BasicValues.
+        /// </summary>
+        public static string BasicValues {
+            get {
+                return ResourceManager.GetString("BasicValues", resourceCulture);
             }
         }
         
@@ -1690,6 +1726,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @ExcelListSelectWindowDescription.
+        /// </summary>
+        public static string ExcelListSelectWindowDescription {
+            get {
+                return ResourceManager.GetString("ExcelListSelectWindowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @ExecuteQuery.
         /// </summary>
         public static string ExecuteQuery {
@@ -1740,6 +1785,15 @@ namespace Unicon2.Localization.Properties {
         public static string ExportConfiguration {
             get {
                 return ResourceManager.GetString("ExportConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ExportToExcel.
+        /// </summary>
+        public static string ExportToExcel {
+            get {
+                return ResourceManager.GetString("ExportToExcel", resourceCulture);
             }
         }
         
@@ -2037,6 +2091,15 @@ namespace Unicon2.Localization.Properties {
         public static string IllegalFunction {
             get {
                 return ResourceManager.GetString("IllegalFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ImportFromExcel.
+        /// </summary>
+        public static string ImportFromExcel {
+            get {
+                return ResourceManager.GetString("ImportFromExcel", resourceCulture);
             }
         }
         
@@ -4089,6 +4152,15 @@ namespace Unicon2.Localization.Properties {
         public static string ValueSignatures {
             get {
                 return ResourceManager.GetString("ValueSignatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ValuesMustBeFilled.
+        /// </summary>
+        public static string ValuesMustBeFilled {
+            get {
+                return ResourceManager.GetString("ValuesMustBeFilled", resourceCulture);
             }
         }
         

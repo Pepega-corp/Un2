@@ -76,7 +76,7 @@ namespace Unicon2.Tests.Utils.Mocks
             throw new NotImplementedException();
         }
 
-        public bool AskUserGlobal(object context, string message, string title)
+        public bool AskUserGlobal(string message, string title, object context = null)
         {
             IsAskUserGlobalTriggered = true;
             return AskUserGlobalResult;
@@ -119,5 +119,9 @@ namespace Unicon2.Tests.Utils.Mocks
         }
 
         public Action ShellLoaded { get; set; }
+        public void SetGlobalDialogContext(object context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

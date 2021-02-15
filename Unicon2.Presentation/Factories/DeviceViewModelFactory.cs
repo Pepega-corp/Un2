@@ -24,7 +24,7 @@ namespace Unicon2.Presentation.Factories
             _container = container;
         }
 
-        public IDeviceViewModel CreateDeviceViewModel(object contextForDialogs, IDevice device)
+        public IDeviceViewModel CreateDeviceViewModel(IDevice device)
         {
             IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
             if (device.DeviceMemory == null)
@@ -59,7 +59,7 @@ namespace Unicon2.Presentation.Factories
             deviceViewModel.TransactionCompleteSubscription = new TransactionCompleteSubscription(context,
                 device.ConnectionState, deviceViewModel.ConnectionStateViewModel, _container, () =>
                 {
-                    if (_container.Resolve<IApplicationGlobalCommands>().AskUserGlobal(contextForDialogs,
+                    if (_container.Resolve<IApplicationGlobalCommands>().AskUserGlobal(
                         _container.Resolve<ILocalizerService>()
                             .GetLocalizedString(ApplicationGlobalNames.StatusMessages.CONNECTION_LOST_GO_OFFLINE),
                         deviceViewModel.DeviceSignature))

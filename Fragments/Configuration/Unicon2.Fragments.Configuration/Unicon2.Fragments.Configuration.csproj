@@ -84,6 +84,7 @@
     <Compile Include="Converters\BoolToBorderColorConverter.cs" />
     <Compile Include="DataTemplateSelectors\FilteredViewModelDataTemplateSelector.cs" />
     <Compile Include="DataTemplateSelectors\SelectedConfigDetailsSelector.cs" />
+    <Compile Include="Factories\BaseValuesViewModelFactory.cs" />
     <Compile Include="Factories\ConfigurationItemFactory.cs" />
     <Compile Include="Factories\ConfigurationItemViewModelFactory.cs" />
     <Compile Include="MemoryAccess\ClearMemoryVisitor.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="MemoryAccess\Subscriptions\LocalMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalSubPropertySubscription.cs" />
     <Compile Include="Model\Conditions\CompareCondition.cs" />
+    <Compile Include="Model\ConfigurationBaseValues.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
     <Compile Include="Model\DefaultDeviceConfiguration.cs" />
     <Compile Include="Model\Dependencies\ConditionResultDependency.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimePropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimeSubPropertyViewModel.cs" />
+    <Compile Include="ViewModel\RuntimeBaseValuesViewModel.cs" />
     <Compile Include="ViewModel\RuntimeFilterViewModel.cs" />
     <Compile Include="ViewModel\RuntimeItemGroupViewModel.cs" />
     <Compile Include="ViewModel\RuntimeConfigurationViewModel.cs" />

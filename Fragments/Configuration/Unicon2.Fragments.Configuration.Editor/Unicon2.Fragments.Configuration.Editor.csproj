@@ -78,6 +78,7 @@
     <Compile Include="Converters\IsFormattableToVisibilityConverter.cs" />
     <Compile Include="CustomControls\WrapPanelWithRowsOrColumnsCount.cs" />
     <Compile Include="Factories\ConfigurationFragmentFactory.cs" />
+    <Compile Include="Helpers\BaseValuesFillHelper.cs" />
     <Compile Include="Helpers\ConditionFillHelper.cs" />
     <Compile Include="Helpers\DependencyFillHelper.cs" />
     <Compile Include="Helpers\FilterFillHelper.cs" />
@@ -89,7 +90,10 @@
       <Link>Interfaces\Dependencies\IResultViewModel.cs</Link>
     </Compile>
     <Compile Include="Interfaces\Filter\IFilterViewModel.cs" />
+    <Compile Include="Interfaces\IBaseValuesViewModel.cs" />
     <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
+    <Compile Include="ViewModels\BaseValuesViewModel.cs" />
+    <Compile Include="ViewModels\BaseValuesWindowViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\ConditionResultDependencyViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\ApplyFormatterResultViewModel.cs" />
@@ -99,6 +103,9 @@
     <Compile Include="ViewModels\Filter\FilterViewModel.cs" />
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
+    <Compile Include="View\BaseValuesWindow.xaml.cs">
+      <DependentUpon>BaseValuesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FilterEditingWindow.xaml.cs">
       <DependentUpon>FilterEditingWindow.xaml</DependentUpon>
     </Compile>
@@ -174,6 +181,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\BaseValuesWindow.xaml" />
     <Page Include="View\ConfigurationEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Unicon2.Fragments.Configuration.Editor.Helpers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
@@ -10,7 +11,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Factories
 {
 	public class ConfigurationFragmentFactory
 	{
-		public static IDeviceConfiguration CreateConfiguration(IConfigurationEditorViewModel configurationEditorViewModel)
+		public static IDeviceConfiguration CreateConfiguration(
+			IConfigurationEditorViewModel configurationEditorViewModel)
 		{
 			var deviceConfiguration = StaticContainer.Container.Resolve<IDeviceConfiguration>();
 
@@ -18,7 +20,10 @@ namespace Unicon2.Fragments.Configuration.Editor.Factories
 				.Select(model =>
 					(model as IEditorConfigurationItemViewModel).Accept(
 						new SaveEditorConfigurationItemViewModelVisitor(StaticContainer.Container))).ToList();
-            deviceConfiguration.FragmentSettings=configurationEditorViewModel.FragmentSettingsViewModel.Model as IFragmentSettings;
+			deviceConfiguration.FragmentSettings =
+				configurationEditorViewModel.FragmentSettingsViewModel.Model as IFragmentSettings;
+			deviceConfiguration.BaseValues = StaticContainer.Container.Resolve<BaseValuesFillHelper>()
+				.CreateConfigurationBaseValues(configurationEditorViewModel.BaseValuesViewModel);
 			return deviceConfiguration;
 		}
 	}

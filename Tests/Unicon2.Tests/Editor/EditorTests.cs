@@ -4,12 +4,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Prism.Ioc;
+using Unicon2.DeviceEditorUtilityModule.Interfaces;
 using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Model;
 using Unicon2.Fragments.Configuration.Editor.Factories;
+using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Filter;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
@@ -22,16 +25,26 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Prope
 using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Fragments.Configuration.Model.Conditions;
 using Unicon2.Fragments.Configuration.Model.Filter;
+using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
+using Unicon2.Infrastructure.Services;
 using Unicon2.Model.DefaultDevice;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
+using Unicon2.Presentation.Values.Editable;
+using Unicon2.Shell.ViewModels;
+using Unicon2.Tests.Utils.Mocks;
 using Unicon2.Unity.Common;
 using Unity;
 
@@ -206,6 +219,82 @@ namespace Unicon2.Tests.Editor
 
 
         [Test]
+        public async Task EditorBaseValuesSave()
+        {
+            var globalCommandsMock = ApplicationGlobalCommandsMock
+                .Create()
+                .WithAskUserGlobalResult(true);
+            StaticContainer.Container.RegisterInstance<IApplicationGlobalCommands>(globalCommandsMock);
+            var serializerService = Program.GetApp().Container.Resolve<ISerializerService>();
+
+            IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
+            initialDevice.LoadDevice("FileAssets/testFile.json");
+
+            var configurationEditorViewModel = initialDevice.FragmentEditorViewModels.First() as ConfigurationEditorViewModel;
+
+            var memoryForBaseValues =
+                serializerService.DeserializeFromFile<Dictionary<ushort, ushort>>(
+                    "FileAssets/Конфигурация testFile.cnf");
+
+            var baseValuesMemory = Result<Dictionary<ushort, ushort>>
+                .Create( memoryForBaseValues, true);
+            configurationEditorViewModel.BaseValuesViewModel = new BaseValuesViewModel();
+
+
+            configurationEditorViewModel.BaseValuesViewModel.BaseValuesViewModels.Add(new BaseValueViewModel()
+            {
+                Name = "baseVal1",
+                BaseValuesMemory = baseValuesMemory
+            });
+            configurationEditorViewModel.BaseValuesViewModel.BaseValuesViewModels.Add(new BaseValueViewModel()
+            {
+                Name = "baseVal2",
+                BaseValuesMemory = baseValuesMemory
+            });
+            var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
+
+
+            Assert.AreEqual(result.BaseValues.BaseValues.Count, 2);
+            Assert.True(result.BaseValues.BaseValues[0].Name == "baseVal1");
+            Assert.True(result.BaseValues.BaseValues[1].Name == "baseVal2");
+
+            Program.CleanProject();
+            var device = initialDevice.GetDevice();
+
+            Program.GetApp().Container.Resolve<IDevicesContainerService>()
+                .AddConnectableItem(device);
+            var shell = Program.GetApp().Container.Resolve<ShellViewModel>();
+            var deviceViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0];
+
+            var configurationFragmentViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
+                    .First(model => model.NameForUiKey == "Configuration") as
+                RuntimeConfigurationViewModel;
+            var command = configurationFragmentViewModel.FragmentOptionsViewModel.GetCommand("BaseValues", "baseVal1");
+
+            var editableChosenFromListValueViewModel =
+                ((configurationFragmentViewModel.AllRows[4].ChildStructItemViewModels[2] as
+                    ILocalAndDeviceValueContainingViewModel).LocalValue as EditableChosenFromListValueViewModel);
+            Assert.AreEqual(
+                editableChosenFromListValueViewModel.SelectedItem,
+                "Нет");
+            command.OptionCommand.Execute(null);
+            Assert.AreEqual(
+                    editableChosenFromListValueViewModel.SelectedItem,
+                "Д2   Инв");
+
+            editableChosenFromListValueViewModel.SelectedItem =
+                editableChosenFromListValueViewModel.AvailableItemsList[1];
+            Assert.AreEqual(
+                editableChosenFromListValueViewModel.SelectedItem,
+                "Д1   Инв");
+            command.OptionCommand.Execute(null);
+            Assert.AreEqual(
+                editableChosenFromListValueViewModel.SelectedItem,
+                "Д2   Инв");
+        }
+
+
+        [Test]
         public async Task GroupFilterSaveLoad()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
@@ -286,8 +375,6 @@ namespace Unicon2.Tests.Editor
 
             Assert.True(compareConditionViewModel.SelectedCondition == ConditionsEnum.Equal.ToString());
             Assert.True(compareConditionViewModel.UshortValueToCompare == 1);
-
-
         }
 
         [Test]

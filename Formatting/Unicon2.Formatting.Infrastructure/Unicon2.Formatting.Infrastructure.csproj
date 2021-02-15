@@ -59,6 +59,7 @@
     <Compile Include="Model\IBitMaskFormatter.cs" />
     <Compile Include="Model\IBoolFormatter.cs" />
     <Compile Include="Model\IDefaultTimeFormatter.cs" />
+    <Compile Include="Services\IExcelExportService.cs" />
     <Compile Include="ViewModel\IBitMaskFormatterViewModel.cs" />
     <Compile Include="ViewModel\IDefaultTimeFormatterViewModel.cs" />
     <Compile Include="ViewModel\IDictionaryMatchingFormatterViewModel.cs" />
