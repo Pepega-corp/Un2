@@ -9,6 +9,7 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
         public DataTemplate Input { get; set; }
         public DataTemplate Output { get; set; }
         public DataTemplate Inversion { get; set; }
+        public DataTemplate And { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -18,6 +19,8 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
                 return this.Output;
             if (item is InversionEditorViewModel)
                 return this.Inversion;
+            if (item is AndEditorViewModel)
+                return this.And;
             return null;
         }
     }

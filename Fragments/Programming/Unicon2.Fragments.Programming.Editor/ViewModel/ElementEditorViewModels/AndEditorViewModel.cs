@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Programming.Editor.Models.LibraryElements;
+﻿
+using Unicon2.Fragments.Programming.Editor.Models.LibraryElements;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
@@ -7,22 +8,22 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 {
-    public class InversionEditorViewModel : ViewModelBase, IInversionEditorViewModel
+    public class AndEditorViewModel : ViewModelBase, IAndEditorViewModel
     {
-        public string StrongName => ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
+        public string StrongName => ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public object Model { get; set; }
         public bool IsEditable => false;
-        public string ElementName => "НЕ";
-        public string Description => "Логический элемент НЕ";
+        public string ElementName => "И";
+        public string Description => "Логический элемент И";
 
-        public InversionEditorViewModel(IInversionEditor model)
+        public AndEditorViewModel(IAndEditor model)
         {
             Model = model;
         }
-        
+
         public object Clone()
         {
-            return new InversionEditorViewModel(new InversionEditor());
+            return new AndEditorViewModel(new AndEditor());
         }
     }
 }
