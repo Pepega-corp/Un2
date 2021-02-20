@@ -27,7 +27,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public ElementType ElementType => this._model.ElementType;
         public bool IsSelected
         {
-            get { return this._isSelected; }
+            get => this._isSelected;
             set
             {
                 this._isSelected = value;
@@ -43,7 +43,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public string Symbol { get; protected set; }
         public string Caption
         {
-            get { return this._caption; }
+            get => this._caption;
             set
             {
                 this._caption = value;
@@ -52,7 +52,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         }
         public string Description
         {
-            get { return this._description; }
+            get => this._description;
             protected set
             {
                 this._description = value;
@@ -62,7 +62,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
         public double X
         {
-            get { return this._model.X; }
+            get => this._model.X;
             set
             {
                 this._deltaPosition.X = value - this._model.X;
@@ -83,7 +83,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         }
         public double Y
         {
-            get { return this._model.Y; }
+            get => this._model.Y;
             set
             {
                 this._deltaPosition.Y = value - this._model.Y;
