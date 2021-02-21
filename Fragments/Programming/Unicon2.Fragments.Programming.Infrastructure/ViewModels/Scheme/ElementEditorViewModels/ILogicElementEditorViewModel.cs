@@ -6,6 +6,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
     public interface ILogicElementEditorViewModel : IViewModel, ICloneable
     {
         string ElementName { get; }
+        string Symbol { get; }
         string Description { get; }
         bool IsEditable { get; }
     }

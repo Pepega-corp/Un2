@@ -13,6 +13,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public object Model { get; set; }
         public bool IsEditable => false;
         public string ElementName => "НЕ";
+        public string Symbol => "~";
         public string Description => "Логический элемент НЕ";
 
         public InversionEditorViewModel(IInversionEditor model)

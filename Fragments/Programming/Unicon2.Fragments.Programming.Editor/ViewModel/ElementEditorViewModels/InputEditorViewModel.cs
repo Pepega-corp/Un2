@@ -24,9 +24,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         private EditableListItem _selectedBase;
 
         public string ElementName => "Вход";
-
+        public string Symbol => "In";
         public string Description =>"Входной логический сигнал";
-
         public string StrongName => ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public bool IsEditable => true;
 

@@ -6,7 +6,6 @@
     <DataTemplate x:Key="InputTemplate" DataType="{x:Type editorViewModels:InputEditorViewModel}">
         <Grid>
             <Path
-                Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Data="M0,0 L5,0 10,5 30,5 30,-5 10,-5 5,0z"
                 RenderTransformOrigin="0.5,0.5"
@@ -21,7 +20,7 @@
                 </Path.RenderTransform>
             </Path>
             <TextBlock
-                Margin="6,0,0,0"
+                Margin="1,0,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontFamily="Calibri"
@@ -35,7 +34,6 @@
     <DataTemplate x:Key="OutputTemplate"  DataType="{x:Type editorViewModels:OutputEditorViewModel}">
         <Grid>
             <Path
-                Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Data="M0,0 L5,0 10,5 30,5 30,-5 10,-5 5,0z"
                 Stretch="Fill"
@@ -43,7 +41,7 @@
                 StrokeLineJoin="Round"
                 StrokeThickness="1" />
             <TextBlock
-                Margin="13,0,0,0"
+                Margin="3,0,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontFamily="Calibri"
@@ -57,7 +55,6 @@
     <DataTemplate x:Key="InversionTemplate"  DataType="{x:Type editorViewModels:InversionEditorViewModel}">
         <Grid>
             <Path
-                Margin="10,0,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Data="M0,0 L5,0 5,10 25,10 25,0 30,0 25,0 25,-10, 5,-10 5,0z"
@@ -69,13 +66,58 @@
             <Ellipse
                 Width="5"
                 Height="5"
-                Margin="30,0,0,0"
+                Margin="20,0,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Fill="White"
                 Stroke="Black"
                 StrokeThickness="1" />
             <TextBlock
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="Calibri"
+                FontSize="10"
+                Foreground="Black"
+                LineHeight="10"
+                Text="{Binding Symbol}" />
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="AndTemplate" DataType="{x:Type editorViewModels:AndEditorViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Path
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Data="M0,5 5,5z"
+                Stretch="Fill"
+                Stroke="Black"
+                StrokeLineJoin="Round"
+                StrokeThickness="1" />
+            <Path
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Data="M0,-5 5,-5z"
+                Stretch="Fill"
+                Stroke="Black"
+                StrokeLineJoin="Round"
+                StrokeThickness="1" />
+            <Path
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Data="M5,10 25,10 25,-10, 5,-10z"
+                RenderTransformOrigin="0.5,0.5"
+                Stretch="Fill"
+                Stroke="Black"
+                StrokeLineJoin="Round"
+                StrokeThickness="1" />
+            <TextBlock
+                Grid.Column="1"
                 Margin="10,0,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -84,6 +126,15 @@
                 Foreground="Black"
                 LineHeight="10"
                 Text="{Binding Symbol}" />
+            <Path
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                Data="M25,5 30,5z"
+                Stretch="Fill"
+                Stroke="Black"
+                StrokeLineJoin="Round"
+                StrokeThickness="1" />
+            
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

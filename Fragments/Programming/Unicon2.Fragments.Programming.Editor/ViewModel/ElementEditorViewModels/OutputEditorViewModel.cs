@@ -20,6 +20,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         private EditableListItem _selectedOutputSignal;
 
         public string ElementName => "Выход";
+        public string Symbol => "Out";
         public string Description => "Выходной логический сигнал";
 
         public string StrongName => ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;

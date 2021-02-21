@@ -16,7 +16,8 @@
                 x:Key="Selector"
                 Input="{StaticResource InputTemplate}"
                 Output="{StaticResource OutputTemplate}"
-                Inversion="{StaticResource InversionTemplate}"/>
+                Inversion="{StaticResource InversionTemplate}"
+                And="{StaticResource AndTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
     

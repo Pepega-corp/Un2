@@ -14,6 +14,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public object Model { get; set; }
         public bool IsEditable => false;
         public string ElementName => "И";
+        public string Symbol => "&";
         public string Description => "Логический элемент И";
 
         public AndEditorViewModel(IAndEditor model)
