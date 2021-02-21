@@ -276,6 +276,37 @@
                                             Content="{lex:Loc Show}"
                                             Style="{DynamicResource UniconButtonStyle}" />
                                     </Grid>
+                                    <Grid VerticalAlignment="Bottom" Visibility="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Height="30"
+                                            Command="{Binding ImportPropertiesFromExcelTypeACommand}"
+                                            Content="{lex:Loc ImportPropertiesFromExcelTypeAHeader}"
+                                            Style="{DynamicResource UniconButtonStyle}" />
+                                        <Rectangle
+                                            ToolTipService.ShowDuration="15000"
+                                            Grid.Column="1"
+                                            Width="15"
+                                            Height="15" Margin="5"
+                                            
+                                            Fill="Gray">
+                                            <Rectangle.ToolTip>
+                                                <ToolTip>
+                                                     <TextBlock Text="{lex:Loc ImportPropertiesFromExcelTypeADescription}"
+                                                                                                               TextWrapping="Wrap" MaxWidth="200"></TextBlock>
+                                                </ToolTip>
+                                               
+                                            </Rectangle.ToolTip>
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information_circle}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
                         </Popup>

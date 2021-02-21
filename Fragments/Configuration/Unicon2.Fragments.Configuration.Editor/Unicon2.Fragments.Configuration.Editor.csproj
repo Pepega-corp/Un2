@@ -82,6 +82,7 @@
     <Compile Include="Helpers\ConditionFillHelper.cs" />
     <Compile Include="Helpers\DependencyFillHelper.cs" />
     <Compile Include="Helpers\FilterFillHelper.cs" />
+    <Compile Include="Helpers\ImportPropertiesFromExcelTypeAHelper.cs" />
     <Compile Include="Helpers\ResultFillHelper.cs" />
     <Compile Include="Interfaces\Dependencies\IConditionViewModel.cs">
       <Link>Interfaces\Dependencies\IConditionViewModel.cs</Link>
@@ -207,6 +208,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Formatting\Unicon2.Formatting.Infrastructure\Unicon2.Formatting.Infrastructure.csproj">
+      <Project>{2a80ab3b-3af5-48db-8604-14cc4229f2c3}</Project>
+      <Name>Unicon2.Formatting.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Unicon2.Unity\Unicon2.Unity.csproj">
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>

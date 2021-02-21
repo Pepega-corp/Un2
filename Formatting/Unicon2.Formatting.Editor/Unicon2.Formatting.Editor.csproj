@@ -37,10 +37,6 @@
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus, Version=5.5.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1">
-      <HintPath>..\..\packages\EPPlus.5.5.2\lib\net45\EPPlus.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0">
       <HintPath>..\..\packages\FluentValidation.9.2.2\lib\net461\FluentValidation.dll</HintPath>
       <Private>True</Private>
@@ -114,10 +110,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Services\ExcelExportService.cs" />
     <Compile Include="Services\SaveFormatterService.cs" />
     <Compile Include="ViewModels\DefaultBitMaskFormatterViewModel.cs" />
-    <Compile Include="ViewModels\ExcelListSelectWindowViewModel.cs" />
     <Compile Include="ViewModels\FormatterParameters\FormatterParametersViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFormatterViewModelVisitable.cs" />
     <Compile Include="ViewModels\StringFormatter1251ViewModel.cs" />
@@ -136,9 +130,6 @@
     <Compile Include="ViewModels\Validators\FormulaFormatterViewModelValidator.cs" />
     <Compile Include="Views\ConfigurationSettingsView.xaml.cs">
       <DependentUpon>ConfigurationSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExcelListSelectWindow.xaml.cs">
-      <DependentUpon>ExcelListSelectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FormatterView.xaml.cs">
       <DependentUpon>FormatterView.xaml</DependentUpon>
@@ -169,13 +160,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ExcelListSelectWindow.xaml" />
     <Page Include="Views\FormatterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Backend\Unicon.Common\Unicon.Common.csproj">
+      <Project>{10fb27e3-4c8d-4031-b63c-81c21d9fc277}</Project>
+      <Name>Unicon.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Fragments\Configuration\Unicon2.Fragments.Configuration.Editor\Unicon2.Fragments.Configuration.Editor.csproj">
       <Project>{D1A9A1AC-BFAA-4DA5-AB7D-DB7D082EDFA4}</Project>
       <Name>Unicon2.Fragments.Configuration.Editor</Name>

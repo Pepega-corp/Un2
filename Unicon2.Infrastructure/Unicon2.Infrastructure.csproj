@@ -122,6 +122,9 @@
     <Compile Include="Interfaces\EditOperations\IAsChlidPasteable.cs" />
     <Compile Include="Interfaces\EditOperations\IDeletable.cs" />
     <Compile Include="Interfaces\EditOperations\IEditable.cs" />
+    <Compile Include="Interfaces\Excel\IExcelExporter.cs" />
+    <Compile Include="Interfaces\Excel\IExcelImporter.cs" />
+    <Compile Include="Interfaces\Excel\IExcelWorksheet.cs" />
     <Compile Include="Interfaces\ICloneable.cs" />
     <Compile Include="Interfaces\IConnectable.cs" />
     <Compile Include="Interfaces\IDataProviderContainer.cs" />
@@ -183,6 +186,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Backend\Unicon.Common\Unicon.Common.csproj">
+      <Project>{10fb27e3-4c8d-4031-b63c-81c21d9fc277}</Project>
+      <Name>Unicon.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicon2.Unity\Unicon2.Unity.csproj">
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>

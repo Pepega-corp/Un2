@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
-namespace Unicon2.Formatting.Editor.ViewModels
+namespace Unicon2.Presentation.ViewModels
 {
     public class ExcelListSelectWindowViewModel : ViewModelBase
     {

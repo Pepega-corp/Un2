@@ -1569,4 +1569,10 @@
   <data name="AreYouSureToApplyValues" xml:space="preserve">
     <value>Are you sure to apply values</value>
   </data>
+  <data name="ImportPropertiesFromExcelTypeAHeader" xml:space="preserve">
+    <value>Import properties from Excel (Type A)</value>
+  </data>
+  <data name="ImportPropertiesFromExcelTypeADescription" xml:space="preserve">
+    <value>Import properties from excel sequentialy. Every row will be a SubProperty for complex property. Complex propery will be created for every 16 sybproperties. Formatting will be of Yes/no type. Addresses will be set sequentially, you can adjust them later</value>
+  </data>
 </root>

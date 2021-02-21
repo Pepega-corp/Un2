@@ -1563,4 +1563,10 @@
   <data name="AreYouSureToApplyValues" xml:space="preserve">
     <value>@AreYouSureToApplyValues</value>
   </data>
+  <data name="ImportPropertiesFromExcelTypeADescription" xml:space="preserve">
+    <value>@ImportPropertiesFromExcelTypeADescription</value>
+  </data>
+  <data name="ImportPropertiesFromExcelTypeAHeader" xml:space="preserve">
+    <value>@ImportPropertiesFromExcelTypeAHeader</value>
+  </data>
 </root>

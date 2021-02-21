@@ -1,7 +1,4 @@
-﻿using Unicon2.Formatting.Factories;
-using Unicon2.Formatting.Infrastructure.Factories;
-using Unicon2.Formatting.Infrastructure.Keys;
-using Unicon2.Formatting.Infrastructure.Services;
+﻿using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Model;
 using Unicon2.Formatting.Services;
 using Unicon2.Infrastructure.Interfaces;

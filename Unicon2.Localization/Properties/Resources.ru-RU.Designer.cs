@@ -2140,6 +2140,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Импорт свойств из Excel. На каждую строку будет создаваться подсвойство. Каждые 16 подствойств будет создаваться составное свойство. Биты подствойств будут выставлены по очереди в порядке как в таблице. Форматирование каждого подсвойства - Правда-ложь. Адреса можно потом подправить вручную..
+        /// </summary>
+        public static string ImportPropertiesFromExcelTypeADescription {
+            get {
+                return ResourceManager.GetString("ImportPropertiesFromExcelTypeADescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Импорт свойств из Excel (Тип А).
+        /// </summary>
+        public static string ImportPropertiesFromExcelTypeAHeader {
+            get {
+                return ResourceManager.GetString("ImportPropertiesFromExcelTypeAHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Увеличить адрес.
         /// </summary>
         public static string IncreaseAddress {

@@ -9,9 +9,11 @@ using Unicon2.DeviceEditorUtilityModule.Interfaces;
 using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Infrastructure.Keys;
+using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Model;
 using Unicon2.Fragments.Configuration.Editor.Factories;
+using Unicon2.Fragments.Configuration.Editor.Helpers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Filter;
@@ -292,6 +294,61 @@ namespace Unicon2.Tests.Editor
                 editableChosenFromListValueViewModel.SelectedItem,
                 "Д2   Инв");
         }
+
+        [Test]
+        public async Task EditorImportPropertiesTypeASave()
+        {
+            var globalCommandsMock = ApplicationGlobalCommandsMock
+                .Create()
+                .WithAskUserGlobalResult(true).WithSelectFileToOpenResult("FileAssets/МР5ПО60_ВЛС.xlsx");
+            StaticContainer.Container.RegisterInstance<IApplicationGlobalCommands>(globalCommandsMock);
+            var serializerService = Program.GetApp().Container.Resolve<ISerializerService>();
+
+            IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
+            initialDevice.LoadDevice("FileAssets/testFile.json");
+
+            var configurationEditorViewModel =
+                initialDevice.FragmentEditorViewModels.First() as ConfigurationEditorViewModel;
+
+
+
+            var targetGroup = configurationEditorViewModel.RootConfigurationItemViewModels.First();
+
+            targetGroup.ChildStructItemViewModels.Clear();
+
+            var helper = Program.GetApp().Container.Resolve<ImportPropertiesFromExcelTypeAHelper>();
+
+            helper.ImportPropertiesToGroup(targetGroup as IConfigurationGroupEditorViewModel);
+
+
+
+            Program.CleanProject();
+            var device = initialDevice.GetDevice();
+
+            Program.GetApp().Container.Resolve<IDevicesContainerService>()
+                .AddConnectableItem(device);
+            var shell = Program.GetApp().Container.Resolve<ShellViewModel>();
+            var deviceViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0];
+
+            var configurationFragmentViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
+                    .First(model => model.NameForUiKey == "Configuration") as
+                RuntimeConfigurationViewModel;
+
+            var group = configurationEditorViewModel.RootConfigurationItemViewModels.First();
+
+            Assert.AreEqual(group.ChildStructItemViewModels.Count, 7);
+
+            Assert.AreEqual(group.ChildStructItemViewModels[4].ChildStructItemViewModels[4].Header, "F<<< СРАБ");
+
+            Assert.AreEqual(group.ChildStructItemViewModels[3].ChildStructItemViewModels
+                .Count, 16);
+            Assert.True(
+                (((device.DeviceFragments.First() as IDeviceConfiguration).RootConfigurationItemList[0] as
+                    IItemsGroup).ConfigurationItemList[4] as IComplexProperty).SubProperties[4].UshortsFormatter is IBoolFormatter);
+
+        }
+
+
 
 
         [Test]

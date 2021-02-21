@@ -2104,6 +2104,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @ImportPropertiesFromExcelTypeADescription.
+        /// </summary>
+        public static string ImportPropertiesFromExcelTypeADescription {
+            get {
+                return ResourceManager.GetString("ImportPropertiesFromExcelTypeADescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ImportPropertiesFromExcelTypeAHeader.
+        /// </summary>
+        public static string ImportPropertiesFromExcelTypeAHeader {
+            get {
+                return ResourceManager.GetString("ImportPropertiesFromExcelTypeAHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @IncreaseAddress.
         /// </summary>
         public static string IncreaseAddress {

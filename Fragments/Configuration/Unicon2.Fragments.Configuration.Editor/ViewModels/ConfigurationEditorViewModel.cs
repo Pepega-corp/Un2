@@ -38,6 +38,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private readonly IDependenciesService _dependenciesService;
         private readonly DependencyFillHelper _dependencyFillHelper;
         private readonly BaseValuesFillHelper _baseValuesFillHelper;
+        private readonly ImportPropertiesFromExcelTypeAHelper _importPropertiesFromExcelTypeAHelper;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
         private IEditorConfigurationItemViewModel _bufferConfigurationItem;
@@ -54,7 +55,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
             IFormatterEditorFactory formatterEditorFactory, IFragmentSettingsViewModel fragmentSettingsViewModel,
             ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel, IDependenciesService dependenciesService,
-            DependencyFillHelper dependencyFillHelper, BaseValuesFillHelper baseValuesFillHelper
+            DependencyFillHelper dependencyFillHelper, BaseValuesFillHelper baseValuesFillHelper,
+            ImportPropertiesFromExcelTypeAHelper importPropertiesFromExcelTypeAHelper
         )
         {
             _allRows = new ObservableCollection<IConfigurationItemViewModel>();
@@ -64,6 +66,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             _dependenciesService = dependenciesService;
             _dependencyFillHelper = dependencyFillHelper;
             _baseValuesFillHelper = baseValuesFillHelper;
+            _importPropertiesFromExcelTypeAHelper = importPropertiesFromExcelTypeAHelper;
             FragmentSettingsViewModel = fragmentSettingsViewModel;
             RootConfigurationItemViewModels = new ObservableCollection<IConfigurationItemViewModel>();
             ElementsAddingCommandCollection = new ObservableCollection<IElementAddingCommand>();
@@ -127,6 +130,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             SelectedRows = new List<IEditorConfigurationItemViewModel>();
             OpenBasicValuesCommand = new RelayCommand(OnOpenBasicValuesExacute);
             BaseValuesViewModel = new BaseValuesViewModel();
+            ImportPropertiesFromExcelTypeACommand = new RelayCommand(OnImportPropertiesFromExcelTypeAExecute);
+        }
+
+        private void OnImportPropertiesFromExcelTypeAExecute()
+        {
+           _importPropertiesFromExcelTypeAHelper.ImportPropertiesToGroup(SelectedRow as IConfigurationGroupEditorViewModel);
         }
 
         private void OnOpenBasicValuesExacute()
@@ -696,6 +705,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 _selectedElementsAddingCommand = value; 
                 RaisePropertyChanged();
             }
+        }
+
+        public ICommand ImportPropertiesFromExcelTypeACommand
+        {
+            get;
         }
 
         public void Initialize(IDeviceFragment deviceFragment)

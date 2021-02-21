@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
-using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Interfaces.Excel;
+using Unicon2.Infrastructure.Services;
 using Unicon2.Unity.Commands;
 using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 
@@ -38,20 +40,39 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         private void OnImportFromExcel()
         {
-            var dictionaryRes = StaticContainer.Container.Resolve<IExcelExportService>()
-                .GetDictionaryFromFile();
-            dictionaryRes.OnSuccess(dictionary =>
+            var dictionaryRes = StaticContainer.Container.Resolve<IExcelImporter>().ImportFromExcel(worksheet =>
             {
-                KeyValuesDictionary.Clear();
-                foreach (KeyValuePair<ushort, string> kvp in dictionary)
+                if (string.IsNullOrWhiteSpace(worksheet.GetCellValue(1, 3).Item))
                 {
-                    KeyValuesDictionary.Add(new BindableKeyValuePair<ushort, string>(kvp.Key, kvp.Value));
+                    return;
+                }
+
+                try
+                {
+                    var dictionary = new Dictionary<ushort, string>();
+                    int counter = 2;
+                    while (worksheet.GetCellValue(counter, 1).Item != null &&
+                           !string.IsNullOrWhiteSpace(worksheet.GetCellValue(counter, 1).Item.ToString()))
+                    {
+                        dictionary[ushort.Parse(worksheet.GetCellValue(counter, 2).Item.ToString())] =
+                            worksheet.GetCellValue(counter, 3).Item.ToString();
+                        counter++;
+                    }
+
+                    KeyValuesDictionary.Clear();
+                    foreach (KeyValuePair<ushort, string> kvp in dictionary)
+                    {
+                        KeyValuesDictionary.Add(new BindableKeyValuePair<ushort, string>(kvp.Key, kvp.Value));
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(
+                        ApplicationGlobalNames.StatusMessages
+                            .FORMAT_ERROR), "Excel");
                 }
             });
-            if (dictionaryRes.Exception != null)
-            {
-                MessageBox.Show(dictionaryRes.Exception.Message,"Excel");
-            }
         }
 
         private async void OnExportToExcel()
@@ -62,7 +83,22 @@ namespace Unicon2.Formatting.Editor.ViewModels
             {
                 dictionary.Add(bkvp.Key, bkvp.Value);
             }
-            await StaticContainer.Container.Resolve<IExcelExportService>().SaveDictionaryToFile(dictionary, "dict");
+            await StaticContainer.Container.Resolve<IExcelExporter>().ExportToExcel(
+                (worksheet)=>
+            {
+                //Add the headers
+                worksheet.SetCellValue(1,1, "№");
+                worksheet.SetCellValue(1,2, "Ключ");
+                worksheet.SetCellValue(1,3, "Значение");
+                int counter = 0;
+                foreach (var keyValue in dictionary)
+                {
+                    counter++;
+                    worksheet.SetCellValue(counter + 1,1, counter.ToString());
+                    worksheet.SetCellValue(counter + 1,2, keyValue.Key.ToString());
+                    worksheet.SetCellValue(counter + 1,3, keyValue.Value.ToString());
+                }
+            }, "dict");
         }
 
         private void OnExecuteImportFromSharedTables()

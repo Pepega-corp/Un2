@@ -63,7 +63,14 @@ namespace Unicon2.Infrastructure.Functional
 
             return Item;
         }
-        
+        public Result OnSuccess(Func<T,Result> onSuccessFunc)
+        {
+            if (IsSuccess)
+            {
+                return onSuccessFunc(Item);
+            }
+            return Result.Create(false);
+        }
         public Result<TTo> OnSuccess<TTo>(Func<T,Result<TTo>> onSuccessFunc)
         {
             if (IsSuccess)

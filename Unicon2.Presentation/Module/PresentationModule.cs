@@ -1,4 +1,5 @@
 ﻿using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Interfaces.Excel;
 using Unicon2.Presentation.Connection;
 using Unicon2.Presentation.Factories;
 using Unicon2.Presentation.FragmentSettings;
@@ -91,6 +92,9 @@ namespace Unicon2.Presentation.Module
             container.Register(typeof(IEditableValueFetchingFromViewModelVisitor),
                 typeof(EditableValueFetchingFromViewModelVisitor));
             container.Register<IConnectionService, ConnectionService>();
+            container.Register<IExcelImporter, ExcelExportService>();
+            container.Register<IExcelExporter, ExcelExportService>();
+
         }
     }
 }

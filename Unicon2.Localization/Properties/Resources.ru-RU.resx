@@ -1569,4 +1569,10 @@
   <data name="AreYouSureToApplyValues" xml:space="preserve">
     <value>Вы уверены что хотите применить значения?</value>
   </data>
+  <data name="ImportPropertiesFromExcelTypeADescription" xml:space="preserve">
+    <value>Импорт свойств из Excel. На каждую строку будет создаваться подсвойство. Каждые 16 подствойств будет создаваться составное свойство. Биты подствойств будут выставлены по очереди в порядке как в таблице. Форматирование каждого подсвойства - Правда-ложь. Адреса можно потом подправить вручную.</value>
+  </data>
+  <data name="ImportPropertiesFromExcelTypeAHeader" xml:space="preserve">
+    <value>Импорт свойств из Excel (Тип А)</value>
+  </data>
 </root>

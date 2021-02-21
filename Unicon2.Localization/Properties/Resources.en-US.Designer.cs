@@ -2131,6 +2131,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import properties from excel sequentialy. Every row will be a SubProperty for complex property. Complex propery will be created for every 16 sybproperties. Formatting will be of Yes/no type. Addresses will be set sequentially, you can adjust them later.
+        /// </summary>
+        public static string ImportPropertiesFromExcelTypeADescription {
+            get {
+                return ResourceManager.GetString("ImportPropertiesFromExcelTypeADescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import properties from Excel (Type A).
+        /// </summary>
+        public static string ImportPropertiesFromExcelTypeAHeader {
+            get {
+                return ResourceManager.GetString("ImportPropertiesFromExcelTypeAHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Increase address.
         /// </summary>
         public static string IncreaseAddress {

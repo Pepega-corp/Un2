@@ -47,10 +47,12 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
             container.Register<ConditionFillHelper>();
             container.Register<FilterFillHelper>();
             container.Register<BaseValuesFillHelper>();
+            container.Register<ImportPropertiesFromExcelTypeAHelper>();
 
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",
                 GetType().Assembly);
+            
             
         }
     }
