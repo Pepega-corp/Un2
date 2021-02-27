@@ -12,5 +12,6 @@
         public const string OUTPUT = "Output";
         public const string INVERSION = "Inversion";
         public const string AND = "And";
+        public const string OR = "Or";
     }
 }

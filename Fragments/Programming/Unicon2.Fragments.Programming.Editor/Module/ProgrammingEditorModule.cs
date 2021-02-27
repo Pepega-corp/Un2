@@ -29,11 +29,14 @@ namespace Unicon2.Fragments.Programming.Editor.Module
             container.Register<ILibraryElement, InversionEditor>(ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             container.Register<IAndEditor, AndEditor>();
             container.Register<ILibraryElement, AndEditor>(ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
+            container.Register<IOrEditor, OrEditor>();
+            container.Register<ILibraryElement, OrEditor>(ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             //All view models
             container.Register<ILogicElementEditorViewModel, InputEditorViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<ILogicElementEditorViewModel, OutputEditorViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<ILogicElementEditorViewModel, InversionEditorViewModel>(ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<ILogicElementEditorViewModel, AndEditorViewModel>(ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            container.Register<ILogicElementEditorViewModel, OrEditorViewModel>(ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ProgrammingEditorTemplate.xaml", GetType().Assembly);
         }

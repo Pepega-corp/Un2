@@ -17,7 +17,8 @@
                 Input="{StaticResource InputTemplate}"
                 Output="{StaticResource OutputTemplate}"
                 Inversion="{StaticResource InversionTemplate}"
-                And="{StaticResource AndTemplate}"/>
+                And="{StaticResource AndTemplate}"
+                Or="{StaticResource OrTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
     
@@ -90,7 +91,7 @@
             Padding="0"
             Header="Элементы свободно программируемой логики">
             <StackPanel Orientation="Vertical">
-                <Expander Header="Элементы двоичной логики">
+                <Expander Header="Элементы двоичной логики" IsExpanded="True">
                     <ListView ItemsSource="{Binding BooleanElements}" SelectedItem="{Binding Path=SelectedNewLogicElemItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <ListView.ItemTemplate>
                             <DataTemplate DataType="interfaces:ILogicElementEditorViewModel">

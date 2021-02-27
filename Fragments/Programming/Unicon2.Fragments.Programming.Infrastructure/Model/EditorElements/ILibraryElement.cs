@@ -1,7 +1,7 @@
 ﻿using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Infrastructure.Interfaces;
 
-namespace Unicon2.Fragments.Programming.Infrastructure.Model
+namespace Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements
 {
     public interface ILibraryElement : IStronglyNamed
     {

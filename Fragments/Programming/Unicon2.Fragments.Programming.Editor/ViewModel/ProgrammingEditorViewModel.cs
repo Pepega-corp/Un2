@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Unicon2.Fragments.Programming.Editor.View;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
@@ -131,7 +132,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 
         private void OnAddElement()
         {
-            if (this.SelectedNewLogicElemItem == null || this.LibraryElements.Contains(this.SelectedNewLogicElemItem)) return;
+            if (this.SelectedNewLogicElemItem == null || this.LibraryElements.Any(le => le.StrongName == SelectedNewLogicElemItem.StrongName)) 
+                return;
 
             this.LibraryElements.Add(this.SelectedNewLogicElemItem);
         }

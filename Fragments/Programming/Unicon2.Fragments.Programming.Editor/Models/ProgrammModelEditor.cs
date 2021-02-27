@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
 
 namespace Unicon2.Fragments.Programming.Editor.Models
