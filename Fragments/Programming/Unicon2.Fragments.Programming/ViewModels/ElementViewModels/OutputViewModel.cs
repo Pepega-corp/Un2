@@ -16,7 +16,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public OutputViewModel()
         {
             _outputModel = new Output();
-            _model = _outputModel;
+            _logicElementModel = _outputModel;
             ElementName = "Выход";
             Description = "Елемент выходного дискретного сигнала";
             Symbol = "Out";

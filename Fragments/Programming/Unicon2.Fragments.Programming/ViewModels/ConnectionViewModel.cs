@@ -277,7 +277,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 var sourceInfo = new PathFinder.ConnectorInfo
                 {
-                    ConnectorPoint = this.SourceConnector.Model.ConnectorPosition,
+                    ConnectorPoint = this.SourceConnector.ConnectorPosition,
                     Orientation = this.SourceConnector.Orientation,
                     ConnectorParentX = this.SourceConnector.ParentViewModel.X,
                     ConnectorParentY = this.SourceConnector.ParentViewModel.Y
@@ -286,7 +286,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 var sink = this.SinkConnectors[0];
                 var sinkInfo = new PathFinder.ConnectorInfo
                 {
-                    ConnectorPoint = sink.Model.ConnectorPosition,
+                    ConnectorPoint = sink.ConnectorPosition,
                     Orientation = sink.Orientation,
                     ConnectorParentX = sink.ParentViewModel.X,
                     ConnectorParentY = sink.ParentViewModel.Y

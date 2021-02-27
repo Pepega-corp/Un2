@@ -53,14 +53,16 @@
     <Compile Include="Model\EditorElements\IInversionEditor.cs" />
     <Compile Include="Model\EditorElements\IOutputEditor.cs" />
     <Compile Include="Model\EditorElements\IOrEditor.cs" />
+    <Compile Include="Model\Elements\IAnd.cs" />
     <Compile Include="Model\Elements\IConnection.cs" />
     <Compile Include="Model\Elements\IConnector.cs" />
     <Compile Include="Model\Elements\IInput.cs" />
     <Compile Include="Model\Elements\ILogicElement.cs" />
     <Compile Include="Model\Elements\IInversion.cs" />
+    <Compile Include="Model\Elements\IOr.cs" />
     <Compile Include="Model\Elements\IOutput.cs" />
+    <Compile Include="Model\EditorElements\ILibraryElement.cs" />
     <Compile Include="Model\IProgrammModelEditor.cs" />
-    <Compile Include="Model\ILibraryElement.cs" />
     <Compile Include="Model\IProgramModel.cs" />
     <Compile Include="Model\ISchemeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

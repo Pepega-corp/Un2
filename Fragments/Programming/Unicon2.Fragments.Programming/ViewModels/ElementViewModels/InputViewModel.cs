@@ -22,7 +22,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public InputViewModel()
         {
             _inputModel= new Input();
-            _model = _inputModel;
+            _logicElementModel = _inputModel;
 
             this.ElementName = "Вход";
             this.Description = "Елемент входного дискретного сигнала";

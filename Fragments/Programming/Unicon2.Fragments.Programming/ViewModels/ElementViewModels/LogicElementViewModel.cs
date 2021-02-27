@@ -14,7 +14,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
     {
         protected IApplicationGlobalCommands _globalCommands;
         protected bool _isSelected;
-        protected ILogicElement _model;
+        protected ILogicElement _logicElementModel;
         protected bool _debugMode;
         protected string _caption;
         protected bool _validationError;
@@ -24,7 +24,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         private bool yChanged;
 
         public string ElementName { get; protected set; }
-        public ElementType ElementType => this._model.ElementType;
+        public ElementType ElementType => this._logicElementModel.ElementType;
         public bool IsSelected
         {
             get => this._isSelected;
@@ -62,10 +62,10 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
         public double X
         {
-            get => this._model.X;
+            get => this._logicElementModel.X;
             set
             {
-                this._deltaPosition.X = value - this._model.X;
+                this._deltaPosition.X = value - this._logicElementModel.X;
                 if (this.yChanged)
                 {
                     this.yChanged = false;
@@ -77,16 +77,16 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                     this.xChanged = true;
                 }
 
-                this._model.X = value;
+                this._logicElementModel.X = value;
                 RaisePropertyChanged();
             }
         }
         public double Y
         {
-            get => this._model.Y;
+            get => this._logicElementModel.Y;
             set
             {
-                this._deltaPosition.Y = value - this._model.Y;
+                this._deltaPosition.Y = value - this._logicElementModel.Y;
                 if (this.xChanged)
                 {
                     this.yChanged = false;
@@ -98,7 +98,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                     this.yChanged = true;
                 }
 
-                this._model.Y = value;
+                this._logicElementModel.Y = value;
                 RaisePropertyChanged();
             }
         }
@@ -115,9 +115,9 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         protected virtual ILogicElement GetModel()
         {
-            this._model.Connectors.Clear();
-            this._model.Connectors.AddRange(this.ConnectorViewModels.Select(cvm => cvm.Model));
-            return this._model;
+            this._logicElementModel.Connectors.Clear();
+            this._logicElementModel.Connectors.AddRange(this.ConnectorViewModels.Select(cvm => cvm.Model));
+            return this._logicElementModel;
         }
 
         protected virtual void SetModel(ILogicElement model)
@@ -139,7 +139,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         protected ILogicElementViewModel Clone<TR, T>() where TR : LogicElementViewModel, new() where T : ILogicElement, new()
         {
             var newModel = new T();
-            newModel.CopyValues(_model);
+            newModel.CopyValues(_logicElementModel);
 
             var ret = new TR
             {

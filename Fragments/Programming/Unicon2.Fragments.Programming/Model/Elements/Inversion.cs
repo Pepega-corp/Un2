@@ -17,13 +17,16 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public Inversion()
         {
-            Connectors = new List<IConnector>();
-            Connectors.Add(new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT));
-            Connectors.Add(new Connector(ConnectorOrientation.RIGHT, ConnectorType.INVERS));
+            Connectors = new List<IConnector>
+            {
+                new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT),
+                new Connector(ConnectorOrientation.RIGHT, ConnectorType.INVERS)
+            };
         }
 
         public override void CopyValues(ILibraryElement source)
         {
+            base.CopyValues(source);
         }
 
         public override ushort[] GetProgrammBin()

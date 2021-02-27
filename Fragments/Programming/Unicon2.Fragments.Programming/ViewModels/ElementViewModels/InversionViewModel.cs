@@ -12,7 +12,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public InversionViewModel()
         {
-            _model = new Inversion();
+            _logicElementModel = new Inversion();
 
             this.ElementName = "НЕ";
             this.Description = "Елемент инверсии логического сигнала";
