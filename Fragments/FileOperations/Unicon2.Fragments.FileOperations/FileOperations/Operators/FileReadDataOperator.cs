@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using Unicon2.Infrastructure.Extensions;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations.Operators

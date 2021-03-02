@@ -49,7 +49,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public ILogicElementViewModel ParentViewModel { get; }
         
-        private IConnector Model
+        public IConnector Model
         {
             get => GetModel();
             set => SetModel(value);

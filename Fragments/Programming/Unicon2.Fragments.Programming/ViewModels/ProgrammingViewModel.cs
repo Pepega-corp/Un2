@@ -323,8 +323,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
                     var logbin = this.Compile();
                     this.CalcCrc(logbin);
-                    await this._logicDeviceProvider.WriteLogicProgrammBin(logbin);
-                    await this._logicDeviceProvider.WriteStartlogicProgrammSignal();
+                    await this._logicDeviceProvider.WriteLogicProgrammBin(logbin, this._programModel.EnableFileDriver);
+                    await this._logicDeviceProvider.WriteStartlogicProgrammSignal(this._programModel.EnableFileDriver);
 
                     CycleReadingConnectionValues();
 
@@ -458,7 +458,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             while (IsLogicStarted)
             {
-                var values = await _logicDeviceProvider.ReadConnectionValues(ConnectionCollection.Count);
+                var values = await _logicDeviceProvider.ReadConnectionValues(ConnectionCollection.Count, this._programModel.EnableFileDriver);
                 for(var i=0; i < ConnectionCollection.Count; i++)
                 {
                     ConnectionCollection[i].CurrentValue = values[i];

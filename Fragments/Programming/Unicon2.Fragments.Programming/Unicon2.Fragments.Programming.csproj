@@ -92,6 +92,7 @@
     <Compile Include="TemplateSelectors\ElementsViewModelSelector.cs" />
     <Compile Include="ViewModels\ElementViewModels\AndViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\InversionViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\OrViewModel.cs" />
     <Compile Include="Views\LogicElementSettings.xaml.cs">
       <DependentUpon>LogicElementSettings.xaml</DependentUpon>
     </Compile>

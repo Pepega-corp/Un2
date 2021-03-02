@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.FileOperations.Operators;
@@ -40,18 +39,14 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             this._fileCloseOperator.SetDataProvider(dataProvider);
         }
 
-        public async Task<byte[]> ReadFile(string fileName)
+        public async Task<byte[]> ReadFile(string fileName, ushort wordsDataLen = 64)
         {
             var descriptor = await OpenFile(fileName, FileAccess.READ_FILE);
-            var fileBytes = await ReadData(descriptor);
+            var fileBytes = await this._fileReadDataOperator.ReadFileData(descriptor, wordsDataLen);
             await CloseFile(fileName);
             return fileBytes;
         }
 
-        private async Task<byte[]> ReadData(int descriptor, ushort wordsDataLen = 64)
-        {
-            return await this._fileReadDataOperator.ReadFileData(descriptor, wordsDataLen);
-        }
 
         private async Task<int> OpenFile(string fileName, FileAccess access)
         {
@@ -93,7 +88,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             await this._sessionNumberOperator.ReadSessionNumber();
         }
 
-        public async Task WriteFile(byte[] fileData, string fileName)
+        public async Task WriteFile(byte[] fileData, string fileName, ushort wordsDataLen = 64)
         {
             var descriptor = await this.OpenFile(fileName, FileAccess.WRITE_FILE);
             await this._fileWriteDataOperator.WriteData(descriptor, fileData);
@@ -104,9 +99,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             return await this._directoryOperator.CreateDirectory(directoryPath);
         }
 
-        public async Task<bool> DeleteFile(string fileName)
+        public Task<bool> DeleteFile(string fileName)
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

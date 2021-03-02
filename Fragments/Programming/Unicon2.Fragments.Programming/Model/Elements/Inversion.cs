@@ -26,7 +26,6 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public override void CopyValues(ILibraryElement source)
         {
-            base.CopyValues(source);
         }
 
         public override ushort[] GetProgrammBin()
