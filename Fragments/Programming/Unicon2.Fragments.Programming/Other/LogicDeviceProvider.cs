@@ -48,10 +48,15 @@ namespace Unicon2.Fragments.Programming.Other
             }
             else
             {
+                await Task.Delay(100);
                 var writeArchData = new ushort[8192];
-                var logicProjectWords = logicPjectBytes.ByteArrayToUshortArray();
+                var logicProjectWords = compressedArchive.ByteArrayToUshortArray();
                 logicProjectWords.CopyTo(writeArchData, 0);
-                await Write(logicProjectWords, LOGIC_ARCH_START_ADDRESS_OLD_DEVICES, "WriteLogicArchive", writeDataLen);
+                var isWrote = await Write(writeArchData, LOGIC_ARCH_START_ADDRESS_OLD_DEVICES, "WriteLogicArchive", writeDataLen);
+                if (!isWrote)
+                {
+                    throw new Exception("Can't write logic programm archive in device");
+                }
             }
         }
 
@@ -77,7 +82,11 @@ namespace Unicon2.Fragments.Programming.Other
                 if (isSuccessful)
                 {
                     var values = logbin.Skip(pageIndex * 1024).Take(1024).ToArray();
-                    await Write(values, writeStartAddress, "WriteProgrammBin", writeDataLen);
+                    var isWrote = await Write(values, writeStartAddress, "WriteProgrammBin", writeDataLen);
+                    if (!isWrote)
+                    {
+                        throw new Exception("Can't write logic programm bin in device");
+                    }
                 }
                 else
                 {
@@ -86,7 +95,7 @@ namespace Unicon2.Fragments.Programming.Other
             }
         }
 
-        private async Task Write(ushort[] values, ushort startAddress, string writeQueryName, ushort writeDataLen)
+        private async Task<bool> Write(ushort[] values, ushort startAddress, string writeQueryName, ushort writeDataLen)
         {
             var count = values.Length / writeDataLen;
             for (var i = 0; i < count; i++)
@@ -96,17 +105,18 @@ namespace Unicon2.Fragments.Programming.Other
                     .WriteMultipleRegistersAsync((ushort)(startAddress + i * writeDataLen), val, $"{writeQueryName}{i}");
                 if (!programmSaveResult.IsSuccessful)
                 {
-                    throw new Exception("Can't write logic programm in device");
+                    return false;
                 }
             }
+
+            return true;
         }
 
         public async Task WriteStartlogicProgrammSignal(bool hasFileSystem)
         {
             var provider = this.DeviceContext.DataProviderContainer.DataProvider;
-            var result = await provider.WriteSingleCoilAsync(hasFileSystem 
-                ? START_LOGIC_ADDRESS_NEW_DEVICE 
-                : START_LOGIC_ADDRESS_OLD_DEVICE, true, "StartLogicProgramm");
+            var startAddress = hasFileSystem ? START_LOGIC_ADDRESS_NEW_DEVICE : START_LOGIC_ADDRESS_OLD_DEVICE;
+            var result = await provider.WriteSingleCoilAsync(startAddress, true, "StartLogicProgramm");
             if (!result.IsSuccessful)
             {
                 throw new Exception("Can't start logic programm");
@@ -116,9 +126,8 @@ namespace Unicon2.Fragments.Programming.Other
         public async Task<ushort[]> ReadConnectionValues(int connectionsCount, bool hasFileSystem)
         {
             var provider = this.DeviceContext.DataProviderContainer.DataProvider;
-            var response = await provider.ReadHoldingResgistersAsync(hasFileSystem 
-                ? LOGIC_SYGNAL_START_ADDRESS_NEW_DEVICES 
-                : LOGIC_SYGNAL_START_ADDRESS_OLD_DEVICES, (ushort)connectionsCount, "ReadLogProgSignals");
+            var startAddress = hasFileSystem ? LOGIC_SYGNAL_START_ADDRESS_NEW_DEVICES : LOGIC_SYGNAL_START_ADDRESS_OLD_DEVICES;
+            var response = await provider.ReadHoldingResgistersAsync(startAddress, (ushort)connectionsCount, "ReadLogProgSignals");
             if (response.IsSuccessful)
             {
                 return response.Result;

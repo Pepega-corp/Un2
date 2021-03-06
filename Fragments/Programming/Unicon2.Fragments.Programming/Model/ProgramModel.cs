@@ -35,6 +35,7 @@ namespace Unicon2.Fragments.Programming.Model
         [JsonProperty] public bool EnableFileDriver { get; set; }
         [JsonProperty] public bool WithHeader { get; set; }
         [JsonProperty] public string LogicHeader { get; set; }
+        [JsonProperty] public int LogBinSize { get; set; }
         public string StrongName => ProgrammingKeys.PROGRAMMING;
         public IFragmentSettings FragmentSettings { get; set; }
         public string ProjectPath { get; }

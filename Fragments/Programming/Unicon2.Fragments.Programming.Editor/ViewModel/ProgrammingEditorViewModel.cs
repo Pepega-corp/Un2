@@ -37,6 +37,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         public ProgrammingEditorViewModel(IProgrammModelEditor model, IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
         {
             this._model = model;
+            this._model.LogBinSize = 4096;
             this._globalCommands = globalCommands;
             this._logicElementFactory = logicElementFactory;
             this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsEditorViewModels());
@@ -130,6 +131,18 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             }
         }
 
+        public string SelectedLogBinSize
+        {
+            get => _model.LogBinSize.ToString("D");
+            set
+            {
+                _model.LogBinSize = int.Parse(value);
+                RaisePropertyChanged();
+            }
+        }
+
+        public string[] LogBinSizes { get; } = {"4096", "1024"};
+
         private void OnAddElement()
         {
             if (this.SelectedNewLogicElemItem == null || this.LibraryElements.Any(le => le.StrongName == SelectedNewLogicElemItem.StrongName)) 
@@ -180,6 +193,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
                 this._model.EnableFileDriver = model.EnableFileDriver;
                 this._model.WithHeader = model.WithHeader;
                 this._model.Elements.AddRange(model.Elements);
+                this.SelectedLogBinSize = model.LogBinSize.ToString("D");
                 this.LibraryElements.Clear();
                 this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
 

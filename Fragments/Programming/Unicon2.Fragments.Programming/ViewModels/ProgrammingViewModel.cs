@@ -294,6 +294,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this._programModel.EnableFileDriver = model.EnableFileDriver;
                 this._programModel.LogicHeader = model.LogicHeader;
                 this.UpdateCollections(this._programModel);
+                this._programModel.LogBinSize = model.LogBinSize;
             }
             else if (deviceFragment is IProgrammModelEditor modelEditor)
             {
@@ -302,6 +303,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this._programModel.EnableFileDriver = modelEditor.EnableFileDriver;
                 this._programModel.WithHeader = modelEditor.WithHeader;
                 this._programModel.LogicHeader = modelEditor.LogicHeader;
+                this._programModel.LogBinSize = modelEditor.LogBinSize;
             }
         }
 
@@ -319,13 +321,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     IsLogicStarted = true;
 
                     this.UpdateModelData();
-                    var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
-                    await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
                     var logbin = this.Compile();
                     this.CalcCrc(logbin);
                     await this._logicDeviceProvider.WriteLogicProgrammBin(logbin, this._programModel.EnableFileDriver);
                     await this._logicDeviceProvider.WriteStartlogicProgrammSignal(this._programModel.EnableFileDriver);
 
+                    var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
+                    await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
+                    
                     CycleReadingConnectionValues();
 
                     MessageBox.Show("Logic wrote successful!", "Write logic", MessageBoxButton.OK);
@@ -364,11 +367,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
             binFile.AddRange(this.GetSchemeBin(allElements));
             binFile.AddRange(this.GetEndFileBin());
 
-            if (binFile.Count < 4096)
+            if (binFile.Count < this._programModel.LogBinSize)
             {
-                var filler = new ushort[4096 - binFile.Count];
+                var filler = new ushort[this._programModel.LogBinSize - binFile.Count];
                 binFile.AddRange(filler);
             }
+            else if(binFile.Count > this._programModel.LogBinSize)
+            {
+                throw new Exception($"Logic programm bin has size more than {this._programModel.LogBinSize} bytes!");
+            }
+
             return binFile.ToArray();
         }
 

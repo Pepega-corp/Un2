@@ -10,5 +10,6 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
         bool EnableFileDriver { get; set; }
         bool WithHeader { get; set; }
         string LogicHeader { get; set; }
+        int LogBinSize { get; set; }
     }
 }
