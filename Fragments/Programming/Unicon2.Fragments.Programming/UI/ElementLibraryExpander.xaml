@@ -12,6 +12,7 @@
         <ResourceDictionary Source="ElementsLibraryResources/InputLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/OutputLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/InversionLibraryElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/AndLibraryElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
@@ -19,7 +20,8 @@
         x:Key="LibrarySelector"
         Input="{StaticResource InputLibraryElement}"
         Inversion="{StaticResource InversionLibraryElement}"
-        Output="{StaticResource OutputLibraryElement}" />
+        Output="{StaticResource OutputLibraryElement}" 
+        And="{StaticResource AndLibraryElement}"/>
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border
