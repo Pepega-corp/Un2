@@ -134,16 +134,19 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 ConnectorViewModels.Add(newConnector);
             }
         }
+
+        public void CopyValues(ILogicElementViewModel source)
+        {
+            SetModel(source.Model);
+        }
+
         public abstract ILogicElementViewModel Clone();
 
         protected ILogicElementViewModel Clone<TR, T>() where TR : LogicElementViewModel, new() where T : ILogicElement, new()
         {
-            var newModel = new T();
-            newModel.CopyValues(_logicElementModel);
-
             var ret = new TR
             {
-                Model = newModel,
+                Model = this.Model,
                 Caption = this.Caption,
                 _globalCommands = this._globalCommands
             };

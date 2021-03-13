@@ -37,28 +37,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             AllInputSignals = new List<Dictionary<int, string>>();
         }
 
-        public override void CopyValues(ILogicElement source)
-        {
-            if (!(source is Input inputSource))
-            {
-                throw new ArgumentException("Copied source is not " + typeof(Input));
-            }
-            
-            this.InputSignalNum = inputSource.InputSignalNum;
-            this.BaseNum = inputSource.BaseNum;
-            this.Bases.Clear();
-            this.Bases.AddRange(inputSource.Bases);
-            this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
-            for (int i = 0; i < this.Bases.Count; i++)
-            {
-                var copiedDictionary = inputSource.AllInputSignals[i];
-                this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
-            }
-
-            base.CopyValues(source);
-        }
-
-        public override void CopyValues(ILibraryElement source)
+        public override void CopyLibraryValues(ILibraryElement source)
         {
             if (!(source is IInputEditor inputSource))
             {

@@ -23,21 +23,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public double Y { get; set; }
 
         public abstract void BinProgrammToProperty(ushort[] bin);
-        public virtual void CopyValues(ILogicElement source)
-        {
-            X = source.X;
-            Y = source.Y;
-
-            Connectors.Clear();
-            foreach(var c in source.Connectors)
-            {
-                var connector = new Connector(c.Orientation, c.Type);
-                connector.ConnectorPosition = c.ConnectorPosition;
-                Connectors.Add(connector);
-            }
-        }
-
-        public abstract void CopyValues(ILibraryElement source);
+        public virtual void CopyLibraryValues(ILibraryElement source) { }
         public abstract ushort[] GetProgrammBin();
     }
 }

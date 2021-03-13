@@ -15,8 +15,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         int BinSize { get; }
         ushort[] GetProgrammBin();
         void BinProgrammToProperty(ushort[] bin);
-        void CopyValues(ILogicElement source);
-        void CopyValues(ILibraryElement source);
+        void CopyLibraryValues(ILibraryElement source);
         double X { get; set; }
         double Y { get; set; }
     }

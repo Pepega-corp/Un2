@@ -24,10 +24,6 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             };
         }
 
-        public override void CopyValues(ILibraryElement source)
-        {
-        }
-
         public override ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];

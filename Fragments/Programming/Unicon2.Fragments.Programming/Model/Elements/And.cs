@@ -29,11 +29,6 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             };
         }
 
-        public override void CopyValues(ILibraryElement source)
-        {
-
-        }
-
         public override ushort[] GetProgrammBin()
         {
             var inputs = Connectors.Where(c => c.Orientation == ConnectorOrientation.LEFT).ToArray();

@@ -15,6 +15,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         bool Connected { get; }
         ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; }
         ILogicElementViewModel Clone();
+        void CopyValues(ILogicElementViewModel source);
         void OpenPropertyWindow();
         int CompilePriority { get; set; }
        

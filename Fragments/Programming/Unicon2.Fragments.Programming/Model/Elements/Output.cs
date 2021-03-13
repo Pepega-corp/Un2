@@ -32,21 +32,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.Connectors = new List<IConnector> { new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
         }
 
-        public override void CopyValues(ILogicElement source)
-        {
-            if (!(source is Output outputSource))
-            {
-                throw new ArgumentException("Copied source is not " + typeof(Output));
-            }
-            
-            this.OutputSignals.Clear();
-            this.OutputSignals.AddRange(outputSource.OutputSignals);
-            this.OutputSignalNum = outputSource.OutputSignalNum;
-
-            base.CopyValues(source);
-        }
-
-        public override void CopyValues(ILibraryElement source)
+        public override void CopyLibraryValues(ILibraryElement source)
         {
             if (!(source is IOutputEditor outputEditor))
             {

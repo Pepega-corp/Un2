@@ -126,7 +126,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
             foreach (var libraryElement in libraryElements)
             {
                 var element = allElements.First(logicElement => logicElement.ElementType == libraryElement.ElementType);
-                element.CopyValues(libraryElement);
+                element.CopyLibraryValues(libraryElement);
                 elements.Add(element);
             }
 

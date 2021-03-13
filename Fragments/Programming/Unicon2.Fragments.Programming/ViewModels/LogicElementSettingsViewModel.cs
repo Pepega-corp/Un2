@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public LogicElementSettingsViewModel(ILogicElementViewModel sourceViewModel)
         {
             this._sourceViewModel = sourceViewModel;
-            this.LogicElementViewModel = (ILogicElementViewModel)this._sourceViewModel.Clone();
+            this.LogicElementViewModel = this._sourceViewModel.Clone();
 
             this.OkCommand = new RelayCommand<Window>(this.OnOkCommand);
             this.CancelCommand = new RelayCommand<Window>(this.OnCloseCommand);
@@ -37,8 +37,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void OnOkCommand(Window window)
         {
-            this._sourceViewModel.Model.CopyValues(this._editableViewModel.Model);
-
+            this._sourceViewModel.CopyValues(this._editableViewModel);
             window?.Close();
         }
 
