@@ -1575,4 +1575,19 @@
   <data name="ImportPropertiesFromExcelTypeADescription" xml:space="preserve">
     <value>Import properties from excel sequentialy. Every row will be a SubProperty for complex property. Complex propery will be created for every 16 sybproperties. Formatting will be of Yes/no type. Addresses will be set sequentially, you can adjust them later</value>
   </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="ValidationErrors" xml:space="preserve">
+    <value>Validation errors</value>
+  </data>
+  <data name="FormattingIsEmpty" xml:space="preserve">
+    <value>Formatting Is Empty</value>
+  </data>
+  <data name="Fix" xml:space="preserve">
+    <value>Fix</value>
+  </data>
+  <data name="ValidationErrorsContinueQuestion" xml:space="preserve">
+    <value>There are some validation errors. Would you like to continue saving anyway?</value>
+  </data>
 </root>

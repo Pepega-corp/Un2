@@ -9,14 +9,18 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:templateSelectors="clr-namespace:Unicon2.DeviceEditorUtilityModule.TemplateSelectors"
+    xmlns:viewModels="clr-namespace:Unicon2.DeviceEditorUtilityModule.ViewModels"
     Name="DeviceEditorFlyout"
     Margin="0"
+    xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:validation="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.Validation;assembly=Unicon2.Presentation.Infrastructure"
     HorizontalContentAlignment="Stretch"
     dialogs:DialogParticipation.Register="{Binding}"
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
     Header="{lex:Loc DeviceEditor}"
     IsModal="True"
+    d:DataContext="{d:DesignInstance viewModels:DeviceEditorViewModel}"
     IsOpen="{Binding IsOpen, Mode=TwoWay}"
     IsPinned="True"
     Position="Left"
@@ -25,6 +29,7 @@
 
     <controls:Flyout.Resources>
         <templateSelectors:FragmentsEditorTemplateSelector x:Key="FragmentsEditorTemplateSelector" />
+            <converter:BoolToIconConverter x:Key="BoolToIconConverter" />
     </controls:Flyout.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -40,22 +45,110 @@
                 Margin="10"
                 Text="{lex:Loc Device}" />
             <TextBox
+                IsTabStop="False"
                 MinWidth="250"
                 Margin="5"
                 FontWeight="SemiBold"
                 Text="{Binding ResultingDeviceViewModel.DeviceName, Mode=TwoWay}" />
+      
+                    <VirtualizingStackPanel Orientation="Horizontal">
+                        <Image
+                            Width="18"
+                            Height="18"
+                            Source="{Binding DeviceEditorValidationViewModel.IsSuccess, Converter={StaticResource BoolToIconConverter}}"/>
+                        <TextBlock
+                            Margin="1"
+                            VerticalAlignment="Center"
+                            FontSize="11"
+                            Text="{lex:Loc ValidationErrors}" />
+                       
+                        <Button Margin="10" Command="{Binding DeviceEditorValidationViewModel.OpenPopup}" Content="{Binding DeviceEditorValidationViewModel.ErrorViewModels.Count}" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <TextBlock TextDecorations="Underline">
+                                        <ContentPresenter />
+                                    </TextBlock>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Foreground" Value="Blue" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Popup MinWidth="400" Placement="Mouse" StaysOpen="False" IsOpen="{Binding DeviceEditorValidationViewModel.IsValidationPopupOpen}">
+                            <Border Background="White" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            Text="{lex:Loc ValidationErrors}" />
+                                        <Button Height="30" Width="30" Margin="5" Command="{Binding DeviceEditorValidationViewModel.RefreshErrors}" Style="{DynamicResource UniconButtonStyle}">
+                                            <Rectangle
+                                                ToolTipService.ShowDuration="15000"
+                                                Width="15"
+                                                Height="15"
+                                                Fill="Gray">
+                                                <Rectangle.ToolTip>
+                                                    <ToolTip>
+                                                        <TextBlock Text="{lex:Loc Refresh}" TextWrapping="Wrap" MaxWidth="200"></TextBlock>
+                                                    </ToolTip>
+                                                </Rectangle.ToolTip>
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_refresh}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                    </StackPanel>
+                                    <ItemsControl HorizontalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding DeviceEditorValidationViewModel.ErrorViewModels}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="validation:EditorValidationErrorViewModel">
+                                                <Border Margin="3" Background="White" BorderBrush="{DynamicResource MahApps.Brushes.Accent2}" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition></ColumnDefinition>
+                                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Margin="5" Text="{Binding ErrorMessage}"></TextBlock>
+                                                        <Button Grid.Column="1" Margin="5" Content="{lex:Loc Fix}" Command="{Binding OpenCommand}"></Button>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                            
+                            </Border>
+                        </Popup>
+                        
+                    </VirtualizingStackPanel>
+             
             <Button
+                IsTabStop="False"
                 Margin="3"
                 Command="{Binding LoadExistingDevice}"
                 Content="{lex:Loc LoadExisting}"
                 Style="{DynamicResource UniconButtonStyle}" />
             <Button
+                IsTabStop="False"
                 Margin="5"
                 Command="{Binding CreateDeviceCommand}"
                 Content="{lex:Loc SaveInDefaultDirectory}"
                 Style="{DynamicResource UniconButtonStyle}"
                 ToolTip="{lex:Loc SaveInDefaultDirectoryDescription}" />
             <Button
+                IsTabStop="False"
                 Margin="5"
                 Command="{Binding SaveInFileCommand}"
                 Content="{lex:Loc SaveInFile}"
@@ -72,6 +165,7 @@
                     Margin="10"
                     Text="{lex:Loc Block}" />
                 <ComboBox
+                    IsTabStop="False"
                     Name="FragmentsComboBox"
                     Grid.Column="1"
                     MinWidth="100"

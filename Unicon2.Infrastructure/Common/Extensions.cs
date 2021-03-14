@@ -30,8 +30,26 @@ namespace Unicon2.Infrastructure.Common
 
             return dictionary;
         }
-        
-        
+
+        public static Dictionary<TKey, List<TVal>> AddElementInList<TKey, TVal>(this Dictionary<TKey, List<TVal>> dictionary,
+            TKey key,
+            TVal value)
+        {
+            if (dictionary.ContainsKey(key))
+            {
+                if (!dictionary[key].Contains(value))
+                {
+                    dictionary[key].Add(value);
+                }
+
+            }
+            else
+            {
+                dictionary.Add(key, new List<TVal>() {value});
+            }
+
+            return dictionary;
+        }
 
     }
 }

@@ -76,7 +76,7 @@ namespace Unicon2.Tests.Utils.Mocks
             throw new NotImplementedException();
         }
 
-        public bool AskUserGlobal(string message, string title, object context = null)
+        public bool AskUserGlobal(string message, string title, object context = null, string yesText=null, string noText=null)
         {
             IsAskUserGlobalTriggered = true;
             return AskUserGlobalResult;

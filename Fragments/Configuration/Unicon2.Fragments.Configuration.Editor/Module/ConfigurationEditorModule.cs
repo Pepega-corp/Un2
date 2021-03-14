@@ -7,12 +7,14 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.ElementAdding;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Validators;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.ElementAdding;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.FragmentSettings;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels.Validation;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.Module
@@ -30,9 +32,12 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
             container.Register<IComplexPropertyEditorViewModel, ComplexPropertyEditorViewModel>();
             container.Register<ISubPropertyEditorViewModel, SubPropertyEditorViewModel>();
 
-            container.Register<IResultViewModel, ApplyFormatterResultViewModel>(ConfigurationKeys.APPLY_FORMATTER_RESULT);
-            container.Register<IResultViewModel, BlockInteractionResultViewModel>(ConfigurationKeys.BLOCK_INTERACTION_RESULT);
-            container.Register<IConditionViewModel, CompareResourceConditionViewModel>(ConfigurationKeys.COMPARE_RESOURCE_CONDITION);
+            container.Register<IResultViewModel, ApplyFormatterResultViewModel>(
+                ConfigurationKeys.APPLY_FORMATTER_RESULT);
+            container.Register<IResultViewModel, BlockInteractionResultViewModel>(ConfigurationKeys
+                .BLOCK_INTERACTION_RESULT);
+            container.Register<IConditionViewModel, CompareResourceConditionViewModel>(ConfigurationKeys
+                .COMPARE_RESOURCE_CONDITION);
 
 
             container.Register<IElementAddingCommand, ElementAddingCommand>();
@@ -49,11 +54,17 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
             container.Register<BaseValuesFillHelper>();
             container.Register<ImportPropertiesFromExcelTypeAHelper>();
 
+            container.Register<ConfigurationEditorViewModelValidator>();
+
+            container.Resolve<IDeviceEditorViewModelValidator>()
+                .RegisterFragmentValidator<ConfigurationEditorViewModel>(container
+                    .Resolve<ConfigurationEditorViewModelValidator>().CreateValidator());
+
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",
                 GetType().Assembly);
-            
-            
+
+
         }
     }
 }

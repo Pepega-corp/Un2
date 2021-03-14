@@ -147,9 +147,9 @@
                 AutoGenerateColumns="False"
                 BorderThickness="1"
                 EnableRowVirtualization="False"
+                ItemsSource="{Binding Path=InfoMessageCollectionToShow}"
                 VirtualizingPanel.IsVirtualizing="True"
-                VirtualizingPanel.VirtualizationMode="Recycling"
-                ItemsSource="{Binding Path=InfoMessageCollectionToShow}">
+                VirtualizingPanel.VirtualizationMode="Recycling">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>

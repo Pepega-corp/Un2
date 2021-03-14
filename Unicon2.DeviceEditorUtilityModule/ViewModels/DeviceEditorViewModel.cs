@@ -1,13 +1,16 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
+using Unicon2.DeviceEditorUtilityModule.ViewModels.Validation;
 using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels.Validation;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Navigation;
 using Unicon2.Unity.ViewModels;
@@ -28,7 +31,9 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
 
         public DeviceEditorViewModel(ILocalizerService localizerService, IDialogCoordinator dialogCoordinator,
-            IResultingDeviceViewModel resultingDeviceViewModel, IDevicesContainerService devicesContainerService, IApplicationGlobalCommands applicationGlobalCommands)
+            IResultingDeviceViewModel resultingDeviceViewModel, IDevicesContainerService devicesContainerService,
+            IApplicationGlobalCommands applicationGlobalCommands,
+            IDeviceEditorViewModelValidator deviceEditorViewModelValidator)
         {
             _localizerService = localizerService;
             _dialogCoordinator = dialogCoordinator;
@@ -40,9 +45,12 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             SaveInFileCommand = new RelayCommand(OnSaveInFileExecute);
             OpenSharedResourcesCommand = new RelayCommand(OnOpenSharedResourcesExecute);
             DeleteFragmentCommand = new RelayCommand<object>(OnDeleteFragmentExecute);
-            OpenAddFragmentWindowCommand=new RelayCommand(OnOpenAddFragmentWindowCommand);
+            OpenAddFragmentWindowCommand = new RelayCommand(OnOpenAddFragmentWindowCommand);
             _currentFolder =
                 Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), DEFAULT_FOLDER);
+            DeviceEditorValidationViewModel = new DeviceEditorValidationViewModel(() =>
+                deviceEditorViewModelValidator.ValidateDeviceEditor(ResultingDeviceViewModel.FragmentEditorViewModels
+                    .ToList()));
         }
 
         private void OnOpenAddFragmentWindowCommand()
@@ -73,6 +81,10 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         private void OnSaveInFileExecute()
         {
+            if (!ValidateDevice())
+            {
+                return;
+            }
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = " JSON файл (*.json)|*.json" + "|Все файлы (*.*)|*.* ";
             sfd.DefaultExt = ".json";
@@ -85,11 +97,31 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
+        private bool ValidateDevice()
+        {
+            DeviceEditorValidationViewModel.RefreshErrors.Execute(null);
+            if (!DeviceEditorValidationViewModel.IsSuccess)
+            {
+                var res = _applicationGlobalCommands.AskUserGlobal(
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
+                        .VALIDATION_ERRORS_CONTINUE),
+                    _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.VALIDATION_ERRORS), this,
+                    _localizerService.GetLocalizedString("Yes"), _localizerService.GetLocalizedString("No"));
+                return res;
+            }
+
+            return true;
+        }
+
         private void OnCreateDeviceExecute()
         {
             if (File.Exists(ApplicationGlobalNames.DEFAULT_DEVICES_FOLDER_PATH + "//" +
                             ResultingDeviceViewModel.DeviceName + ".json"))
             {
+                if (!ValidateDevice())
+                {
+                    return;
+                }
                 if (_dialogCoordinator.ShowModalMessageExternal(this,
                         _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings.SAVING),
                         _localizerService.GetLocalizedString(ApplicationGlobalNames.DialogStrings
@@ -143,7 +175,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
-   
+        public IDeviceEditorValidationViewModel DeviceEditorValidationViewModel { get; }
+
 
         public IResultingDeviceViewModel ResultingDeviceViewModel
         {

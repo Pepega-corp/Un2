@@ -347,7 +347,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
 		public INameable GetResourceByName(string name)
 		{
-			return _deviceSharedResources.SharedResources.First(nameable => nameable.Name == name);
+			return _deviceSharedResources.SharedResources.FirstOrDefault(nameable => nameable.Name == name);
 		}
 
 		public void AddExistingResourceWithContainer(object viewModel, object resourceModel)

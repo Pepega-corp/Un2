@@ -131,6 +131,22 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             OpenBasicValuesCommand = new RelayCommand(OnOpenBasicValuesExacute);
             BaseValuesViewModel = new BaseValuesViewModel();
             ImportPropertiesFromExcelTypeACommand = new RelayCommand(OnImportPropertiesFromExcelTypeAExecute);
+            EditCommand = new RelayCommand(OnEditExecute);
+        }
+
+        private void OnEditExecute()
+        {
+            if (SelectedRow is IEditable editable)
+            {
+                if (editable.IsInEditMode)
+                {
+                    editable.StopEditElement();
+                }
+                else
+                {
+                    editable.StartEditElement();
+                }
+            }
         }
 
         private void OnImportPropertiesFromExcelTypeAExecute()
@@ -708,6 +724,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
         public ICommand ImportPropertiesFromExcelTypeACommand
+        {
+            get;
+        }
+
+        public ICommand EditCommand
         {
             get;
         }

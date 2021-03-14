@@ -41,8 +41,9 @@
       <HintPath>..\..\..\packages\FluentValidation.9.2.2\lib\net461\FluentValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MahApps.Metro.2.3.3\lib\net47\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f">
+      <HintPath>..\..\..\packages\MahApps.Metro.2.4.3\lib\net47\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
@@ -104,6 +105,7 @@
     <Compile Include="ViewModels\Filter\FilterViewModel.cs" />
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModels\Validators\ConfigurationEditorViewModelValidator.cs" />
     <Compile Include="View\BaseValuesWindow.xaml.cs">
       <DependentUpon>BaseValuesWindow.xaml</DependentUpon>
     </Compile>

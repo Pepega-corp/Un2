@@ -48,9 +48,9 @@
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Center"
             dialogs:DialogParticipation.Register="{Binding}"
+            Background="LightGray"
             IsEnabled="{Binding IsEditEnabled}"
-            Text="{Binding NumValue}"
-            Background="LightGray"/>
+            Text="{Binding NumValue}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type values1:StringValueViewModel}">
@@ -87,16 +87,16 @@
                 IsManipulationEnabled="True" />
         </Grid>
     </DataTemplate>
-    
+
     <DataTemplate x:Key="FilteredEditableBoolValueViewModelDataTemplate" DataType="{x:Type editable:EditableBoolValueViewModel}">
         <Grid VerticalAlignment="Stretch">
             <CheckBox
                 HorizontalAlignment="Center"
                 VerticalAlignment="Stretch"
+                Background="LightGray"
                 IsChecked="{Binding BoolValueProperty, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                 IsEnabled="{Binding IsEditEnabled}"
-                IsManipulationEnabled="True" 
-                Background="LightGray"/>
+                IsManipulationEnabled="True" />
         </Grid>
     </DataTemplate>
 
@@ -136,14 +136,14 @@
         <ComboBox
             MinWidth="100"
             HorizontalContentAlignment="Center"
+            Background="LightGray"
             IsEditable="True"
             IsEnabled="{Binding IsEditEnabled}"
             IsTextSearchEnabled="True"
             ItemsSource="{Binding AvailableItemsList}"
             SelectedItem="{Binding SelectedItem, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, Mode=TwoWay}"
-            StaysOpenOnEdit="True"
-            Background="LightGray"/>
+            StaysOpenOnEdit="True" />
 
     </DataTemplate>
-    
+
 </ResourceDictionary>

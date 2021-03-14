@@ -19,7 +19,7 @@ namespace Unicon2.Localization.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1870,6 +1870,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @Fix.
+        /// </summary>
+        public static string Fix {
+            get {
+                return ResourceManager.GetString("Fix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @FormatError.
         /// </summary>
         public static string FormatError {
@@ -1911,6 +1920,15 @@ namespace Unicon2.Localization.Properties {
         public static string FormattingIfTrue {
             get {
                 return ResourceManager.GetString("FormattingIfTrue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @FormattingIsEmpty.
+        /// </summary>
+        public static string FormattingIsEmpty {
+            get {
+                return ResourceManager.GetString("FormattingIsEmpty", resourceCulture);
             }
         }
         
@@ -3427,6 +3445,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @Refresh.
+        /// </summary>
+        public static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Rename.
         /// </summary>
         public static string Rename {
@@ -4107,6 +4134,24 @@ namespace Unicon2.Localization.Properties {
         public static string UshortToIntegerFormatterDescription {
             get {
                 return ResourceManager.GetString("UshortToIntegerFormatterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ValidationErrors.
+        /// </summary>
+        public static string ValidationErrors {
+            get {
+                return ResourceManager.GetString("ValidationErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ValidationErrorsContinueQuestion.
+        /// </summary>
+        public static string ValidationErrorsContinueQuestion {
+            get {
+                return ResourceManager.GetString("ValidationErrorsContinueQuestion", resourceCulture);
             }
         }
         

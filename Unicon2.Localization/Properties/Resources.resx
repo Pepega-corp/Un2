@@ -1569,4 +1569,19 @@
   <data name="ImportPropertiesFromExcelTypeAHeader" xml:space="preserve">
     <value>@ImportPropertiesFromExcelTypeAHeader</value>
   </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>@Refresh</value>
+  </data>
+  <data name="ValidationErrors" xml:space="preserve">
+    <value>@ValidationErrors</value>
+  </data>
+  <data name="FormattingIsEmpty" xml:space="preserve">
+    <value>@FormattingIsEmpty</value>
+  </data>
+  <data name="Fix" xml:space="preserve">
+    <value>@Fix</value>
+  </data>
+  <data name="ValidationErrorsContinueQuestion" xml:space="preserve">
+    <value>@ValidationErrorsContinueQuestion</value>
+  </data>
 </root>

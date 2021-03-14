@@ -87,19 +87,33 @@ namespace Unicon2.Services
             return false;
         }
 
-        public bool AskUserGlobal(string message, string title,object context=null)
+        public bool AskUserGlobal(string message, string title, object context = null, string yesText = null,
+            string noText = null)
         {
             var contextToUse = _globalDialogContext;
             if (context != null)
             {
                 contextToUse = context;
             }
+
+            var settings = new MetroDialogSettings();
+            if (yesText != null)
+            {
+                settings.AffirmativeButtonText = yesText;
+            }
+
+            if (noText != null)
+            {
+                settings.NegativeButtonText = noText;
+            }
+
             if (_dialogCoordinator.ShowModalMessageExternal(contextToUse, title,
                 message,
-                MessageDialogStyle.AffirmativeAndNegative) == MessageDialogResult.Affirmative)
+                MessageDialogStyle.AffirmativeAndNegative, settings) == MessageDialogResult.Affirmative)
             {
                 return true;
             }
+
             return false;
         }
 

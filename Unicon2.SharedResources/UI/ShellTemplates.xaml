@@ -8,48 +8,49 @@
 
     <converter:IgnoringFailedLocalizationConverter x:Key="IgnoringFailedLocalizationConverter" />
     <converter:EnumMatchToBooleanConverter x:Key="EnumMatchToBooleanConverter" />
-    <converter:IsConnectedToIconConverter x:Key="IsConnectedToIconConverter" />
+    <converter:BoolToIconConverter x:Key="IsConnectedToIconConverter" />
     <converter:BoolToVisConverter x:Key="BoolToVisConverter" />
     <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector x:Key="ValuesDataTemplateSelector" />
 
     <DataTemplate x:Key="DeviceTreeTemplate" DataType="{x:Type device:DeviceViewModel}">
-        <TreeViewItem HorizontalContentAlignment="Stretch" Background="Transparent" ItemsSource="{Binding FragmentViewModels}">
+        <TreeViewItem
+            HorizontalContentAlignment="Stretch"
+            Background="Transparent"
+            ItemsSource="{Binding FragmentViewModels}">
             <TreeViewItem.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="{lex:Loc Logging}">
-                                    <VirtualizingStackPanel Orientation="Vertical">
-                                        <CheckBox
-                                            Margin="3"
-                                            Content="{lex:Loc Errors}"
-                                            IsChecked="{Binding DeviceLoggerViewModel.IsErrorsLoggingEnabled}" />
-                                        <CheckBox
-                                            Margin="3"
-                                            Content="{lex:Loc Info}"
-                                            IsChecked="{Binding DeviceLoggerViewModel.IsInfoMessagesLoggingEnabled}" />
-                                        <CheckBox
-                                            Margin="3"
-                                            Content="{lex:Loc SuccessfulQueries}"
-                                            IsChecked="{Binding DeviceLoggerViewModel.IsSuccessfulQueriesLoggingEnabled}" />
-                                        <CheckBox
-                                            Margin="3"
-                                            Content="{lex:Loc FailedQueries}"
-                                            IsChecked="{Binding DeviceLoggerViewModel.IsFailedQueriesLoggingEnabled}" />
-                                    </VirtualizingStackPanel>
-                                </MenuItem>
+                <ContextMenu>
+                    <MenuItem Header="{lex:Loc Logging}">
+                        <VirtualizingStackPanel Orientation="Vertical">
+                            <CheckBox
+                                Margin="3"
+                                Content="{lex:Loc Errors}"
+                                IsChecked="{Binding DeviceLoggerViewModel.IsErrorsLoggingEnabled}" />
+                            <CheckBox
+                                Margin="3"
+                                Content="{lex:Loc Info}"
+                                IsChecked="{Binding DeviceLoggerViewModel.IsInfoMessagesLoggingEnabled}" />
+                            <CheckBox
+                                Margin="3"
+                                Content="{lex:Loc SuccessfulQueries}"
+                                IsChecked="{Binding DeviceLoggerViewModel.IsSuccessfulQueriesLoggingEnabled}" />
+                            <CheckBox
+                                Margin="3"
+                                Content="{lex:Loc FailedQueries}"
+                                IsChecked="{Binding DeviceLoggerViewModel.IsFailedQueriesLoggingEnabled}" />
+                        </VirtualizingStackPanel>
+                    </MenuItem>
 
-                                <MenuItem Header="{lex:Loc DeviceSignature}">
-                                    <TextBox MinWidth="100" Text="{Binding DeviceSignature, UpdateSourceTrigger=PropertyChanged}" />
-                                </MenuItem>
-                                <MenuItem Command="{Binding NavigateToDeviceEditingCommand}" Header="{lex:Loc ConnectionSettings}" />
-                                <MenuItem Command="{Binding NavigateToLoadAllFromDeviceCommand}" Header="{lex:Loc DownloadAll}" />
-                                <MenuItem Command="{Binding DeleteSelectedDeviceCommand}" Header="{lex:Loc DeleteDevice}" />
-                            </ContextMenu>
-                        </TreeViewItem.ContextMenu>
+                    <MenuItem Header="{lex:Loc DeviceSignature}">
+                        <TextBox MinWidth="100" Text="{Binding DeviceSignature, UpdateSourceTrigger=PropertyChanged}" />
+                    </MenuItem>
+                    <MenuItem Command="{Binding NavigateToDeviceEditingCommand}" Header="{lex:Loc ConnectionSettings}" />
+                    <MenuItem Command="{Binding NavigateToLoadAllFromDeviceCommand}" Header="{lex:Loc DownloadAll}" />
+                    <MenuItem Command="{Binding DeleteSelectedDeviceCommand}" Header="{lex:Loc DeleteDevice}" />
+                </ContextMenu>
+            </TreeViewItem.ContextMenu>
             <TreeViewItem.Header>
                 <VirtualizingStackPanel Orientation="Horizontal">
-                    <TextBlock Margin="5" Text="{Binding DeviceSignature}">
-                        
-                    </TextBlock>
+                    <TextBlock Margin="5" Text="{Binding DeviceSignature}" />
                     <Image
                         Width="18"
                         Height="18"
@@ -79,9 +80,10 @@
                                 MouseAction="LeftDoubleClick" />
                         </Grid.InputBindings>
                         <lex:LocProxy Name="FragmentNameProxy" Source="{Binding NameForUiKey}" />
-                        <TextBlock HorizontalAlignment="Stretch" Margin="3" Text="{Binding ElementName=FragmentNameProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}">
-                   
-                        </TextBlock>
+                        <TextBlock
+                            Margin="3"
+                            HorizontalAlignment="Stretch"
+                            Text="{Binding ElementName=FragmentNameProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}" />
                     </Grid>
                 </DataTemplate>
             </TreeViewItem.ItemTemplate>

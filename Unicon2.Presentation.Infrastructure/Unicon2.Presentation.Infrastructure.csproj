@@ -133,6 +133,9 @@
     <Compile Include="ViewModels\IUshortFormattableEditorViewModel.cs" />
     <Compile Include="ViewModels\IUshortsFormatterViewModel.cs" />
     <Compile Include="ViewModels\Resources\IResourceViewModel.cs" />
+    <Compile Include="ViewModels\Validation\EditorValidationErrorViewModel.cs" />
+    <Compile Include="ViewModels\Validation\IDeviceEditorValidationViewModel.cs" />
+    <Compile Include="ViewModels\Validation\IDeviceEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\Values\IBitMaskValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IBoolValueViewModel.cs" />
     <Compile Include="ViewModels\Values\IEditableValueViewModel.cs" />
@@ -168,6 +171,5 @@
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

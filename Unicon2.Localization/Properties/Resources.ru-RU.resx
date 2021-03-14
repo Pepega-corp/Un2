@@ -1575,4 +1575,16 @@
   <data name="ImportPropertiesFromExcelTypeAHeader" xml:space="preserve">
     <value>Импорт свойств из Excel (Тип А)</value>
   </data>
+  <data name="ValidationErrors" xml:space="preserve">
+    <value>Ошибки валидации</value>
+  </data>
+  <data name="FormattingIsEmpty" xml:space="preserve">
+    <value>Форматирование не установлено.</value>
+  </data>
+  <data name="Fix" xml:space="preserve">
+    <value>Исправить</value>
+  </data>
+  <data name="ValidationErrorsContinueQuestion" xml:space="preserve">
+    <value>Присутствует одна или несколько ошибок валидации устройства. Всё равно желаете продолжить сохранение?</value>
+  </data>
 </root>

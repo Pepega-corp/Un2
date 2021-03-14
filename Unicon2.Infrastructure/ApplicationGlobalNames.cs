@@ -208,6 +208,9 @@
             ///  строка сообщения о пустом или null значении
             /// </summary>
             public const string NULL_OR_EMPTY_MESSAGE = "NullOrEmptyMesasage";
+           
+            public const string EMPTY_FORMATTING_MESSAGE = "FormattingIsEmpty";
+            public const string FORMATTING_RESOURCE_NOT_FOUND_MESSAGE = "FormattingResourceNotFound";
 
             /// <summary>
             /// сообщение о невыбранном устройстве
@@ -256,6 +259,10 @@
 
             public static string FAIL = "Fail";
             public static string IN_PROGRESS = "InProgress";
+            public static string VALIDATION_ERRORS_CONTINUE = "ValidationErrorsContinueQuestion";
+            public static string VALIDATION_ERRORS = "ValidationErrors";
+
+
 
         }
 

@@ -1,4 +1,6 @@
 ﻿using System.Windows.Input;
+using Unicon2.DeviceEditorUtilityModule.ViewModels.Validation;
+using Unicon2.Presentation.Infrastructure.ViewModels.Validation;
 
 namespace Unicon2.DeviceEditorUtilityModule.Interfaces
 {
@@ -11,5 +13,6 @@ namespace Unicon2.DeviceEditorUtilityModule.Interfaces
         ICommand DeleteFragmentCommand { get; }
 
         bool IsOpen { get; set; }
+        IDeviceEditorValidationViewModel DeviceEditorValidationViewModel { get; }
     }
 }

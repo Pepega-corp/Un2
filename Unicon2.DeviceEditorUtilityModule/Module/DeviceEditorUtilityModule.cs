@@ -2,10 +2,12 @@
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
 using Unicon2.DeviceEditorUtilityModule.Interfaces.DeviceSharedResources;
 using Unicon2.DeviceEditorUtilityModule.ViewModels;
+using Unicon2.DeviceEditorUtilityModule.ViewModels.Validation;
 using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
+using Unicon2.Presentation.Infrastructure.ViewModels.Validation;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.DeviceEditorUtilityModule.Module
@@ -26,6 +28,9 @@ namespace Unicon2.DeviceEditorUtilityModule.Module
             container.Register(typeof(IResourceEditingViewModel), typeof(ResourceEditingViewModel));
             container.Register(typeof(IConnectionStateViewModelFactory), typeof(ConnectionStateViewModelFactory));
             container.Register(typeof(IConnectionStateViewModel), typeof(ConnectionStateViewModel));
+            
+            container.Register<IDeviceEditorViewModelValidator,DeviceEditorViewModelValidator>(true);
         }
+        
     }
 }
