@@ -1933,6 +1933,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @FormattingResourceNotFound.
+        /// </summary>
+        public static string FormattingResourceNotFound {
+            get {
+                return ResourceManager.GetString("FormattingResourceNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Formula.
         /// </summary>
         public static string Formula {

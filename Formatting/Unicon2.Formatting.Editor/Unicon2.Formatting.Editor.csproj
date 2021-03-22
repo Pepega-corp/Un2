@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convertors\ResourceStringConverter.cs" />
     <Compile Include="Factories\FormatterEditorFactory.cs" />
     <Compile Include="Factories\FormatterViewModelFactory.cs" />
     <Compile Include="Module\FormattingEditorModule.cs" />

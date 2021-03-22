@@ -1587,4 +1587,7 @@
   <data name="ValidationErrorsContinueQuestion" xml:space="preserve">
     <value>Присутствует одна или несколько ошибок валидации устройства. Всё равно желаете продолжить сохранение?</value>
   </data>
+  <data name="FormattingResourceNotFound" xml:space="preserve">
+    <value>Ресурс для форматирования не найден</value>
+  </data>
 </root>

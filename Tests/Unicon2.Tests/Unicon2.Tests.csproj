@@ -96,10 +96,12 @@
     <Compile Include="Device\DeviceEditingTests.cs" />
     <Compile Include="Device\LoadAllTests.cs" />
     <Compile Include="Editor\EditorTests.cs" />
+    <Compile Include="Editor\EditorValidatorTests.cs" />
     <Compile Include="Journals\Mr301SystemJournalTests.cs" />
     <Compile Include="Measuring\MeasuringTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\EditorHelpers.cs" />
     <Compile Include="Utils\Mocks\ApplicationGlobalCommandsMock.cs" />
     <Compile Include="Utils\Mocks\DialogCoordinatorMock.cs" />
     <Compile Include="Utils\Mocks\SerializerServiceMock.cs" />

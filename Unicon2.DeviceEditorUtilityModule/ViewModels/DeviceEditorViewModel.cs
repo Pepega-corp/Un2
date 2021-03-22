@@ -151,6 +151,8 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
                 ResultingDeviceViewModel.LoadDevice(ofd.FileName);
                 _currentFolder = Path.GetDirectoryName(ofd.FileName);
             }
+            DeviceEditorValidationViewModel
+                .RefreshErrors.Execute(null);
         }
 
         public ICommand LoadExistingDevice { get; }

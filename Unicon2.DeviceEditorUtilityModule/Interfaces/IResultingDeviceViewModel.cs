@@ -14,6 +14,8 @@ namespace Unicon2.DeviceEditorUtilityModule.Interfaces
 		ObservableCollection<IFragmentEditorViewModel> FragmentEditorViewModels { get; set; }
 		void SaveDevice(string path, bool isDefaultSaving = true);
 		void LoadDevice(string path);
+        void LoadDevice(IDevice device);
+
 		string DeviceName { get; set; }
 		IDevice GetDevice();
 	}

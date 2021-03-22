@@ -19,6 +19,14 @@ namespace Unicon2.Formatting.Editor.Factories
 {
     public class FormatterViewModelFactory : IFormatterViewModelFactory, IFormatterVisitor<IUshortsFormatterViewModel>
     {
+        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
+
+        public FormatterViewModelFactory(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
+        {
+            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
+        }
+
+
         public IUshortsFormatterViewModel VisitBoolFormatter(IUshortsFormatter formatter)
         {
             return new BoolFormatterViewModel();
@@ -61,12 +69,13 @@ namespace Unicon2.Formatting.Editor.Factories
             (formatterViewModel as IFormulaFormatterViewModel).FormulaString =
                 formulaFormatter.FormulaString;
             (formatterViewModel as IFormulaFormatterViewModel).ArgumentViewModels.Clear();
-            (formatterViewModel as IFormulaFormatterViewModel).ArgumentViewModels.AddCollection(formulaFormatter.UshortFormattableResources.Select(s =>new ArgumentViewModel()
-            {
-                ResourceNameString = s,
-                ArgumentName = s,
-                TestValue = 1,
-            } ).ToList());
+            (formatterViewModel as IFormulaFormatterViewModel).ArgumentViewModels.AddCollection(formulaFormatter
+                .UshortFormattableResources.Select(s => new ArgumentViewModel()
+                {
+                    ResourceNameString = s,
+                    ArgumentName = s,
+                    TestValue = 1,
+                }).ToList());
             return formatterViewModel;
         }
 
@@ -111,18 +120,17 @@ namespace Unicon2.Formatting.Editor.Factories
         }
 
         IFormatterParametersViewModel IFormatterViewModelFactory.CreateFormatterViewModel(
-	        IUshortsFormatter ushortsFormatter)
+            IUshortsFormatter ushortsFormatter)
         {
-	        if (ushortsFormatter == null) return null;
-
-	        var formatterViewModel = ushortsFormatter.Accept(this);
-	        var formatterParametersViewModel = new FormatterParametersViewModel()
-	        {
-		        Name = ushortsFormatter.Name,
-		        IsFromSharedResources = true,
-		        RelatedUshortsFormatterViewModel = formatterViewModel
-	        };
-	        return formatterParametersViewModel;
+            if (ushortsFormatter == null) return null;
+            var formatterViewModel = ushortsFormatter.Accept(this);
+            var formatterParametersViewModel = new FormatterParametersViewModel()
+            {
+                Name = ushortsFormatter.Name,
+                IsFromSharedResources = ushortsFormatter.Name != null,
+                RelatedUshortsFormatterViewModel = formatterViewModel
+            };
+            return formatterParametersViewModel;
 
         }
     }

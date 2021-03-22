@@ -12,7 +12,10 @@ namespace Unicon2.Infrastructure.Functional
         {
             return results.Where(result => result.IsSuccess).Select(result => result.Item);
         }
-        
+        public static IEnumerable<T> ChooseMany<T>(this IEnumerable<Result<IEnumerable<T>>> results)
+        {
+            return results.Where(result => result.IsSuccess).SelectMany(result => result.Item);
+        }
         public static Result<TVal> GetElement<TKey, TVal>(this Dictionary<TKey, TVal> dictionary, TKey key)
         {
             if (dictionary.ContainsKey(key))

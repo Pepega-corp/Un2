@@ -1590,4 +1590,7 @@
   <data name="ValidationErrorsContinueQuestion" xml:space="preserve">
     <value>There are some validation errors. Would you like to continue saving anyway?</value>
   </data>
+  <data name="FormattingResourceNotFound" xml:space="preserve">
+    <value>Formatting resource not found</value>
+  </data>
 </root>

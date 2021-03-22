@@ -96,7 +96,12 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 
         public void LoadDevice(string path)
         {
-            _device = _serializerService.DeserializeFromFile<IDevice>(path);
+            LoadDevice(_serializerService.DeserializeFromFile<IDevice>(path));
+        }
+
+        public void LoadDevice(IDevice device)
+        {
+            _device = device;
             FragmentEditorViewModels.Clear();
             _sharedResourcesGlobalViewModel.InitializeFromResources(_device.DeviceSharedResources);
             foreach (IDeviceFragment fragment in _device.DeviceFragments)

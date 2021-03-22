@@ -1584,4 +1584,7 @@
   <data name="ValidationErrorsContinueQuestion" xml:space="preserve">
     <value>@ValidationErrorsContinueQuestion</value>
   </data>
+  <data name="FormattingResourceNotFound" xml:space="preserve">
+    <value>@FormattingResourceNotFound</value>
+  </data>
 </root>

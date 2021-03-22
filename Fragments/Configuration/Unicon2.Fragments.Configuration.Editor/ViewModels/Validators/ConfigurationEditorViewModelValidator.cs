@@ -32,7 +32,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
         public List<EditorValidationErrorViewModel> CheckItem(List<EditorValidationErrorViewModel> initialErrors,
             IConfigurationItemViewModel configurationEditorViewModel)
         {
-            if (configurationEditorViewModel is IPropertyEditorViewModel propertyEditorViewModel)
+            if (configurationEditorViewModel is IPropertyEditorViewModel propertyEditorViewModel && !(configurationEditorViewModel is IComplexPropertyEditorViewModel))
             {
                 if (propertyEditorViewModel.FormatterParametersViewModel == null ||
                     (propertyEditorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel == null &&

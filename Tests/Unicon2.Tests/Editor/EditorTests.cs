@@ -49,6 +49,7 @@ using Unicon2.Shell.ViewModels;
 using Unicon2.Tests.Utils.Mocks;
 using Unicon2.Unity.Common;
 using Unity;
+using static Unicon2.Tests.Utils.EditorHelpers;
 
 namespace Unicon2.Tests.Editor
 {
@@ -56,10 +57,7 @@ namespace Unicon2.Tests.Editor
     public class EditorTests
     {
         private TypesContainer _typesContainer;
-        private int _addressModifier = 1;
-        private int _numOfPointsModifier = 2;
-        private int _nameModifier = 3;
-        private int _numOfFunctionModifier = 3;
+  
 
 
         public EditorTests()
@@ -91,12 +89,12 @@ namespace Unicon2.Tests.Editor
                 Name = "root"
             };
 
-            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1);
-            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2);
-            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 3);
-            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 4);
-            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 5);
-            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 6);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1,_typesContainer);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2, _typesContainer);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 3, _typesContainer);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 4, _typesContainer);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 5, _typesContainer);
+            AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 6, _typesContainer);
 
             configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
 
@@ -172,7 +170,7 @@ namespace Unicon2.Tests.Editor
         {
             ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
                 _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
-            var formatterViewModel = CreateFormatterViewModel(identity);
+            var formatterViewModel = CreateFormatterViewModel(identity, _typesContainer);
 
             sharedResourcesGlobalViewModel.AddAsSharedResource(new FormatterParametersViewModel()
             {
@@ -197,12 +195,12 @@ namespace Unicon2.Tests.Editor
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
                 ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
 
-            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 1);
-            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 2);
-            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 3);
-            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 4);
-            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 5);
-            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 6);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 1, _typesContainer);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 2, _typesContainer);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 3, _typesContainer);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 4, _typesContainer);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 5, _typesContainer);
+            AddPropertyViewModel(configurationEditorViewModel.RootConfigurationItemViewModels, 6, _typesContainer);
 
             var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
 
@@ -510,142 +508,6 @@ namespace Unicon2.Tests.Editor
         }
 
 
-        private IUshortsFormatterViewModel CreateFormatterViewModel(int identity)
-        {
-            switch (identity)
-            {
-                case 1:
-                    return new BoolFormatterViewModel();
-                case 2:
-                    return new AsciiStringFormatterViewModel();
-                case 3:
-                    return new DictionaryMatchingFormatterViewModel()
-                    {
-                        DefaultMessage = "jopa",
-                        UseDefaultMessage = true,
-                        IsKeysAreNumbersOfBits = true,
-                        KeyValuesDictionary = new ObservableCollection<BindableKeyValuePair<ushort, string>>()
-                        {
-                            new BindableKeyValuePair<ushort, string>()
-                            {
-                                Key = 0, Value = "jopa0"
-                            },
-                            new BindableKeyValuePair<ushort, string>()
-                            {
-                                Key = 1, Value = "jopa1"
-                            },
-                            new BindableKeyValuePair<ushort, string>()
-                            {
-                                Key = 2, Value = "jopa2"
-                            },
-                        }
-                    };
-                case 4:
-                    return new DirectFormatterViewModel();
-                case 5:
-                    return new StringFormatter1251ViewModel();
-                case 6:
-                    var formuleFormatter =
-                        _typesContainer.Resolve<IUshortsFormatterViewModel>(StringKeys.FORMULA_FORMATTER +
-                                                                            ApplicationGlobalNames
-                                                                                .CommonInjectionStrings
-                                                                                .VIEW_MODEL) as
-                            IFormulaFormatterViewModel;
-                    formuleFormatter.FormulaString = "x*2+1";
-                    return formuleFormatter;
-            }
 
-            return null;
-        }
-
-
-        private void CheckFormatterResult(int identity, IUshortsFormatter formatter)
-        {
-            switch (identity)
-            {
-                case 1:
-                    Assert.True(formatter is BoolFormatter);
-                    break;
-                case 2:
-                    Assert.True(formatter is AsciiStringFormatter);
-                    break;
-                case 3:
-                    Assert.True(formatter is DictionaryMatchingFormatter);
-                    var dictMatchFormatter = (DictionaryMatchingFormatter) formatter;
-                    Assert.True(dictMatchFormatter.UseDefaultMessage);
-                    Assert.True(dictMatchFormatter.IsKeysAreNumbersOfBits);
-                    Assert.AreEqual(dictMatchFormatter.DefaultMessage, "jopa");
-                    Assert.AreEqual(dictMatchFormatter.StringDictionary.Count, 3);
-                    Assert.AreEqual(dictMatchFormatter.StringDictionary[0], "jopa0");
-                    Assert.AreEqual(dictMatchFormatter.StringDictionary[1], "jopa1");
-                    Assert.AreEqual(dictMatchFormatter.StringDictionary[2], "jopa2");
-                    break;
-                case 4:
-                    Assert.True(formatter is DirectUshortFormatter);
-                    break;
-                case 5:
-                    Assert.True(formatter is StringFormatter1251);
-                    break;
-                case 6:
-                    Assert.True(formatter is FormulaFormatter);
-                    var formulaFormatter = (FormulaFormatter) formatter;
-                    Assert.AreEqual(formulaFormatter.FormulaString, "x*2+1");
-
-                    break;
-            }
-
-        }
-
-
-        private void CheckPropertyResultProperty(List<IConfigurationItem> configurationItems, int identity)
-        {
-            var property = configurationItems[identity - 1] as IProperty;
-
-            Assert.AreEqual(property.Address, (identity + _addressModifier));
-            Assert.AreEqual(property.NumberOfPoints, (identity + _numOfPointsModifier));
-            Assert.AreEqual(property.Name, (identity + _nameModifier).ToString());
-            Assert.AreEqual(property.NumberOfWriteFunction, (identity + _numOfFunctionModifier));
-            CheckFormatterResult(identity, property.UshortsFormatter);
-        }
-
-        private void InitFormatterViewModel(IPropertyEditorViewModel propertyEditorViewModel,
-            IUshortsFormatterViewModel formatterViewModel)
-        {
-            propertyEditorViewModel.FormatterParametersViewModel = new FormatterParametersViewModel();
-            propertyEditorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
-                formatterViewModel;
-        }
-
-        private IPropertyEditorViewModel AddPropertyViewModel(
-            ObservableCollection<IConfigurationItemViewModel> collection, int identity)
-        {
-            IPropertyEditorViewModel rootProperty =
-                ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null) as IPropertyEditorViewModel;
-            rootProperty.Address = (identity + _addressModifier).ToString();
-            rootProperty.NumberOfPoints = (identity + _numOfPointsModifier).ToString();
-            rootProperty.Name = (identity + _nameModifier).ToString();
-            rootProperty.NumberOfWriteFunction = (ushort) (identity + _numOfFunctionModifier);
-            collection.Add(rootProperty);
-            InitFormatterViewModel(rootProperty, CreateFormatterViewModel(identity));
-            return rootProperty;
-        }
-
-        private IPropertyEditorViewModel AddPropertyWithFormatterFromResourceViewModel(
-            ObservableCollection<IConfigurationItemViewModel> collection, int identity)
-        {
-            IPropertyEditorViewModel property =
-                ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null) as IPropertyEditorViewModel;
-            property.Address = (identity + _addressModifier).ToString();
-            property.NumberOfPoints = (identity + _numOfPointsModifier).ToString();
-            property.Name = (identity + _nameModifier).ToString();
-            property.NumberOfWriteFunction = (ushort) (identity + _numOfFunctionModifier);
-            collection.Add(property);
-            property.FormatterParametersViewModel = new FormatterParametersViewModel()
-            {
-                Name = "formatter" + identity,
-                IsFromSharedResources = true,
-            };
-            return property;
-        }
     }
 }
