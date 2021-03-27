@@ -146,6 +146,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\ElementsLibraryResources\OrLibraryElement.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\ElementsLibraryResources\InputLibraryElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
