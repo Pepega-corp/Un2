@@ -287,7 +287,7 @@
       <Name>Unicon2.Fragments.Programming.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Fragments\Programming\Unicon2.Fragments.Programming\Unicon2.Fragments.Programming.csproj">
-      <Project>{1265EC7B-41C1-497C-A873-98A6836162F1}</Project>
+      <Project>{8C560933-B4AD-46E9-873E-223D75E8F19D}</Project>
       <Name>Unicon2.Fragments.Programming</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unicon2.DeviceEditorUtilityModule\Unicon2.DeviceEditorUtilityModule.csproj">
