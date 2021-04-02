@@ -1593,4 +1593,7 @@
   <data name="FormattingResourceNotFound" xml:space="preserve">
     <value>Formatting resource not found</value>
   </data>
+  <data name="GraphicalMenu" xml:space="preserve">
+    <value>Graphical Menu</value>
+  </data>
 </root>

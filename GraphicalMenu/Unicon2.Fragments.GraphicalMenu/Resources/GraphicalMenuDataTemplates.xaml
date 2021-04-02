@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.GraphicalMenu.ViewModel"
+    xmlns:views="clr-namespace:Unicon2.Fragments.GraphicalMenu.Views">
+
+    <DataTemplate x:Key="GraphicalMenuViewModelDataTemplate" DataType="{x:Type viewModel:GraphicalMenuFragmentViewModel}">
+        <views:GraphicalMenuView></views:GraphicalMenuView>
+    </DataTemplate>
+
+   
+</ResourceDictionary>

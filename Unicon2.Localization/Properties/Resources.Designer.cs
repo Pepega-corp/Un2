@@ -2023,6 +2023,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @GraphicalMenu.
+        /// </summary>
+        public static string GraphicalMenu {
+            get {
+                return ResourceManager.GetString("GraphicalMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Group.
         /// </summary>
         public static string Group {

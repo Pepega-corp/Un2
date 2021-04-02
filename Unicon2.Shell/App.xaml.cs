@@ -18,6 +18,8 @@ using Unicon2.Formatting.Module;
 using Unicon2.Fragments.Configuration.Editor.Module;
 using Unicon2.Fragments.Configuration.Exporter.Module;
 using Unicon2.Fragments.Configuration.Module;
+using Unicon2.Fragments.GraphicalMenu.Editor.Module;
+using Unicon2.Fragments.GraphicalMenu.Module;
 using Unicon2.Fragments.Journals.Editor.Module;
 using Unicon2.Fragments.Journals.Exporter.Module;
 using Unicon2.Fragments.Journals.Module;
@@ -203,6 +205,9 @@ namespace Unicon2.Shell
             container.Register<IUnityModule, JournaEditorModule>(nameof(JournaEditorModule));
             container.Register<IUnityModule, UniconJournalModule>(nameof(UniconJournalModule));
             container.Register<IUnityModule, JournalExporterModule>(nameof(JournalExporterModule));
+
+            container.Register<IUnityModule, GraphicalMenuModule>(nameof(GraphicalMenuModule));
+            container.Register<IUnityModule, GraphicalMenuEditorModule>(nameof(GraphicalMenuEditorModule));
 
             container.Register<IUnityModule, MeasuringModule>(nameof(MeasuringModule));
 			container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));

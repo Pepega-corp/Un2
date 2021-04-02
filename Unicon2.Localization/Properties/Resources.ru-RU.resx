@@ -1590,4 +1590,7 @@
   <data name="FormattingResourceNotFound" xml:space="preserve">
     <value>Ресурс для форматирования не найден</value>
   </data>
+  <data name="GraphicalMenu" xml:space="preserve">
+    <value>Графическое меню</value>
+  </data>
 </root>
