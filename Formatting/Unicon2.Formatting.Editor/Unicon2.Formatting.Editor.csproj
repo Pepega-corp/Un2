@@ -136,6 +136,8 @@
     <Compile Include="Views\FormatterView.xaml.cs">
       <DependentUpon>FormatterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visitors\EditableValueCopyVisitor.cs" />
+    <Compile Include="Visitors\EditableValueCopyVisitorProvider.cs" />
     <Compile Include="Visitors\IFormatterViewModelVisitor.cs" />
     <Compile Include="Visitors\SaveFormatterViewModelVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

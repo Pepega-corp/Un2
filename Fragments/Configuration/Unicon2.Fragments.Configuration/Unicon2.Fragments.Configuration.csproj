@@ -137,6 +137,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Resources\GridViewWithRowDetails.cs" />
+    <Compile Include="Services\ConfigurationTreeWalker.cs" />
     <Compile Include="ViewModelMemoryMapping\MemoryAccessor.cs" />
     <Compile Include="ViewModel\ExportSelectionViewModel.cs" />
     <Compile Include="ViewModel\GroupWithReiterationViewModel.cs" />
@@ -217,5 +218,6 @@
       <Name>Unicon2.SharedResources</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -87,6 +87,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigurationCopyPasteValuesTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Configuration\WriteConfigurationIfNothingChangesCase.cs" />
     <Compile Include="Connection\AutoLoadTabTests.cs" />

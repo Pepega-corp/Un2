@@ -1,6 +1,7 @@
 ﻿using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.Services;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.DependentProperty;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -10,6 +11,7 @@ using Unicon2.Fragments.Configuration.Model;
 using Unicon2.Fragments.Configuration.Model.ConfigurationSettings;
 using Unicon2.Fragments.Configuration.Model.DependentProperty;
 using Unicon2.Fragments.Configuration.Model.Properties;
+using Unicon2.Fragments.Configuration.Services;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Configuration.ViewModel.Helpers;
 using Unicon2.Fragments.Configuration.ViewModel.Properties;
@@ -52,6 +54,8 @@ namespace Unicon2.Fragments.Configuration.Module
             container.Register<IPropertyValueService, PropertyValueService>();
             container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting),
                 ConfigurationKeys.Settings.ACTIVATION_CONFIGURATION_SETTING);
+
+            container.Register(typeof(IConfigurationTreeWalker), typeof(ConfigurationTreeWalker));
 
             //ISerializerService serializerService = container.Resolve<ISerializerService>();
             //serializerService.AddNamespaceAttribute("defaultDeviceConfiguration", "DefaultDeviceConfigurationNS");

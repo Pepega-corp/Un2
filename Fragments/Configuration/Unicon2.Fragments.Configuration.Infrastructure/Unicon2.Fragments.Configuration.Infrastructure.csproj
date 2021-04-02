@@ -50,6 +50,7 @@
     <Compile Include="Factories\IConfigurationItemViewModelFactory.cs" />
     <Compile Include="MemoryViewModelMapping\ILocalDataMemorySubscription.cs" />
     <Compile Include="MemoryViewModelMapping\IDeviceDataMemorySubscription.cs" />
+    <Compile Include="Services\IConfigurationTreeWalker.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Conditions\ICompareCondition.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Conditions\ICompareResourceCondition.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\ICondition.cs" />
@@ -121,5 +122,6 @@
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
