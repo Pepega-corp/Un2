@@ -16,5 +16,17 @@ namespace Unicon2.Fragments.GraphicalMenu.Model
         public string StrongName => GraphicalMenuKeys.GRAPHICAL_MENU;
         [JsonProperty]
         public IFragmentSettings FragmentSettings { get; set; }
+
+        [JsonProperty]
+        public int DisplayWidth { get; set; }
+
+        [JsonProperty]
+        public int DisplayHeight { get; set; }
+
+        [JsonProperty]
+        public int CellWidth { get; set; }
+
+        [JsonProperty]
+        public int CellHeight { get; set; }
     }
 }

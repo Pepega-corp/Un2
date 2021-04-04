@@ -5,8 +5,8 @@
     xmlns:views="clr-namespace:Unicon2.Fragments.GraphicalMenu.Views">
 
     <DataTemplate x:Key="GraphicalMenuViewModelDataTemplate" DataType="{x:Type viewModel:GraphicalMenuFragmentViewModel}">
-        <views:GraphicalMenuView></views:GraphicalMenuView>
+        <views:GraphicalMenuView />
     </DataTemplate>
 
-   
+
 </ResourceDictionary>

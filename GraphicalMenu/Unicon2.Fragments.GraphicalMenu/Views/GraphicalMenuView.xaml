@@ -1,12 +1,61 @@
-﻿<UserControl x:Class="Unicon2.Fragments.GraphicalMenu.Views.GraphicalMenuView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Unicon2.Fragments.GraphicalMenu.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Jop1"></TextBlock>    
+﻿<UserControl
+    x:Class="Unicon2.Fragments.GraphicalMenu.Views.GraphicalMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:local="clr-namespace:Unicon2.Fragments.GraphicalMenu.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="clr-namespace:Unicon2.Fragments.GraphicalMenu.UserControls"
+    xmlns:viewModel="clr-namespace:Unicon2.Fragments.GraphicalMenu.ViewModel"
+    d:DataContext="{d:DesignInstance viewModel:GraphicalMenuFragmentViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid Margin="0,8,1,1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ItemsControl
+            Grid.Column="0"
+            Width="200"
+            ItemsSource="{Binding AvailableGraphicalElementViewModels}">
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="viewModel:GraphicalElementViewModel">
+                    <Border
+                        Margin="2"
+                        Width="{Binding SizeWidth}"
+                        Height="{Binding SizeHeight}"
+                        dd:DragDrop.DragHandler="{Binding .}"
+                        dd:DragDrop.IsDragSource="True"
+                        Background="Red">
+                        <!--<dd:DragDrop.DragAdornerTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Width="{Binding SizeWidth}"
+                                    Height="{Binding SizeHeight}"
+                                    Background="Red">
+                                    <TextBlock Text="{Binding Name}" />
+                                </Border>
+                            </DataTemplate>
+                        </dd:DragDrop.DragAdornerTemplate>-->
+                        <TextBlock Text="{Binding Name}" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <userControls:LineGrid
+            Grid.Column="1"
+            dd:DragDrop.DropHandler="{Binding}"
+            dd:DragDrop.IsDropTarget="True"
+            CellHeight="{Binding CellHeight}"
+            CellWidth="{Binding CellWidth}"
+            DisplayHeight="{Binding DisplayHeight}"
+            DisplayWidth="{Binding DisplayWidth}"
+            Slots="{Binding GraphicalMenuSlotViewModels}"
+            GraphicalElements="{Binding GraphicalElementViewModelsOnDisplay}"/>
     </Grid>
 </UserControl>

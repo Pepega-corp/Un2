@@ -5,8 +5,8 @@
     xmlns:views="clr-namespace:Unicon2.Fragments.GraphicalMenu.Editor.Views">
 
     <DataTemplate x:Key="GraphicalMenuEditorViewModelDataTemplate" DataType="{x:Type interfaces:IGraphicalMenuFragmentEditorViewModel}">
-        <views:GraphicalMenuEditorView></views:GraphicalMenuEditorView>
+        <views:GraphicalMenuEditorView />
     </DataTemplate>
 
-   
+
 </ResourceDictionary>

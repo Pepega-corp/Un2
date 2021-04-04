@@ -2,6 +2,7 @@
     x:Class="Unicon2.Fragments.Measuring.Editor.View.PresentationSettings.PresentationSettingsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:contentTemplateSelectors="clr-namespace:Unicon2.Fragments.Measuring.Editor.ContentTemplateSelectors"
     xmlns:converters="clr-namespace:Unicon2.Fragments.Measuring.Editor.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +13,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:presentationSettings="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Measuring.Editor.ViewModel"
-    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     d:DataContext="{d:DesignInstance viewModel:PresentationSettingsViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -138,95 +138,95 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-            <GroupBox Header="{lex:Loc SelectedElement}" Grid.Row="1">
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <ContentPresenter Content="{Binding SelectedElementViewModel}">
-                    <ContentPresenter.ContentTemplateSelector>
-                        <contentTemplateSelectors:SelectedPresentationElementTemplateSelector>
-                            <contentTemplateSelectors:SelectedPresentationElementTemplateSelector.TemplateForOthers>
-                                <DataTemplate />
-                            </contentTemplateSelectors:SelectedPresentationElementTemplateSelector.TemplateForOthers>
-                            <contentTemplateSelectors:SelectedPresentationElementTemplateSelector.TemplateForGroup>
-                                <DataTemplate DataType="presentationSettings:PresentationElementViewModel">
-                                    <UniformGrid Margin="5" Columns="2">
-                                        <TextBlock Text="{lex:Loc Name}" />
-                                        <TextBox Text="{Binding TemplatedViewModelToShowOnCanvas.Header, UpdateSourceTrigger=PropertyChanged}" />
-                                        <TextBlock Text="{lex:Loc OffsetLeft}" />
-                                        <CheckBox Content="{lex:Loc MoveWithChildren}" IsChecked="{Binding TemplatedViewModelToShowOnCanvas.IsMoveWithChildren}" />
-                                    </UniformGrid>
-                                </DataTemplate>
-                            </contentTemplateSelectors:SelectedPresentationElementTemplateSelector.TemplateForGroup>
-                        </contentTemplateSelectors:SelectedPresentationElementTemplateSelector>
-                    </ContentPresenter.ContentTemplateSelector>
-                </ContentPresenter>
-             
-                <UniformGrid
-                    Grid.Row="2"
-                    Margin="5"
-                    Columns="2">
+            <GroupBox Grid.Row="1" Header="{lex:Loc SelectedElement}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ContentPresenter Content="{Binding SelectedElementViewModel}">
+                        <ContentPresenter.ContentTemplateSelector>
+                            <contentTemplateSelectors:SelectedPresentationElementTemplateSelector>
+                                <contentTemplateSelectors:SelectedPresentationElementTemplateSelector.TemplateForOthers>
+                                    <DataTemplate />
+                                </contentTemplateSelectors:SelectedPresentationElementTemplateSelector.TemplateForOthers>
+                                <contentTemplateSelectors:SelectedPresentationElementTemplateSelector.TemplateForGroup>
+                                    <DataTemplate DataType="presentationSettings:PresentationElementViewModel">
+                                        <UniformGrid Margin="5" Columns="2">
+                                            <TextBlock Text="{lex:Loc Name}" />
+                                            <TextBox Text="{Binding TemplatedViewModelToShowOnCanvas.Header, UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock Text="{lex:Loc OffsetLeft}" />
+                                            <CheckBox Content="{lex:Loc MoveWithChildren}" IsChecked="{Binding TemplatedViewModelToShowOnCanvas.IsMoveWithChildren}" />
+                                        </UniformGrid>
+                                    </DataTemplate>
+                                </contentTemplateSelectors:SelectedPresentationElementTemplateSelector.TemplateForGroup>
+                            </contentTemplateSelectors:SelectedPresentationElementTemplateSelector>
+                        </ContentPresenter.ContentTemplateSelector>
+                    </ContentPresenter>
 
-                    <TextBlock Text="{lex:Loc OffsetLeft}" />
-                    <mah:NumericUpDown
-                        Width="80"
-                        Margin="3"
-                        InterceptArrowKeys="True"
-                        InterceptMouseWheel="True"
-                        Interval="5"
-                        Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.OffsetLeft}" />
-                    <TextBlock Text="{lex:Loc OffsetTop}" />
-                    <mah:NumericUpDown
-                        Width="80"
-                        Margin="3"
-                        InterceptArrowKeys="True"
-                        InterceptMouseWheel="True"
-                        Interval="5"
-                        Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.OffsetTop}" />
-                    <TextBlock Text="{lex:Loc Width}" />
-                    <mah:NumericUpDown
-                        Width="80"
-                        Margin="3"
-                        InterceptArrowKeys="True"
-                        InterceptMouseWheel="True"
-                        Interval="5"
-                        Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.SizeWidth}" />
-                    <TextBlock Text="{lex:Loc Height}" />
-                    <mah:NumericUpDown
-                        Width="80"
-                        Margin="3"
-                        InterceptArrowKeys="True"
-                        InterceptMouseWheel="True"
-                        Interval="5"
-                        Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.SizeHeight}" />
-                </UniformGrid>
-                <Grid Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        Margin="1"
-                        Command="{Binding CopySelectedPositionInfo}"
-                        Content="{lex:Loc Copy}" />
-                    <Button
-                        Grid.Column="1"
-                        Margin="1"
-                        Command="{Binding PasteSelectedPositionInfo}"
-                        Content="{lex:Loc Paste}" />
-                    <Button
-                        Grid.Column="2"
-                        Margin="1"
-                        Command="{Binding PasteOnlySizeSelectedPositionInfo}"
-                        Content="{lex:Loc PasteSizeOnly}" />
+                    <UniformGrid
+                        Grid.Row="2"
+                        Margin="5"
+                        Columns="2">
 
+                        <TextBlock Text="{lex:Loc OffsetLeft}" />
+                        <mah:NumericUpDown
+                            Width="80"
+                            Margin="3"
+                            InterceptArrowKeys="True"
+                            InterceptMouseWheel="True"
+                            Interval="5"
+                            Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.OffsetLeft}" />
+                        <TextBlock Text="{lex:Loc OffsetTop}" />
+                        <mah:NumericUpDown
+                            Width="80"
+                            Margin="3"
+                            InterceptArrowKeys="True"
+                            InterceptMouseWheel="True"
+                            Interval="5"
+                            Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.OffsetTop}" />
+                        <TextBlock Text="{lex:Loc Width}" />
+                        <mah:NumericUpDown
+                            Width="80"
+                            Margin="3"
+                            InterceptArrowKeys="True"
+                            InterceptMouseWheel="True"
+                            Interval="5"
+                            Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.SizeWidth}" />
+                        <TextBlock Text="{lex:Loc Height}" />
+                        <mah:NumericUpDown
+                            Width="80"
+                            Margin="3"
+                            InterceptArrowKeys="True"
+                            InterceptMouseWheel="True"
+                            Interval="5"
+                            Value="{Binding SelectedElementViewModel.PositioningInfoViewModel.SizeHeight}" />
+                    </UniformGrid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Margin="1"
+                            Command="{Binding CopySelectedPositionInfo}"
+                            Content="{lex:Loc Copy}" />
+                        <Button
+                            Grid.Column="1"
+                            Margin="1"
+                            Command="{Binding PasteSelectedPositionInfo}"
+                            Content="{lex:Loc Paste}" />
+                        <Button
+                            Grid.Column="2"
+                            Margin="1"
+                            Command="{Binding PasteOnlySizeSelectedPositionInfo}"
+                            Content="{lex:Loc PasteSizeOnly}" />
+
+                    </Grid>
                 </Grid>
-            </Grid>
             </GroupBox>
         </Grid>
     </Grid>
