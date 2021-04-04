@@ -26,6 +26,7 @@ namespace Unicon2.Fragments.GraphicalMenu.ViewModel
             RemoveCommand=new RelayCommand(OnRemoveExecute);
         }
 
+
         private void OnRemoveExecute()
         {
             if (_parent.GraphicalElementViewModelsOnDisplay.Contains(this))

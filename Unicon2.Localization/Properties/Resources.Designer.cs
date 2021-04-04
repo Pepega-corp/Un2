@@ -1564,6 +1564,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @DisplayHeight.
+        /// </summary>
+        public static string DisplayHeight {
+            get {
+                return ResourceManager.GetString("DisplayHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Download.
         /// </summary>
         public static string Download {

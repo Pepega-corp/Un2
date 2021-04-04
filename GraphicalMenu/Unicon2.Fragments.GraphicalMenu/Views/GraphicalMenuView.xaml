@@ -22,16 +22,16 @@
             Grid.Column="0"
             Width="200"
             ItemsSource="{Binding AvailableGraphicalElementViewModels}">
-            
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="viewModel:GraphicalElementViewModel">
                     <Border
-                        Margin="2"
                         Width="{Binding SizeWidth}"
                         Height="{Binding SizeHeight}"
+                        Margin="2"
                         dd:DragDrop.DragHandler="{Binding .}"
                         dd:DragDrop.IsDragSource="True"
                         Background="Red">
+
                         <!--<dd:DragDrop.DragAdornerTemplate>
                             <DataTemplate>
                                 <Border
@@ -55,7 +55,7 @@
             CellWidth="{Binding CellWidth}"
             DisplayHeight="{Binding DisplayHeight}"
             DisplayWidth="{Binding DisplayWidth}"
-            Slots="{Binding GraphicalMenuSlotViewModels}"
-            GraphicalElements="{Binding GraphicalElementViewModelsOnDisplay}"/>
+            GraphicalElements="{Binding GraphicalElementViewModelsOnDisplay}"
+            Slots="{Binding GraphicalMenuSlotViewModels}" />
     </Grid>
 </UserControl>

@@ -11,13 +11,14 @@ using Unicon2.Fragments.GraphicalMenu.Infrastructure.Model;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Functional;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.GraphicalMenu.ViewModel
 {
-    public class GraphicalMenuFragmentViewModel : ViewModelBase, IFragmentViewModel, IDropTarget
+    public class GraphicalMenuFragmentViewModel : ViewModelBase, IFragmentViewModel, IDropTarget, IDeviceContextConsumer
     {
         private int _cellWidth;
         private int _cellHeight;
@@ -42,6 +43,7 @@ namespace Unicon2.Fragments.GraphicalMenu.ViewModel
             GraphicalElementViewModelsOnDisplay = new ObservableCollection<GraphicalElementViewModel>();
             GraphicalMenuSlotViewModels=new List<GraphicalMenuSlotViewModel>();
             RaisePropertyChanged(nameof(GraphicalMenuSlotViewModels));
+
         }
 
         public void Initialize(IDeviceFragment deviceFragment)
@@ -197,5 +199,7 @@ namespace Unicon2.Fragments.GraphicalMenu.ViewModel
             int y = (int) dropInfo.DropPosition.Y / CellHeight;
             TryDropElement((x, y), draggingGraphicalElementViewModel);
         }
+
+        public DeviceContext DeviceContext { get; set; }
     }
 }

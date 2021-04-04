@@ -1590,4 +1590,7 @@
   <data name="GraphicalMenu" xml:space="preserve">
     <value>@GraphicalMenu</value>
   </data>
+  <data name="DisplayHeight" xml:space="preserve">
+    <value>@DisplayHeight</value>
+  </data>
 </root>
