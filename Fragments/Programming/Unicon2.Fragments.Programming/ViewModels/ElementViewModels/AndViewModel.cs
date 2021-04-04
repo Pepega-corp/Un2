@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
@@ -18,6 +19,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public ObservableCollection<IConnectorViewModel> Outputs { get; }
         public int Width => 20;
         public int Heigth => Inputs.Count * 10 + 10;
+        public ICommand AddInputCommand { get; }
+        public ICommand RemoveInputCommand { get; }
 
         public AndViewModel()
         {
@@ -91,6 +94,11 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public override ILogicElementViewModel Clone()
         {
             return (AndViewModel)Clone<AndViewModel, And>();
+        }
+
+        private void AddInput()
+        {
+
         }
     }
 }

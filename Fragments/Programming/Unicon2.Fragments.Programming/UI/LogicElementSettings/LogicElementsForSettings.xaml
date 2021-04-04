@@ -1,8 +1,12 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:viewModels="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels">
+    xmlns:viewModels="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels" 
+    xmlns:other="clr-namespace:Unicon2.Fragments.Programming.Other"
+    xmlns:infr="clr-namespace:Unicon2.Fragments.Programming.Infrastructure;assembly=Unicon2.Fragments.Programming.Infrastructure">
 
+    <other:EnumConverter x:Key="EnumConverter"/>
+    
     <DataTemplate DataType="{x:Type viewModels:InputViewModel}">
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
@@ -153,6 +157,73 @@
                 Margin="5"
                 VerticalAlignment="Center"
                 Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:AndViewModel}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип элемента" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Подпись элемента" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Symbol}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="10,5,10,5"/>
+                <Button Grid.Column="1" Margin="10,5,10,5" Command=""/>
+            </Grid>
+            <ItemsControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Inputs}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Тип входа" VerticalAlignment="Center"/>
+                            <ComboBox Margin="10" Grid.Column="1" ItemsSource="{Binding Source={other:EnumToItemsSource {x:Type infr:ConnectorType}}}"
+                                      SelectedValue="{Binding ConnectorType, Converter={StaticResource EnumConverter}, ConverterParameter={x:Type infr:ConnectorType}}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

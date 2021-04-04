@@ -87,6 +87,8 @@
     <Compile Include="Other\CommonHelper.cs" />
     <Compile Include="Other\DesignerCanvasItemsControl.cs" />
     <Compile Include="Other\DragElement.cs" />
+    <Compile Include="Other\EnumConverter.cs" />
+    <Compile Include="Other\EnumToItemSource.cs" />
     <Compile Include="Other\LogicDeviceProvider.cs" />
     <Compile Include="Other\PathFinder.cs" />
     <Compile Include="Other\TabControlEx.cs" />

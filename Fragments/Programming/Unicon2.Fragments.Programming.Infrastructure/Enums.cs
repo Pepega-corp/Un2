@@ -1,4 +1,6 @@
-﻿namespace Unicon2.Fragments.Programming.Infrastructure
+﻿using System.ComponentModel;
+
+namespace Unicon2.Fragments.Programming.Infrastructure
 {
     public enum ConnectorOrientation
     {
@@ -9,7 +11,9 @@
 
     public enum ConnectorType
     {
+        [Description("Прямой")]
         DIRECT,
+        [Description("Инверсный")]
         INVERS
     }
 }

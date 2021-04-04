@@ -4,7 +4,6 @@ using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
@@ -37,10 +36,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             ushort[] bindata = new ushort[BinSize];
             bindata[0] = (ushort)(7 + inputsCount * 0x0100);
             bindata[1] = (ushort)output.ConnectionNumber;
-            if (output.Type == ConnectorType.INVERS)
-            {
-                bindata[1] |= 0x8000;
-            }
+            
             for (int i = 0; i <= inputsCount; i++)
             {
                 bindata[2 + i] = (ushort)inputs[i].ConnectionNumber;
