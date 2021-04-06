@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    xmlns:local="clr-namespace:Unicon2.Fragments.Programming"
+    xmlns:other="clr-namespace:Unicon2.Fragments.Programming.Other"
     xmlns:viewModels="clr-namespace:Unicon2.Fragments.Programming.ViewModels">
 
     <ResourceDictionary.MergedDictionaries>
@@ -13,10 +13,13 @@
         <ResourceDictionary Source="ElementsResources/Connector.xaml" />
         <ResourceDictionary Source="ElementsResources/InputView.xaml" />
         <ResourceDictionary Source="ElementsResources/OutputView.xaml" />
+        <ResourceDictionary Source="ElementsResources/Inversion.xaml" />
+        <ResourceDictionary Source="ElementsResources/AndView.xaml" />
+        <ResourceDictionary Source="ElementsResources/OrView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  TAB CONTROL STYLE  -->
-    <Style x:Key="SchemeTabControlStyle" TargetType="{x:Type local:TabControlEx}">
+    <Style x:Key="SchemeTabControlStyle" TargetType="{x:Type other:TabControlEx}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
@@ -113,10 +116,10 @@
                             BorderBrush="{DynamicResource BorderMediumBrush}"
                             BorderThickness="1">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <Grid Name="OuterBorder" IsHitTestVisible="True">
+                                <Grid Name="OuterBorder">
                                     <!--  Для того,чтобы отображать на схеме все существующие элементы, используется ItemsControl, итемы которого размещены на Canvas  -->
                                     <!--  Это позволяет использовать привязку коллекции из базовых VM элементов к колекции визуально отображаемых элементов на Canvas  -->
-                                    <ItemsControl IsHitTestVisible="True" ItemsSource="{Binding ElementCollection}">
+                                    <ItemsControl Name="LogicSchemeCanvas" ItemsSource="{Binding ElementCollection}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <Canvas
@@ -125,7 +128,6 @@
                                                     Height="{Binding SchemeHeight}"
                                                     AllowDrop="True"
                                                     Background="White"
-                                                    IsHitTestVisible="True"
                                                     SnapsToDevicePixels="True">
                                                     <i:Interaction.Behaviors>
                                                         <behaviors:DesignerCanvasBehavior />
@@ -153,11 +155,15 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-
                                 </Grid>
                             </ScrollViewer>
                         </Border>
                     </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsLogicStarted}" Value="True">
+                            <Setter TargetName="LogicSchemeCanvas" Property="IsHitTestVisible" Value="False" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

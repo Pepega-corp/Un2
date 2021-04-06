@@ -11,13 +11,19 @@
         <!--  Ресурсы, в которых описаны DataTemplate всех элементов, как они будут выглядеть в списках  -->
         <ResourceDictionary Source="ElementsLibraryResources/InputLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/OutputLibraryElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/InversionLibraryElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/AndLibraryElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/OrLibraryElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
     <selectors:ElementsViewModelSelector
         x:Key="LibrarySelector"
         Input="{StaticResource InputLibraryElement}"
-        Output="{StaticResource OutputLibraryElement}" />
+        Inversion="{StaticResource InversionLibraryElement}"
+        Output="{StaticResource OutputLibraryElement}" 
+        And="{StaticResource AndLibraryElement}"
+        Or="{StaticResource OrLibraryElement}"/>
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

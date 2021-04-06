@@ -2,7 +2,7 @@
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
-namespace Unicon2.Fragments.Programming.Editor.Interfaces
+namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
 {
     public interface IProgrammingEditorViewModel : IFragmentEditorViewModel
     {

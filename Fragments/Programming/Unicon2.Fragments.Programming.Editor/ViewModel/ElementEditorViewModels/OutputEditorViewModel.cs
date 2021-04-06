@@ -2,11 +2,13 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
+using Unicon2.Fragments.Programming.Editor.Models.LibraryElements;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
@@ -19,6 +21,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         private EditableListItem _selectedOutputSignal;
 
         public string ElementName => "Выход";
+        public string Symbol => "Out";
         public string Description => "Выходной логический сигнал";
 
         public string StrongName => ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
@@ -29,16 +32,21 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             set { this.SetModel(value); }
         }
 
+        public bool IsEditable => true;
+
         public ICommand AddOutputSignalCommand { get; }
         public ICommand RemoveOutputSignalCommand { get; }
 
-        public OutputEditorViewModel()
+        public OutputEditorViewModel(IOutputEditor model)
         {
             this.OutputSignals = new ObservableCollection<EditableListItem>();
             this.OutputSignals.CollectionChanged += this.OutputSignalsOnCollectionChanged;
 
             this.AddOutputSignalCommand = new RelayCommand(this.OnAddOutputSignal);
             this.RemoveOutputSignalCommand = new RelayCommand(this.OnRemoveOutputSignal, this.CanRemoveOutputSignal);
+
+            model.InitializeDefault();
+            SetModel(model);
         }
 
         private void OutputSignalsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs evArgs)
@@ -75,7 +83,16 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             {
                 return;
             }
-            this._model = model;
+            if(_model == null)
+            {
+                this._model = model;
+            }
+            else
+            {
+                _model.OutputSignals.Clear();
+                _model.OutputSignals.AddRange(model.OutputSignals);
+            }
+
             this.OutputSignals.Clear();
             var newValues = new EditableListItem[this._model.OutputSignals.Count];
             for (int i = 0; i < this._model.OutputSignals.Count; i++)
@@ -122,7 +139,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public object Clone()
         {
-            return new OutputEditorViewModel();
+            return new OutputEditorViewModel(new OutputEditor());
         }
     }
 }

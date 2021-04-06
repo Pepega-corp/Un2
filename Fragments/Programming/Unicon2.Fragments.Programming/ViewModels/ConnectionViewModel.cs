@@ -9,7 +9,10 @@ using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Other;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -29,7 +32,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private double _x;
         private double _y;
 
-        public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel sink)
+        protected ConnectionViewModel(IConnection model, IConnectorViewModel source)
         {
             this.StrokeDashArray = new DoubleCollection();
             this._currentValue = 0;
@@ -41,10 +44,20 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._source = source;
             this._source.Connection = this;
             this._source.ConnectorPositionChanged += OnConnectorPositionChanged;
+        }
 
+        public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel sink) : this(model, source)
+        {
             this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
             SinkConnectors.CollectionChanged += SinkCollectionChanged;
             SinkConnectors.Add(sink);
+        }
+
+        public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel[] sinks) : this(model, source)
+        {
+            this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
+            SinkConnectors.CollectionChanged += SinkCollectionChanged;
+            SinkConnectors.AddCollection(sinks);
         }
         
         public string Name { get; private set; }
@@ -265,7 +278,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 var sourceInfo = new PathFinder.ConnectorInfo
                 {
-                    ConnectorPoint = this.SourceConnector.Model.ConnectorPosition,
+                    ConnectorPoint = this.SourceConnector.ConnectorPosition,
                     Orientation = this.SourceConnector.Orientation,
                     ConnectorParentX = this.SourceConnector.ParentViewModel.X,
                     ConnectorParentY = this.SourceConnector.ParentViewModel.Y
@@ -274,7 +287,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 var sink = this.SinkConnectors[0];
                 var sinkInfo = new PathFinder.ConnectorInfo
                 {
-                    ConnectorPoint = sink.Model.ConnectorPosition,
+                    ConnectorPoint = sink.ConnectorPosition,
                     Orientation = sink.Orientation,
                     ConnectorParentX = sink.ParentViewModel.X,
                     ConnectorParentY = sink.ParentViewModel.Y

@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.FileOperations.Infrastructure.FileOperations
 {
-    public interface ICommandStateReader:IDataProviderContaining
+    public interface ICommandStateReader
     {
-       Task<string[]> ReadCommandStateStrings();
+        Task<string[]> ReadCommandStateStrings();
         int LastCommandStatus { get; }
     }
-
 }

@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unicon2.Fragments.Programming.Editor</RootNamespace>
     <AssemblyName>Unicon2.Fragments.Programming.Editor</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,12 +36,19 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FluentValidation.8.4.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -57,13 +65,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\LogicElementForEditorBehavior.cs" />
+    <Compile Include="Models\LibraryElements\AndEditor.cs" />
     <Compile Include="Models\LibraryElements\InputEditor.cs" />
+    <Compile Include="Models\LibraryElements\InversionEditor.cs" />
+    <Compile Include="Models\LibraryElements\OrEditor.cs" />
     <Compile Include="Models\LibraryElements\OutputEditor.cs" />
     <Compile Include="Models\ProgrammModelEditor.cs" />
     <Compile Include="Module\ProgrammingEditorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemplateSelector\ViewModelsTemplateSelector.cs" />
+    <Compile Include="Validators\ProgrammingEditorViewModelValidator.cs" />
     <Compile Include="ViewModel\EditElementViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\AndEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\InputEditorViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\InversionEditorViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\OrEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OutputEditorViewModel.cs" />
     <Compile Include="ViewModel\ProgrammingEditorViewModel.cs" />
     <Compile Include="View\ProgrammingEditorView.xaml.cs">
@@ -83,6 +99,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ElementEditorView\ElementsViews.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ElementEditorView\Templates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -111,6 +131,10 @@
     <ProjectReference Include="..\..\..\Unicon2.Unity\Unicon2.Unity.csproj">
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Configuration\Unicon2.Fragments.Configuration.Editor\Unicon2.Fragments.Configuration.Editor.csproj">
+      <Project>{D1A9A1AC-BFAA-4DA5-AB7D-DB7D082EDFA4}</Project>
+      <Name>Unicon2.Fragments.Configuration.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unicon2.Fragments.Programming.Infrastructure\Unicon2.Fragments.Programming.Infrastructure.csproj">
       <Project>{E77573FC-2072-40FC-B4E4-A13A4F3937C4}</Project>

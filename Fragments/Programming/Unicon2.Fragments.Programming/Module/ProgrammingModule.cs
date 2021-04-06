@@ -6,6 +6,7 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Model.Elements;
+using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.ViewModels;
 using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 using Unicon2.Infrastructure;
@@ -20,6 +21,7 @@ namespace Unicon2.Fragments.Programming.Module
         public void Initialize(ITypesContainer container)
         {
             container.Register<IProgramModel, ProgramModel>();
+            container.Register<LogicDeviceProvider>();
 
             container.Register<IFragmentViewModel, ProgrammingViewModel>(ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ISchemeTabViewModel, SchemeTabViewModel>(ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
@@ -30,22 +32,14 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, InputViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ILogicElement, Output>(ProgrammingKeys.OUTPUT);
             container.Register<ILogicElementViewModel, OutputViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            
-            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
+            container.Register<ILogicElement, Inversion>(ProgrammingKeys.INVERSION);
+            container.Register<ILogicElementViewModel, InversionViewModel>(ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<ILogicElement, And>(ProgrammingKeys.AND);
+            container.Register<ILogicElementViewModel, AndViewModel>(ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<ILogicElement, Or>(ProgrammingKeys.OR);
+            container.Register<ILogicElementViewModel, OrViewModel>(ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
 
-            ISerializerService serializerService = container.Resolve<ISerializerService>();
-            serializerService.AddKnownTypeForSerialization(typeof(ProgramModel));
-            serializerService.AddNamespaceAttribute("programModel", "ProgrammModelEditorNS");
-            serializerService.AddKnownTypeForSerialization(typeof(SchemeModel));
-            serializerService.AddNamespaceAttribute("schemeModel", "SchemeModelNS");
-            serializerService.AddKnownTypeForSerialization(typeof(Connection));
-            serializerService.AddNamespaceAttribute("connection", "ConnectionNS");
-            serializerService.AddKnownTypeForSerialization(typeof(Connector));
-            serializerService.AddNamespaceAttribute("connector", "ConnectorNS");
-            serializerService.AddKnownTypeForSerialization(typeof(Input));
-            serializerService.AddNamespaceAttribute("input", "InputNS");
-            serializerService.AddKnownTypeForSerialization(typeof(Output));
-            serializerService.AddNamespaceAttribute("output", "OutputNS");
+            container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
         }
     }
 }

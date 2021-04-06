@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Unicon2.Fragments.Programming.Editor.Models.LibraryElements;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
@@ -23,12 +24,12 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         private EditableListItem _selectedBase;
 
         public string ElementName => "Вход";
-
+        public string Symbol => "In";
         public string Description =>"Входной логический сигнал";
-
         public string StrongName => ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
+        public bool IsEditable => true;
 
-        public InputEditorViewModel()
+        public InputEditorViewModel(IInputEditor model)
         {
             this.Bases = new ObservableCollection<EditableListItem>();
             this.InputSignals = new ObservableCollection<BindableKeyValuePair<int, string>>();          
@@ -38,6 +39,9 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             this.RemoveBaseCommand = new RelayCommand(this.RemoveSelectedBase, this.CanRemoveBase);
             this.AddSignalCommand = new RelayCommand(this.AddInputSignal, this.CanAddInputSignal);
             this.RemoveSignalCommand = new RelayCommand(this.RemoveInputSignal, this.CanRemoveInputSignal);
+
+            model.InitializeDefault();
+            SetModel(model);
         }
 
         public object Model
@@ -148,25 +152,30 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         private void SetModel(object value)
         {
-            var model = value as IInputEditor;
-            if(model == null) 
+            if (!(value is IInputEditor model))
                 return;
 
-            if (this._model != null)
+            if (_model == null)
             {
-                this.Bases.Clear();
-                this._allInputSignals.Clear();
+                _model = model;
+            }
+            else
+            {
+                _model.AllInputSignals.Clear();
+                _model.AllInputSignals.AddRange(model.AllInputSignals);
+                _model.Bases.Clear();
+                _model.Bases.AddRange(model.Bases);
             }
 
-            this._model = model;
-            
+            _allInputSignals.Clear();
             foreach (var inputSignal in this._model.AllInputSignals)
             {
                 this._allInputSignals.Add(new Dictionary<int, string>(inputSignal));
             }
-
-            List<EditableListItem> bases = this._model.Bases.Select(@base => new EditableListItem(@base)).ToList();
-            this.Bases.AddCollection(bases);
+                        
+            var editableListBases = this._model.Bases.Select(@base => new EditableListItem(@base)).ToList();
+            Bases.Clear();
+            this.Bases.AddCollection(editableListBases);
         }
 
         private void AddBase()
@@ -221,7 +230,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public object Clone()
         {
-            return new InputEditorViewModel();
+            return new InputEditorViewModel(new InputEditor());
         }
     }
 }

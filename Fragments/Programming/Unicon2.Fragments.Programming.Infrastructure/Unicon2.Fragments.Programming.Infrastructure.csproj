@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unicon2.Fragments.Programming.Infrastructure</RootNamespace>
     <AssemblyName>Unicon2.Fragments.Programming.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,29 +40,40 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelperClasses\Compressor.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Enums\ElementType.cs" />
     <Compile Include="Enums\Functional.cs" />
     <Compile Include="Enums\Group.cs" />
     <Compile Include="Factories\LogicElementFactory.cs" />
     <Compile Include="HelperClasses\DragElement.cs" />
+    <Compile Include="HelperClasses\CRC16.cs" />
     <Compile Include="Keys\ProgrammingKeys.cs" />
+    <Compile Include="Model\EditorElements\IAndEditor.cs" />
     <Compile Include="Model\EditorElements\IInputEditor.cs" />
+    <Compile Include="Model\EditorElements\IInversionEditor.cs" />
     <Compile Include="Model\EditorElements\IOutputEditor.cs" />
+    <Compile Include="Model\EditorElements\IOrEditor.cs" />
+    <Compile Include="Model\Elements\IAnd.cs" />
     <Compile Include="Model\Elements\IConnection.cs" />
     <Compile Include="Model\Elements\IConnector.cs" />
     <Compile Include="Model\Elements\IInput.cs" />
     <Compile Include="Model\Elements\ILogicElement.cs" />
+    <Compile Include="Model\Elements\IInversion.cs" />
+    <Compile Include="Model\Elements\IOr.cs" />
     <Compile Include="Model\Elements\IOutput.cs" />
+    <Compile Include="Model\EditorElements\ILibraryElement.cs" />
     <Compile Include="Model\IProgrammModelEditor.cs" />
-    <Compile Include="Model\ILibraryElement.cs" />
     <Compile Include="Model\IProgramModel.cs" />
     <Compile Include="Model\ISchemeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\EditableListItem.cs" />
     <Compile Include="ViewModels\IProgrammingViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IAndEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IInputEditorViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IInversionEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\ILogicElementEditorViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOrEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOutputEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectionViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectorViewModel.cs" />

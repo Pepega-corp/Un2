@@ -6,4 +6,9 @@ namespace Unicon2.Infrastructure.ViewModel
     {
         object Model { get; set; }
     }
+
+    public interface IViewModel<T> : IStronglyNamed
+    {
+        T Model { get; set; }
+    }
 }

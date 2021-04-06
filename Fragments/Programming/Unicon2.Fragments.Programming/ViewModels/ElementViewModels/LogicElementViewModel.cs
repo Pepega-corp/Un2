@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Views;
@@ -11,74 +12,60 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public abstract class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
     {
-        protected readonly IApplicationGlobalCommands _globalCommands;
+        protected IApplicationGlobalCommands _globalCommands;
         protected bool _isSelected;
-        protected ILogicElement _model;
+        protected ILogicElement _logicElementModel;
         protected bool _debugMode;
         protected string _caption;
         protected bool _validationError;
         protected string _description;
-
-        protected LogicElementViewModel(string strongName, IApplicationGlobalCommands globalCommands)
-        {
-            this.StrongName = strongName;
-            this._globalCommands = globalCommands;
-        }
+        private Point _deltaPosition;
+        private bool xChanged;
+        private bool yChanged;
 
         public string ElementName { get; protected set; }
-
+        public ElementType ElementType => this._logicElementModel.ElementType;
         public bool IsSelected
         {
-            get { return this._isSelected; }
+            get => this._isSelected;
             set
             {
                 this._isSelected = value;
                 RaisePropertyChanged();
             }
         }
-
-        public string StrongName { get; protected set; }
-
+        public abstract string StrongName { get; }
         public ILogicElement Model
         {
             get => this.GetModel();
             set => this.SetModel(value);
         }
-
         public string Symbol { get; protected set; }
-
         public string Caption
         {
-            get { return this._caption; }
+            get => this._caption;
             set
             {
                 this._caption = value;
                 RaisePropertyChanged();
             }
         }
-
         public string Description
         {
-            get { return this._description; }
+            get => this._description;
             protected set
             {
                 this._description = value;
                 RaisePropertyChanged();
             }
         }
-
         public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
-
-        private Point _deltaPosition;
-        private bool xChanged;
-        private bool yChanged;
-
         public double X
         {
-            get { return this._model.X; }
+            get => this._logicElementModel.X;
             set
             {
-                this._deltaPosition.X = value - this._model.X;
+                this._deltaPosition.X = value - this._logicElementModel.X;
                 if (this.yChanged)
                 {
                     this.yChanged = false;
@@ -90,17 +77,16 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                     this.xChanged = true;
                 }
 
-                this._model.X = value;
+                this._logicElementModel.X = value;
                 RaisePropertyChanged();
             }
         }
-
         public double Y
         {
-            get { return this._model.Y; }
+            get => this._logicElementModel.Y;
             set
             {
-                this._deltaPosition.Y = value - this._model.Y;
+                this._deltaPosition.Y = value - this._logicElementModel.Y;
                 if (this.xChanged)
                 {
                     this.yChanged = false;
@@ -112,10 +98,12 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                     this.yChanged = true;
                 }
 
-                this._model.Y = value;
+                this._logicElementModel.Y = value;
                 RaisePropertyChanged();
             }
         }
+        public bool Connected => ConnectorViewModels.All(c=>c.Connected);
+        public int CompilePriority { get; set; }
 
         private void UpdateConnectorsPosition(Point deltaPosition)
         {
@@ -125,14 +113,49 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        protected abstract ILogicElement GetModel();
-        protected abstract void SetModel(object modelObj);
-        public abstract object Clone();
+        protected virtual ILogicElement GetModel()
+        {
+            this._logicElementModel.Connectors.Clear();
+            this._logicElementModel.Connectors.AddRange(this.ConnectorViewModels.Select(cvm => cvm.Model));
+            return this._logicElementModel;
+        }
+
+        protected virtual void SetModel(ILogicElement model)
+        {
+            X = model.X;
+            Y = model.Y;
+
+            ConnectorViewModels.Clear();
+            foreach (var c in model.Connectors)
+            {
+                var newConnector = new ConnectorViewModel(this, c.Orientation, c.Type);
+                newConnector.ConnectionNumber = c.ConnectionNumber;
+                newConnector.ConnectorPosition = c.ConnectorPosition;
+                ConnectorViewModels.Add(newConnector);
+            }
+        }
+
+        public void CopyValues(ILogicElementViewModel source)
+        {
+            SetModel(source.Model);
+        }
+
+        public abstract ILogicElementViewModel Clone();
+
+        protected ILogicElementViewModel Clone<TR, T>() where TR : LogicElementViewModel, new() where T : ILogicElement, new()
+        {
+            var ret = new TR
+            {
+                Model = this.Model,
+                Caption = this.Caption,
+                _globalCommands = this._globalCommands
+            };
+            return ret;
+        }
 
         public virtual void OpenPropertyWindow()
         {
-            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(),
-                new LogicElementSettingsViewModel(this));
+            this._globalCommands.ShowWindowModal(() => new LogicElementSettings(), new LogicElementSettingsViewModel(this));
         }
     }
 }

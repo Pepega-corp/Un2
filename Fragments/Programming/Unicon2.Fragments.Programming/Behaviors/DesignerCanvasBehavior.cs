@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -8,6 +7,7 @@ using System.Windows.Interactivity;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Adorners;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors

@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
+using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
@@ -10,12 +11,11 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         string Name { get; }
         Functional Functional { get; }
         Group Group { get; }
-        IConnector[] Connectors { get; set; }
+        List<IConnector> Connectors { get; set; }
         int BinSize { get; }
         ushort[] GetProgrammBin();
         void BinProgrammToProperty(ushort[] bin);
-        void CopyValues(ILogicElement source);
-        void CopyValues(ILibraryElement source);
+        void CopyLibraryValues(ILibraryElement source);
         double X { get; set; }
         double Y { get; set; }
     }

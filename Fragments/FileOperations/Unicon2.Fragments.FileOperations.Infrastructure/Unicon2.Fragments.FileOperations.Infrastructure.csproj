@@ -42,8 +42,10 @@
   <ItemGroup>
     <Compile Include="Factories\IBrowserElementFactory.cs" />
     <Compile Include="Factories\IBrowserElementViewModelFactory.cs" />
+    <Compile Include="FileOperations\ICommandDataReader.cs" />
     <Compile Include="FileOperations\ICommandSender.cs" />
     <Compile Include="FileOperations\ICommandStateReader.cs" />
+    <Compile Include="FileOperations\IDataProviderSetter.cs" />
     <Compile Include="FileOperations\IFileDataReader.cs" />
     <Compile Include="FileOperations\IFileDataWriter.cs" />
     <Compile Include="Keys\FileOperationsKeys.cs" />

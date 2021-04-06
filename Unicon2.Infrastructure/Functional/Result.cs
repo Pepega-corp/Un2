@@ -79,6 +79,15 @@ namespace Unicon2.Infrastructure.Functional
             }
             return new Result<TTo>(false);
         }
+        public async Task<Result<TTo>> OnSuccessAsync<TTo>(Func<T, Task<Result<TTo>>> onSuccessFunc)
+        {
+            if (IsSuccess)
+            {
+                return await onSuccessFunc(Item);
+            }
+            return new Result<TTo>(false);
+        }
+
         public async Task<T> OnSuccessAsync(Func<T,Task<T>> onSuccessFunc)
         {
             if (IsSuccess)

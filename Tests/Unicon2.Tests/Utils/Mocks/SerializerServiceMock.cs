@@ -22,5 +22,15 @@ namespace Unicon2.Tests.Utils.Mocks
         {
             throw new System.NotImplementedException();
         }
+
+        public byte[] SerializeInBytes<T>(T onjToSerialize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public T DeserializeFromBytes<T>(byte[] values)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

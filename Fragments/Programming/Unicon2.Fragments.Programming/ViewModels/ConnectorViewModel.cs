@@ -109,7 +109,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public int ConnectionNumber => _modelConnector.ConnectionNumber;
+        public int ConnectionNumber
+        {
+            get => _modelConnector.ConnectionNumber;
+            set
+            {
+                _modelConnector.ConnectionNumber = value;
+                RaisePropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Флаг того, что вывод подключен

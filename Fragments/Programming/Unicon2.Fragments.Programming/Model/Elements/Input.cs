@@ -1,73 +1,43 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
-    [DataContract(Namespace = "InputNS")]
-    public class Input : IInput
+    [JsonObject(MemberSerialization.OptIn)]
+    public class Input : LogicElement, IInput
     {
         private const int BIN_SIZE = 3;
 
-        [DataMember]
-        public IConnector[] Connectors { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<Dictionary<int, string>> AllInputSignals { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int InputSignalNum { get; set; }
-        [DataMember]
+        [JsonProperty]
         public List<string> Bases { get; set; }
-        [DataMember]
+        [JsonProperty]
         public int BaseNum { get; set; }
-        [DataMember]
-        public double X { get; set; }
-        [DataMember]
-        public double Y { get; set; }
-        public ElementType ElementType => ElementType.In;
-        public string Name => this.ElementType.ToString();
-        public Functional Functional => Functional.BOOLEAN;
-        public Group Group => Group.INPUT_OUTPUT;
-        public int BinSize => BIN_SIZE;
+        public override ElementType ElementType => ElementType.In;
+        public override string Name => this.ElementType.ToString();
+        public override Functional Functional => Functional.BOOLEAN;
+        public override Group Group => Group.INPUT_OUTPUT;
+        public override int BinSize => BIN_SIZE;
+        public override string StrongName => ProgrammingKeys.INPUT;
 
         public Input()
         {
-            this.Connectors = new IConnector[] { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
-            this.Bases = new List<string> {"Base0"};
-
-            this.AllInputSignals =
-                new List<Dictionary<int, string>>
-                {
-                    new Dictionary<int, string> {{0, string.Empty}}
-                };
+            this.Connectors = new List<IConnector> { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
+            Bases = new List<string>();
+            AllInputSignals = new List<Dictionary<int, string>>();
         }
 
-        public void CopyValues(ILogicElement source)
-        {
-            if (!(source is Input inputSource))
-            {
-                throw new ArgumentException("Copied source is not " + typeof(Input));
-            }
-            
-            this.InputSignalNum = inputSource.InputSignalNum;
-            this.BaseNum = inputSource.BaseNum;
-            this.Bases.Clear();
-            this.Bases.AddRange(inputSource.Bases);
-            this.AllInputSignals = new List<Dictionary<int, string>>(inputSource.AllInputSignals);
-            for (int i = 0; i < this.Bases.Count; i++)
-            {
-                var copiedDictionary = inputSource.AllInputSignals[i];
-                this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
-            }
-        }
-
-        public void CopyValues(ILibraryElement source)
+        public override void CopyLibraryValues(ILibraryElement source)
         {
             if (!(source is IInputEditor inputSource))
             {
@@ -84,7 +54,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             }
         }
 
-        public ushort[] GetProgrammBin()
+        public override ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
             switch (this.BaseNum)
@@ -120,13 +90,11 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             return bindata;
         }
 
-        public void BinProgrammToProperty(ushort[] bin)
+        public override void BinProgrammToProperty(ushort[] bin)
         {
             this.BaseNum = bin[0];
             this.InputSignalNum = bin[1];
             this.Connectors[0].ConnectionNumber = bin[2];
         }
-
-        public string StrongName => ProgrammingKeys.INPUT;
     }
 }

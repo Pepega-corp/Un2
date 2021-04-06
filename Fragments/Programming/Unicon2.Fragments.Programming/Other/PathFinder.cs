@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 
-namespace Unicon2.Fragments.Programming
+namespace Unicon2.Fragments.Programming.Other
 {
     internal class PathFinder
     {

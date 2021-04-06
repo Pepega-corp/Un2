@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using Unicon2.Fragments.FileOperations.Infrastructure.Factories;
 using Unicon2.Fragments.FileOperations.Infrastructure.Keys;
@@ -7,6 +6,8 @@ using Unicon2.Fragments.FileOperations.Infrastructure.Model;
 using Unicon2.Fragments.FileOperations.Infrastructure.ViewModel;
 using Unicon2.Fragments.FileOperations.Infrastructure.ViewModel.BrowserElements;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -19,6 +20,29 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
         private IFileBrowser _fileBrowser;
         private IDeviceDirectoryViewModel _selectedDirectoryViewModel;
 
+        public IDeviceDirectoryViewModel RootDeviceDirectoryViewModel { get; private set; }
+
+        public IDeviceDirectoryViewModel SelectedDirectoryViewModel
+        {
+            get { return this._selectedDirectoryViewModel; }
+            set
+            {
+                this._selectedDirectoryViewModel = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
+        public ICommand SelectDirectoryCommand { get; }
+
+        public ICommand LoadRootCommand { get; }
+
+
+        public string StrongName => FileOperationsKeys.FILE_BROWSER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+
+        public string NameForUiKey => FileOperationsKeys.FILE_BROWSER;
+        public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
+
+        public DeviceContext DeviceContext { get; set; }
 
         public FileBrowserViewModel(IBrowserElementViewModelFactory browserElementViewModelFactory)
         {
@@ -65,33 +89,12 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
             this.RaisePropertyChanged(nameof(this.RootDeviceDirectoryViewModel));
         }
 
-
-        public object Model
+        public void Initialize(IDeviceFragment deviceFragment)
         {
-            get { return this._fileBrowser; }
-            set { this._fileBrowser = value as IFileBrowser; }
-        }
-
-        public IDeviceDirectoryViewModel RootDeviceDirectoryViewModel { get; private set; }
-
-        public IDeviceDirectoryViewModel SelectedDirectoryViewModel
-        {
-            get { return this._selectedDirectoryViewModel; }
-            set
+            if(deviceFragment is IFileBrowser fileBrouser)
             {
-                this._selectedDirectoryViewModel = value;
-                this.RaisePropertyChanged();
+                _fileBrowser = fileBrouser;
             }
         }
-
-        public ICommand SelectDirectoryCommand { get; }
-
-        public ICommand LoadRootCommand { get; }
-
-
-        public string StrongName => FileOperationsKeys.FILE_BROWSER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-        public string NameForUiKey => FileOperationsKeys.FILE_BROWSER;
-        public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
     }
 }

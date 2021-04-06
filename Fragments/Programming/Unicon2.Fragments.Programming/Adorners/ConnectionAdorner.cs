@@ -8,6 +8,7 @@ using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Other;
 
 namespace Unicon2.Fragments.Programming.Adorners
 {
@@ -154,7 +155,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             }
             var fe = (FrameworkElement)hitObject;
             var cvm = fe.DataContext as IConnectorViewModel;
-            if (cvm == null || cvm.Model.Orientation == this._connection.SourceConnector.Orientation)
+            if (cvm == null || cvm.Orientation == this._connection.SourceConnector.Orientation)
             {
                 this.HitConnector = null;
                 return;

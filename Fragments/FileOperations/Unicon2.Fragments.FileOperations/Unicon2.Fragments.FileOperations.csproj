@@ -39,6 +39,9 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -60,11 +63,18 @@
   <ItemGroup>
     <Compile Include="Factories\BrowserElementFactory.cs" />
     <Compile Include="Factories\BrowserElementViewModelFactory.cs" />
-    <Compile Include="FileOperations\CommandSender.cs" />
-    <Compile Include="FileOperations\CommandStateReader.cs" />
+    <Compile Include="FileOperations\FileAccess.cs" />
+    <Compile Include="FileOperations\Operators\DirectoryOperator.cs" />
     <Compile Include="FileOperations\FileDataReader.cs" />
     <Compile Include="FileOperations\FileDataWriter.cs" />
     <Compile Include="FileOperations\FileDriver.cs" />
+    <Compile Include="FileOperations\FileOperationException.cs" />
+    <Compile Include="FileOperations\Operators\FileCloseOperator.cs" />
+    <Compile Include="FileOperations\Operators\FileOpenOperator.cs" />
+    <Compile Include="FileOperations\Operators\FileReadDataOperator.cs" />
+    <Compile Include="FileOperations\Operators\FileWriteDataOperator.cs" />
+    <Compile Include="FileOperations\Operators\Operator.cs" />
+    <Compile Include="FileOperations\Operators\SessionNumberOperator.cs" />
     <Compile Include="Model\BrowserElements\BrowserElementBase.cs" />
     <Compile Include="Model\BrowserElements\DeviceDirectory.cs" />
     <Compile Include="Model\BrowserElements\DeviceFile.cs" />

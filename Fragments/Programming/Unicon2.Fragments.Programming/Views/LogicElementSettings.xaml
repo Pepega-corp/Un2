@@ -9,7 +9,7 @@
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterScreen">
     <mah:MetroWindow.Resources>
-        <ResourceDictionary Source="../UI/LogicElementSettings/LogicElements.xaml" />
+        <ResourceDictionary Source="../UI/LogicElementSettings/LogicElementsForSettings.xaml" />
     </mah:MetroWindow.Resources>
 
     <Grid>

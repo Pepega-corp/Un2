@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Unicon2.Infrastructure.Interfaces;
+﻿using System.Threading.Tasks;
 
 namespace Unicon2.Fragments.FileOperations.Infrastructure.FileOperations
 {
-    public interface IFileDriver
+    public interface IFileDriver : IDataProviderSetter
     {
-        Task<List<string>> GetDirectoryByPath(string directoryPath);
+        Task<byte[]> ReadFile(string fileName, ushort wordsDataLen = 64);
+        Task WriteFile(byte[] fileData, string fileName, ushort wordsDataLen = 64);
         Task<bool> CreateDirectory(string directoryPath);
-        Task<bool> DeleteElement(string path);
-        Task<string> WriteFile(byte[] fileData,string directoryPath,string fileName);
-        
+        Task<bool> DeleteFile(string fileName);
     }
 }

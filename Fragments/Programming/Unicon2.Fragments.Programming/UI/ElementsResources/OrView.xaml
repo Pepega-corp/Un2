@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
+    xmlns:evm="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Shared.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate DataType="{x:Type evm:OrViewModel}">
+        <Grid>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Thumb
+                    Name="DragThumb"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Cursor="SizeAll"
+                    IsHitTestVisible="True">
+                    <i:Interaction.Behaviors>
+                        <behaviors:DesignerItemBehavior />
+                    </i:Interaction.Behaviors>
+                </Thumb>
+                <Rectangle
+                    Name="SelectBorder"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="-5"
+                    IsHitTestVisible="False"
+                    StrokeThickness="1" />
+                <ItemsControl Grid.Column="0" ItemsSource="{Binding Inputs}" Style="{StaticResource ConnectorsCollection}" />
+                <Rectangle
+                    Grid.Column="1"
+                    Width="{Binding Width}"
+                    Height="{Binding Heigth}"
+                    IsHitTestVisible="False"
+                    Stroke="Black"
+                    StrokeThickness="1" />
+                <TextBlock
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Calibri"
+                    FontSize="10"
+                    IsHitTestVisible="False"
+                    LineHeight="10"
+                    Text="{Binding Symbol}" />
+                <ItemsControl Grid.Column="2" ItemsSource="{Binding Outputs}" Style="{StaticResource ConnectorsCollection}" />
+            </Grid>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                <Setter TargetName="SelectBorder" Property="Stroke" Value="ForestGreen" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

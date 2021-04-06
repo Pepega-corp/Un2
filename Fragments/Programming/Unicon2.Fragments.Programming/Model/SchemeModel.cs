@@ -1,11 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model
 {
-    [DataContract(Name = "schemeModel", Namespace ="SchemeModelNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class SchemeModel : ISchemeModel
     {
         public SchemeModel(string name, Size schemeSize)
@@ -14,19 +15,20 @@ namespace Unicon2.Fragments.Programming.Model
             this.SchemeHeight = schemeSize.Height;
             this.SchemeWidth = schemeSize.Width;
             this.Scale = 1;
-            this.LogicElements = new ILogicElement[0];
+            this.LogicElements = new List<ILogicElement>();
+            this.ConnectionNumbers = new List<int>();
         }
-        [DataMember]
+        [JsonProperty]
         public string SchemeName { get; set; }
-        [DataMember]
+        [JsonProperty]
         public double SchemeHeight { get; set; }
-        [DataMember]
+        [JsonProperty]
         public double SchemeWidth { get; set; }
-        [DataMember]
+        [JsonProperty]
         public double Scale { get; set; }
-        [DataMember]
-        public ILogicElement[] LogicElements { get ; set; }
-        [DataMember]
-        public int[] ConnectionNumbers { get; set; }
+        [JsonProperty]
+        public List<ILogicElement> LogicElements { get ; set; }
+        [JsonProperty]
+        public List<int> ConnectionNumbers { get; set; }
     }
 }

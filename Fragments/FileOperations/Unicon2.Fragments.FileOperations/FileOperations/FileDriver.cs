@@ -1,230 +1,108 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Unicon2.Fragments.FileOperations.FileOperations.Operators;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
-using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations
 {
     public class FileDriver : IFileDriver
     {
-        private readonly string _getDirCommandStr = "GETDIR";
-        private readonly string _getNumberCommandStr = "GETNUMBER";
-        private const string FILEWRITE_PATTERN = "FILEWRITE {0};{1};{2}"; // дескриптор;длина в байтах;CRC
-        private const string FILEOPEN_PATTERN = "FILEOPEN {0};{1};{2}{3}";
-        private readonly IQueryResultFactory _queryResultFactory;
-        private readonly ICommandSender _commandSender;
-        private readonly ICommandStateReader _commandStateReader;
-        private readonly IFileDataReader _fileDataReader;
-        private readonly IFileDataWriter _fileDataWriter;
+        private readonly DirectoryOperator _directoryOperator;
+        private readonly SessionNumberOperator _sessionNumberOperator;
+        private readonly FileOpenOperator _fileOpenOperator;
+        private readonly FileReadDataOperator _fileReadDataOperator;
+        private readonly FileWriteDataOperator _fileWriteDataOperator;
+        private readonly FileCloseOperator _fileCloseOperator;
+        private readonly Dictionary<int, string> _openedFiles = new Dictionary<int, string>();
 
-
-        //private Operator[] _allOperators;
-
-        private Dictionary<int, string> _messagesDictionary;
-        private Dictionary<string, int> _openedFiles;
-        private byte[] _writeBytes;
-
-        private IDataProvider _dataProvider;
-
-
-        public FileDriver(IQueryResultFactory queryResultFactory, ICommandSender commandSender,
-            ICommandStateReader commandStateReader, IFileDataReader fileDataReader, IFileDataWriter fileDataWriter)
+        public FileDriver(DirectoryOperator directoryOperator, SessionNumberOperator sessionNumberOperator, 
+            FileOpenOperator fileOpenOperator, FileReadDataOperator fileReadDataOperator,
+            FileWriteDataOperator fileWriteDataOperator, FileCloseOperator fileCloseOperator)
         {
-            this._queryResultFactory = queryResultFactory;
-            this._commandSender = commandSender;
-            this._commandStateReader = commandStateReader;
-            this._fileDataReader = fileDataReader;
-            this._fileDataWriter = fileDataWriter;
-            this._openedFiles = new Dictionary<string, int>();
-            this.InitErrorMessages();
+            this._directoryOperator = directoryOperator;
+            this._sessionNumberOperator = sessionNumberOperator;
+            this._fileOpenOperator = fileOpenOperator;
+            this._fileReadDataOperator = fileReadDataOperator;
+            this._fileWriteDataOperator = fileWriteDataOperator;
+            this._fileCloseOperator = fileCloseOperator;
         }
 
-        private void InitErrorMessages()
+        public async Task<byte[]> ReadFile(string fileName, ushort wordsDataLen = 64)
         {
-            this._messagesDictionary = new Dictionary<int, string>
-            {
-                {0,"Операция успешно выполнена"},
-                {1,"Обращение к зарезервированной памяти"},
-                {2,"Подана неверная команда"},
-                {5,"Слишком много открытых файлов"},
-                {6,"Файл еще не открыт"},
-                {7,"Неверный пароль"},
-                {8,"Ошибка дескриптора файла"},
-                {9,"Ошибка CRC"},
-                {101,"Произошла невосстановимая ошибка на низком уровне"},
-                {102,"Ошибка структуры FAT на томе или рабочая область испорчена"},
-                {103,"Диск не готов"},
-                {104,"Файл не найден"},
-                {105,"Не найден путь"},
-                {106,"Указанная строка содержит недопустимое имя"},
-                {107,"Отканано в доступе"},
-                {108,"Файл или папка с таким именем уже существуют"},
-                {109,"Предоставленная структура объекта\nфайла/директории ошибочна"},
-                {110,"Дествие произведено на защищенном\nот записи носителе данных"},
-                {111,"Указан недопустимый номер диска"},
-                {112,"Рабочая область логического диска\nне зарегистрирована"},
-                {113,"На диске нет рабочего тома с файловой системой FAT"},
-                {114,"Функция остановлена перед началом форматирования"},
-                {115,"Функция остановлена из-за таймаута\nв безопасном управлении потоками"},
-                {116,"Доступ к файлу отклонен управлением\nсовместного доступа к файлу.\nПерезагрузите, пожалуйста, устройство"},
-                {117,"Недостаточно памяти для выполнения операции"},
-                {118,"Количество открытых файлов достигло\nмаксимального количества"},
-                {119,"Указанный параметр недопустим"},
-                {224,"Операция не была выполнена"},
-                {255,"Нет связи с устройством, невозможно выполнить операцию"}
-            };
-        }
-
-        private async Task<string> GetPassword()
-        {
-
-            await this._commandSender.SetCommand(this._getNumberCommandStr);
-            string[] stateStrings = await this._commandStateReader.ReadCommandStateStrings();
-
-            byte[] jj = await this._fileDataReader.GetDataBytes(Convert.ToUInt16(stateStrings[5]));
-            string s = this.GetDataString(jj);
-            int sessionNum = Convert.ToUInt16(s);
-
-            string pass = "АААА"; //русские буквы А
-            Encoding ascii = Encoding.GetEncoding("windows-1251");
-            byte[] asciiBytes = ascii.GetBytes(pass);
-            string passCode = string.Empty;
-            foreach (byte c in asciiBytes)
-            {
-                sessionNum = (byte)((sessionNum * 99 + 53) % 256);
-                passCode += ((byte)(c + sessionNum)).ToString("X2");
-            }
-            return passCode;
+            var descriptor = await OpenFile(fileName, FileAccess.READ_FILE);
+            var fileBytes = await this._fileReadDataOperator.ReadFileData(descriptor, wordsDataLen);
+            await CloseFile(fileName);
+            return fileBytes;
         }
 
 
-        private string GetDataString(byte[] readBytes)
+        private async Task<int> OpenFile(string fileName, FileAccess access)
         {
-            List<char> list = new List<char>();
-            for (int i = 0; i < readBytes.Length; i++)
+            if (this._openedFiles.ContainsValue(fileName))
             {
-                if (readBytes[i] != '\0')
-                {
-                    list.Add((char)readBytes[i]);
-                }
+                await CloseFile(fileName);
             }
-            return new string(list.ToArray());
+
+            if (this._directoryOperator.Directory == string.Empty)
+            {
+                await this.ReadDirectory();
+            }
+
+            await this.ReadSessionNumber();
+            var password = this._sessionNumberOperator.GetPassword();
+
+            var descriptor = await this._fileOpenOperator.OpenFile(fileName, this._directoryOperator.Directory, access, password);
+            this._openedFiles.Add(descriptor, fileName);
+            return descriptor;
         }
 
-
-        public void SetDataProvider(IDataProvider dataProvider)
+        private async Task CloseFile(string fileName)
         {
-            if ((this._dataProvider == null) || (this._dataProvider != dataProvider))
+            var openedFiles = this._openedFiles.Where(o => o.Value == fileName).ToList();
+            foreach (var openFileInfo in openedFiles)
             {
-                this._dataProvider = dataProvider;
-                this._commandSender.SetDataProvider(dataProvider);
-                this._commandStateReader.SetDataProvider(dataProvider);
-                this._fileDataReader.SetDataProvider(dataProvider);
-                this._fileDataWriter.SetDataProvider(dataProvider);
+                await this._fileCloseOperator.CloseFile(openFileInfo.Key);
+                this._openedFiles.Remove(openFileInfo.Key);
             }
         }
 
-
-        public async Task<List<string>> GetDirectoryByPath(string directoryPath)
+        private async Task ReadDirectory()
         {
-            if (directoryPath.Contains(";"))
-            {
-                directoryPath = directoryPath.Split(';')[0];
-            }
-            List<string> directoryList = new List<string>();
-
-            await this._commandSender.SetCommand("GETELEMENTDIR " + directoryPath);
-            string[] commandStateStrings = await this._commandStateReader.ReadCommandStateStrings();
-            if (this._commandStateReader.LastCommandStatus != 0) return directoryList;
-            int dataLen = Convert.ToUInt16(commandStateStrings[5]);
-            byte[] dataBytes = await this._fileDataReader.GetDataBytes(dataLen);
-            string descriptor = this.GetDataString(dataBytes);
-            if (this.CheckDescroptor(descriptor))
-            {
-                directoryList.Add(directoryPath + "\\" +
-                                  descriptor);
-            }
-
-            while (true)
-            {
-                await this._commandSender.SetCommand("GETELEMENTDIR");
-                commandStateStrings = await this._commandStateReader.ReadCommandStateStrings();
-                dataLen = Convert.ToUInt16(commandStateStrings[5]);
-                dataBytes = await this._fileDataReader.GetDataBytes(dataLen);
-                descriptor = this.GetDataString(dataBytes);
-                if (descriptor.IndexOf(';') == 0) break;
-                if (this.CheckDescroptor(descriptor))
-                {
-                    directoryList.Add(directoryPath + "\\" +
-                                      descriptor);
-                }
-            }
-            //await WriteFile(new byte[] {4, 2}, "0:\\cfg\\", "228.cfg");
-            return directoryList;
+            await this._directoryOperator.ReadDirectory();
         }
 
-        private bool CheckDescroptor(string descroptor)
+        private async Task ReadSessionNumber()
         {
-            if ((descroptor.Split(';')[0] == ".") || (descroptor.Split(';')[0] == ".."))
-            {
-                return false;
-            }
-            return true;
+            await this._sessionNumberOperator.ReadSessionNumber();
+        }
+
+        public async Task WriteFile(byte[] fileData, string fileName, ushort wordsDataLen = 64)
+        {
+            var descriptor = await this.OpenFile(fileName, FileAccess.WRITE_FILE);
+            await this._fileWriteDataOperator.WriteData(descriptor, fileData);
         }
 
         public async Task<bool> CreateDirectory(string directoryPath)
         {
-            await this._commandSender.SetCommand("CREATEDIR " + directoryPath);
-            await this._commandStateReader.ReadCommandStateStrings();
-            return this._commandStateReader.LastCommandStatus == 0;
+            return await this._directoryOperator.CreateDirectory(directoryPath);
         }
 
-        public async Task<bool> DeleteElement(string path)
+        public Task<bool> DeleteFile(string fileName)
         {
-            string passWord = await this.GetPassword();
-            await this._commandSender.SetCommand("FILEDEL  " + passWord + ";" + path);
-            await this._commandStateReader.ReadCommandStateStrings();
-            return this._commandStateReader.LastCommandStatus == 0;
+            return Task.FromResult(false);
         }
 
-        public async Task<string> WriteFile(byte[] fileData, string directoryPath, string fileName)
+        public void SetDataProvider(IDataProviderContainer dataProvider)
         {
-            await this._commandSender.SetCommand("FILEOPEN " + await this.GetPassword() + ";" + 10 + ";" + directoryPath + "\\" +
-                                            fileName);
-            string[] stateStrings = await this._commandStateReader.ReadCommandStateStrings();
-            int error = Convert.ToUInt16(stateStrings[1]);
-            if (error != 0)
-            {
-                return this._messagesDictionary[error];
-            }
-            int dataLen = Convert.ToUInt16(stateStrings[5]);
-            byte[] dataBytes = await this._fileDataReader.GetDataBytes(dataLen);
-            string descriptor = this.GetDataString(dataBytes);
-            try
-            {
-                await this._fileDataWriter.WriteData(fileData, descriptor);
-            }
-            catch (Exception)
-            {
-                return this._messagesDictionary[224];
-            }
-            finally
-            {
-                await this._commandSender.SetCommand("FILECLOSE " + Convert.ToUInt16(descriptor));
-                stateStrings = await this._commandStateReader.ReadCommandStateStrings();
-                error = Convert.ToUInt16(stateStrings[1]);
-            }
-
-            if (error != 0)
-            {
-                return this._messagesDictionary[error];
-            }
-
-            return this._messagesDictionary[error];
-
+            this._directoryOperator.SetDataProvider(dataProvider);
+            this._sessionNumberOperator.SetDataProvider(dataProvider);
+            this._fileOpenOperator.SetDataProvider(dataProvider);
+            this._fileReadDataOperator.SetDataProvider(dataProvider);
+            this._fileWriteDataOperator.SetDataProvider(dataProvider);
+            this._fileCloseOperator.SetDataProvider(dataProvider);
         }
     }
 }

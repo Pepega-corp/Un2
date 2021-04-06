@@ -10,6 +10,7 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
@@ -23,6 +24,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private readonly ILogicElementFactory _factory;
         public const int CELL_SIZE = 5;
         private ISchemeModel _model;
+        private bool _isLogicStarted;
         /// <summary>
         /// Событие закрытия вкладки схемы
         /// </summary>
@@ -33,9 +35,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             get => this.GetModel();
             set => this.SetModel(value);
         }
-
         public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
         /// <summary>
         /// Ссылка на поведение
         /// </summary>
@@ -44,7 +44,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// Список всех вью моделей эелементов, добавленных на схему
         /// </summary>
         public ObservableCollection<ISchemeElementViewModel> ElementCollection { get; }
-
         public string SchemeName
         {
             get { return this._model.SchemeName; }
@@ -55,11 +54,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 RaisePropertyChanged();
             }
         }
-
         public double SchemeHeight => this._model.SchemeHeight;
-
         public double SchemeWidth => this._model.SchemeWidth;
-
         public double Scale
         {
             get => this._model.Scale;
@@ -70,16 +66,31 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 RaisePropertyChanged(nameof(this.ScaleStr));
             }
         }
-
         public string ScaleStr => $"{this._model.Scale * 100}%";
-
         public double RectHeight => (int)(this.SchemeHeight / this.RectY) * this.RectY - this.RectY;
-
         public double RectWidth => (int)(this.SchemeWidth / this.RectX) * this.RectX - this.RectX;
-
         public double RectX => CELL_SIZE;
-
         public double RectY => CELL_SIZE;
+
+        public bool CanWriteToDevice
+        {
+            get
+            {
+                var logicElements = ElementCollection.Where(e => e is ILogicElementViewModel).Cast<ILogicElementViewModel>();
+                return logicElements.All(le => le.Connected);
+            }
+        }
+        
+        public bool IsLogicStarted
+        {
+            get => this._isLogicStarted;
+            set
+            {
+                this._isLogicStarted = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ICommand ZoomIncrementCommand { get; }
         public ICommand ZoomDecrementCommand { get; }
         public ICommand CloseTabCommand { get; }
@@ -105,11 +116,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             var logicElementViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel)
                 .Cast<ILogicElementViewModel>().ToArray();
-            this._model.LogicElements = logicElementViewModels.Select(lvm => lvm.Model).ToArray();
+            this._model.LogicElements.Clear();
+            this._model.LogicElements.AddRange(logicElementViewModels.Select(lvm => lvm.Model));
 
             var connectionsViewModels = this.ElementCollection.Where(ec => ec is IConnectionViewModel)
                 .Cast<IConnectionViewModel>().ToArray();
-            this._model.ConnectionNumbers = connectionsViewModels.Select(c => c.ConnectionNumber).ToArray();
+            this._model.ConnectionNumbers.Clear();
+            this._model.ConnectionNumbers.AddRange(connectionsViewModels.Select(c => c.ConnectionNumber));
 
             return this._model;
         }

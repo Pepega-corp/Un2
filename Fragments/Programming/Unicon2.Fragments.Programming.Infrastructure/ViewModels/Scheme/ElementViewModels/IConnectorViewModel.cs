@@ -14,12 +14,10 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         string Symbol {get;}
         Point ConnectorPosition { get; set; }
         ILogicElementViewModel ParentViewModel { get; }
-
         IConnectionViewModel Connection { get; set; }
-        int ConnectionNumber { get; }
+        int ConnectionNumber { get; set; }
         bool Connected { get; }
         bool IsDragConnection { get; set; }
-
         void UpdateConnectorPosition(Point deltaPosition);
     }
 }

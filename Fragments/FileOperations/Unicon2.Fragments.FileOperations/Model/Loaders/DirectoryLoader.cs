@@ -4,6 +4,7 @@ using Unicon2.Fragments.FileOperations.Infrastructure.Factories;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.BrowserElements;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.Loaders;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.Model.Loaders
 {
@@ -21,22 +22,22 @@ namespace Unicon2.Fragments.FileOperations.Model.Loaders
         public async Task<List<IDeviceBrowserElement>> LoadDeviceDirectory(string directoryPath, IDeviceDirectory parentDeviceDirectory)
         {
             List<IDeviceBrowserElement> deviceBrowserElements = new List<IDeviceBrowserElement>();
-            List<string> directoryList = await this._fileDriver.GetDirectoryByPath(directoryPath);
-            directoryList.ForEach((path =>
-                deviceBrowserElements.Add(this._browserElementFactory.CreateBrowserElement(path, parentDeviceDirectory))));
-            foreach (IDeviceBrowserElement element in deviceBrowserElements)
-            {
-                if (element is IDeviceDirectory)
-                {
-                    await (element as IDeviceDirectory).Load();
-                }
-            }
+            //List<string> directoryList = await this._fileDriver.GetDirectoryByPath(directoryPath);
+            //directoryList.ForEach((path =>
+            //    deviceBrowserElements.Add(this._browserElementFactory.CreateBrowserElement(path, parentDeviceDirectory))));
+            //foreach (IDeviceBrowserElement element in deviceBrowserElements)
+            //{
+            //    if (element is IDeviceDirectory)
+            //    {
+            //        await (element as IDeviceDirectory).Load();
+            //    }
+            //}
             return deviceBrowserElements;
         }
 
         public async Task<bool> RemoveElementFromDirectory(IDeviceBrowserElement deviceBrowserElement)
         {
-            return await this._fileDriver.DeleteElement(deviceBrowserElement.Name);
+            return await this._fileDriver.DeleteFile(deviceBrowserElement.Name);
         }
 
         public async Task<bool> CreateNewChildDirectoryAsync(string directoryPath)
@@ -44,14 +45,11 @@ namespace Unicon2.Fragments.FileOperations.Model.Loaders
             return await this._fileDriver.CreateDirectory(directoryPath);
         }
 
-        public async Task<string> CreateNewChildFileAsync(byte[] fileBytes, string directoryPath, string fileName, string extension)
+        public async Task CreateNewChildFileAsync(byte[] fileBytes, string fileName, string extension)
         {
-            return await this._fileDriver.WriteFile(fileBytes, directoryPath, $"{fileName}.{extension}");
+            await this._fileDriver.WriteFile(fileBytes, $"{fileName}.{extension}");
         }
 
-        public void SetDataProviderConnection(object dataProvider)
-        {
-            this._browserElementFactory.SetConnectionProvider(dataProvider);
-        }
+        public void SetDeviceContext(DeviceContext deviceContext) => _fileDriver.SetDataProvider(deviceContext.DataProviderContainer);
     }
 }

@@ -4,14 +4,24 @@ using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model.BrowserElements;
 using Unicon2.Fragments.FileOperations.Model.BrowserElements;
 using Unicon2.Fragments.FileOperations.Model.Loaders;
-using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Fragments.FileOperations.Factories
 {
     public class BrowserElementFactory : IBrowserElementFactory
     {
         private readonly IFileDriver _fileDriver;
-        private IDataProvider _dataProvider;
+        private DeviceContext _deviceContext;
+
+        public DeviceContext DeviceContext
+        {
+            get => _deviceContext;
+            set
+            {
+                _deviceContext = value;
+                _fileDriver.SetDataProvider(_deviceContext.DataProviderContainer);
+            }
+        }
 
         public BrowserElementFactory(IFileDriver fileDriver)
         {
@@ -25,7 +35,6 @@ namespace Unicon2.Fragments.FileOperations.Factories
 
         public IDeviceDirectory CreateDeviceDirectoryBrowserElement(string path, IDeviceDirectory parentDeviceDirectory)
         {
-            this._fileDriver.SetDataProvider(this._dataProvider);
             string[] elementStrings = path.Split(';');
             try
             {
@@ -41,10 +50,9 @@ namespace Unicon2.Fragments.FileOperations.Factories
 
         public IDeviceFile CreateDeviceFileBrowserElement(string path, IDeviceDirectory parentDeviceDirectory)
         {
-            this._fileDriver.SetDataProvider(this._dataProvider);
             string[] elementStrings = path.Split(';');
             IDeviceFile deviceFile = new DeviceFile(path, new FileLoader(this, this._fileDriver), elementStrings[0], parentDeviceDirectory);
-            deviceFile.SetDataProvider(this._dataProvider);
+            deviceFile.DeviceContext = _deviceContext;
             return deviceFile;
         }
 
@@ -60,11 +68,6 @@ namespace Unicon2.Fragments.FileOperations.Factories
                 return this.CreateDeviceFileBrowserElement(path, parentDeviceDirectory);
             }
             return null;
-        }
-
-        public void SetConnectionProvider(object dataProvider)
-        {
-            this._dataProvider = dataProvider as IDataProvider;
         }
     }
 }

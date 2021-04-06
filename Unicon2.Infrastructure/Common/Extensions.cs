@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.Functional;
 
 namespace Unicon2.Infrastructure.Common
 {

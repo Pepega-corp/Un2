@@ -1,5 +1,6 @@
 ﻿using Unicon2.Fragments.FileOperations.Factories;
 using Unicon2.Fragments.FileOperations.FileOperations;
+using Unicon2.Fragments.FileOperations.FileOperations.Operators;
 using Unicon2.Fragments.FileOperations.Infrastructure.Factories;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.FileOperations.Infrastructure.Keys;
@@ -23,12 +24,17 @@ namespace Unicon2.Fragments.FileOperations.Module
         {
             container.Register<IFileBrowser, FileBrowser>();
             container.Register<IFileDriver, FileDriver>();
-            container.Register<ICommandSender, CommandSender>();
-            container.Register<ICommandStateReader, CommandStateReader>();
+
+            container.Register<DirectoryOperator>();
+            container.Register<SessionNumberOperator>();
+            container.Register<FileOpenOperator>();
+            container.Register<FileReadDataOperator>();
+            container.Register<FileCloseOperator>();
+            //=====================================================
             container.Register<IFileDataReader, FileDataReader>();
             container.Register<IFileDataWriter, FileDataWriter>();
             container.Register<IDeviceDirectory, DeviceDirectory>();
-
+            //=====================================================
             container.Register<IBrowserElementViewModelFactory, BrowserElementViewModelFactory>();
             container.Register<IBrowserElementViewModel, DeviceFileViewModel>(FileOperationsKeys.DEVICE_FILE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<IBrowserElementViewModel, DeviceDirectoryViewModel>(
@@ -39,8 +45,6 @@ namespace Unicon2.Fragments.FileOperations.Module
             container.Register<IFileBrowserViewModel, FileBrowserViewModel>();
 
             container.Register<IBrowserElementFactory, BrowserElementFactory>();
-        
-            container.Resolve<ISerializerService>().AddKnownTypeForSerialization(typeof(FileBrowser));
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/FileOperationsTemplates.xaml", GetType().Assembly);
         }

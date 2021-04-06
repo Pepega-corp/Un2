@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+﻿using System.Collections.Generic;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.Model
 {
@@ -8,7 +9,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model
         double SchemeHeight { get; }
         double SchemeWidth { get; }
         double Scale { get; set; }
-        ILogicElement[] LogicElements {get; set; }
-        int[] ConnectionNumbers { get; set; }
+        List<ILogicElement> LogicElements {get; set; }
+        List<int> ConnectionNumbers { get; set; }
     }
 }
