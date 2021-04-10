@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.CountingTemplate;
@@ -10,10 +11,10 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Oscilliscope.Model
 {
-    [DataContract(Namespace = "CountingTemplateNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class CountingTemplate : ICountingTemplate
     {
-        [DataMember]
+        [JsonProperty]
         public IRecordTemplate RecordTemplate { get; set; }
 
         public List<string> GetCountingNames()
@@ -114,22 +115,7 @@ namespace Unicon2.Fragments.Oscilliscope.Model
             return numOfChannels;
         }
 
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this.RecordTemplate.JournalParameters.ForEach((parameter =>
-           {
-               (parameter.UshortsFormatter as IDataProviderContaining)?.SetDataProvider(dataProvider);
-           }));
-        }
-
         public bool IsInitialized { get; }
 
-        public void InitializeFromContainer(ITypesContainer container)
-        {
-            this.RecordTemplate.JournalParameters.ForEach((parameter =>
-            {
-                (parameter.UshortsFormatter as IInitializableFromContainer)?.InitializeFromContainer(container);
-            }));
-        }
     }
 }

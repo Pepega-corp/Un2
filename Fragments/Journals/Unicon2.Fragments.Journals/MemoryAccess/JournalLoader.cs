@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Unicon2.Fragments.Journals.Factory;
 using Unicon2.Fragments.Journals.Infrastructure.Factories;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
+using Unicon2.Fragments.Journals.Infrastructure.Model.Loader;
 using Unicon2.Fragments.Journals.Infrastructure.ViewModel;
+using Unicon2.Fragments.Journals.Infrastructure.ViewModel.Helpers;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -12,36 +14,31 @@ using Unicon2.Presentation.Infrastructure.Factories;
 
 namespace Unicon2.Fragments.Journals.MemoryAccess
 {
-    public class JournalLoader
+    public class JournalLoader : IJournalLoader
     {
-        private readonly IUniconJournalViewModel _uniconJournalViewModel;
         private readonly DeviceContext _deviceContext;
         private readonly IUniconJournal _uniconJournal;
+        private readonly LoaderHooks _loaderHooks;
         private readonly IJournalRecordFactory _journalRecordFactory;
         private readonly IValueViewModelFactory _valueViewModelFactory;
 
-
-        public JournalLoader(IUniconJournalViewModel uniconJournalViewModel,
-            DeviceContext deviceContext, IUniconJournal uniconJournal)
+        public JournalLoader(DeviceContext deviceContext, IUniconJournal uniconJournal, LoaderHooks loaderHooks)
         {
-            _uniconJournalViewModel = uniconJournalViewModel;
             _deviceContext = deviceContext;
             _uniconJournal = uniconJournal;
+            _loaderHooks = loaderHooks;
             _journalRecordFactory = StaticContainer.Container.Resolve<IJournalRecordFactory>();
             _valueViewModelFactory = StaticContainer.Container.Resolve<IValueViewModelFactory>();
-
         }
 
         public void LoadFromReadyModelList(List<IJournalRecord> journalRecords)
         {
-	        _uniconJournal.JournalRecords.Clear();
-	        _uniconJournalViewModel.Table.Values.Clear();
+            _uniconJournal.JournalRecords.Clear();
+            _loaderHooks.OnBeforeLoading();
             foreach (var journalRecord in journalRecords)
-	        {
-		        _uniconJournal.JournalRecords.Add(journalRecord);
-		        _uniconJournalViewModel.Table.AddFormattedValueViewModel(journalRecord.FormattedValues
-			        .Select((formattedValue =>
-				        _valueViewModelFactory.CreateFormattedValueViewModel(formattedValue))).ToList());
+            {
+                _uniconJournal.JournalRecords.Add(journalRecord);
+                _loaderHooks.OnRecordValuesLoaded(journalRecord.FormattedValues);
             }
         }
 
@@ -49,9 +46,11 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
         {
             _uniconJournal.JournalRecords.Clear();
             var sequenceLoader =
-                new SequenceLoaderFactory().CreateSequenceLoader(_uniconJournal.JournalLoadingSequence,
-                    _deviceContext.DataProviderContainer);
-            _uniconJournalViewModel.Table.Values.Clear();
+                StaticContainer.Container.Resolve<ILoadingSequenceLoaderRegistry>().ResolveLoader(
+                    _uniconJournal.JournalLoadingSequence,
+                    _deviceContext);
+            _loaderHooks.OnBeforeLoading();
+
             while (sequenceLoader.GetIsNextRecordAvailable())
             {
                 var recordValues = await sequenceLoader.GetNextRecordUshorts();
@@ -59,28 +58,16 @@ namespace Unicon2.Fragments.Journals.MemoryAccess
                 {
                     break;
                 }
+
                 IJournalRecord newRec =
-                    await _journalRecordFactory.CreateJournalRecord(recordValues.Item, _uniconJournal.RecordTemplate,_deviceContext);
+                    await _journalRecordFactory.CreateJournalRecord(recordValues.Item, _uniconJournal.RecordTemplate,
+                        _deviceContext);
                 if (newRec != null)
                 {
                     _uniconJournal.JournalRecords.Add(newRec);
-                    _uniconJournalViewModel.Table.AddFormattedValueViewModel(newRec.FormattedValues
-                        .Select((formattedValue =>
-                            _valueViewModelFactory.CreateFormattedValueViewModel(formattedValue))).ToList());
+                    _loaderHooks.OnRecordValuesLoaded(newRec.FormattedValues);
                 }
             }
-            //TODO
-            //List<ILoadable> loadables = new List<ILoadable>();
-            //foreach (IJournalParameter parameter in _uniconJournal.RecordTemplate.JournalParameters)
-            //{
-            //    if (parameter.UshortsFormatter is ILoadable)
-            //    {
-            //        if (!loadables.Contains(parameter.UshortsFormatter as ILoadable))
-            //            loadables.Add(parameter.UshortsFormatter as ILoadable);
-            //    }
-            //}
-
-            //loadables.ForEach((async loadable => await loadable.Load()));
         }
 
 

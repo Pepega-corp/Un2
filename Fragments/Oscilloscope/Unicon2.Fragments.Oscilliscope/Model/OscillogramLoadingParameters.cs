@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Keys;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model;
@@ -10,7 +11,7 @@ using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Fragments.Oscilliscope.Model
 {
-    [DataContract(Namespace = "OscillogramLoadingParametersNS")]
+    [JsonObject(MemberSerialization.OptIn)]
     public class OscillogramLoadingParameters : IOscillogramLoadingParameters
     {
         private List<IFormattedValue> _formattedValues;
@@ -30,15 +31,11 @@ namespace Unicon2.Fragments.Oscilliscope.Model
         }
 
 
-        [DataMember]
-        public List<IOscilloscopeTag> OscilloscopeTags { get; set; }
-        [DataMember]
-        public ushort AddressOfOscillogram { get; set; }
-        [DataMember]
-        public ushort MaxSizeOfRewritableOscillogramInMs { get; set; }
+        [JsonProperty] public List<IOscilloscopeTag> OscilloscopeTags { get; set; }
+        [JsonProperty] public ushort AddressOfOscillogram { get; set; }
+        [JsonProperty] public ushort MaxSizeOfRewritableOscillogramInMs { get; set; }
 
-        [DataMember]
-        public bool IsFullPageLoading { get; set; }
+        [JsonProperty] public bool IsFullPageLoading { get; set; }
 
         public void Initialize(List<IFormattedValue> formattedValues, IRecordTemplate recordTemplate)
         {
@@ -47,31 +44,35 @@ namespace Unicon2.Fragments.Oscilliscope.Model
             int numberOfValue = 0;
             numberOfValue = this._recordTemplate.JournalParameters.IndexOf(this.OscilloscopeTags
                 .First((tag => tag.TagKey == OscilloscopeKeys.LEN)).RelatedJournalParameter);
-            this._oscillogramCountingsNumber = (int)Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
+            this._oscillogramCountingsNumber =
+                (int) Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
 
             numberOfValue = this._recordTemplate.JournalParameters.IndexOf(this.OscilloscopeTags
-               .First((tag => tag.TagKey == OscilloscopeKeys.REZ)).RelatedJournalParameter);
-            this._sizeOfCountingInWords = (int)Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
+                .First((tag => tag.TagKey == OscilloscopeKeys.REZ)).RelatedJournalParameter);
+            this._sizeOfCountingInWords =
+                (int) Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
 
             numberOfValue = this._recordTemplate.JournalParameters.IndexOf(this.OscilloscopeTags
-               .First((tag => tag.TagKey == OscilloscopeKeys.POINT)).RelatedJournalParameter);
-            this._pointOfStart = (int)Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
+                .First((tag => tag.TagKey == OscilloscopeKeys.POINT)).RelatedJournalParameter);
+            this._pointOfStart = (int) Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
 
-
-
-            numberOfValue = this._recordTemplate.JournalParameters.IndexOf(this.OscilloscopeTags
-               .First((tag => tag.TagKey == OscilloscopeKeys.AFTER)).RelatedJournalParameter);
-            this._sizeAfter = (int)Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
 
 
             numberOfValue = this._recordTemplate.JournalParameters.IndexOf(this.OscilloscopeTags
-               .First((tag => tag.TagKey == OscilloscopeKeys.BEGIN)).RelatedJournalParameter);
-            this._beginAddresInData = (int)Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
+                .First((tag => tag.TagKey == OscilloscopeKeys.AFTER)).RelatedJournalParameter);
+            this._sizeAfter = (int) Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
 
 
             numberOfValue = this._recordTemplate.JournalParameters.IndexOf(this.OscilloscopeTags
-               .First((tag => tag.TagKey == OscilloscopeKeys.DATATIME)).RelatedJournalParameter);
-            if (!(this._formattedValues[numberOfValue] is ITimeValue)) throw new ArgumentException("Time value not on right place");
+                .First((tag => tag.TagKey == OscilloscopeKeys.BEGIN)).RelatedJournalParameter);
+            this._beginAddresInData =
+                (int) Math.Ceiling((this._formattedValues[numberOfValue] as INumericValue).NumValue);
+
+
+            numberOfValue = this._recordTemplate.JournalParameters.IndexOf(this.OscilloscopeTags
+                .First((tag => tag.TagKey == OscilloscopeKeys.DATATIME)).RelatedJournalParameter);
+            if (!(this._formattedValues[numberOfValue] is ITimeValue))
+                throw new ArgumentException("Time value not on right place");
             this._dataTimeJournalValue = (this._formattedValues[numberOfValue] as ITimeValue);
 
             numberOfValue = this._recordTemplate.JournalParameters.IndexOf(this.OscilloscopeTags
@@ -129,6 +130,7 @@ namespace Unicon2.Fragments.Oscilliscope.Model
         {
             return this._dataTimeJournalValue.GetPindosFullFormatDateTime();
         }
+
         public string GetAlarm()
         {
             return this._alarm;

@@ -15,6 +15,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations.Operators
         protected const ushort WORDS_LENGTH = 64;
         protected const ushort DATA_ADDRESS = 0x5200;
 
+
         protected IDataProviderContainer _dataProvider;
 
         public int LastCommandStatus { get; private set; }

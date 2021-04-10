@@ -8,4 +8,9 @@ namespace Unicon2.Fragments.Oscilliscope.Infrastructure.Model.OscilloscopeJourna
         ushort NumberOfPointsInRecord { get; set; }
 
     }
+
+    public interface IJournalSequenceInitialingFromParameters
+    {
+        void Initialize(IJournalSequenceInitializingParameters parameters);
+    }
 }

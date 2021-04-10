@@ -5,7 +5,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 
 namespace Unicon2.Fragments.Oscilliscope.Infrastructure.Model.CountingTemplate
 {
-    public interface ICountingTemplate:IDeviceContextConsumer
+    public interface ICountingTemplate
     {
         IRecordTemplate RecordTemplate { get; set; }
         List<string> GetCountingNames();

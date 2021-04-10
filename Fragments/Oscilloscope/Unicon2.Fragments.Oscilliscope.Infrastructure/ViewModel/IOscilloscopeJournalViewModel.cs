@@ -7,6 +7,7 @@ namespace Unicon2.Fragments.Oscilliscope.Infrastructure.ViewModel
     public interface IOscilloscopeJournalViewModel:IUniconJournalViewModel
     {
         List<int> SelectedRows { get; set; }
-        void SetParentOscilloscopeModel(IOscilloscopeModel oscilloscopeModel);
+        void SetParentOscilloscopeModel(IOscilloscopeModel oscilloscopeModel,
+            IOscilloscopeViewModel oscilloscopeViewModel);
     }
 }

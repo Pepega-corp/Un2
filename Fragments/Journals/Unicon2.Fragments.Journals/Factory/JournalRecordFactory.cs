@@ -42,7 +42,7 @@ namespace Unicon2.Fragments.Journals.Factory
             return journalRecord;
         }
 
-        private async Task<List<IFormattedValue>> GetValuesForRecord(IJournalParameter parameter,
+        public async Task<List<IFormattedValue>> GetValuesForRecord(IJournalParameter parameter,
             ushort[] recordUshorts, DeviceContext deviceContext)
         {
             var formattedValues = new List<IFormattedValue>();

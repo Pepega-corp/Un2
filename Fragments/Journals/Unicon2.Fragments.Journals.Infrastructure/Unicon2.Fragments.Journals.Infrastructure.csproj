@@ -45,6 +45,8 @@
     <Compile Include="Factories\IJournalRecordViewModelFactory.cs" />
     <Compile Include="Factories\IJournalSequenceEditorViewModelFactory.cs" />
     <Compile Include="Keys\JournalKeys.cs" />
+    <Compile Include="Model\Loader\IJournalLoader.cs" />
+    <Compile Include="Model\Loader\ISequenceLoader.cs" />
     <Compile Include="Model\LoadingSequence\IIndexLoadingSequence.cs" />
     <Compile Include="Model\JournalParameters\IComplexJournalParameter.cs" />
     <Compile Include="Model\JournalParameters\IDependentJournalParameter.cs" />
@@ -58,13 +60,13 @@
     <Compile Include="Model\LoadingSequence\IJournalSequenceInitializingParameters.cs" />
     <Compile Include="Model\LoadingSequence\IOffsetLoadingSequence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Helpers\IJournalLoaderProvider.cs" />
+    <Compile Include="ViewModel\Helpers\ILoadingSequenceLoaderRegistry.cs" />
     <Compile Include="ViewModel\IJournalRecordViewModel.cs" />
     <Compile Include="ViewModel\IUniconJournalViewModel.cs" />
     <Compile Include="ViewModel\LoadingSequence\IJournalLoadingSequenceEditorViewModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\Unicon2.Infrastructure\Unicon2.Infrastructure.csproj">
       <Project>{D025EC77-DFD4-444E-8F2C-218A5181C721}</Project>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Win32;
@@ -8,7 +9,9 @@ using Unicon2.Fragments.Journals.Infrastructure.Export;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
+using Unicon2.Fragments.Journals.Infrastructure.Model.Loader;
 using Unicon2.Fragments.Journals.Infrastructure.ViewModel;
+using Unicon2.Fragments.Journals.Infrastructure.ViewModel.Helpers;
 using Unicon2.Fragments.Journals.MemoryAccess;
 using Unicon2.Fragments.Journals.ViewModel.Helpers;
 using Unicon2.Infrastructure;
@@ -18,6 +21,7 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.SharedResources.Behaviors;
@@ -36,58 +40,68 @@ namespace Unicon2.Fragments.Journals.ViewModel
 		private readonly ITypesContainer _typesContainer;
 		private readonly ILogService _logService;
 		private readonly IApplicationSettingsService _applicationSettingsService;
-		private List<string> _journalParametersNameList;
+        private readonly IJournalLoaderProvider _journalLoaderProvider;
+        private readonly IValueViewModelFactory _valueViewModelFactory;
+        private List<string> _journalParametersNameList;
 		private IUniconJournal _uniconJournal;
 		private DynamicDataTable _table;
 		private bool _canExecuteJournalLoading;
 
-		public UniconJournalViewModel(ILocalizerService localizerService,
-			IFragmentOptionsViewModel fragmentOptionsViewModel,
-			Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelgetFunc,
-			Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc,
-			IApplicationGlobalCommands applicationGlobalCommands, ITypesContainer typesContainer, ILogService logService
-			, IApplicationSettingsService applicationSettingsService)
+        public UniconJournalViewModel(ILocalizerService localizerService,
+            IFragmentOptionsViewModel fragmentOptionsViewModel,
+            Func<IFragmentOptionGroupViewModel> fragmentOptionGroupViewModelgetFunc,
+            Func<IFragmentOptionCommandViewModel> fragmentOptionCommandViewModelgetFunc,
+            IApplicationGlobalCommands applicationGlobalCommands, ITypesContainer typesContainer, ILogService logService
+            , IApplicationSettingsService applicationSettingsService, IJournalLoaderProvider journalLoaderProvider,
+            IValueViewModelFactory valueViewModelFactory)
 
-		{
-			_localizerService = localizerService;
-			_applicationGlobalCommands = applicationGlobalCommands;
-			_typesContainer = typesContainer;
-			_logService = logService;
-			_applicationSettingsService = applicationSettingsService;
-			IFragmentOptionGroupViewModel fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
-			fragmentOptionGroupViewModel.NameKey = "Device";
-			IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
-			fragmentOptionCommandViewModel.TitleKey = "Load";
-			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
-			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
-			LoadCommand = new RelayCommand(OnLoadJournal, CanLoadExecute);
-			fragmentOptionCommandViewModel.OptionCommand = LoadCommand;
-			fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
+        {
+            _localizerService = localizerService;
+            _applicationGlobalCommands = applicationGlobalCommands;
+            _typesContainer = typesContainer;
+            _logService = logService;
+            _applicationSettingsService = applicationSettingsService;
+            _journalLoaderProvider = journalLoaderProvider;
+            _valueViewModelFactory = valueViewModelFactory;
+            IFragmentOptionGroupViewModel fragmentOptionGroupViewModel = fragmentOptionGroupViewModelgetFunc();
+            fragmentOptionGroupViewModel.NameKey = "Device";
+            IFragmentOptionCommandViewModel fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = "Load";
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconInboxIn;
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+            LoadCommand = new RelayCommand(OnLoadJournal, CanLoadExecute);
+            fragmentOptionCommandViewModel.OptionCommand = LoadCommand;
+            fragmentOptionsViewModel.FragmentOptionGroupViewModels.Add(fragmentOptionGroupViewModel);
 
-			fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
-			fragmentOptionCommandViewModel.TitleKey = "Open";
-			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscUpload;
-			fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteLoadJournal);
-			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = "Open";
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscUpload;
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteLoadJournal);
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
-			fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
-			fragmentOptionCommandViewModel.TitleKey = "Save";
-			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscDownload;
-			fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteSaveJournal);
-			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = "Save";
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconDiscDownload;
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteSaveJournal);
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
-			fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
-			fragmentOptionCommandViewModel.TitleKey = ApplicationGlobalNames.UiCommandStrings.SAVE_FOR_PRINT;
-			fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconPrintText;
-			fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteExportJournal);
-			fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
+            fragmentOptionCommandViewModel = fragmentOptionCommandViewModelgetFunc();
+            fragmentOptionCommandViewModel.TitleKey = ApplicationGlobalNames.UiCommandStrings.SAVE_FOR_PRINT;
+            fragmentOptionCommandViewModel.IconKey = IconResourceKeys.IconPrintText;
+            fragmentOptionCommandViewModel.OptionCommand = new RelayCommand(OnExecuteExportJournal);
+            fragmentOptionGroupViewModel.FragmentOptionCommandViewModels.Add(fragmentOptionCommandViewModel);
 
+            _loaderHooks = new LoaderHooks(
+                () => { Table.Values.Clear(); }, list =>
+                {
+                    Table.AddFormattedValueViewModel(list.Select(formattedValue =>
+                        _valueViewModelFactory.CreateFormattedValueViewModel(formattedValue)).ToList());
+                });
+            FragmentOptionsViewModel = fragmentOptionsViewModel;
+            CanExecuteJournalLoading = true;
+        }
 
-			FragmentOptionsViewModel = fragmentOptionsViewModel;
-			CanExecuteJournalLoading = true;
-		}
-
-		private async void OnExecuteExportJournal()
+        private async void OnExecuteExportJournal()
 		{
 			var nameForUiLocalized = NameForUiKey;
 			_localizerService.TryGetLocalizedString(NameForUiKey, out nameForUiLocalized);
@@ -138,12 +152,14 @@ namespace Unicon2.Fragments.Journals.ViewModel
 				Table = new DynamicDataTable(JournalParametersNameList, null, true);
 				RaisePropertyChanged(nameof(Table));
 				RaisePropertyChanged(nameof(JournalParametersNameList));
-				if (_loadingTask == null)
-				{
-					_loadingTask = new JournalLoader(this, this.DeviceContext, _uniconJournal).Load();
-				}
+                if (_loadingTask == null)
+                {
+                    _loadingTask = _journalLoaderProvider
+                        .GetJournalLoader( DeviceContext, _uniconJournal, _loaderHooks)
+                        .Load();
+                }
 
-				await _loadingTask;
+                await _loadingTask;
 				_wasLoadedOnce = true;
 			}
 			catch (Exception e)
@@ -160,35 +176,37 @@ namespace Unicon2.Fragments.Journals.ViewModel
 			CanExecuteJournalLoading = true;
 		}
 
-		private void OnExecuteLoadJournal()
-		{
-			_applicationGlobalCommands.SelectFileToOpen(_localizerService.GetLocalizedString("OpenJournal"),
-				" UJR файл (*.ujr)|*.ujr" + "|Все файлы (*.*)|*.* ").OnSuccess(info =>
-			{
-				var loadedJournal = _typesContainer.Resolve<ISerializerService>()
-					.DeserializeFromFile<IUniconJournal>(info.FullName);
-				if (!JournalStructureHelper.IsJournalStructureSimilar(_uniconJournal, loadedJournal))
-				{
-					if (!_applicationGlobalCommands.AskUserGlobal(
-						_localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
-							.JOURNAL_STRUCTURE_WARNING_MESSAGE),
-						_localizerService.GetLocalizedString("Warning")))
-					{
-						return;
-					}
-				}
-				Table = new DynamicDataTable(JournalParametersNameList, null, true);
-				RaisePropertyChanged(nameof(Table));
-				RaisePropertyChanged(nameof(JournalParametersNameList));
-				new JournalLoader(this, this.DeviceContext, _uniconJournal)
-					.LoadFromReadyModelList(loadedJournal.JournalRecords);
-				_wasLoadedOnce = true;
-				_logService.LogMessage(_localizerService
-					.GetLocalizedString("JournalOpened") + " " + info.FullName);
-			});
-		}
+        private void OnExecuteLoadJournal()
+        {
+            _applicationGlobalCommands.SelectFileToOpen(_localizerService.GetLocalizedString("OpenJournal"),
+                " UJR файл (*.ujr)|*.ujr" + "|Все файлы (*.*)|*.* ").OnSuccess(info =>
+            {
+                var loadedJournal = _typesContainer.Resolve<ISerializerService>()
+                    .DeserializeFromFile<IUniconJournal>(info.FullName);
+                if (!JournalStructureHelper.IsJournalStructureSimilar(_uniconJournal, loadedJournal))
+                {
+                    if (!_applicationGlobalCommands.AskUserGlobal(
+                        _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages
+                            .JOURNAL_STRUCTURE_WARNING_MESSAGE),
+                        _localizerService.GetLocalizedString("Warning")))
+                    {
+                        return;
+                    }
+                }
 
-		private bool CanLoadExecute()
+                Table = new DynamicDataTable(JournalParametersNameList, null, true);
+                RaisePropertyChanged(nameof(Table));
+                RaisePropertyChanged(nameof(JournalParametersNameList));
+                _journalLoaderProvider
+                    .GetJournalLoader(DeviceContext, _uniconJournal, _loaderHooks)
+                    .LoadFromReadyModelList(loadedJournal.JournalRecords);
+                _wasLoadedOnce = true;
+                _logService.LogMessage(_localizerService
+                    .GetLocalizedString("JournalOpened") + " " + info.FullName);
+            });
+        }
+
+        private bool CanLoadExecute()
 		{
 			return CanExecuteJournalLoading;
 		}
@@ -287,7 +305,8 @@ namespace Unicon2.Fragments.Journals.ViewModel
 		}
 
 		private bool _wasLoadedOnce = false;
-		public string FileExtension => "ujr";
+        private LoaderHooks _loaderHooks;
+        public string FileExtension => "ujr";
 
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
+using Unicon2.Fragments.Journals.Infrastructure.Model.Loader;
 using Unicon2.Fragments.Journals.Model.JournalLoadingSequence;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Functional;

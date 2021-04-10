@@ -139,8 +139,8 @@ namespace Unicon2.Services.UniconProject
 	        return true;
         }
         public string CurrentProjectString => _uniconProject.Name;
+        public string CurrentProjectPath => _uniconProject.ProjectPath;
 
-     
 
         public async void OpenProject()
         {

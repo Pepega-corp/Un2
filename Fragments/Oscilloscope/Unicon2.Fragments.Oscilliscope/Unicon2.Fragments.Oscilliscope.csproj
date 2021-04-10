@@ -39,6 +39,12 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors">
+      <HintPath>..\..\..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -58,9 +64,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\OscillogramLoader.cs" />
+    <Compile Include="Helpers\OscilloscopeJournalSequenceLoader.cs" />
     <Compile Include="Model\CountingTemplate.cs" />
     <Compile Include="Model\Helpers\OscillogramHelper.cs" />
-    <Compile Include="Model\Oscillogram.cs" />
     <Compile Include="Model\OscillogramLoadingParameters.cs" />
     <Compile Include="Model\OscilloscopeModel.cs" />
     <Compile Include="Model\OscilloscopeLoadingSequence.cs" />
@@ -76,6 +83,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

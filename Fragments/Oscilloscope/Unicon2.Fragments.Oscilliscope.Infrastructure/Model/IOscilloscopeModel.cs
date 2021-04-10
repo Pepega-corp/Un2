@@ -16,10 +16,5 @@ namespace Unicon2.Fragments.Oscilliscope.Infrastructure.Model
         IUniconJournal OscilloscopeJournal { get; set; }
         IOscillogramLoadingParameters OscillogramLoadingParameters { get; set; }
         ICountingTemplate CountingTemplate { get; set; }
-        Task LoadOscillogramsByNumber(List<int> numbersOfOscillograms, IProgress<ITaskProgressReport> progress, CancellationToken cancellationToken);
-        bool TryGetOscillogram(int index,out string oscillogramPath);
-
     }
-
-
 }

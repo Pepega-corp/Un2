@@ -26,6 +26,8 @@ namespace Unicon2.Infrastructure.Services.UniconProject
         /// Строка файла текущего проекта для вывода пользователю
         /// </summary>
         string CurrentProjectString { get; }
+
+        string CurrentProjectPath { get; }
         /// <summary>
         /// Открыть проект
         /// </summary>

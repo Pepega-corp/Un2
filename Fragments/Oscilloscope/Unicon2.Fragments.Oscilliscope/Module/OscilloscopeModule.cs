@@ -1,4 +1,6 @@
 ﻿using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
+using Unicon2.Fragments.Journals.Infrastructure.ViewModel.Helpers;
+using Unicon2.Fragments.Oscilliscope.Helpers;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Keys;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.CountingTemplate;
@@ -21,9 +23,13 @@ namespace Unicon2.Fragments.Oscilliscope.Module
         public void Initialize(ITypesContainer container)
         {
             container.Register<IDeviceFragment, OscilloscopeModel>(OscilloscopeKeys.OSCILLOSCOPE);
-            container.Register<IFragmentViewModel, OscilloscopeViewModel>(OscilloscopeKeys.OSCILLOSCOPE + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<IFragmentViewModel, OscilloscopeViewModel>(OscilloscopeKeys.OSCILLOSCOPE +
+                                                                          ApplicationGlobalNames.CommonInjectionStrings
+                                                                              .VIEW_MODEL);
 
-            container.Register<IOscilloscopeLoadingSequenceInitializingParameters, OscilloscopeLoadingSequenceInitializingParameters>();
+            container
+                .Register<IOscilloscopeLoadingSequenceInitializingParameters,
+                    OscilloscopeLoadingSequenceInitializingParameters>();
             container.Register<IOscilloscopeModel, OscilloscopeModel>();
 
             container.Register<IOscilloscopeJournalViewModel, OscilloscopeJournalViewModel>();
@@ -31,8 +37,10 @@ namespace Unicon2.Fragments.Oscilliscope.Module
             container.Register<IOscillogramLoadingParameters, OscillogramLoadingParameters>();
             container.Register<IOscilloscopeTag, OscilloscopeTag>();
             container.Register<ICountingTemplate, CountingTemplate>();
-            container.Register<IJournalLoadingSequence, OscilloscopeJournalLoadingSequence>(OscilloscopeKeys.OSCILLOSCOPE_JOURNAL_LOADING_SEQUENCE);
-        
+            container.Register<IJournalLoadingSequence, OscilloscopeJournalLoadingSequence>(OscilloscopeKeys
+                .OSCILLOSCOPE_JOURNAL_LOADING_SEQUENCE);
+            container.Register<OscillogramLoader>();
+
             /*ISerializerService serializerService = container.Resolve<ISerializerService>();
             serializerService.AddKnownTypeForSerialization(typeof(OscilloscopeModel));
             serializerService.AddNamespaceAttribute("oscilloscopeModel", "OscilloscopeModelNS");
@@ -48,6 +56,9 @@ namespace Unicon2.Fragments.Oscilliscope.Module
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/OscilloscopeDataTemplates.xaml",
                 this.GetType().Assembly);
+
+            container.Resolve<ILoadingSequenceLoaderRegistry>().AddLoader<OscilloscopeJournalLoadingSequence>((context, sequence) =>
+                new OscilloscopeJournalSequenceLoader(sequence as OscilloscopeJournalLoadingSequence, context.DataProviderContainer));
         }
     }
 }

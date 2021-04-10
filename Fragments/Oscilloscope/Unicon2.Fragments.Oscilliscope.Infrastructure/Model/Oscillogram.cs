@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unicon2.Fragments.Oscilliscope.Model
+namespace Unicon2.Fragments.Oscilliscope.Infrastructure.Model
 {
     public class Oscillogram
     {

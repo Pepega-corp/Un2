@@ -5,19 +5,25 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unicon2.Fragments.Journals.Infrastructure.Factories;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
+using Unicon2.Fragments.Oscilliscope.Infrastructure.Model;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.CountingTemplate;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.OscillogramLoadingParameters;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Services.Formatting;
 
 namespace Unicon2.Fragments.Oscilliscope.Model.Helpers
 {
     public static class OscillogramHelper
     {
         public static async Task SaveOscillogram(Oscillogram oscillogram, string directoryPath,
-            string oscillogramSignature, ICountingTemplate countingTemplate, IOscillogramLoadingParameters oscillogramLoadingParameters, string parentDeviceName)
+            string oscillogramSignature, ICountingTemplate countingTemplate, IOscillogramLoadingParameters oscillogramLoadingParameters, string parentDeviceName, DeviceContext deviceContext)
         {
+            var journalRecordFactory = StaticContainer.Container.Resolve<IJournalRecordFactory>();
 
             List<int[]> countingArraysToFile = new List<int[]>();
             foreach (IJournalParameter journalParameter in countingTemplate.RecordTemplate.JournalParameters)
@@ -40,7 +46,9 @@ namespace Unicon2.Fragments.Oscilliscope.Model.Helpers
                 foreach (IJournalParameter journalParameter in countingTemplate.RecordTemplate.JournalParameters)
                 {
                     List<IFormattedValue> formattedValues =
-                        await journalParameter.GetFormattedValues(countingUshortsFromDevice);
+                        await journalRecordFactory.GetValuesForRecord(journalParameter, countingUshortsFromDevice,
+                            deviceContext);
+                      
                     foreach (IFormattedValue formattedValue in formattedValues)
                     {
                         if (formattedValue is INumericValue)

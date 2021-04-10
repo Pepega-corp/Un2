@@ -5,7 +5,7 @@
     xmlns:behaviors="clr-namespace:Unicon2.SharedResources.Behaviors;assembly=Unicon2.SharedResources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
@@ -44,9 +44,9 @@
                     <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}" />
                 </Style>
             </DataGrid.RowStyle>
-            <i:Interaction.Behaviors>
+            <b:Interaction.Behaviors>
                 <behaviors:DynamicColumnsDataGridBehavior RowValues="{Binding OscilloscopeJournalViewModel.Table}" SelectedIndexes="{Binding OscilloscopeJournalViewModel.SelectedRows}" />
-            </i:Interaction.Behaviors>
+            </b:Interaction.Behaviors>
         </DataGrid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>

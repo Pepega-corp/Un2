@@ -5,6 +5,8 @@ using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
 using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
 using Unicon2.Fragments.Journals.Infrastructure.ViewModel;
+using Unicon2.Fragments.Journals.Infrastructure.ViewModel.Helpers;
+using Unicon2.Fragments.Journals.MemoryAccess;
 using Unicon2.Fragments.Journals.Model;
 using Unicon2.Fragments.Journals.Model.JournalLoadingSequence;
 using Unicon2.Fragments.Journals.Model.JournalParameters;
@@ -29,14 +31,17 @@ namespace Unicon2.Fragments.Journals.Module
             container.Register<ISubJournalParameter, SubJournalParameter>();
             container.Register<IDependentJournalParameter, DependentJournalParameter>();
             container.Register<IJournalCondition, JournalParameterDependancyCondition>();
+            container.Register<IJournalLoaderProvider, JournalLoaderProvider>();
 
             container.Register<IRecordTemplate, RecordTemplate>();
+            container.Register<ILoadingSequenceLoaderRegistry, LoadingSequenceLoaderRegistry>(true);
 
             container.Register<IFragmentViewModel, UniconJournalViewModel>(
                 JournalKeys.UNICON_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<IJournalRecordViewModel, JournalRecordViewModel>();
             container.Register<IJournalRecordFactory, JournalRecordFactory>();
             container.Register<IJournalRecordViewModelFactory, JournalRecordViewModelFactory>();
+            container.Register<ILoadingSequenceLoaderRegistry, LoadingSequenceLoaderRegistry>();
 
             container.Register<IJournalLoadingSequence, OffsetLoadingSequence>(JournalKeys
                 .OFFSET_LOADING_SEQUENCE);
@@ -65,10 +70,16 @@ namespace Unicon2.Fragments.Journals.Module
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/JournalDataTemplates.xaml",
                 GetType().Assembly);
-            
+
             container.Resolve<ILoadAllService>().RegisterFragmentLoadHandler(
-                JournalKeys.UNICON_JOURNAL+ ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL,
+                JournalKeys.UNICON_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL,
                 JournalLoadHelper.GetJournalLoadingHelper());
+
+            container.Resolve<ILoadingSequenceLoaderRegistry>().AddLoader<OffsetLoadingSequence>((context, sequence) =>
+                new OffsetLoadingSequenceLoader(sequence as OffsetLoadingSequence, context.DataProviderContainer));
+
+            container.Resolve<ILoadingSequenceLoaderRegistry>().AddLoader<OffsetLoadingSequence>((context, sequence) =>
+                new IndexLoadingSequenceLoader(sequence as IndexLoadingSequence, context.DataProviderContainer));
         }
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="Model\CountingTemplate\ICountingTemplate.cs" />
     <Compile Include="Model\IOscilloscopeModel.cs" />
     <Compile Include="Model\IOscilloscopeTag.cs" />
+    <Compile Include="Model\Oscillogram.cs" />
     <Compile Include="Model\OscillogramLoadingParameters\IOscillogramLoadingParameters.cs" />
     <Compile Include="Model\OscilloscopeJournalLoadingSequence\IOscilloscopeJournalLoadingSequence.cs" />
     <Compile Include="Model\OscilloscopeJournalLoadingSequence\IOscilloscopeLoadingSequenceInitializingParameters.cs" />
