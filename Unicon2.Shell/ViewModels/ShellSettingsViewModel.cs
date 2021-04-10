@@ -1,14 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using Fluent;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
-using Unicon2.Shell.Models;
-using Unicon2.Shell.Properties;
 using Unicon2.Unity.Interfaces;
 using Unicon2.Unity.ViewModels;
 
@@ -20,7 +13,7 @@ namespace Unicon2.Shell.ViewModels
         private ITypesContainer _containerProvider;
         private IApplicationSettingsService _applicationSettingsService;
 
-        public void Initialize()
+        private void Initialize()
         {
             _applicationSettingsService = _containerProvider.Resolve<IApplicationSettingsService>();
             RaisePropertyChanged(nameof(IsFragmentAutoLoadEnabled));
@@ -29,6 +22,7 @@ namespace Unicon2.Shell.ViewModels
         public ShellSettingsViewModel(ITypesContainer containerProvider)
         {
             _containerProvider = containerProvider;
+            Initialize();
         }
 
         private ILocalizerService LocalizerService
@@ -39,9 +33,6 @@ namespace Unicon2.Shell.ViewModels
                 return _localizerService;
             }
         }
-
-
-
 
         /// <summary>
         /// Supported languages

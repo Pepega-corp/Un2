@@ -175,8 +175,6 @@ namespace Unicon2.Shell
             Current.MainWindow?.Activate();
             _bootstrapperInitialized = true;
             _uniconSplashScreen.Dispatcher.Invoke(_uniconSplashScreen.Close);
-            ShellSettingsViewModel settingsViewModel = Container.Resolve<ShellSettingsViewModel>();
-            settingsViewModel.Initialize();
         }
 
         protected void RegisterModuleCatalogs(ITypesContainer container)
