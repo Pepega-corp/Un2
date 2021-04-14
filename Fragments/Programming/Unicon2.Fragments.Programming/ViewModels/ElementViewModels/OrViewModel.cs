@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
+using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
@@ -18,6 +20,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public ObservableCollection<IConnectorViewModel> Outputs { get; }
         public int Width => 20;
         public int Heigth => Inputs.Count * 10 + 10;
+        public ICommand AddInputCommand { get; }
+        public ICommand RemoveInputCommand { get; }
 
         public OrViewModel()
         {
@@ -31,6 +35,9 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             Outputs = new ObservableCollection<IConnectorViewModel>();
             this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
             this.ConnectorViewModels.CollectionChanged += OnConnectorsCollectionChanged;
+
+            AddInputCommand = new RelayCommand(AddInput, CanAddInput);
+            RemoveInputCommand = new RelayCommand(RemoveInput, CanRemove);
         }
 
         public OrViewModel(IApplicationGlobalCommands globalCommands) : this()
@@ -91,6 +98,35 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public override ILogicElementViewModel Clone()
         {
             return (OrViewModel)Clone<OrViewModel, Or>();
+        }
+
+        private bool CanAddInput()
+        {
+            return Inputs.Count < 8;
+        }
+
+        private void AddInput()
+        {
+            ConnectorViewModels.Add(new ConnectorViewModel(this, ConnectorOrientation.LEFT, ConnectorType.DIRECT));
+            ((RelayCommand)AddInputCommand).RaiseCanExecuteChanged();
+            ((RelayCommand)RemoveInputCommand).RaiseCanExecuteChanged();
+        }
+
+        private bool CanRemove()
+        {
+            return Inputs.Count > 2;
+        }
+
+        private void RemoveInput()
+        {
+            var lastConnector = ConnectorViewModels.Last();
+            if (lastConnector.Connection != null)
+            {
+                lastConnector.Connection.SinkConnectors.Remove(lastConnector);
+            }
+            ConnectorViewModels.Remove(lastConnector);
+            ((RelayCommand)RemoveInputCommand).RaiseCanExecuteChanged();
+            ((RelayCommand)AddInputCommand).RaiseCanExecuteChanged();
         }
     }
 }

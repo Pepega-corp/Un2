@@ -38,6 +38,27 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private void OnOkCommand(Window window)
         {
             this._sourceViewModel.CopyValues(this._editableViewModel);
+
+            //for (int i = 0; i < _sourceViewModel.ConnectorViewModels.Count; i++)
+            //{
+            //    var connectorSource = _sourceViewModel.ConnectorViewModels[i];
+            //    if (connectorSource.Connected)
+            //    {
+            //        var connection = connectorSource.Connection;
+            //        var connectorEdited = _editableViewModel.ConnectorViewModels[i];
+                
+            //        if (connection.SourceConnector == connectorSource)
+            //        {
+            //            connection.SourceConnector = connectorEdited;
+            //        }
+            //        else
+            //        {
+            //            connection.SinkConnectors.Remove(connectorSource);
+            //            connection.SinkConnectors.Add(connectorEdited);
+            //        }
+            //    }
+            //}
+
             window?.Close();
         }
 

@@ -7,6 +7,7 @@ using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
+using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
@@ -34,6 +35,9 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.Outputs = new ObservableCollection<IConnectorViewModel>();
             this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
             this.ConnectorViewModels.CollectionChanged += OnConnectorsCollectionChanged;
+
+            AddInputCommand = new RelayCommand(AddInput, CanAddInput);
+            RemoveInputCommand = new RelayCommand(RemoveInput, CanRemove);
         }
 
         public AndViewModel(IApplicationGlobalCommands globalCommands) : this()
@@ -48,13 +52,13 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 case NotifyCollectionChangedAction.Add:
                     foreach (var c in eventArgs.NewItems.Cast<IConnectorViewModel>())
                     {
-                        AddConnector(c);
+                        OnAddConnector(c);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     foreach(var c in eventArgs.OldItems.Cast<IConnectorViewModel>())
                     {
-                        RemoveConnector(c);
+                        OnRemoveConnector(c);
                     }
                     break;
                 case NotifyCollectionChangedAction.Reset:
@@ -67,7 +71,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             RaisePropertyChanged(nameof(Width));
         }
 
-        private void AddConnector(IConnectorViewModel connector)
+        private void OnAddConnector(IConnectorViewModel connector)
         {
             if (connector.Orientation == ConnectorOrientation.LEFT)
             {
@@ -79,7 +83,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        private void RemoveConnector(IConnectorViewModel connector)
+        private void OnRemoveConnector(IConnectorViewModel connector)
         {
             if (connector.Orientation == ConnectorOrientation.LEFT)
             {
@@ -96,9 +100,33 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             return (AndViewModel)Clone<AndViewModel, And>();
         }
 
+        private bool CanAddInput()
+        {
+            return Inputs.Count < 8;
+        }
+
         private void AddInput()
         {
+            ConnectorViewModels.Add(new ConnectorViewModel(this, ConnectorOrientation.LEFT, ConnectorType.DIRECT));
+            ((RelayCommand)AddInputCommand).RaiseCanExecuteChanged();
+            ((RelayCommand)RemoveInputCommand).RaiseCanExecuteChanged();
+        }
 
+        private bool CanRemove()
+        {
+            return Inputs.Count > 2;
+        }
+
+        private void RemoveInput()
+        {
+            var lastConnector = ConnectorViewModels.Last();
+            if(lastConnector.Connection != null)
+            {
+                lastConnector.Connection.SinkConnectors.Remove(lastConnector);
+            }
+            ConnectorViewModels.Remove(lastConnector);
+            ((RelayCommand)RemoveInputCommand).RaiseCanExecuteChanged();
+            ((RelayCommand)AddInputCommand).RaiseCanExecuteChanged();
         }
     }
 }

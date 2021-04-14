@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
@@ -9,10 +10,12 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
 {
     public interface IConnectionViewModel :IViewModel<IConnection>, ISchemeElementViewModel
     {
+        event Action<IConnectionViewModel> NeedDelete;
+
         string Name { get; }
         PathGeometry Path { get; set; }
         int ConnectionNumber { get; }
-        IConnectorViewModel SourceConnector { get; }
+        IConnectorViewModel SourceConnector { get; set; }
         ObservableCollection<IConnectorViewModel> SinkConnectors { get; }
         ushort CurrentValue { get; set; }
         bool GotValue { get; set; }

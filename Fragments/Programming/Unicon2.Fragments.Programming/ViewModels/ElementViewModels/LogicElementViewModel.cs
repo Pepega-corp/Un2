@@ -125,13 +125,43 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             X = model.X;
             Y = model.Y;
 
-            ConnectorViewModels.Clear();
-            foreach (var c in model.Connectors)
+            if (ConnectorViewModels.Count > model.Connectors.Count)
             {
-                var newConnector = new ConnectorViewModel(this, c.Orientation, c.Type);
-                newConnector.ConnectionNumber = c.ConnectionNumber;
-                newConnector.ConnectorPosition = c.ConnectorPosition;
-                ConnectorViewModels.Add(newConnector);
+                while (ConnectorViewModels.Count != model.Connectors.Count)
+                {
+                    var connector = ConnectorViewModels.Last();
+                    if (connector.Connected)
+                    {
+                        var connection = connector.Connection;
+                        if (connector == connection.SourceConnector)
+                        {
+                            connection.SourceConnector = null;
+                        }
+                        else
+                        {
+                            connection.SinkConnectors.Remove(connector);
+                        }
+                    }
+                    ConnectorViewModels.Remove(connector);
+                }
+            }
+            else if (ConnectorViewModels.Count < model.Connectors.Count)
+            {
+                var startConnectorsCount = ConnectorViewModels.Count;
+                for (var i = 0; i < model.Connectors.Count - startConnectorsCount; i++)
+                {
+                    var connectorModel = model.Connectors[i + startConnectorsCount];
+                    ConnectorViewModels.Add(new ConnectorViewModel(this, connectorModel.Orientation, connectorModel.Type));
+                }
+            }
+
+            for(var i = 0; i < model.Connectors.Count; i++)
+            {
+                var connectorModel = model.Connectors[i];
+                var connectorViewModel = ConnectorViewModels[i];
+                connectorViewModel.ConnectionNumber = connectorModel.ConnectionNumber;
+                connectorViewModel.ConnectorPosition = connectorModel.ConnectorPosition;
+                connectorViewModel.ConnectorType = connectorModel.Type;
             }
         }
 
