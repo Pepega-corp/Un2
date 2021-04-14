@@ -31,6 +31,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private double _x;
         private double _y;
 
+        public event Action<IConnectionViewModel> NeedDelete;
+
         protected ConnectionViewModel(IConnection model, IConnectorViewModel source)
         {
             this.StrokeDashArray = new DoubleCollection();
@@ -104,6 +106,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 if (_source != null)
                 {
                     _source.ConnectorPositionChanged -= OnConnectorPositionChanged;
+                    _source.Connection = null;
                 }
 
                 this._source = value;
@@ -111,6 +114,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 if(_source != null)
                 {
                     _source.ConnectorPositionChanged += OnConnectorPositionChanged;
+                    _source.Connection = this;
+                }
+                else
+                {
+                    NeedDelete?.Invoke(this);
                 }
 
                 this.UpdatePathGeometry();
@@ -240,26 +248,39 @@ namespace Unicon2.Fragments.Programming.ViewModels
             switch (args.Action)
             {
                 case NotifyCollectionChangedAction.Add:
+                {
+                    foreach (var item in args.NewItems.Cast<IConnectorViewModel>())
                     {
-                        foreach (var item in args.NewItems.Cast<IConnectorViewModel>())
-                        {
-                            item.ConnectorPositionChanged += OnConnectorPositionChanged;
-                            item.Connection = this;
-                            UpdatePathGeometry();
-                        }
+                        item.ConnectorPositionChanged += OnConnectorPositionChanged;
+                        item.Connection = this;
+                        UpdatePathGeometry();
+                    }
 
-                        break;
-                    }
+                    break;
+                }
                 case NotifyCollectionChangedAction.Remove:
-                case NotifyCollectionChangedAction.Reset:
+                {
+                    foreach (var item in args.OldItems.Cast<IConnectorViewModel>())
                     {
-                        foreach (var item in args.OldItems.Cast<IConnectorViewModel>())
-                        {
-                            item.ConnectorPositionChanged -= OnConnectorPositionChanged;
-                            item.Connection = null;
-                        }
-                        break;
+                        item.ConnectorPositionChanged -= OnConnectorPositionChanged;
+                        item.Connection = null;
                     }
+                    if(SinkConnectors.Count == 0)
+                    {
+                        NeedDelete?.Invoke(this);
+                    }
+                    break;
+                }
+                case NotifyCollectionChangedAction.Reset:
+                {
+                    foreach (var item in args.OldItems.Cast<IConnectorViewModel>())
+                    {
+                        item.ConnectorPositionChanged -= OnConnectorPositionChanged;
+                        item.Connection = null;
+                    }
+                    NeedDelete?.Invoke(this);
+                    break;
+                }
             }
         }
 

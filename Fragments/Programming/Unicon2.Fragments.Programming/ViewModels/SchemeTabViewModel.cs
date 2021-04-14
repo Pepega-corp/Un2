@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Behaviors;
@@ -105,10 +106,41 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             this._factory = factory;
             this.ElementCollection = new ObservableCollection<ISchemeElementViewModel>();
+            ElementCollection.CollectionChanged += this.ElementCollection_CollectionChanged;
             this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
             this.ZoomDecrementCommand = new RelayCommand(this.DecrementZoom);
             this.CloseTabCommand = new RelayCommand(this.CloseTab);
             this.DeleteCommand = new RelayCommand(this.DeleteSelectedElements, this.CanDelete);
+        }
+
+        private void ElementCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                {
+                    foreach (var element in e.NewItems)
+                    {
+                        if(element is IConnectionViewModel connection)
+                        {
+                            connection.NeedDelete += RemoveConnection;
+                        }
+                    }
+                }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                case NotifyCollectionChangedAction.Reset:
+                {
+                    foreach (var element in e.OldItems)
+                    {
+                        if (element is IConnectionViewModel connection)
+                        {
+                            connection.NeedDelete -= RemoveConnection;
+                        }
+                    }
+                }
+                break;
+            }
         }
 
         private ISchemeModel GetModel()
@@ -179,14 +211,23 @@ namespace Unicon2.Fragments.Programming.ViewModels
             var selectedConnections = this.ElementCollection.Where(e => e is IConnectionViewModel && e.IsSelected).Cast<IConnectionViewModel>().ToList();
             foreach (var connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
             {
-                connectionViewModel.SourceConnector.Connection = null;
-                foreach(var sink in connectionViewModel.SinkConnectors)
-                {
-                    sink.Connection = null;
-                }
+                RemoveConnection(connectionViewModel);
+            }
+        }
 
-                this._programmingViewModel.RemoveConnection(connectionViewModel);
-                this.ElementCollection.Remove(connectionViewModel);
+        private void RemoveConnection(IConnectionViewModel connection)
+        {
+            connection.SourceConnector.Connection = null;
+            foreach (var sink in connection.SinkConnectors)
+            {
+                sink.Connection = null;
+            }
+
+            this._programmingViewModel.RemoveConnection(connection);
+
+            if (ElementCollection.Contains(connection))
+            {
+                this.ElementCollection.Remove(connection);
             }
         }
 
