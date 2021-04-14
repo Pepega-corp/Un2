@@ -18,8 +18,8 @@
                         <Border
                             Name="Border"
                             Grid.Row="0"
-                            Background="{StaticResource AccentColorBrush}"
-                            BorderBrush="{StaticResource AccentColorBrus2}"
+                            Background="{StaticResource MahApps.Brushes.Accent}"
+                            BorderBrush="{StaticResource MahApps.Brushes.Accent2}"
                             BorderThickness="1">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -27,7 +27,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <ToggleButton
-                                    Background="{StaticResource AccentColorBrush}"
+                                    Background="{StaticResource MahApps.Brushes.Accent}"
                                     IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                     OverridesDefaultStyle="True"
                                     Template="{DynamicResource ExpanderToggleButton}" />
@@ -67,7 +67,7 @@
         <Border
             Name="Border"
             Background="Transparent"
-            BorderBrush="{StaticResource AccentColorBrush}"
+            BorderBrush="{StaticResource MahApps.Brushes.Accent}"
             BorderThickness="0,0,0,0"
             CornerRadius="2,0,0,0">
             <Path
@@ -79,10 +79,10 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentColorBrush3}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MahApps.Brushes.Accent3}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentColorBrush4}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MahApps.Brushes.Accent4}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="true">
                 <Setter TargetName="Arrow" Property="Data" Value="M 0 4 L 4 0 L 8 4 Z" />

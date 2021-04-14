@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
     xmlns:elementViewModels="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:selectors="clr-namespace:Unicon2.Fragments.Programming.TemplateSelectors">
+    xmlns:selectors="clr-namespace:Unicon2.Fragments.Programming.TemplateSelectors" 
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="VerticalExpander.xaml" />

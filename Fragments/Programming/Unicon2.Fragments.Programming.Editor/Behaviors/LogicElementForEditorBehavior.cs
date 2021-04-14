@@ -1,9 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 using Unicon2.Fragments.Programming.Editor.ViewModel;
-//using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Infrastructure.HelperClasses;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 

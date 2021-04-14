@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
-    xmlns:evm="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+    xmlns:evm="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels" 
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Shared.xaml"/>
