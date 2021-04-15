@@ -27,11 +27,11 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent2}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush1}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush1}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -85,7 +85,7 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource HighlightBrush}" />
+                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Highlight}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
                 <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />

@@ -28,8 +28,8 @@
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border
             Name="Border"
-            Background="{StaticResource HighlightBrush}"
-            BorderBrush="{StaticResource AccentColorBrush}"
+            Background="{StaticResource MahApps.Brushes.Highlight}"
+            BorderBrush="{StaticResource MahApps.Brushes.Accent}"
             BorderThickness="0">
             <Path
                 Name="Arrow"
@@ -41,10 +41,10 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentColorBrush3}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MahApps.Brushes.Accent}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentColorBrush4}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MahApps.Brushes.Accent4}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="true">
                 <Setter TargetName="Arrow" Property="Data" Value="M 0 0 L 8 4 L 0 8 Z" />
@@ -106,7 +106,7 @@
     <Style x:Key="RightBorderExpander" TargetType="Expander">
         <Setter Property="FontFamily" Value="SegoeUI" />
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{StaticResource IdealForegroundColorBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.IdealForeground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Expander">
@@ -130,8 +130,8 @@
                             Name="Border"
                             Grid.Row="0"
                             Grid.Column="1"
-                            Background="{StaticResource AccentColorBrush}"
-                            BorderBrush="{StaticResource AccentColorBrush2}">
+                            Background="{StaticResource MahApps.Brushes.Accent}"
+                            BorderBrush="{StaticResource MahApps.Brushes.Accent2}">
                             <ContentPresenter
                                 Name="HeaderText"
                                 Margin="4"
@@ -141,7 +141,7 @@
                         <Border
                             Grid.Row="1"
                             Grid.Column="1"
-                            BorderBrush="{StaticResource AccentColorBrush2}"
+                            BorderBrush="{StaticResource MahApps.Brushes.Accent2}"
                             BorderThickness="1">
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
                                 <ItemsControl ItemsSource="{Binding ElementsLibrary}" Style="{StaticResource LogicItemsListStyle}" />

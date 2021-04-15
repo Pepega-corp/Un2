@@ -34,10 +34,10 @@
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+                            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}" />
+                            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent2}" />
                         </Trigger>
                     </Style.Triggers>
                     <Setter Property="Foreground" Value="Black" />
