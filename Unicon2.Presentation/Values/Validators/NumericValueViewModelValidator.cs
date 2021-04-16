@@ -11,7 +11,7 @@ namespace Unicon2.Presentation.Values.Validators
         public NumericValueViewModelValidator()
         {
             var localizerService = StaticContainer.Container.Resolve<ILocalizerService>();
-            CascadeMode = CascadeMode.StopOnFirstFailure;
+            CascadeMode = CascadeMode.Stop;
             RuleFor((model => model.NumValue)).Must((s =>
             {
                 double x;

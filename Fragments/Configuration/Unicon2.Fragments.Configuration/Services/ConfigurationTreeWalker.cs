@@ -89,7 +89,7 @@ namespace Unicon2.Fragments.Configuration.Services
             return res.IsSuccess;
         }
 
-        public async Task CopyValuesToItem(IConfigurationItemViewModel configurationItemViewModelFrom,
+        public void CopyValuesToItem(IConfigurationItemViewModel configurationItemViewModelFrom,
             IConfigurationItemViewModel configurationItemViewModelTo)
         {
             var callback =

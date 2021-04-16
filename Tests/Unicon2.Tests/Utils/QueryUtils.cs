@@ -40,7 +40,6 @@ namespace Unicon2.Tests.Utils
 
             if (matched.Contains("Data:"))
             {
-                var regexData = @"Data:(.*?)";
                 var st = matched.Substring(matched.IndexOf("Data:") + "Data:".Length);
                 var strData = st.Split(' ');
                 data = strData.Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => ushort.Parse(s)).ToList();

@@ -66,7 +66,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
                     }
 
                 }
-                catch (Exception e)
+                catch
                 {
                     MessageBox.Show(StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString(
                         ApplicationGlobalNames.StatusMessages

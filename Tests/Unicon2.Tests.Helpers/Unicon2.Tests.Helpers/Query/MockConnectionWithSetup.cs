@@ -18,7 +18,7 @@ namespace Unicon2.Tests.Helpers.Query
         public MockConnectionWithSetup(List<QueryMockDefinition> queryMockDefinitions)
         {
             _queryMockDefinitions = queryMockDefinitions;
-            _hitList=new HashSet<int>();
+            _hitList = new HashSet<int>();
         }
 
 
@@ -30,10 +30,11 @@ namespace Unicon2.Tests.Helpers.Query
 
         public void Dispose()
         {
-            
+
         }
 
         public string ConnectionName { get; }
+
         public Task<Result> TryOpenConnectionAsync(IDeviceLogger currentDeviceLogger)
         {
             return Task.FromResult<Result>(true);
@@ -41,10 +42,10 @@ namespace Unicon2.Tests.Helpers.Query
 
         public void CloseConnection()
         {
-            
+
         }
 
-        public async Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints,
+        public Task<IQueryResult<ushort[]>> ReadHoldingResgistersAsync(ushort startAddress, ushort numberOfPoints,
             string dataTitle)
         {
             var definition = _queryMockDefinitions.Where((mockDefinition, i) => !_hitList.Contains(i))
@@ -54,23 +55,24 @@ namespace Unicon2.Tests.Helpers.Query
                 _hitList.Add(_queryMockDefinitions.IndexOf(definition));
                 if (definition.Data != null && definition.Data.Any())
                 {
-                    return new DefaultQueryResult<ushort[]>()
+                    return Task.FromResult<IQueryResult<ushort[]>>(new DefaultQueryResult<ushort[]>()
                     {
                         IsSuccessful = true,
                         Result = definition.Data.ToArray()
-                    };
+                    });
                 }
-                return new DefaultQueryResult<ushort[]>()
+
+                return Task.FromResult<IQueryResult<ushort[]>>(new DefaultQueryResult<ushort[]>()
                 {
                     IsSuccessful = false
-                };
+                });
             }
             else
             {
-                return new DefaultQueryResult<ushort[]>()
+                return Task.FromResult<IQueryResult<ushort[]>>(new DefaultQueryResult<ushort[]>()
                 {
                     IsSuccessful = false
-                };
+                });
             }
         }
 
@@ -79,12 +81,14 @@ namespace Unicon2.Tests.Helpers.Query
             throw new System.NotImplementedException();
         }
 
-        public Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle, ushort numberOfPoints)
+        public Task<IQueryResult<bool[]>> ReadCoilStatusAsync(ushort coilAddress, string dataTitle,
+            ushort numberOfPoints)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite, string dataTitle)
+        public Task<IQueryResult> WriteMultipleRegistersAsync(ushort startAddress, ushort[] dataToWrite,
+            string dataTitle)
         {
             throw new System.NotImplementedException();
         }
@@ -94,23 +98,25 @@ namespace Unicon2.Tests.Helpers.Query
             throw new System.NotImplementedException();
         }
 
-        public async Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite, string dataTitle)
+        public Task<IQueryResult> WriteSingleRegisterAsync(ushort registerAddress, ushort valueToWrite,
+            string dataTitle)
         {
-            var definition = _queryMockDefinitions.Where((mockDefinition, i) => !_hitList.Contains(i)).First(tuple =>  tuple.FuncNumber == 6);
+            var definition = _queryMockDefinitions.Where((mockDefinition, i) => !_hitList.Contains(i))
+                .First(tuple => tuple.FuncNumber == 6);
             if (definition.Address == registerAddress && definition.Data[0] == valueToWrite)
             {
                 _hitList.Add(_queryMockDefinitions.IndexOf(definition));
-                return new DefaultQueryResult()
+                return Task.FromResult<IQueryResult>(new DefaultQueryResult()
                 {
                     IsSuccessful = true
-                };
+                });
             }
             else
             {
-                return new DefaultQueryResult()
+                return Task.FromResult<IQueryResult>(new DefaultQueryResult()
                 {
                     IsSuccessful = false
-                };
+                });
             }
         }
 

@@ -9,8 +9,6 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
 {
     public abstract class BrowserElementViewModel : ViewModelBase, IBrowserElementViewModel
     {
-        private string _elementPath;
-        private string _name;
         private IDeviceDirectoryViewModel _parentDeviceDirectoryViewModel;
 
         public BrowserElementViewModel()

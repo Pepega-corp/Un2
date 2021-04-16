@@ -81,7 +81,7 @@
                         Height="30"
                         Margin="0,0,5,0"
                         Command="{Binding WriteLogicCommand}"
-                        Style="{DynamicResource SquareButtonStyle}">
+                        Style="{DynamicResource MahApps.Styles.Button.Square}">
                         <Image
                             Width="20"
                             Height="20"
@@ -92,7 +92,7 @@
                         Height="30"
                         Margin="0,0,5,0"
                         Command="{Binding ReadLogicCommand}"
-                        Style="{DynamicResource SquareButtonStyle}">
+                        Style="{DynamicResource MahApps.Styles.Button.Square}">
                         <Image
                             Width="20"
                             Height="20"
@@ -104,7 +104,7 @@
                         Margin="0,0,5,0"
                         Command="{Binding StopEmulationLogic}"
                         IsEnabled="{Binding IsLogicStarted}"
-                        Style="{DynamicResource SquareButtonStyle}">
+                        Style="{DynamicResource MahApps.Styles.Button.Square}">
                         <Image
                             Width="20"
                             Height="20"

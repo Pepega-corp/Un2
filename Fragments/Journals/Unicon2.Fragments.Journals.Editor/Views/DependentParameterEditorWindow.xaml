@@ -50,11 +50,10 @@
             </Grid.RowDefinitions>
             <VirtualizingStackPanel Orientation="Horizontal">
                 <TextBlock Margin="5" Text="{lex:Loc DefaultFormatter}" />
-                <lex:LocProxy Name="formatterProxy" Source="{Binding FormatterString, TargetNullValue=NotSet}" />
                 <TextBlock
                     MinWidth="150"
                     Margin="5"
-                    Text="{Binding ElementName=formatterProxy, Path=Result}" />
+                    Text="{lex:Loc {Binding FormatterString, TargetNullValue=NotSet}}" />
                 <Button
                     Margin="5"
                     Command="{Binding ShowFormatterParameters}"

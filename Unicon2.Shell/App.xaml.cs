@@ -162,7 +162,7 @@ namespace Unicon2.Shell
                 return Container.Resolve<Views.Shell>();
 
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }

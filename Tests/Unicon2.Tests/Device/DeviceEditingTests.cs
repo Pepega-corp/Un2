@@ -18,7 +18,7 @@ namespace Unicon2.Tests.Device
 
 
         [Test]
-        public async Task Validate()
+        public void Validate()
         {
             var deviceEditingViewModel = _typesContainer.Resolve<DeviceEditingViewModel>();
             Assert.False(deviceEditingViewModel.HasErrors);

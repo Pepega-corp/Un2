@@ -122,8 +122,6 @@ namespace Unicon2.Fragments.Programming.Adorners
 
         private void GetPathGeometry(Point position)
         {
-            List<Point> pathPoints;
-
             var sourceInfo = new PathFinder.ConnectorInfo
             {
                 ConnectorPoint = this._sourceConnector.ConnectorPosition,

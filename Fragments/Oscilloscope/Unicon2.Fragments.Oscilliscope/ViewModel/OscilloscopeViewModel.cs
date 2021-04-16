@@ -29,7 +29,6 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel
         private IOscilloscopeModel _oscilloscopeModel;
         private int _maxLoadingProgress;
         private int _currentLoadingProgress;
-        private bool _isBusy;
         private CancellationTokenSource _loadingCancellationTokenSource;
 
 

@@ -81,7 +81,7 @@ namespace Unicon2.Tests.Editor
 
 
         [Test]
-        public async Task ValidateEditorConfigurationWithMissingResource()
+        public void ValidateEditorConfigurationWithMissingResource()
         {
             IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
 
@@ -126,7 +126,7 @@ namespace Unicon2.Tests.Editor
         }
 
         [Test]
-        public async Task ValidateEditorConfigurationWithError()
+        public void ValidateEditorConfigurationWithError()
         {
             IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
 
@@ -172,7 +172,7 @@ namespace Unicon2.Tests.Editor
 
 
         [Test]
-        public async Task ValidateEditorConfigurationWithErrorComplexProperty()
+        public void ValidateEditorConfigurationWithErrorComplexProperty()
         {
             IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
 

@@ -11,7 +11,7 @@ namespace Unicon2.Web.Presentation.Module
 {
     public class WebPresentationModule : IUnityModule
     {
-        public async void Initialize(ITypesContainer container)
+        public void Initialize(ITypesContainer container)
         {
             //var res = "";
             //var url = "http://f06c99c4389c.ngrok.io/";

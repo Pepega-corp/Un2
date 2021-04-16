@@ -224,16 +224,17 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 
 		public DeviceContext DeviceContext { get; set; }
 
-		public async Task OnConnectionChanged()
+		public Task OnConnectionChanged()
 		{
 			FragmentOptionsViewModel.FragmentOptionGroupViewModels.ForEach(model =>
 				model.FragmentOptionCommandViewModels.ForEach(viewModel =>
 					viewModel.UpdateAvailability()));
+			return Task.CompletedTask;
 		}
 
 		private bool _isOpened = false;
 
-		public async Task SetFragmentOpened(bool isOpened)
+		public Task SetFragmentOpened(bool isOpened)
 		{
 			if (_readCycleCommand.IsEnabled)
 			{
@@ -249,6 +250,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 			}
 
 			_isOpened = isOpened;
+			return Task.CompletedTask;
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.Services
         bool IsStructureSimilar(IConfigurationItemViewModel configurationItemViewModel1,
             IConfigurationItemViewModel configurationItemViewModel2);
 
-        Task CopyValuesToItem(IConfigurationItemViewModel configurationItemViewModelFrom,
+        void CopyValuesToItem(IConfigurationItemViewModel configurationItemViewModelFrom,
             IConfigurationItemViewModel configurationItemViewModelTo);
     }
 }

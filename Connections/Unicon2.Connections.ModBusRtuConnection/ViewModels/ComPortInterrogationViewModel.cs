@@ -23,17 +23,7 @@ namespace Unicon2.Connections.ModBusRtuConnection.ViewModels
         private readonly IComConnectionManager _comConnectionManager;
         private readonly IConnectionService _connectionService;
         private readonly IFlyoutService _flyoutService;
-        private bool _is1200Checked;
-        private bool _is2400Checked;
-        private bool _is4800Checked;
-        private bool _is9600Checked;
-        private bool _is19200Checked;
-        private bool _is38400Checked;
-        private bool _is57600Checked;
-        private bool _is115200Checked;
-        private bool _is230400Checked;
-        private bool _is460800Checked;
-        private bool _is921600Checked;
+
         private byte _slaveId;
         private bool _isInterrogationStopped;
 

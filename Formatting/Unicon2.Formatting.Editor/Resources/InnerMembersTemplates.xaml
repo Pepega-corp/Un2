@@ -61,7 +61,7 @@
                     Margin="3"
                     Command="{Binding ShowFormatterParametersCommand}"
                     Content="{lex:Loc FormatterParameters}"
-                    Style="{DynamicResource SquareButtonStyle}" />
+                    Style="{DynamicResource MahApps.Styles.Button.Square}" />
                 <TextBlock Margin="5" Text="{lex:Loc Currentformatting}" />
                 <lex:LocProxy Name="SelectedUshortFormatterNameProxy" Source="{Binding SelectedUshortFormatterName, TargetNullValue=NotSet}" />
                 <TextBlock Margin="5" Text="{Binding ElementName=SelectedUshortFormatterNameProxy, Path=Result}" />

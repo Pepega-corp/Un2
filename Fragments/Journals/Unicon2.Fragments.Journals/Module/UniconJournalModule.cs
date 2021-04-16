@@ -41,7 +41,6 @@ namespace Unicon2.Fragments.Journals.Module
             container.Register<IJournalRecordViewModel, JournalRecordViewModel>();
             container.Register<IJournalRecordFactory, JournalRecordFactory>();
             container.Register<IJournalRecordViewModelFactory, JournalRecordViewModelFactory>();
-            container.Register<ILoadingSequenceLoaderRegistry, LoadingSequenceLoaderRegistry>();
 
             container.Register<IJournalLoadingSequence, OffsetLoadingSequence>(JournalKeys
                 .OFFSET_LOADING_SEQUENCE);
@@ -78,7 +77,7 @@ namespace Unicon2.Fragments.Journals.Module
             container.Resolve<ILoadingSequenceLoaderRegistry>().AddLoader<OffsetLoadingSequence>((context, sequence) =>
                 new OffsetLoadingSequenceLoader(sequence as OffsetLoadingSequence, context.DataProviderContainer));
 
-            container.Resolve<ILoadingSequenceLoaderRegistry>().AddLoader<OffsetLoadingSequence>((context, sequence) =>
+            container.Resolve<ILoadingSequenceLoaderRegistry>().AddLoader<IndexLoadingSequence>((context, sequence) =>
                 new IndexLoadingSequenceLoader(sequence as IndexLoadingSequence, context.DataProviderContainer));
         }
     }

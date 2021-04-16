@@ -15,7 +15,7 @@ namespace Unicon2.Tests.Configuration
     public class ConfigurationCopyPasteValuesTests
     {
         [Test]
-        public async Task CheckStructureSimilar()
+        public void CheckStructureSimilar()
         {
             var config = Program.RefreshProject();
             IConfigurationTreeWalker treeWalker = StaticContainer.Container.Resolve<IConfigurationTreeWalker>();
@@ -24,7 +24,7 @@ namespace Unicon2.Tests.Configuration
         }
 
         [Test]
-        public async Task CheckStructureNotSimilar()
+        public void CheckStructureNotSimilar()
         {
             var config = Program.RefreshProject();
             IConfigurationTreeWalker treeWalker = StaticContainer.Container.Resolve<IConfigurationTreeWalker>();
@@ -33,7 +33,7 @@ namespace Unicon2.Tests.Configuration
         }
 
         [Test]
-        public async Task CopyValues()
+        public void CopyValues()
         {
             var config = Program.RefreshProject();
             IConfigurationTreeWalker treeWalker = StaticContainer.Container.Resolve<IConfigurationTreeWalker>();
@@ -52,7 +52,7 @@ namespace Unicon2.Tests.Configuration
                 .LocalValue).SelectedItem = "Срабатывание";
 
 
-            await treeWalker.CopyValuesToItem(config.configurationViewModel
+            treeWalker.CopyValuesToItem(config.configurationViewModel
                     .RootConfigurationItemViewModels[0].ChildStructItemViewModels[2]
                     .ChildStructItemViewModels[1].ChildStructItemViewModels[0],
                 config.configurationViewModel

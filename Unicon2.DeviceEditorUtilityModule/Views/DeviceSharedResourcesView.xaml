@@ -90,8 +90,7 @@
             <TextBlock
                 MinWidth="200"
                 Margin="5"
-                Text="{Binding ElementName=ResourceTypeProxy, Path=Result}" />
-            <lex:LocProxy Name="ResourceTypeProxy" Source="{Binding SelectedResourceViewModel.ResourceStrongName}" />
+                Text="{Binding SelectedResourceViewModel.ResourceStrongName, TargetNullValue=NotSet}" />
         </VirtualizingStackPanel>
         <VirtualizingStackPanel
             Grid.Row="1"

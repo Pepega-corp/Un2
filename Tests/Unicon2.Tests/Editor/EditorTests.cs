@@ -68,7 +68,7 @@ namespace Unicon2.Tests.Editor
         }
 
         [Test]
-        public async Task EmptyEditorSave()
+        public void EmptyEditorSave()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
@@ -78,7 +78,7 @@ namespace Unicon2.Tests.Editor
         }
 
         [Test]
-        public async Task EditorAllFormattersPropSave()
+        public void EditorAllFormattersPropSave()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
@@ -115,7 +115,7 @@ namespace Unicon2.Tests.Editor
         }
 
         [Test]
-        public async Task EditorAllFormattersPropFromSharedResourcesSave()
+        public void EditorAllFormattersPropFromSharedResourcesSave()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
@@ -189,7 +189,7 @@ namespace Unicon2.Tests.Editor
 
 
         [Test]
-        public async Task EditorAllFormattersRootPropSave()
+        public void EditorAllFormattersRootPropSave()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
@@ -219,7 +219,7 @@ namespace Unicon2.Tests.Editor
 
 
         [Test]
-        public async Task EditorBaseValuesSave()
+        public void EditorBaseValuesSave()
         {
             var globalCommandsMock = ApplicationGlobalCommandsMock
                 .Create()
@@ -294,7 +294,7 @@ namespace Unicon2.Tests.Editor
         }
 
         [Test]
-        public async Task EditorImportPropertiesTypeASave()
+        public void EditorImportPropertiesTypeASave()
         {
             var globalCommandsMock = ApplicationGlobalCommandsMock
                 .Create()
@@ -350,7 +350,7 @@ namespace Unicon2.Tests.Editor
 
 
         [Test]
-        public async Task GroupFilterSaveLoad()
+        public void GroupFilterSaveLoad()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
@@ -433,7 +433,7 @@ namespace Unicon2.Tests.Editor
         }
 
         [Test]
-        public async Task RemoveSubproperty()
+        public void RemoveSubproperty()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +

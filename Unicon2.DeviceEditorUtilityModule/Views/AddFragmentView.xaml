@@ -55,8 +55,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid>
-                    <TextBlock Margin="10" Text="{Binding ElementName=FragmentNameProxy, Path=Result}" />
-                    <lex:LocProxy Name="FragmentNameProxy" Source="{Binding SelectedFragment.NameForUiKey}" />
+                    <TextBlock Margin="10" Text="{Binding SelectedFragment.NameForUiKey, TargetNullValue=NotSet}" />
                 </Grid>
                 <StackPanel
                     Grid.Row="1"

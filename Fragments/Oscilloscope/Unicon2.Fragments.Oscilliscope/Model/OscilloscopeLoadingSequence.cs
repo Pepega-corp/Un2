@@ -14,18 +14,7 @@ namespace Unicon2.Fragments.Oscilliscope.Model
     [JsonObject(MemberSerialization.OptIn)]
     public class OscilloscopeJournalLoadingSequence : IOscilloscopeJournalLoadingSequence
     {
-        private ushort _currentRecordNumber = 0;
-        private ushort[] _currentRecordValues;
-        private IOscilloscopeLoadingSequenceInitializingParameters _oscilloscopeLoadingSequenceInitializingParameters;
-
-
-        public string StrongName => OscilloscopeKeys.OSCILLOSCOPE_JOURNAL_LOADING_SEQUENCE;
-
-        public void Initialize(IJournalSequenceInitializingParameters journalSequenceInitializingParameters)
-        {
-            _oscilloscopeLoadingSequenceInitializingParameters =
-                journalSequenceInitializingParameters as IOscilloscopeLoadingSequenceInitializingParameters;
-        }
+        public string StrongName => OscilloscopeKeys.OSCILLOSCOPE_JOURNAL_LOADING_SEQUENCE;     
 
         [JsonProperty]
         public ushort AddressOfRecord { get; set; }

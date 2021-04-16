@@ -109,7 +109,7 @@ namespace Unicon2.Web.Presentation.ViewModels
 			{
 				using (var httpClient = new HttpClient())
 				{
-					await LoadLocalDefinitions();
+					LoadLocalDefinitions();
 					if (await LoadServerUrl())
 					{
 						var test = await (await httpClient.GetAsync(UrlToServer)).Content.ReadAsStringAsync();
@@ -124,7 +124,7 @@ namespace Unicon2.Web.Presentation.ViewModels
 					}
 				}
 			}
-			catch(Exception e)
+			catch
 			{
 				CanConnectToServer = false;
 			}
@@ -172,7 +172,7 @@ namespace Unicon2.Web.Presentation.ViewModels
 			}
 		}
 
-		private async Task LoadLocalDefinitions()
+		private void LoadLocalDefinitions()
 		{
 			_devicesContainerService.LoadDevicesDefinitions();
 			var definitionInfoViewModels = _devicesContainerService.Creators.Select(
