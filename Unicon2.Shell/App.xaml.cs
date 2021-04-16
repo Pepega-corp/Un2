@@ -35,8 +35,8 @@ using Unicon2.Fragments.FileOperations.Module;
 //using Unicon2.Fragments.Measuring.Editor.Module;
 //using Unicon2.Fragments.Measuring.Module;
 using Unicon2.Fragments.ModbusMemory.Module;
-//using Unicon2.Fragments.Oscilliscope.Editor.Module;
-//using Unicon2.Fragments.Oscilliscope.Module;
+using Unicon2.Fragments.Oscilliscope.Editor.Module;
+using Unicon2.Fragments.Oscilliscope.Module;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
@@ -208,8 +208,8 @@ namespace Unicon2.Shell
 
             container.Register<IUnityModule, MeasuringModule>(nameof(MeasuringModule));
 			container.Register<IUnityModule, MeasuringEditorModule>(nameof(MeasuringEditorModule));
-			//container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
-			//container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));
+			container.Register<IUnityModule, OscilloscopeModule>(nameof(OscilloscopeModule));
+			container.Register<IUnityModule, OscilloscopeEditorModule>(nameof(OscilloscopeEditorModule));
 			container.Register<IUnityModule, FileOperationsModule>(nameof(FileOperationsModule));
 			container.Register<IUnityModule, FileOperationsEditorModule>(nameof(FileOperationsEditorModule));
 

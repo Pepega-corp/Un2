@@ -324,6 +324,14 @@
       <Project>{3C34747B-D562-4900-880D-67E8574544AE}</Project>
       <Name>Unicon2.Fragments.ModbusMemory</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fragments\Oscilloscope\Unicon2.Fragments.Oscilliscope.Editor\Unicon2.Fragments.Oscilliscope.Editor.csproj">
+      <Project>{32997c3b-9259-4810-b965-da3c96ea90de}</Project>
+      <Name>Unicon2.Fragments.Oscilliscope.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fragments\Oscilloscope\Unicon2.Fragments.Oscilliscope\Unicon2.Fragments.Oscilliscope.csproj">
+      <Project>{ff127f58-7577-49ae-b63a-0b6b9542eaf6}</Project>
+      <Name>Unicon2.Fragments.Oscilliscope</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fragments\Programming\Unicon2.Fragments.Programming.Editor\Unicon2.Fragments.Programming.Editor.csproj">
       <Project>{1101E22E-FA58-4F20-AA4A-D62DFDFC5059}</Project>
       <Name>Unicon2.Fragments.Programming.Editor</Name>
@@ -332,14 +340,14 @@
       <Project>{8C560933-B4AD-46E9-873E-223D75E8F19D}</Project>
       <Name>Unicon2.Fragments.Programming</Name>
     </ProjectReference>
-	<ProjectReference Include="..\GraphicalMenu\Unicon2.Fragments.GraphicalMenu.Editor\Unicon2.Fragments.GraphicalMenu.Editor.csproj">
-	  <Project>{B8E8E6A6-86C6-4AFA-B3CC-9FA73185078C}</Project>
-	  <Name>Unicon2.Fragments.GraphicalMenu.Editor</Name>
-	</ProjectReference>
-	<ProjectReference Include="..\GraphicalMenu\Unicon2.Fragments.GraphicalMenu\Unicon2.Fragments.GraphicalMenu.csproj">
-	  <Project>{53A42DBC-1E42-4204-9772-BE410ECAEC05}</Project>
-	  <Name>Unicon2.Fragments.GraphicalMenu</Name>
-	</ProjectReference>	  
+    <ProjectReference Include="..\GraphicalMenu\Unicon2.Fragments.GraphicalMenu.Editor\Unicon2.Fragments.GraphicalMenu.Editor.csproj">
+      <Project>{B8E8E6A6-86C6-4AFA-B3CC-9FA73185078C}</Project>
+      <Name>Unicon2.Fragments.GraphicalMenu.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphicalMenu\Unicon2.Fragments.GraphicalMenu\Unicon2.Fragments.GraphicalMenu.csproj">
+      <Project>{53A42DBC-1E42-4204-9772-BE410ECAEC05}</Project>
+      <Name>Unicon2.Fragments.GraphicalMenu</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicon2.DeviceEditorUtilityModule\Unicon2.DeviceEditorUtilityModule.csproj">
       <Project>{E263B732-5DC2-4237-9C45-2B655C51A033}</Project>
       <Name>Unicon2.DeviceEditorUtilityModule</Name>
