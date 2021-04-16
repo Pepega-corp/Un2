@@ -132,11 +132,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 case NotifyCollectionChangedAction.Remove:
                 case NotifyCollectionChangedAction.Reset:
                 {
-                    foreach (var element in e.OldItems)
+                    if (e.OldItems != null)
                     {
-                        if (element is IConnectionViewModel connection)
+                        foreach (var element in e.OldItems)
                         {
-                            connection.NeedDelete -= RemoveConnection;
+                            if (element is IConnectionViewModel connection)
+                            {
+                                connection.NeedDelete -= RemoveConnection;
+                            }
                         }
                     }
                 }
