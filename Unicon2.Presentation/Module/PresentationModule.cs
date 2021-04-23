@@ -1,4 +1,7 @@
-﻿using Unicon2.Infrastructure;
+﻿using System;
+using System.Linq;
+using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces.Excel;
 using Unicon2.Presentation.Connection;
 using Unicon2.Presentation.Factories;
@@ -7,6 +10,7 @@ using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.FragmentSettings;
 using Unicon2.Presentation.Infrastructure.Keys;
 using Unicon2.Presentation.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.Services.CommandStack;
 using Unicon2.Presentation.Infrastructure.Services.Dependencies;
 using Unicon2.Presentation.Infrastructure.Subscription;
 using Unicon2.Presentation.Infrastructure.ViewModels.Connection;
@@ -28,6 +32,7 @@ using Unicon2.Presentation.ViewModels.Fragment;
 using Unicon2.Presentation.ViewModels.Fragment.FragmentOptions;
 using Unicon2.Presentation.ViewModels.Windows;
 using Unicon2.Presentation.Visitors;
+using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Presentation.Module
@@ -64,6 +69,7 @@ namespace Unicon2.Presentation.Module
             container.Register(typeof(IBoolValueViewModel), typeof(BoolValueViewModel));
             container.Register(typeof(IBitMaskValueViewModel), typeof(BitMaskValueViewModel));
             container.Register(typeof(IValueViewModelFactory), typeof(ValueViewModelFactory));
+            container.Register(typeof(ICommandStackService), typeof(CommandStackService),true);
 
             container.Register(typeof(IFragmentOptionCommandViewModel), typeof(DefaultFragmentOptionCommandViewModel));
             container.Register(typeof(IFragmentOptionGroupViewModel), typeof(DefaultFragmentOptionGroupViewModel));
@@ -94,7 +100,6 @@ namespace Unicon2.Presentation.Module
             container.Register<IConnectionService, ConnectionService>();
             container.Register<IExcelImporter, ExcelExportService>();
             container.Register<IExcelExporter, ExcelExportService>();
-
         }
     }
 }

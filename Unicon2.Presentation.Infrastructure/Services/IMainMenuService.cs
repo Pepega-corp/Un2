@@ -14,38 +14,38 @@ namespace Unicon2.Presentation.Infrastructure.Services
 
     public class MainMenuGroupRegistrationOptions
     {
-        public MainMenuGroupRegistrationOptions(Guid itemId, string groupLocalizationString, int proirity = 100,
+        public MainMenuGroupRegistrationOptions(Guid itemId, string groupLocalizationString, int priority = 100,
             string mainMenuGroupId = null)
         {
             ItemId = itemId;
             GroupLocalizationString = groupLocalizationString;
-            Proirity = proirity;
+            Priority = priority;
             MainMenuGroupId = mainMenuGroupId;
         }
 
         public Guid ItemId { get; }
         public string GroupLocalizationString { get; }
-        public int Proirity { get; }
+        public int Priority { get; }
         public string MainMenuGroupId { get; }
 
 
     }
     public class MainMenuCommandRegistrationOptions
     {
-        public MainMenuCommandRegistrationOptions(Guid itemId, ICommand command, string itemNameKey, int proirity = 100,
+        public MainMenuCommandRegistrationOptions(Guid itemId, ICommand command, string itemNameKey, int priority = 100,
             string mainMenuGroupId = null)
         {
             ItemId = itemId;
             Command = command;
             ItemNameKey = itemNameKey;
-            Proirity = proirity;
+            Priority = priority;
             MainMenuGroupId = mainMenuGroupId;
         }
 
         public Guid ItemId { get; }
         public ICommand Command { get; }
         public string ItemNameKey { get; }
-        public int Proirity { get; }
+        public int Priority { get; }
         public string MainMenuGroupId { get; }
 
     }

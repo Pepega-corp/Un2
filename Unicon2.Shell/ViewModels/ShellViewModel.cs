@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ItemChangingContext;
@@ -15,6 +16,7 @@ using Unicon2.Infrastructure.Services.LogService;
 using Unicon2.Infrastructure.Services.UniconProject;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.Services.CommandStack;
 using Unicon2.Presentation.Infrastructure.ViewModels.Device;
 using Unicon2.Presentation.Infrastructure.ViewModels.DockingManagerWindows;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -145,6 +147,8 @@ namespace Unicon2.Shell.ViewModels
             ));
 
             _recentProjectsMenuItemViewModel = new RecentProjectsMenuItemViewModel(OpenRecentProjectCommand);
+
+            _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(), StaticContainer.Container.Resolve<UndoRedoMenuItemViewModel>()));
 
             _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
                 _recentProjectsMenuItemViewModel, 100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY
@@ -356,6 +360,7 @@ namespace Unicon2.Shell.ViewModels
 						        FragmentsOpenedCollection.FirstOrDefault((model =>
 							        model.FragmentViewModel == fragment));
 					        openedFragment?.FragmentPaneClosedAction?.Invoke(openedFragment);
+                            (fragment as ICommandStackDependencySource)?.TryDisposeCommandFromStack();
 				        }
 
 				        ProjectBrowserViewModel.DeviceViewModels.Remove(deviceViewModel);

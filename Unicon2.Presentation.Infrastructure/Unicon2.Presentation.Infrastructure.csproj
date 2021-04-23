@@ -76,6 +76,10 @@
     <Compile Include="Factories\ISharedResourcesEditorFactory.cs" />
     <Compile Include="Factories\ISharedResourcesGlobalViewModel.cs" />
     <Compile Include="Factories\IValueViewModelFactory.cs" />
+    <Compile Include="Services\CommandStack\ICommandStackDependencySource.cs" />
+    <Compile Include="Services\CommandStack\ICommandStackService.cs" />
+    <Compile Include="Services\CommandStack\IStackingCommand.cs" />
+    <Compile Include="Services\CommandStack\StackingCommandBase.cs" />
     <Compile Include="Services\ILoadAllService.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\DefaultFragmentOptionCommandViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\Extensions.cs" />
@@ -172,5 +176,6 @@
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

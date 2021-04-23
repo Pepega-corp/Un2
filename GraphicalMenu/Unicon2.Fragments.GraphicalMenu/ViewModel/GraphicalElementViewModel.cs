@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using GongSolutions.Wpf.DragDrop;
+using Unicon2.Fragments.GraphicalMenu.Commands.Stack;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Services.CommandStack;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -27,13 +29,10 @@ namespace Unicon2.Fragments.GraphicalMenu.ViewModel
         }
 
 
-        private void OnRemoveExecute()
+        private async void OnRemoveExecute()
         {
-            if (_parent.GraphicalElementViewModelsOnDisplay.Contains(this))
-            {
-                _parent.GraphicalElementViewModelsOnDisplay.Remove(this);
-                _parent.GraphicalMenuSlotViewModels.Where(model => model.RelatedGraphicalElementViewModel == this).ForEach(model => model.RelatedGraphicalElementViewModel = null);
-            }
+            var command = new GraphicalElementRemoveStackingCommand(this, _parent);
+            await command.ExecuteCommandAndAddToStack();
         }
 
         public int SizeWidth { get; }

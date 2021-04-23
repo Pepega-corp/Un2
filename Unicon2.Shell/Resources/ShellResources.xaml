@@ -8,4 +8,7 @@
     <DataTemplate x:Key="RecentProjectsMenuItemViewModelDataTemplate">
         <menuItems:RecentProjectsItem />
     </DataTemplate>
+    <DataTemplate x:Key="UndoRedoMenuItemViewModelDataTemplate">
+        <menuItems:UndoRedoMenuItem />
+    </DataTemplate>
 </ResourceDictionary>

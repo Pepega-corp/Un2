@@ -137,6 +137,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\CommandStackService.cs" />
     <Compile Include="Services\DependenciesService.cs" />
     <Compile Include="Services\ExcelExportService.cs" />
     <Compile Include="Services\LoadAllService.cs" />

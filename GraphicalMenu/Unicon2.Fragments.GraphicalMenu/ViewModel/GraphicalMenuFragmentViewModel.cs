@@ -12,13 +12,14 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.Services.CommandStack;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.GraphicalMenu.ViewModel
 {
-    public class GraphicalMenuFragmentViewModel : ViewModelBase, IFragmentViewModel, IDropTarget, IDeviceContextConsumer
+    public class GraphicalMenuFragmentViewModel : ViewModelBase, IFragmentViewModel, IDropTarget, IDeviceContextConsumer, ICommandStackDependencySource
     {
         private int _cellWidth;
         private int _cellHeight;
