@@ -159,7 +159,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             {
                 var connectorModel = model.Connectors[i];
                 var connectorViewModel = ConnectorViewModels[i];
-                connectorViewModel.ConnectionNumber = connectorModel.ConnectionNumber;
+                //connectorViewModel.ConnectionNumber = connectorModel.ConnectionNumber;
                 connectorViewModel.ConnectorPosition = connectorModel.ConnectorPosition;
                 connectorViewModel.ConnectorType = connectorModel.Type;
             }
@@ -171,17 +171,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         }
 
         public abstract ILogicElementViewModel Clone();
-
-        //protected ILogicElementViewModel Clone<TR, T>() where TR : LogicElementViewModel, new() where T : ILogicElement, new()
-        //{
-        //    var ret = new TR
-        //    {
-        //        Model = this.Model,
-        //        Caption = this.Caption,
-        //        _globalCommands = this._globalCommands
-        //    };
-        //    return ret;
-        //}
 
         public virtual void OpenPropertyWindow()
         {

@@ -24,7 +24,18 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public abstract void BinProgrammToProperty(ushort[] bin);
         public virtual void CopyLibraryValues(ILibraryElement source) { }
-        public abstract void CopyValues(ILogicElement source);
+
+        public virtual void CopyValues(ILogicElement source)
+        {
+            Connectors = new List<IConnector>();
+            foreach (var c in source.Connectors)
+            {
+                Connectors.Add(new Connector(c.Orientation, c.Type) { ConnectorPosition = c.ConnectorPosition });
+            }
+            X = source.X;
+            Y = source.Y;
+        }
+
         public abstract ushort[] GetProgrammBin();
     }
 }

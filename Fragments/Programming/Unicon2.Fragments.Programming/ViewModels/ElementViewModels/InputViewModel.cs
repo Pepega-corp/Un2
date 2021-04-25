@@ -7,7 +7,6 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementView
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Unity.Common;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
@@ -23,19 +22,17 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         
         public InputViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
         {
-            _globalCommands = globalCommands;
-            _inputModel = (Input)model;
-            _logicElementModel = model;
+            this._globalCommands = globalCommands;
+            this._inputModel = (Input)model;
+            this._logicElementModel = model;
             this._bases = new List<string>();
             this._allInputSignals = new List<Dictionary<int, string>>();
-
             this.ElementName = "Вход";
             this.Description = "Елемент входного дискретного сигнала";
             this.Symbol = "In";
-            Signals = new ObservableCollection<string>();
+            this.Signals = new ObservableCollection<string>();
             this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
-
-            SetModel(this._inputModel);
+            this.SetModel(this._inputModel);
         }
 
         public List<string> Bases
@@ -88,19 +85,19 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             get => this._selectedSignalIndex;
             set
             {
-                if (value >= 0)
-                {
-                    this._selectedSignalIndex = value;
-                    _inputModel.InputSignalNum = this.AllInputSignals[this.BaseIndex]
-                        .First(s => s.Value == this.Signals[this._selectedSignalIndex]).Key;
-                    RaisePropertyChanged();
-                }
+                if (_selectedSignalIndex == value || value < 0)
+                    return;
+                this._selectedSignalIndex = value;
+                RaisePropertyChanged();
             }
         }
         
         protected override ILogicElement GetModel()
         {
             _inputModel.Connectors[0] = ConnectorViewModels[0].Model;
+            _inputModel.InputSignalNum = this.AllInputSignals[this.BaseIndex]
+                        .First(s => s.Value == this.Signals[this._selectedSignalIndex]).Key;
+            this._inputModel.BaseNum = this.BaseIndex;
             return _inputModel;
         }
 
@@ -133,7 +130,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             var model = new Input();
             model.CopyValues(this._inputModel);
-            return new InputViewModel(model, _globalCommands);
+            return new InputViewModel(model, _globalCommands) { Caption = this.Caption };
         }
     }
 }

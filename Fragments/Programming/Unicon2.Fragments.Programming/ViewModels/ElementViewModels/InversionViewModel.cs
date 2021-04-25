@@ -27,7 +27,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             var model = new Inversion();
             model.CopyValues(_logicElementModel);
-            return new InversionViewModel(model, _globalCommands);
+            return new InversionViewModel(model, _globalCommands) { Caption = this.Caption };
         }
     }
 }

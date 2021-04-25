@@ -8,16 +8,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
 {
     internal class LogicElementSettingsViewModel : ViewModelBase
     {
-        private readonly ILogicElementViewModel _sourceViewModel;
-        private ILogicElementViewModel _editableViewModel;
+        private ILogicElementViewModel _sourceViewModel;
+        private readonly ILogicElementViewModel _previouseViewModel;
 
         public ICommand OkCommand { get; }
         public ICommand CancelCommand { get; }
 
         public LogicElementSettingsViewModel(ILogicElementViewModel sourceViewModel)
         {
-            this._sourceViewModel = sourceViewModel;
-            this.LogicElementViewModel = this._sourceViewModel.Clone();
+            this.LogicElementViewModel = sourceViewModel;
+            _previouseViewModel = this._sourceViewModel.Clone();
 
             this.OkCommand = new RelayCommand<Window>(this.OnOkCommand);
             this.CancelCommand = new RelayCommand<Window>(this.OnCloseCommand);
@@ -25,28 +25,34 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public ILogicElementViewModel LogicElementViewModel
         {
-            get { return this._editableViewModel; }
+            get { return this._sourceViewModel; }
             set
             {
-                if (this._editableViewModel == value) return;
+                if (this._sourceViewModel == value) return;
 
-                this._editableViewModel = value;
+                this._sourceViewModel = value;
                 this.RaisePropertyChanged();
             }
         }
 
         private void OnOkCommand(Window window)
         {
-            this._sourceViewModel.CopyValues(this._editableViewModel);
+            window?.Close();
+        }
 
-            //for (int i = 0; i < _sourceViewModel.ConnectorViewModels.Count; i++)
+        private void OnCloseCommand(Window window)
+        {
+            this._sourceViewModel.Model = _previouseViewModel.Model;
+            this._sourceViewModel.Caption = _previouseViewModel.Caption;
+
+            //for (int i = 0; i < _previouseViewModel.ConnectorViewModels.Count; i++)
             //{
-            //    var connectorSource = _sourceViewModel.ConnectorViewModels[i];
+            //    var connectorSource = _previouseViewModel.ConnectorViewModels[i];
             //    if (connectorSource.Connected)
             //    {
             //        var connection = connectorSource.Connection;
-            //        var connectorEdited = _editableViewModel.ConnectorViewModels[i];
-                
+            //        var connectorEdited = _sourceViewModel.ConnectorViewModels[i];
+
             //        if (connection.SourceConnector == connectorSource)
             //        {
             //            connection.SourceConnector = connectorEdited;
@@ -59,11 +65,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             //    }
             //}
 
-            window?.Close();
-        }
-
-        private void OnCloseCommand(Window window)
-        {
             window?.Close();
         }
     }

@@ -26,13 +26,9 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         
         public override void CopyValues(ILogicElement source)
         {
-            if (source is Inversion model)
+            if (source is Inversion)
             {
-                Connectors = new List<IConnector>();
-                foreach (var connector in model.Connectors)
-                {
-                    Connectors.Add(new Connector(connector.Orientation, connector.Type));
-                }
+                base.CopyValues(source);
             }
             else
             {

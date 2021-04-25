@@ -123,7 +123,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             var model = new Or();
             model.CopyValues(this._model);
-            return new OrViewModel(model, _globalCommands);
+            return new OrViewModel(model, _globalCommands) { Caption = this.Caption };
         }
     }
 }

@@ -47,12 +47,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         {
             if (source is Output model)
             {
-                Connectors = new List<IConnector>();
-                foreach (var connector in model.Connectors)
-                {
-                    Connectors.Add(new Connector(connector.Orientation, connector.Type));
-                }
-
+                base.CopyValues(source);
                 this.OutputSignals = new List<string>(model.OutputSignals);
                 this.OutputSignalNum = model.OutputSignalNum;
             }

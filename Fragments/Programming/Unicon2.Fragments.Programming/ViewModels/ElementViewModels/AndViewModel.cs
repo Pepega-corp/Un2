@@ -127,7 +127,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             var model = new And();
             model.CopyValues(this._model);
-            return new AndViewModel(model, _globalCommands);
+            return new AndViewModel(model, _globalCommands) { Caption = this.Caption };
         }
     }
 }

@@ -62,7 +62,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             var model = new Output();
             model.CopyValues(this._outputModel);
-            return new OutputViewModel(model, _globalCommands);
+            return new OutputViewModel(model, _globalCommands) { Caption = this.Caption };
         }
     }
 }
