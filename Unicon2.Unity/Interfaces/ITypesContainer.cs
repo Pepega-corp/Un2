@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unicon2.Unity.Common;
 
 namespace Unicon2.Unity.Interfaces
 {
     public interface ITypesContainer
     {
         T Resolve<T>();
+        T Resolve<T>(params ResolverParameter[] parameters);
         object Resolve(Type t);
         T Resolve<T>(string key);
+        T Resolve<T>(string key, params ResolverParameter[] parameters);
         object Resolve(Type t, string key);
         IEnumerable<T> ResolveAll<T>();
 

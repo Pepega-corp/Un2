@@ -16,6 +16,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         ushort[] GetProgrammBin();
         void BinProgrammToProperty(ushort[] bin);
         void CopyLibraryValues(ILibraryElement source);
+        void CopyValues(ILogicElement source);
         double X { get; set; }
         double Y { get; set; }
     }

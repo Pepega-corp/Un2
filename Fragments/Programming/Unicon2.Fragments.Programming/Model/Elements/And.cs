@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure;
@@ -26,6 +27,22 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT),
                 new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT)
             };
+        }
+
+        public override void CopyValues(ILogicElement source)
+        {
+            if (source is And model)
+            {
+                Connectors = new List<IConnector>();
+                foreach (var connector in model.Connectors)
+                {
+                    Connectors.Add(new Connector(connector.Orientation, connector.Type));
+                }
+            }
+            else
+            {
+                throw new Exception($"Source {source} is not And type");
+            }
         }
 
         public override ushort[] GetProgrammBin()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Prism.Mvvm;
 using Unicon2.Unity.Interfaces;
 using Unity;
+using Unity.Resolution;
 
 namespace Unicon2.Unity.Common
 {
@@ -23,6 +24,16 @@ namespace Unicon2.Unity.Common
             return _container.Resolve<T>();
         }
 
+        public T Resolve<T>(params ResolverParameter[] parameters)
+        {
+            var resolverOverrides = new ResolverOverride[parameters.Length];
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                resolverOverrides[i] = new ParameterOverride(parameters[i].ParameterName, parameters[i].ParameterValue);
+            }
+            return _container.Resolve<T>(resolverOverrides);
+        }
+
         public object Resolve(Type t)
         {
             return _container.Resolve(t);
@@ -33,6 +44,16 @@ namespace Unicon2.Unity.Common
             return _container.Resolve<T>(key);
         }
 
+        public T Resolve<T>(string key, params ResolverParameter[] parameters)
+        {
+            var resolverOverrides = new ResolverOverride[parameters.Length];
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                resolverOverrides[i] = new ParameterOverride(parameters[i].ParameterName, parameters[i].ParameterValue);
+            }
+            return _container.Resolve<T>(key, resolverOverrides);
+        }
+        
         public object Resolve(Type t, string key)
         {
             return _container.Resolve(t, key);

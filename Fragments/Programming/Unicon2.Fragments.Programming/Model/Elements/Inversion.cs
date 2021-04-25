@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
@@ -22,6 +22,22 @@ namespace Unicon2.Fragments.Programming.Model.Elements
                 new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT),
                 new Connector(ConnectorOrientation.RIGHT, ConnectorType.INVERS)
             };
+        }
+        
+        public override void CopyValues(ILogicElement source)
+        {
+            if (source is Inversion model)
+            {
+                Connectors = new List<IConnector>();
+                foreach (var connector in model.Connectors)
+                {
+                    Connectors.Add(new Connector(connector.Orientation, connector.Type));
+                }
+            }
+            else
+            {
+                throw new Exception($"Source {source} is not Inversion type");
+            }
         }
 
         public override ushort[] GetProgrammBin()
