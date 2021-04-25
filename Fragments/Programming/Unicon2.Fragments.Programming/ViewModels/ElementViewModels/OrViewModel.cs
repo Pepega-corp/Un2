@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
@@ -13,7 +14,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public class OrViewModel : LogicElementViewModel
     {
-        private Or _model;
+        private readonly Or _model;
 
         public override string StrongName => ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         public ObservableCollection<IConnectorViewModel> Inputs { get; }
@@ -23,9 +24,10 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public ICommand AddInputCommand { get; }
         public ICommand RemoveInputCommand { get; }
 
-        public OrViewModel()
+        public OrViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
         {
-            _model = new Or();
+            _globalCommands = globalCommands;
+            _model = (Or)model;
             _logicElementModel = _model;
 
             this.ElementName = "ИЛИ";
@@ -38,11 +40,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
             AddInputCommand = new RelayCommand(AddInput, CanAddInput);
             RemoveInputCommand = new RelayCommand(RemoveInput, CanRemove);
-        }
-
-        public OrViewModel(IApplicationGlobalCommands globalCommands) : this()
-        {
-            _globalCommands = globalCommands;
+            SetModel(this._model);
         }
 
         private void OnConnectorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs eventArgs)
@@ -95,11 +93,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        public override ILogicElementViewModel Clone()
-        {
-            return (OrViewModel)Clone<OrViewModel, Or>();
-        }
-
         private bool CanAddInput()
         {
             return Inputs.Count < 8;
@@ -120,13 +113,17 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         private void RemoveInput()
         {
             var lastConnector = ConnectorViewModels.Last();
-            if (lastConnector.Connection != null)
-            {
-                lastConnector.Connection.SinkConnectors.Remove(lastConnector);
-            }
+            lastConnector.Connection?.SinkConnectors.Remove(lastConnector);
             ConnectorViewModels.Remove(lastConnector);
             ((RelayCommand)RemoveInputCommand).RaiseCanExecuteChanged();
             ((RelayCommand)AddInputCommand).RaiseCanExecuteChanged();
+        }
+
+        public override ILogicElementViewModel Clone()
+        {
+            var model = new Or();
+            model.CopyValues(this._model);
+            return new OrViewModel(model, _globalCommands);
         }
     }
 }

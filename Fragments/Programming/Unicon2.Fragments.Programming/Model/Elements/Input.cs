@@ -37,6 +37,31 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             AllInputSignals = new List<Dictionary<int, string>>();
         }
 
+        public override void CopyValues(ILogicElement source)
+        {
+            if (source is Input model)
+            {
+                Connectors = new List<IConnector>();
+                foreach (var c in model.Connectors)
+                {
+                    Connectors.Add(new Connector(c.Orientation, c.Type));
+                }
+                this.Bases = new List<string>(model.Bases);
+                this.AllInputSignals = new List<Dictionary<int, string>>(model.AllInputSignals);
+                for (int i = 0; i < this.Bases.Count; i++)
+                {
+                    var copiedDictionary = model.AllInputSignals[i];
+                    this.AllInputSignals[i] = new Dictionary<int, string>(copiedDictionary);
+                }
+                this.InputSignalNum = model.InputSignalNum;
+                this.BaseNum = model.BaseNum;
+            }
+            else
+            {
+                throw new Exception($"Source {source} is not Input type");
+            }
+        }
+
         public override void CopyLibraryValues(ILibraryElement source)
         {
             if (!(source is IInputEditor inputSource))

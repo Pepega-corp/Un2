@@ -4,7 +4,10 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <StackPanel Width="Auto" Height="Auto" Orientation="Vertical"/>
+                    <StackPanel
+                        Width="Auto"
+                        Height="Auto"
+                        Orientation="Vertical" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -12,13 +15,16 @@
             <Setter.Value>
                 <DataTemplate>
                     <Grid Width="5" Height="10">
-                        <ContentPresenter x:Name="Presenter" Content="{Binding}" VerticalAlignment="Bottom"/>
+                        <ContentPresenter
+                            x:Name="Presenter"
+                            VerticalAlignment="Bottom"
+                            Content="{Binding}" />
                     </Grid>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="Thumb">
         <Setter Property="Template">
             <Setter.Value>

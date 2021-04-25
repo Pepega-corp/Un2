@@ -43,6 +43,25 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.OutputSignals.AddRange(outputEditor.OutputSignals);
         }
 
+        public override void CopyValues(ILogicElement source)
+        {
+            if (source is Output model)
+            {
+                Connectors = new List<IConnector>();
+                foreach (var connector in model.Connectors)
+                {
+                    Connectors.Add(new Connector(connector.Orientation, connector.Type));
+                }
+
+                this.OutputSignals = new List<string>(model.OutputSignals);
+                this.OutputSignalNum = model.OutputSignalNum;
+            }
+            else
+            {
+                throw new Exception($"Source {source} is not Output type");
+            }
+        }
+
         public override ushort[] GetProgrammBin()
         {
             ushort[] bindata = new ushort[this.BinSize];

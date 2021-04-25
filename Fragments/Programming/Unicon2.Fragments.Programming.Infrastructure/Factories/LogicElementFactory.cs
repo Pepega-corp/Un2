@@ -8,6 +8,7 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEdit
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.Factories
@@ -132,9 +133,8 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
             foreach (ILogicElement element in elements)
             {
-                ILogicElementViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                viewmodel.Model = element;
+                var viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL, 
+                    new ResolverParameter("model", element));
                 elementsViewModels.Add(viewmodel);
             }
 

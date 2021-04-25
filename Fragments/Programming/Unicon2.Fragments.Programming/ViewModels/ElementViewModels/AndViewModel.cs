@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
+using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
@@ -13,7 +14,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public class AndViewModel : LogicElementViewModel
     {
-        private And _model;
+        private readonly And _model;
 
         public override string StrongName => ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         public ObservableCollection<IConnectorViewModel> Inputs { get; }
@@ -23,10 +24,11 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public ICommand AddInputCommand { get; }
         public ICommand RemoveInputCommand { get; }
 
-        public AndViewModel()
+        public AndViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
         {
-            _model = new And();
-            _logicElementModel = _model;
+            this._globalCommands = globalCommands;
+            this._model = (And)model;
+            this._logicElementModel = _model;
 
             this.ElementName = "И";
             this.Description = "Логический элемент И";
@@ -38,11 +40,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
             AddInputCommand = new RelayCommand(AddInput, CanAddInput);
             RemoveInputCommand = new RelayCommand(RemoveInput, CanRemove);
-        }
 
-        public AndViewModel(IApplicationGlobalCommands globalCommands) : this()
-        {
-            _globalCommands = globalCommands;
+            this.SetModel(this._model);
         }
         
         private void OnConnectorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs eventArgs)
@@ -95,11 +94,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        public override ILogicElementViewModel Clone()
-        {
-            return (AndViewModel)Clone<AndViewModel, And>();
-        }
-
         private bool CanAddInput()
         {
             return Inputs.Count < 8;
@@ -127,6 +121,13 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ConnectorViewModels.Remove(lastConnector);
             ((RelayCommand)RemoveInputCommand).RaiseCanExecuteChanged();
             ((RelayCommand)AddInputCommand).RaiseCanExecuteChanged();
+        }
+
+        public override ILogicElementViewModel Clone()
+        {
+            var model = new And();
+            model.CopyValues(this._model);
+            return new AndViewModel(model, _globalCommands);
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public abstract void BinProgrammToProperty(ushort[] bin);
         public virtual void CopyLibraryValues(ILibraryElement source) { }
+        public abstract void CopyValues(ILogicElement source);
         public abstract ushort[] GetProgrammBin();
     }
 }

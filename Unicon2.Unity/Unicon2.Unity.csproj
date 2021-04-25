@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\ResolverParameter.cs" />
     <Compile Include="Interfaces\IUnityModule.cs" />
     <Compile Include="Navigation\UniconNavigationContext.cs" />
     <Compile Include="Navigation\UniconNavigationParameters.cs" />

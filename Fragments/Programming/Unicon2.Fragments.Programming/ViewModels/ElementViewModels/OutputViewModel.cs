@@ -5,44 +5,31 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
+using Unicon2.Unity.Common;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public class OutputViewModel : LogicElementViewModel
     {
         private string _selectedSignal;
-        private Output _outputModel;
+        private readonly Output _outputModel;
 
-        public OutputViewModel()
+        public OutputViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
         {
-            _outputModel = new Output();
+            _globalCommands = globalCommands;
+            _outputModel = (Output) model;
             _logicElementModel = _outputModel;
             ElementName = "Выход";
             Description = "Елемент выходного дискретного сигнала";
             Symbol = "Out";
             ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
-        }
-
-        public OutputViewModel(IApplicationGlobalCommands globalCommands) : this()
-        {
-            _globalCommands = globalCommands;
+            OutputSignals = new ObservableCollection<string>();
+            SetModel(this._outputModel);
         }
 
         public override string StrongName => ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public List<string> OutputSignals
-        {
-            get => _outputModel.OutputSignals;
-            set
-            {
-                _outputModel.OutputSignals.Clear();
-
-                if (value == null)
-                    return;
-
-                _outputModel.OutputSignals.AddRange(value);
-            }
-        }
+        public ObservableCollection<string> OutputSignals { get; }
 
         public string SelectedSignal
         {
@@ -63,18 +50,20 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         protected override void SetModel(ILogicElement model)
         {
-            if (!(model is IOutput output))
-                return;
-
-            this.OutputSignals = output.OutputSignals;
-            this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
-
-            base.SetModel(model);
+            if (model is IOutput output)
+            {
+                this.OutputSignals.Clear();
+                this.OutputSignals.AddCollection(output.OutputSignals);
+                this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
+                base.SetModel(model);
+            }
         }
 
         public override ILogicElementViewModel Clone()
         {
-            return (OutputViewModel)Clone<OutputViewModel, Output>();
+            var model = new Output();
+            model.CopyValues(this._outputModel);
+            return new OutputViewModel(model, _globalCommands);
         }
     }
 }

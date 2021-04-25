@@ -12,91 +12,88 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public class InputViewModel : LogicElementViewModel
     {
-        private string _selectedBase;
-        private string _selectedSignal;
-        private Input _inputModel;
+        private int _baseIndex = -1;
+        private int _selectedSignalIndex = -1;
+        private readonly Input _inputModel;
+        private readonly List<Dictionary<int, string>> _allInputSignals;
+        private readonly List<string> _bases;
 
         public override string StrongName =>ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
-
-
-        public InputViewModel()
+        
+        public InputViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
         {
-            _inputModel= new Input();
-            _logicElementModel = _inputModel;
+            _globalCommands = globalCommands;
+            _inputModel = (Input)model;
+            _logicElementModel = model;
+            this._bases = new List<string>();
+            this._allInputSignals = new List<Dictionary<int, string>>();
 
             this.ElementName = "Вход";
             this.Description = "Елемент входного дискретного сигнала";
             this.Symbol = "In";
             Signals = new ObservableCollection<string>();
             this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
-        }
 
-        public InputViewModel(IApplicationGlobalCommands globalCommands) :this()
-        {
-            _globalCommands = globalCommands;
+            SetModel(this._inputModel);
         }
 
         public List<string> Bases
         {
-            get => _inputModel.Bases;
+            get => _bases;
             set
             {
-                _inputModel.Bases.Clear();
+                _bases.Clear();
                 if (value == null)
                     return;
 
-                _inputModel.Bases.AddRange(value);
+                _bases.AddRange(value);
                 RaisePropertyChanged();
             }
         }
 
         private List<Dictionary<int, string>> AllInputSignals
         {
-            get => _inputModel.AllInputSignals;
+            get => _allInputSignals;
             set
             {
-                this._inputModel.AllInputSignals.Clear();
+                this._allInputSignals.Clear();
                 if (value == null)
                     return;
                 
-                this._inputModel.AllInputSignals.AddRange(value);
+                this._allInputSignals.AddRange(value);
             }
         }
 
         public ObservableCollection<string> Signals { get; }
 
-        public string SelectedBase
+        public int BaseIndex
         {
-            get => this._selectedBase;
+            get => _baseIndex;
             set
             {
-                if(string.Equals(this._selectedBase, value))
+                if(this._baseIndex == value)
                     return;
-                this._selectedBase = value;
-                this.SetSignalsCollection(Bases.IndexOf(_selectedBase));
-                this.SelectedSignal = this.Signals[0];
 
-                _inputModel.BaseNum = BaseIndex;
-
+                this._baseIndex = value;
+                this._inputModel.BaseNum = this._baseIndex;
+                SetSignalsCollection(this._baseIndex);
+                SelectedSignalIndex = 0;
                 RaisePropertyChanged();
             }
         }
 
-        private int BaseIndex => this.Bases.IndexOf(this.SelectedBase);
-
-        public string SelectedSignal
+        public int SelectedSignalIndex
         {
-            get => this._selectedSignal;
+            get => this._selectedSignalIndex;
             set
             {
-                if (string.Equals(this._selectedSignal, value))
-                    return;
-
-                this._selectedSignal = value;
-
-                _inputModel.InputSignalNum = this.AllInputSignals[BaseIndex].First(s => s.Value == this.SelectedSignal).Key;
-
-                RaisePropertyChanged();
+                if (value >= 0)
+                {
+                    this._selectedSignalIndex = value;
+                    _inputModel.InputSignalNum = this.AllInputSignals[this.BaseIndex]
+                        .First(s => s.Value == this.Signals[this._selectedSignalIndex]).Key;
+                    RaisePropertyChanged();
+                }
             }
         }
         
@@ -108,16 +105,16 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         protected override void SetModel(ILogicElement model)
         {
-            if (!(model is IInput input))
-                return;
-
-            this.AllInputSignals = input.AllInputSignals;
-            this.Bases = input.Bases;
-            this.SelectedBase = this.Bases[input.BaseNum];
-            this.SetSignalsCollection(input.BaseNum);
-            this.SelectedSignal = this.Signals[input.InputSignalNum];
-
-            base.SetModel(model);
+            if (model is IInput input)
+            {
+                this.AllInputSignals = input.AllInputSignals;
+                this.Bases = input.Bases;
+                this.BaseIndex = input.BaseNum;
+                var selectedDictionary = this.AllInputSignals[this.BaseIndex];
+                var selectedSignal = selectedDictionary.First(sd => sd.Key == input.InputSignalNum).Value;
+                this.SelectedSignalIndex = this.Signals.IndexOf(selectedSignal);
+                base.SetModel(model);
+            }
         }
 
         private void SetSignalsCollection(int index)
@@ -133,7 +130,9 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public override ILogicElementViewModel Clone()
         {
-            return (InputViewModel)Clone<InputViewModel, Input>();
+            var model = new Input();
+            model.CopyValues(this._inputModel);
+            return new InputViewModel(model, _globalCommands);
         }
     }
 }

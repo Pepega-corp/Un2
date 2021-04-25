@@ -172,16 +172,16 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public abstract ILogicElementViewModel Clone();
 
-        protected ILogicElementViewModel Clone<TR, T>() where TR : LogicElementViewModel, new() where T : ILogicElement, new()
-        {
-            var ret = new TR
-            {
-                Model = this.Model,
-                Caption = this.Caption,
-                _globalCommands = this._globalCommands
-            };
-            return ret;
-        }
+        //protected ILogicElementViewModel Clone<TR, T>() where TR : LogicElementViewModel, new() where T : ILogicElement, new()
+        //{
+        //    var ret = new TR
+        //    {
+        //        Model = this.Model,
+        //        Caption = this.Caption,
+        //        _globalCommands = this._globalCommands
+        //    };
+        //    return ret;
+        //}
 
         public virtual void OpenPropertyWindow()
         {
