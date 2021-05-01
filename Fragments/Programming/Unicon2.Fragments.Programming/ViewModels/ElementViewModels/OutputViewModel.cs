@@ -61,7 +61,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public override ILogicElementViewModel Clone()
         {
             var model = new Output();
-            model.CopyValues(this._outputModel);
+            model.CopyValues(GetModel());
             return new OutputViewModel(model, _globalCommands) { Caption = this.Caption };
         }
     }

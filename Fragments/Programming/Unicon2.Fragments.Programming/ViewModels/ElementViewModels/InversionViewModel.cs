@@ -26,7 +26,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public override ILogicElementViewModel Clone()
         {
             var model = new Inversion();
-            model.CopyValues(_logicElementModel);
+            model.CopyValues(GetModel());
             return new InversionViewModel(model, _globalCommands) { Caption = this.Caption };
         }
     }

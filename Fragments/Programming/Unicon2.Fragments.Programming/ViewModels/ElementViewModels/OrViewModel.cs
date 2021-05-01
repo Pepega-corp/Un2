@@ -122,7 +122,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public override ILogicElementViewModel Clone()
         {
             var model = new Or();
-            model.CopyValues(this._model);
+            model.CopyValues(GetModel());
             return new OrViewModel(model, _globalCommands) { Caption = this.Caption };
         }
     }
