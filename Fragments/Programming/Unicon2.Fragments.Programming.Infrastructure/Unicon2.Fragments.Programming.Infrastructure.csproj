@@ -54,6 +54,7 @@
     <Compile Include="Model\EditorElements\IInversionEditor.cs" />
     <Compile Include="Model\EditorElements\IOutputEditor.cs" />
     <Compile Include="Model\EditorElements\IOrEditor.cs" />
+    <Compile Include="Model\EditorElements\IXorEditor.cs" />
     <Compile Include="Model\Elements\IAnd.cs" />
     <Compile Include="Model\Elements\IConnection.cs" />
     <Compile Include="Model\Elements\IConnector.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Model\Elements\IOr.cs" />
     <Compile Include="Model\Elements\IOutput.cs" />
     <Compile Include="Model\EditorElements\ILibraryElement.cs" />
+    <Compile Include="Model\Elements\IXor.cs" />
     <Compile Include="Model\IProgrammModelEditor.cs" />
     <Compile Include="Model\IProgramModel.cs" />
     <Compile Include="Model\ISchemeModel.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\ILogicElementEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOrEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOutputEditorViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IXorEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectionViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\ILogicElementViewModel.cs" />

@@ -18,7 +18,8 @@
                 Input="{StaticResource InputTemplate}"
                 Inversion="{StaticResource InversionTemplate}"
                 Or="{StaticResource OrTemplate}"
-                Output="{StaticResource OutputTemplate}" />
+                Output="{StaticResource OutputTemplate}" 
+                Xor="{StaticResource XorTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 

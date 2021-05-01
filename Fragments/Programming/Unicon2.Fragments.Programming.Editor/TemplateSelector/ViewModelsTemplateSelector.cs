@@ -11,6 +11,7 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
         public DataTemplate Inversion { get; set; }
         public DataTemplate And { get; set; }
         public DataTemplate Or { get; set; }
+        public DataTemplate Xor { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -26,6 +27,8 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
                     return this.And;
                 case OrEditorViewModel _:
                     return this.Or;
+                case XorEditorViewModel _:
+                    return this.Xor;
                 default:
                     return null;
             }
