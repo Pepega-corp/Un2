@@ -215,7 +215,7 @@
                 Grid.Row="4"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                ItemsSource="{Binding Inputs}">
+                ItemsSource="{Binding InputsForSettings}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" />
