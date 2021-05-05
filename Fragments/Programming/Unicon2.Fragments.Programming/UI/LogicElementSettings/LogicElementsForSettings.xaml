@@ -159,7 +159,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModels:AndViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:SimpleLogicElementViewModel}">
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -170,6 +170,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock
                 Grid.Row="0"
@@ -194,91 +195,7 @@
                 Margin="5"
                 VerticalAlignment="Center"
                 Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
-            <Grid Grid.Row="2" Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button
-                    Grid.Column="0"
-                    Margin="0,0,10,0"
-                    Command="{Binding AddInputCommand}"
-                    Content="Добавить вход" />
-                <Button
-                    Grid.Column="1"
-                    Margin="10,0,0,0"
-                    Command="{Binding RemoveInputCommand}"
-                    Content="Удалить вход" />
-            </Grid>
-            <ItemsControl
-                Grid.Row="4"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                ItemsSource="{Binding Inputs}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Text="Тип входа" />
-                            <ComboBox
-                                Grid.Column="1"
-                                Margin="10"
-                                ItemsSource="{Binding Source={other:EnumToItemsSource {x:Type infr:ConnectorType}}}"
-                                SelectedValue="{Binding ConnectorType, Converter={StaticResource EnumConverter}, ConverterParameter={x:Type infr:ConnectorType}}" />
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type viewModels:OrViewModel}">
-        <Grid Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                Text="Тип элемента" />
-            <TextBlock
-                Grid.Row="1"
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                Text="Подпись элемента" />
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="5"
-                VerticalAlignment="Center"
-                Text="{Binding Symbol}" />
-            <TextBox
-                Grid.Row="1"
-                Grid.Column="1"
-                Width="100"
-                Margin="5"
-                VerticalAlignment="Center"
-                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
-            <Grid Grid.Row="2" Margin="10">
+            <Grid Grid.Row="2" Grid.Column="0" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />

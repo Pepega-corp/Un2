@@ -6,7 +6,7 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class OrViewModel : SimpleLogicOperatorElement
+    public class OrViewModel : SimpleLogicElementViewModel
     {
         public override string StrongName => ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 

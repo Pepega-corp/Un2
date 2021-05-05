@@ -6,7 +6,7 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class XorViewModel : SimpleLogicOperatorElement
+    public class XorViewModel : SimpleLogicElementViewModel
     {
         public XorViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands) : base(model, globalCommands)
         {

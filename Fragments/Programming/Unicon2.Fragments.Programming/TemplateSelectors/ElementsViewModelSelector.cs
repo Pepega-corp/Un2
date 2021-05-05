@@ -19,7 +19,7 @@ namespace Unicon2.Fragments.Programming.TemplateSelectors
                 return this.Output;
             if (item is InversionViewModel)
                 return this.Inversion;
-            if (item is SimpleLogicOperatorElement)
+            if (item is SimpleLogicElementViewModel)
                 return this.SimpleLogic;
             return null;
         }

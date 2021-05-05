@@ -10,7 +10,7 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public abstract class SimpleLogicOperatorElement : LogicElementViewModel
+    public abstract class SimpleLogicElementViewModel : LogicElementViewModel
     {
         public ICommand AddInputCommand { get; }
         public ICommand RemoveInputCommand { get; }
@@ -19,7 +19,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public ObservableCollection<IConnectorViewModel> Inputs { get; }
         public ObservableCollection<IConnectorViewModel> Outputs { get; }
 
-        protected SimpleLogicOperatorElement(ILogicElement model, IApplicationGlobalCommands globalCommands)
+        protected SimpleLogicElementViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
         {
             _logicElementModel = model;
             this._globalCommands = globalCommands;

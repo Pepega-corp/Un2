@@ -119,7 +119,7 @@
     <Compile Include="ViewModels\ElementViewModels\LogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OrViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
-    <Compile Include="ViewModels\ElementViewModels\SimpleLogicOperatorElement.cs" />
+    <Compile Include="ViewModels\ElementViewModels\SimpleLogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\XorViewModel.cs" />
     <Compile Include="ViewModels\LogicElementSettingsViewModel.cs" />
     <Compile Include="ViewModels\NewSchemeViewModel.cs" />

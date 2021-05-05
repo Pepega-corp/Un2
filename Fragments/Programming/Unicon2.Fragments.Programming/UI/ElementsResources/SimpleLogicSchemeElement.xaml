@@ -8,7 +8,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Shared.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <DataTemplate DataType="{x:Type evm:SimpleLogicOperatorElement}">
+    <DataTemplate DataType="{x:Type evm:SimpleLogicElementViewModel}">
         <Grid>
             <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
