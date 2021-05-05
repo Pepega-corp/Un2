@@ -105,22 +105,14 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
         public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILogicElement> elements)
         {
-            var elementsViewModels = new List<ILogicElementViewModel>();
-            foreach (var element in elements)
-            {
-                var viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                viewmodel.Model = element;
-                elementsViewModels.Add(viewmodel);
-            }
-
-            return elementsViewModels;
+            return elements.Select(element =>
+                StaticContainer.Container.Resolve<ILogicElementViewModel>(
+                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL,
+                    new ResolverParameter("model", element))).ToList();
         }
 
         public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILibraryElement> libraryElements)
         {
-            var elementsViewModels = new List<ILogicElementViewModel>();
-
             var allElements = this._container.ResolveAll<ILogicElement>().ToArray();
             var elements = new List<ILogicElement>();
 
@@ -131,14 +123,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
                 elements.Add(element);
             }
 
-            foreach (var element in elements)
-            {
-                var viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL, 
-                    new ResolverParameter("model", element));
-                elementsViewModels.Add(viewmodel);
-            }
-
-            return elementsViewModels;
+            return GetAllElementsViewModels(elements);
         }
     }
 }
