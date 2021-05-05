@@ -21,8 +21,7 @@
         Input="{StaticResource InputLibraryElement}"
         Output="{StaticResource OutputLibraryElement}" 
         Inversion="{StaticResource InversionLibraryElement}"
-        Or="{StaticResource SimpleLogicLibrary}"
-        And="{StaticResource SimpleLogicLibrary}"/>
+        SimpleLogic="{StaticResource SimpleLogicLibrary}"/>
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

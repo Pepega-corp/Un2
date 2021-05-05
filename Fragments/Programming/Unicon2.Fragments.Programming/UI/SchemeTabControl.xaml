@@ -14,8 +14,7 @@
         <ResourceDictionary Source="ElementsResources/InputView.xaml" />
         <ResourceDictionary Source="ElementsResources/OutputView.xaml" />
         <ResourceDictionary Source="ElementsResources/Inversion.xaml" />
-        <ResourceDictionary Source="ElementsResources/AndView.xaml" />
-        <ResourceDictionary Source="ElementsResources/OrView.xaml" />
+        <ResourceDictionary Source="ElementsResources/SimpleLogicSchemeElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  TAB CONTROL STYLE  -->
