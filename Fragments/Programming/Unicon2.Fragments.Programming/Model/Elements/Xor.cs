@@ -1,7 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
@@ -10,16 +10,16 @@ using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Or : LogicElement, IOr
+    public class Xor : LogicElement, IOr
     {
-        public override ElementType ElementType => ElementType.Or;
+        public override ElementType ElementType => ElementType.Xor;
         public override string Name => this.ElementType.ToString();
         public override Functional Functional => Functional.BOOLEAN;
         public override Group Group => Group.SIMPLE_LOGIC;
         public override int BinSize => Connectors.Count(c => c.Orientation == ConnectorOrientation.LEFT) + 2;
-        public override string StrongName => ProgrammingKeys.OR;
+        public override string StrongName => ProgrammingKeys.XOR;
 
-        public Or()
+        public Xor()
         {
             Connectors = new List<IConnector>
             {
@@ -31,13 +31,13 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public override void CopyValues(ILogicElement source)
         {
-            if (source is Or)
+            if (source is Xor)
             {
                 base.CopyValues(source);
             }
             else
             {
-                throw new Exception($"Source {source} is not Or type");
+                throw new Exception($"Source {source} is not Xor type");
             }
         }
 
@@ -47,9 +47,8 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             var output = Connectors.First(c => c.Orientation == ConnectorOrientation.RIGHT);
             var inputsCount = inputs.Count();
             var bindata = new ushort[BinSize];
-            bindata[0] = (ushort)(7 + inputsCount * 0x0100);
+            bindata[0] = (ushort)(8 + inputsCount * 0x0100);
             bindata[1] = (ushort)output.ConnectionNumber;
-            
             for (var i = 0; i <= inputsCount; i++)
             {
                 bindata[2 + i] = (ushort)inputs[i].ConnectionNumber;

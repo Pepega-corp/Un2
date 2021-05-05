@@ -13,7 +13,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public InversionViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
         {
-            _globalCommands = globalCommands;
+            base._globalCommands = globalCommands;
             _logicElementModel = (Inversion) model;
 
             this.ElementName = "НЕ";

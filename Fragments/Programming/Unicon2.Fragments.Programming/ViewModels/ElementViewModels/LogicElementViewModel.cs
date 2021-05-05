@@ -13,24 +13,24 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
     public abstract class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
     {
         protected IApplicationGlobalCommands _globalCommands;
-        protected bool _isSelected;
+        protected bool isSelected;
         protected ILogicElement _logicElementModel;
-        protected bool _debugMode;
-        protected string _caption;
-        protected bool _validationError;
-        protected string _description;
+        protected bool debugMode;
+        protected string caption;
+        protected bool validationError;
+        protected string description;
         private Point _deltaPosition;
-        private bool xChanged;
-        private bool yChanged;
+        private bool _xChanged;
+        private bool _yChanged;
 
         public string ElementName { get; protected set; }
         public ElementType ElementType => this._logicElementModel.ElementType;
         public bool IsSelected
         {
-            get => this._isSelected;
+            get => this.isSelected;
             set
             {
-                this._isSelected = value;
+                this.isSelected = value;
                 RaisePropertyChanged();
             }
         }
@@ -43,19 +43,19 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public string Symbol { get; protected set; }
         public string Caption
         {
-            get => this._caption;
+            get => this.caption;
             set
             {
-                this._caption = value;
+                this.caption = value;
                 RaisePropertyChanged();
             }
         }
         public string Description
         {
-            get => this._description;
+            get => this.description;
             protected set
             {
-                this._description = value;
+                this.description = value;
                 RaisePropertyChanged();
             }
         }
@@ -66,15 +66,15 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             set
             {
                 this._deltaPosition.X = value - this._logicElementModel.X;
-                if (this.yChanged)
+                if (this._yChanged)
                 {
-                    this.yChanged = false;
-                    this.xChanged = false;
+                    this._yChanged = false;
+                    this._xChanged = false;
                     this.UpdateConnectorsPosition(this._deltaPosition);
                 }
                 else
                 {
-                    this.xChanged = true;
+                    this._xChanged = true;
                 }
 
                 this._logicElementModel.X = value;
@@ -87,15 +87,15 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             set
             {
                 this._deltaPosition.Y = value - this._logicElementModel.Y;
-                if (this.xChanged)
+                if (this._xChanged)
                 {
-                    this.yChanged = false;
-                    this.xChanged = false;
+                    this._yChanged = false;
+                    this._xChanged = false;
                     this.UpdateConnectorsPosition(this._deltaPosition);
                 }
                 else
                 {
-                    this.yChanged = true;
+                    this._yChanged = true;
                 }
 
                 this._logicElementModel.Y = value;
