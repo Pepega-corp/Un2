@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -10,8 +11,11 @@ using Unicon2.Unity.Commands;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public abstract class SimpleLogicElementViewModel : LogicElementViewModel
+    public abstract class SimpleLogicElementViewModel : LogicElementViewModel, ISettingsApplicable
     {
+        private List<IConnectorViewModel> _addConnectors = new List<IConnectorViewModel>();
+        private List<IConnectorViewModel> _removeConnectors = new List<IConnectorViewModel>();
+        
         public ICommand AddInputCommand { get; }
         public ICommand RemoveInputCommand { get; }
         public int Width => 20;
@@ -29,6 +33,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             Outputs = new ObservableCollection<IConnectorViewModel>();
             this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
             this.ConnectorViewModels.CollectionChanged += OnConnectorsCollectionChanged;
+            SetModel(model);
         }
         
         private void OnConnectorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs eventArgs)
@@ -105,6 +110,16 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ConnectorViewModels.Remove(lastConnector);
             ((RelayCommand)RemoveInputCommand).RaiseCanExecuteChanged();
             ((RelayCommand)AddInputCommand).RaiseCanExecuteChanged();
+        }
+
+        public override void ResetSettingsTo(ILogicElement model)
+        {
+            
+        }
+
+        public void ApplySettings()
+        {
+            
         }
     }
 }

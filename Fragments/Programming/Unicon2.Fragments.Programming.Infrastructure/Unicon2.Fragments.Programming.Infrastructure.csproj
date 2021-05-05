@@ -81,6 +81,7 @@
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectionViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\ILogicElementViewModel.cs" />
+    <Compile Include="ViewModels\Scheme\ElementViewModels\ISettingsApplicable.cs" />
     <Compile Include="ViewModels\Scheme\ILogicElementFactory.cs" />
     <Compile Include="ViewModels\Scheme\IProgrammingEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ISchemeElementViewModel.cs" />

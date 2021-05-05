@@ -75,32 +75,14 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
         {
             var booleanElements = this._container.ResolveAll<ILogicElement>()
                 .Where(e => e.Functional == Functional.BOOLEAN).ToList();
-            var booleanElementViewModels = new List<ILogicElementViewModel>();
-            foreach (var element in booleanElements)
-            {
-                var viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                viewmodel.Model = element;
-                booleanElementViewModels.Add(viewmodel);
-            }
-
-            return booleanElementViewModels;
+            return GetAllElementsViewModels(booleanElements);
         }
 
         public List<ILogicElementViewModel> GetAnalogElementsViewModels()
         {
             var analogElements = this._container.ResolveAll<ILogicElement>()
                 .Where(e => e.Functional == Functional.ANALOG).ToList();
-            var analogElementViewModels = new List<ILogicElementViewModel>();
-            foreach (var element in analogElements)
-            {
-                var viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                viewmodel.Model = element;
-                analogElementViewModels.Add(viewmodel);
-            }
-
-            return analogElementViewModels;
+            return GetAllElementsViewModels(analogElements);
         }
 
         public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILogicElement> elements)

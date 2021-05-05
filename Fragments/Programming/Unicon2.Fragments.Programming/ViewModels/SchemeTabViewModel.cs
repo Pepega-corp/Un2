@@ -34,7 +34,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ISchemeModel Model
         {
             get => this.GetModel();
-            set => this.SetModel(value);
         }
         public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         /// <summary>

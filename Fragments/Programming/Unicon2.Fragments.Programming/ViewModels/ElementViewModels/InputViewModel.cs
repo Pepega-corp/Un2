@@ -105,13 +105,26 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             if (model is IInput input)
             {
-                this.AllInputSignals = input.AllInputSignals;
-                this.Bases = input.Bases;
-                this.BaseIndex = input.BaseNum;
-                var selectedDictionary = this.AllInputSignals[this.BaseIndex];
-                var selectedSignal = selectedDictionary.First(sd => sd.Key == input.InputSignalNum).Value;
-                this.SelectedSignalIndex = this.Signals.IndexOf(selectedSignal);
+                UpdateProperties(input);
                 base.SetModel(model);
+            }
+        }
+
+        private void UpdateProperties(IInput input)
+        {
+            this.AllInputSignals = input.AllInputSignals;
+            this.Bases = input.Bases;
+            this.BaseIndex = input.BaseNum;
+            var selectedDictionary = this.AllInputSignals[this.BaseIndex];
+            var selectedSignal = selectedDictionary.First(sd => sd.Key == input.InputSignalNum).Value;
+            this.SelectedSignalIndex = this.Signals.IndexOf(selectedSignal);
+        }
+
+        public override void ResetSettingsTo(ILogicElement model)
+        {
+            if (model is IInput input)
+            {
+                UpdateProperties(input);
             }
         }
 

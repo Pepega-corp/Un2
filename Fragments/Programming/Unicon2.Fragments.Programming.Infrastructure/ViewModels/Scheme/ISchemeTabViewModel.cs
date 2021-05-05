@@ -6,7 +6,7 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
 {
-    public interface ISchemeTabViewModel : IViewModel<ISchemeModel>
+    public interface ISchemeTabViewModel //: IViewModel<ISchemeModel>
     {
         event Action<ISchemeTabViewModel> CloseTabEvent;
         bool CanWriteToDevice { get; }
@@ -17,7 +17,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme
         string ScaleStr { get; }
         bool IsLogicStarted { get; set; }
         ObservableCollection<ISchemeElementViewModel> ElementCollection { get; }
-
+        ISchemeModel Model { get; }
         ICommand ZoomIncrementCommand { get; }
         ICommand ZoomDecrementCommand { get; }
         ICommand DeleteCommand { get; }

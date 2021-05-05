@@ -16,7 +16,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         protected bool isSelected;
         protected ILogicElement _logicElementModel;
         protected bool debugMode;
-        protected string caption;
+        protected string caption = "";
         protected bool validationError;
         protected string description;
         private Point _deltaPosition;
@@ -35,11 +35,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
         public abstract string StrongName { get; }
-        public ILogicElement Model
-        {
-            get => this.GetModel();
-            set => this.SetModel(value);
-        }
+        public ILogicElement Model => this.GetModel();
         public string Symbol { get; protected set; }
         public string Caption
         {
@@ -124,51 +120,53 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             X = model.X;
             Y = model.Y;
-
-            if (ConnectorViewModels.Count > model.Connectors.Count)
+            ConnectorViewModels.Clear();
+            foreach (var connector in model.Connectors)
             {
-                while (ConnectorViewModels.Count != model.Connectors.Count)
-                {
-                    var connector = ConnectorViewModels.Last();
-                    if (connector.Connected)
-                    {
-                        var connection = connector.Connection;
-                        if (connector == connection.SourceConnector)
-                        {
-                            connection.SourceConnector = null;
-                        }
-                        else
-                        {
-                            connection.SinkConnectors.Remove(connector);
-                        }
-                    }
-                    ConnectorViewModels.Remove(connector);
-                }
+                ConnectorViewModels.Add(new ConnectorViewModel(this, connector));
             }
-            else if (ConnectorViewModels.Count < model.Connectors.Count)
-            {
-                var startConnectorsCount = ConnectorViewModels.Count;
-                for (var i = 0; i < model.Connectors.Count - startConnectorsCount; i++)
-                {
-                    var connectorModel = model.Connectors[i + startConnectorsCount];
-                    ConnectorViewModels.Add(new ConnectorViewModel(this, connectorModel.Orientation, connectorModel.Type));
-                }
-            }
-
-            for(var i = 0; i < model.Connectors.Count; i++)
-            {
-                var connectorModel = model.Connectors[i];
-                var connectorViewModel = ConnectorViewModels[i];
-                //connectorViewModel.ConnectionNumber = connectorModel.ConnectionNumber;
-                connectorViewModel.ConnectorPosition = connectorModel.ConnectorPosition;
-                connectorViewModel.ConnectorType = connectorModel.Type;
-            }
+            
+            // if (ConnectorViewModels.Count > model.Connectors.Count)
+            // {
+            //     while (ConnectorViewModels.Count != model.Connectors.Count)
+            //     {
+            //         var connector = ConnectorViewModels.Last();
+            //         if (connector.Connected)
+            //         {
+            //             var connection = connector.Connection;
+            //             if (connector == connection.SourceConnector)
+            //             {
+            //                 connection.SourceConnector = null;
+            //             }
+            //             else
+            //             {
+            //                 connection.SinkConnectors.Remove(connector);
+            //             }
+            //         }
+            //         ConnectorViewModels.Remove(connector);
+            //     }
+            // }
+            // else if (ConnectorViewModels.Count < model.Connectors.Count)
+            // {
+            //     var startConnectorsCount = ConnectorViewModels.Count;
+            //     for (var i = 0; i < model.Connectors.Count - startConnectorsCount; i++)
+            //     {
+            //         var connectorModel = model.Connectors[i + startConnectorsCount];
+            //         ConnectorViewModels.Add(new ConnectorViewModel(this, connectorModel.Orientation, connectorModel.Type));
+            //     }
+            // }
+            //
+            // for(var i = 0; i < model.Connectors.Count; i++)
+            // {
+            //     var connectorModel = model.Connectors[i];
+            //     var connectorViewModel = ConnectorViewModels[i];
+            //     //connectorViewModel.ConnectionNumber = connectorModel.ConnectionNumber;
+            //     connectorViewModel.ConnectorPosition = connectorModel.ConnectorPosition;
+            //     connectorViewModel.ConnectorType = connectorModel.Type;
+            // }
         }
-
-        public void CopyValues(ILogicElementViewModel source)
-        {
-            SetModel(source.Model);
-        }
+        
+        public virtual void ResetSettingsTo(ILogicElement model){}
 
         public abstract ILogicElementViewModel Clone();
 
