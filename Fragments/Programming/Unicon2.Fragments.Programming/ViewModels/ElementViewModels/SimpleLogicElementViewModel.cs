@@ -164,8 +164,18 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                     ConnectorViewModels.Remove(removeConnector);
                 }
             }
+
+            for (var i = 0; i < Inputs.Count; i++)
+            {
+                Inputs[i].ConnectorType = InputsForSettings[i].ConnectorType;
+            }
             
-            ResetBuffers();
+            for (var i = 0; i < Outputs.Count; i++)
+            {
+                Outputs[i].ConnectorType = OutputsForSettings[i].ConnectorType;
+            }
+            
+            // ResetBuffers();
         }
 
         private void ResetBuffers()
@@ -179,8 +189,18 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public override void OpenPropertyWindow()
         {
-            InputsForSettings.AddCollection(Inputs);
-            OutputsForSettings.AddCollection(Outputs);
+            ResetBuffers();
+            
+            foreach (var input in Inputs)
+            {
+                InputsForSettings.Add(new ConnectorViewModel(this, input.Orientation, input.ConnectorType));
+            }
+
+            foreach (var output in Outputs)
+            {
+                OutputsForSettings.Add(new ConnectorViewModel(this, output.Orientation, output.ConnectorType));
+            }
+            
             base.OpenPropertyWindow();
         }
     }
