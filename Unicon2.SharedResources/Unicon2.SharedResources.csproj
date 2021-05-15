@@ -114,6 +114,7 @@
     <Compile Include="Behaviors\BubbleScrollBehavior.cs" />
     <Compile Include="Behaviors\CollapseableColumnBehavior.cs" />
     <Compile Include="Behaviors\DynamicColumnsDataGridBehavior.cs" />
+    <Compile Include="Behaviors\EventToCommandBehavior.cs" />
     <Compile Include="Behaviors\FocusableInformationBehavior.cs" />
     <Compile Include="Behaviors\DynamicDataTable.cs" />
     <Compile Include="Behaviors\ScrollParentWhenAtMax.cs" />

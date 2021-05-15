@@ -148,7 +148,7 @@ namespace Unicon2.Shell.ViewModels
 
             _recentProjectsMenuItemViewModel = new RecentProjectsMenuItemViewModel(OpenRecentProjectCommand);
 
-            _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(), StaticContainer.Container.Resolve<UndoRedoMenuItemViewModel>()));
+         //   _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(), StaticContainer.Container.Resolve<UndoRedoMenuItemViewModel>()));
 
             _mainMenuService.RegisterMainMenuItem(new MainMenuRegistrationOptions(Guid.NewGuid(),
                 _recentProjectsMenuItemViewModel, 100, ApplicationGlobalNames.UiGroupingStrings.FILE_STRING_KEY

@@ -33,8 +33,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 			IFormattingService formattingService = StaticContainer.Container.Resolve<IFormattingService>();
 			IEditableValueFetchingFromViewModelVisitor fetchingFromViewModelVisitor = StaticContainer.Container.Resolve<IEditableValueFetchingFromViewModelVisitor>();
 
-
-			var resultBitArray=new bool[16];
+			//var resultBitArray=new bool[16];
+            var resultBitArray = _deviceContext.DeviceMemory.LocalMemoryValues[_complexProperty.Address].GetBoolArrayFromUshort();
 
 
 			foreach (var subProperty in _complexProperty.SubProperties)

@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dataTemplateSelectors="clr-namespace:Unicon2.Presentation.DataTemplateSelectors"
     xmlns:fragmentOptions="clr-namespace:Unicon2.Presentation.ViewModels.Fragment.FragmentOptions"
+    xmlns:fragmentOptions1="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;assembly=Unicon2.Presentation.Infrastructure"
     xmlns:local="clr-namespace:Unicon2.Presentation.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:fragmentOptions1="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;assembly=Unicon2.Presentation.Infrastructure"
     d:DesignHeight="300"
     d:DesignWidth="300"
     Background="{DynamicResource MahApps.Brushes.Accent4}"
@@ -24,8 +24,8 @@
                         Height="35"
                         Margin="3"
                         IsChecked="{Binding IsChecked}"
-                        Style="{DynamicResource UniconToggleButtonStyle}"
                         IsEnabled="{Binding IsEnabled}"
+                        Style="{DynamicResource UniconToggleButtonStyle}"
                         ToolTip="{Binding Title}">
                         <Rectangle
                             Width="20"

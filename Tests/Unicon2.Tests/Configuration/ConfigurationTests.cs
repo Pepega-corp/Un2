@@ -257,6 +257,52 @@ namespace Unicon2.Tests.Configuration
 
         }
 
+        [Test]
+        public async Task SubPropertyInComplexPropertiesWithSameAddressTest()
+        {
+
+            var boolTestSubProperty1 =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "subPropInComplexPropWithSameAddr1")
+                    .Item as ISubProperty;
+
+            var boolTestSubProperty2 =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "subPropInComplexPropWithSameAddr2")
+                    .Item as ISubProperty;
+
+
+            var defaultPropertyWithBoolFormatting1 = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "subPropInComplexPropWithSameAddr1")
+                .Item as IRuntimePropertyViewModel;
+
+            var defaultPropertyWithBoolFormatting2 = _configurationFragmentViewModel.RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindItemViewModelByName(model => model.Header == "subPropInComplexPropWithSameAddr2")
+                .Item as IRuntimePropertyViewModel;
+
+            await Read();
+
+            var deviceValue1 = defaultPropertyWithBoolFormatting1.DeviceValue as IBoolValueViewModel;
+            var localValue1 = defaultPropertyWithBoolFormatting1.LocalValue as EditableBoolValueViewModel;
+
+            var deviceValue2 = defaultPropertyWithBoolFormatting2.DeviceValue as IBoolValueViewModel;
+            var localValue2 = defaultPropertyWithBoolFormatting2.LocalValue as EditableBoolValueViewModel;
+
+
+            Assert.False(deviceValue1.BoolValueProperty);
+            Assert.False(localValue1.BoolValueProperty);
+
+            Assert.True(localValue1.IsEditEnabled);
+            localValue1.BoolValueProperty = true;
+            localValue2.BoolValueProperty = true;
+
+            Assert.True(localValue1.IsFormattedValueChanged);
+            Assert.True(localValue2.IsFormattedValueChanged);
+
+        }
+
 
         [Test]
         public async Task BoolSubPropertyTest()

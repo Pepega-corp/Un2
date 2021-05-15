@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unicon2.Fragments.GraphicalMenu.ViewModel;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Services.CommandStack;
 
 namespace Unicon2.Fragments.GraphicalMenu.Commands.Stack
@@ -19,6 +21,7 @@ namespace Unicon2.Fragments.GraphicalMenu.Commands.Stack
             _graphicalElementViewModel = graphicalElementViewModel;
             _graphicalMenuFragmentViewModel = graphicalMenuFragmentViewModel;
             AddDependencies(_graphicalMenuFragmentViewModel);
+            ViewName = StaticContainer.Container.Resolve<ILocalizerService>().GetLocalizedString("Delete");
         }
 
         public override string ViewName { get; }
