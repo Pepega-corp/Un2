@@ -13,5 +13,6 @@
         public const string INVERSION = "Inversion";
         public const string AND = "And";
         public const string OR = "Or";
+        public const string XOR = "Xor";
     }
 }

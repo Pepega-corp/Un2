@@ -75,6 +75,7 @@
     <Compile Include="Models\LibraryElements\InversionEditor.cs" />
     <Compile Include="Models\LibraryElements\OrEditor.cs" />
     <Compile Include="Models\LibraryElements\OutputEditor.cs" />
+    <Compile Include="Models\LibraryElements\XorEditor.cs" />
     <Compile Include="Models\ProgrammModelEditor.cs" />
     <Compile Include="Module\ProgrammingEditorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="ViewModel\ElementEditorViewModels\InversionEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OrEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OutputEditorViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\XorEditorViewModel.cs" />
     <Compile Include="ViewModel\ProgrammingEditorViewModel.cs" />
     <Compile Include="View\ProgrammingEditorView.xaml.cs">
       <DependentUpon>ProgrammingEditorView.xaml</DependentUpon>

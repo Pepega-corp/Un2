@@ -5,8 +5,9 @@ using Unicon2.Infrastructure.ViewModel;
 
 namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels
 {
-    public interface ILogicElementViewModel : ISchemeElementViewModel, IViewModel<ILogicElement>
+    public interface ILogicElementViewModel : ISchemeElementViewModel//, IViewModel<ILogicElement>
     {
+        ILogicElement Model { get; }
         string ElementName { get; }
         ElementType ElementType { get; }
         string Caption { get; set; }
@@ -15,9 +16,10 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
         bool Connected { get; }
         ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; }
         ILogicElementViewModel Clone();
-        void CopyValues(ILogicElementViewModel source);
+        // void CopyValues(ILogicElementViewModel source);
         void OpenPropertyWindow();
         int CompilePriority { get; set; }
-       
+
+        void ResetSettingsTo(ILogicElement model);
     }
 }

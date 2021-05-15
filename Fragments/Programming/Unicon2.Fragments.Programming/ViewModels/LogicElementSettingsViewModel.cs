@@ -37,34 +37,17 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void OnOkCommand(Window window)
         {
+            if (_sourceViewModel is ISettingsApplicable settingsApplicable)
+            {
+                settingsApplicable.ApplySettings();
+            }
             window?.Close();
         }
 
         private void OnCloseCommand(Window window)
         {
-            this._sourceViewModel.Model = _previouseViewModel.Model;
+            this._sourceViewModel.ResetSettingsTo(_previouseViewModel.Model);
             this._sourceViewModel.Caption = _previouseViewModel.Caption;
-
-            //for (int i = 0; i < _previouseViewModel.ConnectorViewModels.Count; i++)
-            //{
-            //    var connectorSource = _previouseViewModel.ConnectorViewModels[i];
-            //    if (connectorSource.Connected)
-            //    {
-            //        var connection = connectorSource.Connection;
-            //        var connectorEdited = _sourceViewModel.ConnectorViewModels[i];
-
-            //        if (connection.SourceConnector == connectorSource)
-            //        {
-            //            connection.SourceConnector = connectorEdited;
-            //        }
-            //        else
-            //        {
-            //            connection.SinkConnectors.Remove(connectorSource);
-            //            connection.SinkConnectors.Add(connectorEdited);
-            //        }
-            //    }
-            //}
-
             window?.Close();
         }
     }

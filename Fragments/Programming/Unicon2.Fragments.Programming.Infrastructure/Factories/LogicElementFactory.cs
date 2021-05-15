@@ -24,12 +24,12 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
         public List<ILogicElementEditorViewModel> GetBooleanElementsEditorViewModels()
         {
-            List<ILibraryElement> booleanElements = this._container.ResolveAll<ILibraryElement>()
+            var booleanElements = this._container.ResolveAll<ILibraryElement>()
                 .Where(e => e.Functional == Functional.BOOLEAN).ToList();
-            List<ILogicElementEditorViewModel> booleanElementViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (ILibraryElement element in booleanElements)
+            var booleanElementViewModels = new List<ILogicElementEditorViewModel>();
+            foreach (var element in booleanElements)
             {
-                ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
+                var viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
                     element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
                 element.InitializeDefault();
                 viewmodel.Model = element;
@@ -41,12 +41,12 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
         public List<ILogicElementEditorViewModel> GetAnalogElementsEditorViewModels()
         {
-            List<ILibraryElement> analogElements = this._container.ResolveAll<ILibraryElement>()
+            var analogElements = this._container.ResolveAll<ILibraryElement>()
                 .Where(e => e.Functional == Functional.ANALOG).ToList();
-            List<ILogicElementEditorViewModel> analogElementViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (ILibraryElement element in analogElements)
+            var analogElementViewModels = new List<ILogicElementEditorViewModel>();
+            foreach (var element in analogElements)
             {
-                ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
+                var viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
                     element.StrongName +ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
                 element.InitializeDefault();
                 viewmodel.Model = element;
@@ -58,10 +58,10 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
         public List<ILogicElementEditorViewModel> GetAllElementsEditorViewModels(List<ILibraryElement> elements)
         {
-            List<ILogicElementEditorViewModel> elementsViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (ILibraryElement element in elements)
+            var elementsViewModels = new List<ILogicElementEditorViewModel>();
+            foreach (var element in elements)
             {
-                ILogicElementEditorViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
+                var viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
                     element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
                 viewmodel.Model = element;
                 elementsViewModels.Add(viewmodel);
@@ -73,54 +73,28 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
         public List<ILogicElementViewModel> GetBooleanElementsViewModels()
         {
-            List<ILogicElement> booleanElements = this._container.ResolveAll<ILogicElement>()
+            var booleanElements = this._container.ResolveAll<ILogicElement>()
                 .Where(e => e.Functional == Functional.BOOLEAN).ToList();
-            List<ILogicElementViewModel> booleanElementViewModels = new List<ILogicElementViewModel>();
-            foreach (ILogicElement element in booleanElements)
-            {
-                ILogicElementViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                viewmodel.Model = element;
-                booleanElementViewModels.Add(viewmodel);
-            }
-
-            return booleanElementViewModels;
+            return GetAllElementsViewModels(booleanElements);
         }
 
         public List<ILogicElementViewModel> GetAnalogElementsViewModels()
         {
-            List<ILogicElement> analogElements = this._container.ResolveAll<ILogicElement>()
+            var analogElements = this._container.ResolveAll<ILogicElement>()
                 .Where(e => e.Functional == Functional.ANALOG).ToList();
-            List<ILogicElementViewModel> analogElementViewModels = new List<ILogicElementViewModel>();
-            foreach (ILogicElement element in analogElements)
-            {
-                ILogicElementViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                viewmodel.Model = element;
-                analogElementViewModels.Add(viewmodel);
-            }
-
-            return analogElementViewModels;
+            return GetAllElementsViewModels(analogElements);
         }
 
         public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILogicElement> elements)
         {
-            List<ILogicElementViewModel> elementsViewModels = new List<ILogicElementViewModel>();
-            foreach (ILogicElement element in elements)
-            {
-                ILogicElementViewModel viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                viewmodel.Model = element;
-                elementsViewModels.Add(viewmodel);
-            }
-
-            return elementsViewModels;
+            return elements.Select(element =>
+                StaticContainer.Container.Resolve<ILogicElementViewModel>(
+                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL,
+                    new ResolverParameter("model", element))).ToList();
         }
 
         public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILibraryElement> libraryElements)
         {
-            List<ILogicElementViewModel> elementsViewModels = new List<ILogicElementViewModel>();
-
             var allElements = this._container.ResolveAll<ILogicElement>().ToArray();
             var elements = new List<ILogicElement>();
 
@@ -131,14 +105,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
                 elements.Add(element);
             }
 
-            foreach (ILogicElement element in elements)
-            {
-                var viewmodel = StaticContainer.Container.Resolve<ILogicElementViewModel>(element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL, 
-                    new ResolverParameter("model", element));
-                elementsViewModels.Add(viewmodel);
-            }
-
-            return elementsViewModels;
+            return GetAllElementsViewModels(elements);
         }
     }
 }

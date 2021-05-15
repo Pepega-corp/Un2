@@ -9,8 +9,7 @@ namespace Unicon2.Fragments.Programming.TemplateSelectors
         public DataTemplate Input { get; set; }
         public DataTemplate Output { get; set; }
         public DataTemplate Inversion { get; set; }
-        public DataTemplate And { get; set; }
-        public DataTemplate Or { get; set; }
+        public DataTemplate SimpleLogic { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -20,10 +19,8 @@ namespace Unicon2.Fragments.Programming.TemplateSelectors
                 return this.Output;
             if (item is InversionViewModel)
                 return this.Inversion;
-            if (item is AndViewModel)
-                return this.And;
-            if (item is OrViewModel)
-                return this.Or;
+            if (item is SimpleLogicElementViewModel)
+                return this.SimpleLogic;
             return null;
         }
     }

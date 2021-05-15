@@ -2,6 +2,6 @@
 {
     public enum ElementType
     {
-        In, Out, Inversion, And, Or
+        In, Out, Inversion, And, Or, Xor
     }
 }

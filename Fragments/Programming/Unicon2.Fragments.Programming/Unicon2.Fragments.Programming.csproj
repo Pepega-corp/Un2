@@ -85,6 +85,7 @@
     <Compile Include="Model\Elements\LogicElement.cs" />
     <Compile Include="Model\Elements\Or.cs" />
     <Compile Include="Model\Elements\Output.cs" />
+    <Compile Include="Model\Elements\Xor.cs" />
     <Compile Include="Model\ProgramModel.cs" />
     <Compile Include="Model\SchemeModel.cs" />
     <Compile Include="Module\ProgrammingModule.cs" />
@@ -118,6 +119,8 @@
     <Compile Include="ViewModels\ElementViewModels\LogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OrViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\SimpleLogicElementViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\XorViewModel.cs" />
     <Compile Include="ViewModels\LogicElementSettingsViewModel.cs" />
     <Compile Include="ViewModels\NewSchemeViewModel.cs" />
     <Compile Include="ViewModels\ProgrammingViewModel.cs" />
@@ -154,10 +157,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\ElementsLibraryResources\AndLibraryElement.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\ElementsLibraryResources\InputLibraryElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -166,14 +165,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\ElementsLibraryResources\OrLibraryElement.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\ElementsLibraryResources\OutputLibraryElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\ElementsLibraryResources\SimpleLogicElement.xaml" />
     <Page Include="UI\ElementsResources\AndView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -202,6 +198,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\ElementsResources\SimpleLogicSchemeElement.xaml" />
     <Page Include="UI\LogicElementSettings\LogicElementsForSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

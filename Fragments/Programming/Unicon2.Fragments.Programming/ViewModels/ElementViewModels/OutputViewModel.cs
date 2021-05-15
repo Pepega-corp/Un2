@@ -51,10 +51,23 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             if (model is IOutput output)
             {
-                this.OutputSignals.Clear();
-                this.OutputSignals.AddCollection(output.OutputSignals);
-                this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
+                UpdateProperties(output);
                 base.SetModel(model);
+            }
+        }
+
+        private void UpdateProperties(IOutput output)
+        {
+            this.OutputSignals.Clear();
+            this.OutputSignals.AddCollection(output.OutputSignals);
+            this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
+        }
+
+        public override void ResetSettingsTo(ILogicElement model)
+        {
+            if (model is IOutput output)
+            {
+                UpdateProperties(output);
             }
         }
 

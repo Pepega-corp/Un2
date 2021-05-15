@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:evm="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels">
 
-    <DataTemplate x:Key="AndLibraryElement" DataType="{x:Type evm:AndViewModel}">
+    <DataTemplate x:Key="SimpleLogicLibrary" DataType="{x:Type evm:SimpleLogicElementViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

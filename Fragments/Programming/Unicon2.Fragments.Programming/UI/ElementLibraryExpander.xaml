@@ -12,18 +12,16 @@
         <ResourceDictionary Source="ElementsLibraryResources/InputLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/OutputLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/InversionLibraryElement.xaml" />
-        <ResourceDictionary Source="ElementsLibraryResources/AndLibraryElement.xaml" />
-        <ResourceDictionary Source="ElementsLibraryResources/OrLibraryElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/SimpleLogicElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
     <selectors:ElementsViewModelSelector
         x:Key="LibrarySelector"
-        And="{StaticResource AndLibraryElement}"
         Input="{StaticResource InputLibraryElement}"
+        Output="{StaticResource OutputLibraryElement}" 
         Inversion="{StaticResource InversionLibraryElement}"
-        Or="{StaticResource OrLibraryElement}"
-        Output="{StaticResource OutputLibraryElement}" />
+        SimpleLogic="{StaticResource SimpleLogicLibrary}"/>
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

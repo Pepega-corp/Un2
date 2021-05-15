@@ -38,7 +38,8 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, AndViewModel>(ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ILogicElement, Or>(ProgrammingKeys.OR);
             container.Register<ILogicElementViewModel, OrViewModel>(ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-
+            container.Register<ILogicElement, Xor>(ProgrammingKeys.XOR);
+            container.Register<ILogicElementViewModel, XorViewModel>(ProgrammingKeys.XOR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
         }
     }

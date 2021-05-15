@@ -8,7 +8,7 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.Element
     {
         event Action<Point> ConnectorPositionChanged;
 
-        IConnector Model { get; set; }
+        IConnector Model { get; }
         ConnectorType ConnectorType { get; set; }
         ConnectorOrientation Orientation { get; }
         string Symbol {get;}
