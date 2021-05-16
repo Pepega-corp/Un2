@@ -174,8 +174,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             {
                 Outputs[i].ConnectorType = OutputsForSettings[i].ConnectorType;
             }
-            
-            // ResetBuffers();
         }
 
         private void ResetBuffers()

@@ -26,15 +26,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public const int CELL_SIZE = 5;
         private ISchemeModel _model;
         private bool _isLogicStarted;
+        private double _scale;
+
         /// <summary>
         /// Событие закрытия вкладки схемы
         /// </summary>
         public event Action<ISchemeTabViewModel> CloseTabEvent;
 
-        public ISchemeModel Model
-        {
-            get => this.GetModel();
-        }
+        public ISchemeModel Model => this.GetModel();
         public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         /// <summary>
         /// Ссылка на поведение
@@ -46,7 +45,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ObservableCollection<ISchemeElementViewModel> ElementCollection { get; }
         public string SchemeName
         {
-            get { return this._model.SchemeName; }
+            get => this._model.SchemeName;
             set
             {
                 if (this._model.SchemeName == value) return;
@@ -58,15 +57,15 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public double SchemeWidth => this._model.SchemeWidth;
         public double Scale
         {
-            get => this._model.Scale;
+            get => this._scale;
             set
             {
-                this._model.Scale = value;
+                this._scale = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(this.ScaleStr));
             }
         }
-        public string ScaleStr => $"{this._model.Scale * 100}%";
+        public string ScaleStr => $"{this._scale * 100}%";
         public double RectHeight => (int)(this.SchemeHeight / this.RectY) * this.RectY - this.RectY;
         public double RectWidth => (int)(this.SchemeWidth / this.RectX) * this.RectX - this.RectX;
         public double RectX => CELL_SIZE;
@@ -100,6 +99,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             this._programmingViewModel = programmingViewModel;
             this._model = model;
+            this.Scale = 1.0d;
         }
 
         private SchemeTabViewModel(ILogicElementFactory factory)

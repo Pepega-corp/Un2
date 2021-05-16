@@ -25,7 +25,6 @@ namespace Unicon2.Fragments.Programming.Behaviors
 
         protected override void OnAttached()
         {
-            base.OnAttached();
             this.DesignerCanvas = AssociatedObject;
             
             this.TabViewModel = this.DesignerCanvas.DataContext as SchemeTabViewModel;
@@ -44,16 +43,18 @@ namespace Unicon2.Fragments.Programming.Behaviors
             var outerGrid = this.GetOuterGrid(this.DesignerCanvas);
             if (outerGrid != null)
             {
-                this._scaleTransform = new ScaleTransform(1, 1);
+                this._scaleTransform = new ScaleTransform();
+                UpdateScaleTransform();
                 outerGrid.LayoutTransform = this._scaleTransform;
             }
             this.DesignerCanvas.MouseDown += this.OnMouseDown;
             this.DesignerCanvas.MouseMove += this.OnMouseMove;
             this.DesignerCanvas.MouseUp += this.OnMouseUp;
-            this.DesignerCanvas.Drop += this.OnDrop;      
+            this.DesignerCanvas.Drop += this.OnDrop;  
+            base.OnAttached();
         }
 
-                protected override void OnDetaching()
+        protected override void OnDetaching()
         {
             base.OnDetaching();
             this.DesignerCanvas.MouseDown -= this.OnMouseDown;
@@ -104,11 +105,14 @@ namespace Unicon2.Fragments.Programming.Behaviors
                 return;
             }
             this.TabViewModel.Scale -= SCALE_STEP;
+            UpdateScaleTransform();
+        }
+
+        private void UpdateScaleTransform()
+        {
             this._scaleTransform.ScaleX = this.TabViewModel.Scale;
             this._scaleTransform.ScaleY = this.TabViewModel.Scale;
         }
-
-
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {

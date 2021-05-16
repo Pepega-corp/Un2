@@ -14,7 +14,6 @@ namespace Unicon2.Fragments.Programming.Model
             this.SchemeName = name;
             this.SchemeHeight = schemeSize.Height;
             this.SchemeWidth = schemeSize.Width;
-            this.Scale = 1;
             this.LogicElements = new List<ILogicElement>();
             this.ConnectionNumbers = new List<int>();
         }
@@ -24,8 +23,6 @@ namespace Unicon2.Fragments.Programming.Model
         public double SchemeHeight { get; set; }
         [JsonProperty]
         public double SchemeWidth { get; set; }
-        [JsonProperty]
-        public double Scale { get; set; }
         [JsonProperty]
         public List<ILogicElement> LogicElements { get ; set; }
         [JsonProperty]
