@@ -41,7 +41,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             var size = new Size(this._schemeTabViewModel.RectWidth, this._schemeTabViewModel.RectHeight);
             drawingContext.DrawRectangle(Brushes.Transparent, this._rectPen, new Rect(point, size));
 
-            for (int i = 0; i < this._schemeTabViewModel.SchemeWidth; i = i + SchemeTabViewModel.CELL_SIZE)
+            for (int i = 0; i < this._schemeTabViewModel.SchemeWidth; i += SchemeTabViewModel.CELL_SIZE)
             {
                 var iSnapped = this.SnapToPixels(i);
                 var heightSnapped = this.SnapToPixels(this._schemeTabViewModel.SchemeHeight);
