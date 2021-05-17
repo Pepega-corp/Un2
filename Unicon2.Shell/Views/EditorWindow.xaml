@@ -1,0 +1,17 @@
+﻿<mah:MetroWindow
+    x:Class="Unicon2.Shell.Views.EditorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:infrastructure="clr-namespace:Unicon2.Infrastructure;assembly=Unicon2.Infrastructure"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:Unicon2.Shell.Views"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:regions="http://prismlibrary.com/"
+    Title="{lex:Loc DeviceEditor}"
+    Width="1200"
+    Height="800"
+    HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
+    mc:Ignorable="d" />

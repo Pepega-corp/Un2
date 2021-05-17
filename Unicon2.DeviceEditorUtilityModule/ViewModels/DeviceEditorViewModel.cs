@@ -167,16 +167,6 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         public ICommand SelectConnectionTestPropertyCommand { get; }
 
 
-        public bool IsOpen
-        {
-            get { return _isOpen; }
-            set
-            {
-                _isOpen = value;
-                RaisePropertyChanged();
-            }
-        }
-
         public IDeviceEditorValidationViewModel DeviceEditorValidationViewModel { get; }
 
 
@@ -190,9 +180,5 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             }
         }
 
-        protected override void OnNavigatedTo(UniconNavigationContext navigationContext)
-        {
-            IsOpen = true;
-        }
     }
 }

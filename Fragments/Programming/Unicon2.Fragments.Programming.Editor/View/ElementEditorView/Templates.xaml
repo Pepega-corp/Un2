@@ -219,7 +219,7 @@
                 StrokeThickness="1" />
         </Grid>
     </DataTemplate>
-    
+
     <DataTemplate x:Key="XorTemplate" DataType="{x:Type editorViewModels:XorEditorViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>

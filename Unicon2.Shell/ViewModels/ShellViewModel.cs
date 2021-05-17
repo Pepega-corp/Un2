@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -26,6 +27,7 @@ using Unicon2.Presentation.ViewModels;
 using Unicon2.Shell.Factories;
 using Unicon2.Shell.ViewModels.Helpers;
 using Unicon2.Shell.ViewModels.MenuItems;
+using Unicon2.Shell.Views;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -273,21 +275,7 @@ namespace Unicon2.Shell.ViewModels
 
         private void OnNavigateToDeviceEditor()
         {
-            IRegion runtimeRegion =
-                _regionManager.Regions[ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME];
-            if (runtimeRegion == null) return;
-            Uri uri = new Uri(ApplicationGlobalNames.ViewNames.DEVICEEDITOR_VIEW_NAME, UriKind.Relative);
-
-            _regionManager.RequestNavigate(ApplicationGlobalNames.ViewNames.DEVICE_EDITING_FLYOUT_REGION_NAME, uri,
-                result =>
-                {
-                    if (result.Result == false)
-                    {
-                        throw new Exception(result.Error.Message);
-                    }
-                });
-
-            IsMenuFlyOutOpen = false;
+            Process.Start("Unicon2.Shell.exe", "Editor");
         }
 
         private void OnExit()

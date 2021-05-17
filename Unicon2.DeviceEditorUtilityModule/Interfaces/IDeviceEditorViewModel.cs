@@ -11,8 +11,6 @@ namespace Unicon2.DeviceEditorUtilityModule.Interfaces
         ICommand SaveInFileCommand { get; }
         ICommand OpenSharedResourcesCommand { get; }
         ICommand DeleteFragmentCommand { get; }
-
-        bool IsOpen { get; set; }
         IDeviceEditorValidationViewModel DeviceEditorValidationViewModel { get; }
     }
 }

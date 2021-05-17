@@ -10,19 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Unicon2.EditorShell
+namespace Unicon2.Shell.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for EditorWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EditorWindow
     {
-        public MainWindow()
+        public EditorWindow(object content)
         {
             InitializeComponent();
+            Content = content;
+
         }
     }
 }

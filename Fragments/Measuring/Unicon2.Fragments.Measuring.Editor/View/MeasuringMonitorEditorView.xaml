@@ -97,6 +97,7 @@
                                     dd:DragDrop.IsDragSource="True"
                                     dd:DragDrop.IsDropTarget="True"
                                     IsHitTestVisible="True"
+                                    SelectedItem="{Binding SelectedMeasuringElementEditorViewModel}"
                                     ItemsSource="{Binding MeasuringElementEditorViewModels}">
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="MouseEnter">

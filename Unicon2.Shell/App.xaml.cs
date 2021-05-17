@@ -5,6 +5,7 @@ using Prism.Regions;
 using Prism.Unity;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -56,6 +57,7 @@ using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
 using Unicon2.Fragments.Programming.Module;
 using Unicon2.Fragments.Programming.Editor.Module;
+using Unicon2.Infrastructure;
 
 //using Unicon2.Web.Presentation.Module;
 
@@ -70,48 +72,43 @@ namespace Unicon2.Shell
         private AutoResetEvent WaitForCreation { get; set; }
         private bool _bootstrapperInitialized;
         public Action<string> BootsrapperMessageAction;
+        private bool _isEditor = false;
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            Process[] processes = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
-            if (processes.Length > 1)
+            if (e.Args.Any(s => s == "Editor"))
             {
-                MessageBox.Show("Приложение \"Unicon\" уже запущено", "Внимание", MessageBoxButton.OK,
-                    MessageBoxImage.Exclamation);
-                Environment.Exit(0);
-                //Current.Shutdown();
+                _isEditor = true;
             }
-            else
-            {
-                _bootstrapperInitialized = false;
-                UniconSplashScreenViewModel uniconSplashScreenViewModel = new UniconSplashScreenViewModel(this);
-                WaitForCreation = new AutoResetEvent(false);
-                //local function
-                void ShowSplash()
-                {
-                    Dispatcher.CurrentDispatcher.BeginInvoke((Action)(() =>
-                   {
-                       _uniconSplashScreen = new UniconSplashScreen();
-                       _uniconSplashScreen.DataContext = uniconSplashScreenViewModel;
-                       _uniconSplashScreen.Show();
-                       WaitForCreation.Set();
-                   }));
+            _bootstrapperInitialized = false;
+            UniconSplashScreenViewModel uniconSplashScreenViewModel = new UniconSplashScreenViewModel(this);
+            WaitForCreation = new AutoResetEvent(false);
 
-                    Dispatcher.Run();
+            //local function
+            void ShowSplash()
+            {
+                Dispatcher.CurrentDispatcher.BeginInvoke((Action) (() =>
+                {
+                    _uniconSplashScreen = new UniconSplashScreen();
+                    _uniconSplashScreen.DataContext = uniconSplashScreenViewModel;
+                    _uniconSplashScreen.Show();
+                    WaitForCreation.Set();
+                }));
+
+                Dispatcher.Run();
+            }
+
+            Thread thread = new Thread(ShowSplash) {Name = "Splash Thread", IsBackground = true};
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            WaitForCreation.WaitOne();
+            _uniconSplashScreen.Closed += (o, ea) =>
+            {
+                if (!_bootstrapperInitialized)
+                {
+                    Environment.Exit(0);
                 }
-
-                Thread thread = new Thread(ShowSplash) { Name = "Splash Thread", IsBackground = true };
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
-                WaitForCreation.WaitOne();
-                _uniconSplashScreen.Closed += (o, ea) =>
-                {
-                    if (!_bootstrapperInitialized)
-                    {
-                        Environment.Exit(0);
-                    }
-                };
-            }
+            };
         }
 
         public void InitializePublic()
@@ -159,6 +156,13 @@ namespace Unicon2.Shell
         {
             try
             {
+                if (_isEditor)
+                {
+                    return new EditorWindow(
+                        StaticContainer.Container.Resolve<object>(ApplicationGlobalNames.ViewNames
+                            .DEVICEEDITOR_VIEW_NAME));
+                }
+
                 return Container.Resolve<Views.Shell>();
 
             }

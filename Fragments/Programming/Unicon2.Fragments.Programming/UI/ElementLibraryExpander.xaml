@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
     xmlns:elementViewModels="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure"
-    xmlns:selectors="clr-namespace:Unicon2.Fragments.Programming.TemplateSelectors" 
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:selectors="clr-namespace:Unicon2.Fragments.Programming.TemplateSelectors">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="VerticalExpander.xaml" />
@@ -19,9 +19,9 @@
     <selectors:ElementsViewModelSelector
         x:Key="LibrarySelector"
         Input="{StaticResource InputLibraryElement}"
-        Output="{StaticResource OutputLibraryElement}" 
         Inversion="{StaticResource InversionLibraryElement}"
-        SimpleLogic="{StaticResource SimpleLogicLibrary}"/>
+        Output="{StaticResource OutputLibraryElement}"
+        SimpleLogic="{StaticResource SimpleLogicLibrary}" />
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

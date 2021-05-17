@@ -59,18 +59,11 @@ namespace Unicon2.Services
         {
             GetWindow(getWindow, dataContext, _owner);
         }
-
-        public void ShowWindowModal(Func<Window> getWindow, object dataContext, bool isTopmost)
-        {
-            Window windowToShow = GetWindow(getWindow, dataContext);
-            windowToShow.Topmost = isTopmost;
-        }
-
+        
         private Window GetWindow(Func<Window> getWindow, object dataContext, object _owner = null)
         {
             Window windowToShow = getWindow.Invoke();
             windowToShow.Owner = _owner==null ? Application.Current.MainWindow : (_owner as Window);
-           // windowToShow.Topmost = true;
             windowToShow.DataContext = dataContext;
             windowToShow.ShowDialog();
             return windowToShow;

@@ -335,6 +335,8 @@
             ///    Имя региона flyout-а редактирования устройств 
             /// </summary>
             public const string DEVICE_EDITING_FLYOUT_REGION_NAME = "DeviceEditingFlyOutRegion";
+            public const string DEVICE_EDITOR_REGION_NAME = "DeviceEditorRegion";
+
         }
 
         public static class DefaultStringsForUi

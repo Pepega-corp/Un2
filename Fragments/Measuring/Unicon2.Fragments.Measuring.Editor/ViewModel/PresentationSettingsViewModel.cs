@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Editor.Helpers;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel;
+using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Editor.Subscriptions;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.PresentationSettings;
 using Unicon2.Fragments.Measuring.Infrastructure.Factories;
@@ -108,7 +109,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 					_measuringGroupEditorViewModel.Header);
 
 				var presentationElementViewModel = new PresentationElementViewModel(
-					InitializeTestValue(measuringElementViewModel));
+					InitializeTestValue(measuringElementViewModel),measuringElementViewModel.Id);
 
 				InitializePositionInto(presentationElementViewModel, measuringElementViewModel);
 
@@ -239,19 +240,27 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
 		public List<string> FilterList { get; }
 
-		public PresentationElementViewModel SelectedElementViewModel
-		{
-			get => _selectedElementViewModel;
-			set
-			{
-				if (_selectedElementViewModel != null) _selectedElementViewModel.IsSelected = false;
-				_selectedElementViewModel = value;
-				if (value != null) value.IsSelected = true;
-				RaisePropertyChanged();
-				DeleteGroupCommand?.RaiseCanExecuteChanged();
-			}
-		}
-		public ICommand PasteSelectedPositionInfo { get; }
+        public PresentationElementViewModel SelectedElementViewModel
+        {
+            get => _selectedElementViewModel;
+            set
+            {
+                if (_selectedElementViewModel != null) _selectedElementViewModel.IsSelected = false;
+                _selectedElementViewModel = value;
+                if (value != null) value.IsSelected = true;
+                RaisePropertyChanged();
+                DeleteGroupCommand?.RaiseCanExecuteChanged();
+                if (value.RelatedIdOfMeasuringElement != null)
+                {
+                    _measuringGroupEditorViewModel.SelectedMeasuringElementEditorViewModel =
+                        _measuringGroupEditorViewModel.MeasuringElementEditorViewModels.FirstOrDefault(model =>
+                            model.Id == value.RelatedIdOfMeasuringElement.Value);
+                }
+
+            }
+        }
+
+        public ICommand PasteSelectedPositionInfo { get; }
 		public ICommand CopySelectedPositionInfo { get; }
 		public ICommand PasteOnlySizeSelectedPositionInfo { get; }
 

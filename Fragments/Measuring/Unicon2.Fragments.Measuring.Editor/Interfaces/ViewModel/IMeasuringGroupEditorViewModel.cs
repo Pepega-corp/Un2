@@ -16,6 +16,7 @@ namespace Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel
         ICommand OpenPresentationSettingsCommand { get; }
 
         ICommand DeleteMeasuringElementCommand { get; }
+        IMeasuringElementEditorViewModel SelectedMeasuringElementEditorViewModel { get; set; }
         PresentationSettingsViewModel PresentationSettingsViewModel { get; set; }
 
     }

@@ -30,6 +30,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
         private static int FUNCTION_CODE = 3;
         private PresentationSettingsViewModel _presentationSettingsViewModel;
+        private IMeasuringElementEditorViewModel _selectedMeasuringElementEditorViewModel;
 
         public MeasuringGroupEditorViewModel(IMeasuringElementEditorViewModelFactory measuringElementEditorViewModelFactory,IApplicationGlobalCommands applicationGlobalCommands, ILogService logService)
         {
@@ -193,6 +194,15 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 
         public ICommand DeleteMeasuringElementCommand { get; }
 
+        public IMeasuringElementEditorViewModel SelectedMeasuringElementEditorViewModel
+        {
+            get => _selectedMeasuringElementEditorViewModel;
+            set
+            {
+                _selectedMeasuringElementEditorViewModel = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public void DragOver(IDropInfo dropInfo)
         {

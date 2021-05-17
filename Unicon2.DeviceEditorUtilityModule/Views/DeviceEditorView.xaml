@@ -1,4 +1,4 @@
-﻿<controls:Flyout
+﻿<UserControl
     x:Class="Unicon2.DeviceEditorUtilityModule.Views.DeviceEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -19,18 +19,12 @@
     dialogs:DialogParticipation.Register="{Binding}"
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
-    Header="{lex:Loc DeviceEditor}"
-    IsModal="False"
-    IsOpen="{Binding IsOpen, Mode=TwoWay}"
-    IsPinned="True"
-    Position="Left"
-    Theme="Light"
     mc:Ignorable="d">
 
-    <controls:Flyout.Resources>
+    <UserControl.Resources>
         <templateSelectors:FragmentsEditorTemplateSelector x:Key="FragmentsEditorTemplateSelector" />
         <converter:BoolToIconConverter x:Key="BoolToIconConverter" />
-    </controls:Flyout.Resources>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -252,4 +246,4 @@
 
         </Border>
     </Grid>
-</controls:Flyout>
+</UserControl>
