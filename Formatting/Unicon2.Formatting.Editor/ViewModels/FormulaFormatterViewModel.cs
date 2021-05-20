@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Unicon2.Formatting.Editor.ViewModels.InnerMembers;
 using Unicon2.Formatting.Editor.ViewModels.Validators;
@@ -10,6 +11,7 @@ using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
@@ -233,6 +235,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
             FormulaFormatterViewModel cloneFormulaFormatterViewModel =
                 new FormulaFormatterViewModel(_localizerService, _container,
                     _argumentViewModelGettingFunc, _sharedResourcesGlobalViewModel, _formattingService);
+            cloneFormulaFormatterViewModel.FormulaString = FormulaString;
+            cloneFormulaFormatterViewModel.FormulaToolTipString = FormulaToolTipString;
+            cloneFormulaFormatterViewModel.NumberOfSimbolsAfterComma = NumberOfSimbolsAfterComma;
+            cloneFormulaFormatterViewModel.ArgumentViewModels.AddCollection(ArgumentViewModels
+                .Select(model => model.Clone()).ToList());
             SaveChanges();
             // cloneFormulaFormatterViewModel.InitFromFormatter(this._formulaFormatter.Clone() as IUshortsFormatter);
             return cloneFormulaFormatterViewModel;

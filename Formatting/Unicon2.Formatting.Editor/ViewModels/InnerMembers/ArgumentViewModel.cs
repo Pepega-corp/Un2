@@ -40,5 +40,14 @@ namespace Unicon2.Formatting.Editor.ViewModels.InnerMembers
                 RaisePropertyChanged();
             }
         }
+
+        public IArgumentViewModel Clone()
+        {
+            return new ArgumentViewModel()
+            {
+                ArgumentName=ArgumentName,
+                ResourceNameString = ResourceNameString
+            };
+        }
     }
 }

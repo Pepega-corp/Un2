@@ -10,7 +10,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         public override object Clone()
         {
-            return new AsciiStringFormatterViewModel();
+            return new StringFormatter1251ViewModel();
         }
         public override T Accept<T>(IFormatterViewModelVisitor<T> visitor)
         {

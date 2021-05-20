@@ -40,6 +40,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             cloneProperty.IsMeasureUnitEnabled = IsMeasureUnitEnabled;
             cloneProperty.Range = Range.Clone() as IRange;
             cloneProperty.IsRangeEnabled = IsRangeEnabled;
+            cloneProperty.NumberOfWriteFunction = NumberOfWriteFunction;
             return cloneProperty;
         }
 

@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
+using Unicon2.Formatting.Editor.ViewModels.InnerMembers;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.ViewModel;
+using Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers;
 using Unicon2.Formatting.Model;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
@@ -120,11 +122,18 @@ namespace Unicon2.Tests.Utils
                 case 6:
                     var formuleFormatter =
                         typesContainer.Resolve<IUshortsFormatterViewModel>(StringKeys.FORMULA_FORMATTER +
-                                                                            ApplicationGlobalNames
-                                                                                .CommonInjectionStrings
-                                                                                .VIEW_MODEL) as
+                                                                           ApplicationGlobalNames
+                                                                               .CommonInjectionStrings
+                                                                               .VIEW_MODEL) as
                             IFormulaFormatterViewModel;
-                    formuleFormatter.FormulaString = "x*2+1";
+                    formuleFormatter.FormulaString = "x*2+" + identity;
+                    formuleFormatter.ArgumentViewModels.Add(
+                        new ArgumentViewModel()
+                        {
+                            ArgumentName = "1",
+                            ResourceNameString = "testRes" + identity
+                        });
+
                     return formuleFormatter;
             }
 
@@ -144,7 +153,7 @@ namespace Unicon2.Tests.Utils
                     break;
                 case 3:
                     Assert.True(formatter is DictionaryMatchingFormatter);
-                    var dictMatchFormatter = (DictionaryMatchingFormatter)formatter;
+                    var dictMatchFormatter = (DictionaryMatchingFormatter) formatter;
                     Assert.True(dictMatchFormatter.UseDefaultMessage);
                     Assert.True(dictMatchFormatter.IsKeysAreNumbersOfBits);
                     Assert.AreEqual(dictMatchFormatter.DefaultMessage, "jopa");
@@ -161,8 +170,9 @@ namespace Unicon2.Tests.Utils
                     break;
                 case 6:
                     Assert.True(formatter is FormulaFormatter);
-                    var formulaFormatter = (FormulaFormatter)formatter;
-                    Assert.AreEqual(formulaFormatter.FormulaString, "x*2+1");
+                    var formulaFormatter = (FormulaFormatter) formatter;
+                    Assert.AreEqual(formulaFormatter.FormulaString, $"x*2+{identity}");
+                    Assert.AreEqual(formulaFormatter.UshortFormattableResources.First(), "testRes" + identity);
 
                     break;
             }

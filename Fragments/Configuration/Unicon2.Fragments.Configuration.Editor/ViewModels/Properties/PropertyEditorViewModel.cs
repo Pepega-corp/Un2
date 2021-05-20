@@ -184,7 +184,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 				Header = Header,
 				Name = Name,
 				MeasureUnit = MeasureUnit,
-				
+				NumberOfWriteFunction = NumberOfWriteFunction
 			};
 
 			return cloneEditorViewModel;

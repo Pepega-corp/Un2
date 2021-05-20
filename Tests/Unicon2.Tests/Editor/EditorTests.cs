@@ -115,6 +115,58 @@ namespace Unicon2.Tests.Editor
         }
 
         [Test]
+        public void EditorAllFormattersPropCopySave()
+        {
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+
+           var original1= AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1, _typesContainer);
+           var original2 = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2, _typesContainer);
+           var original3 = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 3, _typesContainer);
+           var original4 = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 4, _typesContainer);
+           var original5 = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 5, _typesContainer);
+           var original6 = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 6, _typesContainer);
+
+           rootGroup.ChildStructItemViewModels.Add(original1.Clone() as IConfigurationItemViewModel);
+           rootGroup.ChildStructItemViewModels.Add(original2.Clone() as IConfigurationItemViewModel);
+           rootGroup.ChildStructItemViewModels.Add(original3.Clone() as IConfigurationItemViewModel);
+           rootGroup.ChildStructItemViewModels.Add(original4.Clone() as IConfigurationItemViewModel);
+           rootGroup.ChildStructItemViewModels.Add(original5.Clone() as IConfigurationItemViewModel);
+           rootGroup.ChildStructItemViewModels.Add(original6.Clone() as IConfigurationItemViewModel);
+
+
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
+            Assert.AreEqual(result.RootConfigurationItemList.Count, 1);
+
+            var itemList = (result.RootConfigurationItemList[0] as DefaultItemsGroup).ConfigurationItemList;
+            Assert.AreEqual(itemList.Count, 12);
+
+            CheckPropertyResultProperty(itemList, 1);
+            CheckPropertyResultProperty(itemList, 2);
+            CheckPropertyResultProperty(itemList, 3);
+            CheckPropertyResultProperty(itemList, 4);
+            CheckPropertyResultProperty(itemList, 5);
+            CheckPropertyResultProperty(itemList, 6);
+            var copiesList = itemList.Skip(6).Take(6).ToList();
+
+            CheckPropertyResultProperty(copiesList, 1);
+            CheckPropertyResultProperty(copiesList, 2);
+            CheckPropertyResultProperty(copiesList, 3);
+            CheckPropertyResultProperty(copiesList, 4);
+            CheckPropertyResultProperty(copiesList, 5);
+            CheckPropertyResultProperty(copiesList, 6);
+        }
+
+
+        [Test]
         public void EditorAllFormattersPropFromSharedResourcesSave()
         {
             var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
