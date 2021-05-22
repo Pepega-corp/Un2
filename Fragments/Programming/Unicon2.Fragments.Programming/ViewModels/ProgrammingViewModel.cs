@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
-using Unicon2.Fragments.Programming.Infrastructure.HelperClasses;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels;

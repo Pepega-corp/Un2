@@ -49,7 +49,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             ushort[] bindata = new ushort[BinSize];
             bindata[0] = (ushort)(6 + inputsCount * 0x0100);
             bindata[1] = (ushort)output.ConnectionNumber;
-            for (int i = 0; i <= inputsCount; i++)
+            for (int i = 0; i < inputsCount; i++)
             {
                 bindata[2 + i] = (ushort)inputs[i].ConnectionNumber;
                 if (inputs[i].Type == ConnectorType.INVERS) 
