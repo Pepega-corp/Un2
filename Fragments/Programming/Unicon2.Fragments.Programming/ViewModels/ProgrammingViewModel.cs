@@ -164,6 +164,17 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void OnCloseTab(ISchemeTabViewModel schemeTab)
         {
+            if (this.IsLogicStarted)
+            {
+                var messageResult =
+                    MessageBox.Show("Logic emulation is working. Do you want to stop emulation and close scheme tab?",
+                        "Closing Scheme", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (messageResult != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
             schemeTab.CloseTabEvent -= this.OnCloseTab;
             this.SchemesCollection.Remove(schemeTab);
 
@@ -466,7 +477,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             while (IsLogicStarted)
             {
                 var values = await _logicDeviceProvider.ReadConnectionValues(ConnectionCollection.Count, this._programModel.EnableFileDriver);
-                for(var i=0; i < ConnectionCollection.Count; i++)
+                for(var i = 0; i < ConnectionCollection.Count; i++)
                 {
                     ConnectionCollection[i].CurrentValue = values[i];
                 }
@@ -490,8 +501,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
             try
             {
                 var logicProjectBytes = await this._logicDeviceProvider.ReadLogicArchive(this._programModel.EnableFileDriver);
-                this._programModel = this._serializerService.DeserializeFromBytes<IProgramModel>(logicProjectBytes);
-                UpdateCollections(this._programModel);
+                var programModel = this._serializerService.DeserializeFromBytes<IProgramModel>(logicProjectBytes);
+                Initialize(programModel);
+                UpdateCollections(programModel);
+                this.UpdateModelData();
 
             }
             catch (Exception e)
