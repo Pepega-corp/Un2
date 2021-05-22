@@ -16,6 +16,7 @@
     d:DataContext="{d:DesignInstance viewModel:PresentationSettingsViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    SaveWindowPosition="True"
     mc:Ignorable="d">
     <mah:MetroWindow.Resources>
         <converters:PresentationElementNameConverter x:Key="PresentationElementNameConverter" />

@@ -12810,51 +12810,339 @@
               },
               "Name": "Составные свойства",
               "Description": null
+            },
+            {
+              "$id": "1512",
+              "$type": "Unicon2.Fragments.Configuration.Model.DefaultItemsGroup, Unicon2.Fragments.Configuration",
+              "ConfigurationItemList": {
+                "$id": "1513",
+                "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.IConfigurationItem, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "1514",
+                    "$type": "Unicon2.Fragments.Configuration.Model.DefaultItemsGroup, Unicon2.Fragments.Configuration",
+                    "ConfigurationItemList": {
+                      "$id": "1515",
+                      "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.IConfigurationItem, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                      "$values": [
+                        {
+                          "$id": "1516",
+                          "$type": "Unicon2.Fragments.Configuration.Model.Properties.DefaultProperty, Unicon2.Fragments.Configuration",
+                          "UshortsFormatter": {
+                            "$id": "1517",
+                            "$type": "Unicon2.Formatting.Model.BoolFormatter, Unicon2.Formatting",
+                            "Name": null
+                          },
+                          "Address": 620,
+                          "NumberOfPoints": 1,
+                          "NumberOfWriteFunction": 0,
+                          "MeasureUnit": null,
+                          "IsMeasureUnitEnabled": false,
+                          "IsRangeEnabled": false,
+                          "Range": null,
+                          "Dependencies": {
+                            "$id": "1518",
+                            "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
+                            "$values": []
+                          },
+                          "Name": "depSourceInsideRepetitionGroup",
+                          "Description": null
+                        },
+                        {
+                          "$id": "1519",
+                          "$type": "Unicon2.Fragments.Configuration.Model.Properties.DefaultProperty, Unicon2.Fragments.Configuration",
+                          "UshortsFormatter": {
+                            "$id": "1520",
+                            "$type": "Unicon2.Formatting.Model.BoolFormatter, Unicon2.Formatting",
+                            "Name": null
+                          },
+                          "Address": 621,
+                          "NumberOfPoints": 1,
+                          "NumberOfWriteFunction": 0,
+                          "MeasureUnit": null,
+                          "IsMeasureUnitEnabled": false,
+                          "IsRangeEnabled": false,
+                          "Range": null,
+                          "Dependencies": {
+                            "$id": "1521",
+                            "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
+                            "$values": [
+                              {
+                                "$id": "1522",
+                                "$type": "Unicon2.Fragments.Configuration.Model.Dependencies.ConditionResultDependency, Unicon2.Fragments.Configuration",
+                                "Condition": {
+                                  "$id": "1523",
+                                  "$type": "Unicon2.Fragments.Configuration.Model.Dependencies.Conditions.CompareResourceCondition, Unicon2.Fragments.Configuration",
+                                  "ReferencedPropertyResourceName": "depSourceInsideRepetitionGroup",
+                                  "UshortValueToCompare": 0,
+                                  "ConditionsEnum": 0
+                                },
+                                "Result": {
+                                  "$id": "1524",
+                                  "$type": "Unicon2.Fragments.Configuration.Model.Dependencies.Results.BlockInteractionResult, Unicon2.Fragments.Configuration"
+                                }
+                              }
+                            ]
+                          },
+                          "Name": "depConsumerInsideRepetitionGroup",
+                          "Description": null
+                        }
+                      ]
+                    },
+                    "IsTableViewAllowed": false,
+                    "IsMain": false,
+                    "GroupInfo": {
+                      "$id": "1525",
+                      "$type": "Unicon2.Fragments.Configuration.Model.GroupWithReiterationInfo, Unicon2.Fragments.Configuration",
+                      "ReiterationStep": 10,
+                      "SubGroups": {
+                        "$id": "1526",
+                        "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.IReiterationSubGroupInfo, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                        "$values": [
+                          {
+                            "$id": "1527",
+                            "$type": "Unicon2.Fragments.Configuration.Model.ReiterationSubGroupInfo, Unicon2.Fragments.Configuration",
+                            "Name": "new1"
+                          },
+                          {
+                            "$id": "1528",
+                            "$type": "Unicon2.Fragments.Configuration.Model.ReiterationSubGroupInfo, Unicon2.Fragments.Configuration",
+                            "Name": "new2"
+                          }
+                        ]
+                      },
+                      "IsReiterationEnabled": true
+                    },
+                    "GroupFilter": {
+                      "$id": "1529",
+                      "$type": "Unicon2.Fragments.Configuration.Model.Filter.GroupFilterInfo, Unicon2.Fragments.Configuration",
+                      "Filters": {
+                        "$id": "1530",
+                        "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Filters.IFilter, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                        "$values": []
+                      }
+                    },
+                    "Name": "Группа с повторением",
+                    "Description": null
+                  }
+                ]
+              },
+              "IsTableViewAllowed": false,
+              "IsMain": true,
+              "GroupInfo": null,
+              "GroupFilter": {
+                "$id": "1531",
+                "$type": "Unicon2.Fragments.Configuration.Model.Filter.GroupFilterInfo, Unicon2.Fragments.Configuration",
+                "Filters": {
+                  "$id": "1532",
+                  "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Filters.IFilter, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                  "$values": []
+                }
+              },
+              "Name": "Зависимости",
+              "Description": null
+            },
+            {
+              "$id": "1533",
+              "$type": "Unicon2.Fragments.Configuration.Model.DefaultItemsGroup, Unicon2.Fragments.Configuration",
+              "ConfigurationItemList": {
+                "$id": "1534",
+                "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.IConfigurationItem, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                "$values": [
+                  {
+                    "$id": "1535",
+                    "$type": "Unicon2.Fragments.Configuration.Model.Properties.ComplexProperty, Unicon2.Fragments.Configuration",
+                    "SubProperties": {
+                      "$id": "1536",
+                      "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties.ISubProperty, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                      "$values": [
+                        {
+                          "$id": "1537",
+                          "$type": "Unicon2.Fragments.Configuration.Model.Properties.SubProperty, Unicon2.Fragments.Configuration",
+                          "BitNumbersInWord": {
+                            "$id": "1538",
+                            "$type": "System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib",
+                            "$values": [
+                              0
+                            ]
+                          },
+                          "UshortsFormatter": {
+                            "$id": "1539",
+                            "$type": "Unicon2.Formatting.Model.BoolFormatter, Unicon2.Formatting",
+                            "Name": null
+                          },
+                          "Address": 700,
+                          "NumberOfPoints": 1,
+                          "NumberOfWriteFunction": 0,
+                          "MeasureUnit": null,
+                          "IsMeasureUnitEnabled": false,
+                          "IsRangeEnabled": false,
+                          "Range": null,
+                          "Dependencies": {
+                            "$id": "1540",
+                            "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
+                            "$values": []
+                          },
+                          "Name": "subSameAddrPropInRepetitionGroup1",
+                          "Description": null
+                        }
+                      ]
+                    },
+                    "IsGroupedProperty": false,
+                    "UshortsFormatter": null,
+                    "Address": 700,
+                    "NumberOfPoints": 1,
+                    "NumberOfWriteFunction": 0,
+                    "MeasureUnit": null,
+                    "IsMeasureUnitEnabled": false,
+                    "IsRangeEnabled": false,
+                    "Range": null,
+                    "Dependencies": {
+                      "$id": "1541",
+                      "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
+                      "$values": []
+                    },
+                    "Name": "complexSameAddrPropInRepetitionGroup1",
+                    "Description": null
+                  },
+                  {
+                    "$id": "1542",
+                    "$type": "Unicon2.Fragments.Configuration.Model.Properties.ComplexProperty, Unicon2.Fragments.Configuration",
+                    "SubProperties": {
+                      "$id": "1543",
+                      "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties.ISubProperty, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                      "$values": [
+                        {
+                          "$id": "1544",
+                          "$type": "Unicon2.Fragments.Configuration.Model.Properties.SubProperty, Unicon2.Fragments.Configuration",
+                          "BitNumbersInWord": {
+                            "$id": "1545",
+                            "$type": "System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib",
+                            "$values": [
+                              15
+                            ]
+                          },
+                          "UshortsFormatter": {
+                            "$id": "1546",
+                            "$type": "Unicon2.Formatting.Model.BoolFormatter, Unicon2.Formatting",
+                            "Name": null
+                          },
+                          "Address": 700,
+                          "NumberOfPoints": 1,
+                          "NumberOfWriteFunction": 0,
+                          "MeasureUnit": null,
+                          "IsMeasureUnitEnabled": false,
+                          "IsRangeEnabled": false,
+                          "Range": null,
+                          "Dependencies": {
+                            "$id": "1547",
+                            "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
+                            "$values": []
+                          },
+                          "Name": "subSameAddrPropInRepetitionGroup2",
+                          "Description": null
+                        }
+                      ]
+                    },
+                    "IsGroupedProperty": false,
+                    "UshortsFormatter": null,
+                    "Address": 700,
+                    "NumberOfPoints": 1,
+                    "NumberOfWriteFunction": 0,
+                    "MeasureUnit": null,
+                    "IsMeasureUnitEnabled": false,
+                    "IsRangeEnabled": false,
+                    "Range": null,
+                    "Dependencies": {
+                      "$id": "1548",
+                      "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
+                      "$values": []
+                    },
+                    "Name": "complexSameAddrPropInRepetitionGroup2",
+                    "Description": null
+                  }
+                ]
+              },
+              "IsTableViewAllowed": false,
+              "IsMain": true,
+              "GroupInfo": {
+                "$id": "1549",
+                "$type": "Unicon2.Fragments.Configuration.Model.GroupWithReiterationInfo, Unicon2.Fragments.Configuration",
+                "ReiterationStep": 2,
+                "SubGroups": {
+                  "$id": "1550",
+                  "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.IReiterationSubGroupInfo, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                  "$values": [
+                    {
+                      "$id": "1551",
+                      "$type": "Unicon2.Fragments.Configuration.Model.ReiterationSubGroupInfo, Unicon2.Fragments.Configuration",
+                      "Name": "new1"
+                    },
+                    {
+                      "$id": "1552",
+                      "$type": "Unicon2.Fragments.Configuration.Model.ReiterationSubGroupInfo, Unicon2.Fragments.Configuration",
+                      "Name": "new2"
+                    }
+                  ]
+                },
+                "IsReiterationEnabled": true
+              },
+              "GroupFilter": {
+                "$id": "1553",
+                "$type": "Unicon2.Fragments.Configuration.Model.Filter.GroupFilterInfo, Unicon2.Fragments.Configuration",
+                "Filters": {
+                  "$id": "1554",
+                  "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Filters.IFilter, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
+                  "$values": []
+                }
+              },
+              "Name": "Группы с повторениями",
+              "Description": null
             }
           ]
         },
         "BaseValues": {
-          "$id": "1512",
+          "$id": "1555",
           "$type": "Unicon2.Fragments.Configuration.Model.ConfigurationBaseValues, Unicon2.Fragments.Configuration",
           "BaseValues": {
-            "$id": "1513",
+            "$id": "1556",
             "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.IConfigurationBaseValue, Unicon2.Fragments.Configuration.Infrastructure]], mscorlib",
             "$values": []
           }
         },
         "FragmentSettings": {
-          "$id": "1514",
+          "$id": "1557",
           "$type": "Unicon2.Model.FragmentSettings.DefaultFragmentSettings, Unicon2.Model",
           "FragmentSettings": {
-            "$id": "1515",
+            "$id": "1558",
             "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings.IFragmentSetting, Unicon2.Infrastructure]], mscorlib",
             "$values": []
           }
         }
       },
       {
-        "$id": "1516",
+        "$id": "1559",
         "$type": "Unicon2.Fragments.Measuring.Model.MeasuringMonitor, Unicon2.Fragments.Measuring",
         "FragmentSettings": null,
         "MeasuringGroups": {
-          "$id": "1517",
+          "$id": "1560",
           "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Measuring.Infrastructure.Model.IMeasuringGroup, Unicon2.Fragments.Measuring.Infrastructure]], mscorlib",
           "$values": [
             {
-              "$id": "1518",
+              "$id": "1561",
               "$type": "Unicon2.Fragments.Measuring.Model.MeasuringGroup, Unicon2.Fragments.Measuring",
               "Name": "New",
               "MeasuringElements": {
-                "$id": "1519",
+                "$id": "1562",
                 "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Measuring.Infrastructure.Model.Elements.IMeasuringElement, Unicon2.Fragments.Measuring.Infrastructure]], mscorlib",
                 "$values": [
                   {
-                    "$id": "1520",
+                    "$id": "1563",
                     "$type": "Unicon2.Fragments.Measuring.Model.Elements.AnalogMeasuringElement, Unicon2.Fragments.Measuring",
                     "Address": 4444,
                     "NumberOfPoints": 1,
                     "UshortsFormatter": {
-                      "$id": "1521",
+                      "$id": "1564",
                       "$type": "Unicon2.Formatting.Model.DirectUshortFormatter, Unicon2.Formatting",
                       "Name": null
                     },
@@ -12863,18 +13151,18 @@
                     "Name": "analogSignal",
                     "Id": "18ce64e6-0420-49c9-9dc6-8dcad6254b6e",
                     "Dependencies": {
-                      "$id": "1522",
+                      "$id": "1565",
                       "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
                       "$values": []
                     }
                   },
                   {
-                    "$id": "1523",
+                    "$id": "1566",
                     "$type": "Unicon2.Fragments.Measuring.Model.Elements.AnalogMeasuringElement, Unicon2.Fragments.Measuring",
                     "Address": 4445,
                     "NumberOfPoints": 0,
                     "UshortsFormatter": {
-                      "$id": "1524",
+                      "$id": "1567",
                       "$type": "Unicon2.Formatting.Model.DirectUshortFormatter, Unicon2.Formatting",
                       "Name": null
                     },
@@ -12883,7 +13171,7 @@
                     "Name": "analogSignal2",
                     "Id": "9192f852-879e-414c-a27f-65337cf6a9db",
                     "Dependencies": {
-                      "$id": "1525",
+                      "$id": "1568",
                       "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
                       "$values": []
                     }
@@ -12891,23 +13179,23 @@
                 ]
               },
               "PresentationSettings": {
-                "$id": "1526",
+                "$id": "1569",
                 "$type": "Unicon2.Fragments.Measuring.Model.PresentationSettings.MeasuringPresentationSettings, Unicon2.Fragments.Measuring",
                 "GroupsOfElements": {
-                  "$id": "1527",
+                  "$id": "1570",
                   "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings.IMeasuringPresentationGroup, Unicon2.Fragments.Measuring.Infrastructure]], mscorlib",
                   "$values": []
                 },
                 "Elements": {
-                  "$id": "1528",
+                  "$id": "1571",
                   "$type": "System.Collections.Generic.List`1[[Unicon2.Fragments.Measuring.Infrastructure.Model.PresentationSettings.IMeasuringElementPresentationInfo, Unicon2.Fragments.Measuring.Infrastructure]], mscorlib",
                   "$values": [
                     {
-                      "$id": "1529",
+                      "$id": "1572",
                       "$type": "Unicon2.Fragments.Measuring.Model.PresentationSettings.MeasuringElementPresentationInfo, Unicon2.Fragments.Measuring",
                       "RelatedMeasuringElementId": "18ce64e6-0420-49c9-9dc6-8dcad6254b6e",
                       "PositioningInfo": {
-                        "$id": "1530",
+                        "$id": "1573",
                         "$type": "Unicon2.Fragments.Measuring.Model.PresentationSettings.PositioningInfo, Unicon2.Fragments.Measuring",
                         "OffsetLeft": 55,
                         "OffsetTop": 95,
@@ -12916,11 +13204,11 @@
                       }
                     },
                     {
-                      "$id": "1531",
+                      "$id": "1574",
                       "$type": "Unicon2.Fragments.Measuring.Model.PresentationSettings.MeasuringElementPresentationInfo, Unicon2.Fragments.Measuring",
                       "RelatedMeasuringElementId": "9192f852-879e-414c-a27f-65337cf6a9db",
                       "PositioningInfo": {
-                        "$id": "1532",
+                        "$id": "1575",
                         "$type": "Unicon2.Fragments.Measuring.Model.PresentationSettings.PositioningInfo, Unicon2.Fragments.Measuring",
                         "OffsetLeft": 55,
                         "OffsetTop": 135,
@@ -12939,17 +13227,17 @@
     ]
   },
   "DeviceSharedResources": {
-    "$id": "1533",
+    "$id": "1576",
     "$type": "Unicon2.Model.DefaultDevice.DeviceSharedResources, Unicon2.Model",
     "SharedResources": {
-      "$id": "1534",
+      "$id": "1577",
       "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Interfaces.INameable, Unicon2.Infrastructure]], mscorlib",
       "$values": [
         {
-          "$id": "1535",
+          "$id": "1578",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1536",
+            "$id": "1579",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Нет",
             "1": "Есть"
@@ -12960,11 +13248,11 @@
           "Name": "Нет/Есть"
         },
         {
-          "$id": "1537",
+          "$id": "1580",
           "$type": "Unicon2.Formatting.Model.FormulaFormatter, Unicon2.Formatting",
           "FormulaString": "x/256",
           "UshortFormattableResources": {
-            "$id": "1538",
+            "$id": "1581",
             "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
             "$values": []
           },
@@ -12972,10 +13260,10 @@
           "Name": "Уставка по току"
         },
         {
-          "$id": "1539",
+          "$id": "1582",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1540",
+            "$id": "1583",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Выведена",
             "1": "Контроль ИО",
@@ -12989,10 +13277,10 @@
           "Name": "Выведена-...-Авария"
         },
         {
-          "$id": "1541",
+          "$id": "1584",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1542",
+            "$id": "1585",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Нет",
             "1": "Д1   Инв",
@@ -13034,10 +13322,10 @@
           "Name": "Табл.3 Сигналы блокировок защит и автоматики"
         },
         {
-          "$id": "1543",
+          "$id": "1586",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1544",
+            "$id": "1587",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Контроль",
             "1": "Разрешено"
@@ -13048,10 +13336,10 @@
           "Name": "Котроль/Разрешено"
         },
         {
-          "$id": "1545",
+          "$id": "1588",
           "$type": "Unicon2.Formatting.Model.DictionaryMatchingFormatter, Unicon2.Formatting",
           "StringDictionary": {
-            "$id": "1546",
+            "$id": "1589",
             "$type": "System.Collections.Generic.Dictionary`2[[System.UInt16, mscorlib],[System.String, mscorlib]], mscorlib",
             "0": "Нет",
             "1": "Д1   Инв",
@@ -13125,11 +13413,11 @@
           "Name": "Табл.2 Сигналы внешних защит"
         },
         {
-          "$id": "1547",
+          "$id": "1590",
           "$type": "Unicon2.Formatting.Model.FormulaFormatter, Unicon2.Formatting",
           "FormulaString": "if(x<32768,x*10,if(x<65536,(x-32768)*100,0))",
           "UshortFormattableResources": {
-            "$id": "1548",
+            "$id": "1591",
             "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
             "$values": []
           },
@@ -13139,172 +13427,11 @@
       ]
     },
     "SharedResourcesInContainers": {
-      "$id": "1549",
+      "$id": "1592",
       "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.DeviceInterfaces.SharedResources.IResourceContainer, Unicon2.Infrastructure]], mscorlib",
       "$values": [
         {
-          "$id": "1550",
-          "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
-          "ResourceName": "defaultPropertyFromSubPropertyDependencySource",
-          "Resource": {
-            "$id": "1551",
-            "$type": "Unicon2.Fragments.Configuration.Model.Properties.SubProperty, Unicon2.Fragments.Configuration",
-            "BitNumbersInWord": {
-              "$id": "1552",
-              "$type": "System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib",
-              "$values": [
-                0
-              ]
-            },
-            "UshortsFormatter": {
-              "$id": "1553",
-              "$type": "Unicon2.Formatting.Model.BoolFormatter, Unicon2.Formatting",
-              "Name": null
-            },
-            "Address": 20,
-            "NumberOfPoints": 1,
-            "NumberOfWriteFunction": 0,
-            "MeasureUnit": null,
-            "IsMeasureUnitEnabled": false,
-            "IsRangeEnabled": false,
-            "Range": null,
-            "Dependencies": {
-              "$id": "1554",
-              "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
-              "$values": []
-            },
-            "Name": "defaultPropertyFromSubPropertyDependencySource",
-            "Description": null
-          }
-        },
-        {
-          "$id": "1555",
-          "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
-          "ResourceName": "boolTestDefaultPropertyOutputDependency",
-          "Resource": {
-            "$id": "1556",
-            "$type": "Unicon2.Fragments.Configuration.Model.Properties.DefaultProperty, Unicon2.Fragments.Configuration",
-            "UshortsFormatter": {
-              "$id": "1557",
-              "$type": "Unicon2.Formatting.Model.DirectUshortFormatter, Unicon2.Formatting",
-              "Name": null
-            },
-            "Address": 222,
-            "NumberOfPoints": 1,
-            "NumberOfWriteFunction": 0,
-            "MeasureUnit": null,
-            "IsMeasureUnitEnabled": false,
-            "IsRangeEnabled": false,
-            "Range": null,
-            "Dependencies": {
-              "$id": "1558",
-              "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
-              "$values": []
-            },
-            "Name": "boolTestDefaultPropertyOutputDependency",
-            "Description": null
-          }
-        },
-        {
-          "$id": "1559",
-          "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
-          "ResourceName": "boolTestSubPropertyDependencySource",
-          "Resource": {
-            "$id": "1560",
-            "$type": "Unicon2.Fragments.Configuration.Model.Properties.SubProperty, Unicon2.Fragments.Configuration",
-            "BitNumbersInWord": {
-              "$id": "1561",
-              "$type": "System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib",
-              "$values": [
-                9
-              ]
-            },
-            "UshortsFormatter": {
-              "$id": "1562",
-              "$type": "Unicon2.Formatting.Model.BoolFormatter, Unicon2.Formatting",
-              "Name": null
-            },
-            "Address": 4392,
-            "NumberOfPoints": 1,
-            "NumberOfWriteFunction": 0,
-            "MeasureUnit": null,
-            "IsMeasureUnitEnabled": false,
-            "IsRangeEnabled": false,
-            "Range": null,
-            "Dependencies": {
-              "$id": "1563",
-              "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
-              "$values": []
-            },
-            "Name": "boolTestSubPropertyDependencySource",
-            "Description": null
-          }
-        },
-        {
-          "$id": "1564",
-          "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
-          "ResourceName": "subToSubPropertySameComplexPropSource",
-          "Resource": {
-            "$id": "1565",
-            "$type": "Unicon2.Fragments.Configuration.Model.Properties.SubProperty, Unicon2.Fragments.Configuration",
-            "BitNumbersInWord": {
-              "$id": "1566",
-              "$type": "System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib",
-              "$values": [
-                8
-              ]
-            },
-            "UshortsFormatter": {
-              "$id": "1567",
-              "$type": "Unicon2.Formatting.Model.BoolFormatter, Unicon2.Formatting",
-              "Name": null
-            },
-            "Address": 4393,
-            "NumberOfPoints": 1,
-            "NumberOfWriteFunction": 0,
-            "MeasureUnit": null,
-            "IsMeasureUnitEnabled": false,
-            "IsRangeEnabled": false,
-            "Range": null,
-            "Dependencies": {
-              "$id": "1568",
-              "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
-              "$values": []
-            },
-            "Name": "subToSubPropertySameComplexPropSource",
-            "Description": null
-          }
-        },
-        {
-          "$id": "1569",
-          "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
-          "ResourceName": "Версия",
-          "Resource": {
-            "$id": "1570",
-            "$type": "Unicon2.Fragments.Configuration.Model.Properties.DefaultProperty, Unicon2.Fragments.Configuration",
-            "UshortsFormatter": {
-              "$id": "1571",
-              "$type": "Unicon2.Formatting.Model.DirectUshortFormatter, Unicon2.Formatting",
-              "Name": null
-            },
-            "Address": 55,
-            "NumberOfPoints": 1,
-            "NumberOfWriteFunction": 0,
-            "MeasureUnit": null,
-            "IsMeasureUnitEnabled": false,
-            "IsRangeEnabled": false,
-            "Range": null,
-            "Dependencies": {
-              "$id": "1572",
-              "$type": "System.Collections.Generic.List`1[[Unicon2.Infrastructure.Dependencies.IDependency, Unicon2.Infrastructure]], mscorlib",
-              "$values": []
-            },
-            "Name": "Версия",
-            "Description": null
-          }
-        },
-        {
-          "$id": "1573",
+          "$id": "1593",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "defaultPropertyFromSubPropertyDependencySource",
           "Resource": {
@@ -13312,7 +13439,7 @@
           }
         },
         {
-          "$id": "1574",
+          "$id": "1594",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "boolTestDefaultPropertyOutputDependency",
           "Resource": {
@@ -13320,7 +13447,7 @@
           }
         },
         {
-          "$id": "1575",
+          "$id": "1595",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "boolTestSubPropertyDependencySource",
           "Resource": {
@@ -13328,7 +13455,7 @@
           }
         },
         {
-          "$id": "1576",
+          "$id": "1596",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "subToSubPropertySameComplexPropSource",
           "Resource": {
@@ -13336,11 +13463,19 @@
           }
         },
         {
-          "$id": "1577",
+          "$id": "1597",
           "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
           "ResourceName": "Версия",
           "Resource": {
             "$ref": "1491"
+          }
+        },
+        {
+          "$id": "1598",
+          "$type": "Unicon2.Model.DefaultDevice.ResourceContainer, Unicon2.Model",
+          "ResourceName": "depSourceInsideRepetitionGroup",
+          "Resource": {
+            "$ref": "1516"
           }
         }
       ]
@@ -13348,7 +13483,7 @@
   },
   "DeviceSignature": null,
   "DeviceMetaInfo": {
-    "$id": "1578",
+    "$id": "1599",
     "$type": "Unicon2.Infrastructure.DeviceInterfaces.DeviceMetaInfo, Unicon2.Infrastructure",
     "Id": null,
     "LastEditedDateTime": null

@@ -64,7 +64,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
             {
                 formatterForProperty = DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
                     _subProperty.Dependencies, _deviceContext, formattingService,
-                    _subProperty?.UshortsFormatter);
+                    _subProperty?.UshortsFormatter, _offset);
             }
 
             var subPropertyValue =

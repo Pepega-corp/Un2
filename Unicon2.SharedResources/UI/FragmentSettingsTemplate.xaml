@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:behaviors="clr-namespace:Unicon2.SharedResources.Behaviors"
     xmlns:fragmentSettings="clr-namespace:Unicon2.Presentation.Infrastructure.FragmentSettings;assembly=Unicon2.Presentation.Infrastructure"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:values="clr-namespace:Unicon2.Presentation.Infrastructure.ViewModels.Values;assembly=Unicon2.Presentation.Infrastructure">
@@ -39,8 +41,12 @@
                     <ListBox
                         Grid.Row="1"
                         Grid.Column="0"
+                        MaxHeight="200"
                         ItemsSource="{Binding RangeViewModels}"
                         SelectedItem="{Binding SelectedRangeViewModel}">
+                        <b:Interaction.Behaviors>
+                            <behaviors:ScrollParentWhenAtMax />
+                        </b:Interaction.Behaviors>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="values:IRangeViewModel">
                                 <Border

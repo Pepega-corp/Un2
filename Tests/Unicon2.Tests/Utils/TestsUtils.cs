@@ -15,6 +15,27 @@ namespace Unicon2.Tests.Utils
 {
     public static class TestsUtils
     {
+        public static List<IConfigurationItemViewModel> FindAllItemViewModelsByName(
+            this List<IConfigurationItemViewModel> configurationItems,
+            Func<IConfigurationItemViewModel, bool> predicate,
+            List<IConfigurationItemViewModel> result =null)
+        {
+            if (result == null)
+            {
+                result=new List<IConfigurationItemViewModel>();
+            }
+            foreach (var configurationItem in configurationItems)
+            {
+                if (predicate(configurationItem))
+                {
+                    result.Add(configurationItem);
+                }
+                FindAllItemViewModelsByName(configurationItem.ChildStructItemViewModels.ToList(), predicate, result);
+            }
+
+            return result;
+        }
+
         public static Result<IConfigurationItemViewModel> FindItemViewModelByName(this List<IConfigurationItemViewModel> configurationItems, Func<IConfigurationItemViewModel, bool> predicate)
         {
             foreach (var configurationItem in configurationItems)
@@ -63,6 +84,7 @@ namespace Unicon2.Tests.Utils
 
             return Result<IConfigurationItem>.Create(false);
         }
+
         public static async Task<bool> WaitUntil(Func<bool> predicate, int millisecondsToWait=10000, int interval=50)
         {
             int iterations = millisecondsToWait / interval;

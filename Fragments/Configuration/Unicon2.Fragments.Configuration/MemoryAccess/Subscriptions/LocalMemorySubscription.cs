@@ -68,7 +68,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 						if (conditionResultDependency.Condition is ICompareResourceCondition compareResourceCondition)
 						{
 							var checkResult = DependentSubscriptionHelpers.CheckConditionFromResource(compareResourceCondition,
-								_deviceContext, _formattingService, true);
+								_deviceContext, _formattingService, true,(ushort)_offset);
 
 							if (checkResult.IsSuccess)
 							{

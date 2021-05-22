@@ -606,7 +606,120 @@ namespace Unicon2.Tests.Configuration
 
         }
 
-        
+
+        [Test]
+        public async Task DependencyInRepetitionGroups()
+        {
+
+            var depSourceInsideRepetitionGroup =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "depSourceInsideRepetitionGroup")
+                    .Item as IProperty;
+
+            var depConsumerInsideRepetitionGroup =
+                _configuration.RootConfigurationItemList
+                    .FindItemByName(item => item.Name == "depConsumerInsideRepetitionGroup")
+                    .Item as IProperty;
+
+            var depSourceInsideRepetitionGroupViewModels = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindAllItemViewModelsByName(model => model.Header == "depSourceInsideRepetitionGroup")
+                .Cast<IRuntimePropertyViewModel> ()
+                .ToList();
+
+            var depConsumerInsideRepetitionGroupViewModels = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindAllItemViewModelsByName(model => model.Header == "depConsumerInsideRepetitionGroup")
+                .Cast<IRuntimePropertyViewModel>()
+                .ToList();
+            await Read();
+
+
+            Func<EditableBoolValueViewModel> depSourceInsideRepetitionGroupLocalValue1 = () =>
+                depSourceInsideRepetitionGroupViewModels[0].LocalValue as EditableBoolValueViewModel;
+            Func<EditableBoolValueViewModel> depSourceInsideRepetitionGroupLocalValue2 = () =>
+                depSourceInsideRepetitionGroupViewModels[1].LocalValue as EditableBoolValueViewModel;
+
+            Func<EditableBoolValueViewModel> depConsumerInsideRepetitionGroupLocalValue1 = () =>
+                depConsumerInsideRepetitionGroupViewModels[0].LocalValue as EditableBoolValueViewModel;
+            Func<EditableBoolValueViewModel> depConsumerInsideRepetitionGroupLocalValue2 = () =>
+                depConsumerInsideRepetitionGroupViewModels[1].LocalValue as EditableBoolValueViewModel;
+
+
+            Assert.False(depSourceInsideRepetitionGroupLocalValue1().BoolValueProperty);
+            Assert.False(depSourceInsideRepetitionGroupLocalValue2().BoolValueProperty);
+            Assert.False(depConsumerInsideRepetitionGroupLocalValue1().BoolValueProperty);
+            Assert.False(depConsumerInsideRepetitionGroupLocalValue2().BoolValueProperty);
+
+            Assert.False(depConsumerInsideRepetitionGroupLocalValue1().IsEditEnabled);
+            Assert.False(depConsumerInsideRepetitionGroupLocalValue2().IsEditEnabled);
+
+
+            depSourceInsideRepetitionGroupLocalValue1().BoolValueProperty=true;
+
+            Assert.True(depConsumerInsideRepetitionGroupLocalValue1().IsEditEnabled);
+            Assert.False(depConsumerInsideRepetitionGroupLocalValue2().IsEditEnabled);
+
+
+        }
+
+
+        [Test]
+        public async Task ComplexSameAddressInRepetitionGroups()
+        {
+    
+
+            var subSameAddrPropInRepetitionGroup1ViewModels = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindAllItemViewModelsByName(model => model.Header == "subSameAddrPropInRepetitionGroup1")
+                .Cast<IRuntimePropertyViewModel>()
+                .ToList();
+
+            var subSameAddrPropInRepetitionGroup2ViewModels = _configurationFragmentViewModel
+                .RootConfigurationItemViewModels
+                .Cast<IConfigurationItemViewModel>().ToList()
+                .FindAllItemViewModelsByName(model => model.Header == "subSameAddrPropInRepetitionGroup2")
+                .Cast<IRuntimePropertyViewModel>()
+                .ToList();
+            await Read();
+
+
+            Func<EditableBoolValueViewModel> subSameAddrPropInRepetitionGroup1LocalValue1 = () =>
+                subSameAddrPropInRepetitionGroup1ViewModels[0].LocalValue as EditableBoolValueViewModel;
+            Func<EditableBoolValueViewModel> subSameAddrPropInRepetitionGroup1LocalValue2 = () =>
+                subSameAddrPropInRepetitionGroup1ViewModels[1].LocalValue as EditableBoolValueViewModel;
+
+            Func<EditableBoolValueViewModel> subSameAddrPropInRepetitionGroup2LocalValue1 = () =>
+                subSameAddrPropInRepetitionGroup2ViewModels[0].LocalValue as EditableBoolValueViewModel;
+            Func<EditableBoolValueViewModel> subSameAddrPropInRepetitionGroup2LocalValue2 = () =>
+                subSameAddrPropInRepetitionGroup2ViewModels[1].LocalValue as EditableBoolValueViewModel;
+
+
+            Assert.False(subSameAddrPropInRepetitionGroup1LocalValue1().BoolValueProperty);
+            Assert.False(subSameAddrPropInRepetitionGroup1LocalValue2().BoolValueProperty);
+            Assert.False(subSameAddrPropInRepetitionGroup2LocalValue1().BoolValueProperty);
+            Assert.False(subSameAddrPropInRepetitionGroup2LocalValue2().BoolValueProperty);
+
+
+
+            subSameAddrPropInRepetitionGroup1LocalValue1().BoolValueProperty = true;
+
+            Assert.False(subSameAddrPropInRepetitionGroup2LocalValue1().BoolValueProperty);
+
+            subSameAddrPropInRepetitionGroup2LocalValue2().BoolValueProperty = true;
+
+            Assert.False(subSameAddrPropInRepetitionGroup1LocalValue2().BoolValueProperty);
+
+            var res = subSameAddrPropInRepetitionGroup1LocalValue1().BoolValueProperty;
+            var res1 = subSameAddrPropInRepetitionGroup1LocalValue2().BoolValueProperty;
+            var res2 = subSameAddrPropInRepetitionGroup2LocalValue1().BoolValueProperty;
+            var res3 = subSameAddrPropInRepetitionGroup2LocalValue2().BoolValueProperty;
+
+        }
+
         [Test]
         public async Task DependencyDefaultPropertyToSubproperty()
         {

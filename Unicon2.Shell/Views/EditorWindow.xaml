@@ -12,6 +12,7 @@
     Title="{lex:Loc DeviceEditor}"
     Width="1200"
     Height="800"
+    MinWidth="700"
     HorizontalContentAlignment="Stretch"
     VerticalContentAlignment="Stretch"
     mc:Ignorable="d" />

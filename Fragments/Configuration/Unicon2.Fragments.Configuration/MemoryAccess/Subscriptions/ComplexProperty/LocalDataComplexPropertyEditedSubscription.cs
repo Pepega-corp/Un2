@@ -34,7 +34,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 			IEditableValueFetchingFromViewModelVisitor fetchingFromViewModelVisitor = StaticContainer.Container.Resolve<IEditableValueFetchingFromViewModelVisitor>();
 
 			//var resultBitArray=new bool[16];
-            var resultBitArray = _deviceContext.DeviceMemory.LocalMemoryValues[_complexProperty.Address].GetBoolArrayFromUshort();
+            var resultBitArray = _deviceContext.DeviceMemory.LocalMemoryValues[(ushort)(_complexProperty.Address+_offset)].GetBoolArrayFromUshort();
 
 
 			foreach (var subProperty in _complexProperty.SubProperties)

@@ -39,7 +39,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             {
                 formatterForProperty = DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
                     _property.Dependencies, _deviceContext, formattingService,
-                    _property?.UshortsFormatter);
+                    _property?.UshortsFormatter,_offset);
             }
 
             if (MemoryAccessor.IsMemoryContainsAddresses(

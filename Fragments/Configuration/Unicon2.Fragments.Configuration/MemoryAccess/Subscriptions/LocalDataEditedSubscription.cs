@@ -38,7 +38,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             if (_property?.Dependencies?.Count > 0)
             {
                 formatterForDependentProperty =
-                    DependentSubscriptionHelpers.GetFormatterConsideringDependencies(_property.Dependencies,_deviceContext, formattingService,_property.UshortsFormatter);
+                    DependentSubscriptionHelpers.GetFormatterConsideringDependencies(_property.Dependencies,_deviceContext, formattingService,_property.UshortsFormatter,(ushort)_offset);
             }
 
 
