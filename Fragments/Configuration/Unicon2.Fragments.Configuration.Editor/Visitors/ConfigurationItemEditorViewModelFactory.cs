@@ -64,6 +64,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 rangeViewModel.RangeTo = property.Range.RangeTo.ToString();
                 editorPropertyViewModel.RangeViewModel = rangeViewModel;
             }
+
             editorPropertyViewModel.Address = property.Address.ToString();
             editorPropertyViewModel.NumberOfPoints = property.NumberOfPoints.ToString();
             var formatterParametersViewModel = StaticContainer.Container.Resolve<IFormatterViewModelFactory>()
@@ -74,20 +75,28 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
 
 
             ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
-	            StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+                StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
             if (sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesWithContainersContainsModel(property))
             {
-	            sharedResourcesGlobalViewModel.AddExistingResourceWithContainer(editorPropertyViewModel, property);
-			}
+                sharedResourcesGlobalViewModel.AddExistingResourceWithContainer(editorPropertyViewModel, property);
+            }
 
             if (property.Dependencies != null && property.Dependencies.Count > 0)
             {
-	            editorPropertyViewModel.DependencyViewModels.Clear();
-	            editorPropertyViewModel.DependencyViewModels.AddCollection(property.Dependencies
-		            .Select(_container.Resolve<DependencyFillHelper>().CreateDependencyViewModel).ToList());
+                editorPropertyViewModel.DependencyViewModels.Clear();
+                editorPropertyViewModel.DependencyViewModels.AddCollection(property.Dependencies
+                    .Select(_container.Resolve<DependencyFillHelper>().CreateDependencyViewModel).ToList());
             }
 
-			InitializeBaseProperties(editorPropertyViewModel, property);
+            editorPropertyViewModel.IsFromBits = property.IsFromBits;
+            if (editorPropertyViewModel.BitNumbersInWord != null)
+            {
+                property.BitNumbers.ForEach(bitNum =>
+                    editorPropertyViewModel.BitNumbersInWord.First(model => model.BitNumber == bitNum).IsChecked =
+                        true);
+            }
+
+            InitializeBaseProperties(editorPropertyViewModel, property);
         }
 
         public IEditorConfigurationItemViewModel VisitItemsGroup(IItemsGroup itemsGroup)

@@ -1,8 +1,12 @@
+using System.Collections.Generic;
+using System.Linq;
 using Unicon2.Fragments.Configuration.Infrastructure.MemoryViewModelMapping;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentProperty;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.DeviceInterfaces;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Formatting;
@@ -32,25 +36,63 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
         public void Execute()
         {
-            IFormattingService formattingService = StaticContainer.Container.Resolve<IFormattingService>();
-
-            var formatterForProperty = _property?.UshortsFormatter;
-            if (_property?.Dependencies?.Count > 0)
+            if (_property.IsFromBits)
             {
-                formatterForProperty = DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
-                    _property.Dependencies, _deviceContext, formattingService,
-                    _property?.UshortsFormatter,_offset);
-            }
+                IFormattingService formattingService = StaticContainer.Container.Resolve<IFormattingService>();
 
-            if (MemoryAccessor.IsMemoryContainsAddresses(
-                _deviceContext.DeviceMemory,
-                (ushort) (_property.Address + _offset), _property.NumberOfPoints, false))
-            {
-                var value = formattingService.FormatValue(formatterForProperty, MemoryAccessor.GetUshortsFromMemory(
+                var formatterForProperty = _property?.UshortsFormatter;
+                if (!MemoryAccessor.IsMemoryContainsAddresses(_deviceContext.DeviceMemory,
+                    (ushort)(_property.Address + _offset), _property.NumberOfPoints, false))
+                {
+                    return;
+                }
+                var ushortsFromDevice = MemoryAccessor.GetUshortsFromMemory(
                     _deviceContext.DeviceMemory,
-                    (ushort) (_property.Address + _offset), _property.NumberOfPoints, false));
+                    (ushort)(_property.Address + _offset), _property.NumberOfPoints, false);
+
+                var boolArray = ushortsFromDevice.GetBoolArrayFromUshortArray().ToArray();
+                List<bool> subPropertyBools = new List<bool>();
+                foreach (var bitNumber in _property.BitNumbers)
+                {
+                    subPropertyBools.Add(boolArray[bitNumber]);
+                }
+
+                subPropertyBools.Reverse();
+                var subPropertyUshort = subPropertyBools.BoolArrayToUshort();
+                if (_property?.Dependencies?.Count > 0)
+                {
+                    formatterForProperty = DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
+                        _property.Dependencies, _deviceContext, formattingService,
+                        _property?.UshortsFormatter, _offset);
+                }
+
+                var value = formattingService.FormatValue(formatterForProperty, subPropertyUshort.AsCollection());
                 _localAndDeviceValueContainingViewModel.DeviceValue =
                     _valueViewModelFactory.CreateFormattedValueViewModel(value);
+            }
+            else
+            {
+
+                IFormattingService formattingService = StaticContainer.Container.Resolve<IFormattingService>();
+
+                var formatterForProperty = _property?.UshortsFormatter;
+                if (_property?.Dependencies?.Count > 0)
+                {
+                    formatterForProperty = DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
+                        _property.Dependencies, _deviceContext, formattingService,
+                        _property?.UshortsFormatter, _offset);
+                }
+
+                if (MemoryAccessor.IsMemoryContainsAddresses(
+                    _deviceContext.DeviceMemory,
+                    (ushort) (_property.Address + _offset), _property.NumberOfPoints, false))
+                {
+                    var value = formattingService.FormatValue(formatterForProperty, MemoryAccessor.GetUshortsFromMemory(
+                        _deviceContext.DeviceMemory,
+                        (ushort) (_property.Address + _offset), _property.NumberOfPoints, false));
+                    _localAndDeviceValueContainingViewModel.DeviceValue =
+                        _valueViewModelFactory.CreateFormattedValueViewModel(value);
+                }
             }
         }
     }

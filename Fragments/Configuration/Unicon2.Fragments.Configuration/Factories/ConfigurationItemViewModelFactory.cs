@@ -189,7 +189,7 @@ namespace Unicon2.Fragments.Configuration.Factories
                 .CreateEditableValueViewModel(new FormattedValueInfo(localValue, property, property.UshortsFormatter,
                     property));
             var setUnchangedSuscription = new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
-				(ushort)(property.Address + AddressOffset), property.NumberOfPoints);
+				(ushort)(property.Address + AddressOffset), property.NumberOfPoints,property);
 
             var editSubscription =
                 new LocalDataEditedSubscription(editableValue, _deviceContext, property,AddressOffset);
@@ -219,12 +219,12 @@ namespace Unicon2.Fragments.Configuration.Factories
 	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
 		            _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
 			            new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
-				            (ushort)(property.Address + AddressOffset), property.NumberOfPoints)));
+				            (ushort)(property.Address + AddressOffset), property.NumberOfPoints,property)));
 
 	            AddSubscriptionForConditions(property, (ushort address, ushort numOfPoints) =>
 		            _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
 			            new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
-				            (ushort)(property.Address + AddressOffset), property.NumberOfPoints)));
+				            (ushort)(property.Address + AddressOffset), property.NumberOfPoints,property)));
             }
             else
             {
@@ -286,7 +286,7 @@ namespace Unicon2.Fragments.Configuration.Factories
                         subProperty));
 
 
-                var setUnchangedSuscription = new SubPropertySetUnchangedSubscription(subProperty.BitNumbersInWord,
+                var setUnchangedSuscription = new BitsPropertySetUnchangedSubscription(subProperty.BitNumbersInWord,
                     subPropertyViewModel,
                     _deviceContext.DeviceMemory,
                     (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints);
@@ -333,12 +333,12 @@ namespace Unicon2.Fragments.Configuration.Factories
 	                AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
 		                _deviceContext.DeviceEventsDispatcher.AddLocalAddressSubscription(address, numOfPoints,
 			                new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
-				                (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints)));
+				                (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints,complexProperty)));
 
 	                AddSubscriptionForConditions(subProperty, (ushort address, ushort numOfPoints) =>
 		                _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(address, numOfPoints,
 			                new EditableValueSetUnchangedSubscription(res, _deviceContext.DeviceMemory,
-				                (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints)));
+				                (ushort) (subProperty.Address + AddressOffset), subProperty.NumberOfPoints,complexProperty)));
 
 	                AddSubscriptionForConditions(subProperty, (address, numOfPoints) =>
 		                _deviceContext.DeviceEventsDispatcher.AddDeviceAddressSubscription(

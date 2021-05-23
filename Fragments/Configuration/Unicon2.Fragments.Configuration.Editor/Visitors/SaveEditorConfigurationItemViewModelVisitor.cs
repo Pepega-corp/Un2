@@ -35,34 +35,42 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             {
                 IRange range = _container.Resolve<IRange>();
                 if (editorViewModel.RangeViewModel.RangeTo != null)
-	                range.RangeTo = double.Parse(editorViewModel.RangeViewModel.RangeTo);
+                    range.RangeTo = double.Parse(editorViewModel.RangeViewModel.RangeTo);
                 if (editorViewModel.RangeViewModel.RangeFrom != null)
-	                range.RangeFrom = double.Parse(editorViewModel.RangeViewModel.RangeFrom);
+                    range.RangeFrom = double.Parse(editorViewModel.RangeViewModel.RangeFrom);
                 property.Range = range;
                 property.IsRangeEnabled = editorViewModel.IsRangeEnabled;
             }
 
             if (editorViewModel.FormatterParametersViewModel != null)
             {
-                property.UshortsFormatter=StaticContainer.Container.Resolve<ISaveFormatterService>()
+                property.UshortsFormatter = StaticContainer.Container.Resolve<ISaveFormatterService>()
                     .CreateUshortsParametersFormatter(editorViewModel.FormatterParametersViewModel);
             }
 
-            var sharedResourcesGlobalViewModel= _container.Resolve<ISharedResourcesGlobalViewModel>();
+            var sharedResourcesGlobalViewModel = _container.Resolve<ISharedResourcesGlobalViewModel>();
             if (sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(editorViewModel))
             {
-	            sharedResourcesGlobalViewModel.AddResourceFromViewModel(editorViewModel, property);
+                sharedResourcesGlobalViewModel.AddResourceFromViewModel(editorViewModel, property);
             }
-            
+
             property.NumberOfWriteFunction = editorViewModel.NumberOfWriteFunction;
 
             if (editorViewModel.DependencyViewModels != null)
             {
-	            List<IDependency> dependencies=new List<IDependency>();
-	            dependencies = editorViewModel.DependencyViewModels
-		            .Select(_container.Resolve<DependencyFillHelper>().CreateDependencyModel).ToList();
-	            property.Dependencies = dependencies;
+                List<IDependency> dependencies = new List<IDependency>();
+                dependencies = editorViewModel.DependencyViewModels
+                    .Select(_container.Resolve<DependencyFillHelper>().CreateDependencyModel).ToList();
+                property.Dependencies = dependencies;
             }
+
+
+            property.IsFromBits = editorViewModel.IsFromBits;
+            property.BitNumbers = editorViewModel.BitNumbersInWord.Where(model => model.IsChecked)
+                .Select(model => (ushort) model.BitNumber).ToList();
+
+
+
             return InitDefaults(property, editorViewModel);
         }
 

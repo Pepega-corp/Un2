@@ -4,7 +4,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Formatting.Infrastructure.ViewModel
 {
-    public interface IFormatterSelectionViewModel
+    public interface IFormatterSelectionViewModel: IBitsConfigViewModel
     {
         ObservableCollection<IUshortsFormatterViewModel> UshortsFormatterViewModels { get; set; }
         IUshortsFormatterViewModel SelectedUshortsFormatterViewModel { get; set; }
@@ -17,5 +17,9 @@ namespace Unicon2.Formatting.Infrastructure.ViewModel
         ICommand SelectFromResourcesCommand { get; }
         string CurrentResourceString { get; set; }
         bool IsFormatterFromResource { get; set; }
+        bool IsBitsEditingEnabled { get; set; }
+
     }
+
+ 
 }

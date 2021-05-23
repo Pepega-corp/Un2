@@ -1599,4 +1599,7 @@
   <data name="DisplayHeight" xml:space="preserve">
     <value>Display Height</value>
   </data>
+  <data name="SelectBits" xml:space="preserve">
+    <value>Select Bits</value>
+  </data>
 </root>

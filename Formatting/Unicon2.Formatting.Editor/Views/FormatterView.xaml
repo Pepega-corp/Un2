@@ -9,6 +9,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:convertors="clr-namespace:Unicon2.Formatting.Editor.Convertors"
+    xmlns:viewModel="clr-namespace:Unicon2.Formatting.Infrastructure.ViewModel;assembly=Unicon2.Formatting.Infrastructure"
     Name="FormattingWindow"
     Title="{Binding FormatterOwnersName}"
     MinWidth="300"
@@ -31,16 +32,18 @@
     ShowSystemMenuOnRightClick="False"
     SizeToContent="WidthAndHeight"
     TitleAlignment="Center"
+    d:DataContext="{d:DesignInstance viewModel:IFormatterSelectionViewModel}"
     mc:Ignorable="d">
     <controls:MetroWindow.Resources>
         <converter:InvertConverter x:Key="InvertConverter" />
         <convertors:ResourceStringConverter x:Key="ResourceStringConverter" />
-
+        <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False"></converter:BoolToVisConverter>
 
 
     </controls:MetroWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -48,6 +51,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel Width="auto" Orientation="Horizontal">
+            <CheckBox 
+                Visibility="{Binding IsBitsEditingEnabled,Converter={StaticResource BoolToVisConverter}}"
+                Margin="3" IsChecked="{Binding IsFromBits}" Content="{lex:Loc SelectBits}"></CheckBox>
             <ComboBox
                 Width="auto"
                 MinWidth="150"
@@ -94,7 +100,31 @@
 
         </StackPanel>
 
-        <ContentControl Grid.Row="1" Content="{Binding SelectedUshortsFormatterViewModel}" />
+        <Grid Grid.Row="1">
+            <ItemsControl
+                Visibility="{Binding IsFromBits ,Converter={StaticResource BoolToVisConverter}}"
+                Name="BitsListBox"
+                Background="Transparent"
+                ItemsSource="{Binding BitNumbersInWord}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding BitNumber}" />
+                            <CheckBox
+                                Background="White"
+                                IsEnabled="True"
+                                IsChecked="{Binding IsChecked}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <ContentControl Grid.Row="2" Content="{Binding SelectedUshortsFormatterViewModel}" />
         <!--<StackPanel
             Grid.Row="2"
             Margin="5"
@@ -111,7 +141,7 @@
                 Text="{Binding SelectedUshortsFormatterViewModel.MeasureUnit}" />
         </StackPanel>-->
         <UniformGrid
-            Grid.Row="3"
+            Grid.Row="4"
             Width="auto"
             Columns="2">
             <Button

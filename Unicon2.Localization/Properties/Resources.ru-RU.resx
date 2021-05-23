@@ -1596,4 +1596,7 @@
   <data name="DisplayHeight" xml:space="preserve">
     <value>Высота дисплея</value>
   </data>
+  <data name="SelectBits" xml:space="preserve">
+    <value>Указать биты</value>
+  </data>
 </root>

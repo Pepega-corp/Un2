@@ -19,11 +19,9 @@ namespace Unicon2.Formatting.Editor.Factories
 {
     public class FormatterViewModelFactory : IFormatterViewModelFactory, IFormatterVisitor<IUshortsFormatterViewModel>
     {
-        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
 
-        public FormatterViewModelFactory(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
+        public FormatterViewModelFactory()
         {
-            _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
         }
 
 

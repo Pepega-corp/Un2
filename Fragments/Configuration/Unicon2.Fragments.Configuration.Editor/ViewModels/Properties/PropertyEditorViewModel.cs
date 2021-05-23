@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Validators;
@@ -9,9 +10,31 @@ using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
+using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 {
+    public class BitViewModel : ViewModelBase, IBitViewModel
+    {
+        private bool _isChecked;
+
+        public BitViewModel(int bitNumber)
+        {
+            BitNumber = bitNumber;
+        }
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                _isChecked = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int BitNumber { get; }
+    }
+
 	public class PropertyEditorViewModel : EditorConfigurationItemViewModelBase, IPropertyEditorViewModel
 	{
 		protected readonly ITypesContainer _container;
@@ -34,7 +57,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 			RangeViewModel = rangeViewModel;
 			DependencyViewModels=new ObservableCollection<IDependencyViewModel>();
             NumberOfPoints = "1";
-        }
+            BitNumbersInWord=new ObservableCollection<IBitViewModel>();
+
+			for (int i = 15; i >= 0; i--)
+            {
+                IBitViewModel bitViewModel = new BitViewModel(i);
+                BitNumbersInWord.Add(bitViewModel);
+            }
+		}
+
+
 
 		public virtual string Address
 		{
@@ -211,5 +243,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 	    }
 
 	    public ObservableCollection<IDependencyViewModel> DependencyViewModels { get; }
-	}
+        public bool IsFromBits { get; set; }
+        public ObservableCollection<IBitViewModel> BitNumbersInWord { get; set; }
+    }
 }

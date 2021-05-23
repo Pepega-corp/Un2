@@ -3652,6 +3652,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @SelectBits.
+        /// </summary>
+        public static string SelectBits {
+            get {
+                return ResourceManager.GetString("SelectBits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @SelectedConnectionNullMessage.
         /// </summary>
         public static string SelectedConnectionNullMessage {

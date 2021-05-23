@@ -13,6 +13,8 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
     public class DefaultProperty : ConfigurationItemBase, IProperty
     {
         [JsonProperty] public IUshortsFormatter UshortsFormatter { get; set; }
+        [JsonProperty] public bool IsFromBits { get; set; }
+        [JsonProperty] public List<ushort> BitNumbers { get; set; } = new List<ushort>();
 
         [JsonProperty] public ushort Address { get; set; } = 1;
         [JsonProperty] public ushort NumberOfPoints { get; set; } = 1;

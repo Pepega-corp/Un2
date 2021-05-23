@@ -182,6 +182,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Formatting\Unicon2.Formatting.Editor\Unicon2.Formatting.Editor.csproj">
+      <Project>{0F26E688-7767-4264-B287-43DA0C5D8C58}</Project>
+      <Name>Unicon2.Formatting.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fragments\Configuration\Unicon2.Fragments.Configuration.Editor\Unicon2.Fragments.Configuration.Editor.csproj">
       <Project>{D1A9A1AC-BFAA-4DA5-AB7D-DB7D082EDFA4}</Project>
       <Name>Unicon2.Fragments.Configuration.Editor</Name>

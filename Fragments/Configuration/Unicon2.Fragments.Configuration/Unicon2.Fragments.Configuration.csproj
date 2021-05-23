@@ -105,7 +105,7 @@
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\DeviceDataSubPropertySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalComplexPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalDataComplexPropertyEditedSubscription.cs" />
-    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\SubPropertySetUnchangedSubscription.cs" />
+    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\BitsPropertySetUnchangedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DependentProperty\DependentSubscriptionHelpers.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\EditableValueSetUnchangedSubscription.cs" />

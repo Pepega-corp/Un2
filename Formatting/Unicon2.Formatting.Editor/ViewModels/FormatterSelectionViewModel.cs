@@ -4,8 +4,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Unicon2.Formatting.Infrastructure.ViewModel;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
@@ -15,6 +18,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Formatting.Editor.ViewModels
 {
+
     public class FormatterSelectionViewModel : ViewModelBase, IFormatterSelectionViewModel
     {
         private readonly ITypesContainer _container;
@@ -27,6 +31,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private string _currentResourceString;
         private bool _isFormatterFromResource;
+        private bool _isFromBits;
 
         public FormatterSelectionViewModel(ITypesContainer container,
             List<IUshortFormattableEditorViewModel> ushortFormattableViewModels)
@@ -39,10 +44,26 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             _ushortsFormatterViewModels = new ObservableCollection<IUshortsFormatterViewModel>();
             UshortsFormatterViewModels.AddCollection(_container.ResolveAll<IUshortsFormatterViewModel>());
+            BitNumbersInWord = new ObservableCollection<IBitViewModel>();
+
+            for (int i = 15; i >= 0; i--)
+            {
+                IBitViewModel bitViewModel = new BitViewModel(i);
+                BitNumbersInWord.Add(bitViewModel);
+            }
+
+            IsBitsEditingEnabled = false;
+
 
             if (ushortFormattableViewModels.Count == 1)
             {
                 var ushortFormattableViewModel = ushortFormattableViewModels.First();
+
+                if (ushortFormattableViewModel is IBitsConfigViewModel bitsConfigViewModel)
+                {
+                    bitsConfigViewModel.CopyBitsTo(this);
+                    IsBitsEditingEnabled = true;
+                }
 
                 if (ushortFormattableViewModel.FormatterParametersViewModel != null)
                 {
@@ -51,6 +72,10 @@ namespace Unicon2.Formatting.Editor.ViewModels
                     {
                         CurrentResourceString = ushortFormattableViewModel.FormatterParametersViewModel.Name;
                         _isFormatterFromResource = true;
+                        ushortFormattableViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
+                            container.Resolve<IFormatterViewModelFactory>().CreateFormatterViewModel(
+                                _sharedResourcesGlobalViewModel.GetResourceByName(_currentResourceString) as
+                                    IUshortsFormatter).RelatedUshortsFormatterViewModel;
                     }
 
                     var formatter =
@@ -67,7 +92,6 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
                 }
             }
-
 
             CancelCommand = new RelayCommand<object>(OnCancelExecute);
             OkCommand = new RelayCommand<object>(OnOkExecute);
@@ -142,6 +166,18 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             }
 
+
+            if (_ushortFormattableViewModel.Count == 1)
+            {
+                var ushortFormattableViewModel = _ushortFormattableViewModel.First();
+
+                if (ushortFormattableViewModel is IBitsConfigViewModel bitsConfigViewModel)
+                {
+                    this.CopyBitsTo(bitsConfigViewModel);
+                    IsBitsEditingEnabled = true;
+                }
+            }
+
             (obj as Window)?.Close();
         }
 
@@ -198,5 +234,18 @@ namespace Unicon2.Formatting.Editor.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public bool IsFromBits
+        {
+            get => _isFromBits;
+            set
+            {
+                _isFromBits = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<IBitViewModel> BitNumbersInWord { get; set; }
+        public bool IsBitsEditingEnabled { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProperty
 {
-   public class SubPropertySetUnchangedSubscription : IDeviceSubscription
+   public class BitsPropertySetUnchangedSubscription : IDeviceSubscription
     {
         private readonly List<int> _bitNumbersInWord;
         private readonly ILocalAndDeviceValueContainingViewModel _localAndDeviceValueContainingViewModel;
@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
         private readonly ushort _numberOfPoints;
         public int Priority { get; set; } = 1;
 
-        public SubPropertySetUnchangedSubscription(List<int> bitNumbersInWord,ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
+        public BitsPropertySetUnchangedSubscription(List<int> bitNumbersInWord,ILocalAndDeviceValueContainingViewModel localAndDeviceValueContainingViewModel,
         IDeviceMemory deviceMemory, ushort address, ushort numberOfPoints)
         {
             _bitNumbersInWord = bitNumbersInWord;
