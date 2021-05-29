@@ -142,15 +142,26 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                         _runtimePropertyViewModel.LocalValue.Dispose();
                     }
 
+                  
+
+
                     var localValue = _formattingService.FormatValue(formatterForDependentProperty,
                         subPropertyUshort.AsCollection());
-
-
                     var editableValue = StaticContainer.Container.Resolve<IValueViewModelFactory>()
                         .CreateEditableValueViewModel(new FormattedValueInfo(localValue, _property,
                             formatterForDependentProperty,
-                            _property, !isInteractionBlocked));
-                   
+                            _property, !isInteractionBlocked, !_prevUshorts.IsEqual(subPropertyUshort.AsCollection())));
+                    var editSubscription =
+                        new LocalDataEditedSubscription(editableValue, _deviceContext, _property, _offset);
+                    _runtimePropertyViewModel.LocalValue = editableValue;
+                    editableValue?.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
+                    if (_runtimePropertyViewModel.LocalValue != null)
+                        _deviceContext.DeviceEventsDispatcher.AddSubscriptionById(editSubscription
+                            , _runtimePropertyViewModel.LocalValue.Id);
+
+
+
+
                     editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
            
                 }
