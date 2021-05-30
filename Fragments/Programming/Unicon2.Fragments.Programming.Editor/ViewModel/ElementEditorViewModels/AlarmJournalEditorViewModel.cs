@@ -36,7 +36,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public ICommand AddOutputSignalCommand { get; }
         public ICommand RemoveOutputSignalCommand { get; }
 
-        public AlarmJournalEditorViewModel(IJournalEditor model)
+        public AlarmJournalEditorViewModel(AlarmJournalEditor model)
         {
             this.OutputSignals = new ObservableCollection<EditableListItem>();
             this.OutputSignals.CollectionChanged += this.OutputSignalsOnCollectionChanged;
@@ -138,7 +138,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         public object Clone()
         {
-            return new AlarmJournalEditorViewModel(new AlarmJournal());
+            return new AlarmJournalEditorViewModel(new AlarmJournalEditor());
         }
     }
 }

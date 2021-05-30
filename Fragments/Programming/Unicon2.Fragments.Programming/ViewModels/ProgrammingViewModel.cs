@@ -443,7 +443,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 {
                     if (element.CompilePriority == priority)
                     {
-                        retBin.AddRange(element.Model.GetProgrammBin());
+                        retBin.AddRange(element.Model.GetProgramBin());
                     }
                 }
             }

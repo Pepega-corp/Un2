@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.TemplateSelectors
@@ -10,6 +11,8 @@ namespace Unicon2.Fragments.Programming.TemplateSelectors
         public DataTemplate Output { get; set; }
         public DataTemplate Inversion { get; set; }
         public DataTemplate SimpleLogic { get; set; }
+        public DataTemplate JA { get; set; }
+        public DataTemplate JS { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -21,6 +24,10 @@ namespace Unicon2.Fragments.Programming.TemplateSelectors
                 return this.Inversion;
             if (item is SimpleLogicElementViewModel)
                 return this.SimpleLogic;
+            if (item is AlarmJournalViewModel)
+                return JA; 
+            if (item is SystemJournalViewModel)
+                return JS;
             return null;
         }
     }

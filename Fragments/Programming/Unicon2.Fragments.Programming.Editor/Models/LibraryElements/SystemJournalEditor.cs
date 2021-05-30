@@ -8,7 +8,7 @@ using Unicon2.Infrastructure;
 namespace Unicon2.Fragments.Programming.Editor.Models.LibraryElements
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class SystemJournal : IJournalEditor
+    public class SystemJournalEditor : IJournalEditor
     {
         private const int DEFAULT_SIZE = 32;
         

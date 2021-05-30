@@ -33,10 +33,10 @@ namespace Unicon2.Fragments.Programming.Editor.Module
             container.Register<ILibraryElement, OrEditor>(ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             container.Register<IXorEditor, XorEditor>();
             container.Register<ILibraryElement, XorEditor>(ProgrammingKeys.XOR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IJournalEditor, AlarmJournal>();
-            container.Register<ILibraryElement, AlarmJournal>(ProgrammingKeys.ALARM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IJournalEditor, SystemJournal>();
-            container.Register<ILibraryElement, SystemJournal>(ProgrammingKeys.XOR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
+            container.Register<IJournalEditor, AlarmJournalEditor>(ProgrammingKeys.ALARM_JOURNAL);
+            container.Register<ILibraryElement, AlarmJournalEditor>(ProgrammingKeys.ALARM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
+            container.Register<IJournalEditor, SystemJournalEditor>(ProgrammingKeys.SYSTEM_JOURNAL);
+            container.Register<ILibraryElement, SystemJournalEditor>(ProgrammingKeys.SYSTEM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             //All view models
             container.Register<ILogicElementEditorViewModel, InputEditorViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<ILogicElementEditorViewModel, OutputEditorViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);

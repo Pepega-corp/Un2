@@ -13,8 +13,8 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Model.Elements
         Group Group { get; }
         List<IConnector> Connectors { get; set; }
         int BinSize { get; }
-        ushort[] GetProgrammBin();
-        void BinProgrammToProperty(ushort[] bin);
+        ushort[] GetProgramBin();
+        void BinProgramToProperty(ushort[] bin);
         void CopyLibraryValues(ILibraryElement source);
         void CopyValues(ILogicElement source);
         double X { get; set; }

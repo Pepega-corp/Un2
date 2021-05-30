@@ -70,13 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\LogicElementForEditorBehavior.cs" />
-    <Compile Include="Models\LibraryElements\AlarmJournal.cs" />
+    <Compile Include="Models\LibraryElements\AlarmJournalEditor.cs" />
     <Compile Include="Models\LibraryElements\AndEditor.cs" />
     <Compile Include="Models\LibraryElements\InputEditor.cs" />
     <Compile Include="Models\LibraryElements\InversionEditor.cs" />
     <Compile Include="Models\LibraryElements\OrEditor.cs" />
     <Compile Include="Models\LibraryElements\OutputEditor.cs" />
-    <Compile Include="Models\LibraryElements\SystemJournal.cs" />
+    <Compile Include="Models\LibraryElements\SystemJournalEditor.cs" />
     <Compile Include="Models\LibraryElements\XorEditor.cs" />
     <Compile Include="Models\ProgrammModelEditor.cs" />
     <Compile Include="Module\ProgrammingEditorModule.cs" />

@@ -79,12 +79,14 @@
     <Compile Include="Behaviors\ElementsLibraryBehavior.cs" />
     <Compile Include="Model\Connection.cs" />
     <Compile Include="Model\Connector.cs" />
+    <Compile Include="Model\Elements\AlarmJournal.cs" />
     <Compile Include="Model\Elements\And.cs" />
     <Compile Include="Model\Elements\Input.cs" />
     <Compile Include="Model\Elements\Inversion.cs" />
     <Compile Include="Model\Elements\LogicElement.cs" />
     <Compile Include="Model\Elements\Or.cs" />
     <Compile Include="Model\Elements\Output.cs" />
+    <Compile Include="Model\Elements\SystemJournal.cs" />
     <Compile Include="Model\Elements\Xor.cs" />
     <Compile Include="Model\ProgramModel.cs" />
     <Compile Include="Model\SchemeModel.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="TemplateSelectors\ElementsViewModelSelector.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ConnectorViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\AlarmJournalViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\AndViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\InputViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\InversionViewModel.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="ViewModels\ElementViewModels\OrViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\SimpleLogicElementViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\SystemJournalViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\XorViewModel.cs" />
     <Compile Include="ViewModels\LogicElementSettingsViewModel.cs" />
     <Compile Include="ViewModels\NewSchemeViewModel.cs" />
@@ -157,6 +161,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\ElementsLibraryResources\AlarmJournalElement.xaml" />
     <Page Include="UI\ElementsLibraryResources\InputLibraryElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -170,6 +175,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\ElementsLibraryResources\SimpleLogicElement.xaml" />
+    <Page Include="UI\ElementsLibraryResources\SystemJournalElement.xaml" />
+    <Page Include="UI\ElementsResources\AlarmJournalView.xaml" />
     <Page Include="UI\ElementsResources\AndView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -199,6 +206,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\ElementsResources\SimpleLogicSchemeElement.xaml" />
+    <Page Include="UI\ElementsResources\SystemJournalView.xaml" />
     <Page Include="UI\LogicElementSettings\LogicElementsForSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

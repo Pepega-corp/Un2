@@ -13,6 +13,8 @@
         <ResourceDictionary Source="ElementsLibraryResources/OutputLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/InversionLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/SimpleLogicElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/AlarmJournalElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/SystemJournalElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
@@ -21,7 +23,9 @@
         Input="{StaticResource InputLibraryElement}"
         Output="{StaticResource OutputLibraryElement}" 
         Inversion="{StaticResource InversionLibraryElement}"
-        SimpleLogic="{StaticResource SimpleLogicLibrary}"/>
+        SimpleLogic="{StaticResource SimpleLogicLibrary}"
+        JA="{StaticResource AlarmJournalLibraryElement}"
+        JS="{StaticResource SystemJournalLibraryElement}"/>
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

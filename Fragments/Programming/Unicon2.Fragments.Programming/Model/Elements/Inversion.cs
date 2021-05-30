@@ -36,7 +36,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             }
         }
 
-        public override ushort[] GetProgrammBin()
+        public override ushort[] GetProgramBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
             bindata[0] = 9;
@@ -46,7 +46,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             return bindata;
         }
 
-        public override void BinProgrammToProperty(ushort[] bin) { }
+        public override void BinProgramToProperty(ushort[] bin) { }
 
         public override string StrongName => ProgrammingKeys.INVERSION;
     }

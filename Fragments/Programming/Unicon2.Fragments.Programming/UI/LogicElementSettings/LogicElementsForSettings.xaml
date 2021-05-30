@@ -243,4 +243,106 @@
             </ItemsControl>
         </Grid>
     </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type viewModels:AlarmJournalViewModel}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип элемента" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Подпись элемента" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Сигнал" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Symbol}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding OutputSignals}"
+                SelectedItem="{Binding SelectedSignal}" />
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type viewModels:SystemJournalViewModel}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип элемента" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Подпись элемента" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Сигнал" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Symbol}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding OutputSignals}"
+                SelectedItem="{Binding SelectedSignal}" />
+        </Grid>
+    </DataTemplate>
 </ResourceDictionary>
