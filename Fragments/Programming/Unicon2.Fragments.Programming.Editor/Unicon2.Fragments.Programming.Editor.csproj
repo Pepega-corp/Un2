@@ -70,11 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\LogicElementForEditorBehavior.cs" />
+    <Compile Include="Models\LibraryElements\AlarmJournal.cs" />
     <Compile Include="Models\LibraryElements\AndEditor.cs" />
     <Compile Include="Models\LibraryElements\InputEditor.cs" />
     <Compile Include="Models\LibraryElements\InversionEditor.cs" />
     <Compile Include="Models\LibraryElements\OrEditor.cs" />
     <Compile Include="Models\LibraryElements\OutputEditor.cs" />
+    <Compile Include="Models\LibraryElements\SystemJournal.cs" />
     <Compile Include="Models\LibraryElements\XorEditor.cs" />
     <Compile Include="Models\ProgrammModelEditor.cs" />
     <Compile Include="Module\ProgrammingEditorModule.cs" />
@@ -82,11 +84,13 @@
     <Compile Include="TemplateSelector\ViewModelsTemplateSelector.cs" />
     <Compile Include="Validators\ProgrammingEditorViewModelValidator.cs" />
     <Compile Include="ViewModel\EditElementViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\AlarmJournalEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\AndEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\InputEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\InversionEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OrEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OutputEditorViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\SystemJournalViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\XorEditorViewModel.cs" />
     <Compile Include="ViewModel\ProgrammingEditorViewModel.cs" />
     <Compile Include="View\ProgrammingEditorView.xaml.cs">

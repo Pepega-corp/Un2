@@ -19,7 +19,9 @@
                 Inversion="{StaticResource InversionTemplate}"
                 Or="{StaticResource OrTemplate}"
                 Output="{StaticResource OutputTemplate}" 
-                Xor="{StaticResource XorTemplate}"/>
+                Xor="{StaticResource XorTemplate}"
+                Alarm="{StaticResource AlarmJournal}"
+                System="{StaticResource SystemJournal}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 

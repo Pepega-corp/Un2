@@ -12,6 +12,8 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
         public DataTemplate And { get; set; }
         public DataTemplate Or { get; set; }
         public DataTemplate Xor { get; set; }
+        public DataTemplate System { get; set; }
+        public DataTemplate Alarm { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -29,6 +31,10 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
                     return this.Or;
                 case XorEditorViewModel _:
                     return this.Xor;
+                case AlarmJournalEditorViewModel _:
+                    return Alarm;
+                case SystemJournalViewModel _:
+                    return System;
                 default:
                     return null;
             }
