@@ -84,7 +84,7 @@ namespace Unicon2.Formatting.Editor.Factories
 
         public IUshortsFormatterViewModel VisitUshortToIntegerFormatter(IUshortsFormatter formatter)
         {
-            throw new System.NotImplementedException();
+            return new UshortToIntegerFormatterViewModel();
         }
 
         public IUshortsFormatterViewModel VisitDictionaryMatchFormatter(IUshortsFormatter formatter)

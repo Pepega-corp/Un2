@@ -211,6 +211,7 @@
            
             public const string EMPTY_FORMATTING_MESSAGE = "FormattingIsEmpty";
             public const string FORMATTING_RESOURCE_NOT_FOUND_MESSAGE = "FormattingResourceNotFound";
+            public const string RESOURCE_FOR_DEPENDENCY_NOT_FOUND_MESSAGE = "ResourceForDependencyNotFound";
 
             /// <summary>
             /// сообщение о невыбранном устройстве

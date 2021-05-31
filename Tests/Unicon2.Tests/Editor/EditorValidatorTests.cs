@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,16 @@ using Prism.Ioc;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
 using Unicon2.DeviceEditorUtilityModule.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.Factories;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies;
+using Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Interfaces.Dependancy;
+using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Validation;
 using Unicon2.Tests.Utils;
@@ -124,6 +131,61 @@ namespace Unicon2.Tests.Editor
 
 
         }
+
+        [Test]
+        public void ValidateEditorConfigurationWithMissingResourceDependencyError()
+        {
+            IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
+
+
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+
+            var property = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1, _typesContainer);
+
+            property.DependencyViewModels.Add(
+                new ConditionResultDependencyViewModel(new List<IResultViewModel>(), new List<IConditionViewModel>())
+                {
+                    SelectedConditionViewModel = new CompareResourceConditionViewModel(
+                        _typesContainer.Resolve<ISharedResourcesGlobalViewModel>(),
+                        new List<string>(Enum.GetNames(typeof(ConditionsEnum))))
+                    {
+                        ReferencedResourcePropertyName = ""
+                    }
+                });
+
+            var property2 = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2, _typesContainer);
+
+            property2.DependencyViewModels.Add(
+                new ConditionResultDependencyViewModel(new List<IResultViewModel>(), new List<IConditionViewModel>())
+                {
+                    SelectedConditionViewModel = new CompareResourceConditionViewModel(
+                        _typesContainer.Resolve<ISharedResourcesGlobalViewModel>(),
+                        new List<string>(Enum.GetNames(typeof(ConditionsEnum))))
+                    {
+                        ReferencedResourcePropertyName = "Pupa"
+                    }
+                });
+
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+
+            initialDevice.FragmentEditorViewModels
+                .Add(configurationEditorViewModel);
+
+            var res = _typesContainer.Resolve<IDeviceEditorViewModelValidator>()
+                .ValidateDeviceEditor(new List<IFragmentEditorViewModel>() {configurationEditorViewModel});
+
+            Assert.True(res.Count == 2);
+            
+        }
+
 
         [Test]
         public void ValidateEditorConfigurationWithError()

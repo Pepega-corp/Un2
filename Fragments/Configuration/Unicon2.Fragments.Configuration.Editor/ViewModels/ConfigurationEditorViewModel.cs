@@ -259,7 +259,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private bool CanExecuteAddSelectedElementAsResource()
         {
 	        return
-		        _selectedRow is IPropertyEditorViewModel && !_sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(_selectedRow.Name);
+		        _selectedRow is IPropertyEditorViewModel && !_sharedResourcesGlobalViewModel.CheckDeviceSharedResourcesContainsViewModel(_selectedRow);
         }
 
         private void OnAddSelectedElementAsResourceExecute()

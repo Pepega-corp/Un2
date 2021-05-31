@@ -1602,4 +1602,7 @@
   <data name="SelectBits" xml:space="preserve">
     <value>Select Bits</value>
   </data>
+  <data name="ResourceForDependencyNotFound" xml:space="preserve">
+    <value>Resource for dependency not found</value>
+  </data>
 </root>

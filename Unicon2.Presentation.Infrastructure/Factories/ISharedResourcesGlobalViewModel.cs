@@ -16,7 +16,7 @@ namespace Unicon2.Presentation.Infrastructure.Factories
         bool CheckDeviceSharedResourcesContainsViewModel(object viewModelName);
 
         void AddAsSharedResource(INameable resourceToAdd,bool askUser=true);
-        void AddAsSharedResourceWithContainer(INameable resourceToAdd);
+        void AddAsSharedResourceWithContainer(INameable resourceToAdd, bool askUser= true);
         void UpdateSharedResource(INameable resourceToAdd);
 
 

@@ -61,6 +61,10 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
                 .RegisterFragmentValidator<ConfigurationEditorViewModel>(container
                     .Resolve<ConfigurationEditorViewModelValidator>().CreateValidator());
 
+            container.Resolve<IDeviceEditorViewModelValidator>()
+                .RegisterFragmentValidator<ConfigurationEditorViewModel>(container
+                    .Resolve<MissingDependenciesConfigurationValidator>().CreateValidator());
+
             //регистрация ресурсов
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/DeviceStructDataTemplates.xaml",
                 GetType().Assembly);

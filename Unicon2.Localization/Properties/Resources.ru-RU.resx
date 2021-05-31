@@ -1599,4 +1599,7 @@
   <data name="SelectBits" xml:space="preserve">
     <value>Указать биты</value>
   </data>
+  <data name="ResourceForDependencyNotFound" xml:space="preserve">
+    <value>Не найден ресурс для одной из зависимостей.</value>
+  </data>
 </root>

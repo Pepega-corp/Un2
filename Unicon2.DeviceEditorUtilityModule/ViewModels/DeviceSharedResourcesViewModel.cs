@@ -312,7 +312,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			UpdateResourcesViewModelCollection();
 		}
 
-		public void AddAsSharedResourceWithContainer(INameable resourceToAdd)
+		public void AddAsSharedResourceWithContainer(INameable resourceToAdd, bool askUser=true)
 		{
 			if (!_isInitialized) throw new Exception();
 			IResourcesAddingViewModel resourcesAddingViewModel = _container.Resolve<IResourcesAddingViewModel>();
@@ -320,8 +320,16 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			resourceViewModel.RelatedEditorItemViewModel = resourceToAdd;
 			resourceViewModel.Name = resourceToAdd.Name;
 			resourcesAddingViewModel.ResourceWithName = resourceViewModel;
-			_applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
-			if (resourcesAddingViewModel.IsResourceAdded)
+            if (askUser)
+            {
+                _applicationGlobalCommands.ShowWindowModal(() => new ResourcesAddingWindow(), resourcesAddingViewModel);
+            }
+            else
+            {
+                resourcesAddingViewModel.IsResourceAdded = true;
+            }
+
+            if (resourcesAddingViewModel.IsResourceAdded)
 			{
 				_resourceViewModelsInContainers.Add(resourceViewModel);
 			}

@@ -74,9 +74,18 @@ namespace Unicon2.Tests.Utils
             return property;
         }
 
-        public static void CheckPropertyResultProperty(List<IConfigurationItem> configurationItems, int identity)
+        public static void CheckPropertyResultProperty(List<IConfigurationItem> configurationItems, int identity, int numberInList=-1)
         {
-            var property = configurationItems[identity - 1] as IProperty;
+            var num = 0;
+            if (numberInList != -1)
+            {
+                num = numberInList;
+            }
+            else
+            {
+                num = identity;
+            }
+            var property = configurationItems[num - 1] as IProperty;
 
             Assert.AreEqual(property.Address, (identity + _addressModifier));
             Assert.AreEqual(property.NumberOfPoints, (identity + _numOfPointsModifier));

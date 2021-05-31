@@ -115,6 +115,7 @@
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
     <Compile Include="ViewModels\Validators\ConfigurationEditorViewModelValidator.cs" />
+    <Compile Include="ViewModels\Validators\MissingDependenciesConfigurationValidator.cs" />
     <Compile Include="View\BaseValuesWindow.xaml.cs">
       <DependentUpon>BaseValuesWindow.xaml</DependentUpon>
     </Compile>

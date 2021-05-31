@@ -61,7 +61,7 @@ namespace Unicon2.Formatting.Editor.Visitors
 
         public IUshortsFormatter VisitUshortToIntegerFormatter(UshortToIntegerFormatterViewModel formatterViewModel)
         {
-            throw new NotImplementedException();
+            return new UshortToIntegerFormatter();
         }
 
         public IUshortsFormatter VisitDictionaryMatchFormatter(DictionaryMatchingFormatterViewModel formatterViewModel)

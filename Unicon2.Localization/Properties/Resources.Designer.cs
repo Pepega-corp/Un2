@@ -3517,6 +3517,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @ResourceForDependencyNotFound.
+        /// </summary>
+        public static string ResourceForDependencyNotFound {
+            get {
+                return ResourceManager.GetString("ResourceForDependencyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @ResourceKey.
         /// </summary>
         public static string ResourceKey {
