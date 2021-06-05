@@ -76,6 +76,8 @@
     <Compile Include="Models\LibraryElements\InversionEditor.cs" />
     <Compile Include="Models\LibraryElements\OrEditor.cs" />
     <Compile Include="Models\LibraryElements\OutputEditor.cs" />
+    <Compile Include="Models\LibraryElements\RsTrigger.cs" />
+    <Compile Include="Models\LibraryElements\SrTrigger.cs" />
     <Compile Include="Models\LibraryElements\SystemJournalEditor.cs" />
     <Compile Include="Models\LibraryElements\TimerEditor.cs" />
     <Compile Include="Models\LibraryElements\XorEditor.cs" />
@@ -91,6 +93,8 @@
     <Compile Include="ViewModel\ElementEditorViewModels\InversionEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OrEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OutputEditorViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\RsTriggerViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\SrTriggerViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\SystemJournalViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\TimerViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\XorEditorViewModel.cs" />

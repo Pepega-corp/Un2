@@ -30,6 +30,8 @@ namespace Unicon2.Fragments.Programming.Editor.Module
             container.Register<ILibraryElement, AlarmJournalEditor>(ProgrammingKeys.ALARM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             container.Register<ILibraryElement, SystemJournalEditor>(ProgrammingKeys.SYSTEM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             container.Register<ILibraryElement, TimerEditor>(ProgrammingKeys.TIMER + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
+            container.Register<ILibraryElement, RsTrigger>(ProgrammingKeys.RS_TRIGGER + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
+            container.Register<ILibraryElement, SrTrigger>(ProgrammingKeys.SR_TRIGGER + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             //All view models
             container.Register<ILogicElementEditorViewModel, InputEditorViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<ILogicElementEditorViewModel, OutputEditorViewModel>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
@@ -40,6 +42,8 @@ namespace Unicon2.Fragments.Programming.Editor.Module
             container.Register<ILogicElementEditorViewModel, AlarmJournalEditorViewModel>(ProgrammingKeys.ALARM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<ILogicElementEditorViewModel, SystemJournalViewModel>(ProgrammingKeys.SYSTEM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             container.Register<ILogicElementEditorViewModel, TimerViewModel>(ProgrammingKeys.TIMER + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            container.Register<ILogicElementEditorViewModel, RsTriggerViewModel>(ProgrammingKeys.RS_TRIGGER + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            container.Register<ILogicElementEditorViewModel, SrTriggerViewModel>(ProgrammingKeys.SR_TRIGGER + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
 
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("Resources/ProgrammingEditorTemplate.xaml", GetType().Assembly);
         }

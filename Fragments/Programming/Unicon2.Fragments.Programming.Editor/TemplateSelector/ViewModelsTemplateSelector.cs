@@ -11,6 +11,7 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
         public DataTemplate Inversion { get; set; }
         public DataTemplate BooleanTemplate { get; set; }
         public DataTemplate Timer { get; set; }
+        public DataTemplate Trigger { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -30,6 +31,9 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
                     return this.BooleanTemplate;
                 case TimerViewModel _:
                     return this.Timer;
+                case RsTriggerViewModel _:
+                case SrTriggerViewModel _:
+                    return this.Trigger;
                 default:
                     return null;
             }
