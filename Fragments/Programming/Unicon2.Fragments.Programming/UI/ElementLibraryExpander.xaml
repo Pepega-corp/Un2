@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
     xmlns:elementViewModels="clr-namespace:Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;assembly=Unicon2.Fragments.Programming.Infrastructure"
-    xmlns:selectors="clr-namespace:Unicon2.Fragments.Programming.TemplateSelectors" 
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:selectors="clr-namespace:Unicon2.Fragments.Programming.TemplateSelectors">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="VerticalExpander.xaml" />
@@ -13,19 +13,17 @@
         <ResourceDictionary Source="ElementsLibraryResources/OutputLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/InversionLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/SimpleLogicElement.xaml" />
-        <ResourceDictionary Source="ElementsLibraryResources/AlarmJournalElement.xaml" />
-        <ResourceDictionary Source="ElementsLibraryResources/SystemJournalElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/TimerLibraryElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
     <selectors:ElementsViewModelSelector
         x:Key="LibrarySelector"
         Input="{StaticResource InputLibraryElement}"
-        Output="{StaticResource OutputLibraryElement}" 
         Inversion="{StaticResource InversionLibraryElement}"
+        Output="{StaticResource OutputLibraryElement}"
         SimpleLogic="{StaticResource SimpleLogicLibrary}"
-        JA="{StaticResource AlarmJournalLibraryElement}"
-        JS="{StaticResource SystemJournalLibraryElement}"/>
+        Timer="{StaticResource TimerLibraryElement}" />
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

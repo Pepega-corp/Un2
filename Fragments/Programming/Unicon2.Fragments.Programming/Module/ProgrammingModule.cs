@@ -44,7 +44,9 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, AlarmJournalViewModel>(ProgrammingKeys.ALARM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ILogicElement, SystemJournal>(ProgrammingKeys.SYSTEM_JOURNAL);
             container.Register<ILogicElementViewModel, SystemJournalViewModel>(ProgrammingKeys.SYSTEM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-            
+            container.Register<ILogicElement, Timer>(ProgrammingKeys.TIMER);
+            container.Register<ILogicElementViewModel, TimerViewModel>(ProgrammingKeys.TIMER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
         }
     }

@@ -4,17 +4,18 @@
     xmlns:behaviors="clr-namespace:Unicon2.Fragments.Programming.Behaviors"
     xmlns:evm="clr-namespace:Unicon2.Fragments.Programming.ViewModels.ElementViewModels"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
-    <DataTemplate DataType="{x:Type evm:OutputViewModel}">
+    <DataTemplate DataType="{x:Type evm:TimerViewModel}">
         <Grid>
             <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Thumb
                     Name="DragThumb"
                     Grid.Column="0"
-                    Grid.ColumnSpan="2"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Cursor="SizeAll"
@@ -26,42 +27,35 @@
                 <Rectangle
                     Name="SelectBorder"
                     Grid.Column="0"
-                    Grid.ColumnSpan="2"
+                    Grid.ColumnSpan="3"
                     Margin="-5"
                     IsHitTestVisible="False"
                     StrokeThickness="1" />
                 <ContentControl
                     Grid.Column="0"
-                    Margin="0,5,0,0"
+                    Margin="0,10,0,0"
                     Panel.ZIndex="1"
-                    Content="{Binding ConnectorViewModels[0]}" />
-                <Path
+                    Content="{Binding Input}" />
+                <Rectangle
                     Grid.Column="1"
-                    Width="25.3"
-                    Margin="-0.3,0,0,0"
-                    Data="M0.5,0.5 L19.5,0.5 20,0.70710692 24.292845,4.999952 20,9.2927972 19.5,9.5000001 0.5,9.5000001 z"
+                    Width="20"
+                    Height="20"
                     IsHitTestVisible="False"
-                    RenderTransformOrigin="0.5,0.5"
-                    SnapsToDevicePixels="True"
-                    Stretch="Fill"
                     Stroke="Black"
-                    StrokeLineJoin="Round"
-                    StrokeThickness="1">
-                    <Path.RenderTransform>
-                        <TransformGroup>
-                            <RotateTransform Angle="180" />
-                        </TransformGroup>
-                    </Path.RenderTransform>
-                </Path>
+                    StrokeThickness="1" />
                 <TextBlock
                     Grid.Column="1"
-                    Margin="6,0,0,0"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     FontFamily="Calibri"
-                    FontSize="8"
+                    FontSize="14"
                     IsHitTestVisible="False"
-                    LineHeight="10"
                     Text="{Binding Symbol}" />
+                <ContentControl
+                    Grid.Column="2"
+                    Margin="0,10,0,0"
+                    Panel.ZIndex="1"
+                    Content="{Binding Output}" />
             </Grid>
         </Grid>
         <DataTemplate.Triggers>

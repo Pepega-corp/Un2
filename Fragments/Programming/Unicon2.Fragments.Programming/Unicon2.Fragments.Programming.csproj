@@ -87,6 +87,7 @@
     <Compile Include="Model\Elements\Or.cs" />
     <Compile Include="Model\Elements\Output.cs" />
     <Compile Include="Model\Elements\SystemJournal.cs" />
+    <Compile Include="Model\Elements\Timer.cs" />
     <Compile Include="Model\Elements\Xor.cs" />
     <Compile Include="Model\ProgramModel.cs" />
     <Compile Include="Model\SchemeModel.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\SimpleLogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\SystemJournalViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\TimerViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\XorViewModel.cs" />
     <Compile Include="ViewModels\LogicElementSettingsViewModel.cs" />
     <Compile Include="ViewModels\NewSchemeViewModel.cs" />
@@ -161,7 +163,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\ElementsLibraryResources\AlarmJournalElement.xaml" />
     <Page Include="UI\ElementsLibraryResources\InputLibraryElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -175,7 +176,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\ElementsLibraryResources\SimpleLogicElement.xaml" />
-    <Page Include="UI\ElementsLibraryResources\SystemJournalElement.xaml" />
+    <Page Include="UI\ElementsLibraryResources\TimerLibraryElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\ElementsResources\AlarmJournalView.xaml" />
     <Page Include="UI\ElementsResources\AndView.xaml">
       <SubType>Designer</SubType>
@@ -207,6 +211,10 @@
     </Page>
     <Page Include="UI\ElementsResources\SimpleLogicSchemeElement.xaml" />
     <Page Include="UI\ElementsResources\SystemJournalView.xaml" />
+    <Page Include="UI\ElementsResources\Timer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\LogicElementSettings\LogicElementsForSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

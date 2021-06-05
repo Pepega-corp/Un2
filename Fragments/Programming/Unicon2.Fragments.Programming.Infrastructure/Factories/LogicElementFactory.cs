@@ -76,9 +76,12 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
             foreach (var libraryElement in libraryElements)
             {
-                var element = allElements.First(logicElement => logicElement.ElementType == libraryElement.ElementType);
-                element.CopyLibraryValues(libraryElement);
-                elements.Add(element);
+                var element = allElements.FirstOrDefault(logicElement => logicElement.ElementType == libraryElement.ElementType);
+                if (element != null)
+                {
+                    element.CopyLibraryValues(libraryElement);
+                    elements.Add(element);
+                }
             }
 
             return GetAllElementsViewModels(elements);
