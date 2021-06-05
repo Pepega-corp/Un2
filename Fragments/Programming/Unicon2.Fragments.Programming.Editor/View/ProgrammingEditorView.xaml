@@ -14,14 +14,11 @@
             <converter:BoolToVisConverter x:Key="BoolToVisConverter" />
             <templates:ViewModelsTemplateSelector
                 x:Key="Selector"
-                And="{StaticResource AndTemplate}"
+                BooleanTemplate="{StaticResource BooleanOperatorTemplate}"
                 Input="{StaticResource InputTemplate}"
                 Inversion="{StaticResource InversionTemplate}"
-                Or="{StaticResource OrTemplate}"
-                Output="{StaticResource OutputTemplate}" 
-                Xor="{StaticResource XorTemplate}"
-                Alarm="{StaticResource AlarmJournal}"
-                System="{StaticResource SystemJournal}"/>
+                Output="{StaticResource OutputTemplate}"
+                Timer="{StaticResource TimerTemplate}" />
         </ResourceDictionary>
     </UserControl.Resources>
 

@@ -16,5 +16,8 @@
         public const string XOR = "Xor";
         public const string ALARM_JOURNAL = "AlarmJournal";
         public const string SYSTEM_JOURNAL = "SystemJournal";
+        public const string TIMER = "Timer";
+        public const string RS_TRIGGER = "RS-trigger";
+        public const string SR_TRIGGER = "SR-trigger";
     }
 }
