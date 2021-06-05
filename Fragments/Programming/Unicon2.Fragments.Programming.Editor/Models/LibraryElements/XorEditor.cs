@@ -5,7 +5,7 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.Editor.Models.LibraryElements
 {
-    public class XorEditor : IXorEditor
+    public class XorEditor : ILibraryElement
     {
         public string StrongName => ProgrammingKeys.XOR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR;
         public ElementType ElementType => ElementType.Xor;

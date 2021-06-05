@@ -5,7 +5,7 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.Editor.Models.LibraryElements
 {
-    public class AndEditor : IAndEditor
+    public class AndEditor : ILibraryElement
     {
         public string StrongName => ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.EDITOR;
         public ElementType ElementType => ElementType.And;

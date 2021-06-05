@@ -21,21 +21,13 @@ namespace Unicon2.Fragments.Programming.Editor.Module
 
             container.Register<IFragmentEditorViewModel, ProgrammingEditorViewModel>(ProgrammingKeys.PROGRAMMING + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
             //All models
-            container.Register<IInputEditor, InputEditor>();
             container.Register<ILibraryElement, InputEditor>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IOutputEditor, OutputEditor>();
             container.Register<ILibraryElement, OutputEditor>(ProgrammingKeys.OUTPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IInversionEditor, InversionEditor>();
             container.Register<ILibraryElement, InversionEditor>(ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IAndEditor, AndEditor>();
             container.Register<ILibraryElement, AndEditor>(ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IOrEditor, OrEditor>();
             container.Register<ILibraryElement, OrEditor>(ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IXorEditor, XorEditor>();
             container.Register<ILibraryElement, XorEditor>(ProgrammingKeys.XOR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IJournalEditor, AlarmJournalEditor>(ProgrammingKeys.ALARM_JOURNAL);
             container.Register<ILibraryElement, AlarmJournalEditor>(ProgrammingKeys.ALARM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
-            container.Register<IJournalEditor, SystemJournalEditor>(ProgrammingKeys.SYSTEM_JOURNAL);
             container.Register<ILibraryElement, SystemJournalEditor>(ProgrammingKeys.SYSTEM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.EDITOR);
             //All view models
             container.Register<ILogicElementEditorViewModel, InputEditorViewModel>(ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);

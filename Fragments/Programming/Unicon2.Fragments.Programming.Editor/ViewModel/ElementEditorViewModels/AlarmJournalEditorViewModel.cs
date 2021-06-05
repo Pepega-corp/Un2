@@ -36,15 +36,14 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public ICommand AddOutputSignalCommand { get; }
         public ICommand RemoveOutputSignalCommand { get; }
 
-        public AlarmJournalEditorViewModel(AlarmJournalEditor model)
+        public AlarmJournalEditorViewModel(ILibraryElement model)
         {
             this.OutputSignals = new ObservableCollection<EditableListItem>();
             this.OutputSignals.CollectionChanged += this.OutputSignalsOnCollectionChanged;
 
             this.AddOutputSignalCommand = new RelayCommand(this.OnAddOutputSignal);
             this.RemoveOutputSignalCommand = new RelayCommand(this.OnRemoveOutputSignal, this.CanRemoveOutputSignal);
-
-            model.InitializeDefault();
+            
             SetModel(model);
         }
 
@@ -84,6 +83,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             }
             if(_model == null)
             {
+                model.InitializeDefault();
                 this._model = model;
             }
             else
@@ -120,7 +120,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         private void OnAddOutputSignal()
         {
-            this.OutputSignals.Add(new EditableListItem(string.Empty));
+            var lastElement = this.OutputSignals.LastOrDefault();
+            this.OutputSignals.Add(new EditableListItem(lastElement));
         }
 
         private void OnRemoveOutputSignal()

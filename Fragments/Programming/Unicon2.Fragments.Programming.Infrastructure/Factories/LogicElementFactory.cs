@@ -26,48 +26,24 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
         {
             var booleanElements = this._container.ResolveAll<ILibraryElement>()
                 .Where(e => e.Functional == Functional.BOOLEAN).ToList();
-            var booleanElementViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (var element in booleanElements)
-            {
-                var viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                element.InitializeDefault();
-                viewmodel.Model = element;
-                booleanElementViewModels.Add(viewmodel);
-            }
 
-            return booleanElementViewModels;
+            return GetAllElementsEditorViewModels(booleanElements);
         }
 
         public List<ILogicElementEditorViewModel> GetAnalogElementsEditorViewModels()
         {
             var analogElements = this._container.ResolveAll<ILibraryElement>()
                 .Where(e => e.Functional == Functional.ANALOG).ToList();
-            var analogElementViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (var element in analogElements)
-            {
-                var viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
-                    element.StrongName +ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                element.InitializeDefault();
-                viewmodel.Model = element;
-                analogElementViewModels.Add(viewmodel);
-            }
 
-            return analogElementViewModels;
+            return GetAllElementsEditorViewModels(analogElements);
         }
 
         public List<ILogicElementEditorViewModel> GetAllElementsEditorViewModels(List<ILibraryElement> elements)
         {
-            var elementsViewModels = new List<ILogicElementEditorViewModel>();
-            foreach (var element in elements)
-            {
-                var viewmodel = StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                viewmodel.Model = element;
-                elementsViewModels.Add(viewmodel);
-            }
-
-            return elementsViewModels;
+            return elements.Select(element =>
+                StaticContainer.Container.Resolve<ILogicElementEditorViewModel>(
+                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL,
+                    new ResolverParameter("model", element))).ToList();
         }
 
 

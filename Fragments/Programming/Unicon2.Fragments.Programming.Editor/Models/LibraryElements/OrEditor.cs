@@ -5,7 +5,7 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.Editor.Models.LibraryElements
 {
-    public class OrEditor : IOrEditor
+    public class OrEditor : ILibraryElement
     {
         public string StrongName => ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR;
         public ElementType ElementType => ElementType.Or;

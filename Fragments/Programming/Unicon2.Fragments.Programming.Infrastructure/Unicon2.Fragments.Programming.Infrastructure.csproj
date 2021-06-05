@@ -49,13 +49,9 @@
     <Compile Include="HelperClasses\DragElement.cs" />
     <Compile Include="HelperClasses\CRC16.cs" />
     <Compile Include="Keys\ProgrammingKeys.cs" />
-    <Compile Include="Model\EditorElements\IAndEditor.cs" />
     <Compile Include="Model\EditorElements\IInputEditor.cs" />
-    <Compile Include="Model\EditorElements\IInversionEditor.cs" />
     <Compile Include="Model\EditorElements\IJournalEditor.cs" />
     <Compile Include="Model\EditorElements\IOutputEditor.cs" />
-    <Compile Include="Model\EditorElements\IOrEditor.cs" />
-    <Compile Include="Model\EditorElements\IXorEditor.cs" />
     <Compile Include="Model\Elements\IAnd.cs" />
     <Compile Include="Model\Elements\IConnection.cs" />
     <Compile Include="Model\Elements\IConnector.cs" />
@@ -73,13 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\EditableListItem.cs" />
     <Compile Include="ViewModels\IProgrammingViewModel.cs" />
-    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IAndEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IInputEditorViewModel.cs" />
-    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IInversionEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\ILogicElementEditorViewModel.cs" />
-    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOrEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IOutputEditorViewModel.cs" />
-    <Compile Include="ViewModels\Scheme\ElementEditorViewModels\IXorEditorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectionViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\IConnectorViewModel.cs" />
     <Compile Include="ViewModels\Scheme\ElementViewModels\ILogicElementViewModel.cs" />

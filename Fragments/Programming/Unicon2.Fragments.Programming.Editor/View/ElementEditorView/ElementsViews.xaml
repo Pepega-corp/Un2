@@ -130,7 +130,7 @@
             </Grid>
         </GroupBox>
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type editorViewModels:AlarmJournalEditorViewModel}">
         <GroupBox Margin="5" Header="Список баз входных сигналов">
             <Grid>
@@ -173,7 +173,7 @@
             </Grid>
         </GroupBox>
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type editorViewModels:SystemJournalViewModel}">
         <GroupBox Margin="5" Header="Список баз входных сигналов">
             <Grid>
