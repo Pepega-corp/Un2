@@ -15,13 +15,13 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Validation;
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
 {
     public class ConfigurationEditorViewModelValidator
-    {    
+    {
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         private readonly ILocalizerService _localizerService;
         private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
 
         public ConfigurationEditorViewModelValidator(IFormatterEditorFactory formatterEditorFactory,
-            ILocalizerService localizerService,ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
+            ILocalizerService localizerService, ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel)
         {
             _formatterEditorFactory = formatterEditorFactory;
             _localizerService = localizerService;
@@ -30,9 +30,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
 
 
         public List<EditorValidationErrorViewModel> CheckItem(List<EditorValidationErrorViewModel> initialErrors,
-            IConfigurationItemViewModel configurationEditorViewModel)
+            IConfigurationItemViewModel configurationEditorItemViewModel,
+            IConfigurationEditorViewModel configurationEditorViewModel)
         {
-            if (configurationEditorViewModel is IPropertyEditorViewModel propertyEditorViewModel && !(configurationEditorViewModel is IComplexPropertyEditorViewModel))
+            if (configurationEditorItemViewModel is IPropertyEditorViewModel propertyEditorViewModel &&
+                !(configurationEditorItemViewModel is IComplexPropertyEditorViewModel))
             {
                 if (propertyEditorViewModel.FormatterParametersViewModel == null ||
                     (propertyEditorViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel == null &&
@@ -41,7 +43,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
                     initialErrors.Add(new EditorValidationErrorViewModel(
                         $"{propertyEditorViewModel.Name} ({_localizerService.GetLocalizedString("Address")}:{propertyEditorViewModel.Address}): {_localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.EMPTY_FORMATTING_MESSAGE)}",
                         Result<Action>.Create(
-                            () => { _formatterEditorFactory.EditFormatterByUser(propertyEditorViewModel); }, true)));
+                            () =>
+                            {
+                                _formatterEditorFactory.EditFormatterByUser(propertyEditorViewModel,
+                                    configurationEditorViewModel.RootConfigurationItemViewModels.ToList());
+                            }, true)));
                 }
 
                 if (propertyEditorViewModel.FormatterParametersViewModel != null &&
@@ -53,21 +59,27 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
                     initialErrors.Add(new EditorValidationErrorViewModel(
                         $"{propertyEditorViewModel.Name} ({_localizerService.GetLocalizedString("Address")}:{propertyEditorViewModel.Address}): {_localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.FORMATTING_RESOURCE_NOT_FOUND_MESSAGE)}",
                         Result<Action>.Create(
-                            () => { _formatterEditorFactory.EditFormatterByUser(propertyEditorViewModel); }, true)));
+                            () =>
+                            {
+                                _formatterEditorFactory.EditFormatterByUser(propertyEditorViewModel,
+                                    configurationEditorViewModel.RootConfigurationItemViewModels.ToList());
+                            }, true)));
                 }
 
 
             }
 
-            if (configurationEditorViewModel is IConfigurationGroupEditorViewModel configurationGroupEditorViewModel)
+            if (configurationEditorItemViewModel is IConfigurationGroupEditorViewModel configurationGroupEditorViewModel
+            )
             {
                 configurationGroupEditorViewModel.ChildStructItemViewModels.ForEach(model =>
-                    CheckItem(initialErrors, model));
-            }   
-            if (configurationEditorViewModel is IComplexPropertyEditorViewModel complexPropertyEditorViewModel)
+                    CheckItem(initialErrors, model, configurationEditorViewModel));
+            }
+
+            if (configurationEditorItemViewModel is IComplexPropertyEditorViewModel complexPropertyEditorViewModel)
             {
                 complexPropertyEditorViewModel.SubPropertyEditorViewModels.ForEach(model =>
-                    CheckItem(initialErrors, model));
+                    CheckItem(initialErrors, model, configurationEditorViewModel));
             }
 
             return initialErrors;
@@ -80,7 +92,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
 
                 var configurationEditorViewModel = fragmentEditorViewModel as ConfigurationEditorViewModel;
                 return configurationEditorViewModel.RootConfigurationItemViewModels
-                    .SelectMany(model => CheckItem(new List<EditorValidationErrorViewModel>(), model)).ToList();
+                    .SelectMany(model => CheckItem(new List<EditorValidationErrorViewModel>(), model,
+                        configurationEditorViewModel)).ToList();
 
             };
         }

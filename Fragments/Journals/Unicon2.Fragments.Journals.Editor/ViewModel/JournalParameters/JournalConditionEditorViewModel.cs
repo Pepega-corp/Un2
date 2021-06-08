@@ -9,6 +9,7 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -38,7 +39,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
 
         private void OnShowFormatterParameters()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this);
+            this._formatterEditorFactory.EditFormatterByUser(this,new List<IConfigurationItemViewModel>());
             this.RaisePropertyChanged(nameof(this.UshortFormatterString));
         }
 

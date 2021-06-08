@@ -8,6 +8,7 @@
 
         public static string ASCII_STRING_FORMATTER = "AsciiStringFormatter";
         public static string STRING_FORMATTER1251 = "StringFormatter1251";
+        public static string CODE_FORMATTER = "CodeFormatter";
 
         public static string FORMULA_FORMATTER = "FormulaFormatter";
 

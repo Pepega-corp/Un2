@@ -104,6 +104,13 @@
             TextWrapping="Wrap" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type formatters:CodeFormatterViewModel}">
+        <StackPanel Orientation="Vertical">
+            <TextBox AcceptsReturn="True" AcceptsTab="True" Width="400" Height="200" Text="{Binding FormatCodeString}"></TextBox>
+            <TextBox AcceptsReturn="True" AcceptsTab="True" Width="400" Height="200" Text="{Binding FormatBackCodeString}"></TextBox>
+        </StackPanel>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type formatters:StringFormatter1251ViewModel}">
         <TextBlock
             Margin="3"

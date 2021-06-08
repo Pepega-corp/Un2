@@ -7,5 +7,7 @@ namespace Unicon2.Presentation.Infrastructure.Services
     public interface IPropertyValueService
     {
         Task<Result<IFormattedValue>> GetValueOfProperty(object property, DeviceContext.DeviceContext deviceContext, bool cacheAllowed);
+        Task<Result<ushort[]>> GetUshortsOfProperty(object property, DeviceContext.DeviceContext deviceContext, bool cacheAllowed);
+
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using org.mariuszgromada.math.mxparser;
 using Unicon2.Formatting.Infrastructure.Model;
+using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Model;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
@@ -24,7 +25,7 @@ namespace Unicon2.Formatting.Visitors
         private readonly ushort[] _ushortsPayload;
         private readonly ITypesContainer _typesContainer;
         private readonly ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>> _iterationDefinitionsCache;
-        
+
         public FormatterFormatVisitor(ushort[] ushortsPayload, ITypesContainer typesContainer,
             ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>> iterationDefinitionsCache)
         {
@@ -45,12 +46,13 @@ namespace Unicon2.Formatting.Visitors
             {
                 boolValue.BoolValueProperty = true;
             }
+
             return boolValue;
         }
 
         public IFormattedValue VisitAsciiStringFormatter(IUshortsFormatter formatter)
         {
-            IStringValue stringValue = _typesContainer.Resolve<IStringValue>();  
+            IStringValue stringValue = _typesContainer.Resolve<IStringValue>();
             byte[] bytes = new byte[_ushortsPayload.Length * 2];
             Buffer.BlockCopy(_ushortsPayload, 0, bytes, 0, _ushortsPayload.Length * 2);
             string formattedString = Encoding.ASCII.GetString(bytes);
@@ -95,6 +97,7 @@ namespace Unicon2.Formatting.Visitors
                     value.MillisecondsValue = _ushortsPayload[i];
                 }
             }
+
             return value;
         }
 
@@ -120,21 +123,21 @@ namespace Unicon2.Formatting.Visitors
             iterationDefinition.NumberOfSimbolsAfterComma = formulaFormatter.NumberOfSimbolsAfterComma;
             if (formulaFormatter.UshortFormattableResources != null)
             {
-              //  int index = 1;
-              //  foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattableResources)
-              //  {
-                   // if (formattableUshortResource is IDeviceValueContaining)
-                   // {
-                   //     IFormattedValue value = formattableUshortResource.UshortsFormatter
-                    //        .Format((formattableUshortResource as IDeviceValueContaining).DeviceUshortsValue);
-                    //    if (value is INumericValue)
-                     //   {
-                     //       double num = (value as INumericValue).NumValue;
-                    //        iterationDefinition.ArgumentNames.Add("x" + index++);
-                     //       iterationDefinition.ArgumentValues.Add(num);
-                    //    }
-                  //  }
-               // }
+                //  int index = 1;
+                //  foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattableResources)
+                //  {
+                // if (formattableUshortResource is IDeviceValueContaining)
+                // {
+                //     IFormattedValue value = formattableUshortResource.UshortsFormatter
+                //        .Format((formattableUshortResource as IDeviceValueContaining).DeviceUshortsValue);
+                //    if (value is INumericValue)
+                //   {
+                //       double num = (value as INumericValue).NumValue;
+                //        iterationDefinition.ArgumentNames.Add("x" + index++);
+                //       iterationDefinition.ArgumentValues.Add(num);
+                //    }
+                //  }
+                // }
             }
 
             formattedValue.NumValue = MemoizeCalculateResult(iterationDefinition, formulaFormatter.FormulaString,
@@ -142,7 +145,8 @@ namespace Unicon2.Formatting.Visitors
             return formattedValue;
         }
 
-        public async Task<IFormattedValue> VisitFormulaFormatterAsync(IUshortsFormatter formatter,DeviceContext deviceContext)
+        public async Task<IFormattedValue> VisitFormulaFormatterAsync(IUshortsFormatter formatter,
+            DeviceContext deviceContext)
         {
             INumericValue formattedValue = _typesContainer.Resolve<INumericValue>();
             IterationDefinition iterationDefinition = new IterationDefinition();
@@ -157,22 +161,22 @@ namespace Unicon2.Formatting.Visitors
             iterationDefinition.NumberOfSimbolsAfterComma = formulaFormatter.NumberOfSimbolsAfterComma;
             if (formulaFormatter.UshortFormattableResources != null)
             {
-	            int index = 1;
-	            foreach (string formattableUshortResource in formulaFormatter.UshortFormattableResources)
-	            {
-		            var resource = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
-			            container => container.ResourceName == formattableUshortResource);
+                int index = 1;
+                foreach (string formattableUshortResource in formulaFormatter.UshortFormattableResources)
+                {
+                    var resource = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
+                        container => container.ResourceName == formattableUshortResource);
 
-		            var propValue = await StaticContainer.Container.Resolve<IPropertyValueService>()
-			            .GetValueOfProperty(resource.Resource, deviceContext,true);
+                    var propValue = await StaticContainer.Container.Resolve<IPropertyValueService>()
+                        .GetValueOfProperty(resource.Resource, deviceContext, true);
 
-		            if (propValue.Item is INumericValue numericValue)
-		            {
-			            double num = numericValue.NumValue;
-			            iterationDefinition.ArgumentNames.Add("x" + index++);
-			            iterationDefinition.ArgumentValues.Add(num);
-		            }
-	            }
+                    if (propValue.Item is INumericValue numericValue)
+                    {
+                        double num = numericValue.NumValue;
+                        iterationDefinition.ArgumentNames.Add("x" + index++);
+                        iterationDefinition.ArgumentValues.Add(num);
+                    }
+                }
             }
 
             formattedValue.NumValue = MemoizeCalculateResult(iterationDefinition, formulaFormatter.FormulaString,
@@ -182,7 +186,8 @@ namespace Unicon2.Formatting.Visitors
 
 
 
-        private double MemoizeCalculateResult(IterationDefinition iterationDefinition, string formula, int numberOfSimbolsAfterComma)
+        private double MemoizeCalculateResult(IterationDefinition iterationDefinition, string formula,
+            int numberOfSimbolsAfterComma)
         {
             if (_iterationDefinitionsCache.ContainsKey(formula))
             {
@@ -215,7 +220,8 @@ namespace Unicon2.Formatting.Visitors
             }
             else
             {
-                _iterationDefinitionsCache.TryAdd(formula, new ConcurrentBag<IterationDefinition>() {iterationDefinition});
+                _iterationDefinitionsCache.TryAdd(formula,
+                    new ConcurrentBag<IterationDefinition>() {iterationDefinition});
             }
 
             return result;
@@ -255,12 +261,15 @@ namespace Unicon2.Formatting.Visitors
                     chosenFromListValue.SelectedItem = dictionaryMatchingFormatter.DefaultMessage;
                     return chosenFromListValue;
                 }
+
                 chosenFromListValue.SelectedItem = this._ushortsPayload[0].ToString();
                 return chosenFromListValue;
-            };
+            }
+
+            ;
             if (dictionaryMatchingFormatter.IsKeysAreNumbersOfBits)
             {
-                BitArray bitArray = new BitArray(new int[] { _ushortsPayload[0] });
+                BitArray bitArray = new BitArray(new int[] {_ushortsPayload[0]});
                 bool isValueExists = false;
                 for (ushort i = 0; i < bitArray.Length; i++)
                 {
@@ -270,6 +279,7 @@ namespace Unicon2.Formatting.Visitors
                         isValueExists = true;
                     }
                 }
+
                 if ((!isValueExists) && (dictionaryMatchingFormatter.StringDictionary.ContainsKey(0)))
                 {
                     chosenFromListValue.SelectedItem = dictionaryMatchingFormatter.StringDictionary[0];
@@ -279,6 +289,7 @@ namespace Unicon2.Formatting.Visitors
             {
                 chosenFromListValue.SelectedItem = dictionaryMatchingFormatter.StringDictionary[_ushortsPayload[0]];
             }
+
             return chosenFromListValue;
         }
 
@@ -305,6 +316,21 @@ namespace Unicon2.Formatting.Visitors
         public IFormattedValue VisitMatrixFormatter(IUshortsFormatter formatter)
         {
             throw new NotImplementedException();
+        }
+
+        public IFormattedValue VisitCodeFormatter(IUshortsFormatter formatter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IFormattedValue> VisitCodeFormatterAsync(IUshortsFormatter formatter,
+            DeviceContext deviceContext)
+        {
+            var service = _typesContainer.Resolve<ICodeFormatterService>();
+            var codeFormatter = formatter as ICodeFormatter;
+            var value = service.GetFormatUshortsFunc(codeFormatter.CodeExpression, deviceContext);
+            var res = (await value.Item.Invoke(_ushortsPayload));
+            return res;
         }
     }
 }

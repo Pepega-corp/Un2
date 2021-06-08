@@ -1,9 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 
@@ -21,7 +23,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel.JournalParameters
 
         private void OnShowFormatterParametersExecute()
         {
-            this._formatterEditorFactory.EditFormatterByUser(this);
+            this._formatterEditorFactory.EditFormatterByUser(this,new List<IConfigurationItemViewModel>());
             this.RaisePropertyChanged(nameof(this.FormatterString));
         }
 

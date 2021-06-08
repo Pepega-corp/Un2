@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Unicon2.Formatting.Editor.ViewModels.Helpers;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Properties;
@@ -11,6 +12,7 @@ using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -34,7 +36,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private bool _isFromBits;
 
         public FormatterSelectionViewModel(ITypesContainer container,
-            List<IUshortFormattableEditorViewModel> ushortFormattableViewModels)
+            List<IUshortFormattableEditorViewModel> ushortFormattableViewModels,
+            List<IConfigurationItemViewModel> rootConfigurationItemViewModels)
         {
             CurrentResourceString = null;
             _container = container;
@@ -48,7 +51,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             for (int i = 15; i >= 0; i--)
             {
-                IBitViewModel bitViewModel = new BitViewModel(i);
+                IBitViewModel bitViewModel = new BitViewModel(i, true);
                 BitNumbersInWord.Add(bitViewModel);
             }
 
@@ -61,6 +64,9 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
                 if (ushortFormattableViewModel is IBitsConfigViewModel bitsConfigViewModel)
                 {
+                    //BitNumbersInWord.AddCollection(
+                    //    BitOwnershipHelper.CreateBitViewModelsWithOwnership(bitsConfigViewModel,
+                    //        rootConfigurationItemViewModels));
                     bitsConfigViewModel.CopyBitsTo(this);
                     IsBitsEditingEnabled = true;
                 }
@@ -246,6 +252,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
         }
 
         public ObservableCollection<IBitViewModel> BitNumbersInWord { get; set; }
+        public (ushort address, ushort numberOfPoints) GetAddressInfo()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool IsBitsEditingEnabled { get; set; }
     }
 }

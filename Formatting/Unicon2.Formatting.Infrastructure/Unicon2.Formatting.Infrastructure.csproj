@@ -67,8 +67,11 @@
     <Compile Include="Keys\StringKeys.cs" />
     <Compile Include="Model\IBitMaskFormatter.cs" />
     <Compile Include="Model\IBoolFormatter.cs" />
+    <Compile Include="Model\ICodeFormatter.cs" />
     <Compile Include="Model\IDefaultTimeFormatter.cs" />
+    <Compile Include="Services\ICodeFormatterService.cs" />
     <Compile Include="ViewModel\IBitMaskFormatterViewModel.cs" />
+    <Compile Include="ViewModel\ICodeFormatterViewModel.cs" />
     <Compile Include="ViewModel\IDefaultTimeFormatterViewModel.cs" />
     <Compile Include="ViewModel\IDictionaryMatchingFormatterViewModel.cs" />
     <Compile Include="ViewModel\IDynamicFormatterViewModel.cs" />

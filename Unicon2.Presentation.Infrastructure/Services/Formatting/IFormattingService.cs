@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Values;
@@ -7,8 +8,11 @@ namespace Unicon2.Presentation.Infrastructure.Services.Formatting
     public interface IFormattingService
     {
         Task<IFormattedValue> FormatValueAsync(IUshortsFormatter ushortsFormatter, ushort[] ushorts,DeviceContext.DeviceContext deviceContext);
-
+            
         IFormattedValue FormatValue(IUshortsFormatter ushortsFormatter, ushort[] ushorts);
         ushort[] FormatBack(IUshortsFormatter ushortsFormatter, IFormattedValue formattedValue);
+        Task<ushort[]> FormatBackAsync(IUshortsFormatter ushortsFormatter, IFormattedValue formattedValue, DeviceContext.DeviceContext deviceContext);
+
+
     }
 }

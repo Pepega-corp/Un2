@@ -89,13 +89,11 @@
     <Reference Include="Fluent, Version=7.0.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
       <HintPath>..\packages\Fluent.Ribbon.7.0.0\lib\net462\Fluent.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0">
+    <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.9.2.2\lib\net461\FluentValidation.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f">
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.2.4.3\lib\net47\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
@@ -103,16 +101,21 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -172,6 +175,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\FragmentSettingsTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -231,16 +238,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\Error.png" />
     <Resource Include="Icons\ExchangeFail.png" />
     <Resource Include="Icons\ExchangeSuccess.png" />
     <Resource Include="Icons\Info.png" />
-    <Content Include="Resources\Entypo-license.txt" />
+    <None Include="packages.config" />
+    <None Include="Resources\Entypo.ttf" />
     <None Include="Resources\Image1.bmp" />
+    <Content Include="Resources\Entypo-license.txt" />
     <Content Include="Resources\WindowsIcons-license.txt" />
     <Content Include="Resources\write.png" />
   </ItemGroup>

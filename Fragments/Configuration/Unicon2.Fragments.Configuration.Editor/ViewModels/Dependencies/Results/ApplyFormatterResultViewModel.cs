@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -15,7 +17,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Results
         {
             _formatterEditorFactory = formatterEditorFactory;
 
-            ShowFormatterParameters = new RelayCommand(() => { _formatterEditorFactory.EditFormatterByUser(this); });
+            ShowFormatterParameters = new RelayCommand(() => { _formatterEditorFactory.EditFormatterByUser(this,new List<IConfigurationItemViewModel>()); });
         }
 
         private IFormatterParametersViewModel _formatterParametersViewModel;

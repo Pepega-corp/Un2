@@ -86,9 +86,11 @@ namespace Unicon2.Connections.MockConnection.Model
             return new DefaultQueryResult<ushort[]>()
             {
                 IsSuccessful = true,
+
                 Result = MemorySlotDictionary
                     .Where((pair) => startAddress <= pair.Key && pair.Key <= (startAddress + numberOfPoints - 1))
-                    .Select((pair) => pair.Value).ToArray()
+                    .OrderBy(pair =>pair.Key ).Select((pair) => pair.Value)
+                    .ToArray()
             };
         }
 

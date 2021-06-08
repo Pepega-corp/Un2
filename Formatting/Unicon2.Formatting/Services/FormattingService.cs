@@ -37,6 +37,7 @@ namespace Unicon2.Formatting.Services
                 return error;
             }
         }
+
         private async Task<IFormattedValue> TryFormatAsync(IUshortsFormatter ushortsFormatter, ushort[] ushorts, DeviceContext deviceContext)
         {
             if (ushortsFormatter == null)
@@ -47,6 +48,12 @@ namespace Unicon2.Formatting.Services
             {
                 return await (new FormatterFormatVisitor(ushorts, this._typesContainer,
                     this._iterationDefinitionsCache).VisitFormulaFormatterAsync(ushortsFormatter, deviceContext));
+            }
+
+            if (ushortsFormatter is CodeFormatter codeFormatter)
+            {
+                return await (new FormatterFormatVisitor(ushorts, this._typesContainer,
+                    this._iterationDefinitionsCache).VisitCodeFormatterAsync(ushortsFormatter, deviceContext));
             }
             return ushortsFormatter.Accept(new FormatterFormatVisitor(ushorts, _typesContainer,
                 _iterationDefinitionsCache));
@@ -72,12 +79,27 @@ namespace Unicon2.Formatting.Services
 	        {
 		        return null;
 	        }
+            if (ushortsFormatter is CodeFormatter codeFormatter)
+            {
+                INumericValue numValue = _typesContainer.Resolve<INumericValue>();
+                numValue.NumValue = ushorts[0];
+                return numValue;
+            }
             return ushortsFormatter.Accept(new FormatterFormatVisitor(ushorts, _typesContainer,
                 _iterationDefinitionsCache));
         }
 
         public ushort[] FormatBack(IUshortsFormatter ushortsFormatter, IFormattedValue formattedValue)
         {
+            return ushortsFormatter.Accept(new FormatterFormatBackVisitor(formattedValue));
+        }
+
+        public async Task<ushort[]> FormatBackAsync(IUshortsFormatter ushortsFormatter, IFormattedValue formattedValue,DeviceContext deviceContext)
+        {
+            if (ushortsFormatter is CodeFormatter codeFormatter)
+            {
+                return await(new FormatterFormatBackVisitor(formattedValue).VisitCodeFormatterAsync(ushortsFormatter, deviceContext));
+            }
             return ushortsFormatter.Accept(new FormatterFormatBackVisitor(formattedValue));
         }
     }

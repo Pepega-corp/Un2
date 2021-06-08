@@ -82,7 +82,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net45\CommonServiceLocator.dll</HintPath>
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
@@ -93,9 +93,8 @@
     <Reference Include="Fluent, Version=7.0.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
       <HintPath>..\packages\Fluent.Ribbon.7.0.0\lib\net462\Fluent.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f">
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.2.4.3\lib\net47\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro.IconPacks, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.IconPacks.4.8.0\lib\net47\MahApps.Metro.IconPacks.dll</HintPath>
@@ -371,9 +370,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.manifest" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

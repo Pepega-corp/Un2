@@ -84,5 +84,15 @@ namespace Unicon2.Formatting.Editor.Visitors
             formatter.BitSignatures = formatterViewModel.BitSignatures.Select(wrapper => wrapper.StringValue).ToList();
             return formatter;
         }
+
+        public IUshortsFormatter VisitCodeFormatter(CodeFormatterViewModel formatterViewModel)
+        {
+            var formatter = new CodeFormatter
+            {
+                FormatCodeString = formatterViewModel.FormatCodeString,
+                FormatBackCodeString = formatterViewModel.FormatBackCodeString
+            };
+            return formatter;
+        }
     }
 }

@@ -1,10 +1,12 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies;
 using Unicon2.Fragments.Measuring.Infrastructure.Keys;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Dependencies;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Unity.Commands;
@@ -46,7 +48,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Elements
 
 	    private void OnShowFormatterParametersExecute()
 		{
-			_formatterEditorFactory.EditFormatterByUser(this);
+			_formatterEditorFactory.EditFormatterByUser(this,new List<IConfigurationItemViewModel>());
 			// this.RaisePropertyChanged(nameof(this.FormatterString));
 		}
 

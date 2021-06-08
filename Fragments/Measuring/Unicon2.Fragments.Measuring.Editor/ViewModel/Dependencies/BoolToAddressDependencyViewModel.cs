@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.ViewModel.Elements;
 using Unicon2.Presentation.Infrastructure.Factories;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Unity.Commands;
@@ -63,13 +65,13 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel.Dependencies
 	    private void OnShowFormatterParametersIfFalseExecute()
 		{
 			_formatterEditorFactory.EditFormatterByUser(new FormattableAdapter(_relatedResourceName,
-				() => FormatterParametersIfFalseViewModel, model => FormatterParametersIfFalseViewModel = model));
+				() => FormatterParametersIfFalseViewModel, model => FormatterParametersIfFalseViewModel = model),new List<IConfigurationItemViewModel>());
 		}
 
 		private void OnShowFormatterParametersIfTrueExecute()
 		{
 			_formatterEditorFactory.EditFormatterByUser(new FormattableAdapter(_relatedResourceName,
-				() => FormatterParametersIfTrueViewModel, model => FormatterParametersIfTrueViewModel = model));
+				() => FormatterParametersIfTrueViewModel, model => FormatterParametersIfTrueViewModel = model),new List<IConfigurationItemViewModel>());
 		}
 
 		public string RelatedResourceName

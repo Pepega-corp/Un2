@@ -35,7 +35,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         }
         public int Priority { get; set; } = 2;
 
-        public void Execute()
+        public async void Execute()
         {
             if (_property.IsFromBits)
             {
@@ -100,8 +100,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 }
 
 
-                var ushorts = formattingService.FormatBack(formatterForDependentProperty,
-                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor));
+                var ushorts =await formattingService.FormatBackAsync(formatterForDependentProperty,
+                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor),_deviceContext);
 
                 MemoryAccessor.SetUshortsInMemory(_deviceContext.DeviceMemory, (ushort) (_property.Address + _offset),
                     ushorts, true);

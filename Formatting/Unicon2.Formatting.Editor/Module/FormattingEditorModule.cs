@@ -5,7 +5,9 @@ using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Editor.ViewModels.InnerMembers;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
+using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Infrastructure.ViewModel.InnerMembers;
+using Unicon2.Formatting.Services;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
@@ -23,7 +25,8 @@ namespace Unicon2.Formatting.Editor.Module
         {
             container.Register(typeof(IUshortsFormatterViewModel), typeof(StringFormatter1251ViewModel),
                 StringKeys.STRING_FORMATTER1251 + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-
+            container.Register(typeof(IUshortsFormatterViewModel), typeof(CodeFormatterViewModel),
+                StringKeys.CODE_FORMATTER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register(typeof(IUshortsFormatterViewModel), typeof(AsciiStringFormatterViewModel),
                 StringKeys.ASCII_STRING_FORMATTER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register(typeof(IUshortsFormatterViewModel), typeof(DictionaryMatchingFormatterViewModel),
@@ -57,6 +60,7 @@ namespace Unicon2.Formatting.Editor.Module
             container.Register(typeof(IFormatterViewModelFactory), typeof(FormatterViewModelFactory));
             container.Register<IFormatterParametersViewModel, FormatterParametersViewModel>();
             container.Register<IEditableValueCopyVisitorProvider, EditableValueCopyVisitorProvider>();
+            container.Register<ICodeFormatterService, UniconEngineCodeFormatterService>(true);
 
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();
             xamlResourcesService.AddResourceAsGlobal("Resources/FormattersTemplates.xaml", GetType().Assembly);

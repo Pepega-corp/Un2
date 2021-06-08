@@ -18,9 +18,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
     {
         private bool _isChecked;
 
-        public BitViewModel(int bitNumber)
+        public BitViewModel(int bitNumber, bool isBitEditEnabled, string ownerTooltip=null)
         {
             BitNumber = bitNumber;
+            IsBitEditEnabled = isBitEditEnabled;
+            OwnerTooltip = ownerTooltip;
         }
         public bool IsChecked
         {
@@ -33,6 +35,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         }
 
         public int BitNumber { get; }
+        public bool IsBitEditEnabled { get; }
+        public string OwnerTooltip { get; }
     }
 
 	public class PropertyEditorViewModel : EditorConfigurationItemViewModelBase, IPropertyEditorViewModel
@@ -61,7 +65,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 
 			for (int i = 15; i >= 0; i--)
             {
-                IBitViewModel bitViewModel = new BitViewModel(i);
+                IBitViewModel bitViewModel = new BitViewModel(i,true);
                 BitNumbersInWord.Add(bitViewModel);
             }
 		}
@@ -245,5 +249,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 	    public ObservableCollection<IDependencyViewModel> DependencyViewModels { get; }
         public bool IsFromBits { get; set; }
         public ObservableCollection<IBitViewModel> BitNumbersInWord { get; set; }
+        public (ushort address, ushort numberOfPoints) GetAddressInfo()
+        {
+            return (ushort.Parse(Address), ushort.Parse(NumberOfPoints));
+        }
     }
 }

@@ -70,24 +70,28 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0">
+    <Reference Include="FluentValidation, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.9.2.2\lib\net461\FluentValidation.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -134,6 +138,7 @@
     <Compile Include="Functional\ResultExtensions.cs" />
     <Compile Include="GeneralFactories\IGeneralViewModelFactory.cs" />
     <Compile Include="IApplicationGlobalCommands.cs" />
+    <Compile Include="Interfaces\CodeFormatterExpression.cs" />
     <Compile Include="Interfaces\DataOperations\IHtmlRenderer.cs" />
     <Compile Include="Interfaces\DataOperations\IWriteable.cs" />
     <Compile Include="Interfaces\Dependancy\ConditionresultEnum.cs" />
@@ -155,6 +160,7 @@
     <Compile Include="Interfaces\ISharedValueViewModel.cs" />
     <Compile Include="Interfaces\IStronglyNamed.cs" />
     <Compile Include="Interfaces\IUniqueId.cs" />
+    <Compile Include="Interfaces\IWithAddress.cs" />
     <Compile Include="Interfaces\Visitors\IFormatterVisitor.cs" />
     <Compile Include="Progress\ITaskProgressReport.cs" />
     <Compile Include="Services\ApplicationSettingsService\IApplicationSettingsService.cs" />
@@ -202,9 +208,6 @@
     <Compile Include="Visitors\IValueVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Backend\Unicon.Common\Unicon.Common.csproj">
       <Project>{10fb27e3-4c8d-4031-b63c-81c21d9fc277}</Project>
       <Name>Unicon.Common</Name>
@@ -213,6 +216,9 @@
       <Project>{4D5A6B2A-5AC6-4D18-A126-A3E2F873C2F8}</Project>
       <Name>Unicon2.Unity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

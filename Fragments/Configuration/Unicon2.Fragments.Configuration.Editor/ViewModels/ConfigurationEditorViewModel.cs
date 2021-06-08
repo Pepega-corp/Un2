@@ -494,7 +494,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void OnShowFormatterParametersExecute()
         {
-            _formatterEditorFactory.EditFormatterByUser(SelectedRows.Cast<IUshortFormattableEditorViewModel>().ToList());
+            _formatterEditorFactory.EditFormatterByUser(SelectedRows.Cast<IUshortFormattableEditorViewModel>().ToList(),this.RootConfigurationItemViewModels.ToList());
         }
 
         private bool CanExecuteDeleteElement()
@@ -504,7 +504,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanExecuteEditElement()
         {
-
             return (SelectedRow is IEditable);
         }
 

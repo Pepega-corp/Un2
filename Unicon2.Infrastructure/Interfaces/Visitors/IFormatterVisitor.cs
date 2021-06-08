@@ -12,6 +12,6 @@ namespace Unicon2.Infrastructure.Interfaces.Visitors
         T VisitDictionaryMatchFormatter(IUshortsFormatter formatter);
         T VisitBitMaskFormatter(IUshortsFormatter formatter);
         T VisitMatrixFormatter(IUshortsFormatter formatter);
-
+        T VisitCodeFormatter(IUshortsFormatter formatter);
     }
 }

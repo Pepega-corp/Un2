@@ -6,6 +6,7 @@ using Unicon2.Fragments.Journals.Editor.Interfaces.JournalParameters;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
@@ -75,7 +76,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
 
         private void OnShowFormatterParametersExecute()
         {
-            this._formatterEditorFactory.EditFormatterByUser(SelectedJournalParameterEditorViewModel);
+            this._formatterEditorFactory.EditFormatterByUser(SelectedJournalParameterEditorViewModel,new List<IConfigurationItemViewModel>());
             this.SelectedJournalParameterEditorViewModel.StopEditElement();
         }
 

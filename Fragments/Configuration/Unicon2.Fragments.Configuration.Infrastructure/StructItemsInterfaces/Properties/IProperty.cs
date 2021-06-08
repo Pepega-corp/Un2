@@ -5,9 +5,8 @@ using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties
 {
-    public interface IProperty : IConfigurationItem, IUshortFormattable, IMeasurable, IRangeable, IBitConfigurable
+    public interface IProperty : IConfigurationItem, IUshortFormattable, IMeasurable, IRangeable, IBitConfigurable, IWithAddress
     {
-        ushort Address { get; set; }
         ushort NumberOfPoints { get; set; }
         ushort NumberOfWriteFunction { get; set; }
         List<IDependency> Dependencies { get; set; }

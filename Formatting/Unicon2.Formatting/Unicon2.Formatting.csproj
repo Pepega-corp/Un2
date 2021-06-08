@@ -47,21 +47,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathParser.org-mXparser, Version=4.3.3.0, Culture=neutral, PublicKeyToken=0fbab7add73ed6e2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MathParser.org-mXparser.4.3.3\lib\net45\MathParser.org-mXparser.dll</HintPath>
+      <HintPath>..\..\packages\MathParser.org-mXparser.4.3.3\lib\net472\MathParser.org-mXparser.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.3.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.3.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.IO.RecyclableMemoryStream.1.3.6\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -79,9 +76,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="XAMLMarkupExtensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb">
+    <Reference Include="XAMLMarkupExtensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
       <HintPath>..\..\packages\XAMLMarkupExtensions.2.0.0\lib\net472\XAMLMarkupExtensions.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +85,7 @@
     <Compile Include="Model\AsciiStringFormatter.cs" />
     <Compile Include="Model\Base\UshortsFormatterBase.cs" />
     <Compile Include="Model\BoolFormatter.cs" />
+    <Compile Include="Model\CodeFormatter.cs" />
     <Compile Include="Model\DefaultBitMaskFormatter.cs" />
     <Compile Include="Model\DefaultTimeFormatter.cs" />
     <Compile Include="Model\DictionaryMatchingFormatter.cs" />
@@ -111,6 +108,51 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\CodeFormatterService.cs" />
+    <Compile Include="Services\ExpressionEngine\Common\VariableNames.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\AddNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\AddVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\ApplyMathFunctionNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\CompareNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\CompareVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\DivideNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\DivideVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Evaluator.cs" />
+    <Compile Include="Services\ExpressionEngine\Common\Extensions.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\GetBitOfResourceNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\GetBitOfResourceVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\GetDeviceValueNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\GetDeviceValueVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\GetResultValueNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\GetResultValueVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\GetVariableNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\GetVariableVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\IfBitValueNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\IfNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\IfVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Common\IRuleNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Common\LexemaVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\LexemManager.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\MultiplyNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\MultiplyVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\NumberNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Common\OperatorType.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\PowNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\PowVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\RuleExecutionContext.cs" />
+    <Compile Include="Services\ExpressionEngine\Common\RuleNodeBase.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\SetBitOfResourceNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\SetBitOfResourceVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\SetBitValueNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\SetDeviceValueNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\SetDeviceValueVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\SetResultValueNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\SetResultValueVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\SetVariableNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\SetVariableVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\SubtractNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\SubtractVisitor.cs" />
+    <Compile Include="Services\UniconEngineCodeFormatterService.cs" />
     <Compile Include="Services\FormattingService.cs" />
     <Compile Include="Visitors\FormatterFormatVisitor.cs" />
     <Compile Include="Visitors\FormatterFormatBackVisitor.cs" />

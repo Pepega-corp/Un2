@@ -34,7 +34,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             _offset = offset;
         }
 
-        public void Execute()
+        public async void Execute()
         {
             if (_property.IsFromBits)
             {
@@ -42,13 +42,14 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
                 var formatterForProperty = _property?.UshortsFormatter;
                 if (!MemoryAccessor.IsMemoryContainsAddresses(_deviceContext.DeviceMemory,
-                    (ushort)(_property.Address + _offset), _property.NumberOfPoints, false))
+                    (ushort) (_property.Address + _offset), _property.NumberOfPoints, false))
                 {
                     return;
                 }
+
                 var ushortsFromDevice = MemoryAccessor.GetUshortsFromMemory(
                     _deviceContext.DeviceMemory,
-                    (ushort)(_property.Address + _offset), _property.NumberOfPoints, false);
+                    (ushort) (_property.Address + _offset), _property.NumberOfPoints, false);
 
                 var boolArray = ushortsFromDevice.GetBoolArrayFromUshortArray().ToArray();
                 List<bool> subPropertyBools = new List<bool>();
@@ -87,9 +88,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     _deviceContext.DeviceMemory,
                     (ushort) (_property.Address + _offset), _property.NumberOfPoints, false))
                 {
-                    var value = formattingService.FormatValue(formatterForProperty, MemoryAccessor.GetUshortsFromMemory(
-                        _deviceContext.DeviceMemory,
-                        (ushort) (_property.Address + _offset), _property.NumberOfPoints, false));
+                    var value = await formattingService.FormatValueAsync(formatterForProperty,
+                        MemoryAccessor.GetUshortsFromMemory(
+                            _deviceContext.DeviceMemory,
+                            (ushort) (_property.Address + _offset), _property.NumberOfPoints, false), _deviceContext);
                     _localAndDeviceValueContainingViewModel.DeviceValue =
                         _valueViewModelFactory.CreateFormattedValueViewModel(value);
                 }

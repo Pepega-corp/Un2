@@ -6,6 +6,7 @@ using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Editor.ViewModels.InnerMembers;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.Model;
+using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
@@ -115,6 +116,16 @@ namespace Unicon2.Formatting.Editor.Factories
         public IUshortsFormatterViewModel VisitMatrixFormatter(IUshortsFormatter formatter)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IUshortsFormatterViewModel VisitCodeFormatter(IUshortsFormatter formatter)
+        {
+            var codeFormatter = formatter as ICodeFormatter;
+            return new CodeFormatterViewModel(StaticContainer.Container.Resolve<ICodeFormatterService>())
+            {
+                FormatBackCodeString = codeFormatter.FormatBackCodeString,
+                FormatCodeString = codeFormatter.FormatCodeString
+            };
         }
 
         IFormatterParametersViewModel IFormatterViewModelFactory.CreateFormatterViewModel(

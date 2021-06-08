@@ -13,5 +13,6 @@ namespace Unicon2.Formatting.Editor.Visitors
         T VisitUshortToIntegerFormatter(UshortToIntegerFormatterViewModel formatter);
         T VisitDictionaryMatchFormatter(DictionaryMatchingFormatterViewModel formatter);
         T VisitBitMaskFormatter(DefaultBitMaskFormatterViewModel formatter);
+        T VisitCodeFormatter(CodeFormatterViewModel formatter);
     }
 }
