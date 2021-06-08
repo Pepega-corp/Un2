@@ -47,8 +47,25 @@ namespace Unicon2.Tests.Configuration
 
         private class CodeFormatterTestCase
         {
-            
+            public CodeFormatterTestCase(string codeStringFormat, string codeStringFormatBack,ushort[] initialDeviceValue, double initialFormattedValue, double modifiedFormattedValue, ushort[] modifiedDeviceValue)
+            {
+                InitialDeviceValue = initialDeviceValue;
+                InitialFormattedValue = initialFormattedValue;
+                ModifiedFormattedValue = modifiedFormattedValue;
+                ModifiedDeviceValue = modifiedDeviceValue;
+                CodeStringFormat = codeStringFormat;
+                CodeStringFormatBack = codeStringFormatBack;
+            }
+
+            public string CodeStringFormat { get; }
+            public string CodeStringFormatBack { get; }
+
+            public ushort[] InitialDeviceValue { get; }
+            public double InitialFormattedValue { get; }
+            public double ModifiedFormattedValue { get; }
+            public ushort[] ModifiedDeviceValue { get; }
         }
+    
 
         [Test]
         public void CreateSaveLoadAndCheckCodeFormatter()
@@ -62,6 +79,9 @@ namespace Unicon2.Tests.Configuration
                 Name = "root"
             };
             
+            var testCases=new List<CodeFormatterTestCase>();
+            testCases.Add(new CodeFormatterTestCase("Add(2,GetDeviceValue(0))=>Select(double)",
+                "SetDeviceValue(Subtract(GetInputValue(),2))",new []{(ushort)1},3,6,new []{(ushort)4}));
        
             configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
 
