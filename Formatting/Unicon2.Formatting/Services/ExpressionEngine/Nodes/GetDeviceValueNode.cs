@@ -16,7 +16,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 
         public override async Task<object> ExecuteNode(RuleExecutionContext ruleExecutionContext)
         {
-            return Convert.ToDouble((ruleExecutionContext.Variables["deviceValue"] as List<ushort>)[
+            return Convert.ToDouble((ruleExecutionContext.Variables[VariableNames.DEVICE_VALUE] as List<ushort>)[
                 Convert.ToInt32((double)await _numberNode.ExecuteNode(ruleExecutionContext))]);
         }
     }

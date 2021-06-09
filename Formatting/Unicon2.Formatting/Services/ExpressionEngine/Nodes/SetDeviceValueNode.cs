@@ -22,14 +22,14 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
             var numberOfValue =
                 Convert.ToInt32((double)await _numberOfValue.ExecuteNode(ruleExecutionContext));
             var deviceValue = new List<ushort>();
-            if (ruleExecutionContext.Variables.ContainsKey("deviceValue"))
+            if (ruleExecutionContext.Variables.ContainsKey(VariableNames.DEVICE_VALUE))
             {
-                deviceValue = ruleExecutionContext.Variables["deviceValue"] as List<ushort>;
+                deviceValue = ruleExecutionContext.Variables[VariableNames.DEVICE_VALUE] as List<ushort>;
             }
 
             if (deviceValue.Count < numberOfValue + 1)
             {
-                for (int i = 0; i < numberOfValue; i++)
+                for (int i = 0; i <= numberOfValue; i++)
                 {
                     if (deviceValue.Count < i + 1)
                     {
@@ -39,8 +39,8 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
             }
 
             deviceValue[numberOfValue] =
-                (ushort)await _valueToSet.ExecuteNode(ruleExecutionContext);
-            ruleExecutionContext.Variables["deviceValue"] = deviceValue;
+               Convert.ToUInt16((double)await _valueToSet.ExecuteNode(ruleExecutionContext));
+            ruleExecutionContext.Variables[VariableNames.DEVICE_VALUE] = deviceValue;
             return deviceValue[numberOfValue];
         }
     }

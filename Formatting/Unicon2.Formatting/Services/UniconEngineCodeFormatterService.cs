@@ -52,7 +52,7 @@ namespace Unicon2.Formatting.Services
                 return codeExpression.BuiltExpressionFormatBack;
             }
 
-            var nodes = Evaluator.Initialize(codeExpression.CodeStringFormat, _lexemManager);
+            var nodes = Evaluator.Initialize(codeExpression.CodeStringFormatBack, _lexemManager);
 
             return Result<Func<IFormattedValue, Task<ushort[]>>>.Create(
                 (input) => Evaluator.ExecuteFormatBack(input, new RuleExecutionContext(deviceContext), nodes), true);

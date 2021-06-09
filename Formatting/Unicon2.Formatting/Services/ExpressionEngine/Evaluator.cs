@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unicon2.Formatting.Services.ExpressionEngine.Common;
 using Unicon2.Infrastructure.Values;
@@ -23,7 +24,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
 
         public static async Task<IFormattedValue> ExecuteFormat(ushort[] deviceValue, RuleExecutionContext ruleExecutionContext,List<IRuleNode> ruleNodes)
         {
-            ruleExecutionContext.SetVariable(VariableNames.DEVICE_VALUE, deviceValue);
+            ruleExecutionContext.SetVariable(VariableNames.DEVICE_VALUE, deviceValue.ToList());
             foreach (var ruleNode in ruleNodes)
             {
                 await ruleNode.ExecuteNode(ruleExecutionContext);
@@ -38,7 +39,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
             {
                 await ruleNode.ExecuteNode(ruleExecutionContext);
             }
-            return ruleExecutionContext.GetVariable<List<ushort>>(VariableNames.RESULT_VALUE).ToArray();
+            return ruleExecutionContext.GetVariable<List<ushort>>(VariableNames.DEVICE_VALUE).ToArray();
         }
     }
 }

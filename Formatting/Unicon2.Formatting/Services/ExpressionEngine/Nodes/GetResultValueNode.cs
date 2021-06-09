@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Unicon2.Formatting.Services.ExpressionEngine.Common;
 
 namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 {
@@ -11,7 +12,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 
         public override async Task<object> ExecuteNode(RuleExecutionContext ruleExecutionContext)
         {
-            return ruleExecutionContext.Variables["resultValue"];
+            return ruleExecutionContext.Variables[VariableNames.RESULT_VALUE];
         }
     }
 }

@@ -6,7 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Prism.Ioc;
+using Unicon2.Connections.MockConnection.Model;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
+using Unicon2.Formatting.Editor.ViewModels;
+using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
+using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Filter;
@@ -15,6 +19,8 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Filter;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
+using Unicon2.Fragments.Configuration.MemoryAccess;
 using Unicon2.Fragments.Configuration.Model.Conditions;
 using Unicon2.Fragments.Configuration.Model.Filter;
 using Unicon2.Fragments.Configuration.ViewModel;
@@ -23,11 +29,16 @@ using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Presentation.Values.Editable;
+using Unicon2.Presentation.ViewModels.Fragment;
 using Unicon2.Shell.ViewModels;
+using Unicon2.Tests.Utils;
 using Unicon2.Tests.Utils.Mocks;
 using Unicon2.Unity.Common;
 using Unicon2.Unity.Interfaces;
@@ -35,6 +46,7 @@ using Unity;
 
 namespace Unicon2.Tests.Configuration
 {
+    [TestFixture]
     public class CodeFormattingTests
     {
         private ITypesContainer _typesContainer;
@@ -68,11 +80,14 @@ namespace Unicon2.Tests.Configuration
     
 
         [Test]
-        public void CreateSaveLoadAndCheckCodeFormatter()
+        public async Task CreateSaveLoadAndCheckCodeFormatter()
         {
-            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
-                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
-                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+            IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
+            initialDevice.LoadDevice("FileAssets/testFile.json");
+
+            var configurationEditorViewModel = initialDevice.FragmentEditorViewModels.First() as ConfigurationEditorViewModel;
+
+            var baseAddress = 1000;
 
             var rootGroup = new ConfigurationGroupEditorViewModel()
             {
@@ -80,56 +95,100 @@ namespace Unicon2.Tests.Configuration
             };
             
             var testCases=new List<CodeFormatterTestCase>();
-            testCases.Add(new CodeFormatterTestCase("Add(2,GetDeviceValue(0))=>Select(double)",
-                "SetDeviceValue(Subtract(GetInputValue(),2))",new []{(ushort)1},3,6,new []{(ushort)4}));
-       
+            testCases.Add(new CodeFormatterTestCase("SetResultValue(Add(2,GetDeviceValue(0)))=>Select(number)",
+                "SetDeviceValue(Subtract(GetInputValue(),2),0)",new []{(ushort)1},3,6,new []{(ushort)4}));
+
+            foreach (var testCase in testCases)
+            {
+                IPropertyEditorViewModel rootProperty =
+                    ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null) as IPropertyEditorViewModel;
+                rootProperty.Address = (1000 + testCases.IndexOf(testCase)).ToString();
+                rootProperty.NumberOfPoints = 1.ToString();
+                rootProperty.Name = "codeFormatterProp" + testCases.IndexOf(testCase).ToString();
+                rootProperty.NumberOfWriteFunction = (ushort) 16;
+                rootGroup.ChildStructItemViewModels.Add(rootProperty);
+
+
+                rootProperty.FormatterParametersViewModel = new FormatterParametersViewModel();
+                rootProperty.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
+                    new CodeFormatterViewModel(StaticContainer.Container.Resolve<ICodeFormatterService>())
+                    {
+                        FormatCodeString = testCase.CodeStringFormat,
+                        FormatBackCodeString = testCase.CodeStringFormatBack
+                    };
+            }
+
+
             configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
 
             var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
+           
+            
+            Program.CleanProject();
+            var device = initialDevice.GetDevice();
 
-            var groupFilter = (result.RootConfigurationItemList[0] as IItemsGroup).GroupFilter as GroupFilterInfo;
-            Assert.True(groupFilter.Filters.Count == 2);
+            Program.GetApp().Container.Resolve<IDevicesContainerService>()
+                .AddConnectableItem(device);
+            var shell = Program.GetApp().Container.Resolve<ShellViewModel>();
+            var deviceViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0];
 
-            DefaultFilter defaultFilter1 = groupFilter.Filters[0] as DefaultFilter;
+          var configuration = device.DeviceFragments.First(fragment => fragment.StrongName == "Configuration") as
+                    IDeviceConfiguration;
+            
+            var configurationFragmentViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
+                    .First(model => model.NameForUiKey == "Configuration") as
+                RuntimeConfigurationViewModel;
+            var command = configurationFragmentViewModel.FragmentOptionsViewModel.GetCommand("Device", "Read");
+            await configurationFragmentViewModel.SetFragmentOpened(true);
 
-            DefaultFilter defaultFilter2 = groupFilter.Filters[1] as DefaultFilter;
-            Assert.True(defaultFilter1.Conditions.Count == 0);
-            Assert.True(defaultFilter1.Name == "F1");
+            var mockConnection = new MockConnection();
 
-            Assert.True(defaultFilter2.Conditions.Count == 1);
-            Assert.True(defaultFilter2.Name == "F2");
-
-            var condition = defaultFilter2.Conditions[0] as CompareCondition;
-
-            Assert.True(condition.ConditionsEnum == ConditionsEnum.Equal);
-            Assert.True(condition.UshortValueToCompare == 1);
-
-
-            ConfigurationItemEditorViewModelFactory configurationItemEditorViewModelFactory =
-                ConfigurationItemEditorViewModelFactory.Create();
-
-            var loadedRootItem =
-                configurationItemEditorViewModelFactory.VisitItemsGroup(
-                    result.RootConfigurationItemList[0] as IItemsGroup);
+            foreach (var testCase in testCases)
+            {
+                mockConnection.MemorySlotDictionary.AddElement((ushort) (1000 + testCases.IndexOf(testCase)),
+                    testCase.InitialDeviceValue[0]);
+            }
 
 
-            FilterViewModel filterViewModel1 =
-                (loadedRootItem as IConfigurationGroupEditorViewModel).FilterViewModels[0] as FilterViewModel;
 
-            FilterViewModel filterViewModel2 =
-                (loadedRootItem as IConfigurationGroupEditorViewModel).FilterViewModels[1] as FilterViewModel;
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(device, mockConnection);
+            shell.ActiveFragmentViewModel = new FragmentPaneViewModel()
+            {
+                FragmentViewModel = configurationFragmentViewModel
+            };
+            command.OptionCommand.Execute(null);
+            
+            
+            Assert.True(await TestsUtils.WaitUntil(() => command.OptionCommand.CanExecute(null), 30000));
+            await TransferFromDeviceToLocal(configuration, configurationFragmentViewModel);
 
-            Assert.True(filterViewModel1.Name == "F1");
-            Assert.True(filterViewModel2.Name == "F2");
+            foreach (var testCase in testCases)
+            {
+                var formatterWithCodePropertyViewModel = configurationFragmentViewModel
+                    .RootConfigurationItemViewModels
+                    .Cast<IConfigurationItemViewModel>().ToList()
+                    .FindItemViewModelByName(model =>
+                        model.Header == "codeFormatterProp" + testCases.IndexOf(testCase).ToString())
+                    .Item as IRuntimePropertyViewModel;
 
-            Assert.True(filterViewModel1.ConditionViewModels.Count == 0);
-            Assert.True(filterViewModel2.ConditionViewModels.Count == 1);
+                Assert.True((formatterWithCodePropertyViewModel.DeviceValue as INumericValueViewModel).NumValue == testCase.InitialFormattedValue.ToString());
+                Assert.True((formatterWithCodePropertyViewModel.LocalValue as INumericValueViewModel).NumValue == testCase.InitialFormattedValue.ToString());
 
-            CompareConditionViewModel compareConditionViewModel =
-                filterViewModel2.ConditionViewModels[0] as CompareConditionViewModel;
+            }
 
-            Assert.True(compareConditionViewModel.SelectedCondition == ConditionsEnum.Equal.ToString());
-            Assert.True(compareConditionViewModel.UshortValueToCompare == 1);
+            
+            
+            
+
         }
+        
+        private async Task TransferFromDeviceToLocal(IDeviceConfiguration configuration, RuntimeConfigurationViewModel configurationFragmentViewModel)
+        {
+            var memoryAccessor = new ConfigurationMemoryAccessor(configuration,
+                configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal,true);
+            await memoryAccessor.Process();
+        }
+
     }
 }

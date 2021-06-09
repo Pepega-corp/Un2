@@ -14,8 +14,8 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 
         public override async Task<object> ExecuteNode(RuleExecutionContext ruleExecutionContext)
         {
-            ruleExecutionContext.Variables["resultValue"] = (double)await _numberNode.ExecuteNode(ruleExecutionContext);
-            return ruleExecutionContext.Variables["resultValue"];
+            ruleExecutionContext.Variables[VariableNames.RESULT_VALUE] = await _numberNode.ExecuteNode(ruleExecutionContext);
+            return ruleExecutionContext.Variables[VariableNames.RESULT_VALUE];
         }
     }
 }

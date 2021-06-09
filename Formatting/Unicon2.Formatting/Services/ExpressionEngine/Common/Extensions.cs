@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Formatting.Services.ExpressionEngine.Common
 {
@@ -8,13 +10,54 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Common
     {
         public static List<string> GetParameterFromString(this string str)
         {
-            var matches = Regex.Split(str, @",\s*(?![^()]*\))");
 
+            var resultList = new List<string>();
 
-            return matches.ToList();
+            string buffer = String.Empty;
+            int parenthesisCount = 0;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == ',' && parenthesisCount==0)
+                {
+                    if (!string.IsNullOrWhiteSpace(buffer))
+                    {
+                        resultList.Add(buffer);
+                    }
+                    buffer = String.Empty;
+                    continue;
+                }
+
+                if (str[i] == '(')
+                {
+                    parenthesisCount++;
+                }
+                if (str[i] == ')')
+                {
+                    parenthesisCount--;
+                    if (parenthesisCount == 0)
+                    {
+                        buffer += str[i].ToString();
+                        if (!string.IsNullOrWhiteSpace(buffer))
+                        {
+                            resultList.Add(buffer);
+                        }
+                        buffer = String.Empty;
+                        continue;
+                    }
+                }
+
+                buffer += str[i].ToString();
+
+            }
+
+            if (!string.IsNullOrWhiteSpace(buffer))
+            {
+                resultList.Add(buffer);
+            }
+            return resultList.ToList();
         }
 
-        public static OperatorType GetOperatorType(this string input)
+        internal static OperatorType GetOperatorType(this string input)
         {
             switch (input)
             {
@@ -33,6 +76,23 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Common
             }
 
             return OperatorType.Unknown;
+        }
+        internal static FormatterType GetFormatterType(this string input)
+        {
+            switch (input)
+            {
+                case "number":
+                case "Number":
+                    return FormatterType.Number;
+                case "Bool":
+                case "bool":
+                case "boolean":
+                    return FormatterType.Bool;
+                case "String":
+                case "string":
+                    return FormatterType.String;
+            }
+            return FormatterType.String;
         }
     }
 }

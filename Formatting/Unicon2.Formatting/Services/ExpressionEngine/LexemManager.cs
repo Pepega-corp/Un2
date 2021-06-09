@@ -22,9 +22,14 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
             KnownLexemaVisitors.Add("GetBitOfResource", new GetBitOfResourceVisitor(this));
             KnownLexemaVisitors.Add("SetBitOfResource", new SetBitOfResourceVisitor(this));
 
-            KnownLexemaVisitors.Add("SetVariable", new SetBitOfResourceVisitor(this));
-            KnownLexemaVisitors.Add("GetVariable", new SetBitOfResourceVisitor(this));
+            KnownLexemaVisitors.Add("SetVariable", new SetVariableVisitor(this));
+            KnownLexemaVisitors.Add("GetVariable", new GetVariableVisitor(this));
 
+            KnownLexemaVisitors.Add("Select", new SelectVisitor(this));
+            
+            KnownLexemaVisitors.Add("GetInputValue", new GetInputVisitor(this));
+
+            
             KnownLexemaVisitors.Add("If", new IfVisitor(this));
         }
 

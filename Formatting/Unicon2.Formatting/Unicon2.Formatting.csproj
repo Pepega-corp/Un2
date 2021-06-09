@@ -109,8 +109,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\CodeFormatterService.cs" />
+    <Compile Include="Services\ExpressionEngine\Common\FormatterType.cs" />
     <Compile Include="Services\ExpressionEngine\Common\VariableNames.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\AddNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\GetInputNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\SelectNode.cs" />
     <Compile Include="Services\ExpressionEngine\Visitors\AddVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\ApplyMathFunctionNode.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\CompareNode.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Services\ExpressionEngine\Nodes\GetDeviceValueNode.cs" />
     <Compile Include="Services\ExpressionEngine\Visitors\GetDeviceValueVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\GetResultValueNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\GetInputVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Visitors\GetResultValueVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\GetVariableNode.cs" />
     <Compile Include="Services\ExpressionEngine\Visitors\GetVariableVisitor.cs" />
@@ -142,6 +146,7 @@
     <Compile Include="Services\ExpressionEngine\RuleExecutionContext.cs" />
     <Compile Include="Services\ExpressionEngine\Common\RuleNodeBase.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\SetBitOfResourceNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\SelectVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Visitors\SetBitOfResourceVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\SetBitValueNode.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\SetDeviceValueNode.cs" />

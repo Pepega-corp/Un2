@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
+﻿using System.Threading.Tasks;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Results;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
@@ -44,7 +45,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             _prevUshortFormatter = property.UshortsFormatter;
         }
 
-        public void Execute()
+        public async void Execute()
         {
             if (_property.IsFromBits)
             {
@@ -287,21 +288,21 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                         return;
                     }
 
-                    ProcessValueViewModel(newUshorts);
+                    await ProcessValueViewModel(newUshorts);
                 }
 
 
             }
         }
 
-        private void ProcessValueViewModel(Result<ushort[]> newUshorts)
+        private async Task ProcessValueViewModel(Result<ushort[]> newUshorts)
         {
             if (!newUshorts.Item.IsEqual(_prevUshorts))
             {
                 _prevUshorts = newUshorts.Item;
-                var localValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(
+                var localValue = await StaticContainer.Container.Resolve<IFormattingService>().FormatValueAsync(
                     _ushortsFormatter,
-                    _prevUshorts);
+                    _prevUshorts,_deviceContext);
                 _runtimePropertyViewModel.LocalValue.Accept(new EditableValueSetFromLocalVisitor(localValue));
             }
         }
