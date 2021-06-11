@@ -7,7 +7,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 {
-    public class RsTriggerViewModel : ViewModelBase, ILogicElementEditorViewModel
+    public class RsTriggerEditorViewModel : ViewModelBase, ILogicElementEditorViewModel
     {
         public string StrongName => ProgrammingKeys.RS_TRIGGER + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public object Model { get; set; }
@@ -16,14 +16,14 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public string Symbol => "RST";
         public string Description => "Логический элемент RS-триггер";
 
-        public RsTriggerViewModel(ILibraryElement model)
+        public RsTriggerEditorViewModel(ILibraryElement model)
         {
             Model = model;
         }
 
         public object Clone()
         {
-            return new RsTriggerViewModel(new RsTrigger());
+            return new RsTriggerEditorViewModel(new RsTrigger());
         }
     }
 }

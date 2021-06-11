@@ -10,11 +10,12 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class TimerViewModel : LogicElementViewModel
+    public class TimerViewModel : LogicElementViewModel, ISettingsApplicable
     {
         private readonly Timer _model;
 
         public override string StrongName => ProgrammingKeys.TIMER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
+        
 
         public TimerViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
         {
@@ -32,14 +33,15 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         public string[] TimerTypes => this._model.TimerTypes;
 
         public IConnectorViewModel Input => ConnectorViewModels.First(c => c.Orientation == ConnectorOrientation.LEFT);
+        public IConnectorViewModel InputForSetting { get; private set; }
         public IConnectorViewModel Output => ConnectorViewModels.First(c => c.Orientation == ConnectorOrientation.RIGHT);
+        public IConnectorViewModel OutputForSetting { get; private set; }
 
         public int SelectedTypeIndex
         {
             get => this._model.SelectedTypeIndex;
             set
             {
-
                 this._model.SelectedTypeIndex = value;
                 RaisePropertyChanged();
             }
@@ -80,19 +82,26 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.Time = timer.Time.ToString("F2", CultureInfo.CurrentCulture);
         }
 
-        public override void ResetSettingsTo(ILogicElement model)
-        {
-            if (model is Timer timer)
-            {
-                UpdateProperties(timer);
-            }
-        }
-
         public override ILogicElementViewModel Clone()
         {
             var model = new Timer();
             model.CopyValues(GetModel());
             return new TimerViewModel(model, _globalCommands) { Caption = this.Caption };
+        }
+
+        public void ApplySettings()
+        {
+            Input.ConnectorType = InputForSetting.ConnectorType;
+            Output.ConnectorType = OutputForSetting.ConnectorType;
+        }
+
+        public override void OpenPropertyWindow()
+        {
+            InputForSetting = new ConnectorViewModel(this, Input.Orientation, Input.ConnectorType);
+            RaisePropertyChanged(nameof(InputForSetting));
+            OutputForSetting = new ConnectorViewModel(this, Output.Orientation, Output.ConnectorType);
+            RaisePropertyChanged(nameof(OutputForSetting));
+            base.OpenPropertyWindow();
         }
     }
 }

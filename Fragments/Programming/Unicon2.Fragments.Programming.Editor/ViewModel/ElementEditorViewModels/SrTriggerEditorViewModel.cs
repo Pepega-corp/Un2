@@ -7,7 +7,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 {
-    public class SrTriggerViewModel : ViewModelBase, ILogicElementEditorViewModel
+    public class SrTriggerEditorViewModel : ViewModelBase, ILogicElementEditorViewModel
     {
         public string StrongName => ProgrammingKeys.SR_TRIGGER + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public object Model { get; set; }
@@ -16,14 +16,14 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public string Symbol => "SRT";
         public string Description => "Логический элемент SR-триггер";
 
-        public SrTriggerViewModel(ILibraryElement model)
+        public SrTriggerEditorViewModel(ILibraryElement model)
         {
             Model = model;
         }
 
         public object Clone()
         {
-            return new SrTriggerViewModel(new SrTrigger());
+            return new SrTriggerEditorViewModel(new SrTrigger());
         }
     }
 }

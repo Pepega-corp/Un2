@@ -93,10 +93,10 @@
     <Compile Include="ViewModel\ElementEditorViewModels\InversionEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OrEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\OutputEditorViewModel.cs" />
-    <Compile Include="ViewModel\ElementEditorViewModels\RsTriggerViewModel.cs" />
-    <Compile Include="ViewModel\ElementEditorViewModels\SrTriggerViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\RsTriggerEditorViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\SrTriggerEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\SystemJournalViewModel.cs" />
-    <Compile Include="ViewModel\ElementEditorViewModels\TimerViewModel.cs" />
+    <Compile Include="ViewModel\ElementEditorViewModels\TimerEditorViewModel.cs" />
     <Compile Include="ViewModel\ElementEditorViewModels\XorEditorViewModel.cs" />
     <Compile Include="ViewModel\ProgrammingEditorViewModel.cs" />
     <Compile Include="View\ProgrammingEditorView.xaml.cs">

@@ -241,7 +241,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="TimerTemplate" DataType="{x:Type editorViewModels:TimerViewModel}">
+    <DataTemplate x:Key="TimerTemplate" DataType="{x:Type editorViewModels:TimerEditorViewModel}">
         <Grid>
             <Path
                 HorizontalAlignment="Center"

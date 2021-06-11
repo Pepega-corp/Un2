@@ -435,7 +435,7 @@
                 Grid.Row="3"
                 Grid.Column="1"
                 Margin="5"
-                DataContext="{Binding Path=Input}"
+                DataContext="{Binding Path=InputForSetting}"
                 ItemsSource="{Binding Source={other:EnumToItemsSource {x:Type infr:ConnectorType}}}"
                 SelectedValue="{Binding ConnectorType, Converter={StaticResource EnumConverter}, ConverterParameter={x:Type infr:ConnectorType}}" />
             <TextBlock
@@ -447,7 +447,7 @@
                 Grid.Row="4"
                 Grid.Column="1"
                 Margin="5"
-                DataContext="{Binding Path=Output}"
+                DataContext="{Binding Path=OutputForSetting}"
                 ItemsSource="{Binding Source={other:EnumToItemsSource {x:Type infr:ConnectorType}}}"
                 SelectedValue="{Binding ConnectorType, Converter={StaticResource EnumConverter}, ConverterParameter={x:Type infr:ConnectorType}}" />
         </Grid>

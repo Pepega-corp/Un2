@@ -29,10 +29,10 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
                 case OrEditorViewModel _:
                 case XorEditorViewModel _:
                     return this.BooleanTemplate;
-                case TimerViewModel _:
+                case TimerEditorViewModel _:
                     return this.Timer;
-                case RsTriggerViewModel _:
-                case SrTriggerViewModel _:
+                case RsTriggerEditorViewModel _:
+                case SrTriggerEditorViewModel _:
                     return this.Trigger;
                 default:
                     return null;
