@@ -86,6 +86,8 @@
     <Compile Include="Model\Elements\LogicElement.cs" />
     <Compile Include="Model\Elements\Or.cs" />
     <Compile Include="Model\Elements\Output.cs" />
+    <Compile Include="Model\Elements\RsTrigger.cs" />
+    <Compile Include="Model\Elements\SrTrigger.cs" />
     <Compile Include="Model\Elements\SystemJournal.cs" />
     <Compile Include="Model\Elements\Timer.cs" />
     <Compile Include="Model\Elements\Xor.cs" />
