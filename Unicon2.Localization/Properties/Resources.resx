@@ -1599,4 +1599,70 @@
   <data name="ResourceForDependencyNotFound" xml:space="preserve">
     <value>@ResourceForDependencyNotFound</value>
   </data>
+  <data name="CodeFormatterViewModel" xml:space="preserve">
+    <value>@CodeFormatterViewModel</value>
+  </data>
+  <data name="FormatBackFormula" xml:space="preserve">
+    <value>@FormatBackFormula</value>
+  </data>
+  <data name="FormatFormula" xml:space="preserve">
+    <value>@FormatBackFormula</value>
+  </data>
+  <data name="GetDeviceValueFunctionDescription" xml:space="preserve">
+    <value>@GetDeviceValueFunctionDescription</value>
+  </data>
+  <data name="SetDeviceValueFunctionDescription" xml:space="preserve">
+    <value>@SetDeviceValueFunctionDescription</value>
+  </data>
+  <data name="SetResultValueFunctionDescription" xml:space="preserve">
+    <value>@SetResultValueFunctionDescription</value>
+  </data>
+  <data name="GetResultValueFunctionDescription" xml:space="preserve">
+    <value>@GetResultValueFunctionDescription</value>
+  </data>
+  <data name="PowFunctionDescription" xml:space="preserve">
+    <value>@PowFunctionDescription</value>
+  </data>
+  <data name="MultiplyFunctionDescription" xml:space="preserve">
+    <value>@MultiplyFunctionDescription</value>
+  </data>
+  <data name="SubtractFunctionDescription" xml:space="preserve">
+    <value>@SubtractFunctionDescription</value>
+  </data>
+  <data name="DivideFunctionDescription" xml:space="preserve">
+    <value>@DivideFunctionDescription</value>
+  </data>
+  <data name="CompareFunctionDescription" xml:space="preserve">
+    <value>@CompareFunctionDescription</value>
+  </data>
+  <data name="GetBitOfResourceFunctionDescription" xml:space="preserve">
+    <value>@GetBitOfResourceFunctionDescription</value>
+  </data>
+  <data name="SetBitOfResourceFunctionDescription" xml:space="preserve">
+    <value>@SetBitOfResourceFunctionDescription</value>
+  </data>
+  <data name="SetVariableFunctionDescription" xml:space="preserve">
+    <value>@SetVariableFunctionDescription</value>
+  </data>
+  <data name="GetVariableFunctionDescription" xml:space="preserve">
+    <value>@GetVariableFunctionDescription</value>
+  </data>
+  <data name="SelectFunctionDescription" xml:space="preserve">
+    <value>@SelectFunctionDescription</value>
+  </data>
+  <data name="GetInputValueFunctionDescription" xml:space="preserve">
+    <value>@GetInputValueFunctionDescription</value>
+  </data>
+  <data name="IfFunctionDescription" xml:space="preserve">
+    <value>@IfFunctionDescription</value>
+  </data>
+  <data name="AddFunctionDescription" xml:space="preserve">
+    <value>@AddFunctionDescription</value>
+  </data>
+  <data name="DoFunctionDescription" xml:space="preserve">
+    <value>@DoFunctionDescription</value>
+  </data>
+  <data name="InvertSignFunctionDescription" xml:space="preserve">
+    <value>@InvertSignFunctionDescription</value>
+  </data>
 </root>

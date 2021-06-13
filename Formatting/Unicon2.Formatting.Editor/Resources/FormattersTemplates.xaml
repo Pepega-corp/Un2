@@ -5,7 +5,8 @@
     xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:formatters="clr-namespace:Unicon2.Formatting.Editor.ViewModels"
-    xmlns:lex="http://wpflocalizeextension.codeplex.com">
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:views="clr-namespace:Unicon2.Formatting.Editor.Views">
 
 
     <DataTemplate DataType="{x:Type formatters:DefaultTimeFormatterViewModel}">
@@ -105,10 +106,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type formatters:CodeFormatterViewModel}">
-        <StackPanel Orientation="Vertical">
-            <TextBox AcceptsReturn="True" AcceptsTab="True" Width="400" Height="200" Text="{Binding FormatCodeString}"></TextBox>
-            <TextBox AcceptsReturn="True" AcceptsTab="True" Width="400" Height="200" Text="{Binding FormatBackCodeString}"></TextBox>
-        </StackPanel>
+        <views:CodeFormattingEditor />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type formatters:StringFormatter1251ViewModel}">

@@ -16,6 +16,6 @@ namespace Unicon2.Formatting.Infrastructure.Services
        Result<Func<ushort[], Task<IFormattedValue>>> GetFormatUshortsFunc(CodeFormatterExpression codeExpression, DeviceContext deviceContext);
        Result<Func<IFormattedValue, Task<ushort[]>>> GetFormatBackUshortsFunc(CodeFormatterExpression codeExpression, DeviceContext deviceContext);
 
-
-    }
+       List<(string name, string desc)> GetFunctionsInfo();
+   }
 }

@@ -7,6 +7,7 @@ using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Services.ExpressionEngine;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 
@@ -17,10 +18,10 @@ namespace Unicon2.Formatting.Services
     {
         private LexemManager _lexemManager;
 
-        public UniconEngineCodeFormatterService()
+        public UniconEngineCodeFormatterService(ILocalizerService localizerService)
         {
 
-            _lexemManager=new LexemManager();
+            _lexemManager=new LexemManager(localizerService);
 
             //     var str = "Add(2,Add(GetDeviceValue(0),2))";
 
@@ -56,6 +57,11 @@ namespace Unicon2.Formatting.Services
 
             return Result<Func<IFormattedValue, Task<ushort[]>>>.Create(
                 (input) => Evaluator.ExecuteFormatBack(input, new RuleExecutionContext(deviceContext), nodes), true);
+        }
+
+        public List<(string name, string desc)> GetFunctionsInfo()
+        {
+            return _lexemManager.KnownLexemaVisitors.Select(pair => (pair.Key, pair.Value.description)).ToList();
         }
     }
 }

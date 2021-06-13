@@ -1605,4 +1605,72 @@
   <data name="ResourceForDependencyNotFound" xml:space="preserve">
     <value>Resource for dependency not found</value>
   </data>
+  <data name="CodeFormatterViewModel" xml:space="preserve">
+    <value>Code Formatter</value>
+  </data>
+  <data name="FormatBackFormula" xml:space="preserve">
+    <value>Format back formula</value>
+  </data>
+  <data name="FormatFormula" xml:space="preserve">
+    <value>Format formula</value>
+  </data>
+  <data name="GetDeviceValueFunctionDescription" xml:space="preserve">
+    <value>Gets value from device ushorts
+GetDeviceValue(number)
+Where "number" is number of ushort from device</value>
+  </data>
+  <data name="SetDeviceValueFunctionDescription" xml:space="preserve">
+    <value>Sets value to device ushorts</value>
+  </data>
+  <data name="SetResultValueFunctionDescription" xml:space="preserve">
+    <value>Sets result value</value>
+  </data>
+  <data name="GetResultValueFunctionDescription" xml:space="preserve">
+    <value>Gets result value</value>
+  </data>
+  <data name="PowFunctionDescription" xml:space="preserve">
+    <value>Power function</value>
+  </data>
+  <data name="MultiplyFunctionDescription" xml:space="preserve">
+    <value>Multiplies two values</value>
+  </data>
+  <data name="SubtractFunctionDescription" xml:space="preserve">
+    <value>Subtracts one value from another</value>
+  </data>
+  <data name="DivideFunctionDescription" xml:space="preserve">
+    <value>Divides one value by another</value>
+  </data>
+  <data name="CompareFunctionDescription" xml:space="preserve">
+    <value>Compare two values</value>
+  </data>
+  <data name="GetBitOfResourceFunctionDescription" xml:space="preserve">
+    <value>Gets bit of resource</value>
+  </data>
+  <data name="SetBitOfResourceFunctionDescription" xml:space="preserve">
+    <value>Sets bit of resource</value>
+  </data>
+  <data name="SetVariableFunctionDescription" xml:space="preserve">
+    <value>Sets value to the variable</value>
+  </data>
+  <data name="GetVariableFunctionDescription" xml:space="preserve">
+    <value>Gets value of the variable</value>
+  </data>
+  <data name="SelectFunctionDescription" xml:space="preserve">
+    <value>Selects type of result value</value>
+  </data>
+  <data name="GetInputValueFunctionDescription" xml:space="preserve">
+    <value>Gets user input value</value>
+  </data>
+  <data name="IfFunctionDescription" xml:space="preserve">
+    <value>Divides code execution into two branches</value>
+  </data>
+  <data name="AddFunctionDescription" xml:space="preserve">
+    <value>Add two values</value>
+  </data>
+  <data name="DoFunctionDescription" xml:space="preserve">
+    <value>Execute many functions</value>
+  </data>
+  <data name="InvertSignFunctionDescription" xml:space="preserve">
+    <value>Inverts sign</value>
+  </data>
 </root>

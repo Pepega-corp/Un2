@@ -1,4 +1,5 @@
-﻿using Unicon2.Infrastructure.Connection;
+﻿using Unicon2.Fragments.Configuration.Visitors;
+using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.ViewModels;
@@ -11,7 +12,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         private readonly IDeviceMemory _deviceMemory;
         private readonly ushort _address;
         private readonly ushort _numberOfPoints;
-        public int Priority { get; set; } = 1;
+        public int Priority { get; set; } = 10;
         public IBitConfigurable _bitConfig;
 
         public EditableValueSetUnchangedSubscription(
@@ -27,6 +28,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
         public void Execute()
         {
+            /*
             var isMemoryEqualOnAddresses = true;
 
             for (ushort i = _address; i < _address + _numberOfPoints; i++)
@@ -62,8 +64,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
             }
 
-            if (_localAndDeviceValueContainingViewModel?.LocalValue != null)
-                _localAndDeviceValueContainingViewModel.LocalValue.IsFormattedValueChanged = !isMemoryEqualOnAddresses;
+            */
+
+            if (_localAndDeviceValueContainingViewModel?.LocalValue != null&& _localAndDeviceValueContainingViewModel?.DeviceValue != null)
+                _localAndDeviceValueContainingViewModel.LocalValue.IsFormattedValueChanged = _localAndDeviceValueContainingViewModel.LocalValue.Accept(
+                    new EditableValueIsChangedVisitor(_localAndDeviceValueContainingViewModel.DeviceValue));
 
 
         }

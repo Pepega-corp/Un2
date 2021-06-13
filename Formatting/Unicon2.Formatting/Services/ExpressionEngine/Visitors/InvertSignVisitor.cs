@@ -1,18 +1,17 @@
-﻿using System.Linq;
-using Unicon2.Formatting.Services.ExpressionEngine.Common;
+﻿using Unicon2.Formatting.Services.ExpressionEngine.Common;
 using Unicon2.Formatting.Services.ExpressionEngine.Nodes;
 
 namespace Unicon2.Formatting.Services.ExpressionEngine.Visitors
 {
-    public class AddVisitor : LexemaVisitor
+    public class InvertSignVisitor : LexemaVisitor
     {
         public override IRuleNode VisitStringPart(string str)
         {
             var get = str.GetParameterFromString();
-            return new AddNode(get.Select(s =>LexemManager.GetNodeByString(s)));
+            return new InvertSignNode(LexemManager.GetNodeByString(get[0]));
         }
 
-        public AddVisitor(LexemManager lexemManager) : base(lexemManager)
+        public InvertSignVisitor(LexemManager lexemManager) : base(lexemManager)
         {
 
         }

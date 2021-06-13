@@ -1602,4 +1602,140 @@
   <data name="ResourceForDependencyNotFound" xml:space="preserve">
     <value>Не найден ресурс для одной из зависимостей.</value>
   </data>
+  <data name="CodeFormatterViewModel" xml:space="preserve">
+    <value>Форматирование кодом</value>
+  </data>
+  <data name="FormatBackFormula" xml:space="preserve">
+    <value>Формула на обратное форматирование</value>
+  </data>
+  <data name="FormatFormula" xml:space="preserve">
+    <value>Формула на форматирование</value>
+  </data>
+  <data name="AddFunctionDescription" xml:space="preserve">
+    <value>Сложить два значения.
+Сигнатура: Add(x1,x2)
+Где x1, x2 - значения для сложения
+Возвращаемое значение: результат сложения</value>
+  </data>
+  <data name="GetDeviceValueFunctionDescription" xml:space="preserve">
+    <value>Получить значение, которое пришло из устройства. 
+Адрес и количество слов задается в самом свойстве
+Сигнатура: GetDeviceValue(x1)
+Где x1 это номер слова из набора слов, который пришел из устройства (начиная с 0).
+Возвращаемое значение: слово (число типа ushort)</value>
+  </data>
+  <data name="SetDeviceValueFunctionDescription" xml:space="preserve">
+    <value>Задать значение в устройстве по номеру.
+Адрес и количество записываемых слов задается в самом свойстве
+Сигнатура: SetDeviceValue(x1,x2)
+Где x1 - новое значение слова, x2 - номер слова (начиная с 0)
+Возвращаемое значение: x1</value>
+  </data>
+  <data name="SetResultValueFunctionDescription" xml:space="preserve">
+    <value>Задать результирующее значение, которое будет выводиться пользователю
+Сигнатура: SetResultValue(x1)
+Где x1 - значение которое нужно сделать результирующем
+Возвращаемое значение: x1</value>
+  </data>
+  <data name="GetResultValueFunctionDescription" xml:space="preserve">
+    <value>Получить результирующее значение
+Сигнатура: GetResultValue()
+Возвращаемое значение: значение которое будет выводиться пользователю</value>
+  </data>
+  <data name="PowFunctionDescription" xml:space="preserve">
+    <value>Функция возведения в степень
+Cигнатура: Pow(x1,x2)
+Где x1 - значение, которое возводится в степень
+x2 - степень
+Возвращаемое значение: результат возведения в степень</value>
+  </data>
+  <data name="MultiplyFunctionDescription" xml:space="preserve">
+    <value>Перемножает два числа
+Сигнатура: Multiply(x1,x2)
+Где x1 и x2 - умножаемые значения
+Возвращаемое значение: результат умножения</value>
+  </data>
+  <data name="SubtractFunctionDescription" xml:space="preserve">
+    <value>Вычитание
+Сигнатура: Subtract(x1,x2)
+Где x1 - уменьшаемое
+x2 - вычитаемое
+Возвращаемое значение: разность
+</value>
+  </data>
+  <data name="DivideFunctionDescription" xml:space="preserve">
+    <value>Деление
+Сигнатура: Divide(x1,x2)
+Где x1 - делимое
+x2 - делитель
+Возвращаемое значение: частное</value>
+  </data>
+  <data name="CompareFunctionDescription" xml:space="preserve">
+    <value>Сравнить два значение
+Сигнатура: Compare(x1, x2, x3)
+Где x1 -левое
+x2 - правое
+x3 - оператор сравнения(&lt;,&gt;,&lt;=,&gt;=,=)
+Возвращаемое значение: булево значение как результат сравнения</value>
+  </data>
+  <data name="GetBitOfResourceFunctionDescription" xml:space="preserve">
+    <value>Получить бит ресурса (значения из устройства, которое привязано к ресурсу)
+Сигнатура: GetBitOfResource(x1,x2)
+Где x1 - номер бита
+x2 - название ресурса
+Возвращаемое значение: булево значение бита ресурса
+	</value>
+  </data>
+  <data name="SetBitOfResourceFunctionDescription" xml:space="preserve">
+    <value>Задать значение бита ресурса (значение из устройства, которое привязано к ресурсу)
+Сигнатура: SetBitOfResource(x1,x2,x3)
+Где x1 - значение бита 
+x2 - номер бита
+x3 - имя ресурса
+Возвращаемое значение: булево значение бита ресурса</value>
+  </data>
+  <data name="SetVariableFunctionDescription" xml:space="preserve">
+    <value>Задать значение переменной
+Сигнатура: SetVariable(x1,x2)
+Где x1 - значение переменной 
+x2 - название переменной
+Возвращаемое значение: значение переменной</value>
+  </data>
+  <data name="GetVariableFunctionDescription" xml:space="preserve">
+    <value>Получить значение переменной
+Сигнатура: GetVariable(x1)
+Где x1 - название переменной
+Возвращаемое значение: значение переменной</value>
+  </data>
+  <data name="SelectFunctionDescription" xml:space="preserve">
+    <value>Выбрать тип результирующего значения (значения которое будет выводиться пользователю)
+Сигнатура: Select(x1)
+Где x1 - Тип результирующего значения (number,bool,string)
+Возвращаемое значение: значение приведенное к типу</value>
+  </data>
+  <data name="GetInputValueFunctionDescription" xml:space="preserve">
+    <value>Получить введенное пользователем значение
+Сигнатура: GetInputValue()
+Возвращаемое значение: значение введенное пользоветелем</value>
+  </data>
+  <data name="IfFunctionDescription" xml:space="preserve">
+    <value>Функция, которая разделяет выполение кода по условию
+Сигнатура: If(x1,x2,x3)
+Где x1 - условие
+x2 - функция или значение, которое будет возвращено при соблюдении условия
+x3 - функция или значение, которое будет возвращено при несоблюдении условия
+Возвращаемое значение: x1 или x2 в зависимости от выполнении условия</value>
+  </data>
+  <data name="DoFunctionDescription" xml:space="preserve">
+    <value>Выполнить несколько действий
+Сигнатура: Do(x1,x2,x3,...)
+Где x1,x2... - функции, выполняемые одна за другой
+Возвращаемое значение: результат последней выполенной функции</value>
+  </data>
+  <data name="InvertSignFunctionDescription" xml:space="preserve">
+    <value>Инвертирует знак входящего значения (плюс на минус, минус на плюс)
+Сигнатура: InvertSign(x1)
+Где x1 - значение, знак которого надо поменять
+Возвращаемое значение: Число с измененным знаком</value>
+  </data>
 </root>

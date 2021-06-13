@@ -204,6 +204,7 @@
       <DependentUpon>ToolBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visitors\EditableValueFetchingFromViewModelVisitor.cs" />
+    <Compile Include="Visitors\EditableValueIsChangedVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -8,7 +8,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
         private readonly string _varName;
         private readonly IRuleNode _node;
 
-        public SetVariableNode(string varName, IRuleNode node)
+        public SetVariableNode(IRuleNode node, string varName)
         {
             _varName = varName;
             _node = node;

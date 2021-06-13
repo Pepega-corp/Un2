@@ -30,6 +30,7 @@ using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces.Dependancy;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Values;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -59,12 +60,34 @@ namespace Unicon2.Tests.Configuration
 
         private class CodeFormatterTestCase
         {
-            public CodeFormatterTestCase(string codeStringFormat, string codeStringFormatBack,ushort[] initialDeviceValue, double initialFormattedValue, double modifiedFormattedValue, ushort[] modifiedDeviceValue)
+            public CodeFormatterTestCase(string codeStringFormat, string codeStringFormatBack,
+                ushort[] initialDeviceValue, double initialFormattedValue, double modifiedFormattedValue,
+                ushort[] modifiedDeviceValue)
             {
                 InitialDeviceValue = initialDeviceValue;
                 InitialFormattedValue = initialFormattedValue;
                 ModifiedFormattedValue = modifiedFormattedValue;
                 ModifiedDeviceValue = modifiedDeviceValue;
+                CodeStringFormat = codeStringFormat;
+                CodeStringFormatBack = codeStringFormatBack;
+                InitialResourceInfo = Result<(string resourceName, ushort resourceUshort)>.Create(false);
+                ModifiedResourceInfo = Result<(string resourceName, ushort resourceUshort,bool ismodified)>.Create(false);
+            }
+
+
+            public CodeFormatterTestCase(string codeStringFormat, string codeStringFormatBack,
+                ushort[] initialDeviceValue, double initialFormattedValue, double modifiedFormattedValue,
+                ushort[] modifiedDeviceValue, (string resourceName, ushort resourceUshort) initialResourceInfo,
+                (string resourceName, ushort resourceUshort,bool ismodified) modifiedResourceInfo)
+            {
+                InitialDeviceValue = initialDeviceValue;
+                InitialFormattedValue = initialFormattedValue;
+                ModifiedFormattedValue = modifiedFormattedValue;
+                ModifiedDeviceValue = modifiedDeviceValue;
+                InitialResourceInfo =
+                    Result<(string resourceName, ushort resourceUshort)>.Create(initialResourceInfo, true);
+                ModifiedResourceInfo =
+                    Result<(string resourceName, ushort resourceUshort,bool ismodified)>.Create(modifiedResourceInfo, true);
                 CodeStringFormat = codeStringFormat;
                 CodeStringFormatBack = codeStringFormatBack;
             }
@@ -76,8 +99,11 @@ namespace Unicon2.Tests.Configuration
             public double InitialFormattedValue { get; }
             public double ModifiedFormattedValue { get; }
             public ushort[] ModifiedDeviceValue { get; }
+            public Result<(string resourceName, ushort resourceUshort)> InitialResourceInfo { get; }
+            public Result<(string resourceName, ushort resourceUshort,bool ismodified)> ModifiedResourceInfo { get; }
+
         }
-    
+
 
         [Test]
         public async Task CreateSaveLoadAndCheckCodeFormatter()
@@ -85,7 +111,8 @@ namespace Unicon2.Tests.Configuration
             IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
             initialDevice.LoadDevice("FileAssets/testFile.json");
 
-            var configurationEditorViewModel = initialDevice.FragmentEditorViewModels.First() as ConfigurationEditorViewModel;
+            var configurationEditorViewModel =
+                initialDevice.FragmentEditorViewModels.First() as ConfigurationEditorViewModel;
 
             var baseAddress = 1000;
 
@@ -93,10 +120,29 @@ namespace Unicon2.Tests.Configuration
             {
                 Name = "root"
             };
-            
-            var testCases=new List<CodeFormatterTestCase>();
+
+            var resourcesService = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+
+            var testCases = new List<CodeFormatterTestCase>();
+
+        /*    testCases.Add(new CodeFormatterTestCase("SetResultValue(2 + GetDeviceValue(0) - 1)=>Select(number)",
+                "SetDeviceValue(GetInputValue() - 2 + 1,0)", new[] { (ushort)1 }, 3, 6, new[] { (ushort)4 }));
+        */
             testCases.Add(new CodeFormatterTestCase("SetResultValue(Add(2,GetDeviceValue(0)))=>Select(number)",
-                "SetDeviceValue(Subtract(GetInputValue(),2),0)",new []{(ushort)1},3,6,new []{(ushort)4}));
+                "SetDeviceValue(Subtract(GetInputValue(),2),0)", new[] {(ushort) 1}, 3, 6, new[] {(ushort) 4}));
+
+            testCases.Add(new CodeFormatterTestCase(
+                "If(GetBitOfResource(0,testResource1),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+                "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource1),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource1),SetDeviceValue(GetInputValue(),0)))"
+                , new[] {(ushort) 10}, 10, 20, new[] {(ushort) 20}, ("testResource1", 0), ("testResource1", 0,false)));
+
+            testCases.Add(new CodeFormatterTestCase(
+                "If(GetBitOfResource(0,testResource2),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+                "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource2),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource2),SetDeviceValue(GetInputValue(),0)))"
+                , new[] { (ushort)20 }, 20, -20, new[] { (ushort)20 }, ("testResource2", 0), ("testResource2", 1, true)));
+
+
+      
 
             foreach (var testCase in testCases)
             {
@@ -116,14 +162,33 @@ namespace Unicon2.Tests.Configuration
                         FormatCodeString = testCase.CodeStringFormat,
                         FormatBackCodeString = testCase.CodeStringFormatBack
                     };
+
+                if (testCase.InitialResourceInfo.IsSuccess)
+                {
+                    IPropertyEditorViewModel resourceProperty =
+                        ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null) as IPropertyEditorViewModel;
+                    resourceProperty.Address = (2000 + testCases.IndexOf(testCase)).ToString();
+                    resourceProperty.NumberOfPoints = 1.ToString();
+                    resourceProperty.Name = testCase.InitialResourceInfo.Item.resourceName;
+                    resourceProperty.NumberOfWriteFunction = (ushort)16;
+                    resourceProperty.ChildStructItemViewModels.Add(rootProperty);
+
+                    resourceProperty.FormatterParametersViewModel = new FormatterParametersViewModel();
+                    resourceProperty.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
+                        new DirectFormatterViewModel();
+
+                    resourcesService.AddAsSharedResourceWithContainer(resourceProperty,false);
+                    rootGroup.ChildStructItemViewModels.Add(resourceProperty);
+
+                }
             }
 
 
             configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
 
             var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
-           
-            
+
+
             Program.CleanProject();
             var device = initialDevice.GetDevice();
 
@@ -132,9 +197,9 @@ namespace Unicon2.Tests.Configuration
             var shell = Program.GetApp().Container.Resolve<ShellViewModel>();
             var deviceViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0];
 
-          var configuration = device.DeviceFragments.First(fragment => fragment.StrongName == "Configuration") as
-                    IDeviceConfiguration;
-            
+            var configuration = device.DeviceFragments.First(fragment => fragment.StrongName == "Configuration") as
+                IDeviceConfiguration;
+
             var configurationFragmentViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
                     .First(model => model.NameForUiKey == "Configuration") as
                 RuntimeConfigurationViewModel;
@@ -158,8 +223,8 @@ namespace Unicon2.Tests.Configuration
                 FragmentViewModel = configurationFragmentViewModel
             };
             command.OptionCommand.Execute(null);
-            
-            
+
+
             Assert.True(await TestsUtils.WaitUntil(() => command.OptionCommand.CanExecute(null), 30000));
             await TransferFromDeviceToLocal(configuration, configurationFragmentViewModel);
 
@@ -172,21 +237,55 @@ namespace Unicon2.Tests.Configuration
                         model.Header == "codeFormatterProp" + testCases.IndexOf(testCase).ToString())
                     .Item as IRuntimePropertyViewModel;
 
-                Assert.True((formatterWithCodePropertyViewModel.DeviceValue as INumericValueViewModel).NumValue == testCase.InitialFormattedValue.ToString());
-                Assert.True((formatterWithCodePropertyViewModel.LocalValue as INumericValueViewModel).NumValue == testCase.InitialFormattedValue.ToString());
+                Assert.True((formatterWithCodePropertyViewModel.DeviceValue as INumericValueViewModel).NumValue ==
+                            testCase.InitialFormattedValue.ToString());
+                Assert.True((formatterWithCodePropertyViewModel.LocalValue as INumericValueViewModel).NumValue ==
+                            testCase.InitialFormattedValue.ToString());
 
             }
 
-            
-            
-            
+
+
+            foreach (var testCase in testCases)
+            {
+                var formatterWithCodePropertyViewModel = configurationFragmentViewModel
+                    .RootConfigurationItemViewModels
+                    .Cast<IConfigurationItemViewModel>().ToList()
+                    .FindItemViewModelByName(model =>
+                        model.Header == "codeFormatterProp" + testCases.IndexOf(testCase).ToString())
+                    .Item as IRuntimePropertyViewModel;
+
+                (formatterWithCodePropertyViewModel.LocalValue as INumericValueViewModel).NumValue =
+                    testCase.ModifiedFormattedValue.ToString();
+
+                Assert.True(formatterWithCodePropertyViewModel.LocalValue.IsFormattedValueChanged);
+
+                Assert.True(device.DeviceMemory.LocalMemoryValues[(ushort) (1000 + testCases.IndexOf(testCase))] ==
+                            testCase.ModifiedDeviceValue[0]);
+
+                if (testCase.ModifiedResourceInfo.IsSuccess)
+                {
+                    var resourcePropertyViewModel = configurationFragmentViewModel
+                        .RootConfigurationItemViewModels
+                        .Cast<IConfigurationItemViewModel>().ToList()
+                        .FindItemViewModelByName(model =>
+                            model.Header == testCase.InitialResourceInfo.Item.resourceName)
+                        .Item as IRuntimePropertyViewModel;
+
+                    Assert.AreEqual(resourcePropertyViewModel.LocalValue.IsFormattedValueChanged,testCase.ModifiedResourceInfo.Item.ismodified);
+
+                    Assert.AreEqual((resourcePropertyViewModel.LocalValue as INumericValueViewModel).NumValue, testCase.ModifiedResourceInfo.Item.resourceUshort.ToString());
+
+                }
+            }
 
         }
-        
-        private async Task TransferFromDeviceToLocal(IDeviceConfiguration configuration, RuntimeConfigurationViewModel configurationFragmentViewModel)
+
+        private async Task TransferFromDeviceToLocal(IDeviceConfiguration configuration,
+            RuntimeConfigurationViewModel configurationFragmentViewModel)
         {
             var memoryAccessor = new ConfigurationMemoryAccessor(configuration,
-                configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal,true);
+                configurationFragmentViewModel.DeviceContext, MemoryAccessEnum.TransferFromDeviceToLocal, true);
             await memoryAccessor.Process();
         }
 

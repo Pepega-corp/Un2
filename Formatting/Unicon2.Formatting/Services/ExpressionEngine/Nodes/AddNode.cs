@@ -1,26 +1,31 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unicon2.Formatting.Services.ExpressionEngine.Common;
 
 namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 {
     public class AddNode : RuleNodeBase
     {
-        public IRuleNode LeftNode { get; }
-        public IRuleNode RightNode { get; }
+        private readonly IEnumerable<IRuleNode> _nodes;
 
-        public AddNode(IRuleNode leftNode, IRuleNode rightNode)
+
+        public AddNode(IEnumerable<IRuleNode> nodes)
         {
-            LeftNode = leftNode;
-            RightNode = rightNode;
+            _nodes = nodes;
         }
 
         public override async Task<object> ExecuteNode(RuleExecutionContext ruleExecutionContext)
         {
-            var res1 = await LeftNode.ExecuteNode(ruleExecutionContext);
-            var res2 = await RightNode.ExecuteNode(ruleExecutionContext);
+            double res1 = 0;
+          
 
-            return (double)res1 +
-                   (double)res2;
+            foreach (var node in _nodes)
+            {
+                res1 += Convert.ToDouble(await node.ExecuteNode(ruleExecutionContext));
+            }
+
+            return res1;
         }
     }
 }

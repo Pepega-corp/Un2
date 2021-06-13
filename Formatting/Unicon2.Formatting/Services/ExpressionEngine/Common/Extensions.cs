@@ -45,6 +45,24 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Common
                         continue;
                     }
                 }
+           /*     if (parenthesisCount==0&&str[i] == '+')
+                {
+                    if (!string.IsNullOrWhiteSpace(buffer))
+                    {
+                        resultList.Add(buffer);
+                    }
+                    buffer = String.Empty;
+
+                    buffer += str[i].ToString();
+                    if (!string.IsNullOrWhiteSpace(buffer))
+                    {
+                        resultList.Add(buffer);
+                    }
+                    buffer = String.Empty;
+                    continue;
+                }*/
+
+
 
                 buffer += str[i].ToString();
 
@@ -54,7 +72,44 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Common
             {
                 resultList.Add(buffer);
             }
-            return resultList.ToList();
+/*
+            if (resultList.Contains("+"))
+            {
+                var index = resultList.IndexOf("+");
+                resultList[index] = $"Add({resultList[index - 1]},{resultList[index + 1]})";
+                resultList.RemoveAt(index+1);
+                resultList.RemoveAt(index - 1);
+
+            }
+
+            if (resultList.Contains("-"))
+            {
+                var index = resultList.IndexOf("+");
+                resultList[index] = $"Add({resultList[index - 1]},{resultList[index + 1]})";
+                resultList.RemoveAt(index + 1);
+                resultList.RemoveAt(index - 1);
+
+            }
+
+            if (resultList.Contains("/"))
+            {
+                var index = resultList.IndexOf("+");
+                resultList[index] = $"Add({resultList[index - 1]},{resultList[index + 1]})";
+                resultList.RemoveAt(index + 1);
+                resultList.RemoveAt(index - 1);
+
+            }
+
+            if (resultList.Contains("/"))
+            {
+                var index = resultList.IndexOf("+");
+                resultList[index] = $"Add({resultList[index - 1]},{resultList[index + 1]})";
+                resultList.RemoveAt(index + 1);
+                resultList.RemoveAt(index - 1);
+
+            }
+*/
+            return resultList;
         }
 
         internal static OperatorType GetOperatorType(this string input)

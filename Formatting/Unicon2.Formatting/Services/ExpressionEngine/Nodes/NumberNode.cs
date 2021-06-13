@@ -16,4 +16,18 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
             return _number;
         }
     }
+    public class BoolNode : RuleNodeBase
+    {
+        private readonly bool _val;
+
+        public BoolNode(bool val)
+        {
+            _val = val;
+        }
+
+        public override async Task<object> ExecuteNode(RuleExecutionContext ruleExecutionContext)
+        {
+            return _val;
+        }
+    }
 }

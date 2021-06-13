@@ -176,6 +176,7 @@
     <Compile Include="ViewModels\Windows\IProjectBrowserViewModel.cs" />
     <Compile Include="Visitors\IEditableValueCopyVisitor.cs" />
     <Compile Include="Visitors\IEditableValueFetchingFromViewModelVisitor.cs" />
+    <Compile Include="Visitors\IEditableValueIsChangedVisitor.cs" />
     <Compile Include="Visitors\IEditableValueViewModelVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

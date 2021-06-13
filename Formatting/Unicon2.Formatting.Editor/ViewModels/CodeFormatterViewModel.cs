@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using Unicon2.Formatting.Editor.ViewModels.Helpers;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Infrastructure.ViewModel;
@@ -20,6 +22,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         public CodeFormatterViewModel(ICodeFormatterService codeFormatterService)
         {
             _codeFormatterService = codeFormatterService;
+
         }
 
         public override object Clone()

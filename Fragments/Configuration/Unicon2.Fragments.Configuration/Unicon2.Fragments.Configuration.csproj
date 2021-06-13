@@ -172,6 +172,7 @@
     <Compile Include="Views\ExportSelectionWindow.xaml.cs">
       <DependentUpon>ExportSelectionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Visitors\EditableValueIsChangedVisitor.cs" />
     <Compile Include="Visitors\EditableValueSetFromLocalVisitor.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

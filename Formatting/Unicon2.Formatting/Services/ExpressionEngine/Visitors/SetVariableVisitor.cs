@@ -8,7 +8,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Visitors
         public override IRuleNode VisitStringPart(string str)
         {
             var get = str.GetParameterFromString();
-            return new GetBitOfResourceNode(LexemManager.GetNodeByString(get[0]), get[1]);
+            return new SetVariableNode(LexemManager.GetNodeByString(get[0]), get[1]);
         }
 
         public SetVariableVisitor(LexemManager lexemManager) : base(lexemManager)

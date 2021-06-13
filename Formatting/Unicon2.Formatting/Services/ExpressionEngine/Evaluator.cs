@@ -11,6 +11,8 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
     {
         public static List<IRuleNode> Initialize(string expressionString, LexemManager lexemManager)
         {
+            expressionString = RefineExpressionString(expressionString);
+
             var parts = expressionString.Split(new[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
 
             var res = new List<IRuleNode>();
@@ -20,6 +22,12 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
             }
 
             return res;
+        }
+
+        private static string RefineExpressionString(string expressionString)
+        {
+            return expressionString.Replace(" ",string.Empty);
+
         }
 
         public static async Task<IFormattedValue> ExecuteFormat(ushort[] deviceValue, RuleExecutionContext ruleExecutionContext,List<IRuleNode> ruleNodes)

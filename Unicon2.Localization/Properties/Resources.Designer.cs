@@ -250,6 +250,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @AddFunctionDescription.
+        /// </summary>
+        public static string AddFunctionDescription {
+            get {
+                return ResourceManager.GetString("AddFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @AddGroup.
         /// </summary>
         public static string AddGroup {
@@ -934,11 +943,29 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @CodeFormatterViewModel.
+        /// </summary>
+        public static string CodeFormatterViewModel {
+            get {
+                return ResourceManager.GetString("CodeFormatterViewModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @CollapseLevel.
         /// </summary>
         public static string CollapseLevel {
             get {
                 return ResourceManager.GetString("CollapseLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @CompareFunctionDescription.
+        /// </summary>
+        public static string CompareFunctionDescription {
+            get {
+                return ResourceManager.GetString("CompareFunctionDescription", resourceCulture);
             }
         }
         
@@ -1573,6 +1600,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @DivideFunctionDescription.
+        /// </summary>
+        public static string DivideFunctionDescription {
+            get {
+                return ResourceManager.GetString("DivideFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @DoFunctionDescription.
+        /// </summary>
+        public static string DoFunctionDescription {
+            get {
+                return ResourceManager.GetString("DoFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Download.
         /// </summary>
         public static string Download {
@@ -1888,11 +1933,29 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @FormatBackFormula.
+        /// </summary>
+        public static string FormatBackFormula {
+            get {
+                return ResourceManager.GetString("FormatBackFormula", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @FormatError.
         /// </summary>
         public static string FormatError {
             get {
                 return ResourceManager.GetString("FormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @FormatBackFormula.
+        /// </summary>
+        public static string FormatFormula {
+            get {
+                return ResourceManager.GetString("FormatFormula", resourceCulture);
             }
         }
         
@@ -2023,11 +2086,56 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @GetBitOfResourceFunctionDescription.
+        /// </summary>
+        public static string GetBitOfResourceFunctionDescription {
+            get {
+                return ResourceManager.GetString("GetBitOfResourceFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @GetDeviceValueFunctionDescription.
+        /// </summary>
+        public static string GetDeviceValueFunctionDescription {
+            get {
+                return ResourceManager.GetString("GetDeviceValueFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @GetFromBuffer.
         /// </summary>
         public static string GetFromBuffer {
             get {
                 return ResourceManager.GetString("GetFromBuffer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @GetInputValueFunctionDescription.
+        /// </summary>
+        public static string GetInputValueFunctionDescription {
+            get {
+                return ResourceManager.GetString("GetInputValueFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @GetResultValueFunctionDescription.
+        /// </summary>
+        public static string GetResultValueFunctionDescription {
+            get {
+                return ResourceManager.GetString("GetResultValueFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @GetVariableFunctionDescription.
+        /// </summary>
+        public static string GetVariableFunctionDescription {
+            get {
+                return ResourceManager.GetString("GetVariableFunctionDescription", resourceCulture);
             }
         }
         
@@ -2109,6 +2217,15 @@ namespace Unicon2.Localization.Properties {
         public static string Hours {
             get {
                 return ResourceManager.GetString("Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @IfFunctionDescription.
+        /// </summary>
+        public static string IfFunctionDescription {
+            get {
+                return ResourceManager.GetString("IfFunctionDescription", resourceCulture);
             }
         }
         
@@ -2244,6 +2361,15 @@ namespace Unicon2.Localization.Properties {
         public static string InvalidRangeError {
             get {
                 return ResourceManager.GetString("InvalidRangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @InvertSignFunctionDescription.
+        /// </summary>
+        public static string InvertSignFunctionDescription {
+            get {
+                return ResourceManager.GetString("InvertSignFunctionDescription", resourceCulture);
             }
         }
         
@@ -2779,6 +2905,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @MultiplyFunctionDescription.
+        /// </summary>
+        public static string MultiplyFunctionDescription {
+            get {
+                return ResourceManager.GetString("MultiplyFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @MustBe.
         /// </summary>
         public static string MustBe {
@@ -3265,6 +3400,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @PowFunctionDescription.
+        /// </summary>
+        public static string PowFunctionDescription {
+            get {
+                return ResourceManager.GetString("PowFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Presentation.
         /// </summary>
         public static string Presentation {
@@ -3706,6 +3850,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @SelectFunctionDescription.
+        /// </summary>
+        public static string SelectFunctionDescription {
+            get {
+                return ResourceManager.GetString("SelectFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @SelectItemsToPrint.
         /// </summary>
         public static string SelectItemsToPrint {
@@ -3720,6 +3873,24 @@ namespace Unicon2.Localization.Properties {
         public static string Set {
             get {
                 return ResourceManager.GetString("Set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @SetBitOfResourceFunctionDescription.
+        /// </summary>
+        public static string SetBitOfResourceFunctionDescription {
+            get {
+                return ResourceManager.GetString("SetBitOfResourceFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @SetDeviceValueFunctionDescription.
+        /// </summary>
+        public static string SetDeviceValueFunctionDescription {
+            get {
+                return ResourceManager.GetString("SetDeviceValueFunctionDescription", resourceCulture);
             }
         }
         
@@ -3751,6 +3922,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @SetResultValueFunctionDescription.
+        /// </summary>
+        public static string SetResultValueFunctionDescription {
+            get {
+                return ResourceManager.GetString("SetResultValueFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @SetSystem.
         /// </summary>
         public static string SetSystem {
@@ -3774,6 +3954,15 @@ namespace Unicon2.Localization.Properties {
         public static string SetTrueBit {
             get {
                 return ResourceManager.GetString("SetTrueBit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @SetVariableFunctionDescription.
+        /// </summary>
+        public static string SetVariableFunctionDescription {
+            get {
+                return ResourceManager.GetString("SetVariableFunctionDescription", resourceCulture);
             }
         }
         
@@ -3981,6 +4170,15 @@ namespace Unicon2.Localization.Properties {
         public static string SubProperty {
             get {
                 return ResourceManager.GetString("SubProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @SubtractFunctionDescription.
+        /// </summary>
+        public static string SubtractFunctionDescription {
+            get {
+                return ResourceManager.GetString("SubtractFunctionDescription", resourceCulture);
             }
         }
         
