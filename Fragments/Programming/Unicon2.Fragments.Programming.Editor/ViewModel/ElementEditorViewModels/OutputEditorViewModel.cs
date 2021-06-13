@@ -10,7 +10,6 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEdit
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
@@ -37,7 +36,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public ICommand AddOutputSignalCommand { get; }
         public ICommand RemoveOutputSignalCommand { get; }
 
-        public OutputEditorViewModel(IOutputEditor model)
+        public OutputEditorViewModel(ILibraryElement model)
         {
             this.OutputSignals = new ObservableCollection<EditableListItem>();
             this.OutputSignals.CollectionChanged += this.OutputSignalsOnCollectionChanged;
@@ -45,7 +44,6 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             this.AddOutputSignalCommand = new RelayCommand(this.OnAddOutputSignal);
             this.RemoveOutputSignalCommand = new RelayCommand(this.OnRemoveOutputSignal, this.CanRemoveOutputSignal);
 
-            model.InitializeDefault();
             SetModel(model);
         }
 
@@ -85,6 +83,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             }
             if(_model == null)
             {
+                model.InitializeDefault();
                 this._model = model;
             }
             else
@@ -121,7 +120,8 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
         private void OnAddOutputSignal()
         {
-            this.OutputSignals.Add(new EditableListItem(string.Empty));
+            var lastElement = this.OutputSignals.LastOrDefault();
+            this.OutputSignals.Add(new EditableListItem(lastElement));
         }
 
         private void OnRemoveOutputSignal()

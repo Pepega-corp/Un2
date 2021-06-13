@@ -7,7 +7,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 {
-    public class InversionEditorViewModel : ViewModelBase, IInversionEditorViewModel
+    public class InversionEditorViewModel : ViewModelBase, ILogicElementEditorViewModel
     {
         public string StrongName => ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public object Model { get; set; }
@@ -16,7 +16,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public string Symbol => "~";
         public string Description => "Логический элемент НЕ";
 
-        public InversionEditorViewModel(IInversionEditor model)
+        public InversionEditorViewModel(ILibraryElement model)
         {
             Model = model;
         }

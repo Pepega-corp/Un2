@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Measuring.Helpers;
 using Unicon2.Fragments.Measuring.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Measuring.Infrastructure.ViewModel.Elements;
@@ -26,11 +27,6 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 			GroupName = groupName;
 		}
 
-
-
-
-
-
 		private void ApplyValue(bool value)
 		{
 			if (_discretMeasuringElementViewModel.FormattedValueViewModel == null)
@@ -49,7 +45,8 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
 
 		public async Task Execute()
 		{
-			(await DiscretMeasuringElement.GetDiscretElementValue(_deviceContext)).OnSuccess(ApplyValue);
+		    var action = new Action<bool>(this.ApplyValue);
+			(await DiscretMeasuringElement.GetDiscretElementValue(_deviceContext)).OnSuccess(action);
 		}
 
 		public string GroupName { get; }

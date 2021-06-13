@@ -10,7 +10,6 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEdit
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
@@ -29,7 +28,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public string StrongName => ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public bool IsEditable => true;
 
-        public InputEditorViewModel(IInputEditor model)
+        public InputEditorViewModel(ILibraryElement model)
         {
             this.Bases = new ObservableCollection<EditableListItem>();
             this.InputSignals = new ObservableCollection<BindableKeyValuePair<int, string>>();          
@@ -39,8 +38,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
             this.RemoveBaseCommand = new RelayCommand(this.RemoveSelectedBase, this.CanRemoveBase);
             this.AddSignalCommand = new RelayCommand(this.AddInputSignal, this.CanAddInputSignal);
             this.RemoveSignalCommand = new RelayCommand(this.RemoveInputSignal, this.CanRemoveInputSignal);
-
-            model.InitializeDefault();
+            
             SetModel(model);
         }
 
@@ -157,6 +155,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 
             if (_model == null)
             {
+                model.InitializeDefault();
                 _model = model;
             }
             else

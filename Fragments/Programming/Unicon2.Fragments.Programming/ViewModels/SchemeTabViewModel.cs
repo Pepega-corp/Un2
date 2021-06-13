@@ -75,7 +75,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             get
             {
-                var logicElements = ElementCollection.Where(e => e is ILogicElementViewModel).Cast<ILogicElementViewModel>();
+                var logicElements = ElementCollection.Where(e => e is ILogicElementViewModel).Cast<ILogicElementViewModel>().ToList();
                 return logicElements.All(le => le.Connected);
             }
         }

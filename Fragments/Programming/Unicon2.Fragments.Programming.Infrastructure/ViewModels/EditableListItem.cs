@@ -12,6 +12,11 @@ namespace Unicon2.Fragments.Programming.Infrastructure.ViewModels
             this.Value = value;
         }
 
+        public EditableListItem(EditableListItem source)
+        {
+            this.Value = source != null ? source.Value : "item";
+        }
+
         public string Value
         {
             get => this._baseString;

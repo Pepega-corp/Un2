@@ -41,7 +41,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             }
         }
 
-        public override ushort[] GetProgrammBin()
+        public override ushort[] GetProgramBin()
         {
             var inputs = Connectors.Where(c => c.Orientation == ConnectorOrientation.LEFT).ToArray();
             var output = Connectors.First(c => c.Orientation == ConnectorOrientation.RIGHT);
@@ -50,7 +50,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             bindata[0] = (ushort)(7 + inputsCount * 0x0100);
             bindata[1] = (ushort)output.ConnectionNumber;
             
-            for (var i = 0; i <= inputsCount; i++)
+            for (var i = 0; i < inputsCount; i++)
             {
                 bindata[2 + i] = (ushort)inputs[i].ConnectionNumber;
                 if (inputs[i].Type == ConnectorType.INVERS)
@@ -61,7 +61,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             return bindata;
         }
 
-        public override void BinProgrammToProperty(ushort[] bin)
+        public override void BinProgramToProperty(ushort[] bin)
         {
 
         }

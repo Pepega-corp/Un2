@@ -130,4 +130,90 @@
             </Grid>
         </GroupBox>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type editorViewModels:AlarmJournalEditorViewModel}">
+        <GroupBox Margin="5" Header="Список баз входных сигналов">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" MinHeight="50" />
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Row="0">
+                    <ListView ItemsSource="{Binding OutputSignals}" SelectedItem="{Binding SelectedOutputSignal}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock
+                                        Margin="3"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding IsEditing, Converter={StaticResource BoolToInVisConverter}}" />
+                                    <TextBox
+                                        Margin="3"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        Text="{Binding Value, Mode=TwoWay}"
+                                        Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button
+                        Margin="10"
+                        Command="{Binding AddOutputSignalCommand}"
+                        Content="Добавить" />
+                    <Button
+                        Margin="10"
+                        Command="{Binding RemoveOutputSignalCommand}"
+                        Content="Удалить" />
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type editorViewModels:SystemJournalViewModel}">
+        <GroupBox Margin="5" Header="Список баз входных сигналов">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" MinHeight="50" />
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Row="0">
+                    <ListView ItemsSource="{Binding OutputSignals}" SelectedItem="{Binding SelectedOutputSignal}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock
+                                        Margin="3"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding IsEditing, Converter={StaticResource BoolToInVisConverter}}" />
+                                    <TextBox
+                                        Margin="3"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        Text="{Binding Value, Mode=TwoWay}"
+                                        Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button
+                        Margin="10"
+                        Command="{Binding AddOutputSignalCommand}"
+                        Content="Добавить" />
+                    <Button
+                        Margin="10"
+                        Command="{Binding RemoveOutputSignalCommand}"
+                        Content="Удалить" />
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </DataTemplate>
 </ResourceDictionary>

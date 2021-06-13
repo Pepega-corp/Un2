@@ -5,7 +5,7 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.Editor.Models.LibraryElements
 {
-    public class InversionEditor : IInversionEditor
+    public class InversionEditor : ILibraryElement
     {
         public string StrongName => ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.EDITOR;
         public ElementType ElementType => ElementType.Inversion;

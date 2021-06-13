@@ -1,5 +1,4 @@
-﻿
-using Unicon2.Fragments.Programming.Editor.Models.LibraryElements;
+﻿using Unicon2.Fragments.Programming.Editor.Models.LibraryElements;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
@@ -8,7 +7,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 {
-    public class AndEditorViewModel : ViewModelBase, IAndEditorViewModel
+    public class AndEditorViewModel : ViewModelBase, ILogicElementEditorViewModel
     {
         public string StrongName => ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public object Model { get; set; }
@@ -17,7 +16,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public string Symbol => "&";
         public string Description => "Логический элемент И";
 
-        public AndEditorViewModel(IAndEditor model)
+        public AndEditorViewModel(ILibraryElement model)
         {
             Model = model;
         }

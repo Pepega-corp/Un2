@@ -40,6 +40,17 @@ namespace Unicon2.Fragments.Programming.Module
             container.Register<ILogicElementViewModel, OrViewModel>(ProgrammingKeys.OR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
             container.Register<ILogicElement, Xor>(ProgrammingKeys.XOR);
             container.Register<ILogicElementViewModel, XorViewModel>(ProgrammingKeys.XOR + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<ILogicElement, AlarmJournal>(ProgrammingKeys.ALARM_JOURNAL);
+            container.Register<ILogicElementViewModel, AlarmJournalViewModel>(ProgrammingKeys.ALARM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<ILogicElement, SystemJournal>(ProgrammingKeys.SYSTEM_JOURNAL);
+            container.Register<ILogicElementViewModel, SystemJournalViewModel>(ProgrammingKeys.SYSTEM_JOURNAL + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<ILogicElement, Timer>(ProgrammingKeys.TIMER);
+            container.Register<ILogicElementViewModel, TimerViewModel>(ProgrammingKeys.TIMER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<ILogicElement, RsTrigger>(ProgrammingKeys.RS_TRIGGER);
+            container.Register<ILogicElementViewModel, RsTriggerViewModel>(ProgrammingKeys.RS_TRIGGER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+            container.Register<ILogicElement, SrTrigger>(ProgrammingKeys.SR_TRIGGER);
+            container.Register<ILogicElementViewModel, SrTriggerViewModel>(ProgrammingKeys.SR_TRIGGER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
+
             container.Resolve<IXamlResourcesService>().AddResourceAsGlobal("UI/ProgrammingViewTemplate.xaml", GetType().Assembly);
         }
     }

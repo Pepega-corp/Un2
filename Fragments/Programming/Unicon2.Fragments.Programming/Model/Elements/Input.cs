@@ -75,7 +75,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             }
         }
 
-        public override ushort[] GetProgrammBin()
+        public override ushort[] GetProgramBin()
         {
             ushort[] bindata = new ushort[this.BinSize];
             switch (this.BaseNum)
@@ -111,7 +111,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             return bindata;
         }
 
-        public override void BinProgrammToProperty(ushort[] bin)
+        public override void BinProgramToProperty(ushort[] bin)
         {
             this.BaseNum = bin[0];
             this.InputSignalNum = bin[1];

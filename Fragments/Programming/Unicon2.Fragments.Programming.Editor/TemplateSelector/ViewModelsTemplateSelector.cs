@@ -9,9 +9,9 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
         public DataTemplate Input { get; set; }
         public DataTemplate Output { get; set; }
         public DataTemplate Inversion { get; set; }
-        public DataTemplate And { get; set; }
-        public DataTemplate Or { get; set; }
-        public DataTemplate Xor { get; set; }
+        public DataTemplate BooleanTemplate { get; set; }
+        public DataTemplate Timer { get; set; }
+        public DataTemplate Trigger { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -20,15 +20,20 @@ namespace Unicon2.Fragments.Programming.Editor.TemplateSelector
                 case InputEditorViewModel _:
                     return this.Input;
                 case OutputEditorViewModel _:
+                case AlarmJournalEditorViewModel _:
+                case SystemJournalViewModel _:
                     return this.Output;
                 case InversionEditorViewModel _:
                     return this.Inversion;
                 case AndEditorViewModel _:
-                    return this.And;
                 case OrEditorViewModel _:
-                    return this.Or;
                 case XorEditorViewModel _:
-                    return this.Xor;
+                    return this.BooleanTemplate;
+                case TimerEditorViewModel _:
+                    return this.Timer;
+                case RsTriggerEditorViewModel _:
+                case SrTriggerEditorViewModel _:
+                    return this.Trigger;
                 default:
                     return null;
             }

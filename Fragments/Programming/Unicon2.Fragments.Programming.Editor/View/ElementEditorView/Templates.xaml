@@ -83,7 +83,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="AndTemplate" DataType="{x:Type editorViewModels:AndEditorViewModel}">
+    <DataTemplate x:Key="BooleanOperatorTemplate" DataType="{x:Type editorViewModels:AndEditorViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -152,7 +152,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="OrTemplate" DataType="{x:Type editorViewModels:OrEditorViewModel}">
+    <DataTemplate x:Key="TriggerTemplate" DataType="{x:Type editorViewModels:RsTriggerEditorViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -200,13 +200,34 @@
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 Grid.Column="1"
-                Margin="0,3,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 FontFamily="Calibri"
-                FontSize="10"
+                FontSize="8"
                 Foreground="Black"
                 Text="{Binding Symbol}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="1,4,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontFamily="Calibri"
+                FontSize="8"
+                Foreground="Black"
+                Text="S" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Grid.Column="1"
+                Margin="1,14,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontFamily="Calibri"
+                FontSize="8"
+                Foreground="Black"
+                Text="R" />
             <Path
                 Grid.Row="0"
                 Grid.Column="2"
@@ -220,71 +241,25 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="XorTemplate" DataType="{x:Type editorViewModels:XorEditorViewModel}">
+    <DataTemplate x:Key="TimerTemplate" DataType="{x:Type editorViewModels:TimerEditorViewModel}">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10" />
-                <RowDefinition Height="10" />
-                <RowDefinition Height="10" />
-            </Grid.RowDefinitions>
             <Path
-                Grid.Row="0"
-                Grid.Column="0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Data="M0,0 5,0z"
-                Stretch="Fill"
-                Stroke="Black"
-                StrokeLineJoin="Round"
-                StrokeThickness="1" />
-            <Path
-                Grid.Row="1"
-                Grid.Column="0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Data="M0,0 5,0z"
-                Stretch="Fill"
-                Stroke="Black"
-                StrokeLineJoin="Round"
-                StrokeThickness="1" />
-            <Path
-                Grid.Row="0"
-                Grid.RowSpan="3"
-                Grid.Column="1"
-                Height="30"
                 HorizontalAlignment="Center"
-                Data="M0,0 20,0 20,30, 0,30z"
+                VerticalAlignment="Center"
+                Data="M0,0 L5,0 5,10 25,10 25,0 30,0 25,0 25,-10, 5,-10 5,0z"
                 RenderTransformOrigin="0.5,0.5"
                 Stretch="Fill"
                 Stroke="Black"
                 StrokeLineJoin="Round"
                 StrokeThickness="1" />
             <TextBlock
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                Grid.Column="1"
-                Margin="0,3,0,0"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top"
+                VerticalAlignment="Center"
                 FontFamily="Calibri"
                 FontSize="10"
                 Foreground="Black"
+                LineHeight="10"
                 Text="{Binding Symbol}" />
-            <Path
-                Grid.Row="0"
-                Grid.Column="2"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Data="M0,0 5,0z"
-                Stretch="Fill"
-                Stroke="Black"
-                StrokeLineJoin="Round"
-                StrokeThickness="1" />
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

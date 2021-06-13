@@ -22,7 +22,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         [JsonProperty]
         public double Y { get; set; }
 
-        public abstract void BinProgrammToProperty(ushort[] bin);
+        public abstract void BinProgramToProperty(ushort[] bin);
         public virtual void CopyLibraryValues(ILibraryElement source) { }
 
         public virtual void CopyValues(ILogicElement source)
@@ -36,6 +36,6 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             Y = source.Y;
         }
 
-        public abstract ushort[] GetProgrammBin();
+        public abstract ushort[] GetProgramBin();
     }
 }

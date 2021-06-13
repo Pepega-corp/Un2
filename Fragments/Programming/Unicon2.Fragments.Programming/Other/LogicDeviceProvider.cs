@@ -76,8 +76,7 @@ namespace Unicon2.Fragments.Programming.Other
                 {
                     var pageSaveResult = await this.DeviceContext.DataProviderContainer.DataProvider.OnSuccessAsync(
                         async (provider) => Result<IQueryResult>.Create(await provider.WriteSingleRegisterAsync(
-                            LOGIC_BIN_PAGE_ADDRESS, (ushort) pageIndex,
-                            "SaveProgrammPage"), true));
+                            LOGIC_BIN_PAGE_ADDRESS, (ushort) pageIndex, "SaveProgrammPage"), true));
 
                     isSuccessful = pageSaveResult.IsSuccess && pageSaveResult.Item.IsSuccessful;
                 }
@@ -108,8 +107,6 @@ namespace Unicon2.Fragments.Programming.Other
             for (var i = 0; i < count; i++)
             {
                 var val = values.Skip(i * writeDataLen).Take(writeDataLen).ToArray();
-
-
 
                 var programmSaveResult = await this.DeviceContext.DataProviderContainer.DataProvider.OnSuccessAsync(
                     async (provider) =>

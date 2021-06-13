@@ -6,7 +6,7 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
 {
-    public class XorEditorViewModel : IXorEditorViewModel
+    public class XorEditorViewModel : ILogicElementEditorViewModel
     {
         public string StrongName => ProgrammingKeys.XOR + ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
         public object Model { get; set; }
@@ -15,7 +15,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel.ElementEditorViewModels
         public string Description => "Логический элемент исключающее ИЛИ";
         public bool IsEditable => false;
         
-        public XorEditorViewModel(IXorEditor model)
+        public XorEditorViewModel(ILibraryElement model)
         {
             Model = model;
         }

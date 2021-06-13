@@ -158,6 +158,43 @@
                 Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
     </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type viewModels:TriggerViewModel}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип элемента" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Подпись элемента" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Symbol}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:SimpleLogicElementViewModel}">
         <Grid Margin="10">
@@ -246,4 +283,212 @@
             </ItemsControl>
         </Grid>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:AlarmJournalViewModel}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип элемента" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Подпись элемента" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Сигнал" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Symbol}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding OutputSignals}"
+                SelectedItem="{Binding SelectedSignal}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:SystemJournalViewModel}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип элемента" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Подпись элемента" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Сигнал" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Symbol}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding OutputSignals}"
+                SelectedItem="{Binding SelectedSignal}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:TimerViewModel}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип элемента" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Подпись элемента" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Symbol}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+            <GroupBox
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Stretch"
+                Header="Опции таймера">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="Время, с" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="Тип" />
+                    <ComboBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="5"
+                        ItemsSource="{Binding TimerTypes}"
+                        SelectedIndex="{Binding SelectedTypeIndex}" />
+                </Grid>
+            </GroupBox>
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип входа" />
+            <ComboBox
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="5"
+                DataContext="{Binding Path=InputForSetting}"
+                ItemsSource="{Binding Source={other:EnumToItemsSource {x:Type infr:ConnectorType}}}"
+                SelectedValue="{Binding ConnectorType, Converter={StaticResource EnumConverter}, ConverterParameter={x:Type infr:ConnectorType}}" />
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип входа" />
+            <ComboBox
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="5"
+                DataContext="{Binding Path=OutputForSetting}"
+                ItemsSource="{Binding Source={other:EnumToItemsSource {x:Type infr:ConnectorType}}}"
+                SelectedValue="{Binding ConnectorType, Converter={StaticResource EnumConverter}, ConverterParameter={x:Type infr:ConnectorType}}" />
+        </Grid>
+    </DataTemplate>
+    
+    
 </ResourceDictionary>
