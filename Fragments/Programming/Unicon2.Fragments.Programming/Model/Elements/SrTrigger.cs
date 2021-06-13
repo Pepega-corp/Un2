@@ -31,7 +31,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public override void CopyValues(ILogicElement source)
         {
-            if (source is RsTrigger)
+            if (source is SrTrigger)
             {
                 base.CopyValues(source);
             }
@@ -43,13 +43,13 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public override ushort[] GetProgramBin()
         {
-            ushort[] bindata = new ushort[this.BinSize];
-            bindata[0] = 11;
+            var bindata = new ushort[this.BinSize];
+            bindata[0] = 11 + 0x0100;
             var output = Connectors.First(c => c.Orientation == ConnectorOrientation.RIGHT);
             bindata[1] = (ushort)output.ConnectionNumber;
             var inputs = Connectors.Where(c => c.Orientation == ConnectorOrientation.LEFT).ToList();
-            bindata[2] = (ushort)inputs[0].ConnectionNumber;
-            bindata[3] = (ushort)inputs[1].ConnectionNumber;
+            bindata[2] = (ushort)inputs[1].ConnectionNumber;
+            bindata[3] = (ushort)inputs[0].ConnectionNumber;
             bindata[4] = 0;
             return bindata;
         }

@@ -18,6 +18,7 @@
         <ResourceDictionary Source="ElementsResources/AlarmJournalView.xaml" />
         <ResourceDictionary Source="ElementsResources/SystemJournalView.xaml" />
         <ResourceDictionary Source="ElementsResources/Timer.xaml" />
+        <ResourceDictionary Source="ElementsResources/TriggerElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  TAB CONTROL STYLE  -->

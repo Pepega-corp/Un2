@@ -221,6 +221,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\ElementsResources\TriggerElement.xaml" />
     <Page Include="UI\LogicElementSettings\LogicElementsForSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
