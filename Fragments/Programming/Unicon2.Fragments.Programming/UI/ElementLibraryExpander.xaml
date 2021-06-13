@@ -14,6 +14,7 @@
         <ResourceDictionary Source="ElementsLibraryResources/InversionLibraryElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/SimpleLogicElement.xaml" />
         <ResourceDictionary Source="ElementsLibraryResources/TimerLibraryElement.xaml" />
+        <ResourceDictionary Source="ElementsLibraryResources/TriggerLibraryElement.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Селектор шаблонов DataTemplate  -->
@@ -23,7 +24,8 @@
         Inversion="{StaticResource InversionLibraryElement}"
         Output="{StaticResource OutputLibraryElement}"
         SimpleLogic="{StaticResource SimpleLogicLibrary}"
-        Timer="{StaticResource TimerLibraryElement}" />
+        Timer="{StaticResource TimerLibraryElement}" 
+        Trigger="{StaticResource TriggerLibraryElement}"/>
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

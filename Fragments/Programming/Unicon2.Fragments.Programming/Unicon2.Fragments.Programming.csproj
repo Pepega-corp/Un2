@@ -125,9 +125,12 @@
     <Compile Include="ViewModels\ElementViewModels\LogicElementViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OrViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\OutputViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\RsTriggerViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\SimpleLogicElementViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\SrTriggerViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\SystemJournalViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\TimerViewModel.cs" />
+    <Compile Include="ViewModels\ElementViewModels\TriggerViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModels\XorViewModel.cs" />
     <Compile Include="ViewModels\LogicElementSettingsViewModel.cs" />
     <Compile Include="ViewModels\NewSchemeViewModel.cs" />
@@ -182,6 +185,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\ElementsLibraryResources\TriggerLibraryElement.xaml" />
     <Page Include="UI\ElementsResources\AlarmJournalView.xaml" />
     <Page Include="UI\ElementsResources\AndView.xaml">
       <SubType>Designer</SubType>

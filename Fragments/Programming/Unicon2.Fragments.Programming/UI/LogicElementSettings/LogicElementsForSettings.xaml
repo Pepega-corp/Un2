@@ -158,6 +158,43 @@
                 Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
     </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type viewModels:TriggerViewModel}">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Тип элемента" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Подпись элемента" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Symbol}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:SimpleLogicElementViewModel}">
         <Grid Margin="10">
@@ -452,4 +489,6 @@
                 SelectedValue="{Binding ConnectorType, Converter={StaticResource EnumConverter}, ConverterParameter={x:Type infr:ConnectorType}}" />
         </Grid>
     </DataTemplate>
+    
+    
 </ResourceDictionary>

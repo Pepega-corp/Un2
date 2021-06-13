@@ -63,10 +63,11 @@ namespace Unicon2.Fragments.Programming.Infrastructure.Factories
 
         public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILogicElement> elements)
         {
-            return elements.Select(element =>
-                StaticContainer.Container.Resolve<ILogicElementViewModel>(
-                    element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL,
-                    new ResolverParameter("model", element))).ToList();
+            var ret = elements.Select(element =>
+                                      StaticContainer.Container.Resolve<ILogicElementViewModel>(
+                                          element.StrongName + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL,
+                                          new ResolverParameter("model", element))).ToList();
+            return ret;
         }
 
         public List<ILogicElementViewModel> GetAllElementsViewModels(List<ILibraryElement> libraryElements)

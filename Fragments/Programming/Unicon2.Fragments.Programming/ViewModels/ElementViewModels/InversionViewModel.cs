@@ -7,7 +7,7 @@ using Unicon2.Infrastructure;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public class InversionViewModel: LogicElementViewModel
+    public class InversionViewModel : LogicElementViewModel
     {
         public override string StrongName => ProgrammingKeys.INVERSION + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 

@@ -152,7 +152,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="TriggerTemplate" DataType="{x:Type editorViewModels:AndEditorViewModel}">
+    <DataTemplate x:Key="TriggerTemplate" DataType="{x:Type editorViewModels:RsTriggerEditorViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
