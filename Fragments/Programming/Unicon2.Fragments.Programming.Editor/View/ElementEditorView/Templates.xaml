@@ -216,7 +216,7 @@
                 FontFamily="Calibri"
                 FontSize="8"
                 Foreground="Black"
-                Text="S" />
+                Text="R" />
             <TextBlock
                 Grid.Row="0"
                 Grid.RowSpan="3"
@@ -227,7 +227,7 @@
                 FontFamily="Calibri"
                 FontSize="8"
                 Foreground="Black"
-                Text="R" />
+                Text="S" />
             <Path
                 Grid.Row="0"
                 Grid.Column="2"
