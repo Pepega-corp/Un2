@@ -13,6 +13,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
     public class TimerViewModel : LogicElementViewModel, ISettingsApplicable
     {
         private readonly Timer _model;
+        private double _time;
+        private int _selectedIndex;
 
         public override string StrongName => ProgrammingKeys.TIMER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         
@@ -39,22 +41,22 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public int SelectedTypeIndex
         {
-            get => this._model.SelectedTypeIndex;
+            get => _selectedIndex;
             set
             {
-                this._model.SelectedTypeIndex = value;
+                _selectedIndex = value;
                 RaisePropertyChanged();
             }
         }
 
         public string Time
         {
-            get => this._model.Time.ToString("F2", CultureInfo.CurrentCulture);
+            get => _time.ToString("F2", CultureInfo.CurrentCulture);
             set
             {
                 if (double.TryParse(value, NumberStyles.Float, CultureInfo.CurrentCulture, out var time))
                 {
-                    this._model.Time = time;
+                    _time = time;
                     RaisePropertyChanged();
                 }
             }
@@ -93,6 +95,16 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         {
             Input.ConnectorType = InputForSetting.ConnectorType;
             Output.ConnectorType = OutputForSetting.ConnectorType;
+            this._model.Time = _time;
+            this._model.SelectedTypeIndex = _selectedIndex;
+        }
+        
+        public override void ResetSettingsTo(ILogicElement model)
+        {
+            if (model is Timer timer)
+            {
+                UpdateProperties(timer);
+            }
         }
 
         public override void OpenPropertyWindow()
