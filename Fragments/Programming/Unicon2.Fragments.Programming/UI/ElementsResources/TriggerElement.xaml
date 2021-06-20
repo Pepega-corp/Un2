@@ -46,12 +46,20 @@
                     IsHitTestVisible="False"
                     Stroke="Black"
                     StrokeThickness="1" />
-                <TextBlock Grid.Column="1" 
-                           VerticalAlignment="Top" HorizontalAlignment="Left" 
-                           Margin="2,5,0,0" Text="R" FontSize="6"/>
-                <TextBlock Grid.Column="1" 
-                           VerticalAlignment="Top" HorizontalAlignment="Left" 
-                           Margin="2,15,0,0" Text="S" FontSize="6"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="2,6,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="6"
+                    Text="S" />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="2,16,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="6"
+                    Text="R" />
                 <TextBlock
                     Grid.Column="1"
                     HorizontalAlignment="Center"
