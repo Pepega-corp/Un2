@@ -13,7 +13,6 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementView
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Commands;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -32,6 +31,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// Событие закрытия вкладки схемы
         /// </summary>
         public event Action<ISchemeTabViewModel> CloseTabEvent;
+
+        public event Func<int, IConnectionViewModel> GetConnection;
 
         public ISchemeModel Model => this.GetModel();
         public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
@@ -275,6 +276,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public void OnSelectChanged()
         {
             (DeleteCommand as RelayCommand)?.RaiseCanExecuteChanged();
+        }
+
+        public IConnectionViewModel GetConnectionViewModel(int connectionNumber)
+        {
+            return this.GetConnection?.Invoke(connectionNumber);
         }
     }
 }
