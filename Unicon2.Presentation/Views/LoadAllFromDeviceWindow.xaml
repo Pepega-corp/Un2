@@ -1,46 +1,62 @@
-<mah:MetroWindow x:Class="Unicon2.Presentation.Views.LoadAllFromDeviceWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:windows="clr-namespace:Unicon2.Presentation.ViewModels.Windows"
-        xmlns:dataTemplateSelectors="clr-namespace:Unicon2.Presentation.DataTemplateSelectors"
-        xmlns:lex="http://wpflocalizeextension.codeplex.com"
-        xmlns:converters="clr-namespace:Unicon2.Presentation.Infrastructure.Converters;assembly=Unicon2.Presentation.Infrastructure"
-        mc:Ignorable="d"
-        IsMaxRestoreButtonEnabled="False"
-        d:DataContext="{d:DesignInstance windows:LoadAllFromDeviceWindowViewModel}"
-        Title="{lex:Loc DownloadAll}" Height="350" Width="600">
+<mah:MetroWindow
+    x:Class="Unicon2.Presentation.Views.LoadAllFromDeviceWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Unicon2.Presentation.Infrastructure.Converters;assembly=Unicon2.Presentation.Infrastructure"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dataTemplateSelectors="clr-namespace:Unicon2.Presentation.DataTemplateSelectors"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:windows="clr-namespace:Unicon2.Presentation.ViewModels.Windows"
+    Title="{lex:Loc DownloadAll}"
+    Width="600"
+    Height="350"
+    d:DataContext="{d:DesignInstance windows:LoadAllFromDeviceWindowViewModel}"
+    IsMaxRestoreButtonEnabled="False"
+    mc:Ignorable="d">
     <mah:MetroWindow.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
-        <converters:BoolToVisConverter Invert="True" x:Key="BoolToInVisConverter"></converters:BoolToVisConverter>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BoolToVisConverter x:Key="BoolToInVisConverter" Invert="True" />
     </mah:MetroWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <TextBlock Margin="5" TextWrapping="Wrap" Text="{lex:Loc LoadAllDescription}"></TextBlock>
+
+        <TextBlock
+            Margin="5"
+            Text="{lex:Loc LoadAllDescription}"
+            TextWrapping="Wrap" />
         <ItemsControl Grid.Row="1" ItemsSource="{Binding LoadFragmentViewModels}">
             <ItemsControl.ItemTemplateSelector>
                 <dataTemplateSelectors:LoadFragmentViewModelDataTemplateSelector>
                     <dataTemplateSelectors:LoadFragmentViewModelDataTemplateSelector.DefaultLoadFragmentDataTemplate>
                         <DataTemplate DataType="windows:DefaultLoadFragmentViewModel">
                             <Grid>
-                                <Border Margin="5" BorderBrush="LightGray" BorderThickness="1">
+                                <Border
+                                    Margin="5"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1">
                                     <Grid Height="20" Margin="5">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding FragmentName}"></TextBlock>
-                                        <CheckBox Grid.Column="1" Visibility="{Binding IsFragmentLoadingInProgress,Converter={StaticResource BoolToInVisConverter}}" IsChecked="{Binding IsSelectedForLoading}"></CheckBox>
-                                        <mah:ProgressRing Grid.Column="2" Width="15" Height="15"  Visibility="{Binding IsFragmentLoadingInProgress, Converter={StaticResource BooleanToVisibilityConverter}}"></mah:ProgressRing>
+                                        <TextBlock Text="{Binding FragmentName}" />
+                                        <CheckBox
+                                            Grid.Column="1"
+                                            IsChecked="{Binding IsSelectedForLoading}"
+                                            Visibility="{Binding IsFragmentLoadingInProgress, Converter={StaticResource BoolToInVisConverter}}" />
+                                        <mah:ProgressRing
+                                            Grid.Column="2"
+                                            Width="15"
+                                            Height="15"
+                                            Visibility="{Binding IsFragmentLoadingInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     </Grid>
                                 </Border>
                             </Grid>
@@ -51,27 +67,48 @@
         </ItemsControl>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Margin="5" Text="{lex:Loc SavePath}"></TextBlock>
-            <TextBlock Margin="5" Grid.Column="1"  Text="{Binding PathToFolderToSave}" TextTrimming="CharacterEllipsis" ToolTip="{Binding PathToFolderToSave}"></TextBlock>
-            <Button Style="{DynamicResource UniconButtonStyle}" Grid.Column="2" Command="{Binding SetFolderCommand}">
-                ... 
+            <TextBlock Margin="5" Text="{lex:Loc SavePath}" />
+            <TextBlock
+                Grid.Column="1"
+                Margin="5"
+                Text="{Binding PathToFolderToSave}"
+                TextTrimming="CharacterEllipsis"
+                ToolTip="{Binding PathToFolderToSave}" />
+            <Button
+                Grid.Column="2"
+                Command="{Binding SetFolderCommand}"
+                Style="{DynamicResource UniconButtonStyle}">
+                ...
             </Button>
-            <Button Style="{DynamicResource UniconButtonStyle}" Grid.Column="3" Content="{lex:Loc DownloadAll}" Command="{Binding SaveToFolderCommand}"></Button>
+            <Button
+                Grid.Column="3"
+                Command="{Binding SaveToFolderCommand}"
+                Content="{lex:Loc DownloadAll}"
+                Style="{DynamicResource UniconButtonStyle}" />
         </Grid>
-     <Grid Grid.Row="3">
-         <Grid>
-             <Grid.ColumnDefinitions>
-                 <ColumnDefinition Width="*"></ColumnDefinition>
-                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-             </Grid.ColumnDefinitions>
-             <TextBlock Margin="5" Text="{Binding SaveIndicatorMessage}" TextTrimming="CharacterEllipsis" ToolTip="{Binding SaveIndicatorMessage}"></TextBlock>
-             <Button Margin="5" Style="{DynamicResource UniconButtonStyle}" Grid.Column="1" Command="{Binding OpenSavedFolderCommand}" Content="{lex:Loc Open}"></Button>
-         </Grid>
-     </Grid>
+        <Grid Grid.Row="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Margin="5"
+                    Text="{Binding SaveIndicatorMessage}"
+                    TextTrimming="CharacterEllipsis"
+                    ToolTip="{Binding SaveIndicatorMessage}" />
+                <Button
+                    Grid.Column="1"
+                    Margin="5"
+                    Command="{Binding OpenSavedFolderCommand}"
+                    Content="{lex:Loc Open}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+            </Grid>
+        </Grid>
     </Grid>
 </mah:MetroWindow>

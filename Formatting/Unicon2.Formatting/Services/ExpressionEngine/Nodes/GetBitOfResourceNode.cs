@@ -26,7 +26,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
                 .FirstOrDefault(
                     container => container.ResourceName == _resource);
             var resUshorts = await StaticContainer.Container.Resolve<IPropertyValueService>()
-                .GetUshortsOfProperty(resource.Resource, ruleExecutionContext.DeviceContext, true);
+                .GetUshortsOfProperty(resource.Resource, ruleExecutionContext.DeviceContext, true,ruleExecutionContext.IsLocal);
 
             var result=resUshorts.Item[0].GetBoolArrayFromUshort()[
                     Convert.ToUInt16(await _numberOfBit.ExecuteNode(ruleExecutionContext))];

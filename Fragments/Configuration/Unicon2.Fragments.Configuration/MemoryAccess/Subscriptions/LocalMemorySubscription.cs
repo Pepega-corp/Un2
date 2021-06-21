@@ -147,7 +147,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
 
                     var localValue = _formattingService.FormatValue(formatterForDependentProperty,
-                        subPropertyUshort.AsCollection());
+                        subPropertyUshort.AsCollection(),true);
                     var editableValue = StaticContainer.Container.Resolve<IValueViewModelFactory>()
                         .CreateEditableValueViewModel(new FormattedValueInfo(localValue, _property,
                             formatterForDependentProperty,
@@ -180,7 +180,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
                         var subPropertyValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(
                             _property.UshortsFormatter,
-                            new[] { subPropertyUshort });
+                            new[] { subPropertyUshort },true);
 
 
                         _runtimePropertyViewModel.LocalValue.Accept(
@@ -267,7 +267,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     }
 
                     var localValue = _formattingService.FormatValue(formatterForDependentProperty,
-                        newUshorts.Item);
+                        newUshorts.Item,true);
                     var editableValue = StaticContainer.Container.Resolve<IValueViewModelFactory>()
                         .CreateEditableValueViewModel(new FormattedValueInfo(localValue, _property,
                             formatterForDependentProperty,
@@ -302,7 +302,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 _prevUshorts = newUshorts.Item;
                 var localValue = await StaticContainer.Container.Resolve<IFormattingService>().FormatValueAsync(
                     _ushortsFormatter,
-                    _prevUshorts,_deviceContext);
+                    _prevUshorts,_deviceContext,true);
                 _runtimePropertyViewModel.LocalValue.Accept(new EditableValueSetFromLocalVisitor(localValue));
             }
         }

@@ -67,7 +67,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                         _property?.UshortsFormatter, _offset);
                 }
 
-                var value = formattingService.FormatValue(formatterForProperty, subPropertyUshort.AsCollection());
+                var value = formattingService.FormatValue(formatterForProperty, subPropertyUshort.AsCollection(),false);
                 _localAndDeviceValueContainingViewModel.DeviceValue =
                     _valueViewModelFactory.CreateFormattedValueViewModel(value);
             }
@@ -91,7 +91,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     var value = await formattingService.FormatValueAsync(formatterForProperty,
                         MemoryAccessor.GetUshortsFromMemory(
                             _deviceContext.DeviceMemory,
-                            (ushort) (_property.Address + _offset), _property.NumberOfPoints, false), _deviceContext);
+                            (ushort) (_property.Address + _offset), _property.NumberOfPoints, false), _deviceContext,false);
                     _localAndDeviceValueContainingViewModel.DeviceValue =
                         _valueViewModelFactory.CreateFormattedValueViewModel(value);
                 }

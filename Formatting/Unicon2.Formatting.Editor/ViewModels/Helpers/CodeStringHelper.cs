@@ -10,7 +10,19 @@ namespace Unicon2.Formatting.Editor.ViewModels.Helpers
     {
         public static string  GetStringBetweenCaretAndPrevSpecialChar(string fullStr, int caretPosition)
         {
+
+            var arrowIndex = fullStr.IndexOf("=>");
+            if (arrowIndex >= 0)
+            {
+                arrowIndex += 2;
+            }
+
+            
             var startIndex = fullStr.Substring(0, caretPosition).LastIndexOfAny(new[] { '(', ')', ',' })+1;
+            if (arrowIndex > startIndex&&arrowIndex<caretPosition)
+            {
+                startIndex = arrowIndex;
+            }
             if (startIndex < 0)
             {
                 startIndex = 0;

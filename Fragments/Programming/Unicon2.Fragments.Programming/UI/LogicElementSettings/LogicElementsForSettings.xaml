@@ -158,7 +158,7 @@
                 Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type viewModels:TriggerViewModel}">
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
@@ -489,6 +489,6 @@
                 SelectedValue="{Binding ConnectorType, Converter={StaticResource EnumConverter}, ConverterParameter={x:Type infr:ConnectorType}}" />
         </Grid>
     </DataTemplate>
-    
-    
+
+
 </ResourceDictionary>

@@ -7,14 +7,17 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
 
     public class RuleExecutionContext
     {
+      
 
+        public bool IsLocal { get; }
         public Dictionary<string, object> Variables { get; } = new Dictionary<string, object>();
 
         public DeviceContext DeviceContext { get; }
 
-        public RuleExecutionContext(DeviceContext deviceContext, params (string var, object varValue)[] variables)
+        public RuleExecutionContext(DeviceContext deviceContext, bool isLocal, params (string var, object varValue)[] variables)
         {
             DeviceContext = deviceContext;
+            IsLocal = isLocal;
             foreach (var variable in variables)
             {
                 Variables.AddElement(variable.var, variable.varValue);

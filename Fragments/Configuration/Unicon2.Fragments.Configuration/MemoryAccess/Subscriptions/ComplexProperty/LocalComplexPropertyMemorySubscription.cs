@@ -57,7 +57,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 
 
 				var subPropertyValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(subProperty.UshortsFormatter,
-					new []{subPropertyUshort});
+					new []{subPropertyUshort},true);
 
 
 				var subPropertyViewModel =

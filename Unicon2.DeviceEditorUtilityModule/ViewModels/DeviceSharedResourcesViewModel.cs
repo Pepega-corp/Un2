@@ -158,13 +158,11 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			UpdateResourcesViewModelCollection();
 		}
 
-		private bool CanExecuteSelectResource(object arg)
-		{
-			return SelectedResourceViewModel != null &&
-			       SelectedResourceViewModel.RelatedEditorItemViewModel.GetType().GetInterfaces().Contains(_typeNeeded);
-		}
+		private bool CanExecuteSelectResource(object arg) =>
+            SelectedResourceViewModel != null &&
+            SelectedResourceViewModel.RelatedEditorItemViewModel.GetType().GetInterfaces().Contains(_typeNeeded);
 
-		private void OnOpenResourceForEditingExecute(object _owner)
+        private void OnOpenResourceForEditingExecute(object _owner)
 		{
 			_sharedResourcesEditorFactory.OpenResourceForEdit(SelectedResourceViewModel, _owner);
 		}
@@ -289,6 +287,13 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		{
 			return ResourcesCollection.Any(model => model.RelatedEditorItemViewModel == viewModel);
 		}
+
+        public void RemoveResourceByViewModel(object viewModel)
+        {
+            _resourceViewModelsInContainers.Remove(
+                _resourceViewModelsInContainers.First(model => model.RelatedEditorItemViewModel == viewModel));
+			UpdateResourcesViewModelCollection();
+        }
 
 
 		public void AddAsSharedResource(INameable resourceModelToAdd, bool askUser)

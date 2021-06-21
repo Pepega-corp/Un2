@@ -148,11 +148,11 @@ namespace Unicon2.Formatting.Visitors
             throw new NotImplementedException();
         }
 
-        public async Task<ushort[]> VisitCodeFormatterAsync(IUshortsFormatter formatter, DeviceContext deviceContext)
+        public async Task<ushort[]> VisitCodeFormatterAsync(IUshortsFormatter formatter, DeviceContext deviceContext, bool isLocal)
         {
             var service = StaticContainer.Container.Resolve<ICodeFormatterService>();
             var codeFormatter = formatter as ICodeFormatter;
-            var fun = service.GetFormatBackUshortsFunc(codeFormatter.CodeExpression, deviceContext);
+            var fun = service.GetFormatBackUshortsFunc(codeFormatter.CodeExpression, deviceContext,isLocal);
             var res = await fun.Item.Invoke(_formattedValue);
             return res;
         }

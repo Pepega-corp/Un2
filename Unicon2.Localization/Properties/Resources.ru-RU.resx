@@ -1634,7 +1634,7 @@
   <data name="SetResultValueFunctionDescription" xml:space="preserve">
     <value>Задать результирующее значение, которое будет выводиться пользователю
 Сигнатура: SetResultValue(x1)
-Где x1 - значение которое нужно сделать результирующем
+Где x1 - значение которое нужно сделать результирующим
 Возвращаемое значение: x1</value>
   </data>
   <data name="GetResultValueFunctionDescription" xml:space="preserve">

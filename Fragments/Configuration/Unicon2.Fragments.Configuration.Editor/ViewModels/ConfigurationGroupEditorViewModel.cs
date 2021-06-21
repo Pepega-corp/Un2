@@ -9,6 +9,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels
@@ -252,6 +253,14 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             ChildStructItemViewModels.Remove(
                 ChildStructItemViewModels.First((model => model == configurationItemViewModelToRemove)));
+
+            var sharedResourceService = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+
+            var ifSharedResource=sharedResourceService.CheckDeviceSharedResourcesContainsViewModel(configurationItemViewModelToRemove);
+            if (ifSharedResource)
+            {
+                sharedResourceService.RemoveResourceByViewModel(configurationItemViewModelToRemove);
+            }
         }
 
         public void ChangeAddress(ushort addressOffset, bool isIncrease)

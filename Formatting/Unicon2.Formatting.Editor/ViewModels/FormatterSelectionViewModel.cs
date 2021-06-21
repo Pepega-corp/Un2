@@ -126,7 +126,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             formatterParametersViewModel.IsFromSharedResources = true;
             formatterParametersViewModel.RelatedUshortsFormatterViewModel = _selectedUshortsFormatterViewModel;
 
-            _sharedResourcesGlobalViewModel.AddAsSharedResource(formatterParametersViewModel);
+            _sharedResourcesGlobalViewModel.AddAsSharedResource(StaticContainer.Container.Resolve<ISaveFormatterService>().CreateUshortsParametersFormatter(formatterParametersViewModel));
             CurrentResourceString = formatterParametersViewModel.Name;
 
             IsFormatterFromResource = true;

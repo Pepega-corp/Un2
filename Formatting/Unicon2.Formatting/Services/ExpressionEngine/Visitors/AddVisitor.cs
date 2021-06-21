@@ -9,7 +9,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Visitors
         public override IRuleNode VisitStringPart(string str)
         {
             var get = str.GetParameterFromString();
-            return new AddNode(get.Select(s =>LexemManager.GetNodeByString(s)));
+            return new AddNode(get.Select(s =>LexemManager.GetNodeByString(s)).ToList());
         }
 
         public AddVisitor(LexemManager lexemManager) : base(lexemManager)

@@ -9,9 +9,9 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 {
     public class DoNode : IRuleNode
     {
-        private readonly IEnumerable<IRuleNode> _ruleNodes;
+        private readonly List<IRuleNode> _ruleNodes;
 
-        public DoNode(IEnumerable<IRuleNode> ruleNodes)
+        public DoNode(List<IRuleNode> ruleNodes)
         {
             _ruleNodes = ruleNodes;
         }

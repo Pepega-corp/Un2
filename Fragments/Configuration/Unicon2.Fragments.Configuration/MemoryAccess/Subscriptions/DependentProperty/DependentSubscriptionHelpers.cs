@@ -136,7 +136,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 
 			if (resourceProperty.UshortsFormatter != null)
 			{
-				var value = formattingService.FormatValue(resourceProperty.UshortsFormatter, propertyUshorts);
+				var value = formattingService.FormatValue(resourceProperty.UshortsFormatter, propertyUshorts,isLocal);
 
 				if (double.TryParse(value.AsString(), out double conditionNumber))
 				{
@@ -168,7 +168,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 
 			if (resourceProperty.UshortsFormatter != null)
 			{
-				var value = formattingService.FormatValue(resourceProperty.UshortsFormatter, propertyUshorts);
+				var value = formattingService.FormatValue(resourceProperty.UshortsFormatter, propertyUshorts,isLocal);
 
 				if (double.TryParse(value.AsString(), out double conditionNumber))
 				{

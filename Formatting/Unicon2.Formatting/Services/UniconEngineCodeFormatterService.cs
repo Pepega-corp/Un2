@@ -28,35 +28,51 @@ namespace Unicon2.Formatting.Services
         }
 
 
-        public Result<Func<ushort[], Task<IFormattedValue>>> GetFormatUshortsFunc(
-            CodeFormatterExpression codeExpression, DeviceContext deviceContext)
+        public Result<Func<BuiltExpressionFormatContext, Task<IFormattedValue>>> GetFormatUshortsFunc(
+            CodeFormatterExpression codeExpression)
         {
-            if (codeExpression.BuiltExpressionFormat.IsSuccess)
+            try
             {
-                return codeExpression.BuiltExpressionFormat;
+                var nodes = Evaluator.Initialize(codeExpression.CodeStringFormat, _lexemManager);
+
+                Func<BuiltExpressionFormatContext, Task<IFormattedValue>> fun = (context) =>
+                    Evaluator.ExecuteFormat(context.DeviceValue, new RuleExecutionContext(context.DeviceContext, context.IsLocal), nodes);
+
+            //    codeExpression.BuiltExpressionFormat = Result<Func<ushort[], Task<IFormattedValue>>>.Create(fun,true);
+
+                return Result<Func<BuiltExpressionFormatContext, Task<IFormattedValue>>>.Create(fun,
+                    true);
             }
-
-
-
-            var nodes = Evaluator.Initialize(codeExpression.CodeStringFormat, _lexemManager);
-
-            return Result<Func<ushort[], Task<IFormattedValue>>>.Create(
-                (deviceValue) => Evaluator.ExecuteFormat(deviceValue, new RuleExecutionContext(deviceContext), nodes), true);
-
+            catch (Exception e)
+            {
+                return Result<Func<BuiltExpressionFormatContext, Task<IFormattedValue>>>.CreateWithException(e);
+            }
         }
 
-        public Result<Func<IFormattedValue, Task<ushort[]>>> GetFormatBackUshortsFunc(CodeFormatterExpression codeExpression,
-            DeviceContext deviceContext)
+        public Result<Func<IFormattedValue, Task<ushort[]>>> GetFormatBackUshortsFunc(
+            CodeFormatterExpression codeExpression,
+            DeviceContext deviceContext, bool isLocal)
         {
-            if (codeExpression.BuiltExpressionFormatBack.IsSuccess)
+            try
             {
-                return codeExpression.BuiltExpressionFormatBack;
+
+
+                var nodes = Evaluator.Initialize(codeExpression.CodeStringFormatBack, _lexemManager);
+
+                Func<IFormattedValue, Task<ushort[]>> fun = (input) =>
+                    Evaluator.ExecuteFormatBack(input, new RuleExecutionContext(deviceContext, isLocal), nodes);
+
+            //    codeExpression.BuiltExpressionFormatBack =
+            //        Result<Func<IFormattedValue, Task<ushort[]>>>.Create(fun, true);
+
+
+                return Result<Func<IFormattedValue, Task<ushort[]>>>.Create(fun, true);
             }
+            catch (Exception e)
+            {
+                return Result<Func<IFormattedValue, Task<ushort[]>>>.CreateWithException(e);
 
-            var nodes = Evaluator.Initialize(codeExpression.CodeStringFormatBack, _lexemManager);
-
-            return Result<Func<IFormattedValue, Task<ushort[]>>>.Create(
-                (input) => Evaluator.ExecuteFormatBack(input, new RuleExecutionContext(deviceContext), nodes), true);
+            }
         }
 
         public List<(string name, string desc)> GetFunctionsInfo()

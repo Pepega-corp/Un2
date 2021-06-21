@@ -218,6 +218,7 @@ namespace Unicon2.Tests.Editor
 
         }
 
+
         [Test]
         public void EditorAllFormattersPropFromSharedResourcesSave()
         {

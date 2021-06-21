@@ -184,7 +184,7 @@ namespace Unicon2.Fragments.Configuration.Factories
                     _deviceContext,(ushort)AddressOffset));
             var localUshorts = InitDefaultUshortsValue(property.NumberOfPoints);
             var localValue = _container.Resolve<IFormattingService>().FormatValue(property.UshortsFormatter,
-	            localUshorts);
+	            localUshorts,true);
             var editableValue = _valueViewModelFactory
                 .CreateEditableValueViewModel(new FormattedValueInfo(localValue, property, property.UshortsFormatter,
                     property));
@@ -277,7 +277,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 
                 var localValue = _container.Resolve<IFormattingService>().FormatValue(subProperty.UshortsFormatter,
-                    InitDefaultUshortsValue(subProperty.NumberOfPoints));
+                    InitDefaultUshortsValue(subProperty.NumberOfPoints),true);
 
 
                 var editableValue =_valueViewModelFactory

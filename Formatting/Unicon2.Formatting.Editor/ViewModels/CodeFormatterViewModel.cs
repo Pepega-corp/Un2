@@ -18,6 +18,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
         private readonly ICodeFormatterService _codeFormatterService;
         private string _formatCodeString;
         private string _formatBackCodeString;
+        private bool _errorInFormatString;
+        private bool _errorInFormatBackString;
 
         public CodeFormatterViewModel(ICodeFormatterService codeFormatterService)
         {
@@ -55,14 +57,12 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             get
             {
-                var res = _codeFormatterService.GetFormatUshortsFunc(
-                    new CodeFormatterExpression(FormatCodeString, FormatBackCodeString),
-                    new DeviceContext(null, null, "Test", null, null));
-                var res2 = _codeFormatterService.GetFormatBackUshortsFunc(
-                    new CodeFormatterExpression(FormatCodeString, FormatBackCodeString),
-                    new DeviceContext(null, null, "Test", null, null));
+                RefreshFormatBackError();
+                RefreshFormatError();
 
-                return res.IsSuccess && res2.IsSuccess;
+           
+
+                return !ErrorInFormatBackString && !ErrorInFormatString;
             }
         }
 
@@ -82,6 +82,40 @@ namespace Unicon2.Formatting.Editor.ViewModels
             set
             {
                 _formatBackCodeString = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        public void RefreshFormatError()
+        {
+            var res = _codeFormatterService.GetFormatUshortsFunc(
+                new CodeFormatterExpression(FormatCodeString, FormatBackCodeString));
+            ErrorInFormatString = !res.IsSuccess;
+        }
+        public void RefreshFormatBackError()
+        {
+            var res2 = _codeFormatterService.GetFormatBackUshortsFunc(
+                new CodeFormatterExpression(FormatCodeString, FormatBackCodeString),
+                new DeviceContext(null, null, "Test", null, null), true);
+            ErrorInFormatBackString = !res2.IsSuccess;
+        }
+
+        public bool ErrorInFormatString
+        {
+            get => _errorInFormatString;
+            set
+            {
+                _errorInFormatString = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ErrorInFormatBackString
+        {
+            get => _errorInFormatBackString;
+            set
+            {
+                _errorInFormatBackString = value; 
                 RaisePropertyChanged();
             }
         }

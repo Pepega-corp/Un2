@@ -47,7 +47,7 @@ namespace Unicon2.Presentation.Connection
                 return Result<string>.Create(false);
             }
 
-            var res = await this._propertyValueService.GetValueOfProperty(resource.Resource, deviceContext, false);
+            var res = await this._propertyValueService.GetValueOfProperty(resource.Resource, deviceContext, false,false);
             return Result<string>.Create(() => res.Item.AsString(), () => res.IsSuccess);
         }
     }

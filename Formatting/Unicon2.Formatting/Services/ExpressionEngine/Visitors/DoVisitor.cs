@@ -13,7 +13,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Visitors
         public override IRuleNode VisitStringPart(string str)
         {
             var get = str.GetParameterFromString();
-            return new DoNode(get.Select(s => LexemManager.GetNodeByString(s)));
+            return new DoNode(get.Select(s => LexemManager.GetNodeByString(s)).ToList());
         }
 
         public DoVisitor(LexemManager lexemManager) : base(lexemManager)

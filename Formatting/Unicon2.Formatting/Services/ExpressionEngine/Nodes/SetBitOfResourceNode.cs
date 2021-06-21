@@ -27,7 +27,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
         {
             var resource = ruleExecutionContext.DeviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
                 container => container.ResourceName == _resoure);
-            var resUshorts = await StaticContainer.Container.Resolve<IPropertyValueService>().GetUshortsOfProperty(resource.Resource, ruleExecutionContext.DeviceContext, true);
+            var resUshorts = await StaticContainer.Container.Resolve<IPropertyValueService>().GetUshortsOfProperty(resource.Resource, ruleExecutionContext.DeviceContext, true,ruleExecutionContext.IsLocal);
 
 
             var boolArray = resUshorts.Item.GetBoolArrayFromUshortArray();
@@ -36,11 +36,21 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 
             var subPropertyUshort = boolArray.BoolArrayToUshort();
 
+            if (ruleExecutionContext.IsLocal)
+            {
+                ruleExecutionContext.DeviceContext.DeviceMemory.LocalMemoryValues[(resource.Resource as IWithAddress).Address] =
+                    subPropertyUshort;
+                ruleExecutionContext.DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
+                    (resource.Resource as IWithAddress).Address, 1);
+            }
+            else
+            {
+                ruleExecutionContext.DeviceContext.DeviceMemory.DeviceMemoryValues[(resource.Resource as IWithAddress).Address] =
+                    subPropertyUshort;
+                ruleExecutionContext.DeviceContext.DeviceEventsDispatcher.TriggerDeviceAddressSubscription(
+                    (resource.Resource as IWithAddress).Address, 1);
+            }
 
-            ruleExecutionContext.DeviceContext.DeviceMemory.LocalMemoryValues[(resource.Resource as IWithAddress).Address] =
-                subPropertyUshort;
-            ruleExecutionContext.DeviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
-                (resource.Resource as IWithAddress).Address, 1);
             return value;
         }
     }

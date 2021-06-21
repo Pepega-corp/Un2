@@ -7,10 +7,10 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 {
     public class AddNode : RuleNodeBase
     {
-        private readonly IEnumerable<IRuleNode> _nodes;
+        private readonly List<IRuleNode> _nodes;
 
 
-        public AddNode(IEnumerable<IRuleNode> nodes)
+        public AddNode(List<IRuleNode> nodes)
         {
             _nodes = nodes;
         }

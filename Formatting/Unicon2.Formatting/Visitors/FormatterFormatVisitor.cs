@@ -9,6 +9,7 @@ using org.mariuszgromada.math.mxparser;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Formatting.Infrastructure.Services;
 using Unicon2.Formatting.Model;
+using Unicon2.Formatting.Services;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
@@ -25,13 +26,18 @@ namespace Unicon2.Formatting.Visitors
         private readonly ushort[] _ushortsPayload;
         private readonly ITypesContainer _typesContainer;
         private readonly ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>> _iterationDefinitionsCache;
+        private ConcurrentDictionary<IUshortsFormatter, Func<BuiltExpressionFormatContext, Task<IFormattedValue>>> _codeFormatterCache;
+
+        private readonly bool _isLocal;
 
         public FormatterFormatVisitor(ushort[] ushortsPayload, ITypesContainer typesContainer,
-            ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>> iterationDefinitionsCache)
+            ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>> iterationDefinitionsCache, bool isLocal, ConcurrentDictionary<IUshortsFormatter, Func<BuiltExpressionFormatContext, Task<IFormattedValue>>> codeFormatterCache)
         {
             _ushortsPayload = ushortsPayload;
             _typesContainer = typesContainer;
             _iterationDefinitionsCache = iterationDefinitionsCache;
+            _isLocal = isLocal;
+            _codeFormatterCache = codeFormatterCache;
         }
 
 
@@ -168,7 +174,7 @@ namespace Unicon2.Formatting.Visitors
                         container => container.ResourceName == formattableUshortResource);
 
                     var propValue = await StaticContainer.Container.Resolve<IPropertyValueService>()
-                        .GetValueOfProperty(resource.Resource, deviceContext, true);
+                        .GetValueOfProperty(resource.Resource, deviceContext, true,_isLocal);
 
                     if (propValue.Item is INumericValue numericValue)
                     {
@@ -324,12 +330,24 @@ namespace Unicon2.Formatting.Visitors
         }
 
         public async Task<IFormattedValue> VisitCodeFormatterAsync(IUshortsFormatter formatter,
-            DeviceContext deviceContext)
+            DeviceContext deviceContext, bool isLocal)
         {
             var service = _typesContainer.Resolve<ICodeFormatterService>();
             var codeFormatter = formatter as ICodeFormatter;
-            var value = service.GetFormatUshortsFunc(codeFormatter.CodeExpression, deviceContext);
-            var res = (await value.Item.Invoke(_ushortsPayload));
+
+            if (_codeFormatterCache.ContainsKey(formatter))
+            {
+                var resFromCache = await _codeFormatterCache[formatter]
+                    .Invoke(new BuiltExpressionFormatContext(deviceContext, _ushortsPayload, isLocal));
+                return resFromCache;
+            }
+
+
+            var value = service.GetFormatUshortsFunc(codeFormatter.CodeExpression);
+
+            _codeFormatterCache.TryAdd(formatter, value.Item);
+
+            var res = (await value.Item.Invoke(new BuiltExpressionFormatContext(deviceContext,_ushortsPayload,isLocal)));
             return res;
         }
     }

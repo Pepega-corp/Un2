@@ -39,7 +39,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 
 			foreach (var subProperty in _complexProperty.SubProperties)
 			{
-				var ushorts = formattingService.FormatBack(subProperty?.UshortsFormatter, (_complexPropertyViewModel.ChildStructItemViewModels[_complexProperty.SubProperties.IndexOf(subProperty)] as ILocalAndDeviceValueContainingViewModel).LocalValue.Accept(fetchingFromViewModelVisitor));
+				var ushorts = formattingService.FormatBack(subProperty?.UshortsFormatter, (_complexPropertyViewModel.ChildStructItemViewModels[_complexProperty.SubProperties.IndexOf(subProperty)] as ILocalAndDeviceValueContainingViewModel).LocalValue.Accept(fetchingFromViewModelVisitor),true);
 				var ushortOfSubProperty = ushorts.First();
 				var boolArray = ushorts.GetBoolArrayFromUshortArray();
 				int counter = 0;

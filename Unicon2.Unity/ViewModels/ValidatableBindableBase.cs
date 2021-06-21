@@ -60,6 +60,22 @@ namespace Unicon2.Infrastructure.Common
             }
         }
 
+        public void AddError(string propName, string error)
+        {
+
+            var valFailure = new ValidationFailure(propName, error);
+            if (_errorDictionary.ContainsKey(propName))
+            {
+                _errorDictionary[propName].Add(valFailure);
+            }
+            else
+            {
+                _errorDictionary.Add(propName, new List<ValidationFailure> { valFailure });
+            }
+            NotifyAll();
+        }
+
+
         public virtual void NotifyAll()
         {
             var props = _errorDictionary.Keys.ToList();

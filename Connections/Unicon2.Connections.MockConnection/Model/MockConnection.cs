@@ -163,7 +163,15 @@ namespace Unicon2.Connections.MockConnection.Model
             {
                 if (!MemorySlotDictionary.ContainsKey(i))
                 {
-                    MemorySlotDictionary.Add(i, 0);
+                    try
+                    {
+                        MemorySlotDictionary.Add(i, 0);
+
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
                 }
             }
         }

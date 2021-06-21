@@ -20,7 +20,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         }
 
         public async Task<Result<IFormattedValue>> GetValueOfProperty(object propertyMaybe, DeviceContext deviceContext,
-            bool cacheAllowed)
+            bool cacheAllowed, bool isLocal)
         {
             IProperty property = propertyMaybe as IProperty;
             if (property == null || !deviceContext.DataProviderContainer.DataProvider.IsSuccess)
@@ -34,7 +34,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             {
                 return await GetValueFromUshorts(MemoryAccessor.GetUshortsFromMemory(deviceContext.DeviceMemory,
                     property.Address,
-                    property.NumberOfPoints, false), property.UshortsFormatter,deviceContext);
+                    property.NumberOfPoints, isLocal), property.UshortsFormatter,deviceContext,isLocal);
             }
 
             var ushorts =
@@ -44,7 +44,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             {
                 MemoryAccessor.SetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result,
                     false);
-                return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter,deviceContext);
+                return await GetValueFromUshorts(ushorts.Result, property.UshortsFormatter,deviceContext,isLocal);
             }
 
             return Result<IFormattedValue>.Create(false);
@@ -52,7 +52,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         }
 
         public async Task<Result<ushort[]>> GetUshortsOfProperty(object propertyMaybe, DeviceContext deviceContext,
-        bool cacheAllowed)
+        bool cacheAllowed,bool isLocal)
         {
             IProperty property = propertyMaybe as IProperty;
             if (property == null || !deviceContext.DataProviderContainer.DataProvider.IsSuccess)
@@ -62,11 +62,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
 
             if (cacheAllowed && deviceContext.DeviceMemory != null && MemoryAccessor.IsMemoryContainsAddresses(
                 deviceContext.DeviceMemory, property.Address,
-                property.NumberOfPoints, false))
+                property.NumberOfPoints, isLocal))
             {
                 return MemoryAccessor.GetUshortsFromMemory(deviceContext.DeviceMemory,
                     property.Address,
-                    property.NumberOfPoints, false);
+                    property.NumberOfPoints, isLocal);
             }
 
             var ushorts =
@@ -75,7 +75,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             if (ushorts.IsSuccessful)
             {
                 MemoryAccessor.SetUshortsInMemory(deviceContext.DeviceMemory, property.Address, ushorts.Result,
-                    false);
+                    isLocal);
                 return ushorts.Result;
             }
 
@@ -83,7 +83,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
         }
 
         public async Task<Result<IFormattedValue>> GetValueFromUshorts(ushort[] values, IUshortsFormatter formatter,
-            DeviceContext deviceContext)
+            DeviceContext deviceContext, bool isLocal)
         {
             if (formatter == null)
             {
@@ -91,7 +91,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             }
 
             return Result<IFormattedValue>.Create(
-                await this._formattingService.FormatValueAsync(formatter, values, deviceContext),
+                await this._formattingService.FormatValueAsync(formatter, values, deviceContext,isLocal),
                 true);
         }
 

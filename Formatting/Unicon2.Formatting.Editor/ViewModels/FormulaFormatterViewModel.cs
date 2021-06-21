@@ -105,7 +105,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             try
             {
-                TestResult = _formattingService.FormatValue(_formulaFormatter, new[] {(ushort) TestValueOfX})
+                TestResult = _formattingService.FormatValue(_formulaFormatter, new[] {(ushort) TestValueOfX},true)
                     .ToString();
             }
             catch

@@ -24,8 +24,8 @@
         Inversion="{StaticResource InversionLibraryElement}"
         Output="{StaticResource OutputLibraryElement}"
         SimpleLogic="{StaticResource SimpleLogicLibrary}"
-        Timer="{StaticResource TimerLibraryElement}" 
-        Trigger="{StaticResource TriggerLibraryElement}"/>
+        Timer="{StaticResource TimerLibraryElement}"
+        Trigger="{StaticResource TriggerLibraryElement}" />
 
     <ControlTemplate x:Key="RightExpanderToggleButton" TargetType="ToggleButton">
         <Border

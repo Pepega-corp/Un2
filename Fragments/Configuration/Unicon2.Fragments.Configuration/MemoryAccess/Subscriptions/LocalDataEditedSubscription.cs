@@ -59,7 +59,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
 
                 var ushorts = formattingService.FormatBack(formatterForDependentProperty,
-                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor)); var ushortOfSubProperty = ushorts.First();
+                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor),true); var ushortOfSubProperty = ushorts.First();
                     var boolArray = ushorts.GetBoolArrayFromUshortArray();
                     int counter = 0;
                     for (int i = 0; i < 16; i++)
@@ -101,12 +101,25 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
 
                 var ushorts =await formattingService.FormatBackAsync(formatterForDependentProperty,
-                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor),_deviceContext);
+                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor),_deviceContext,true);
 
-                MemoryAccessor.SetUshortsInMemory(_deviceContext.DeviceMemory, (ushort) (_property.Address + _offset),
-                    ushorts, true);
+
+                if (!ushorts.IsSuccess)
+                {
+                    if (EditableValueViewModel is ValidatableBindableBase validatableBindableBase)
+                    {
+                        validatableBindableBase.AddError("NumValue",ushorts.Exception.Message);
+                    }
+                    
+                }
+                else
+                {
+                   MemoryAccessor.SetUshortsInMemory(_deviceContext.DeviceMemory, (ushort) (_property.Address + _offset),
+                    ushorts.Item, true);
                 _deviceContext.DeviceEventsDispatcher.TriggerLocalAddressSubscription(
-                    (ushort) (_property.Address + _offset), (ushort) ushorts.Length);
+                    (ushort) (_property.Address + _offset), (ushort) ushorts.Item.Length); 
+                }
+                
             }
         }
 

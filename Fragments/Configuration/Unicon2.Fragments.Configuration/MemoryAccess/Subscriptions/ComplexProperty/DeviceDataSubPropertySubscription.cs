@@ -68,7 +68,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
             }
 
             var subPropertyValue =
-                formattingService.FormatValue(_subProperty.UshortsFormatter, new[] {subPropertyUshort});
+                formattingService.FormatValue(_subProperty.UshortsFormatter, new[] {subPropertyUshort},false);
 
             _runtimeSubPropertyViewModel.DeviceValue =
                 _valueViewModelFactory.CreateFormattedValueViewModel(subPropertyValue);

@@ -141,7 +141,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
                 }
 
                 var localValue = _formattingService.FormatValue(formatterForDependentProperty,
-                    subPropertyUshort.AsCollection());
+                    subPropertyUshort.AsCollection(),true);
 
 
                 var editableValue = StaticContainer.Container.Resolve<IValueViewModelFactory>()
@@ -169,7 +169,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProp
 
                     var subPropertyValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(
                         _subProperty.UshortsFormatter,
-                        new[] { subPropertyUshort });
+                        new[] { subPropertyUshort },true);
 
 
                     _runtimeSubPropertyViewModel.LocalValue.Accept(
