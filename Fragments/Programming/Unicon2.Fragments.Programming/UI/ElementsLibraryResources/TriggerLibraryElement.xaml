@@ -76,7 +76,7 @@
                     FontFamily="Calibri"
                     FontSize="8"
                     Foreground="Black"
-                    Text="R" />
+                    Text="S" />
                 <TextBlock
                     Grid.Row="0"
                     Grid.RowSpan="3"
@@ -87,7 +87,7 @@
                     FontFamily="Calibri"
                     FontSize="8"
                     Foreground="Black"
-                    Text="S" />
+                    Text="R" />
                 <Path
                     Grid.Row="0"
                     Grid.Column="2"

@@ -26,7 +26,6 @@ using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
-using CRC16 = Unicon2.Infrastructure.Common.CRC16;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
@@ -147,6 +146,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
             return number;
         }
 
+        private IConnectionViewModel GetConnectionViewModelByNumber(int connectionNumber)
+        {
+            return this.ConnectionCollection.FirstOrDefault(c => c.ConnectionNumber == connectionNumber);
+        }
+
         private void CreateNewScheme()
         {
             var schemeViewModel = new NewSchemeViewModel();
@@ -154,15 +158,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if (schemeViewModel.DialogResult == MessageDialogResult.Affirmative)
             {
                 var scemeMoedel = new SchemeModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
-                var tabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
-                tabViewModel.CloseTabEvent += this.OnCloseTab;
-                this.SchemesCollection.Add(tabViewModel);
+                var schemeTabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
+                schemeTabViewModel.CloseTabEvent += this.OnCloseTab;
+                schemeTabViewModel.GetConnection += this.GetConnectionViewModelByNumber;
+                this.SchemesCollection.Add(schemeTabViewModel);
             }
 
             (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
         }
 
-        private void OnCloseTab(ISchemeTabViewModel schemeTab)
+        private void OnCloseTab(ISchemeTabViewModel schemeTabViewModel)
         {
             if (this.IsLogicStarted)
             {
@@ -175,8 +180,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 }
             }
 
-            schemeTab.CloseTabEvent -= this.OnCloseTab;
-            this.SchemesCollection.Remove(schemeTab);
+            schemeTabViewModel.CloseTabEvent -= this.OnCloseTab;
+            schemeTabViewModel.GetConnection += this.GetConnectionViewModelByNumber;
+            this.SchemesCollection.Remove(schemeTabViewModel);
 
             (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
         }
@@ -288,6 +294,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
                 var schemeVM = new SchemeTabViewModel(schemeModel, this, this._factory);
                 schemeVM.CloseTabEvent += this.OnCloseTab;
+                schemeVM.GetConnection += this.GetConnectionViewModelByNumber;
                 schemeVM.ElementCollection.AddCollection(logicElementsVM);
                 schemeVM.ElementCollection.AddCollection(connectionsInScheme);
 
@@ -331,13 +338,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     IsLogicStarted = true;
 
                     this.UpdateModelData();
+                    var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
+                    await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
+
                     var logbin = this.Compile();
                     this.CalcCrc(logbin);
                     await this._logicDeviceProvider.WriteLogicProgrammBin(logbin, this._programModel.EnableFileDriver);
                     await this._logicDeviceProvider.WriteStartlogicProgrammSignal(this._programModel.EnableFileDriver);
-
-                    var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
-                    await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
                     
                     CycleReadingConnectionValues();
 

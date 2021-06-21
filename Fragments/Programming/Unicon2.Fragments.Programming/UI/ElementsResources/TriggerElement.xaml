@@ -48,18 +48,18 @@
                     StrokeThickness="1" />
                 <TextBlock
                     Grid.Column="1"
-                    Margin="2,5,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    FontSize="6"
-                    Text="R" />
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="2,15,0,0"
+                    Margin="2,6,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     FontSize="6"
                     Text="S" />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="2,16,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="6"
+                    Text="R" />
                 <TextBlock
                     Grid.Column="1"
                     HorizontalAlignment="Center"
