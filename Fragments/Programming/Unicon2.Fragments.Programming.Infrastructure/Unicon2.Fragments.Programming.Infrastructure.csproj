@@ -63,6 +63,7 @@
     <Compile Include="Model\EditorElements\IOutputEditor.cs" />
     <Compile Include="Model\Elements\IAnd.cs" />
     <Compile Include="Model\Elements\IConnection.cs" />
+    <Compile Include="Model\Elements\IConnectionSegment.cs" />
     <Compile Include="Model\Elements\IConnector.cs" />
     <Compile Include="Model\Elements\IInput.cs" />
     <Compile Include="Model\Elements\IJournal.cs" />

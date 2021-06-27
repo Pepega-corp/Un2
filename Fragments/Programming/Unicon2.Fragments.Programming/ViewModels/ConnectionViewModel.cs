@@ -239,9 +239,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private void SetModel(IConnection model)
         {
             this._model.ConnectionNumber = model.ConnectionNumber;
-            this._model.Points = new List<Point>(model.Points);
+            this._model.Segments = new List<IConnectionSegment>(model.Segments);
 
-            UpdatePathGeometry(_model.Points);
+            UpdatePathGeometry(_model.Segments);
         }
 
         private void SinkCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -314,9 +314,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     ConnectorParentY = sink.ParentViewModel.Y
                 };
 
-                _model.Points = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
+                _model.Segments = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
 
-                UpdatePathGeometry(_model.Points);
+                UpdatePathGeometry(_model.Segments);
             }
         }
 
