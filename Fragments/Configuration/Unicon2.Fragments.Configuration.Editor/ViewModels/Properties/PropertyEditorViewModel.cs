@@ -4,6 +4,7 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Validators;
 using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.ViewModels;
@@ -39,7 +40,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         public string OwnerTooltip { get; }
     }
 
-	public class PropertyEditorViewModel : EditorConfigurationItemViewModelBase, IPropertyEditorViewModel
+	public class PropertyEditorViewModel : EditorConfigurationItemViewModelBase, IPropertyEditorViewModel, ICanBeHidden
 	{
 		protected readonly ITypesContainer _container;
 		protected readonly ILocalizerService _localizerService;
@@ -52,8 +53,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 		private bool _isMeasureUnitEnabled;
 	    private IFormatterParametersViewModel _formatterParametersViewModel;
 	    private ushort _numberOfWriteFunction;
+        private bool _isHidden;
 
-	    public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
+        public PropertyEditorViewModel(ITypesContainer container, IRangeViewModel rangeViewModel,
 			ILocalizerService localizerService)
 		{
 			_container = container;
@@ -252,6 +254,16 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
         public (ushort address, ushort numberOfPoints) GetAddressInfo()
         {
             return (ushort.Parse(Address), ushort.Parse(NumberOfPoints));
+        }
+
+        public bool IsHidden
+        {
+            get => _isHidden;
+            set
+            {
+                _isHidden = value;
+				RaisePropertyChanged();
+            }
         }
     }
 }

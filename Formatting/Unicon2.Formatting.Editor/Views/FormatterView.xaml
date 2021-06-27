@@ -4,11 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:converter="clr-namespace:Unicon2.SharedResources.Converter;assembly=Unicon2.SharedResources"
+    xmlns:convertors="clr-namespace:Unicon2.Formatting.Editor.Convertors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:convertors="clr-namespace:Unicon2.Formatting.Editor.Convertors"
     xmlns:viewModel="clr-namespace:Unicon2.Formatting.Infrastructure.ViewModel;assembly=Unicon2.Formatting.Infrastructure"
     Name="FormattingWindow"
     Title="{Binding FormatterOwnersName}"
@@ -16,6 +16,7 @@
     MinHeight="300"
     MaxWidth="800"
     MaxHeight="800"
+    d:DataContext="{d:DesignInstance viewModel:IFormatterSelectionViewModel}"
     d:DesignHeight="800"
     d:DesignWidth="800"
     dialogs:DialogParticipation.Register="{Binding}"
@@ -32,12 +33,11 @@
     ShowSystemMenuOnRightClick="False"
     SizeToContent="WidthAndHeight"
     TitleAlignment="Center"
-    d:DataContext="{d:DesignInstance viewModel:IFormatterSelectionViewModel}"
     mc:Ignorable="d">
     <controls:MetroWindow.Resources>
         <converter:InvertConverter x:Key="InvertConverter" />
         <convertors:ResourceStringConverter x:Key="ResourceStringConverter" />
-        <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False"></converter:BoolToVisConverter>
+        <converter:BoolToVisConverter x:Key="BoolToVisConverter" Invert="False" />
 
 
     </controls:MetroWindow.Resources>
@@ -51,9 +51,11 @@
         </Grid.RowDefinitions>
 
         <StackPanel Width="auto" Orientation="Horizontal">
-            <CheckBox 
-                Visibility="{Binding IsBitsEditingEnabled,Converter={StaticResource BoolToVisConverter}}"
-                Margin="3" IsChecked="{Binding IsFromBits}" Content="{lex:Loc SelectBits}"></CheckBox>
+            <CheckBox
+                Margin="3"
+                Content="{lex:Loc SelectBits}"
+                IsChecked="{Binding IsFromBits}"
+                Visibility="{Binding IsBitsEditingEnabled, Converter={StaticResource BoolToVisConverter}}" />
             <ComboBox
                 Width="auto"
                 MinWidth="150"
@@ -96,16 +98,19 @@
                     Style="{DynamicResource UniconButtonStyle}" />
             </StackPanel>
             <TextBlock Margin="7" Text="{lex:Loc CurrentResource}" />
-            <TextBlock Margin="7" MinWidth="200" Text="{Binding CurrentResourceString, Converter={StaticResource ResourceStringConverter}}" />
+            <TextBlock
+                MinWidth="200"
+                Margin="7"
+                Text="{Binding CurrentResourceString, Converter={StaticResource ResourceStringConverter}}" />
 
         </StackPanel>
 
         <Grid Grid.Row="1">
             <ItemsControl
-                Visibility="{Binding IsFromBits ,Converter={StaticResource BoolToVisConverter}}"
                 Name="BitsListBox"
                 Background="Transparent"
-                ItemsSource="{Binding BitNumbersInWord}">
+                ItemsSource="{Binding BitNumbersInWord}"
+                Visibility="{Binding IsFromBits, Converter={StaticResource BoolToVisConverter}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -113,13 +118,15 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding BitNumber}" />
-                            <CheckBox
-                                Background="White"
-                                IsEnabled="True"
-                                IsChecked="{Binding IsChecked}" />
-                        </StackPanel>
+                        <Border BorderThickness="0" ToolTip="{Binding OwnerTooltip}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding BitNumber}" />
+                                <CheckBox
+                                    Background="White"
+                                    IsChecked="{Binding IsChecked}"
+                                    IsEnabled="{Binding IsBitEditEnabled}" />
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

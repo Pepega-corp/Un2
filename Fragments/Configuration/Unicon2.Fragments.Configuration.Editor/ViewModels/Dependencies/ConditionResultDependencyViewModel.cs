@@ -49,7 +49,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies
             var conditionsList = ConditionViewModels.CloneCollection().ToList();
             var actualResult = this.SelectedResultViewModel.Clone();
             var actualCondition =
-                this.SelectedConditionViewModel.Clone();
+                this.SelectedConditionViewModel?.Clone();
             resultList.ReplaceStronglyNamedInCollection(actualResult);
             conditionsList.ReplaceStronglyNamedInCollection(actualCondition);
             return new ConditionResultDependencyViewModel(resultList,

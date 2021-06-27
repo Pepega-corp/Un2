@@ -112,7 +112,8 @@ namespace Unicon2.Services
 
         public void ShowErrorMessage(string errorKey, object context)
         {
-            _dialogCoordinator.ShowModalMessageExternal(context,
+            var contextToUse = context ?? _globalDialogContext;
+            _dialogCoordinator.ShowModalMessageExternal(contextToUse,
                 _localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.ERROR),
                 _localizerService.GetLocalizedString(errorKey));
         }

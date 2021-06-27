@@ -10,6 +10,7 @@ using Unicon2.DeviceEditorUtilityModule.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
@@ -317,13 +318,21 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			UpdateResourcesViewModelCollection();
 		}
 
-		public void AddAsSharedResourceWithContainer(INameable resourceToAdd, bool askUser=true)
+		public void AddAsSharedResourceWithContainer(INameable resourceToAdd, string initialName=null, bool askUser=true)
 		{
 			if (!_isInitialized) throw new Exception();
 			IResourcesAddingViewModel resourcesAddingViewModel = _container.Resolve<IResourcesAddingViewModel>();
 			IResourceViewModel resourceViewModel = _resourceViewModelGettingFunc();
 			resourceViewModel.RelatedEditorItemViewModel = resourceToAdd;
-			resourceViewModel.Name = resourceToAdd.Name;
+            if (initialName != null)
+            {
+                resourceViewModel.Name = initialName;
+			}
+            else
+            {
+                resourceViewModel.Name = resourceToAdd.Name;
+			}
+			
 			resourcesAddingViewModel.ResourceWithName = resourceViewModel;
             if (askUser)
             {
@@ -361,6 +370,18 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 		public INameable GetResourceByName(string name)
 		{
 			return _deviceSharedResources.SharedResources.FirstOrDefault(nameable => nameable.Name == name);
+		}
+
+        public Result<string> GetNameByResourceViewModel(object viewModel)
+        {
+            var res = _resourceViewModelsInContainers.FirstOrDefault(model =>
+                model.RelatedEditorItemViewModel == viewModel);
+            if (res == null)
+            {
+				return Result<string>.Create(false);
+            }
+            return Result<string>.Create(res.Name, true);
+
 		}
 
 		public void AddExistingResourceWithContainer(object viewModel, object resourceModel)

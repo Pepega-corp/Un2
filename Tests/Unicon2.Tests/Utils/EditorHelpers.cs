@@ -43,7 +43,7 @@ namespace Unicon2.Tests.Utils
         }
 
         public static IPropertyEditorViewModel AddPropertyViewModel(
-            ObservableCollection<IConfigurationItemViewModel> collection, int identity, ITypesContainer typesContainer)
+            IList<IConfigurationItemViewModel> collection, int identity, ITypesContainer typesContainer)
         {
             IPropertyEditorViewModel rootProperty =
                 ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null) as IPropertyEditorViewModel;
@@ -51,7 +51,8 @@ namespace Unicon2.Tests.Utils
             rootProperty.NumberOfPoints = (identity + _numOfPointsModifier).ToString();
             rootProperty.Name = (identity + _nameModifier).ToString();
             rootProperty.NumberOfWriteFunction = (ushort)(identity + _numOfFunctionModifier);
-            collection.Add(rootProperty);
+            collection?.Add(rootProperty);
+
             InitFormatterViewModel(rootProperty, CreateFormatterViewModel(identity,typesContainer));
             return rootProperty;
         }
@@ -73,6 +74,8 @@ namespace Unicon2.Tests.Utils
             };
             return property;
         }
+
+   
 
         public static void CheckPropertyResultProperty(List<IConfigurationItem> configurationItems, int identity, int numberInList=-1)
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Helpers;
@@ -16,6 +17,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.ElementAdding;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
 using Unicon2.Presentation.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.Factories;
@@ -41,7 +43,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private readonly ImportPropertiesFromExcelTypeAHelper _importPropertiesFromExcelTypeAHelper;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
-        private IEditorConfigurationItemViewModel _bufferConfigurationItem;
+        private Result<(IEditorConfigurationItemViewModel item,bool isMove)> _bufferConfigurationItem=Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create(false);
         private ushort _addressIteratorValue;
         private bool _isAdditionalSettingsOpened;
         private bool _isMultiEditMode;
@@ -110,6 +112,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             SetElementUpCommand = new RelayCommand(OnSetElementUpExecute, CanExecuteSetElementUp);
             OpenConfigurationSettingsCommand = new RelayCommand(OnOpenConfigurationSettingsExecute);
             CopyElementCommand = new RelayCommand(OnCopyElementExecute, CanExecuteCopyElement);
+            CutElementCommand = new RelayCommand(OnCutElementExecute, CanExecuteCutElement);
+
             PasteAsChildElementCommand =
                 new RelayCommand(OnPasteAsChildElementExecute, CanPasteAsChildElementElement);
             
@@ -129,9 +133,34 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             OnSelectionChangedCommand = new RelayCommand<object>(OnSelectionChangedExecute);
             SelectedRows = new List<IEditorConfigurationItemViewModel>();
             OpenBasicValuesCommand = new RelayCommand(OnOpenBasicValuesExacute);
+            MigrateComplexPropertiesCommand =new RelayCommand(OnMigrateComplexPropertiesExecute);
             BaseValuesViewModel = new BaseValuesViewModel();
             ImportPropertiesFromExcelTypeACommand = new RelayCommand(OnImportPropertiesFromExcelTypeAExecute);
             EditCommand = new RelayCommand(OnEditExecute);
+        }
+
+        private void OnMigrateComplexPropertiesExecute()
+        {
+            var res = ComplexPropertiesMigrator.GetAllComplexPropertiesInConfiguration(RootConfigurationItemViewModels
+                .ToList());
+            if (!res.Any())
+            {
+                _applicationGlobalCommands.ShowErrorMessage("Составные свойства не найдены",null);
+                return;
+            }
+
+            var askUserResult = _applicationGlobalCommands.AskUserGlobal(
+                $"{res.Count} cоставных свойств будет смигрировано в свойства с выбранными битами. Продолжить?",
+                "Миграция");
+            if (askUserResult)
+            {
+                var migrationResult = ComplexPropertiesMigrator.MigrateComplexProperties(res);
+                if (migrationResult.IsSuccess)
+                {
+                    MessageBox.Show($"{res.Count} составных свойств было успешно смигрировано");
+                }
+            }
+
         }
 
         private void OnEditExecute()
@@ -269,21 +298,58 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanPasteAsChildElementElement()
         {
-            return SelectedRow is IAsChildPasteable && _bufferConfigurationItem != null;
+            return SelectedRow is IAsChildPasteable && _bufferConfigurationItem.IsSuccess;
         }
 
         private void OnPasteAsChildElementExecute()
         {
-            if (SelectedRow is IAsChildPasteable)
+            if (_bufferConfigurationItem.IsSuccess)
             {
+                if (_bufferConfigurationItem.Item.isMove)
+                {
+                    var sharedResourceInfo =
+                         _sharedResourcesGlobalViewModel.GetNameByResourceViewModel(_bufferConfigurationItem.Item.item);
+               
 
-                IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
-                    _bufferConfigurationItem.Clone() as IEditorConfigurationItemViewModel;
-                (SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
 
-                PrepareAdding();
-                SelectedRow = editorConfigurationItemViewModel;
-                CompleteAdding();
+
+                    IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
+                        _bufferConfigurationItem.Item.item;
+                    var parent = editorConfigurationItemViewModel.Parent;
+                    parent?.Checked?.Invoke(false);
+
+                    (editorConfigurationItemViewModel as IDeletable).DeleteElement();
+
+
+                    parent.IsCheckable = true;
+                    parent?.Checked?.Invoke(true);
+
+                    (SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
+
+
+                    PrepareAdding();
+                    SelectedRow = editorConfigurationItemViewModel;
+                    CompleteAdding();
+                    _bufferConfigurationItem =
+                        Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create(false);
+                    if (sharedResourceInfo.IsSuccess)
+                    {
+                        _sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(editorConfigurationItemViewModel,sharedResourceInfo.Item,false);
+                    }
+                }
+                else
+                {
+                    if (SelectedRow is IAsChildPasteable)
+                    {
+                        IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
+                            _bufferConfigurationItem.Item.item.Clone() as IEditorConfigurationItemViewModel;
+                        (SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
+
+                        PrepareAdding();
+                        SelectedRow = editorConfigurationItemViewModel;
+                        CompleteAdding();
+                    }
+                }
             }
         }
 
@@ -296,8 +362,19 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         {
             if (SelectedRow is ICloneable)
             {
-                _bufferConfigurationItem = SelectedRow;
+                _bufferConfigurationItem =
+                    Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create((SelectedRow, false), true);
             }
+        }
+        private bool CanExecuteCutElement()
+        {
+            return SelectedRow is IDeletable;
+        }
+
+        private void OnCutElementExecute()
+        {
+            _bufferConfigurationItem =
+                Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create((SelectedRow, true), true);
         }
 
         private void OnOpenConfigurationSettingsExecute()
@@ -407,6 +484,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 	            (SetElementUpCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (CopyElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
 	            (PasteAsChildElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (CutElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
 
                 (ShowDependenciesCommand as RelayCommand)?.RaiseCanExecuteChanged();
 
@@ -435,7 +513,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ICommand SetElementDownCommand { get; set; }
         public ICommand OpenConfigurationSettingsCommand { get; set; }
         public ICommand OpenBasicValuesCommand { get;}
+        public ICommand MigrateComplexPropertiesCommand { get;}
+
         public ICommand CopyElementCommand { get; }
+        public ICommand CutElementCommand { get; }
+
         public ICommand OnSelectionChangedCommand { get; }
 
         public ICommand PasteAsChildElementCommand { get; }

@@ -10,5 +10,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.P
         ushort NumberOfPoints { get; set; }
         ushort NumberOfWriteFunction { get; set; }
         List<IDependency> Dependencies { get; set; }
+        bool IsHidden { get; set; }
     }
 }

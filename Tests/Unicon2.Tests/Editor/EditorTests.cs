@@ -190,7 +190,7 @@ namespace Unicon2.Tests.Editor
            configurationEditorViewModel.SelectedRow = addedRow;
 
          
-           sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(addedRow, false);
+           sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(addedRow,null, false);
 
             configurationEditorViewModel.CopyElementCommand.Execute(null);
 

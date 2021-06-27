@@ -9,7 +9,7 @@ using Unicon2.Infrastructure.Interfaces.EditOperations;
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {
 	public interface IConfigurationGroupEditorViewModel : IEditorConfigurationItemViewModel, IItemGroupViewModel,
-		IAddressChangeable, ICompositeEditOperations, IChildPositionChangeable, IChildItemRemovable,
+		IAddressChangeable, ICompositeEditOperations, IChildPositionChangeable, IChildItemRemovable, ICanBeHidden,
 		IAsChildPasteable
 	{
 		bool IsGroupWithReiteration { get; set; }

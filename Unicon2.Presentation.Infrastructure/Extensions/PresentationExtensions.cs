@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Presentation.Infrastructure.Extensions
@@ -20,6 +21,14 @@ namespace Unicon2.Presentation.Infrastructure.Extensions
                 configViewModelTarget.BitNumbersInWord[i].IsChecked =
                     configViewModelSource.BitNumbersInWord[i].IsChecked;
             }
+        }
+
+
+        public static string BuildItemPath(this IConfigurationItemViewModel configurationViewModel)
+        {
+            return (configurationViewModel.Parent != null
+                ? $"{BuildItemPath(configurationViewModel.Parent)}."
+                : null) + configurationViewModel.Header;
         }
     }
 }

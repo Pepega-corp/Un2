@@ -7,6 +7,7 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Model.Filter;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Dependencies;
@@ -69,7 +70,10 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             property.BitNumbers = editorViewModel.BitNumbersInWord.Where(model => model.IsChecked)
                 .Select(model => (ushort) model.BitNumber).ToList();
 
-
+            if (editorViewModel is ICanBeHidden canBeHidden)
+            {
+                property.IsHidden = canBeHidden.IsHidden;
+            }
 
             return InitDefaults(property, editorViewModel);
         }

@@ -92,6 +92,7 @@
     <Compile Include="CustomControls\WrapPanelWithRowsOrColumnsCount.cs" />
     <Compile Include="Factories\ConfigurationFragmentFactory.cs" />
     <Compile Include="Helpers\BaseValuesFillHelper.cs" />
+    <Compile Include="Helpers\ComplexPropertiesMigrator.cs" />
     <Compile Include="Helpers\ConditionFillHelper.cs" />
     <Compile Include="Helpers\DependencyFillHelper.cs" />
     <Compile Include="Helpers\FilterFillHelper.cs" />

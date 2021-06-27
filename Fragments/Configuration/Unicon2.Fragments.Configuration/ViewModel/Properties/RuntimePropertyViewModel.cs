@@ -1,4 +1,5 @@
 ﻿using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -7,7 +8,7 @@ using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.ViewModel.Properties
 {
-    public class RuntimePropertyViewModel : RuntimeConfigurationItemViewModelBase, IRuntimePropertyViewModel
+    public class RuntimePropertyViewModel : RuntimeConfigurationItemViewModelBase, IRuntimePropertyViewModel,ICanBeHidden
     {
         private IFormattedValueViewModel _value;
         private IEditableValueViewModel _localValue;
@@ -15,6 +16,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         private bool _isMeasureUnitEnabled;
         private IRangeViewModel _rangeViewModel;
         private bool _isRangeEnabled;
+        private bool _isHidden;
 
         public RuntimePropertyViewModel()
         {
@@ -94,5 +96,15 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         }
 
         public DeviceContext DeviceContext { get; set; }
+
+        public bool IsHidden
+        {
+            get => _isHidden;
+            set
+            {
+                _isHidden = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }

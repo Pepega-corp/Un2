@@ -1195,6 +1195,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @Cut.
+        /// </summary>
+        public static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @CycleLoading.
         /// </summary>
         public static string CycleLoading {
@@ -2208,6 +2217,15 @@ namespace Unicon2.Localization.Properties {
         public static string HexCharacterCountNotEven {
             get {
                 return ResourceManager.GetString("HexCharacterCountNotEven", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @Hidden.
+        /// </summary>
+        public static string Hidden {
+            get {
+                return ResourceManager.GetString("Hidden", resourceCulture);
             }
         }
         
@@ -4224,6 +4242,15 @@ namespace Unicon2.Localization.Properties {
         public static string TestValueOfX {
             get {
                 return ResourceManager.GetString("TestValueOfX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ThisBitSetIn.
+        /// </summary>
+        public static string ThisBitSetIn {
+            get {
+                return ResourceManager.GetString("ThisBitSetIn", resourceCulture);
             }
         }
         

@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\CodeFormattingTests.cs" />
+    <Compile Include="Configuration\ComplexPropertiesMigratorTests.cs" />
     <Compile Include="Configuration\ConfigurationCopyPasteValuesTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Configuration\WriteConfigurationIfNothingChangesCase.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Connection\ProjectConnectionTests.cs" />
     <Compile Include="Device\DeviceEditingTests.cs" />
     <Compile Include="Device\LoadAllTests.cs" />
+    <Compile Include="Editor\BitOwnershipHelperTests.cs" />
     <Compile Include="Editor\EditorTests.cs" />
     <Compile Include="Editor\EditorValidatorTests.cs" />
     <Compile Include="Journals\Mr301SystemJournalTests.cs" />

@@ -309,7 +309,7 @@ namespace Unicon2.Tests.Editor
 
             configurationEditorViewModel.SelectedRow = property;
             
-            sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(property, false);
+            sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(property,null, false);
 
             property.Parent = rootGroup;
 

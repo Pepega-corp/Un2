@@ -271,6 +271,10 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 			}
 		}
 
-     
+        public bool IsHidden
+        {
+            get => !IsMain;
+            set => IsMain = !value;
+        }
     }
 }

@@ -34,6 +34,10 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             {
                 case IConditionResultDependency conditionResultDependency:
 
+                    if (conditionResultDependency.Condition == null)
+                    {
+
+                    }
                     var resultList = _resultFillHelper.CreateEmptyResultViewModels();
                     var conditionsList = _conditionFillHelper.CreateEmptyAvailableConditionViewModels();
                     var actualResult = _resultFillHelper.CreateResultViewModel(conditionResultDependency.Result);

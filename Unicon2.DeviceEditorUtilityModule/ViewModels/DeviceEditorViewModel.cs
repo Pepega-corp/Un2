@@ -51,6 +51,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
             DeviceEditorValidationViewModel = new DeviceEditorValidationViewModel(() =>
                 deviceEditorViewModelValidator.ValidateDeviceEditor(ResultingDeviceViewModel.FragmentEditorViewModels
                     .ToList()));
+            _applicationGlobalCommands.SetGlobalDialogContext(this);
         }
 
         private void OnOpenAddFragmentWindowCommand()

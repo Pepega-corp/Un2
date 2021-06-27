@@ -28,6 +28,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         private readonly IFormattingService _formattingService;
         private ushort[] _prevUshorts;
         private IUshortsFormatter _prevUshortFormatter;
+        private bool _prevIsInteractionBlocked = false;
         private int _offset;
         public int Priority { get; set; } = 1;
 
@@ -51,8 +52,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
             {
 
                 if (!MemoryAccessor.IsMemoryContainsAddresses(_deviceContext.DeviceMemory,
-       (ushort)(_property.Address + _offset),
-       _property.NumberOfPoints, true))
+                    (ushort) (_property.Address + _offset),
+                    _property.NumberOfPoints, true))
                 {
                     return;
                 }
@@ -129,11 +130,12 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     }
 
                     if (_prevUshorts.IsEqual(newUshorts)  &&
-                        formatterForDependentProperty == _prevUshortFormatter)
+                        formatterForDependentProperty == _prevUshortFormatter&&_prevIsInteractionBlocked==isInteractionBlocked)
                     {
                         return;
                     }
 
+                    _prevIsInteractionBlocked = isInteractionBlocked;
                     _prevUshorts = newUshorts;
                     _prevUshortFormatter = formatterForDependentProperty;
                     if (_runtimePropertyViewModel?.LocalValue != null)

@@ -15,13 +15,16 @@
     d:DataContext="{d:DesignInstance viewModels:ConfigurationEditorViewModel}"
     d:DesignHeight="500"
     d:DesignWidth="900"
-    IsTabStop="False"
     lex:LocalizeDictionary.DesignCulture="ru-RU"
     lex:ResxLocalizationProvider.DefaultAssembly="Unicon2.Localization"
     lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+    IsTabStop="False"
     mc:Ignorable="d">
     <UserControl.InputBindings>
-        <KeyBinding Key="E" Modifiers="Control" Command="{Binding EditCommand}"/>
+        <KeyBinding
+            Key="E"
+            Command="{Binding EditCommand}"
+            Modifiers="Control" />
     </UserControl.InputBindings>
     <UserControl.Resources>
         <ResourceDictionary Source="../Resources/DeviceStructDataTemplates.xaml" />
@@ -40,44 +43,59 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Margin="0">
-            <GroupBox Margin="0" Header="{lex:Loc General}" IsTabStop="False">
+            <GroupBox
+                Margin="0"
+                Header="{lex:Loc General}"
+                IsTabStop="False">
                 <StackPanel Orientation="Vertical">
-                    <Button IsTabStop="False"
+                    <Button
                         Margin="3"
                         Command="{Binding AddRootGroupElementCommand}"
                         Content="{lex:Loc AddGroupElementRoot}"
+                        IsTabStop="False"
                         Style="{DynamicResource UniconButtonStyle}" />
-                    <Button IsTabStop="False"
-                             Margin="3"
-                             Command="{Binding AddRootElementCommand}"
-                             Content="{lex:Loc AddElementRoot}"
-                             Style="{DynamicResource UniconButtonStyle}" />
+                    <Button
+                        Margin="3"
+                        Command="{Binding AddRootElementCommand}"
+                        Content="{lex:Loc AddElementRoot}"
+                        IsTabStop="False"
+                        Style="{DynamicResource UniconButtonStyle}" />
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Button
                             Margin="3"
-                            IsTabStop="False"
                             Command="{Binding OpenConfigurationSettingsCommand}"
                             Content="{lex:Loc Settings}"
-                            Style="{DynamicResource UniconButtonStyle}" />    
-                        <Button
                             IsTabStop="False"
+                            Style="{DynamicResource UniconButtonStyle}" />
+                        <Button
                             Grid.Column="1"
                             Margin="3"
                             Command="{Binding OpenBasicValuesCommand}"
                             Content="{lex:Loc BasicValues}"
-                            Style="{DynamicResource UniconButtonStyle}" />  
+                            IsTabStop="False"
+                            Style="{DynamicResource UniconButtonStyle}" />
+                        <Button
+                            Grid.Column="2"
+                            Margin="3"
+                            IsEnabled="False"
+                            Command="{Binding MigrateComplexPropertiesCommand}"
+                            Content=" &gt; "
+                            IsTabStop="False"
+                            Style="{DynamicResource UniconButtonStyle}"
+                            ToolTip="Мигрировать составные свойства в свойства с выбранными битами" />
                     </Grid>
                 </StackPanel>
             </GroupBox>
 
             <GroupBox
-                IsTabStop="False"
                 Margin="0"
                 Header="{lex:Loc CurrentItem}"
+                IsTabStop="False"
                 Visibility="{Binding IsMultiEditMode, Converter={StaticResource BoolToInVisConverter}}">
                 <StackPanel Margin="0">
                     <Grid HorizontalAlignment="Stretch">
@@ -87,10 +105,10 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button
-                            IsTabStop="False"
                             Grid.Column="0"
                             Margin="3"
                             Command="{Binding SetElementUpCommand}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}">
                             <Rectangle
                                 Width="18"
@@ -102,19 +120,19 @@
                             </Rectangle>
                         </Button>
                         <Button
-                            IsTabStop="False"
                             Name="EditElementButton"
                             Grid.Column="1"
                             Margin="3"
                             HorizontalAlignment="Stretch"
                             Command="{Binding EditElementCommand}"
                             Content="{lex:Loc Edit}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}" />
                         <Button
-                            IsTabStop="False"
                             Grid.Column="2"
                             Margin="3"
                             Command="{Binding SetElementDownCommand}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}">
                             <Rectangle
                                 Width="18"
@@ -128,12 +146,12 @@
                     </Grid>
 
                     <controls:SplitButton
-                        IsTabStop="False"
                         Name="AddingElementSplitButton"
                         Margin="4"
                         BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"
                         Command="{Binding ElementName=AddingElementSplitButton, Path=SelectedItem.AddingCommand}"
                         IsEnabled="True"
+                        IsTabStop="False"
                         ItemsSource="{Binding ElementsAddingCommandCollectionFiltered}"
                         SelectedIndex="0"
                         SelectedItem="{Binding SelectedElementsAddingCommand}">
@@ -148,49 +166,57 @@
                     </controls:SplitButton>
 
                     <Button
-                        IsTabStop="False"
                         Margin="3"
                         Command="{Binding DeleteElementCommand}"
                         Content="{lex:Loc Delete}"
+                        IsTabStop="False"
                         Style="{DynamicResource UniconButtonStyle}" />
 
-                    <UniformGrid Columns="2">
+                    <UniformGrid Columns="3">
+
                         <Button
-                            IsTabStop="False"
                             Margin="3"
-                            Command="{Binding CopyElementCommand}"
-                            Content="{lex:Loc Copy}"
+                            Command="{Binding CutElementCommand}"
+                            Content="{lex:Loc Cut}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}" />
 
                         <Button
+                            Margin="3"
+                            Command="{Binding CopyElementCommand}"
+                            Content="{lex:Loc Copy}"
                             IsTabStop="False"
+                            Style="{DynamicResource UniconButtonStyle}" />
+
+                        <Button
                             Margin="3"
                             Command="{Binding PasteAsChildElementCommand}"
                             Content="{lex:Loc Paste}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}"
                             ToolTip="{lex:Loc PasteAsChild}" />
                     </UniformGrid>
 
                     <Button
-                        IsTabStop="False"
                         Margin="3"
                         Command="{Binding ShowFormatterParametersCommand}"
                         Content="{lex:Loc FormatterParameters}"
+                        IsTabStop="False"
                         Style="{DynamicResource UniconButtonStyle}" />
                     <UniformGrid Columns="2">
                         <ToggleButton
-                            IsTabStop="False"
                             Margin="3"
                             Content="{lex:Loc MeasureUnit}"
                             IsChecked="{Binding SelectedRow.IsMeasureUnitEnabled}"
                             IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IMeasurable}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconToggleButtonStyle}" />
                         <ToggleButton
-                            IsTabStop="False"
                             Margin="3"
                             Content="{lex:Loc Range}"
                             IsChecked="{Binding SelectedRow.IsRangeEnabled}"
                             IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IRangeableViewModel}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconToggleButtonStyle}" />
                     </UniformGrid>
                     <Grid>
@@ -199,20 +225,20 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button
-                            IsTabStop="False"
                             Grid.Column="0"
                             Margin="3"
                             Command="{Binding AddSelectedElementAsResourceCommand}"
                             Content="{lex:Loc AddAsResource}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}" />
 
                         <Button
-                            IsTabStop="False"
                             Name="additionalSettingsButton"
                             Grid.Column="1"
                             Margin="3"
                             Command="{Binding TriggerAdditionalSettingsCommand}"
                             Content=" ... "
+                            IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}" />
                         <Popup
                             IsOpen="{Binding IsAdditionalSettingsOpened}"
@@ -225,13 +251,13 @@
                                 <StackPanel Margin="10">
                                     <StackPanel Orientation="Horizontal" Visibility="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IPropertyEditorViewModel}">
                                         <TextBlock Margin="5" Text="{lex:Loc WriteFunction}" />
-                                        <TextBox  IsTabStop="False" Text="{Binding SelectedRow.NumberOfWriteFunction}" />
+                                        <TextBox IsTabStop="False" Text="{Binding SelectedRow.NumberOfWriteFunction}" />
                                     </StackPanel>
                                     <Button
-                                        IsTabStop="False"
                                         Margin="3"
                                         Command="{Binding EditDescriptionCommand}"
                                         Content="{lex:Loc EditDescription}"
+                                        IsTabStop="False"
                                         Style="{DynamicResource UniconButtonStyle}"
                                         Visibility="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IPropertyEditorViewModel}" />
                                     <Grid VerticalAlignment="Bottom" Visibility="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IPropertyEditorViewModel}">
@@ -257,13 +283,13 @@
                                             Margin="20,5,5,5"
                                             Text="{Binding SelectedRow.DependencyViewModels.Count}" />
                                         <Button
-                                            IsTabStop="False"
                                             Grid.Row="0"
                                             Grid.Column="3"
                                             Width="200"
                                             Height="30"
                                             Command="{Binding ShowDependenciesCommand}"
                                             Content="{lex:Loc Show}"
+                                            IsTabStop="False"
                                             Style="{DynamicResource UniconButtonStyle}" />
                                     </Grid>
                                     <Grid VerticalAlignment="Bottom" Visibility="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}">
@@ -289,13 +315,13 @@
                                             Margin="20,5,5,5"
                                             Text="{Binding SelectedRow.FilterViewModels.Count}" />
                                         <Button
-                                            IsTabStop="False"
                                             Grid.Row="0"
                                             Grid.Column="3"
                                             Width="200"
                                             Height="30"
                                             Command="{Binding ShowFiltersCommand}"
                                             Content="{lex:Loc Show}"
+                                            IsTabStop="False"
                                             Style="{DynamicResource UniconButtonStyle}" />
                                     </Grid>
                                     <Grid VerticalAlignment="Bottom" Visibility="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToVisibilityConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}">
@@ -304,26 +330,28 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Button
-                                            IsTabStop="False"
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             Height="30"
                                             Command="{Binding ImportPropertiesFromExcelTypeACommand}"
                                             Content="{lex:Loc ImportPropertiesFromExcelTypeAHeader}"
+                                            IsTabStop="False"
                                             Style="{DynamicResource UniconButtonStyle}" />
                                         <Rectangle
-                                            ToolTipService.ShowDuration="15000"
                                             Grid.Column="1"
                                             Width="15"
-                                            Height="15" Margin="5"
-                                            
-                                            Fill="Gray">
+                                            Height="15"
+                                            Margin="5"
+                                            Fill="Gray"
+                                            ToolTipService.ShowDuration="15000">
                                             <Rectangle.ToolTip>
                                                 <ToolTip>
-                                                     <TextBlock Text="{lex:Loc ImportPropertiesFromExcelTypeADescription}"
-                                                                                                               TextWrapping="Wrap" MaxWidth="200"></TextBlock>
+                                                    <TextBlock
+                                                        MaxWidth="200"
+                                                        Text="{lex:Loc ImportPropertiesFromExcelTypeADescription}"
+                                                        TextWrapping="Wrap" />
                                                 </ToolTip>
-                                               
+
                                             </Rectangle.ToolTip>
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_information_circle}" />
@@ -336,35 +364,38 @@
                     </Grid>
                     <UniformGrid Columns="2" Rows="2">
                         <Button
-                            IsTabStop="False"
                             Margin="3"
                             Command="{Binding IncreaseAddressCommand}"
                             Content="{lex:Loc IncreaseAddress}"
+                            IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}" />
 
-                        <Button 
+                        <Button
+                            Margin="3"
+                            Command="{Binding DecreaseAddressCommand}"
+                            Content="{lex:Loc DecreaseAddress}"
                             IsTabStop="False"
-                                Margin="3"
-                                Command="{Binding DecreaseAddressCommand}"
-                                Content="{lex:Loc DecreaseAddress}"
-                                Style="{DynamicResource UniconButtonStyle}" />
+                            Style="{DynamicResource UniconButtonStyle}" />
                         <TextBlock
                             Margin="3"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{lex:Loc AddressIterator}" />
-                        <TextBox  IsTabStop="False" Margin="3" Text="{Binding AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox
+                            Margin="3"
+                            IsTabStop="False"
+                            Text="{Binding AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
                     <UniformGrid
                         Columns="2"
-                        IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=IConfigurationGroupEditorViewModel}"
+                        IsEnabled="{Binding SelectedRow, Converter={StaticResource IsInterfaceImplementedToBoolConverter}, ConverterParameter=ICanBeHidden}"
                         Rows="2">
                         <TextBlock
                             Margin="3"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{lex:Loc Main}" />
-                        <CheckBox Margin="3" IsChecked="{Binding SelectedRow.IsMain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{lex:Loc Hidden}" />
+                        <CheckBox Margin="3" IsChecked="{Binding SelectedRow.IsHidden, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             Margin="3"
                             HorizontalAlignment="Center"
@@ -376,23 +407,23 @@
             </GroupBox>
 
             <GroupBox
-                IsTabStop="False"
                 Margin="0"
                 Header="{lex:Loc CurrentItem}"
+                IsTabStop="False"
                 Visibility="{Binding IsMultiEditMode, Converter={StaticResource BoolToVisConverter}}">
                 <StackPanel Margin="0">
                     <Button
-                        IsTabStop="False"
                         Margin="3"
                         Command="{Binding DeleteElementCommand}"
                         Content="{lex:Loc Delete}"
+                        IsTabStop="False"
                         Style="{DynamicResource UniconButtonStyle}" />
 
                     <Button
-                        IsTabStop="False"
                         Margin="3"
                         Command="{Binding ShowFormatterParametersCommand}"
                         Content="{lex:Loc FormatterParameters}"
+                        IsTabStop="False"
                         Style="{DynamicResource UniconButtonStyle}" />
 
                     <UniformGrid Columns="2" Rows="2">
@@ -514,10 +545,10 @@
                                             </ToggleButton>
                                             <TextBox
                                                 Grid.Column="1"
-                                                TabIndex="1"
                                                 HorizontalAlignment="Stretch"
                                                 HorizontalContentAlignment="Stretch"
                                                 Style="{DynamicResource EditableFieldBoxStyle}"
+                                                TabIndex="1"
                                                 Text="{Binding Header}" />
                                         </Grid>
                                     </DataTemplate>
@@ -537,8 +568,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox
-                                            TabIndex="1"
                                             Style="{DynamicResource EditableFieldBoxStyle}"
+                                            TabIndex="1"
                                             Text="{Binding Address, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DisablingNegativeValueConverter}}"
                                             Visibility="{Binding ., Converter={StaticResource IsFormattableToVisibilityConverter}}" />
                                     </DataTemplate>
@@ -548,8 +579,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox
-                                            TabIndex="1"
                                             Style="{DynamicResource EditableNumericFieldStyle}"
+                                            TabIndex="1"
                                             Text="{Binding NumberOfPoints, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DisablingNegativeValueConverter}}"
                                             Visibility="{Binding ., Converter={StaticResource IsFormattableToVisibilityConverter}}" />
                                     </DataTemplate>
@@ -574,8 +605,8 @@
                                     <DataTemplate>
                                         <Grid Visibility="{Binding ., Converter={StaticResource IsFormattableToVisibilityConverter}}">
                                             <TextBox
-                                                TabIndex="1"
                                                 Style="{DynamicResource EditableFieldBoxStyle}"
+                                                TabIndex="1"
                                                 Text="{Binding MeasureUnit}"
                                                 Visibility="{Binding IsMeasureUnitEnabled, Converter={converter:BoolToVisConverter}}" />
                                         </Grid>
@@ -602,11 +633,11 @@
                                                     FontSize="12"
                                                     Text="[" />
                                                 <TextBox
-                                                    TabIndex="1"
                                                     Grid.Column="1"
                                                     HorizontalAlignment="Center"
                                                     VerticalContentAlignment="Center"
                                                     Style="{DynamicResource EditableFieldBoxStyle}"
+                                                    TabIndex="1"
                                                     Text="{Binding RangeViewModel.RangeFrom, UpdateSourceTrigger=PropertyChanged}" />
                                                 <TextBlock
                                                     Grid.Column="2"
@@ -615,10 +646,10 @@
                                                     FontWeight="Bold"
                                                     Text=":" />
                                                 <TextBox
-                                                    TabIndex="1"
                                                     Grid.Column="3"
                                                     HorizontalAlignment="Center"
                                                     Style="{DynamicResource EditableFieldBoxStyle}"
+                                                    TabIndex="1"
                                                     Text="{Binding RangeViewModel.RangeTo, UpdateSourceTrigger=PropertyChanged}" />
                                                 <TextBlock
                                                     Grid.Column="4"

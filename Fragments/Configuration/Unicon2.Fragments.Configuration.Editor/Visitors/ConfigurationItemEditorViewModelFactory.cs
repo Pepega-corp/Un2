@@ -6,6 +6,7 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Presentation.Infrastructure.Extensions;
@@ -94,6 +95,11 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
                 property.BitNumbers.ForEach(bitNum =>
                     editorPropertyViewModel.BitNumbersInWord.First(model => model.BitNumber == bitNum).IsChecked =
                         true);
+            }
+
+            if (editorPropertyViewModel is ICanBeHidden canBeHidden)
+            {
+                canBeHidden.IsHidden = property.IsHidden;
             }
 
             InitializeBaseProperties(editorPropertyViewModel, property);

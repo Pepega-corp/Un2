@@ -5,6 +5,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProperty;
@@ -110,6 +111,12 @@ namespace Unicon2.Fragments.Configuration.Factories
             {
                 deviceContextConsumer.DeviceContext = _deviceContext;
             }
+
+            if (runtimePropertyViewModel is ICanBeHidden canBeHidden)
+            {
+                canBeHidden.IsHidden = property.IsHidden;
+            } 
+
             InitializeBaseProperties(runtimePropertyViewModel, property);
         }
 

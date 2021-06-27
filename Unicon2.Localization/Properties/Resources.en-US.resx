@@ -1673,4 +1673,13 @@ Where "number" is number of ushort from device</value>
   <data name="InvertSignFunctionDescription" xml:space="preserve">
     <value>Inverts sign</value>
   </data>
+  <data name="ThisBitSetIn" xml:space="preserve">
+    <value>This Bit set in</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
 </root>

@@ -49,11 +49,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
             UshortsFormatterViewModels.AddCollection(_container.ResolveAll<IUshortsFormatterViewModel>());
             BitNumbersInWord = new ObservableCollection<IBitViewModel>();
 
-            for (int i = 15; i >= 0; i--)
-            {
-                IBitViewModel bitViewModel = new BitViewModel(i, true);
-                BitNumbersInWord.Add(bitViewModel);
-            }
+           // for (int i = 15; i >= 0; i--)
+           // {
+            //    IBitViewModel bitViewModel = new BitViewModel(i, true);
+             //   BitNumbersInWord.Add(bitViewModel);
+            //}
 
             IsBitsEditingEnabled = false;
 
@@ -64,9 +64,9 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
                 if (ushortFormattableViewModel is IBitsConfigViewModel bitsConfigViewModel)
                 {
-                    //BitNumbersInWord.AddCollection(
-                    //    BitOwnershipHelper.CreateBitViewModelsWithOwnership(bitsConfigViewModel,
-                    //        rootConfigurationItemViewModels));
+                    BitNumbersInWord.AddCollection(
+                        BitOwnershipHelper.CreateBitViewModelsWithOwnership(bitsConfigViewModel,
+                            rootConfigurationItemViewModels));
                     bitsConfigViewModel.CopyBitsTo(this);
                     IsBitsEditingEnabled = true;
                 }

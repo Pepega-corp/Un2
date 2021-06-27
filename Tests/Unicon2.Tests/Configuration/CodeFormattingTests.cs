@@ -185,7 +185,7 @@ namespace Unicon2.Tests.Configuration
                     resourceProperty.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
                         new DirectFormatterViewModel();
 
-                    resourcesService.AddAsSharedResourceWithContainer(resourceProperty,false);
+                    resourcesService.AddAsSharedResourceWithContainer(resourceProperty,null,false);
                     rootGroup.ChildStructItemViewModels.Add(resourceProperty);
 
                 }

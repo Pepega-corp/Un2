@@ -9,11 +9,11 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Unicon2.Fragments.Configuration.Views"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:Unicon2.Fragments.Configuration.ViewModel"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     d:DataContext="{d:DesignInstance viewModel:MainConfigItemViewModel}"
-    d:DesignHeight="450" 
+    d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -24,11 +24,12 @@
         <converter:ObjectEqualityDescriptionNullToVisibilityConverter x:Key="ObjectEqualityDescriptionNullToVisibilityConverter" />
         <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToVisibilityConverter" />
         <converter:IsInterfaceImplementedToVisibilityConverter x:Key="IsInterfaceImplementedToInvertVisibilityConverter" IsInverted="True" />
-        <Style x:Key="ColumnHeaderNormalCased" 
-               BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}" 
-               TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
-            <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Style
+            x:Key="ColumnHeaderNormalCased"
+            BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}"
+            TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+            <Setter Property="FontWeight" Value="Medium" />
         </Style>
     </UserControl.Resources>
     <Grid Name="ConfigGrid">
@@ -51,21 +52,24 @@
             <Border Name="dummywidth5" Grid.Column="4" />
         </Grid>
         <DataGrid
-            ColumnHeaderStyle="{DynamicResource ColumnHeaderNormalCased}"
             Name="ConfigListView"
             Width="auto"
             HorizontalAlignment="Left"
             AutoGenerateColumns="False"
+            ColumnHeaderStyle="{DynamicResource ColumnHeaderNormalCased}"
             EnableColumnVirtualization="True"
             EnableRowVirtualization="True"
             GridLinesVisibility="All"
             ItemsSource="{Binding Path=RelatedRows}"
             RowDetailsVisibilityMode="Visible">
             <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                <Style BasedOn="{StaticResource MahApps.Styles.DataGridRow}" TargetType="DataGridRow">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsCheckable}" Value="True">
-                            <Setter Property="Background" Value="LightSkyBlue"></Setter>
+                            <Setter Property="Background" Value="LightSkyBlue" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                            <Setter Property="Visibility" Value="Hidden" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -153,18 +157,22 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border
-                                VerticalAlignment="Stretch"
+                                Margin="-2"
                                 HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
                                 BorderBrush="{Binding LocalValue.IsFormattedValueChanged, Converter={StaticResource BoolToBorderColorConverter}, FallbackValue=Transparent}"
                                 BorderThickness="0,0,3,0"
-                                Margin="-2"
                                 Visibility="{Binding ., Converter={StaticResource IsInterfaceImplementedToInvertVisibilityConverter}, ConverterParameter=IAsTableViewModel}">
                                 <Grid Visibility="{Binding ., Converter={StaticResource IsItemsGroupToVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <ContentControl Grid.Column="0" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding LocalValue}">
+                                    <ContentControl
+                                        Grid.Column="0"
+                                        VerticalAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Content="{Binding LocalValue}">
                                         <ContentControl.ContentTemplateSelector>
                                             <dataTemplateSelectors:ViewModelByStrongNameDataTemplateSelector />
                                         </ContentControl.ContentTemplateSelector>

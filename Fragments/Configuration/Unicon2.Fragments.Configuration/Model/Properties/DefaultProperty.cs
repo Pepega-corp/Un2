@@ -31,6 +31,7 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
 
         [JsonProperty] public IRange Range { get; set; }
         [JsonProperty] public List<IDependency> Dependencies { get; set; } = new List<IDependency>();
+        [JsonProperty] public bool IsHidden { get; set; }
 
         protected override IConfigurationItem OnCloning()
         {
@@ -43,6 +44,8 @@ namespace Unicon2.Fragments.Configuration.Model.Properties
             cloneProperty.Range = Range.Clone() as IRange;
             cloneProperty.IsRangeEnabled = IsRangeEnabled;
             cloneProperty.NumberOfWriteFunction = NumberOfWriteFunction;
+            cloneProperty.IsHidden = IsHidden;
+
             return cloneProperty;
         }
 
