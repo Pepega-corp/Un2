@@ -309,8 +309,8 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 {
                     var sharedResourceInfo =
                          _sharedResourcesGlobalViewModel.GetNameByResourceViewModel(_bufferConfigurationItem.Item.item);
-               
 
+                    var selectedRowToPaste = (SelectedRow as IAsChildPasteable);
 
 
                     IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
@@ -324,7 +324,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                     parent.IsCheckable = true;
                     parent?.Checked?.Invoke(true);
 
-                    (SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
+                    selectedRowToPaste.PasteAsChild(editorConfigurationItemViewModel);
 
 
                     PrepareAdding();
@@ -441,11 +441,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private void PrepareAdding()
         {
-            SelectedRow.IsCheckable = true;
-            SelectedRow?.Checked?.Invoke(false);
-            SelectedRow?.Checked?.Invoke(true);
-
-		}
+            if (SelectedRow != null)
+            {
+                SelectedRow.IsCheckable = true;
+                SelectedRow?.Checked?.Invoke(false);
+                SelectedRow?.Checked?.Invoke(true);
+            }
+        }
 
 
 

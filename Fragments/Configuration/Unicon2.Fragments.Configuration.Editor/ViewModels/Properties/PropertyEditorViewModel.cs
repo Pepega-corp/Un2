@@ -18,11 +18,13 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
     public class BitViewModel : ViewModelBase, IBitViewModel
     {
         private bool _isChecked;
+        private bool _isBitEditEnabled;
 
-        public BitViewModel(int bitNumber, bool isBitEditEnabled, string ownerTooltip=null)
+
+		public BitViewModel(int bitNumber, bool isBitEditEnabled, string ownerTooltip=null)
         {
             BitNumber = bitNumber;
-            IsBitEditEnabled = isBitEditEnabled;
+            _isBitEditEnabled = isBitEditEnabled;
             OwnerTooltip = ownerTooltip;
         }
         public bool IsChecked
@@ -32,11 +34,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
             {
                 _isChecked = value;
                 RaisePropertyChanged();
+				RaisePropertyChanged(nameof(IsBitEditEnabled));
             }
         }
 
         public int BitNumber { get; }
-        public bool IsBitEditEnabled { get; }
+        public bool IsBitEditEnabled => IsChecked || _isBitEditEnabled;
         public string OwnerTooltip { get; }
     }
 

@@ -69,7 +69,7 @@
                             <Setter Property="Background" Value="LightSkyBlue" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsHidden}" Value="True">
-                            <Setter Property="Visibility" Value="Hidden" />
+                            <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

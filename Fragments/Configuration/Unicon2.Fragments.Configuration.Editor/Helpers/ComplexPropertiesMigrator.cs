@@ -7,18 +7,23 @@ using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Functional;
+using Unicon2.Presentation.Infrastructure.Extensions;
+using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
 namespace Unicon2.Fragments.Configuration.Editor.Helpers
 {
     public class ComplexPropertiesMigrator
     {
 
-        public static List<IConfigurationItemViewModel> GetAllComplexPropertiesInConfiguration(List<IConfigurationItemViewModel> rootConfigurationItemViewModels)
+        public static List<IConfigurationItemViewModel> GetAllComplexPropertiesInConfiguration(
+            List<IConfigurationItemViewModel> rootConfigurationItemViewModels)
         {
-            var res=new List<IConfigurationItemViewModel>();
-            FillComplexPropertiesList(rootConfigurationItemViewModels,res);
+            var res = new List<IConfigurationItemViewModel>();
+            FillComplexPropertiesList(rootConfigurationItemViewModels, res);
             return res;
         }
 
@@ -35,7 +40,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
 
                 if (configurationItemViewModel is IItemGroupViewModel groupViewModel)
                 {
-                    FillComplexPropertiesList(groupViewModel.ChildStructItemViewModels,accumulator);
+                    FillComplexPropertiesList(groupViewModel.ChildStructItemViewModels, accumulator);
                 }
             }
         }
@@ -43,25 +48,55 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
 
         public static Result MigrateComplexProperties(List<IConfigurationItemViewModel> preparedData)
         {
+            var sharedResourcesService = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+
             try
             {
-                var factory=ConfigurationItemEditorViewModelFactory.Create();
+                var factory = ConfigurationItemEditorViewModelFactory.Create();
                 foreach (var preparedItem in preparedData)
                 {
                     if (preparedItem is IComplexPropertyEditorViewModel complexPropertyEditorViewModel)
                     {
                         if (complexPropertyEditorViewModel.IsGroupedProperty)
                         {
-                           var group= factory.WithParent(
-                                complexPropertyEditorViewModel.Parent as IEditorConfigurationItemViewModel).VisitItemsGroup(null);
+                            var group = factory.WithParent(
+                                    complexPropertyEditorViewModel.Parent as IEditorConfigurationItemViewModel)
+                                .VisitItemsGroup(null);
+                            (group as IItemGroupViewModel).IsMain =
+                                (complexPropertyEditorViewModel.Parent as IItemGroupViewModel).IsMain;
+                            (group as IItemGroupViewModel).IsTableViewAllowed =
+                                (complexPropertyEditorViewModel.Parent as IItemGroupViewModel).IsTableViewAllowed;
 
-                           var propList =
-                               ConvertComlexPropertyIntoDefaultProperties(complexPropertyEditorViewModel, group);
+                            var propList =
+                                ConvertComlexPropertyIntoDefaultProperties(complexPropertyEditorViewModel, group);
+
+                            propList.resources.ForEach(tuple =>
+                            {
+                                sharedResourcesService.AddAsSharedResourceWithContainer(tuple.resource,
+                                    tuple.resourceName, false);
+                            });
+                            complexPropertyEditorViewModel.Parent.ChildStructItemViewModels.Add(group);
+                            propList.convertedProperties.ForEach(model => { group.ChildStructItemViewModels.Add(model); });
+                            group.IsCheckable = propList.convertedProperties.Any();
+                            group.Name = complexPropertyEditorViewModel.Name; 
+                            group.Header = complexPropertyEditorViewModel.Header;
+                            group.Description = complexPropertyEditorViewModel.Description;
+
                         }
                         else
                         {
-                            var propList = ConvertComlexPropertyIntoDefaultProperties(complexPropertyEditorViewModel, complexPropertyEditorViewModel.Parent as IEditorConfigurationItemViewModel);
+                            var propList = ConvertComlexPropertyIntoDefaultProperties(complexPropertyEditorViewModel,
+                                complexPropertyEditorViewModel.Parent as IEditorConfigurationItemViewModel);
+
+                            propList.resources.ForEach(tuple =>
+                            {
+                                sharedResourcesService.AddAsSharedResourceWithContainer(tuple.resource,
+                                    tuple.resourceName, false);
+                            });
+                            propList.convertedProperties.ForEach(model => { complexPropertyEditorViewModel.Parent.ChildStructItemViewModels.Add(model); });
                         }
+                        complexPropertyEditorViewModel.Parent.Checked?.Invoke(false);
+                        complexPropertyEditorViewModel.DeleteElement();
                     }
                 }
 
@@ -74,16 +109,56 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             }
         }
 
-        private static List<IPropertyEditorViewModel> ConvertComlexPropertyIntoDefaultProperties(IComplexPropertyEditorViewModel complexPropertyEditorViewModel, IEditorConfigurationItemViewModel parent)
+        private static (List<IPropertyEditorViewModel> convertedProperties,
+            List<(string resourceName, IPropertyEditorViewModel resource)> resources)
+            ConvertComlexPropertyIntoDefaultProperties(IComplexPropertyEditorViewModel complexPropertyEditorViewModel,
+                IEditorConfigurationItemViewModel parent)
         {
-            List < IPropertyEditorViewModel > res=new List<IPropertyEditorViewModel>();
+            List<IPropertyEditorViewModel> res = new List<IPropertyEditorViewModel>();
+            List<(string resourceName, IPropertyEditorViewModel resource)> resourcesResult =
+                new List<(string resourceName, IPropertyEditorViewModel resource)>();
             foreach (var subPropertyEditorViewModel in complexPropertyEditorViewModel.SubPropertyEditorViewModels)
             {
-                var factory = ConfigurationItemEditorViewModelFactory.Create();
-             //   subPropertyEditorViewModel.
+                var factory = ConfigurationItemEditorViewModelFactory.Create().WithParent(parent);
+                var bits = subPropertyEditorViewModel.BitNumbersInWord.Where(model =>
+                    model.Value && model.Owner == subPropertyEditorViewModel).ToList();
+               
+                var property = factory.VisitProperty(null) as IPropertyEditorViewModel;
+                property.Name = subPropertyEditorViewModel.Name;
+                property.Header = subPropertyEditorViewModel.Header;
+                property.Address = complexPropertyEditorViewModel.Address;
+                property.Description = subPropertyEditorViewModel.Description;
+                property.NumberOfWriteFunction = complexPropertyEditorViewModel.NumberOfWriteFunction;
+                property.NumberOfPoints = complexPropertyEditorViewModel.NumberOfPoints;
+                property.IsMeasureUnitEnabled = subPropertyEditorViewModel.IsMeasureUnitEnabled;
+                property.MeasureUnit = subPropertyEditorViewModel.MeasureUnit;
+                property.IsRangeEnabled = subPropertyEditorViewModel.IsRangeEnabled;
+                property.DependencyViewModels.AddCollection(subPropertyEditorViewModel.DependencyViewModels
+                    .Select(model => model.Clone()));
+                property.RangeViewModel = subPropertyEditorViewModel.RangeViewModel.Clone() as IRangeViewModel;
+
+                property.IsFromBits = true;
+                property.FormatterParametersViewModel = subPropertyEditorViewModel.FormatterParametersViewModel.Clone();
+                foreach (var bit in bits)
+                {
+                    property.BitNumbersInWord.First(model => model.BitNumber == bit.NumberOfBit).IsChecked =
+                        true;
+                }
+
+                var sharedResourcesService = StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>();
+                
+                var resourceInfo = sharedResourcesService.GetNameByResourceViewModel(subPropertyEditorViewModel);
+                if (resourceInfo.IsSuccess)
+                {
+                    resourcesResult.Add((resourceInfo.Item, property));
+                    sharedResourcesService.RemoveResourceByViewModel(subPropertyEditorViewModel);
+                }
+
+                
+                res.Add(property);
             }
 
-            return res;
+            return (res, resourcesResult);
         }
 
     }

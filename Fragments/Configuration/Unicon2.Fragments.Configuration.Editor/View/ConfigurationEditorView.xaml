@@ -82,7 +82,7 @@
                         <Button
                             Grid.Column="2"
                             Margin="3"
-                            IsEnabled="False"
+                            IsEnabled="True"
                             Command="{Binding MigrateComplexPropertiesCommand}"
                             Content=" &gt; "
                             IsTabStop="False"
