@@ -78,6 +78,7 @@
     <Compile Include="Factories\BrowserElementFactory.cs" />
     <Compile Include="Factories\BrowserElementViewModelFactory.cs" />
     <Compile Include="FileOperations\FileAccess.cs" />
+    <Compile Include="FileOperations\FileSystemDriver.cs" />
     <Compile Include="FileOperations\Operators\DirectoryOperator.cs" />
     <Compile Include="FileOperations\FileDataReader.cs" />
     <Compile Include="FileOperations\FileDataWriter.cs" />

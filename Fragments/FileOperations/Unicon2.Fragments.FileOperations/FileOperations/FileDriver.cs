@@ -30,10 +30,10 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             this._fileCloseOperator = fileCloseOperator;
         }
 
-        public async Task<byte[]> ReadFile(string fileName, ushort wordsDataLen = 64)
+        public async Task<byte[]> ReadFile(string fileName, ushort maxWordsLen = 64)
         {
-            var descriptor = await OpenFile(fileName, FileAccess.READ_FILE);
-            var fileBytes = await this._fileReadDataOperator.ReadFileData(descriptor, wordsDataLen);
+            var descriptor = await OpenFile(fileName, FileAccess.ReadFile);
+            var fileBytes = await this._fileReadDataOperator.ReadFileData(descriptor, maxWordsLen);
             await CloseFile(fileName);
             return fileBytes;
         }
@@ -81,7 +81,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
 
         public async Task WriteFile(byte[] fileData, string fileName, ushort wordsDataLen = 64)
         {
-            var descriptor = await this.OpenFile(fileName, FileAccess.WRITE_FILE);
+            var descriptor = await this.OpenFile(fileName, FileAccess.WriteFile);
             await this._fileWriteDataOperator.WriteData(descriptor, fileData);
         }
 

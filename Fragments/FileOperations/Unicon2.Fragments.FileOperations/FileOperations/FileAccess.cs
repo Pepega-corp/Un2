@@ -2,8 +2,8 @@
 {
     public enum FileAccess
     {
-        READ_FILE,
-        WRITE_FILE,
-        DELETE_FILE
+        ReadFile,
+        WriteFile,
+        DeleteFile
     }
 }

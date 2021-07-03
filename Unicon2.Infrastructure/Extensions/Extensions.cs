@@ -170,6 +170,34 @@ namespace Unicon2.Infrastructure.Extensions
 
             return buffer;
         }
+        
+        /// <summary>
+        /// Конвертирует массив слов в массив байт
+        /// </summary>
+        /// <param name="words"> =List слов.</param>
+        /// <param name="bDirect">Порядок байт. true - обычный, false - ст.байт меняем местом с мл.байтом.</param>
+        /// <returns>Массив байт.</returns>
+        public static byte[] UshortArrayToByteArray(this List<ushort> words, bool bDirect)
+        {
+            byte[] buffer = new byte[words.Count * 2];
+            for (int i = 0, j = 0; i < words.Count; i++)
+            {
+                if (bDirect)
+                {
+                    buffer[j++] = HIBYTE(words[i]);
+                    buffer[j++] = LOBYTE(words[i]);
+
+                }
+                else
+                {
+                    buffer[j++] = LOBYTE(words[i]);
+                    buffer[j++] = HIBYTE(words[i]);
+                }
+            }
+
+            return buffer;
+        }
+        
         /// <summary>
         /// Конвертирует List слов в массив байт
         /// </summary>
