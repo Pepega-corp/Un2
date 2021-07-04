@@ -16,6 +16,7 @@ using Unicon2.Fragments.Journals.MemoryAccess;
 using Unicon2.Fragments.Journals.ViewModel.Helpers;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces.DataOperations;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
@@ -260,7 +261,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
 
 		public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
 
-		public void Initialize(IDeviceFragment deviceFragment)
+		public Result Initialize(IDeviceFragment deviceFragment)
 		{
 			IUniconJournal uniconJournal = deviceFragment as IUniconJournal;
 			_uniconJournal = uniconJournal;
@@ -284,6 +285,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
 			Table = new DynamicDataTable(JournalParametersNameList, null, true);
 			RaisePropertyChanged(nameof(Table));
 			RaisePropertyChanged(nameof(JournalParametersNameList));
+            return Result.Create(true);
 		}
 
 		public DeviceContext DeviceContext { get; set; }

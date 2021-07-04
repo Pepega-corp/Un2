@@ -2,6 +2,7 @@
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -24,7 +25,7 @@ namespace Unicon2.Presentation.Factories
             _container = container;
         }
 
-        public IDeviceViewModel CreateDeviceViewModel(IDevice device)
+        public Result<IDeviceViewModel> CreateDeviceViewModel(IDevice device)
         {
             IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
             if (device.DeviceMemory == null)
@@ -36,6 +37,8 @@ namespace Unicon2.Presentation.Factories
             DeviceContext context = new DeviceContext(device.DeviceMemory,
                 deviceLevelPublisher, device.DeviceSignature,
                 device, device.DeviceSharedResources);
+
+
             if (device.DeviceFragments != null)
             {
                 foreach (IDeviceFragment deviceFragment in device.DeviceFragments)
@@ -49,12 +52,21 @@ namespace Unicon2.Presentation.Factories
                         deviceContextConsumer.DeviceContext = context;
                     }
 
-                    fragmentViewModel.Initialize(deviceFragment);
+                    var res = fragmentViewModel.Initialize(deviceFragment);
+                    if (!res.IsSuccess)
+                    {
+                        if (res.Exception != null)
+                        {
+                            return Result<IDeviceViewModel>.CreateWithException(res.Exception);
+                        }
 
+                        Result<IDeviceViewModel>.Create(false);
+                    }
 
                     deviceViewModel.FragmentViewModels.Add(fragmentViewModel);
                 }
             }
+
 
             deviceViewModel.TransactionCompleteSubscription = new TransactionCompleteSubscription(context,
                 device.ConnectionState, deviceViewModel.ConnectionStateViewModel, _container, () =>
@@ -67,14 +79,15 @@ namespace Unicon2.Presentation.Factories
                         _container.Resolve<IDevicesContainerService>().ConnectDeviceAsync(device,
                             _container.Resolve<IDeviceConnectionFactory>(ApplicationGlobalNames
                                 .OFFLINE_CONNECTION_FACTORY_NAME).CreateDeviceConnection());
-                        (deviceViewModel.TransactionCompleteSubscription as TransactionCompleteSubscription)?.ResetOnConnectionRetryCounter(false);
+                        (deviceViewModel.TransactionCompleteSubscription as TransactionCompleteSubscription)
+                            ?.ResetOnConnectionRetryCounter(false);
                     }
                 });
             deviceViewModel.TransactionCompleteSubscription.Execute();
 
             deviceViewModel.Model = device;
 
-            return deviceViewModel;
+            return Result<IDeviceViewModel>.Create(deviceViewModel, true);
         }
 
 

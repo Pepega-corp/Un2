@@ -8,6 +8,7 @@ using Unicon2.Fragments.GraphicalMenu.Infrastructure.Model;
 using Unicon2.Fragments.GraphicalMenu.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Unity.ViewModels;
 
@@ -26,7 +27,7 @@ namespace Unicon2.Fragments.GraphicalMenu.Editor.ViewModel
             _graphicalMenuFactory = graphicalMenuFactory;
         }
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IGraphicalMenu graphicalMenu)
             {
@@ -35,6 +36,7 @@ namespace Unicon2.Fragments.GraphicalMenu.Editor.ViewModel
                 CellHeight = graphicalMenu.CellHeight;
                 CellWidth = graphicalMenu.CellWidth;
             }
+            return Result.Create(true);
         }
 
         public string StrongName => GraphicalMenuKeys.GRAPHICAL_MENU +

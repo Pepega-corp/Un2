@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.MemoryAccess;
@@ -13,6 +15,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
@@ -191,16 +194,41 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 					MemoryAccessEnum.InitalizeZeroForLocals, false).Process();
 			}
 		}
+
+        private Result ThrowIfComplexProp(List<IConfigurationItem> configurationList)
+        {
+            foreach (var configurationItem in configurationList)
+            {
+                if (configurationItem is IComplexProperty)
+                {
+					return Result.Create(new Exception("В конфигурации есть как минимум одно составное свойство. Пожалуйста сделайте миграцию в редакторе"));
+                }
+                if (configurationItem is IItemsGroup group)
+                {
+                    var res=ThrowIfComplexProp(group.ConfigurationItemList);
+                    if (!res.IsSuccess)
+                    {
+                        return res;
+                    }
+                }
+            }
+			return Result.Create(true);
+        }
 		
-		public async void Initialize(IDeviceFragment deviceFragment)
+		public Result Initialize(IDeviceFragment deviceFragment)
 		{
-			AllRows.Clear();
+
+            AllRows.Clear();
 			RootConfigurationItemViewModels.Clear();
 
 
-			if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return;
-
-			_deviceConfiguration = deviceConfiguration;
+			if (!(deviceFragment is IDeviceConfiguration deviceConfiguration)) return Result.Create(false);
+            var valres = ThrowIfComplexProp(deviceConfiguration.RootConfigurationItemList);
+            if (!valres.IsSuccess)
+            {
+                return valres;
+            }
+            _deviceConfiguration = deviceConfiguration;
 
 			_nameForUiKey = deviceConfiguration.StrongName;
 			if (deviceConfiguration.RootConfigurationItemList != null)
@@ -220,8 +248,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 				_configurationOptionsHelper.CreateConfigurationFragmentOptionsViewModel(this, _container,
 					deviceConfiguration);
 			MainRows = FilterMainConfigItems(RootConfigurationItemViewModels);
-			await ClearValues();
-		}
+			ClearValues();
+            return Result.Create(true);
+        }
 
 		private ObservableCollection<MainConfigItemViewModel> FilterMainConfigItems(
 			IEnumerable<IConfigurationItemViewModel> rootItems)

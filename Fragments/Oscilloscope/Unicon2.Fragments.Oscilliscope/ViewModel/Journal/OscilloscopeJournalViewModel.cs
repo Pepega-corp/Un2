@@ -14,6 +14,7 @@ using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.OscilloscopeJournalLoa
 using Unicon2.Fragments.Oscilliscope.Infrastructure.ViewModel;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Values;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
@@ -130,7 +131,7 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel.Journal
         }
 
         public DeviceContext DeviceContext { get; set; }
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             IUniconJournal uniconJournal = deviceFragment as IUniconJournal;
             this._uniconJournal = uniconJournal;
@@ -157,6 +158,8 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel.Journal
             this.Table = new DynamicDataTable(this.JournalParametersNameList, null, true);
             this.RaisePropertyChanged(nameof(this.Table));
             this.RaisePropertyChanged(nameof(this.JournalParametersNameList));
+            return Result.Create(true);
+
         }
     }
 }

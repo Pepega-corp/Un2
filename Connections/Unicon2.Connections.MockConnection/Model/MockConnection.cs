@@ -78,7 +78,7 @@ namespace Unicon2.Connections.MockConnection.Model
                 };
             }
 
-            await Task.Delay(2);
+            await Task.Delay(1);
             PopulateMemoryIfNeeded(startAddress, numberOfPoints);
             _lastQuerySucceed = true;
             TransactionCompleteSubscription?.Execute();
@@ -123,7 +123,7 @@ namespace Unicon2.Connections.MockConnection.Model
                 };
             }
 
-            await Task.Delay(2);
+            await Task.Delay(1);
             PopulateMemoryIfNeeded(startAddress, (ushort) dataToWrite.Count());
             for (ushort i = startAddress; i < startAddress + (ushort) dataToWrite.Count(); i++)
             {

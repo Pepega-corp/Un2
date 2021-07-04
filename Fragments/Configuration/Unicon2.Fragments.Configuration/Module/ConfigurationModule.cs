@@ -48,8 +48,6 @@ namespace Unicon2.Fragments.Configuration.Module
 
             container.Register(typeof(IRuntimeItemGroupViewModel), typeof(RuntimeItemGroupViewModel));
             container.Register(typeof(IRuntimePropertyViewModel), typeof(RuntimePropertyViewModel));
-            container.Register(typeof(IRuntimeComplexPropertyViewModel), typeof(RuntimeComplexPropertyViewModel));
-            container.Register(typeof(IRuntimeSubPropertyViewModel), typeof(RuntimeSubPropertyViewModel));
             container.Register(typeof(IRuntimeConfigurationViewModel), typeof(RuntimeConfigurationViewModel));
             container.Register<IPropertyValueService, PropertyValueService>();
             container.Register(typeof(IFragmentSetting), typeof(ActivatedConfigurationSetting),

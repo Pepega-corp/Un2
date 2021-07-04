@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Model.Properties;
@@ -20,7 +21,7 @@ namespace Unicon2.Fragments.Configuration.Matrix.Model
 
         public override T Accept<T>(IConfigurationItemVisitor<T> visitor)
         {
-            return visitor.VisitMatrix(this);
+            throw new NotImplementedException();
         }
     }
 

@@ -8,7 +8,6 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
         TOutPut VisitItemsGroup(IItemsGroup itemsGroup);
         TOutPut VisitProperty(IProperty property);
         TOutPut VisitComplexProperty(IComplexProperty property);
-        TOutPut VisitMatrix(IAppointableMatrix appointableMatrixViewModel);
         TOutPut VisitSubProperty(ISubProperty subProperty);
     }   
 }

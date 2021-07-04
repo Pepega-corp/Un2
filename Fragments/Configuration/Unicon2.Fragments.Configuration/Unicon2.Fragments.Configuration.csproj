@@ -100,16 +100,12 @@
     <Compile Include="MemoryAccess\MemoryReaderVisitor.cs" />
     <Compile Include="MemoryAccess\MemoryWriterVisitor.cs" />
     <Compile Include="MemoryAccess\PropertyValueService.cs" />
-    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\DeviceDataSubPropertySubscription.cs" />
-    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalComplexPropertyMemorySubscription.cs" />
-    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalDataComplexPropertyEditedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\BitsPropertySetUnchangedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DependentProperty\DependentSubscriptionHelpers.cs" />
     <Compile Include="MemoryAccess\Subscriptions\DeviceDataPropertyMemorySubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\EditableValueSetUnchangedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalDataEditedSubscription.cs" />
     <Compile Include="MemoryAccess\Subscriptions\LocalMemorySubscription.cs" />
-    <Compile Include="MemoryAccess\Subscriptions\ComplexProperty\LocalSubPropertySubscription.cs" />
     <Compile Include="Model\Conditions\CompareCondition.cs" />
     <Compile Include="Model\ConfigurationBaseValues.cs" />
     <Compile Include="Model\ConfigurationSettings\ActivatedConfigurationSetting.cs" />
@@ -154,9 +150,7 @@
     <Compile Include="ViewModel\Helpers\LoadAllConfigurationHelper.cs" />
     <Compile Include="ViewModel\Helpers\LocalValuesWriteValidator.cs" />
     <Compile Include="ViewModel\MainConfigItemViewModel.cs" />
-    <Compile Include="ViewModel\Properties\RuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Properties\RuntimePropertyViewModel.cs" />
-    <Compile Include="ViewModel\Properties\RuntimeSubPropertyViewModel.cs" />
     <Compile Include="ViewModel\RuntimeBaseValuesViewModel.cs" />
     <Compile Include="ViewModel\RuntimeFilterViewModel.cs" />
     <Compile Include="ViewModel\RuntimeItemGroupViewModel.cs" />

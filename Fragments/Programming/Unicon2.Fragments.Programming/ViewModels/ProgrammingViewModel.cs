@@ -22,6 +22,7 @@ using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
@@ -302,7 +303,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IProgramModel model)
             {
@@ -322,6 +323,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this._programModel.LogicHeader = modelEditor.LogicHeader;
                 this._programModel.LogBinSize = modelEditor.LogBinSize;
             }
+
+            return Result.Create(true);
         }
 
         private async void OnWriteCommand()

@@ -17,19 +17,16 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
     {
         private readonly IExcelImporter _excelImporter;
         private readonly ILocalizerService _localizerService;
-        private readonly Func<ComplexPropertyEditorViewModel> _complexPropertyEditorViewModelFactory;
-        private readonly Func<SubPropertyEditorViewModel> _subPropertyEditorViewModelFactory;
+        private readonly Func<PropertyEditorViewModel> _propertyViewModelFactory;
         private readonly Func<IFormatterParametersViewModel> _formatterParametersViewModelFactory;
 
         public ImportPropertiesFromExcelTypeAHelper(IExcelImporter excelImporter, ILocalizerService localizerService,
-            Func<ComplexPropertyEditorViewModel> complexPropertyEditorViewModelFactory,  Func<SubPropertyEditorViewModel> subPropertyEditorViewModelFactory
-            ,Func<IFormatterParametersViewModel> formatterParametersViewModelFactory)
+            Func<ComplexPropertyEditorViewModel> complexPropertyEditorViewModelFactory,Func<IFormatterParametersViewModel> formatterParametersViewModelFactory, Func<PropertyEditorViewModel> propertyViewModelFactory)
         {
             _excelImporter = excelImporter;
             _localizerService = localizerService;
-            _complexPropertyEditorViewModelFactory = complexPropertyEditorViewModelFactory;
-            _subPropertyEditorViewModelFactory = subPropertyEditorViewModelFactory;
             _formatterParametersViewModelFactory = formatterParametersViewModelFactory;
+            _propertyViewModelFactory = propertyViewModelFactory;
         }
 
         public void ImportPropertiesToGroup(IConfigurationGroupEditorViewModel configurationGroupEditorViewModel)
@@ -45,62 +42,52 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             Result<string> propertyName = worksheet.GetCellValue(rowCounter, 3);
 
 
-            List<ImportedComplexProperty> importedComplexProperties = new List<ImportedComplexProperty>();
+            List<ImportedPropertyFromBits> importedProperties = new List<ImportedPropertyFromBits>();
 
 
             while (propertyName.IsSuccess &&
                    !string.IsNullOrEmpty(propertyName.Item))
             {
-                if (!importedComplexProperties.Any() || importedComplexProperties.Last().SubpropertiesNames.Count == 16)
+                if (!importedProperties.Any() || importedProperties.Last().SubpropertiesNames.Count == 16)
                 {
-                    importedComplexProperties.Add(new ImportedComplexProperty(
-                        _localizerService.GetLocalizedString("Word") + " " + (importedComplexProperties.Count + 1)));
+                    importedProperties.Add(new ImportedPropertyFromBits(
+                        _localizerService.GetLocalizedString("Word") + " " + (importedProperties.Count + 1)));
                 }
 
-                var importedComplexProperty = importedComplexProperties.Last();
+                var importedComplexProperty = importedProperties.Last();
                 importedComplexProperty.SubpropertiesNames.Add(propertyName.Item);
                 rowCounter++;
                 propertyName = worksheet.GetCellValue(rowCounter, 3);
             }
 
-            foreach (var importedComplexProperty in importedComplexProperties)
+            foreach (var importedProperty in importedProperties)
             {
-                var complexProperty = _complexPropertyEditorViewModelFactory();
-                complexProperty.IsGroupedProperty = false;
-                complexProperty.Parent = configurationGroupEditorViewModel;
-                configurationGroupEditorViewModel.ChildStructItemViewModels.Add(complexProperty);
-                configurationGroupEditorViewModel.IsCheckable = true;
-                complexProperty.Address = importedComplexProperties.IndexOf(importedComplexProperty).ToString();
-                complexProperty.Name = importedComplexProperty.Name;
-                
-                foreach (var subpropertyName in importedComplexProperty.SubpropertiesNames)
-                {
-                    var subPropertyViewModel = _subPropertyEditorViewModelFactory();
 
-                    subPropertyViewModel.BitNumbersInWord = complexProperty.MainBitNumbersInWordCollection;
+                foreach (var subpropertyName in importedProperty.SubpropertiesNames)
+                {
+                    var subPropertyViewModel = _propertyViewModelFactory();
+
                     var bitViewModel =
                         subPropertyViewModel.BitNumbersInWord[
-                            15 - importedComplexProperty.SubpropertiesNames.IndexOf(subpropertyName)];
-                    subPropertyViewModel.BitNumbersInWord.First(model => model.NumberOfBit == bitViewModel.NumberOfBit)
-                        .ChangeValueByOwnerCommand.Execute(subPropertyViewModel);
-                    subPropertyViewModel.Address = complexProperty.Address;
-                    subPropertyViewModel.Parent = complexProperty;
+                            15 - importedProperty.SubpropertiesNames.IndexOf(subpropertyName)];
+                    subPropertyViewModel.BitNumbersInWord.First(model => model.BitNumber == bitViewModel.BitNumber).IsChecked=true;
+                    subPropertyViewModel.Address = importedProperties.IndexOf(importedProperty).ToString();
+                    subPropertyViewModel.Parent = configurationGroupEditorViewModel;
                     subPropertyViewModel.Name = subpropertyName;
-                    complexProperty.SubPropertyEditorViewModels.Add(subPropertyViewModel);
-                    complexProperty.ChildStructItemViewModels.Add(subPropertyViewModel);
                     subPropertyViewModel.FormatterParametersViewModel = _formatterParametersViewModelFactory();
                     subPropertyViewModel.FormatterParametersViewModel.RelatedUshortsFormatterViewModel =
                         StaticContainer.Container.Resolve<IUshortsFormatterViewModel>(StringKeys.BOOL_FORMATTER + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL);
-                    complexProperty.IsCheckable = true;
+                    configurationGroupEditorViewModel.ChildStructItemViewModels.Add(subPropertyViewModel);
+                    configurationGroupEditorViewModel.IsCheckable = true;
                 }
 
             }
 
         }
 
-        private class ImportedComplexProperty
+        private class ImportedPropertyFromBits
         {
-            public ImportedComplexProperty(string name)
+            public ImportedPropertyFromBits(string name)
             {
                 Name = name;
                 SubpropertiesNames = new List<string>();

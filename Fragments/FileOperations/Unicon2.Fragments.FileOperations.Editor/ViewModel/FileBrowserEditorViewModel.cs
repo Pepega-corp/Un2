@@ -4,6 +4,7 @@ using Unicon2.Fragments.FileOperations.Infrastructure.Keys;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 
 namespace Unicon2.Fragments.FileOperations.Editor.ViewModel
 {
@@ -17,6 +18,10 @@ namespace Unicon2.Fragments.FileOperations.Editor.ViewModel
         public string NameForUiKey => FileOperationsKeys.FILE_BROWSER;
 
         public IDeviceFragment BuildDeviceFragment() => throw new NotImplementedException();
-        public void Initialize(IDeviceFragment deviceFragment) => Model = deviceFragment as IFileBrowser;
+        public Result Initialize(IDeviceFragment deviceFragment)
+        {
+            Model = deviceFragment as IFileBrowser;
+            return Result.Create(true);
+        }
     }
 }

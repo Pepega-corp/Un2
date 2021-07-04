@@ -9,6 +9,7 @@ using Unicon2.Fragments.Measuring.Infrastructure.Model;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces.FagmentSettings;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentSettings;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.Interfaces;
@@ -150,7 +151,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         }
 
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
 			_measuringMonitor = deviceFragment as IMeasuringMonitor;
 			MeasuringGroupEditorViewModels.Clear();
@@ -159,7 +160,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
 				MeasuringGroupEditorViewModels.Add(_measuringGroupEditorViewModelFactory
 					.CreateMeasuringGroupEditorViewModel(measuringGroup));
 			}
-
+            return Result.Create(true);
         }
     }
 }

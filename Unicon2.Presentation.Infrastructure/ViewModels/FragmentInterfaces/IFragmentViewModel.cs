@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 
@@ -27,6 +28,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
     
     public interface IFragmentInitializable
     {
-        void Initialize(IDeviceFragment deviceFragment);
+        Result Initialize(IDeviceFragment deviceFragment);
     }
 }

@@ -103,12 +103,10 @@
     </Compile>
     <Compile Include="ViewModel\Runtime\IRuntimeAppointableMatrixViewModel.cs" />
     <Compile Include="ViewModel\Runtime\IRuntimeBaseValuesViewModel.cs" />
-    <Compile Include="ViewModel\Runtime\IRuntimeComplexPropertyViewModel.cs" />
     <Compile Include="ViewModel\Runtime\IRuntimeConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\Runtime\IRuntimeConfigurationViewModel.cs" />
     <Compile Include="ViewModel\Runtime\IRuntimeItemGroupViewModel.cs" />
     <Compile Include="ViewModel\Runtime\IRuntimePropertyViewModel.cs" />
-    <Compile Include="ViewModel\Runtime\IRuntimeSubPropertyViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

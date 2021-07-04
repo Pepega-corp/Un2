@@ -1,6 +1,7 @@
 ﻿using Unicon2.Fragments.ModbusMemory.Infrastructure.Model;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 
@@ -25,9 +26,9 @@ namespace Unicon2.Fragments.ModbusMemory.Editor
         }
 
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
-	       
+            return Result.Create(true);
         }
     }
 }

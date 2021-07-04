@@ -27,6 +27,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
             container.Register(typeof(IFragmentEditorViewModel), typeof(ConfigurationEditorViewModel),
                 ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
                 ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL);
+            container.Register<PropertyEditorViewModel>();
 
             container.Register<IPropertyEditorViewModel, PropertyEditorViewModel>();
             container.Register<IConfigurationGroupEditorViewModel, ConfigurationGroupEditorViewModel>();

@@ -101,6 +101,7 @@
     <Compile Include="Services\CommandStack\StackingCommandBase.cs" />
     <Compile Include="Services\ILoadAllService.cs" />
     <Compile Include="TreeGrid\IWithAddressViewModel.cs" />
+    <Compile Include="ViewModels\BitViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\DefaultFragmentOptionCommandViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\Extensions.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\FragmentOptions\FragmentOptionToggleCommandViewModel.cs" />

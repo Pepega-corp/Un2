@@ -85,25 +85,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 new RelayCommand(OnAddChildGroupElementExecute, CanExecuteAddChildGroupElement);
             ElementsAddingCommandCollection.Add(command);
 
-
-
-            command = elementAddingCommandAddingFunc();
-            command.Name = "AddComplexProperty";
-            command.AddingCommand =
-                new RelayCommand(OnAddComplexPropertyExecute, CanExecuteAddChildGroupElement);
-            ElementsAddingCommandCollection.Add(command);
-
-            command = elementAddingCommandAddingFunc();
-            command.Name = "AddSubProperty";
-            command.AddingCommand =
-                new RelayCommand(OnAddAddSubPropertyExecute, CanExecuteAddSubPropertyElement);
-            ElementsAddingCommandCollection.Add(command);
-
-            //command = elementAddingCommandAddingFunc();
-            //command.Name = "AddMatrix";
-            //command.AddingCommand = new RelayCommand(OnAddMatrixExecute, CanExecuteAddChildGroupElement);
-            //ElementsAddingCommandCollection.Add(command);
-
+            
             EditElementCommand = new RelayCommand(OnEditElementExecute, CanExecuteEditElement);
             DeleteElementCommand = new RelayCommand(OnDeleteElementExecute, CanExecuteDeleteElement);
             ShowFormatterParametersCommand =
@@ -230,50 +212,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             SelectedRows.ForEach(model => (model as IAddressChangeable).ChangeAddress(AddressIteratorValue, isIncreasing));
         }
 
-        /*
-        private void OnAddMatrixExecute()
-        {
-            if (SelectedRow is IChildAddable)
-            {
-                IEditorConfigurationItemViewModel dependentProperty =
-                    (SelectedRow as IChildAddable).AddMatrix() as IEditorConfigurationItemViewModel;
-                PrepareAdding();
-                SelectedRow = dependentProperty;
-                CompleteAdding();
-            }
-        }
-        */
-
-        private void OnAddAddSubPropertyExecute()
-        {
-            if (SelectedRow is ISubPropertyAddable)
-            {
-                IEditorConfigurationItemViewModel dependentProperty =
-                    (SelectedRow as ISubPropertyAddable).AddSubProperty() as IEditorConfigurationItemViewModel;
-                PrepareAdding();
-
-                SelectedRow = dependentProperty;
-                CompleteAdding();
-            }
-        }
-
-        private bool CanExecuteAddSubPropertyElement()
-        {
-            return SelectedRow is ISubPropertyAddable;
-        }
-
-        private void OnAddComplexPropertyExecute()
-        {
-            if (SelectedRow is IChildAddable)
-            {
-                IEditorConfigurationItemViewModel dependentProperty =
-                    (SelectedRow as IChildAddable).AddComplexProperty() as IEditorConfigurationItemViewModel;
-                PrepareAdding();
-                SelectedRow = dependentProperty;
-                CompleteAdding();
-            }
-        }
-
+  
         private void OnEditDescriptionExecute()
         {
             _applicationGlobalCommands.ShowWindowModal(() => new DescriptionEditingWindow(),
@@ -816,7 +755,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             get;
         }
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IDeviceConfiguration deviceConfiguration)
             {
@@ -832,6 +771,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 BaseValuesViewModel = _baseValuesFillHelper.CreateBaseValuesViewModel(deviceConfiguration.BaseValues);
             }
             InitRows(RootConfigurationItemViewModels, AllRows);
+            return Result.Create(true);
         }
 
         private void InitRows(IEnumerable<IConfigurationItemViewModel> configurationItemViewModels,

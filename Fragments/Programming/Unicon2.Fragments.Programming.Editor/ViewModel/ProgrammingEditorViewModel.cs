@@ -11,6 +11,7 @@ using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEdit
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -186,7 +187,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             return this._model;
         }
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IProgrammModelEditor model)
             {
@@ -212,6 +213,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
                     this.SelectedSubversionHeader = "00001";
                 }
             }
+            return Result.Create(true);
         }
     }
 }

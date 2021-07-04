@@ -14,6 +14,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Services.ApplicationSettingsService;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -192,7 +193,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 			}
 		}
 
-		public void Initialize(IDeviceFragment deviceFragment)
+		public Result Initialize(IDeviceFragment deviceFragment)
 		{
 			_measuringMonitor = deviceFragment as IMeasuringMonitor;
 			MeasuringGroupViewModels.Clear();
@@ -216,7 +217,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 			{
 				SelectedMeasuringGroupViewModel = MeasuringGroupViewModels[0];
 			}
-
+            return Result.Create(true);
 			//    this._measuringMonitor.SetSelectedGroups(this._measuringMonitor.MeasuringGroups);
 		}
 

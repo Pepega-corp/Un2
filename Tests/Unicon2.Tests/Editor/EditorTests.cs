@@ -439,15 +439,13 @@ namespace Unicon2.Tests.Editor
 
             var group = configurationEditorViewModel.RootConfigurationItemViewModels.First();
 
-            Assert.AreEqual(group.ChildStructItemViewModels.Count, 7);
+            Assert.AreEqual(group.ChildStructItemViewModels.Count, 111);
 
-            Assert.AreEqual(group.ChildStructItemViewModels[4].ChildStructItemViewModels[4].Header, "F<<< СРАБ");
-
-            Assert.AreEqual(group.ChildStructItemViewModels[3].ChildStructItemViewModels
-                .Count, 16);
+            Assert.AreEqual(group.ChildStructItemViewModels[49].Header, "U2>> ИО");
+            
             Assert.True(
                 (((device.DeviceFragments.First() as IDeviceConfiguration).RootConfigurationItemList[0] as
-                    IItemsGroup).ConfigurationItemList[4] as IComplexProperty).SubProperties[4].UshortsFormatter is IBoolFormatter);
+                    IItemsGroup).ConfigurationItemList[100] as IProperty).UshortsFormatter is IBoolFormatter);
 
         }
 

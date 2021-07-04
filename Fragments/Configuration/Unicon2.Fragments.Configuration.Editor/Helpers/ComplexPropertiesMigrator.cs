@@ -138,7 +138,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
                 property.RangeViewModel = subPropertyEditorViewModel.RangeViewModel.Clone() as IRangeViewModel;
 
                 property.IsFromBits = true;
-                property.FormatterParametersViewModel = subPropertyEditorViewModel.FormatterParametersViewModel.Clone();
+                property.FormatterParametersViewModel = subPropertyEditorViewModel.FormatterParametersViewModel?.Clone();
                 foreach (var bit in bits)
                 {
                     property.BitNumbersInWord.First(model => model.BitNumber == bit.NumberOfBit).IsChecked =

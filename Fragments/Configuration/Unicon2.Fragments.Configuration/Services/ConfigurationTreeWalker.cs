@@ -54,27 +54,6 @@ namespace Unicon2.Fragments.Configuration.Services
                 }
             }
 
-            if (configurationItemViewModel1 is IRuntimeComplexPropertyViewModel runtimeComplexPropertyViewModel1 &&
-                configurationItemViewModel2 is IRuntimeComplexPropertyViewModel runtimeComplexPropertyViewModel2)
-            {
-                var count = runtimeComplexPropertyViewModel1.ChildStructItemViewModels.Count;
-                if (count != runtimeComplexPropertyViewModel2.ChildStructItemViewModels.Count)
-                {
-                    return Result.Create(false);
-                }
-
-                for (int i = 0; i < count; i++)
-                {
-                    var res = ProcessConfigurationItem(callback,
-                        runtimeComplexPropertyViewModel1.ChildStructItemViewModels[i],
-                        runtimeComplexPropertyViewModel2.ChildStructItemViewModels[i]);
-                    if (!res.IsSuccess)
-                    {
-                        return res;
-                    }
-                }
-            }
-
             return Result.Create(true);
         }
 

@@ -7,6 +7,7 @@ using Unicon2.Fragments.FileOperations.Infrastructure.ViewModel;
 using Unicon2.Fragments.FileOperations.Infrastructure.ViewModel.BrowserElements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
@@ -89,12 +90,13 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
             this.RaisePropertyChanged(nameof(this.RootDeviceDirectoryViewModel));
         }
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             if(deviceFragment is IFileBrowser fileBrouser)
             {
                 _fileBrowser = fileBrouser;
             }
+            return Result.Create(true);
         }
     }
 }

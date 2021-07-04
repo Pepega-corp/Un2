@@ -8,6 +8,7 @@ using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.CountingTemplate;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Model.OscillogramLoadingParameters;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Unity.ViewModels;
 
@@ -86,7 +87,7 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel
             return this._oscilloscopeModel;
         }
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             this._oscilloscopeModel = deviceFragment as IOscilloscopeModel;
             this.OscilloscopeJournalEditorViewModel = this._fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(this._oscilloscopeModel.OscilloscopeJournal) as IUniconJournalEditorViewModel;
@@ -94,6 +95,7 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel
             this.OscillogramLoadingParametersEditorViewModel.SetAvailableParameters(this._oscilloscopeModel.OscilloscopeJournal.RecordTemplate.JournalParameters);
 
             this.CountingTemplateEditorViewModel.Model = this._oscilloscopeModel.CountingTemplate.RecordTemplate;
+            return Result.Create(true);
         }
     }
 }

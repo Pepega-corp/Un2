@@ -8,6 +8,7 @@ using Unicon2.Fragments.Journals.Infrastructure.Model.LoadingSequence;
 using Unicon2.Fragments.Journals.Infrastructure.ViewModel.LoadingSequence;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Journals.Editor.ViewModel
@@ -92,10 +93,10 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
             }
         }
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             IUniconJournal settingJournal = deviceFragment as IUniconJournal;
-            if (deviceFragment == null) return;
+            if (deviceFragment == null) return Result.Create(false);
             this._uniconJournal = settingJournal;
             this.Name = settingJournal.Name;
             this.JournalRecordTemplateEditorViewModel.Model = this._uniconJournal.RecordTemplate;
@@ -105,6 +106,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
                     .First((model => model.StrongName.Contains(this._uniconJournal.JournalLoadingSequence.StrongName)));
                 this.SelectedJournalLoadingSequenceEditorViewModel.Model = this._uniconJournal.JournalLoadingSequence;
             }
+            return Result.Create(true);
         }
     }
 }

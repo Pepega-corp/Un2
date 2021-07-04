@@ -34,7 +34,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
         public void TryTransformToTable()
         {
             if (!IsTableView) return;
-            if (ChildStructItemViewModels.All((model => model is RuntimeItemGroupViewModel || model is IRuntimeComplexPropertyViewModel)))
+            if (ChildStructItemViewModels.All(model => model is RuntimeItemGroupViewModel))
             {
                 TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels.ToList(), FilterViewModels);
             }

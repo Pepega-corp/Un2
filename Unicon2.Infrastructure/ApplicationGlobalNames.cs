@@ -199,6 +199,8 @@
             /// </summary>
             public const string ERROR = "Error";
 
+            public const string DEVICE_ADDING_ERROR = "DeviceAddingError";
+
             /// <summary>
             ///  строка сообщения о повторении в коллекции
             /// </summary>

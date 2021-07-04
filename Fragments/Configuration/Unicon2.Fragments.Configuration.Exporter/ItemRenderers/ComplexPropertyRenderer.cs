@@ -30,13 +30,6 @@ namespace Unicon2.Fragments.Configuration.Exporter.ItemRenderers
                 .SetSelectors(selectorForItemsGroup.IsPrintDeviceValuesAllowed,selectorForItemsGroup.IsPrintLocalValuesAllowed)
                 .Render());
 
-            (complexProperty as IRuntimeComplexPropertyViewModel).ChildStructItemViewModels.ForEach((item =>
-            {
-                _rendererFactory
-                    .GetConfigurationItemRenderer(item)
-                    .RenderHtmlFromItem(item,selectorForItemsGroup, depthLevel + 1)
-                    .OnNotEmpty(result => tagBuilders.AddRange(result));
-            }));
             return Maybe<List<TagBuilder>>.FromValue(tagBuilders);
         }
     }

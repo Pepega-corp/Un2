@@ -1,8 +1,10 @@
-﻿using Unicon2.Fragments.Configuration.Infrastructure.Keys;
+﻿using System.Collections.ObjectModel;
+using Unicon2.Fragments.Configuration.Infrastructure.Keys;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Infrastructure;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 
@@ -21,6 +23,12 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         public RuntimePropertyViewModel()
         {
             IsCheckable = false;
+            BitNumbersInWord=new ObservableCollection<IBitViewModel>();
+            for (int i = 15; i >= 0; i--)
+            {
+                IBitViewModel bitViewModel = new BitViewModel(i, true);
+                BitNumbersInWord.Add(bitViewModel);
+            }
         }
 
         public IFormattedValueViewModel DeviceValue
@@ -84,6 +92,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
         }
 
         public ushort Address { get; set; }
+        public ushort NumberOfPoints { get; set; }
 
         public IRangeViewModel RangeViewModel
         {
@@ -105,6 +114,13 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Properties
                 _isHidden = value;
                 RaisePropertyChanged();
             }
+        }
+
+        public bool IsFromBits { get; set; }
+        public ObservableCollection<IBitViewModel> BitNumbersInWord { get; set; }
+        public (ushort address, ushort numberOfPoints) GetAddressInfo()
+        {
+            return (Address, NumberOfPoints);
         }
     }
 }

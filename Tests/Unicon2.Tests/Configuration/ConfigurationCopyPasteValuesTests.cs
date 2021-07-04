@@ -45,7 +45,7 @@ namespace Unicon2.Tests.Configuration
                     .RootConfigurationItemViewModels[0].ChildStructItemViewModels[2]
                     .ChildStructItemViewModels[1].ChildStructItemViewModels[1]));
 
-            ((IChosenFromListValueViewModel) ((IRuntimeSubPropertyViewModel) config.configurationViewModel
+            ((IChosenFromListValueViewModel) ((IRuntimePropertyViewModel) config.configurationViewModel
                     .RootConfigurationItemViewModels[0].ChildStructItemViewModels[2]
                     .ChildStructItemViewModels[1].ChildStructItemViewModels[0]
                     .ChildStructItemViewModels[0])
@@ -59,7 +59,7 @@ namespace Unicon2.Tests.Configuration
                     .RootConfigurationItemViewModels[0].ChildStructItemViewModels[2]
                     .ChildStructItemViewModels[1].ChildStructItemViewModels[1]);
 
-            Assert.True(((IChosenFromListValueViewModel) ((IRuntimeSubPropertyViewModel) config.configurationViewModel
+            Assert.True(((IChosenFromListValueViewModel) ((IRuntimePropertyViewModel) config.configurationViewModel
                     .RootConfigurationItemViewModels[0].ChildStructItemViewModels[2]
                     .ChildStructItemViewModels[1].ChildStructItemViewModels[1]
                     .ChildStructItemViewModels[0])

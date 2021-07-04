@@ -49,25 +49,23 @@ namespace Unicon2.Tests.Configuration
         [SetUp]
         public async Task OnSetup()
         {
+            Program.CleanProject();
             _typesContainer =
                 new TypesContainer(Program.GetApp().Container.Resolve(typeof(IUnityContainer)) as IUnityContainer);
 
-            _device = Program.GetDevice();
-            _configuration =
+            var appInfo = Program.RefreshProject();
 
-                _device.DeviceFragments.First(fragment => fragment.StrongName == "Configuration") as
-                    IDeviceConfiguration;
+            _device = appInfo.device;
+            _configuration = appInfo.configuration;
 
-            _shell = _typesContainer.Resolve<ShellViewModel>();
-            var deviceMemory = new DeviceMemory();
-       
 
-            _device.DeviceMemory = deviceMemory;
-            _configurationFragmentViewModel = null;
 
-            _configurationFragmentViewModel = _shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
-                    .First(model => model.NameForUiKey == "Configuration") as
-                RuntimeConfigurationViewModel;
+            _shell = appInfo.shellViewModel;
+
+            _device.DeviceMemory = appInfo.device.DeviceMemory;
+            _configurationFragmentViewModel = appInfo.configurationViewModel;
+          
+
             _readCommand = _configurationFragmentViewModel.FragmentOptionsViewModel.FragmentOptionGroupViewModels
                 .First(model => model.NameKey == "Device").FragmentOptionCommandViewModels
                 .First(model => model.TitleKey == ApplicationGlobalNames.UiCommandStrings.READ_STRING_KEY)
@@ -310,7 +308,7 @@ namespace Unicon2.Tests.Configuration
 
             var boolTestSubProperty =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
             var defaultPropertyWithBoolFormatting = _configurationFragmentViewModel.RootConfigurationItemViewModels
                 .Cast<IConfigurationItemViewModel>().ToList()
@@ -333,7 +331,7 @@ namespace Unicon2.Tests.Configuration
 
             var boolsInDevice = _configurationFragmentViewModel.DeviceContext.DeviceMemory
                 .DeviceMemoryValues[boolTestSubProperty.Address].GetBoolArrayFromUshort();
-            Assert.True(boolsInDevice[boolTestSubProperty.BitNumbersInWord.First()]);
+            Assert.True(boolsInDevice[boolTestSubProperty.BitNumbers.First()]);
 
             Assert.False(localValue.IsFormattedValueChanged);
 
@@ -346,7 +344,7 @@ namespace Unicon2.Tests.Configuration
 
             boolsInDevice = _configurationFragmentViewModel.DeviceContext.DeviceMemory
                 .DeviceMemoryValues[boolTestSubProperty.Address].GetBoolArrayFromUshort();
-            Assert.False(boolsInDevice[boolTestSubProperty.BitNumbersInWord.First()]);
+            Assert.False(boolsInDevice[boolTestSubProperty.BitNumbers.First()]);
             Assert.False(localValue.IsFormattedValueChanged);
             
         }
@@ -358,34 +356,34 @@ namespace Unicon2.Tests.Configuration
 
             var boolTestSubProperty =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
             var boolTestSubProperty1 =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty1")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
             var boolTestSubProperty2 =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty2")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
             var boolTestSubProperty3 =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty3")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
             var boolTestSubProperty4 =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty4")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
             var boolTestSubProperty5 =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty5")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
             var boolTestSubProperty6 =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty6")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
 
-            var properties = new List<(ISubProperty, bool, IRuntimePropertyViewModel)>()
+            var properties = new List<(IProperty, bool, IRuntimePropertyViewModel)>()
             {
                 (boolTestSubProperty, false, _configurationFragmentViewModel.RootConfigurationItemViewModels
                     .Cast<IConfigurationItemViewModel>().ToList()
@@ -442,7 +440,7 @@ namespace Unicon2.Tests.Configuration
 
                 var boolsInDevice = _configurationFragmentViewModel.DeviceContext.DeviceMemory
                     .DeviceMemoryValues[propertyWithValueTuple.Item1.Address].GetBoolArrayFromUshort();
-                Assert.AreEqual(boolsInDevice[propertyWithValueTuple.Item1.BitNumbersInWord.First()],
+                Assert.AreEqual(boolsInDevice[propertyWithValueTuple.Item1.BitNumbers.First()],
                     propertyWithValueTuple.Item2);
 
                 Assert.False(localValue.IsFormattedValueChanged);
@@ -456,7 +454,7 @@ namespace Unicon2.Tests.Configuration
         {
             var boolTestSubProperty =
                 _configuration.RootConfigurationItemList.FindItemByName(item => item.Name == "boolTestSubProperty")
-                    .Item as ISubProperty;
+                    .Item as IProperty;
 
             var boolTestSubPropertyViewModel = _configurationFragmentViewModel
                 .RootConfigurationItemViewModels

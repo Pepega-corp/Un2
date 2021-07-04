@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
@@ -365,25 +366,36 @@ namespace Unicon2.Shell.ViewModels
 		        case ItemModifyingTypeEnum.Add:
                     if (connectableItemChangingContext.Connectable != null)
                     {
-                        var devicevm = _deviceViewModelFactory.CreateDeviceViewModel(
+                        var result = _deviceViewModelFactory.CreateDeviceViewModel(
                             connectableItemChangingContext.Connectable as IDevice);
-                        ProjectBrowserViewModel.DeviceViewModels.Add(devicevm);
-
-                        if (connectableItemChangingContext.Connectable.DeviceConnection is IDataProvider dataProvider)
+                        if (result.IsSuccess)
                         {
-                            dataProvider.TransactionCompleteSubscription =
-                                devicevm.TransactionCompleteSubscription;
-                            (devicevm.TransactionCompleteSubscription as TransactionCompleteSubscription)
-                                ?.ResetOnConnectionRetryCounter(true);
+                            var devicevm = result.Item;
+                            ProjectBrowserViewModel.DeviceViewModels.Add(devicevm);
 
-                        }
-
-                        foreach (IFragmentViewModel fragment in devicevm.FragmentViewModels)
-                        {
-                            if (fragment is IFragmentConnectionChangedListener fragmentConnectionChangedListener)
+                            if (connectableItemChangingContext.Connectable.DeviceConnection is IDataProvider
+                                dataProvider)
                             {
-                                await fragmentConnectionChangedListener.OnConnectionChanged();
+                                dataProvider.TransactionCompleteSubscription =
+                                    devicevm.TransactionCompleteSubscription;
+                                (devicevm.TransactionCompleteSubscription as TransactionCompleteSubscription)
+                                    ?.ResetOnConnectionRetryCounter(true);
+
                             }
+
+                            foreach (IFragmentViewModel fragment in devicevm.FragmentViewModels)
+                            {
+                                if (fragment is IFragmentConnectionChangedListener fragmentConnectionChangedListener)
+                                {
+                                    await fragmentConnectionChangedListener.OnConnectionChanged();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                result.Exception.Message ?? ApplicationGlobalNames.StatusMessages.DEVICE_ADDING_ERROR,
+                                (connectableItemChangingContext.Connectable as IDevice).DeviceSignature,MessageBoxButton.OK);
                         }
                     }
 

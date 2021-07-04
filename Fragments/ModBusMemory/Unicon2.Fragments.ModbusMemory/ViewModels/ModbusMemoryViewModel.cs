@@ -12,6 +12,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Connection;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
@@ -349,9 +350,9 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			base.OnDisposing();
 		}
 
-		public void Initialize(IDeviceFragment deviceFragment)
+		public Result Initialize(IDeviceFragment deviceFragment)
 		{
-			
+            return Result.Create(true);
 		}
 
 		public DeviceContext DeviceContext { get; set; }

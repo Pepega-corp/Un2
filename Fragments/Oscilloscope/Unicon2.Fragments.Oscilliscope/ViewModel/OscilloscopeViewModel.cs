@@ -9,6 +9,7 @@ using Unicon2.Fragments.Oscilliscope.Infrastructure.ViewModel;
 using Unicon2.Fragments.Oscilliscope.Model;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.FragmentInterfaces;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Progress;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
@@ -151,11 +152,12 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel
         
         public string NameForUiKey => OscilloscopeKeys.OSCILLOSCOPE;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             this._oscilloscopeModel = deviceFragment as IOscilloscopeModel;
             this.OscilloscopeJournalViewModel.Initialize(this._oscilloscopeModel.OscilloscopeJournal);
-            this.OscilloscopeJournalViewModel.SetParentOscilloscopeModel(this._oscilloscopeModel,this);
+            this.OscilloscopeJournalViewModel.SetParentOscilloscopeModel(this._oscilloscopeModel,this); 
+            return Result.Create(true);
         }
 
         public DeviceContext DeviceContext { get; set; }

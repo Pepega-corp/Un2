@@ -47,7 +47,7 @@ namespace Unicon2.Fragments.GraphicalMenu.ViewModel
 
         }
 
-        public void Initialize(IDeviceFragment deviceFragment)
+        public Result Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IGraphicalMenu graphicalMenu)
             {
@@ -72,6 +72,7 @@ namespace Unicon2.Fragments.GraphicalMenu.ViewModel
                 }
 
             }
+            return Result.Create(true);
         }
 
         public string StrongName => GraphicalMenuKeys.GRAPHICAL_MENU +

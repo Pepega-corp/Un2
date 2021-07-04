@@ -127,19 +127,18 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
         {
             var propertyUshort =
                 runtimePropertyViewModel.DeviceContext.DeviceMemory.LocalMemoryValues[(ushort)(runtimePropertyViewModel.Address+offset)];
-            if (runtimePropertyViewModel is IRuntimeSubPropertyViewModel subPropertyViewModel)
+            if (runtimePropertyViewModel.IsFromBits)
             {
                 var resultBitArray = new bool[16];
                 var boolArray = propertyUshort.GetBoolArrayFromUshort();
                 int counter = 0;
                 for (int i = 0; i < 16; i++)
                 {
-                    if (subPropertyViewModel.BitNumbersInWord.Contains(i))
+                    if (runtimePropertyViewModel.BitNumbersInWord.Any(model => model.BitNumber == i && model.IsChecked))
                     {
                         resultBitArray[counter] = boolArray[i];
                         counter++;
                     }
-
                 }
 
                 propertyUshort = resultBitArray.BoolArrayToUshort();
