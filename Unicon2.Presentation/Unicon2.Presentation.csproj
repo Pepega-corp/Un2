@@ -177,7 +177,9 @@
     <Compile Include="Values\StringValueViewModel.cs" />
     <Compile Include="Values\Validators\NumericValueViewModelValidator.cs" />
     <Compile Include="Values\Validators\RangeViewModelValidator.cs" />
+    <Compile Include="ViewModels\Dependencies\AddDependencyViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\DependenciesViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\DependencyCreator.cs" />
     <Compile Include="ViewModels\DeviceDefinitionViewModel.cs" />
     <Compile Include="ViewModels\Device\DeviceLoggerViewModel.cs" />
     <Compile Include="ViewModels\Device\DeviceViewModel.cs" />
@@ -191,6 +193,9 @@
     <Compile Include="ViewModels\Windows\LoadAllFromDeviceWindowViewModel.cs" />
     <Compile Include="ViewModels\Windows\LogServiceViewModel.cs" />
     <Compile Include="ViewModels\Windows\ProjectBrowserViewModel.cs" />
+    <Compile Include="Views\AddDependencyView.xaml.cs">
+      <DependentUpon>AddDependencyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DependenciesView.xaml.cs">
       <DependentUpon>DependenciesView.xaml</DependentUpon>
     </Compile>
@@ -230,6 +235,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AddDependencyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DependenciesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

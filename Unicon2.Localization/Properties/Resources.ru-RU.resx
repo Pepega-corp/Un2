@@ -1747,4 +1747,7 @@ x3 - функция или значение, которое будет возв�
   <data name="Hidden" xml:space="preserve">
     <value>Скрытое</value>
   </data>
+  <data name="AddDependency" xml:space="preserve">
+    <value>Добавить зависимость</value>
+  </data>
 </root>

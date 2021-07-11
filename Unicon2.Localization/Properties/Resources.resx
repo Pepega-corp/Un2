@@ -1674,4 +1674,7 @@
   <data name="Hidden" xml:space="preserve">
     <value>@Hidden</value>
   </data>
+  <data name="AddDependency" xml:space="preserve">
+    <value>@AddDependency</value>
+  </data>
 </root>

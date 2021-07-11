@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -15,22 +14,19 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Presentation.ViewModels.Dependencies
 {
-	public class DependenciesViewModel : ViewModelBase
-	{
-		private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
-		private readonly IFormatterEditorFactory _formatterEditorFactory;
+    public class DependenciesViewModel : ViewModelBase,IDependenciesViewModelContainer
+    {
 		private IDependencyViewModel _selectedDependency;
 		private IDependenciesViewModelContainer _dependenciesViewModelContainer;
 	    private List<DependencyCreator> _dependencyCreators;
 
-	    public DependenciesViewModel(ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,IFormatterEditorFactory formatterEditorFactory)
+	    public DependenciesViewModel()
 		{
-			_sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
-			_formatterEditorFactory = formatterEditorFactory;
-			RemoveSelectedDependencyCommand =
+            RemoveSelectedDependencyCommand =
 				new RelayCommand(OnRemoveSelectedDependency, CanExecuteRemoveSelectedDependency);
 			SubmitCommand=new RelayCommand<object>(OnSubmit);
 			CancelCommand = new RelayCommand<object>(OnCancel);
+			DependencyViewModels=new ObservableCollection<IDependencyViewModel>();
 		}
 
 		private void OnCancel(object obj)
@@ -53,9 +49,9 @@ namespace Unicon2.Presentation.ViewModels.Dependencies
 	        DependenciesConfiguration dependenciesConfiguration)
 	    {
 	        _dependenciesViewModelContainer = dependenciesViewModelContainer;
-	        DependencyViewModels =
-	            new ObservableCollection<IDependencyViewModel>(_dependenciesViewModelContainer.DependencyViewModels
-	                .CloneCollection());
+			DependencyViewModels.Clear();
+            DependencyViewModels.AddCollection(_dependenciesViewModelContainer.DependencyViewModels
+                .CloneCollection());
 	        DependencyCreators = dependenciesConfiguration.Creators
 	            .Select(tuple => new DependencyCreator(this, tuple.dependencyName, tuple.creator)).ToList();
 	    }
@@ -85,7 +81,7 @@ namespace Unicon2.Presentation.ViewModels.Dependencies
 			}
 		}
 
-		public ObservableCollection<IDependencyViewModel> DependencyViewModels { get; set; }
+		public ObservableCollection<IDependencyViewModel> DependencyViewModels { get; }
 		public RelayCommand RemoveSelectedDependencyCommand { get; }
 
 		public ICommand SubmitCommand { get; }
@@ -102,15 +98,4 @@ namespace Unicon2.Presentation.ViewModels.Dependencies
 	        }
 	    }
 	}
-
-    public class DependencyCreator
-    {
-        public DependencyCreator(DependenciesViewModel dependenciesViewModel,string name,Func<IDependencyViewModel> creator)
-        {
-            AddDependency = new RelayCommand((() => { dependenciesViewModel.DependencyViewModels.Add(creator()); }));
-            Name = name;
-        }
-        public string Name { get; set; }
-        public ICommand AddDependency { get; }
-    }
 }

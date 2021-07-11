@@ -1682,4 +1682,7 @@ Where "number" is number of ushort from device</value>
   <data name="Hidden" xml:space="preserve">
     <value>Hidden</value>
   </data>
+  <data name="AddDependency" xml:space="preserve">
+    <value>Add Dependency</value>
+  </data>
 </root>

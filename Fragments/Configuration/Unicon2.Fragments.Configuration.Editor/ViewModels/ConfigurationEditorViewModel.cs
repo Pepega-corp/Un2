@@ -110,6 +110,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 () => SelectedRows.All(model => model is IAddressChangeable));
             DecreaseAddressCommand = new RelayCommand(() => OnChangeAddress(false),
                 () => SelectedRows.All(model => model is IAddressChangeable));
+            AddDependencyToManyProps=new RelayCommand(OnAddDependencyToManyPropsExecute, CanExecuteAddDependencyToManyProps);
             TriggerAdditionalSettingsCommand = new RelayCommand(() => { IsAdditionalSettingsOpened = true; });
             AddressIteratorValue = 1;
             OnSelectionChangedCommand = new RelayCommand<object>(OnSelectionChangedExecute);
@@ -119,6 +120,23 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             BaseValuesViewModel = new BaseValuesViewModel();
             ImportPropertiesFromExcelTypeACommand = new RelayCommand(OnImportPropertiesFromExcelTypeAExecute);
             EditCommand = new RelayCommand(OnEditExecute);
+        }
+
+        private DependenciesConfiguration GetDependencyConfigForProperties()
+        {
+           return new DependenciesConfiguration(("ConditionResultDependency",
+                () => _dependencyFillHelper.CreateEmptyConditionResultDependencyViewModel()));
+        }
+
+        private bool CanExecuteAddDependencyToManyProps()
+        {
+            return SelectedRows.All(model => model is IPropertyEditorViewModel);
+        }
+
+        private void OnAddDependencyToManyPropsExecute()
+        {
+            _dependenciesService.AddDependencyToManyProps(SelectedRows.Cast<IDependenciesViewModelContainer>().ToList(),
+                GetDependencyConfigForProperties());
         }
 
         private void OnMigrateComplexPropertiesExecute()
@@ -192,6 +210,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             (DeleteElementCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (ShowFiltersCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (AddDependencyToManyProps as RelayCommand)?.RaiseCanExecuteChanged();
 
         }
 
@@ -203,8 +222,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private void OnShowDependenciesExecute()
         {
             _dependenciesService.EditDependencies(SelectedRow as IDependenciesViewModelContainer,
-                new DependenciesConfiguration(("ConditionResultDependency",
-                    () => _dependencyFillHelper.CreateEmptyConditionResultDependencyViewModel())));
+                GetDependencyConfigForProperties());
         }
 
         private void OnChangeAddress(bool isIncreasing)
@@ -467,6 +485,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         public ICommand DecreaseAddressCommand { get; }
         public ICommand IncreaseAddressCommand { get; }
         public ICommand TriggerAdditionalSettingsCommand { get; }
+        public ICommand AddDependencyToManyProps { get; }
 
         public ushort AddressIteratorValue
         {

@@ -106,6 +106,7 @@
     <Compile Include="Connection\ProjectConnectionTests.cs" />
     <Compile Include="Device\DeviceEditingTests.cs" />
     <Compile Include="Device\LoadAllTests.cs" />
+    <Compile Include="Editor\AddDependencyToManyPropsTests.cs" />
     <Compile Include="Editor\BitOwnershipHelperTests.cs" />
     <Compile Include="Editor\EditorTests.cs" />
     <Compile Include="Editor\EditorValidatorTests.cs" />

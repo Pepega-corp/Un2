@@ -64,7 +64,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button
                             Margin="3"
@@ -82,9 +82,9 @@
                         <Button
                             Grid.Column="2"
                             Margin="3"
-                            IsEnabled="True"
                             Command="{Binding MigrateComplexPropertiesCommand}"
                             Content=" &gt; "
+                            IsEnabled="True"
                             IsTabStop="False"
                             Style="{DynamicResource UniconButtonStyle}"
                             ToolTip="Мигрировать составные свойства в свойства с выбранными битами" />
@@ -426,7 +426,7 @@
                         IsTabStop="False"
                         Style="{DynamicResource UniconButtonStyle}" />
 
-                    <UniformGrid Columns="2" Rows="2">
+                    <UniformGrid Columns="2" Rows="3">
                         <Button
                             Margin="3"
                             Command="{Binding IncreaseAddressCommand}"
@@ -444,6 +444,11 @@
                             VerticalAlignment="Center"
                             Text="{lex:Loc AddressIterator}" />
                         <TextBox Margin="3" Text="{Binding AddressIteratorValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button
+                            Margin="3"
+                            Command="{Binding AddDependencyToManyProps}"
+                            Content="{lex:Loc AddDependency}"
+                            Style="{DynamicResource UniconButtonStyle}" />
                     </UniformGrid>
 
                 </StackPanel>

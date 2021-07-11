@@ -4,7 +4,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.Dependencies
 {
     public interface IDependenciesViewModelContainer
     {
-        ObservableCollection<IDependencyViewModel> DependencyViewModels
-        { get; }
+        ObservableCollection<IDependencyViewModel> DependencyViewModels { get; }
     }
 }

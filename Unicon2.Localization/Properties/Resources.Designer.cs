@@ -187,6 +187,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @AddDependency.
+        /// </summary>
+        public static string AddDependency {
+            get {
+                return ResourceManager.GetString("AddDependency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @AddDependentParameter.
         /// </summary>
         public static string AddDependentParameter {

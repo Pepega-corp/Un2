@@ -7,6 +7,9 @@ namespace Unicon2.Presentation.Infrastructure.Services.Dependencies
     public interface IDependenciesService
     {
         void EditDependencies(IDependenciesViewModelContainer dependenciesViewModelContainer,DependenciesConfiguration dependenciesConfiguration);
+
+        void AddDependencyToManyProps(List<IDependenciesViewModelContainer> containers,
+            DependenciesConfiguration dependenciesConfiguration);
     }
 
     public class DependenciesConfiguration

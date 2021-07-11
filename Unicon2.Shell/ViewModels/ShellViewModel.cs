@@ -393,6 +393,10 @@ namespace Unicon2.Shell.ViewModels
                         }
                         else
                         {
+                            if (!_devicesContainerService.ConnectableItems.Contains(connectableItemChangingContext.Connectable as IDevice))
+                            {
+                                _devicesContainerService.ConnectableItems.Remove(connectableItemChangingContext.Connectable as IDevice);
+                            }
                             MessageBox.Show(
                                 result.Exception.Message ?? ApplicationGlobalNames.StatusMessages.DEVICE_ADDING_ERROR,
                                 (connectableItemChangingContext.Connectable as IDevice).DeviceSignature,MessageBoxButton.OK);
