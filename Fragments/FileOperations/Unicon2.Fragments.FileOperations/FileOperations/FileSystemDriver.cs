@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Functional;
@@ -22,7 +22,8 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         private const string GETNUM_CMD = "GETNUMBER";
         private const string FILEOPEN_PATTERN = "FILEOPEN {0};{1};{2}{3}";
         private const string FILEREAD_CMD_PATTERN = "FILEREAD {0};{1}";
-        
+        private const string FILECLOSE_CMD_PATTERN = "FILECLOSE {0}";
+
         private Result<IDataProvider> _providerResult;
         private IDataProvider _dataProvider;
         private Dictionary<string, OpenedFileInfo> _openedFiles = new Dictionary<string, OpenedFileInfo>();
@@ -33,9 +34,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             public int Descriptor;
             public string FileName;
             public FileAccess Access;
-            // public string Password;
             public int SessionNumber;
             
+
             public string GetPassword()
             {
                 var pass = "АААА"; //русские буквы А
@@ -50,9 +51,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 return passCode;
             }
         }
-        
+
         public int LastCommandStatus { get; private set; }
-        
+
         public async void SetDataProvider(IDataProviderContainer dataProviderContainer)
         {
             _providerResult = dataProviderContainer.DataProvider;
@@ -65,57 +66,124 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
 
         public async Task<byte[]> ReadFile(string fileName, ushort maxWordsLen = 64)
         {
+            if (!this._providerResult.IsSuccess)
+            {
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(this._workDirectory))
+            {
+                this._workDirectory = await this.ReadDirectory();
+            }
+
             var fileInfo = new OpenedFileInfo();
             if (_openedFiles.ContainsKey(fileName))
             {
                 fileInfo = _openedFiles[fileName];
-                if (fileInfo.Access != FileAccess.ReadFile)
-                {
-                    MessageBox.Show($"Can't read file {fileName} because file is writing!");
-                    return null;
-                }
-            }
-            else
-            {
-                fileInfo.Access = FileAccess.ReadFile;
-                fileInfo.FileName = fileName;
-                fileInfo.SessionNumber = await this.ReadSessionNumber();
-                await OpenFile(fileInfo);
-                _openedFiles.Add(fileName, fileInfo);
+                await CloseFile(fileInfo);
             }
             
-            var data = new List<ushort>();
-            var dataLen = ushort.MaxValue;
-            while (dataLen > 0)
+            fileInfo.Access = FileAccess.ReadFile;
+            fileInfo.FileName = fileName;
+            fileInfo.SessionNumber = await this.ReadSessionNumber();
+            await OpenFile(fileInfo);
+            
+            var dataFile = await ReadData(fileInfo, maxWordsLen);
+            await CloseFile(fileInfo);
+            return dataFile;
+        }
+
+        public async Task WriteFile(byte[] fileData, string fileName, ushort wordsDataLen = 64)
+        {
+            if (!this._providerResult.IsSuccess)
             {
-                await SendCommand(string.Format(FILEREAD_CMD_PATTERN, fileInfo.Descriptor, maxWordsLen * 2));
-                var stateStrings = await this.ReadCommandStateStrings();
-                if (stateStrings != null && stateStrings.Length >= 6)
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this._workDirectory))
+            {
+                this._workDirectory = await this.ReadDirectory();
+            }
+
+            var fileInfo = new OpenedFileInfo();
+            if (_openedFiles.ContainsKey(fileName))
+            {
+                fileInfo = _openedFiles[fileName];
+                await CloseFile(fileInfo);
+            }
+
+            fileInfo.Access = FileAccess.WriteFile;
+            fileInfo.FileName = fileName;
+
+            try
+            {
+                await OpenFile(fileInfo);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
+            var dataLength = wordsDataLen * 2;
+            var count = fileData.Length / dataLength;
+            var residue = fileData.Length % dataLength;
+            for (var counter = 0; counter < count; counter++)
+            {
+                byte[] writeData = fileData.Skip(dataLength * counter).Take(dataLength).ToArray();
+                await WriteData(fileInfo.Descriptor, writeData, dataLength);
+            }
+
+            if (residue != 0)
+            {
+                var writeData = fileData.Skip(dataLength * count).Take(residue).ToArray();
+                await WriteData(fileInfo.Descriptor, writeData, residue);
+            }
+
+
+            await CloseFile(fileInfo);
+        }
+
+        private async Task WriteData(int descriptor, byte[] writeData, int dataLength)
+        {
+            var tryCounter = 0;
+            do
+            {
+                var crc = CRC16.CalcCrcFast(writeData, writeData.Length);
+                byte[] crcBytes = crc.UshortToBytes();
+                crc = Extensions.TwoBytesToUshort(crcBytes[1], crcBytes[0]);
+                var command = $"FILEWRITE {descriptor};{dataLength};{crc}";
+                var res = await _dataProvider.WriteMultipleRegistersAsync(DATA_ADDRESS,
+                    writeData.ByteArrayToUshortArray(), "WriteDataFileDriver");
+                if (!res.IsSuccessful)
+                    throw new FileOperationException(255);
+                await Task.Delay(10);
+                await this.SendCommand(command);
+                await Task.Delay(10);
+                var states = await this.ReadCommandStateStrings();
+                this.SetLastCommandStatus(states);
+                if (this.LastCommandStatus != 0)
                 {
-                    dataLen = Convert.ToUInt16(stateStrings[5]);
-
-                    if (dataLen == 0)
-                        return data.UshortArrayToByteArray(false);
-
-                    data.AddRange(await ReadDataCommand((ushort)(dataLen/2)));
+                    tryCounter++;
                 }
                 else
                 {
-                    break;
+                    return;
                 }
             }
+            while (tryCounter < 5);
 
-            throw new FileOperationException(LastCommandStatus);
-        }
-
-        public Task WriteFile(byte[] fileData, string fileName, ushort wordsDataLen = 64)
-        {
-            throw new System.NotImplementedException();
+            throw new FileOperationException(this.LastCommandStatus);
         }
         
-        public Task<bool> DeleteFile(string fileName)
+        public async Task<bool> DeleteFile(string fileName)
         {
-            throw new System.NotImplementedException();
+            if (!this._providerResult.IsSuccess)
+            {
+                return false;
+            }
+
+            return await Task.FromResult(false);
         }
         
         private async Task<string> ReadDirectory()
@@ -125,41 +193,85 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         
         private async Task OpenFile(OpenedFileInfo fileInfo)
         {
-            var password = fileInfo.GetPassword();
-            var accessStr = fileInfo.Access == FileAccess.ReadFile ? "1" : "10";
-            var descriptorStr =
-                await ReadDataString(string.Format(FILEOPEN_PATTERN, password, accessStr, _workDirectory, fileInfo.FileName));
-            fileInfo.Descriptor = Convert.ToInt32(descriptorStr);
+            var counter = 0;
+            do
+            {
+                fileInfo.SessionNumber = await this.ReadSessionNumber();
+                var password = fileInfo.GetPassword();
+                var accessStr = fileInfo.Access == FileAccess.ReadFile ? "1" : "10";
+                var descriptorStr = await ReadDataString(string.Format(FILEOPEN_PATTERN, password, accessStr, _workDirectory, fileInfo.FileName));
+                if (string.IsNullOrEmpty(descriptorStr))
+                {
+                    counter++;
+                }
+                else
+                {
+                    fileInfo.Descriptor = Convert.ToInt32(descriptorStr);
+                    _openedFiles.Add(fileInfo.FileName, fileInfo);
+                    return;
+                }
+            }
+            while (counter < 5);
+
+            throw new FileOperationException(this.LastCommandStatus);
         }
         
-        private async Task CloseFile(string fileName)
+        private async Task CloseFile(OpenedFileInfo fileInfo)
         {
-            if (_openedFiles.ContainsKey(fileName))
+            if (_openedFiles.ContainsKey(fileInfo.FileName))
             {
-                var fileInfo = _openedFiles[fileName];
-                // TODO close file
-                this._openedFiles.Remove(fileName);
+                await SendCommand(string.Format(FILECLOSE_CMD_PATTERN, fileInfo.Descriptor));
+                var counter = 0; 
+                do
+                {
+                    var stateStrings = await ReadCommandStateStrings();
+                    if (LastCommandStatus == 0 || this.LastCommandStatus == 8)
+                    {
+                        this._openedFiles.Remove(fileInfo.FileName);
+                        return;
+                    }
+
+                    counter++;
+                }
+                while (counter < 5);
+
+                throw new FileOperationException(this.LastCommandStatus);
             }
         }
 
         private async Task<int> ReadSessionNumber()
         {
-            var str = await ReadDataString(GETNUM_CMD);
-            
-            var fixedStr = string.Empty;
-            for (var i = 0; i < 3; i++)
+            var counter = 0;
+            do
             {
-                if (char.IsDigit(str[i]))
+                var str = await ReadDataString(GETNUM_CMD);
+                if (str.Length > 3)
                 {
-                    fixedStr += str[i];
+                    var fixedStr = string.Empty;
+                    for (var i = 0; i < 3; i++)
+                    {
+                        if (char.IsDigit(str[i]))
+                        {
+                            fixedStr += str[i];
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    str = fixedStr;
                 }
-                else
+
+                if (ushort.TryParse(str, out var sessionNumber) && sessionNumber < 256)
                 {
-                    break;
+                    return sessionNumber;
                 }
+                counter++;
             }
-            
-            return Convert.ToUInt16(fixedStr);
+
+            while (counter < 5);
+
+            throw new FileOperationException(this.LastCommandStatus);
         }
         
         #region Common commands
@@ -168,14 +280,15 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         {
             await SendCommand(cmd);
             var stateStrings = await ReadCommandStateStrings();
-            if (LastCommandStatus != 0 && stateStrings != null && stateStrings.Length >= 6)
+            if (LastCommandStatus == 0 && stateStrings != null && stateStrings.Length >= 6)
             {
                 var dataLen = Convert.ToUInt16(stateStrings[5]);
                 var data = await ReadDataCommand(dataLen);
-                return GetDataString(data);
+                var readBytes = data.UshortArrayToByteArray(false);
+                return GetDataString(readBytes.Take(dataLen).ToArray());
             }
-            
-            throw new FileOperationException(this.LastCommandStatus != 0 ? LastCommandStatus : 255);
+
+            return string.Empty;
         }
         
         private async Task SendCommand(string command)
@@ -196,6 +309,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             }
 
             var result = await _dataProvider.WriteMultipleRegistersAsync(CMD_ADDRESS, bCmd.ByteArrayToUshortArray(), "SetCmdFileDriver");
+
             if (!result.IsSuccessful)
             {
                 throw new FileOperationException(255);
@@ -211,14 +325,12 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 if (stateWords.IsSuccessful)
                 {
                     var stateStrings = GetStatesStrings(stateWords.Result);
-                    if (CheckState(stateStrings))
-                    {
-                        return stateStrings;
-                    }
+                    this.SetLastCommandStatus(stateStrings);
+                    return stateStrings;
                 }
             }
 
-            throw new FileOperationException(255);
+            throw new FileOperationException(this.LastCommandStatus == 0 ? 255 : this.LastCommandStatus);
         }
         
         private async Task<ushort[]> ReadDataCommand(ushort dataLen)
@@ -230,7 +342,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 return dataResult.Result;
             }
 
-            throw new FileOperationException(255);
+            return null;
         }
         
         private string[] GetStatesStrings(ushort[] stateUshorts)
@@ -249,25 +361,26 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             return new string(listChar.ToArray()).Split(new[] {' ', ':'}, StringSplitOptions.RemoveEmptyEntries);
         }
         
-        private bool CheckState(string[] states)
+        private void SetLastCommandStatus(string[] states)
         {
-            if (states == null || states.Length == 0)
-                return false;
-
-            if (int.TryParse(states[1], out var res))
+            if (states != null && states.Length > 0 && int.TryParse(states[1], out var res))
             {
-                LastCommandStatus = res;
-                return LastCommandStatus == 0;
+                this.LastCommandStatus = res;
+            }
+            else
+            {
+                LastCommandStatus = 255;
             }
 
-            this.LastCommandStatus = 255;
-
-            return false;
         }
         
-        private string GetDataString(ushort[] readUshorts)
+        private string GetDataString(byte[] readBytes)
         {
-            var readBytes = readUshorts.UshortArrayToByteArray(false);
+            if (readBytes == null || readBytes.Length == 0)
+            {
+                return string.Empty;
+            }
+            
             var chars = new List<char>();
             foreach (byte b in readBytes)
             {
@@ -283,12 +396,39 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
 
             return new string(chars.ToArray());
         }
+
+        private async Task<byte[]> ReadData(OpenedFileInfo fileInfo, ushort maxWordsLen)
+        {
+            var data = new List<ushort>();
+            var dataLen = ushort.MaxValue;
+            while (dataLen > 0)
+            {
+                await SendCommand(string.Format(FILEREAD_CMD_PATTERN, fileInfo.Descriptor, maxWordsLen * 2));
+                var stateStrings = await this.ReadCommandStateStrings();
+                if (stateStrings != null && stateStrings.Length >= 6)
+                {
+                    dataLen = Convert.ToUInt16(stateStrings[5]);
+
+                    if (dataLen == 0)
+                        return data.UshortArrayToByteArray(false);
+
+                    data.AddRange(await ReadDataCommand((ushort)(dataLen / 2)));
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            throw new FileOperationException(this.LastCommandStatus != 0 ? LastCommandStatus : 255);
+        }
         
         #endregion
 
-        public Task<bool> CreateDirectory(string directoryPath)
+        public async Task<bool> CreateDirectory(string directoryPath)
         {
-            throw new System.NotImplementedException();
+            var str = await this.ReadDataString("CREATEDIR " + directoryPath);
+            return this.LastCommandStatus == 0;
         }
     }
 }

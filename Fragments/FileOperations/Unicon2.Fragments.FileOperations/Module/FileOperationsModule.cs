@@ -22,15 +22,14 @@ namespace Unicon2.Fragments.FileOperations.Module
     {
         public void Initialize(ITypesContainer container)
         {
-            container.Register<IFileBrowser, FileBrowser>();
-            container.Register<IFileDriver, FileDriver>();
-
-            container.Register<DirectoryOperator>();
-            container.Register<SessionNumberOperator>();
-            container.Register<FileOpenOperator>();
-            container.Register<FileReadDataOperator>();
-            container.Register<FileCloseOperator>();
+            container.Register<IFileDriver, FileSystemDriver>();
+            //container.Register<DirectoryOperator>();
+            //container.Register<SessionNumberOperator>();
+            //container.Register<FileOpenOperator>();
+            //container.Register<FileReadDataOperator>();
+            //container.Register<FileCloseOperator>();
             //=====================================================
+            container.Register<IFileBrowser, FileBrowser>();
             container.Register<IFileDataReader, FileDataReader>();
             container.Register<IFileDataWriter, FileDataWriter>();
             container.Register<IDeviceDirectory, DeviceDirectory>();
