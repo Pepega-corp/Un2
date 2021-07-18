@@ -115,15 +115,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             fileInfo.Access = FileAccess.WriteFile;
             fileInfo.FileName = fileName;
 
-            try
-            {
-                await OpenFile(fileInfo);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            await OpenFile(fileInfo);
             
             var dataLength = wordsDataLen * 2;
             var count = fileData.Length / dataLength;
@@ -157,9 +149,7 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                     writeData.ByteArrayToUshortArray(), "WriteDataFileDriver");
                 if (!res.IsSuccessful)
                     throw new FileOperationException(255);
-                await Task.Delay(10);
                 await this.SendCommand(command);
-                await Task.Delay(10);
                 var states = await this.ReadCommandStateStrings();
                 this.SetLastCommandStatus(states);
                 if (this.LastCommandStatus != 0)
@@ -279,7 +269,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
         private async Task<string> ReadDataString(string cmd)
         {
             await SendCommand(cmd);
+            await Task.Delay(10);
             var stateStrings = await ReadCommandStateStrings();
+            await Task.Delay(10);
             if (LastCommandStatus == 0 && stateStrings != null && stateStrings.Length >= 6)
             {
                 var dataLen = Convert.ToUInt16(stateStrings[5]);
@@ -326,6 +318,10 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                 {
                     var stateStrings = GetStatesStrings(stateWords.Result);
                     this.SetLastCommandStatus(stateStrings);
+                    if (this.LastCommandStatus == -1)
+                    {
+                        continue;
+                    }
                     return stateStrings;
                 }
             }
@@ -369,9 +365,8 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
             }
             else
             {
-                LastCommandStatus = 255;
+                LastCommandStatus = -1; // unknown state. Need to read again
             }
-
         }
         
         private string GetDataString(byte[] readBytes)
