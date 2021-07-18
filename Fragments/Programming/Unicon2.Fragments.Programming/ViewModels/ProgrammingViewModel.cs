@@ -59,8 +59,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.ZoomIncrementCommand = new RelayCommand(this.ZoomIncrement, this.CanZooming);
             this.ZoomDecrementCommand = new RelayCommand(this.ZoomDecrement, this.CanZooming);
 
-            this.WriteLogicCommand = new RelayCommand(this.OnWriteCommand);
-            this.ReadLogicCommand = new RelayCommand(this.OnReadCommand);
+            this.WriteLogicCommand = new RelayCommand(this.OnWriteCommand, this.CanWriteLogic);
+            this.ReadLogicCommand = new RelayCommand(this.OnReadCommand, this.CanReadLogic);
             this.StopEmulationLogic = new RelayCommand(this.OnStopEmulation);
         }
 
@@ -114,8 +114,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ICommand ZoomDecrementCommand { get; }
         public ICommand DeleteCommand { get; }
         //READ/WRITE logic commands
-        public ICommand ReadLogicCommand { get; }
-        public ICommand WriteLogicCommand { get; }
+        public RelayCommand ReadLogicCommand { get; }
+        public RelayCommand WriteLogicCommand { get; }
         public ICommand StopEmulationLogic { get; }
 
         public void AddConnection(IConnectionViewModel connectionViewModel)
@@ -181,10 +181,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
 
             schemeTabViewModel.CloseTabEvent -= this.OnCloseTab;
-            schemeTabViewModel.GetConnection += this.GetConnectionViewModelByNumber;
+            schemeTabViewModel.GetConnection -= this.GetConnectionViewModelByNumber;
             this.SchemesCollection.Remove(schemeTabViewModel);
 
             (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
+            this.RaiseCanWriteReadLogicCommands();
         }
 
         private void SaveProject()
@@ -216,6 +217,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this.UpdateCollections(this._programModel);
                 (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
             }
+
+            this.RaiseCanWriteReadLogicCommands();
         }
 
         private void DeleteSelectedElements()
@@ -324,19 +327,25 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
+        private void RaiseCanWriteReadLogicCommands()
+        {
+            this.WriteLogicCommand.RaiseCanExecuteChanged();
+            this.ReadLogicCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool CanWriteLogic()
+        {
+            return this.SchemesCollection.Count != 0 && !this.IsLogicStarted;
+        }
+
         private async void OnWriteCommand()
         {
-            if (this.SchemesCollection.Count == 0)
-            {
-                MessageBox.Show("Can't write logic. Scheme collection is empty!", "Write logic", MessageBoxButton.OK);
-                return;
-            }
             try
             {
                 if (this.SchemesCollection.All(sc => sc.CanWriteToDevice))
                 {
                     IsLogicStarted = true;
-
+                    this.RaiseCanWriteReadLogicCommands();
                     this.UpdateModelData();
                     var logicProjectBytes = this._serializerService.SerializeInBytes(this._programModel);
                     await this._logicDeviceProvider.WriteLogicArchive(logicProjectBytes, this._programModel.EnableFileDriver);
@@ -347,7 +356,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     await this._logicDeviceProvider.WriteStartlogicProgrammSignal(this._programModel.EnableFileDriver);
                     
                     CycleReadingConnectionValues();
-
+                    
                     MessageBox.Show("Logic wrote successful!", "Write logic", MessageBoxButton.OK);
                 }
                 else
@@ -358,6 +367,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             catch(Exception e)
             {
                 IsLogicStarted = false;
+                RaiseCanWriteReadLogicCommands();
                 MessageBox.Show(e.Message, "Write logic", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -477,6 +487,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private void OnStopEmulation()
         {
             IsLogicStarted = false;
+            this.RaiseCanWriteReadLogicCommands();
         }
 
         private async void CycleReadingConnectionValues()
@@ -491,11 +502,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
+        private bool CanReadLogic()
+        {
+            return !this.IsLogicStarted;
+        }
+
         private async void OnReadCommand()
         {
             if (this.SchemesCollection.Count > 0)
             {
-                var result = MessageBox.Show("Would you like to save logic project?", "Write logic", MessageBoxButton.YesNoCancel);
+                var result = MessageBox.Show("Would you like to save logic project?", "Save logic", MessageBoxButton.YesNoCancel);
 
                 if (result == MessageBoxResult.Cancel)
                     return;
@@ -512,6 +528,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 Initialize(programModel);
                 UpdateCollections(programModel);
                 this.UpdateModelData();
+                this.RaiseCanWriteReadLogicCommands();
 
             }
             catch (Exception e)
