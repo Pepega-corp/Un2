@@ -79,17 +79,9 @@
     <Compile Include="Factories\BrowserElementViewModelFactory.cs" />
     <Compile Include="FileOperations\FileAccess.cs" />
     <Compile Include="FileOperations\FileSystemDriver.cs" />
-    <Compile Include="FileOperations\Operators\DirectoryOperator.cs" />
     <Compile Include="FileOperations\FileDataReader.cs" />
     <Compile Include="FileOperations\FileDataWriter.cs" />
-    <Compile Include="FileOperations\FileDriver.cs" />
     <Compile Include="FileOperations\FileOperationException.cs" />
-    <Compile Include="FileOperations\Operators\FileCloseOperator.cs" />
-    <Compile Include="FileOperations\Operators\FileOpenOperator.cs" />
-    <Compile Include="FileOperations\Operators\FileReadDataOperator.cs" />
-    <Compile Include="FileOperations\Operators\FileWriteDataOperator.cs" />
-    <Compile Include="FileOperations\Operators\Operator.cs" />
-    <Compile Include="FileOperations\Operators\SessionNumberOperator.cs" />
     <Compile Include="Model\BrowserElements\BrowserElementBase.cs" />
     <Compile Include="Model\BrowserElements\DeviceDirectory.cs" />
     <Compile Include="Model\BrowserElements\DeviceFile.cs" />

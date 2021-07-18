@@ -1,6 +1,5 @@
 ﻿using Unicon2.Fragments.FileOperations.Factories;
 using Unicon2.Fragments.FileOperations.FileOperations;
-using Unicon2.Fragments.FileOperations.FileOperations.Operators;
 using Unicon2.Fragments.FileOperations.Infrastructure.Factories;
 using Unicon2.Fragments.FileOperations.Infrastructure.FileOperations;
 using Unicon2.Fragments.FileOperations.Infrastructure.Keys;
@@ -23,11 +22,6 @@ namespace Unicon2.Fragments.FileOperations.Module
         public void Initialize(ITypesContainer container)
         {
             container.Register<IFileDriver, FileSystemDriver>();
-            //container.Register<DirectoryOperator>();
-            //container.Register<SessionNumberOperator>();
-            //container.Register<FileOpenOperator>();
-            //container.Register<FileReadDataOperator>();
-            //container.Register<FileCloseOperator>();
             //=====================================================
             container.Register<IFileBrowser, FileBrowser>();
             container.Register<IFileDataReader, FileDataReader>();
