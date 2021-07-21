@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Editor.Factories;
@@ -278,8 +279,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                     (editorConfigurationItemViewModel as IDeletable).DeleteElement();
 
 
-                    parent.IsCheckable = true;
-                    parent?.Checked?.Invoke(true);
+                    if (parent != null)
+                    {
+                        parent.IsCheckable = true;
+                        parent.Checked?.Invoke(true);
+                    }
 
                     selectedRowToPaste.PasteAsChild(editorConfigurationItemViewModel);
 
@@ -774,7 +778,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             get;
         }
 
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IDeviceConfiguration deviceConfiguration)
             {

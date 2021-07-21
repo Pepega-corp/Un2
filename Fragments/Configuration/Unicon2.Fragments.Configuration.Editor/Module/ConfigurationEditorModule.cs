@@ -40,7 +40,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Module
                 .BLOCK_INTERACTION_RESULT);
             container.Register<IConditionViewModel, CompareResourceConditionViewModel>(ConfigurationKeys
                 .COMPARE_RESOURCE_CONDITION);
-
+            container.Register<IResultViewModel, HidePropertyResultViewModel>(ConfigurationKeys
+                .HIDE_PROPERTY_RESULT);
 
             container.Register<IElementAddingCommand, ElementAddingCommand>();
 

@@ -215,7 +215,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 			return Result.Create(true);
         }
 		
-		public Result Initialize(IDeviceFragment deviceFragment)
+		public async Task<Result> Initialize(IDeviceFragment deviceFragment)
 		{
 
             AllRows.Clear();
@@ -236,8 +236,8 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 				foreach (IConfigurationItem configurationItem in deviceConfiguration.RootConfigurationItemList)
 				{
 
-					configurationItem.Accept(
-							new RuntimeConfigurationItemViewModelFactory(_container, DeviceContext))
+					await (await configurationItem.Accept( 
+							new RuntimeConfigurationItemViewModelFactory(_container, DeviceContext)))
 						.OnAddingNeeded(RootConfigurationItemViewModels.Add);
 				}
 			}
@@ -248,7 +248,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel
 				_configurationOptionsHelper.CreateConfigurationFragmentOptionsViewModel(this, _container,
 					deviceConfiguration);
 			MainRows = FilterMainConfigItems(RootConfigurationItemViewModels);
-			ClearValues();
+			await ClearValues();
             return Result.Create(true);
         }
 

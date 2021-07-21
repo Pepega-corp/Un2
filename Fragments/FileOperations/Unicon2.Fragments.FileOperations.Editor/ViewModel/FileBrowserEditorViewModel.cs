@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Unicon2.Fragments.FileOperations.Editor.Interfaces;
 using Unicon2.Fragments.FileOperations.Infrastructure.Keys;
 using Unicon2.Fragments.FileOperations.Infrastructure.Model;
@@ -18,7 +19,7 @@ namespace Unicon2.Fragments.FileOperations.Editor.ViewModel
         public string NameForUiKey => FileOperationsKeys.FILE_BROWSER;
 
         public IDeviceFragment BuildDeviceFragment() => throw new NotImplementedException();
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             Model = deviceFragment as IFileBrowser;
             return Result.Create(true);

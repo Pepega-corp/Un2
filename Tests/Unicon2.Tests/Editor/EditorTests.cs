@@ -133,6 +133,9 @@ namespace Unicon2.Tests.Editor
            var original4 = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 4, _typesContainer);
            var original5 = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 5, _typesContainer);
            var original6 = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 6, _typesContainer);
+           var originalFromBits = AddPropertyWithBitsViewModel(rootGroup.ChildStructItemViewModels, 6, _typesContainer);
+
+
 
            rootGroup.ChildStructItemViewModels.Add(original1.Clone() as IConfigurationItemViewModel);
            rootGroup.ChildStructItemViewModels.Add(original2.Clone() as IConfigurationItemViewModel);
@@ -140,6 +143,7 @@ namespace Unicon2.Tests.Editor
            rootGroup.ChildStructItemViewModels.Add(original4.Clone() as IConfigurationItemViewModel);
            rootGroup.ChildStructItemViewModels.Add(original5.Clone() as IConfigurationItemViewModel);
            rootGroup.ChildStructItemViewModels.Add(original6.Clone() as IConfigurationItemViewModel);
+           rootGroup.ChildStructItemViewModels.Add(originalFromBits.Clone() as IConfigurationItemViewModel);
 
 
             configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
@@ -148,7 +152,7 @@ namespace Unicon2.Tests.Editor
             Assert.AreEqual(result.RootConfigurationItemList.Count, 1);
 
             var itemList = (result.RootConfigurationItemList[0] as DefaultItemsGroup).ConfigurationItemList;
-            Assert.AreEqual(itemList.Count, 12);
+            Assert.AreEqual(itemList.Count, 14);
 
             CheckPropertyResultProperty(itemList, 1);
             CheckPropertyResultProperty(itemList, 2);
@@ -156,7 +160,9 @@ namespace Unicon2.Tests.Editor
             CheckPropertyResultProperty(itemList, 4);
             CheckPropertyResultProperty(itemList, 5);
             CheckPropertyResultProperty(itemList, 6);
-            var copiesList = itemList.Skip(6).Take(6).ToList();
+            CheckPropertyFromBitsResultProperty(itemList, 6,7);
+
+            var copiesList = itemList.Skip(7).Take(7).ToList();
 
             CheckPropertyResultProperty(copiesList, 1);
             CheckPropertyResultProperty(copiesList, 2);
@@ -164,6 +170,8 @@ namespace Unicon2.Tests.Editor
             CheckPropertyResultProperty(copiesList, 4);
             CheckPropertyResultProperty(copiesList, 5);
             CheckPropertyResultProperty(copiesList, 6);
+            CheckPropertyFromBitsResultProperty(copiesList, 6, 7);
+
         }
 
         [Test]

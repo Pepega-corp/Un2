@@ -56,6 +56,24 @@ namespace Unicon2.Tests.Utils
             InitFormatterViewModel(rootProperty, CreateFormatterViewModel(identity,typesContainer));
             return rootProperty;
         }
+        public static IPropertyEditorViewModel AddPropertyWithBitsViewModel(
+            IList<IConfigurationItemViewModel> collection, int identity, ITypesContainer typesContainer)
+        {
+            IPropertyEditorViewModel rootProperty =
+                ConfigurationItemEditorViewModelFactory.Create().VisitProperty(null) as IPropertyEditorViewModel;
+            rootProperty.Address = (identity + _addressModifier).ToString();
+            rootProperty.NumberOfPoints = (identity + _numOfPointsModifier).ToString();
+            rootProperty.Name = (identity + _nameModifier).ToString();
+            rootProperty.NumberOfWriteFunction = (ushort)(identity + _numOfFunctionModifier);
+            collection?.Add(rootProperty);
+
+            rootProperty.IsFromBits = true;
+            rootProperty.BitNumbersInWord.FirstOrDefault(model => model.BitNumber == identity).IsChecked = true;
+
+            InitFormatterViewModel(rootProperty, CreateFormatterViewModel(identity, typesContainer));
+            return rootProperty;
+        }
+
 
         public static IPropertyEditorViewModel AddPropertyWithFormatterFromResourceViewModel(
             ObservableCollection<IConfigurationItemViewModel> collection, int identity)
@@ -75,7 +93,32 @@ namespace Unicon2.Tests.Utils
             return property;
         }
 
-   
+
+        public static void CheckPropertyFromBitsResultProperty(List<IConfigurationItem> configurationItems, int identity, int numberInList = -1)
+        {
+            var num = 0;
+            if (numberInList != -1)
+            {
+                num = numberInList;
+            }
+            else
+            {
+                num = identity;
+            }
+            var property = configurationItems[num - 1] as IProperty;
+
+            Assert.AreEqual(property.Address, (identity + _addressModifier));
+            Assert.AreEqual(property.NumberOfPoints, (identity + _numOfPointsModifier));
+            Assert.AreEqual(property.Name, (identity + _nameModifier).ToString());
+            Assert.AreEqual(property.NumberOfWriteFunction, (identity + _numOfFunctionModifier));
+
+            Assert.AreEqual(property.IsFromBits, true);
+            Assert.AreEqual(property.BitNumbers[0], identity);
+            Assert.AreEqual(property.BitNumbers.Count, 1);
+
+
+            CheckFormatterResult(identity, property.UshortsFormatter);
+        }
 
         public static void CheckPropertyResultProperty(List<IConfigurationItem> configurationItems, int identity, int numberInList=-1)
         {

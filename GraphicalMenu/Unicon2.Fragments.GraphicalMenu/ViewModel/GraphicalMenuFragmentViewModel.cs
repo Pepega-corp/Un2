@@ -47,7 +47,7 @@ namespace Unicon2.Fragments.GraphicalMenu.ViewModel
 
         }
 
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IGraphicalMenu graphicalMenu)
             {

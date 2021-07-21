@@ -350,7 +350,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			base.OnDisposing();
 		}
 
-		public Result Initialize(IDeviceFragment deviceFragment)
+		public async Task<Result> Initialize(IDeviceFragment deviceFragment)
 		{
             return Result.Create(true);
 		}

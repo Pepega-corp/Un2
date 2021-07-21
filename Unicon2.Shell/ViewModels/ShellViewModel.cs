@@ -366,7 +366,7 @@ namespace Unicon2.Shell.ViewModels
 		        case ItemModifyingTypeEnum.Add:
                     if (connectableItemChangingContext.Connectable != null)
                     {
-                        var result = _deviceViewModelFactory.CreateDeviceViewModel(
+                        var result = await _deviceViewModelFactory.CreateDeviceViewModel(
                             connectableItemChangingContext.Connectable as IDevice);
                         if (result.IsSuccess)
                         {

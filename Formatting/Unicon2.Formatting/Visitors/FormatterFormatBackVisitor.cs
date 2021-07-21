@@ -14,16 +14,18 @@ using Unicon2.Presentation.Infrastructure.DeviceContext;
 
 namespace Unicon2.Formatting.Visitors
 {
-    public class FormatterFormatBackVisitor : IFormatterVisitor<ushort[]>
+    public class FormatterFormatBackVisitor : IFormatterVisitor<Task<ushort[]>>
     {
         private readonly IFormattedValue _formattedValue;
+        private readonly FormattingContext _formattingContext;
 
-        public FormatterFormatBackVisitor(IFormattedValue formattedValue)
+        public FormatterFormatBackVisitor(IFormattedValue formattedValue, FormattingContext formattingContext)
         {
             _formattedValue = formattedValue;
+            _formattingContext = formattingContext;
         }
 
-        public ushort[] VisitBoolFormatter(IUshortsFormatter boolFormatter)
+        public async Task<ushort[]> VisitBoolFormatter(IUshortsFormatter boolFormatter)
         {
             if (_formattedValue is IBoolValue)
             {
@@ -33,17 +35,17 @@ namespace Unicon2.Formatting.Visitors
             throw new ArgumentException();
         }
 
-        public ushort[] VisitAsciiStringFormatter(IUshortsFormatter boolFormatter)
+        public async Task<ushort[]> VisitAsciiStringFormatter(IUshortsFormatter boolFormatter)
         {
             throw new NotImplementedException();
         }
 
-        public ushort[] VisitTimeFormatter(IUshortsFormatter boolFormatter)
+        public async Task<ushort[]> VisitTimeFormatter(IUshortsFormatter boolFormatter)
         {
             throw new NotImplementedException();
         }
 
-        public ushort[] VisitDirectUshortFormatter(IUshortsFormatter boolFormatter)
+        public async Task<ushort[]> VisitDirectUshortFormatter(IUshortsFormatter boolFormatter)
         {
             if (_formattedValue is INumericValue)
             {
@@ -54,7 +56,7 @@ namespace Unicon2.Formatting.Visitors
             throw new ArgumentException();
         }
 
-        public ushort[] VisitFormulaFormatter(IUshortsFormatter formatter)
+        public async Task<ushort[]> VisitFormulaFormatter(IUshortsFormatter formatter)
         {
             try
             {
@@ -99,17 +101,17 @@ namespace Unicon2.Formatting.Visitors
             }
         }
 
-        public ushort[] VisitString1251Formatter(IUshortsFormatter boolFormatter)
+        public async Task<ushort[]> VisitString1251Formatter(IUshortsFormatter boolFormatter)
         {
             throw new NotImplementedException();
         }
 
-        public ushort[] VisitUshortToIntegerFormatter(IUshortsFormatter boolFormatter)
+        public async Task<ushort[]> VisitUshortToIntegerFormatter(IUshortsFormatter boolFormatter)
         {
             throw new NotImplementedException();
         }
 
-        public ushort[] VisitDictionaryMatchFormatter(IUshortsFormatter formatter)
+        public async Task<ushort[]> VisitDictionaryMatchFormatter(IUshortsFormatter formatter)
         {
             IChosenFromListValue chosenFromListValue = _formattedValue as IChosenFromListValue;
             IDictionaryMatchingFormatter dictionaryMatchingFormatter = formatter as IDictionaryMatchingFormatter;
@@ -133,26 +135,22 @@ namespace Unicon2.Formatting.Visitors
             return resultedUshorts;
         }
 
-        public ushort[] VisitBitMaskFormatter(IUshortsFormatter boolFormatter)
+        public async Task<ushort[]> VisitBitMaskFormatter(IUshortsFormatter boolFormatter)
         {
             throw new NotImplementedException();
         }
 
-        public ushort[] VisitMatrixFormatter(IUshortsFormatter formatter)
+        public async Task<ushort[]> VisitMatrixFormatter(IUshortsFormatter formatter)
         {
             throw new NotImplementedException();
         }
 
-        public ushort[] VisitCodeFormatter(IUshortsFormatter formatter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ushort[]> VisitCodeFormatterAsync(IUshortsFormatter formatter, DeviceContext deviceContext, bool isLocal)
+        public async Task<ushort[]> VisitCodeFormatter(IUshortsFormatter formatter)
         {
             var service = StaticContainer.Container.Resolve<ICodeFormatterService>();
             var codeFormatter = formatter as ICodeFormatter;
-            var fun = service.GetFormatBackUshortsFunc(codeFormatter.CodeExpression, deviceContext,isLocal);
+            var fun = service.GetFormatBackUshortsFunc(codeFormatter.CodeExpression, _formattingContext.DeviceContext,
+                _formattingContext.IsLocal,_formattingContext.ValueOwner);
             var res = await fun.Item.Invoke(_formattedValue);
             return res;
         }

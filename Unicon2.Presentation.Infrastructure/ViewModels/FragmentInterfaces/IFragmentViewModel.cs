@@ -28,6 +28,6 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces
     
     public interface IFragmentInitializable
     {
-        Result Initialize(IDeviceFragment deviceFragment);
+        Task<Result> Initialize(IDeviceFragment deviceFragment);
     }
 }

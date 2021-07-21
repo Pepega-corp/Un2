@@ -32,6 +32,7 @@ namespace Unicon2.Tests.Configuration
         [Test]
         public async Task WriteConfigurationIfNothingChanges()
         {
+
             Program.GetApp().Container.Resolve<IDevicesContainerService>().Refresh();
 
             var serializerService = Program.GetApp().Container.Resolve<ISerializerService>();

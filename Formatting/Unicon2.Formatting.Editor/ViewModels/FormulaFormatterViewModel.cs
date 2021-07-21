@@ -14,6 +14,7 @@ using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Unity.Commands;
@@ -105,7 +106,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
             try
             {
-                TestResult = _formattingService.FormatValue(_formulaFormatter, new[] {(ushort) TestValueOfX},true)
+                TestResult = _formattingService.FormatValueAsync(_formulaFormatter, new[] {(ushort) TestValueOfX},new FormattingContext(null,null,true))
                     .ToString();
             }
             catch

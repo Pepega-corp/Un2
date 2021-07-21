@@ -58,7 +58,7 @@ namespace Unicon2.Fragments.Journals.Factory
                             {
                                 GetParameterUshortInRecord(recordUshorts, complexJournalParameter,
                                     childJournalParameter)
-                            }, deviceContext,false));
+                            }, new FormattingContext(null, deviceContext, false)));
                     }
 
                     break;
@@ -75,7 +75,7 @@ namespace Unicon2.Fragments.Journals.Factory
                             //if (loadingTask != null)
                             //    await loadingTask;
                             formattedValues.Add(await _formattingService.FormatValueAsync(
-                                journalParameterDependancyCondition.UshortsFormatter, dependentValuesToFormat,deviceContext,false));
+                                journalParameterDependancyCondition.UshortsFormatter, dependentValuesToFormat, new FormattingContext(null, deviceContext, false)));
                         }
                     }
 
@@ -85,7 +85,7 @@ namespace Unicon2.Fragments.Journals.Factory
                         .Take(journalParameter.NumberOfPoints).ToArray();
 
                     formattedValues.Add(await _formattingService.FormatValueAsync(journalParameter.UshortsFormatter,
-                        valuesToFormat,deviceContext,false));
+                        valuesToFormat,new FormattingContext(null,deviceContext,false)));
                     break;
             }
 

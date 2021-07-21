@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.Factories;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
@@ -16,6 +17,7 @@ using Unicon2.Presentation.Infrastructure.DeviceContext;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Formatting;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Values;
 using Unicon2.Unity.Interfaces;
@@ -125,7 +127,7 @@ namespace Unicon2.Fragments.Configuration.Factories
             InitializeBaseProperties(runtimePropertyViewModel, property);
         }
 
-        public FactoryResult<IRuntimeConfigurationItemViewModel> VisitItemsGroup(IItemsGroup itemsGroup)
+        public async Task<FactoryResult<IRuntimeConfigurationItemViewModel>> VisitItemsGroup(IItemsGroup itemsGroup)
         {
             var res = _container.Resolve<IRuntimeItemGroupViewModel>() as RuntimeItemGroupViewModel;
             res.ChildStructItemViewModels.Clear();
@@ -148,8 +150,8 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 		            foreach (IConfigurationItem configurationItem in itemsGroup.ConfigurationItemList)
 		            {
-			            configurationItem.Accept(this.WithParent(subGroup)
-				            .WithOffset(offset)).OnAddingNeeded(subGroup.ChildStructItemViewModels.Add);
+			           await (await configurationItem.Accept(this.WithParent(subGroup)
+				            .WithOffset(offset))).OnAddingNeeded(subGroup.ChildStructItemViewModels.Add);
 
 
 
@@ -163,11 +165,12 @@ namespace Unicon2.Fragments.Configuration.Factories
             }
             else
 			{
-				foreach (IConfigurationItem configurationItem in itemsGroup.ConfigurationItemList)
-				{
-					configurationItem.Accept(this.WithParent(res)).OnAddingNeeded(res.ChildStructItemViewModels.Add);
-				}
-			}
+                foreach (IConfigurationItem configurationItem in itemsGroup.ConfigurationItemList)
+                {
+                    await (await configurationItem.Accept(this.WithParent(res))).OnAddingNeeded(
+                        res.ChildStructItemViewModels.Add);
+                }
+            }
          
 
             res.IsMain = itemsGroup.IsMain ?? false;
@@ -184,7 +187,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 		}
 
-		public FactoryResult<IRuntimeConfigurationItemViewModel> VisitProperty(IProperty property)
+		public async Task<FactoryResult<IRuntimeConfigurationItemViewModel>> VisitProperty(IProperty property)
         {
             var res = _container.Resolve<IRuntimePropertyViewModel>();
             InitializeProperty(res, property);
@@ -195,8 +198,8 @@ namespace Unicon2.Fragments.Configuration.Factories
                 new DeviceDataPropertyMemorySubscription(property, res, _valueViewModelFactory,
                     _deviceContext,(ushort)AddressOffset));
             var localUshorts = InitDefaultUshortsValue(property.NumberOfPoints);
-            var localValue = _container.Resolve<IFormattingService>().FormatValue(property.UshortsFormatter,
-	            localUshorts,true);
+            var localValue = await _container.Resolve<IFormattingService>().FormatValueAsync(property.UshortsFormatter,
+	            localUshorts,new FormattingContext(res,_deviceContext,true));
             var editableValue = _valueViewModelFactory
                 .CreateEditableValueViewModel(new FormattedValueInfo(localValue, property, property.UshortsFormatter,
                     property));
@@ -204,7 +207,7 @@ namespace Unicon2.Fragments.Configuration.Factories
 				(ushort)(property.Address + AddressOffset), property.NumberOfPoints,property);
 
             var editSubscription =
-                new LocalDataEditedSubscription(editableValue, _deviceContext, property,AddressOffset);
+                new LocalDataEditedSubscription(res,editableValue, _deviceContext, property,AddressOffset);
 
             res.LocalValue = editableValue;
             editableValue?.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
@@ -259,12 +262,12 @@ namespace Unicon2.Fragments.Configuration.Factories
 
 		}
 
-        public FactoryResult<IRuntimeConfigurationItemViewModel> VisitComplexProperty(IComplexProperty property)
+        public async Task<FactoryResult<IRuntimeConfigurationItemViewModel>> VisitComplexProperty(IComplexProperty property)
         {
             throw new NotImplementedException();
         }
 
-        public FactoryResult<IRuntimeConfigurationItemViewModel> VisitSubProperty(ISubProperty subProperty)
+        public async Task<FactoryResult<IRuntimeConfigurationItemViewModel>> VisitSubProperty(ISubProperty subProperty)
         {
             throw new NotImplementedException();
         }

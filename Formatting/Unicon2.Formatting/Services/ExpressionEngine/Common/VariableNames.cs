@@ -11,5 +11,6 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Common
         public const string DEVICE_VALUE = "deviceValue";
         public const string RESULT_VALUE = "resultValue";
         public const string INPUT_VALUE = "inputValue";
+        public const string CURRENT_VALUE_OWNER = "currentValueOwner";
     }
 }

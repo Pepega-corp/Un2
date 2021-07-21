@@ -261,7 +261,7 @@ namespace Unicon2.Fragments.Journals.ViewModel
 
 		public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
 
-		public Result Initialize(IDeviceFragment deviceFragment)
+		public async Task<Result> Initialize(IDeviceFragment deviceFragment)
 		{
 			IUniconJournal uniconJournal = deviceFragment as IUniconJournal;
 			_uniconJournal = uniconJournal;

@@ -31,6 +31,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
         private bool _prevIsInteractionBlocked = false;
         private int _offset;
         public int Priority { get; set; } = 1;
+        private bool _prevIsHidden = false;
 
         public LocalMemorySubscription(IUshortsFormatter ushortsFormatter, DeviceContext deviceContext,
             IRuntimePropertyViewModel runtimePropertyViewModel,
@@ -59,7 +60,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 }
 
                 var newUshorts = MemoryAccessor.GetUshortsFromMemory(_deviceContext.DeviceMemory,
-                    (ushort)(_property.Address + _offset),
+                    (ushort) (_property.Address + _offset),
                     _property.NumberOfPoints, true);
 
 
@@ -82,6 +83,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
                 if (_property?.Dependencies?.Count > 0)
                 {
+                    bool isHidden = false;
+
                     bool isInteractionBlocked = false;
                     var formatterForDependentProperty = _property.UshortsFormatter;
 
@@ -92,8 +95,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                             if (conditionResultDependency.Condition is ICompareResourceCondition
                                 compareResourceCondition)
                             {
-                                var checkResult = DependentSubscriptionHelpers.CheckConditionFromResource(compareResourceCondition,
-                                    _deviceContext, _formattingService, true, (ushort)_offset);
+                                var checkResult = await DependentSubscriptionHelpers.CheckConditionFromResource(
+                                    compareResourceCondition,
+                                    _deviceContext, _formattingService, true, (ushort) _offset);
 
                                 if (checkResult.IsSuccess)
                                 {
@@ -107,6 +111,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                                             case IBlockInteractionResult blockInteractionResult:
                                                 isInteractionBlocked = checkResult.Item;
                                                 break;
+                                            case IHidePropertyResult hidePropertyResult:
+                                                isHidden = checkResult.Item;
+                                                break;
                                         }
 
                                     }
@@ -116,6 +123,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                                         {
                                             case IBlockInteractionResult blockInteractionResult:
                                                 isInteractionBlocked = checkResult.Item;
+                                                break;
+                                            case IHidePropertyResult hidePropertyResult:
+                                                isHidden = checkResult.Item;
                                                 break;
                                         }
                                     }
@@ -129,11 +139,14 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                         }
                     }
 
-                    if (_prevUshorts.IsEqual(newUshorts)  &&
-                        formatterForDependentProperty == _prevUshortFormatter&&_prevIsInteractionBlocked==isInteractionBlocked)
+                    if (_prevUshorts.IsEqual(newUshorts) && _prevIsHidden == isHidden &&
+                        formatterForDependentProperty == _prevUshortFormatter &&
+                        _prevIsInteractionBlocked == isInteractionBlocked)
                     {
                         return;
                     }
+
+                    _prevIsHidden = isHidden;
 
                     _prevIsInteractionBlocked = isInteractionBlocked;
                     _prevUshorts = newUshorts;
@@ -145,17 +158,19 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                         _runtimePropertyViewModel.LocalValue.Dispose();
                     }
 
-                  
 
+                    _runtimePropertyViewModel.IsHidden = _property.IsHidden || isHidden;
 
-                    var localValue = _formattingService.FormatValue(formatterForDependentProperty,
-                        subPropertyUshort.AsCollection(),true);
+                    var localValue = await _formattingService.FormatValueAsync(formatterForDependentProperty,
+                        subPropertyUshort.AsCollection(),
+                        new FormattingContext(_runtimePropertyViewModel, _deviceContext, true));
                     var editableValue = StaticContainer.Container.Resolve<IValueViewModelFactory>()
                         .CreateEditableValueViewModel(new FormattedValueInfo(localValue, _property,
                             formatterForDependentProperty,
                             _property, !isInteractionBlocked, !_prevUshorts.IsEqual(subPropertyUshort.AsCollection())));
                     var editSubscription =
-                        new LocalDataEditedSubscription(editableValue, _deviceContext, _property, _offset);
+                        new LocalDataEditedSubscription(_runtimePropertyViewModel, editableValue, _deviceContext,
+                            _property, _offset);
                     _runtimePropertyViewModel.LocalValue = editableValue;
                     editableValue?.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
                     if (_runtimePropertyViewModel.LocalValue != null)
@@ -166,12 +181,12 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
 
                     editableValue.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
-           
+
                 }
                 else
                 {
                     if (!MemoryAccessor.IsMemoryContainsAddresses(_deviceContext.DeviceMemory,
-                        (ushort)(_property.Address + _offset), _property.NumberOfPoints, true))
+                        (ushort) (_property.Address + _offset), _property.NumberOfPoints, true))
                     {
                         return;
                     }
@@ -180,9 +195,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     {
                         _prevUshorts = newUshorts;
 
-                        var subPropertyValue = StaticContainer.Container.Resolve<IFormattingService>().FormatValue(
-                            _property.UshortsFormatter,
-                            new[] { subPropertyUshort },true);
+                        var subPropertyValue = await StaticContainer.Container.Resolve<IFormattingService>()
+                            .FormatValueAsync(
+                                _property.UshortsFormatter,
+                                new[] {subPropertyUshort},
+                                new FormattingContext(_runtimePropertyViewModel, _deviceContext, true));
 
 
                         _runtimePropertyViewModel.LocalValue.Accept(
@@ -205,6 +222,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
                 if (_property?.Dependencies?.Count > 0)
                 {
+                    bool isHidden = false;
+
                     bool isInteractionBlocked = false;
                     var formatterForDependentProperty = _property.UshortsFormatter;
 
@@ -215,7 +234,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                             if (conditionResultDependency.Condition is ICompareResourceCondition
                                 compareResourceCondition)
                             {
-                                var checkResult = DependentSubscriptionHelpers.CheckConditionFromResource(
+                                var checkResult = await DependentSubscriptionHelpers.CheckConditionFromResource(
                                     compareResourceCondition,
                                     _deviceContext, _formattingService, true, (ushort) _offset);
 
@@ -231,6 +250,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                                             case IBlockInteractionResult blockInteractionResult:
                                                 isInteractionBlocked = checkResult.Item;
                                                 break;
+                                            case IHidePropertyResult hidePropertyResult:
+                                                isHidden = checkResult.Item;
+                                                break;
                                         }
                                     }
                                     else
@@ -239,6 +261,9 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                                         {
                                             case IBlockInteractionResult blockInteractionResult:
                                                 isInteractionBlocked = checkResult.Item;
+                                                break;
+                                            case IHidePropertyResult hidePropertyResult:
+                                                isHidden = checkResult.Item;
                                                 break;
                                         }
                                     }
@@ -253,12 +278,14 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     }
 
                     if (_runtimePropertyViewModel.LocalValue.IsEditEnabled == !isInteractionBlocked &&
+                        isHidden == _prevIsHidden &&
                         formatterForDependentProperty == _prevUshortFormatter)
                     {
-                        ProcessValueViewModel(newUshorts);
+                        await ProcessValueViewModel(newUshorts, _prevIsInteractionBlocked, formatterForDependentProperty);
                         return;
                     }
 
+                    _prevIsHidden = isHidden;
                     _prevUshorts = newUshorts.Item;
                     _prevUshortFormatter = formatterForDependentProperty;
                     if (_runtimePropertyViewModel?.LocalValue != null)
@@ -268,14 +295,18 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                         _runtimePropertyViewModel.LocalValue.Dispose();
                     }
 
-                    var localValue = _formattingService.FormatValue(formatterForDependentProperty,
-                        newUshorts.Item,true);
+                    _runtimePropertyViewModel.IsHidden = _property.IsHidden || isHidden;
+
+
+                    var localValue = await _formattingService.FormatValueAsync(formatterForDependentProperty,
+                        newUshorts.Item, new FormattingContext(_runtimePropertyViewModel, _deviceContext, true));
                     var editableValue = StaticContainer.Container.Resolve<IValueViewModelFactory>()
                         .CreateEditableValueViewModel(new FormattedValueInfo(localValue, _property,
                             formatterForDependentProperty,
                             _property, !isInteractionBlocked, !_prevUshorts.IsEqual(newUshorts.Item)));
                     var editSubscription =
-                        new LocalDataEditedSubscription(editableValue, _deviceContext, _property, _offset);
+                        new LocalDataEditedSubscription(_runtimePropertyViewModel, editableValue, _deviceContext,
+                            _property, _offset);
                     _runtimePropertyViewModel.LocalValue = editableValue;
                     editableValue?.InitDispatcher(_deviceContext.DeviceEventsDispatcher);
                     if (_runtimePropertyViewModel.LocalValue != null)
@@ -290,25 +321,26 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                         return;
                     }
 
-                    await ProcessValueViewModel(newUshorts);
+                    await ProcessValueViewModel(newUshorts,_prevIsInteractionBlocked, _ushortsFormatter);
                 }
 
 
             }
         }
 
-        private async Task ProcessValueViewModel(Result<ushort[]> newUshorts)
+        private async Task ProcessValueViewModel(Result<ushort[]> newUshorts, bool isInteractionBlocked,
+            IUshortsFormatter formatterForDependentProperty)
         {
             if (!newUshorts.Item.IsEqual(_prevUshorts))
             {
                 _prevUshorts = newUshorts.Item;
                 var localValue = await StaticContainer.Container.Resolve<IFormattingService>().FormatValueAsync(
                     _ushortsFormatter,
-                    _prevUshorts,_deviceContext,true);
+                    _prevUshorts, new FormattingContext(_runtimePropertyViewModel, _deviceContext, true));
                 _runtimePropertyViewModel.LocalValue.Accept(new EditableValueSetFromLocalVisitor(localValue));
+
             }
         }
-
 
     }
 }

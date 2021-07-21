@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 
 namespace Unicon2.Fragments.Configuration.Infrastructure.Factories
 {
 	public interface
-		IRuntimeConfigurationItemViewModelFactory : IConfigurationItemVisitor<FactoryResult<IRuntimeConfigurationItemViewModel>>
+		IRuntimeConfigurationItemViewModelFactory : IConfigurationItemVisitor<Task<FactoryResult<IRuntimeConfigurationItemViewModel>>>
 	{
 	}
 
@@ -29,7 +30,7 @@ namespace Unicon2.Fragments.Configuration.Infrastructure.Factories
 			return new FactoryResult<T>(item, needAdding);
 		}
 
-		public FactoryResult<T> OnAddingNeeded(Action<T> actionWhenAddingNeeded)
+		public async Task<FactoryResult<T>> OnAddingNeeded(Action<T> actionWhenAddingNeeded)
 		{
 			if (NeedAdding)
 			{

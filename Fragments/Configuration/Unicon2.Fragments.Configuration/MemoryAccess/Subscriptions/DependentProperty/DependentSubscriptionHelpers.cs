@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Results;
@@ -21,10 +22,10 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 	public class DependentSubscriptionHelpers
 	{
 
-		public static Result<bool> CheckConditionFromResource(ICompareResourceCondition condition,
+		public static async Task<Result<bool>> CheckConditionFromResource(ICompareResourceCondition condition,
 			DeviceContext deviceContext, IFormattingService formattingService, bool isLocal, ushort addressOffset)
 		{
-			var conditionUshortResult = GetConditionPropertyUshort(condition,deviceContext,formattingService,isLocal, addressOffset);
+			var conditionUshortResult = await GetConditionPropertyUshort(condition,deviceContext,formattingService,isLocal, addressOffset);
 			var ushortToCompare = condition.UshortValueToCompare;
 			if (!conditionUshortResult.IsSuccess)
 			{
@@ -35,7 +36,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 
 
 
-		public static IUshortsFormatter GetFormatterConsideringDependencies(List<IDependency> dependencies,
+		public static async Task<IUshortsFormatter> GetFormatterConsideringDependencies(List<IDependency> dependencies,
 			DeviceContext deviceContext, IFormattingService formattingService,IUshortsFormatter ushortsFormatterInitial, ushort offset)
 		{
 			var formatterForDependentProperty = ushortsFormatterInitial;
@@ -49,7 +50,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 								?.Condition is ICompareResourceCondition compareResourceCondition &&
 							conditionResultDependency.Result is IApplyFormatterResult applyFormatterResult)
 						{
-							var checkResult = CheckConditionFromResource(compareResourceCondition,
+							var checkResult = await CheckConditionFromResource(compareResourceCondition,
 								deviceContext, formattingService, true,offset);
 
 							if (checkResult.IsSuccess)
@@ -69,22 +70,24 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 			return formatterForDependentProperty;
 		}
 
-		private static Result<ushort> GetConditionPropertyUshort(ICompareResourceCondition dependancyCondition,DeviceContext deviceContext,IFormattingService formattingService,bool isLocal, ushort addressOffset)
-		{
-			var resourceProperty = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
-				container =>
-					container.ResourceName == dependancyCondition.ReferencedPropertyResourceName).Resource as IProperty;
+        private static async Task<Result<ushort>> GetConditionPropertyUshort(
+            ICompareResourceCondition dependancyCondition, DeviceContext deviceContext,
+            IFormattingService formattingService, bool isLocal, ushort addressOffset)
+        {
+            var resourceProperty = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
+                container =>
+                    container.ResourceName == dependancyCondition.ReferencedPropertyResourceName).Resource as IProperty;
 
-			if (!MemoryAccessor.IsMemoryContainsAddresses(deviceContext.DeviceMemory,
-				(ushort) (resourceProperty.Address+addressOffset), resourceProperty.NumberOfPoints, isLocal))
-			{
-				return Result<ushort>.Create(false);
-			}
+            if (!MemoryAccessor.IsMemoryContainsAddresses(deviceContext.DeviceMemory,
+                (ushort) (resourceProperty.Address + addressOffset), resourceProperty.NumberOfPoints, isLocal))
+            {
+                return Result<ushort>.Create(false);
+            }
 
 
-			var propertyUshorts = MemoryAccessor.GetUshortsFromMemory(
-				deviceContext.DeviceMemory,
-				(ushort)(resourceProperty.Address+addressOffset), resourceProperty.NumberOfPoints, isLocal);
+            var propertyUshorts = MemoryAccessor.GetUshortsFromMemory(
+                deviceContext.DeviceMemory,
+                (ushort) (resourceProperty.Address + addressOffset), resourceProperty.NumberOfPoints, isLocal);
 
             if (resourceProperty is ISubProperty subProperty)
             {
@@ -93,7 +96,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
                             container.ResourceName == dependancyCondition.ReferencedPropertyResourceName)
                     .Resource;
 
-				var resultBitArray = new bool[16];
+                var resultBitArray = new bool[16];
                 var boolArray = propertyUshorts.GetBoolArrayFromUshortArray();
                 int counter = 0;
                 for (int i = 0; i < 16; i++)
@@ -109,6 +112,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
                 propertyUshorts = resultBitArray.BoolArrayToUshort().AsCollection();
 
             }
+
             if (resourceProperty.IsFromBits)
             {
                 var x = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
@@ -134,22 +138,25 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
             }
 
 
-			if (resourceProperty.UshortsFormatter != null)
-			{
-				var value = formattingService.FormatValue(resourceProperty.UshortsFormatter, propertyUshorts,isLocal);
+            if (resourceProperty.UshortsFormatter != null)
+            {
+                var value = await formattingService.FormatValueAsync(resourceProperty.UshortsFormatter, propertyUshorts,
+                    new FormattingContext(null, deviceContext, isLocal));
 
-				if (double.TryParse(value.AsString(), out double conditionNumber))
-				{
-					return Result<ushort>.Create((ushort)conditionNumber, true);
-				}
-				else
-				{
-					return Result<ushort>.Create(propertyUshorts.First(), true);
-				}
-			}
-			return Result<ushort>.Create(propertyUshorts.First(),true);
-		}
-		private static Result<ushort> GetConditionPropertyUshort(IDependancyCondition dependancyCondition,DeviceContext deviceContext,IFormattingService formattingService,bool isLocal)
+                if (double.TryParse(value.AsString(), out double conditionNumber))
+                {
+                    return Result<ushort>.Create((ushort) conditionNumber, true);
+                }
+                else
+                {
+                    return Result<ushort>.Create(propertyUshorts.First(), true);
+                }
+            }
+
+            return Result<ushort>.Create(propertyUshorts.First(), true);
+        }
+
+        private static async Task<Result<ushort>> GetConditionPropertyUshort(IDependancyCondition dependancyCondition,DeviceContext deviceContext,IFormattingService formattingService,bool isLocal)
 		{
 			var resourceProperty = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
 				container =>
@@ -168,7 +175,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 
 			if (resourceProperty.UshortsFormatter != null)
 			{
-				var value = formattingService.FormatValue(resourceProperty.UshortsFormatter, propertyUshorts,isLocal);
+				var value = await formattingService.FormatValueAsync(resourceProperty.UshortsFormatter, propertyUshorts,new FormattingContext(null,deviceContext,isLocal));
 
 				if (double.TryParse(value.AsString(), out double conditionNumber))
 				{

@@ -5,6 +5,7 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces.EditOperations;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
 {

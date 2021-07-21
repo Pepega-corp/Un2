@@ -13,7 +13,7 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
         {
             expressionString = RefineExpressionString(expressionString);
 
-            var parts = expressionString.Split(new[] { "=>" }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = expressionString.Split(new[] {"=>"}, StringSplitOptions.RemoveEmptyEntries);
 
             var res = new List<IRuleNode>();
             foreach (var part in parts)
@@ -26,27 +26,45 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
 
         private static string RefineExpressionString(string expressionString)
         {
-            return expressionString.Replace(" ",string.Empty);
+            return expressionString.Replace(" ", string.Empty);
 
         }
 
-        public static async Task<IFormattedValue> ExecuteFormat(ushort[] deviceValue, RuleExecutionContext ruleExecutionContext,List<IRuleNode> ruleNodes)
+        public static async Task<IFormattedValue> ExecuteFormat(ushort[] deviceValue,
+            RuleExecutionContext ruleExecutionContext, List<IRuleNode> ruleNodes)
         {
             ruleExecutionContext.SetVariable(VariableNames.DEVICE_VALUE, deviceValue.ToList());
             foreach (var ruleNode in ruleNodes)
             {
-                await ruleNode.ExecuteNode(ruleExecutionContext);
+                try
+                {
+                    await ruleNode.ExecuteNode(ruleExecutionContext);
+                }
+                catch (Exception e)
+                {
+
+                }
             }
+
             return ruleExecutionContext.GetVariable<IFormattedValue>(VariableNames.RESULT_VALUE);
         }
 
-        public static async Task<ushort[]> ExecuteFormatBack(IFormattedValue userValue, RuleExecutionContext ruleExecutionContext, List<IRuleNode> ruleNodes)
+        public static async Task<ushort[]> ExecuteFormatBack(IFormattedValue userValue,
+            RuleExecutionContext ruleExecutionContext, List<IRuleNode> ruleNodes)
         {
             ruleExecutionContext.SetVariable(VariableNames.INPUT_VALUE, userValue);
             foreach (var ruleNode in ruleNodes)
             {
-                await ruleNode.ExecuteNode(ruleExecutionContext);
+                try
+                {
+                    await ruleNode.ExecuteNode(ruleExecutionContext);
+                }
+                catch (Exception e)
+                {
+
+                }
             }
+
             return ruleExecutionContext.GetVariable<List<ushort>>(VariableNames.DEVICE_VALUE).ToArray();
         }
     }

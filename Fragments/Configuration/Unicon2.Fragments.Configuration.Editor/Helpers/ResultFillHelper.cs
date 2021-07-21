@@ -29,7 +29,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             return new List<IResultViewModel>()
             {
                  new ApplyFormatterResultViewModel(_formatterEditorFactory),
-                 new BlockInteractionResultViewModel()
+                 new BlockInteractionResultViewModel(),
+                 new HidePropertyResultViewModel()
             };
         }
 
@@ -53,7 +54,9 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
 
                     break;
                 case IBlockInteractionResult blockInteractionResult:
-                    return new BlockInteractionResultViewModel(); 
+                    return new BlockInteractionResultViewModel();
+                case IHidePropertyResult hidePropertyResult:
+                    return new HidePropertyResultViewModel();
                     break;
             }
 
@@ -67,6 +70,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             {
                 case BlockInteractionResultViewModel blockInteractionResult:
                     return new BlockInteractionResult();
+                case HidePropertyResultViewModel hidePropertyResultViewModel:
+                    return new HidePropertyResult();
                     break;
                 case ApplyFormatterResultViewModel applyFormatterResultViewModel:
                     var formatter =

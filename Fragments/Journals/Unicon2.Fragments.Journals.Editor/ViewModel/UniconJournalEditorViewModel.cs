@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Unicon2.Fragments.Journals.Editor.Interfaces;
 using Unicon2.Fragments.Journals.Infrastructure.Factories;
 using Unicon2.Fragments.Journals.Infrastructure.Keys;
@@ -93,7 +94,7 @@ namespace Unicon2.Fragments.Journals.Editor.ViewModel
             }
         }
 
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             IUniconJournal settingJournal = deviceFragment as IUniconJournal;
             if (deviceFragment == null) return Result.Create(false);

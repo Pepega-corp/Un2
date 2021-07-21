@@ -114,6 +114,7 @@
     <Compile Include="Model\Dependencies\Conditions\CompareResourceCondition.cs" />
     <Compile Include="Model\Dependencies\Results\ApplyFormatterResult.cs" />
     <Compile Include="Model\Dependencies\Results\BlockInteractionResult.cs" />
+    <Compile Include="Model\Dependencies\Results\HidePropertyResult.cs" />
     <Compile Include="Model\Filter\DefaultFilter.cs" />
     <Compile Include="Model\Filter\GroupFilterInfo.cs" />
     <Compile Include="Model\GroupWithReiterationInfo.cs" />

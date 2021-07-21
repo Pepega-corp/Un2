@@ -14,22 +14,24 @@ namespace Unicon2.Formatting.Infrastructure.Services
    public interface ICodeFormatterService
    {
        Result<Func<BuiltExpressionFormatContext, Task<IFormattedValue>>> GetFormatUshortsFunc(CodeFormatterExpression codeExpression);
-       Result<Func<IFormattedValue, Task<ushort[]>>> GetFormatBackUshortsFunc(CodeFormatterExpression codeExpression, DeviceContext deviceContext, bool isLocal);
+       Result<Func<IFormattedValue, Task<ushort[]>>> GetFormatBackUshortsFunc(CodeFormatterExpression codeExpression, DeviceContext deviceContext, bool isLocal, IFormattedValueOwner formattedValueOwner);
 
        List<(string name, string desc)> GetFunctionsInfo();
    }
 
    public class BuiltExpressionFormatContext
    {
-       public BuiltExpressionFormatContext(DeviceContext deviceContext, ushort[] deviceValue, bool isLocal)
+       public BuiltExpressionFormatContext(DeviceContext deviceContext, ushort[] deviceValue, bool isLocal, IFormattedValueOwner formattedValueOwner)
        {
            DeviceContext = deviceContext;
            DeviceValue = deviceValue;
            IsLocal = isLocal;
+           FormattedValueOwner = formattedValueOwner;
        }
 
        public bool IsLocal { get; }
        public ushort[] DeviceValue { get; }
        public DeviceContext DeviceContext { get; }
+       public IFormattedValueOwner FormattedValueOwner { get; }
    }
 }

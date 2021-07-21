@@ -67,6 +67,7 @@
     <Compile Include="StructItemsInterfaces\Dependencies\IDependencyResult.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Results\IApplyFormatterResult.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Results\IBlockInteractionResult.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\Results\IHidePropertyResult.cs" />
     <Compile Include="StructItemsInterfaces\Filters\IFilter.cs" />
     <Compile Include="StructItemsInterfaces\Filters\IGroupFilterInfo.cs" />
     <Compile Include="StructItemsInterfaces\IAppointableMatrix.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="StructItemsInterfaces\IItemsGroup.cs" />
     <Compile Include="ViewModel\Base\ConfigurationItemViewModelBase.cs" />
     <Compile Include="ViewModel\ElementAdding\IElementAddingCommand.cs" />
-    <Compile Include="ViewModel\ICanBeHidden.cs" />
     <Compile Include="ViewModel\IConfigurationItemVisitor.cs" />
     <Compile Include="ViewModel\Properties\IPropertyViewModel.cs" />
     <Compile Include="ViewModel\IItemGroupViewModel.cs" />

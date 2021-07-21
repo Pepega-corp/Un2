@@ -40,6 +40,11 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
             AddVisitorInfo("Do", (new DoVisitor(this)));
             AddVisitorInfo("InvertSign", (new InvertSignVisitor(this)));
 
+
+            AddVisitorInfo("ConvertUnsignedToInt16", (new ConvertUnsignedToInt16Visitor(this)));
+            AddVisitorInfo("ConvertInt16ToUnsigned", (new ConvertInt16ToUnsignedVisitor(this)));
+            AddVisitorInfo("HideCurrentProperty", (new HideCurrentPropertyVisitor(this)));
+
         }
 
         private void AddVisitorInfo(string name,LexemaVisitor lexemaVisitor)

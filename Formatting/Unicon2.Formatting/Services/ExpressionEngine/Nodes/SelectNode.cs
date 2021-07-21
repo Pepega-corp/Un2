@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Unicon2.Formatting.Services.ExpressionEngine.Common;
 using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Values;
 
 namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
@@ -17,22 +18,22 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
 
         public async Task<object> ExecuteNode(RuleExecutionContext ruleExecutionContext)
         {
-            var res = ruleExecutionContext.Variables[VariableNames.RESULT_VALUE];
+            Result<object> res= ruleExecutionContext.Variables.GetElement(VariableNames.RESULT_VALUE);
             switch (_formatterType)
             {
                 case FormatterType.Number:
                     var numValue = StaticContainer.Container.Resolve<INumericValue>();
-                    numValue.NumValue = (double) res;
+                    res.OnSuccess(o => { numValue.NumValue = (double) o; });
                     ruleExecutionContext.SetVariable(VariableNames.RESULT_VALUE, numValue);
                     return res;
                 case FormatterType.Bool:
                     var boolValue = StaticContainer.Container.Resolve<IBoolValue>();
-                    boolValue.BoolValueProperty = (bool) res;
+                    res.OnSuccess(o => { boolValue.BoolValueProperty = (bool) o; });
                     ruleExecutionContext.SetVariable(VariableNames.RESULT_VALUE, boolValue);
                     return res;
                 case FormatterType.String:
                     var stringValue = StaticContainer.Container.Resolve<IStringValue>();
-                    stringValue.StrValue = (string) res;
+                    res.OnSuccess(o => { stringValue.StrValue = (string) o; });
                     ruleExecutionContext.SetVariable(VariableNames.RESULT_VALUE, stringValue);
                     return res;
                 default:

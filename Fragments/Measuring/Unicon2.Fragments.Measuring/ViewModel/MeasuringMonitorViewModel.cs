@@ -193,7 +193,7 @@ namespace Unicon2.Fragments.Measuring.ViewModel
 			}
 		}
 
-		public Result Initialize(IDeviceFragment deviceFragment)
+		public async Task<Result> Initialize(IDeviceFragment deviceFragment)
 		{
 			_measuringMonitor = deviceFragment as IMeasuringMonitor;
 			MeasuringGroupViewModels.Clear();

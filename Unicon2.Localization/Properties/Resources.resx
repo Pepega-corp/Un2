@@ -1677,4 +1677,7 @@
   <data name="AddDependency" xml:space="preserve">
     <value>@AddDependency</value>
   </data>
+  <data name="HidePropertyResult" xml:space="preserve">
+    <value>@HidePropertyResult</value>
+  </data>
 </root>

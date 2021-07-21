@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\FragmentInterfaces\IFragmentViewModel.cs" />
     <Compile Include="ViewModels\Device\IDeviceViewModel.cs" />
     <Compile Include="ViewModels\IBitsConfigViewModel.cs" />
+    <Compile Include="ViewModels\ICanBeHidden.cs" />
     <Compile Include="ViewModels\IDeviceConnectionViewModel.cs" />
     <Compile Include="ViewModels\IDeviceDefinitionViewModel.cs" />
     <Compile Include="ViewModels\FragmentInterfaces\IFragmentPaneViewModel.cs" />

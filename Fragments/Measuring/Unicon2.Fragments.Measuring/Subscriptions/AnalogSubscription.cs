@@ -35,7 +35,8 @@ namespace Unicon2.Fragments.Measuring.Subscriptions
         private async Task ApplyUshortOnAnalog(ushort[] result, IUshortsFormatter formatter)
         {
             IFormattedValue value =
-               await this._formattingService.FormatValueAsync(formatter, result,this._deviceContext,false);
+                await this._formattingService.FormatValueAsync(formatter, result,
+                    new FormattingContext(_analogMeasuringElementViewModel, _deviceContext, false));
             ApplyValue(value);
         }
 

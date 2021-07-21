@@ -23,4 +23,23 @@ namespace Unicon2.Presentation.Infrastructure.DeviceContext
         public IDataProviderContainer DataProviderContainer { get; }
 		public IDeviceSharedResources DeviceSharedResources { get; }
     }
+
+    public class FormattingContext
+    {
+        public FormattingContext(IFormattedValueOwner valueOwner, DeviceContext deviceContext, bool isLocal)
+        {
+            ValueOwner = valueOwner;
+            DeviceContext = deviceContext;
+            IsLocal = isLocal;
+        }
+
+        public bool IsLocal { get; }
+        public DeviceContext DeviceContext { get; }
+        public IFormattedValueOwner ValueOwner { get; }
+    }
+
+    public interface IFormattedValueOwner
+    {
+
+    }
 }

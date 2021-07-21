@@ -112,8 +112,11 @@
     <Compile Include="Services\ExpressionEngine\Common\FormatterType.cs" />
     <Compile Include="Services\ExpressionEngine\Common\VariableNames.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\AddNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\ConvertInt16ToUnsignedNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\ConvertUnsignedToInt16Node.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\DoNode.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\GetInputNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Nodes\HideCurrentPropertyNode.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\InvertSignNode.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\SelectNode.cs" />
     <Compile Include="Services\ExpressionEngine\Visitors\AddVisitor.cs" />
@@ -121,6 +124,9 @@
     <Compile Include="Services\ExpressionEngine\Nodes\CompareNode.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\CompareVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Nodes\DivideNode.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\ConvertInt16ToUnsignedVisitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\ConvertUnsignedToInt16Visitor.cs" />
+    <Compile Include="Services\ExpressionEngine\Visitors\HideCurrentPropertyVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Visitors\InvertSignVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Visitors\DivideVisitor.cs" />
     <Compile Include="Services\ExpressionEngine\Evaluator.cs" />

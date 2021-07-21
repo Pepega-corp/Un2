@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.FragmentInterfaces;
@@ -25,7 +26,7 @@ namespace Unicon2.Presentation.Factories
             _container = container;
         }
 
-        public Result<IDeviceViewModel> CreateDeviceViewModel(IDevice device)
+        public async Task<Result<IDeviceViewModel>> CreateDeviceViewModel(IDevice device)
         {
             IDeviceViewModel deviceViewModel = _deviceViewModelGettingFunc();
             if (device.DeviceMemory == null)
@@ -52,7 +53,7 @@ namespace Unicon2.Presentation.Factories
                         deviceContextConsumer.DeviceContext = context;
                     }
 
-                    var res = fragmentViewModel.Initialize(deviceFragment);
+                    var res = await fragmentViewModel.Initialize(deviceFragment);
                     if (!res.IsSuccess)
                     {
                         if (res.Exception != null)

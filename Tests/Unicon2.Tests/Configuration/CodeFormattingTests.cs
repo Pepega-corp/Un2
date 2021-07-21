@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Prism.Ioc;
@@ -19,6 +21,7 @@ using Unicon2.Fragments.Configuration.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.ViewModels.Filter;
 using Unicon2.Fragments.Configuration.Editor.Visitors;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Properties;
 using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.MemoryAccess;
 using Unicon2.Fragments.Configuration.Model.Conditions;
@@ -101,13 +104,15 @@ namespace Unicon2.Tests.Configuration
             public ushort[] ModifiedDeviceValue { get; }
             public Result<(string resourceName, ushort resourceUshort)> InitialResourceInfo { get; }
             public Result<(string resourceName, ushort resourceUshort,bool ismodified)> ModifiedResourceInfo { get; }
-
+            public Result<Func<IPropertyViewModel, bool>> PropertyCheck { get; set; } =
+                Result<Func<IPropertyViewModel, bool>>.Create(false);
         }
 
 
         [Test]
         public async Task CreateSaveLoadAndCheckCodeFormatter()
         {
+            var watch = Stopwatch.StartNew();
             IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
             initialDevice.LoadDevice("FileAssets/testFile.json");
 
@@ -131,25 +136,45 @@ namespace Unicon2.Tests.Configuration
 
 
 
-            testCases.Add(new CodeFormatterTestCase("SetResultValue(Add(2,GetDeviceValue(0)))=>Select(number)",
-                "SetDeviceValue(Subtract(GetInputValue(),2),0)", new[] { (ushort)1 }, 3, 6, new[] { (ushort)4 }));
+            //testCases.Add(new CodeFormatterTestCase("SetResultValue(Add(2,GetDeviceValue(0)))=>Select(number)",
+            //    "SetDeviceValue(Subtract(GetInputValue(),2),0)", new[] { (ushort)1 }, 3, 6, new[] { (ushort)4 }));
 
-            testCases.Add(new CodeFormatterTestCase(
-                "If(GetBitOfResource(0,testResource1),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
-                "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource1),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource1),SetDeviceValue(GetInputValue(),0)))"
-                , new[] { (ushort)10 }, 10, 11, new[] { (ushort)11 }, ("testResource1", 0), ("testResource1", 0, false)));
+            //testCases.Add(new CodeFormatterTestCase(
+            //    "If(GetBitOfResource(0,testResource1),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+            //    "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource1),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource1),SetDeviceValue(GetInputValue(),0)))"
+            //    , new[] { (ushort)10 }, 10, 11, new[] { (ushort)11 }, ("testResource1", 0), ("testResource1", 0, false)));
 
-            testCases.Add(new CodeFormatterTestCase(
-                "If(GetBitOfResource(0,testResource2),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
-                "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource2),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource2),SetDeviceValue(GetInputValue(),0)))"
-                , new[] { (ushort)44 }, 44, -455, new[] { (ushort)455 }, ("testResource2", 0), ("testResource2", 1, true)));
+            //testCases.Add(new CodeFormatterTestCase(
+            //    "If(GetBitOfResource(0,testResource2),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+            //    "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource2),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource2),SetDeviceValue(GetInputValue(),0)))"
+            //    , new[] { (ushort)44 }, 44, -455, new[] { (ushort)455 }, ("testResource2", 0), ("testResource2", 1, true)));
 
 
-            testCases.Add(new CodeFormatterTestCase(
-                "If(GetBitOfResource(0,testResource3),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
-               "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource3),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource3),SetDeviceValue(GetInputValue(),0)))"
-                , new[] { (ushort)22 }, 22, -22, new[] { (ushort)22 }, ("testResource3", 0), ("testResource3", 1, true)));
+            //testCases.Add(new CodeFormatterTestCase(
+            //    "If(GetBitOfResource(0,testResource3),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+            //   "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource3),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource3),SetDeviceValue(GetInputValue(),0)))"
+            //    , new[] { (ushort)22 }, 22, -22, new[] { (ushort)22 }, ("testResource3", 0), ("testResource3", 1, true)));
 
+
+
+            //testCases.Add(new CodeFormatterTestCase("SetResultValue(ConvertUnsignedToInt16(GetDeviceValue(0)))=>Select(number)",
+            //    "SetDeviceValue(ConvertInt16ToUnsigned(GetInputValue()),0)", new[] { (ushort)10 }, 10, -10, new[] { (ushort)65526 }));
+            //testCases.Add(new CodeFormatterTestCase("SetResultValue(ConvertUnsignedToInt16(GetDeviceValue(0)))=>Select(number)",
+            //    "SetDeviceValue(ConvertInt16ToUnsigned(GetInputValue()),0)", new[] { (ushort)65526 }, -10, 10, new[] { (ushort)10 }));
+
+
+            var caseForHide=
+            new CodeFormatterTestCase(
+                "If(GetBitOfResource(0,testResource4),Do(HideCurrentProperty(),SetResultValue(InvertSign(GetDeviceValue(0)))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+                "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource4),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource4),SetDeviceValue(GetInputValue(),0)))"
+                , new[] {(ushort) 22}, 22, -22, new[] {(ushort) 22}, ("testResource4", 0), ("testResource4", 1, true));
+
+            caseForHide.PropertyCheck = Result<Func<IPropertyViewModel, bool>>.Create(model =>
+            {
+                return true;
+            }, true);
+
+            testCases.Add(caseForHide);
 
 
             foreach (var testCase in testCases)
@@ -190,6 +215,7 @@ namespace Unicon2.Tests.Configuration
 
                 }
             }
+           // configurationEditorViewModel.RootConfigurationItemViewModels.Clear();
 
 
             configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
@@ -270,7 +296,7 @@ namespace Unicon2.Tests.Configuration
 
                 Assert.True(device.DeviceMemory.LocalMemoryValues[(ushort) (1000 + testCases.IndexOf(testCase))] ==
                             testCase.ModifiedDeviceValue[0]);
-                await Task.Delay(1000);
+               // await Task.Delay(100);
                 if (testCase.ModifiedResourceInfo.IsSuccess)
                 {
                     var resourcePropertyViewModel = configurationFragmentViewModel
@@ -280,11 +306,6 @@ namespace Unicon2.Tests.Configuration
                             model.Header == testCase.InitialResourceInfo.Item.resourceName)
                         .Item as IRuntimePropertyViewModel;
 
-                    if (resourcePropertyViewModel.LocalValue.IsFormattedValueChanged !=
-                        testCase.ModifiedResourceInfo.Item.ismodified)
-                    {
-
-                    }
 
                     Assert.AreEqual(resourcePropertyViewModel.LocalValue.IsFormattedValueChanged,testCase.ModifiedResourceInfo.Item.ismodified);
 
@@ -293,6 +314,7 @@ namespace Unicon2.Tests.Configuration
                 }
             }
 
+            var x = watch.Elapsed;
         }
 
         private async Task TransferFromDeviceToLocal(IDeviceConfiguration configuration,

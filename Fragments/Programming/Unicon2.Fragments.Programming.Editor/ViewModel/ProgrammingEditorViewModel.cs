@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Editor.View;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
@@ -187,7 +188,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
             return this._model;
         }
 
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IProgrammModelEditor model)
             {

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Unicon2.Fragments.FileOperations.Infrastructure.Factories;
 using Unicon2.Fragments.FileOperations.Infrastructure.Keys;
@@ -90,7 +91,7 @@ namespace Unicon2.Fragments.FileOperations.ViewModel
             this.RaisePropertyChanged(nameof(this.RootDeviceDirectoryViewModel));
         }
 
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             if(deviceFragment is IFileBrowser fileBrouser)
             {

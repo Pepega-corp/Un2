@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Unicon2.Formatting.Infrastructure.ViewModel;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.EditOperations;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
@@ -196,8 +197,15 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 				Header = Header,
 				Name = Name,
 				MeasureUnit = MeasureUnit,
-				NumberOfWriteFunction = NumberOfWriteFunction
+				NumberOfWriteFunction = NumberOfWriteFunction,
+				IsFromBits = IsFromBits
 			};
+
+			foreach (var bitViewModel in BitNumbersInWord.Where(model => model.IsChecked).ToList())
+            {
+				cloneEditorViewModel.BitNumbersInWord.First(model =>model.BitNumber==bitViewModel.BitNumber ).IsChecked = true;
+            }
+
 
 			return cloneEditorViewModel;
 		}

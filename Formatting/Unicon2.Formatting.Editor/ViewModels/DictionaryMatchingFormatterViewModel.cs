@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Unicon2.Formatting.Editor.ViewModels.Validators;
 using Unicon2.Formatting.Editor.Visitors;
 using Unicon2.Formatting.Infrastructure.Keys;
 using Unicon2.Formatting.Infrastructure.ViewModel;
@@ -22,7 +23,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
     {
         private ObservableCollection<BindableKeyValuePair<ushort, string>> _keyValuesDictionary;
         private BindableKeyValuePair<ushort, string> _selectedKeyValuePair;
-        //private DictionaryMatchingFormatterValidator _validator;
+        private DictionaryMatchingFormatterValidator _validator;
         private bool _isKeysIsNumbersOfBits;
         private bool _useDefaultMessage;
         private string _defaultMessage;
@@ -33,7 +34,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
             AddKeyValuePairCommand = new RelayCommand(OnAddKeyValuePairExecute);
             DeleteKeyValuePairCommand = new RelayCommand(OnDeleteKeyValuePairExecute, CanExecuteDeleteKeyValuePair);
             ImportFromSharedTablesCommand = new RelayCommand(OnExecuteImportFromSharedTables);
-           // this._validator = new DictionaryMatchingFormatterValidator(this._container.Resolve<ILocalizerService>());
+            this._validator = new DictionaryMatchingFormatterValidator(StaticContainer.Container.Resolve<ILocalizerService>());
            ImportFromExcelCommand = new RelayCommand(OnImportFromExcel);
            ExportToExcelCommand = new RelayCommand(OnExportToExcel);
         }
@@ -231,8 +232,8 @@ namespace Unicon2.Formatting.Editor.ViewModels
 
         protected override void OnValidate()
         {
-          //  FluentValidation.Results.ValidationResult result = this._validator.Validate(this);
-         //   this.SetValidationErrors(result);
+            FluentValidation.Results.ValidationResult result = this._validator.Validate(this);
+            this.SetValidationErrors(result);
         }
 
         public bool IsInEditMode { get; set; }

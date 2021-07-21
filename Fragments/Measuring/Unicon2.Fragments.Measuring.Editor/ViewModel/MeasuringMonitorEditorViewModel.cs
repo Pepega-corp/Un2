@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Measuring.Editor.Helpers;
 using Unicon2.Fragments.Measuring.Editor.Interfaces.Factories;
@@ -151,7 +152,7 @@ namespace Unicon2.Fragments.Measuring.Editor.ViewModel
         }
 
 
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
 			_measuringMonitor = deviceFragment as IMeasuringMonitor;
 			MeasuringGroupEditorViewModels.Clear();

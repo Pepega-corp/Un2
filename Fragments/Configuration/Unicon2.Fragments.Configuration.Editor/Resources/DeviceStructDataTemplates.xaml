@@ -94,6 +94,14 @@
             Text="{lex:Loc BlockInteractionResult}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type results:HidePropertyResultViewModel}">
+        <TextBlock
+            MinWidth="150"
+            Margin="5"
+            Text="{lex:Loc HidePropertyResult}" />
+    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type results:ApplyFormatterResultViewModel}">
         <StackPanel Orientation="Horizontal">
             <TextBlock Margin="5" Text="{lex:Loc ConditionFormatter}" />

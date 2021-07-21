@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
 
@@ -15,6 +17,14 @@ namespace Unicon2.Tests.Utils
 {
     public static class TestsUtils
     {
+        public static RelayCommand GetFragmentCommand(IFragmentViewModel fragment, string groupName, string commandName)
+        {
+            return fragment.FragmentOptionsViewModel.FragmentOptionGroupViewModels
+                .First(model => model.NameKey == groupName).FragmentOptionCommandViewModels
+                .First(model => model.TitleKey == commandName)
+                .OptionCommand as RelayCommand;
+        }
+
         public static List<IConfigurationItemViewModel> FindAllItemViewModelsByName(
             this List<IConfigurationItemViewModel> configurationItems,
             Func<IConfigurationItemViewModel, bool> predicate,

@@ -96,7 +96,7 @@ namespace Unicon2.Formatting.Editor.ViewModels
         {
             var res2 = _codeFormatterService.GetFormatBackUshortsFunc(
                 new CodeFormatterExpression(FormatCodeString, FormatBackCodeString),
-                new DeviceContext(null, null, "Test", null, null), true);
+                new DeviceContext(null, null, "Test", null, null), true,null);
             ErrorInFormatBackString = !res2.IsSuccess;
         }
 

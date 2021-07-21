@@ -1,4 +1,4 @@
-﻿namespace Unicon2.Fragments.Configuration.Infrastructure.ViewModel
+﻿namespace Unicon2.Presentation.Infrastructure.ViewModels
 {
     public interface ICanBeHidden
     {

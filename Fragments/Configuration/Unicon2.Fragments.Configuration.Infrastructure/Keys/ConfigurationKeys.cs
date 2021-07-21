@@ -39,6 +39,7 @@
         public const string BLOCK_INTERACTION_RESULT = "BlockInteractionResult";
         public const string APPLY_FORMATTER_RESULT = "ApplyFormatterResult";
 
+        public const string HIDE_PROPERTY_RESULT = "HidePropertyResult";
 
         public const string COMPLEX_PROPERTY = "ComplexProperty";
         public const string SUB_PROPERTY = "SubProperty";

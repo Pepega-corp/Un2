@@ -91,7 +91,8 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess
             }
 
             return Result<IFormattedValue>.Create(
-                await this._formattingService.FormatValueAsync(formatter, values, deviceContext,isLocal),
+                await this._formattingService.FormatValueAsync(formatter, values,
+                    new FormattingContext(null, deviceContext, isLocal)),
                 true);
         }
 

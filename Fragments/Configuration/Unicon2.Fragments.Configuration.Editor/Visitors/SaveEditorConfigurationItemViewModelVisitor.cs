@@ -15,6 +15,7 @@ using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Interfaces;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services;
+using Unicon2.Presentation.Infrastructure.ViewModels;
 using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Fragments.Configuration.Editor.Visitors

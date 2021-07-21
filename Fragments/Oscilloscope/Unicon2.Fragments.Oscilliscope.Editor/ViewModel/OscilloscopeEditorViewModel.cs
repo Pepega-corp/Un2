@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Journals.Editor.Interfaces;
+﻿using System.Threading.Tasks;
+using Unicon2.Fragments.Journals.Editor.Interfaces;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Oscilliscope.Editor.Interfaces;
 using Unicon2.Fragments.Oscilliscope.Editor.Interfaces.OscillogramLoadingParameters;
@@ -87,7 +88,7 @@ namespace Unicon2.Fragments.Oscilliscope.Editor.ViewModel
             return this._oscilloscopeModel;
         }
 
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             this._oscilloscopeModel = deviceFragment as IOscilloscopeModel;
             this.OscilloscopeJournalEditorViewModel = this._fragmentEditorViewModelFactory.CreateFragmentEditorViewModel(this._oscilloscopeModel.OscilloscopeJournal) as IUniconJournalEditorViewModel;

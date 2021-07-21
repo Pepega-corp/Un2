@@ -27,7 +27,7 @@ namespace Unicon2.Fragments.GraphicalMenu.Editor.ViewModel
             _graphicalMenuFactory = graphicalMenuFactory;
         }
 
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             if (deviceFragment is IGraphicalMenu graphicalMenu)
             {

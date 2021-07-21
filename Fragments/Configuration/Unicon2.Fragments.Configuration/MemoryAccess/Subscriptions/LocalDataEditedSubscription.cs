@@ -4,6 +4,7 @@ using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Depen
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Dependencies.Results;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces.Properties;
+using Unicon2.Fragments.Configuration.Infrastructure.ViewModel.Runtime;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.ComplexProperty;
 using Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentProperty;
 using Unicon2.Fragments.Configuration.ViewModelMemoryMapping;
@@ -21,17 +22,21 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 {
     public class LocalDataEditedSubscription : ILocalDataMemorySubscription
     {
+        private readonly IRuntimePropertyViewModel _runtimePropertyViewModel;
         private readonly DeviceContext _deviceContext;
         private readonly IProperty _property;
         private readonly int _offset;
 
-        public LocalDataEditedSubscription(IEditableValueViewModel editableValueViewModel,
+        public LocalDataEditedSubscription(IRuntimePropertyViewModel runtimePropertyViewModel,
+            IEditableValueViewModel editableValueViewModel,
             DeviceContext deviceContext, IProperty property, int offset)
         {
+            _runtimePropertyViewModel = runtimePropertyViewModel;
             _deviceContext = deviceContext;
             _property = property;
             _offset = offset;
             EditableValueViewModel = editableValueViewModel;
+
         }
         public int Priority { get; set; } = 2;
 
@@ -52,15 +57,16 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
                 if (_property?.Dependencies?.Count > 0)
                 {
-                    formatterForDependentProperty =
+                    formatterForDependentProperty = await 
                         DependentSubscriptionHelpers.GetFormatterConsideringDependencies(_property.Dependencies,
                             _deviceContext, formattingService, _property.UshortsFormatter, (ushort)_offset);
                 }
 
 
-                var ushorts = formattingService.FormatBack(formatterForDependentProperty,
-                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor),true); var ushortOfSubProperty = ushorts.First();
-                    var boolArray = ushorts.GetBoolArrayFromUshortArray();
+                var ushorts = await formattingService.FormatBackAsync(formatterForDependentProperty,
+                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor),new FormattingContext(_runtimePropertyViewModel,_deviceContext,true));
+                var ushortOfSubProperty = ushorts.Item.First();
+                    var boolArray = ushorts.Item.GetBoolArrayFromUshortArray();
                     int counter = 0;
                     for (int i = 0; i < 16; i++)
                     {
@@ -94,14 +100,14 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
 
                 if (_property?.Dependencies?.Count > 0)
                 {
-                    formatterForDependentProperty =
+                    formatterForDependentProperty = await 
                         DependentSubscriptionHelpers.GetFormatterConsideringDependencies(_property.Dependencies,
                             _deviceContext, formattingService, _property.UshortsFormatter, (ushort) _offset);
                 }
 
 
                 var ushorts =await formattingService.FormatBackAsync(formatterForDependentProperty,
-                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor),_deviceContext,true);
+                    EditableValueViewModel.Accept(fetchingFromViewModelVisitor), new FormattingContext(_runtimePropertyViewModel,_deviceContext,true));
 
 
                 if (!ushorts.IsSuccess)

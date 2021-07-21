@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Journals.Infrastructure.Model;
 using Unicon2.Fragments.Journals.Infrastructure.Model.JournalParameters;
@@ -131,7 +132,7 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel.Journal
         }
 
         public DeviceContext DeviceContext { get; set; }
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             IUniconJournal uniconJournal = deviceFragment as IUniconJournal;
             this._uniconJournal = uniconJournal;

@@ -113,6 +113,7 @@
     <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\ApplyFormatterResultViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\BlockInteractionResultViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\Results\HidePropertyResultViewModel.cs" />
     <Compile Include="ViewModels\Filter\CompareConditionViewModel.cs" />
     <Compile Include="ViewModels\Filter\FilterEditorWindowViewModel.cs" />
     <Compile Include="ViewModels\Filter\FilterViewModel.cs" />

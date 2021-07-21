@@ -62,12 +62,12 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 var subPropertyUshort = subPropertyBools.BoolArrayToUshort();
                 if (_property?.Dependencies?.Count > 0)
                 {
-                    formatterForProperty = DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
+                    formatterForProperty = await DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
                         _property.Dependencies, _deviceContext, formattingService,
                         _property?.UshortsFormatter, _offset);
                 }
 
-                var value = formattingService.FormatValue(formatterForProperty, subPropertyUshort.AsCollection(),false);
+                var value = await formattingService.FormatValueAsync(formatterForProperty, subPropertyUshort.AsCollection(),new FormattingContext(_localAndDeviceValueContainingViewModel,_deviceContext,false));
                 _localAndDeviceValueContainingViewModel.DeviceValue =
                     _valueViewModelFactory.CreateFormattedValueViewModel(value);
             }
@@ -79,7 +79,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 var formatterForProperty = _property?.UshortsFormatter;
                 if (_property?.Dependencies?.Count > 0)
                 {
-                    formatterForProperty = DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
+                    formatterForProperty = await DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
                         _property.Dependencies, _deviceContext, formattingService,
                         _property?.UshortsFormatter, _offset);
                 }
@@ -91,7 +91,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                     var value = await formattingService.FormatValueAsync(formatterForProperty,
                         MemoryAccessor.GetUshortsFromMemory(
                             _deviceContext.DeviceMemory,
-                            (ushort) (_property.Address + _offset), _property.NumberOfPoints, false), _deviceContext,false);
+                            (ushort) (_property.Address + _offset), _property.NumberOfPoints, false), new FormattingContext(_localAndDeviceValueContainingViewModel, _deviceContext, false));
                     _localAndDeviceValueContainingViewModel.DeviceValue =
                         _valueViewModelFactory.CreateFormattedValueViewModel(value);
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Unicon2.Fragments.Oscilliscope.Helpers;
 using Unicon2.Fragments.Oscilliscope.Infrastructure.Keys;
@@ -152,7 +153,7 @@ namespace Unicon2.Fragments.Oscilliscope.ViewModel
         
         public string NameForUiKey => OscilloscopeKeys.OSCILLOSCOPE;
         public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-        public Result Initialize(IDeviceFragment deviceFragment)
+        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
             this._oscilloscopeModel = deviceFragment as IOscilloscopeModel;
             this.OscilloscopeJournalViewModel.Initialize(this._oscilloscopeModel.OscilloscopeJournal);

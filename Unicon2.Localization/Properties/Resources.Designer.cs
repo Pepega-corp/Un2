@@ -2239,6 +2239,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @HidePropertyResult.
+        /// </summary>
+        public static string HidePropertyResult {
+            get {
+                return ResourceManager.GetString("HidePropertyResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Hours.
         /// </summary>
         public static string Hours {

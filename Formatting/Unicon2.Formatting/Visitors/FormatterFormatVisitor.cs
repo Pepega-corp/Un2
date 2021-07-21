@@ -21,27 +21,28 @@ using Unicon2.Unity.Interfaces;
 
 namespace Unicon2.Formatting.Visitors
 {
-    public class FormatterFormatVisitor : IFormatterVisitor<IFormattedValue>
+    public class FormatterFormatVisitor : IFormatterVisitor<Task<IFormattedValue>>
     {
         private readonly ushort[] _ushortsPayload;
         private readonly ITypesContainer _typesContainer;
         private readonly ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>> _iterationDefinitionsCache;
-        private ConcurrentDictionary<IUshortsFormatter, Func<BuiltExpressionFormatContext, Task<IFormattedValue>>> _codeFormatterCache;
 
         private readonly bool _isLocal;
+        private FormattingContext _formattingContext;
 
         public FormatterFormatVisitor(ushort[] ushortsPayload, ITypesContainer typesContainer,
-            ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>> iterationDefinitionsCache, bool isLocal, ConcurrentDictionary<IUshortsFormatter, Func<BuiltExpressionFormatContext, Task<IFormattedValue>>> codeFormatterCache)
+            ConcurrentDictionary<string, ConcurrentBag<IterationDefinition>> iterationDefinitionsCache, FormattingContext formattingContext)
         {
             _ushortsPayload = ushortsPayload;
             _typesContainer = typesContainer;
             _iterationDefinitionsCache = iterationDefinitionsCache;
-            _isLocal = isLocal;
-            _codeFormatterCache = codeFormatterCache;
+            _formattingContext = formattingContext;
         }
 
 
-        public IFormattedValue VisitBoolFormatter(IUshortsFormatter boolFormatter)
+
+
+        public async Task<IFormattedValue> VisitBoolFormatter(IUshortsFormatter boolFormatter)
         {
             IBoolValue boolValue = _typesContainer.Resolve<IBoolValue>();
             if (_ushortsPayload[0] == 0)
@@ -56,7 +57,7 @@ namespace Unicon2.Formatting.Visitors
             return boolValue;
         }
 
-        public IFormattedValue VisitAsciiStringFormatter(IUshortsFormatter formatter)
+        public async Task<IFormattedValue> VisitAsciiStringFormatter(IUshortsFormatter formatter)
         {
             IStringValue stringValue = _typesContainer.Resolve<IStringValue>();
             byte[] bytes = new byte[_ushortsPayload.Length * 2];
@@ -66,7 +67,7 @@ namespace Unicon2.Formatting.Visitors
             return stringValue;
         }
 
-        public IFormattedValue VisitTimeFormatter(IUshortsFormatter formatter)
+        public async Task<IFormattedValue> VisitTimeFormatter(IUshortsFormatter formatter)
         {
             ITimeValue value = _typesContainer.Resolve<ITimeValue>();
             IDefaultTimeFormatter timeFormatter = formatter as IDefaultTimeFormatter;
@@ -107,52 +108,51 @@ namespace Unicon2.Formatting.Visitors
             return value;
         }
 
-        public IFormattedValue VisitDirectUshortFormatter(IUshortsFormatter formatter)
+        public async Task<IFormattedValue> VisitDirectUshortFormatter(IUshortsFormatter formatter)
         {
             INumericValue numericValue = _typesContainer.Resolve<INumericValue>();
             numericValue.NumValue = _ushortsPayload[0];
             return numericValue;
         }
 
-        public IFormattedValue VisitFormulaFormatter(IUshortsFormatter formatter)
-        {
-            INumericValue formattedValue = _typesContainer.Resolve<INumericValue>();
-            IterationDefinition iterationDefinition = new IterationDefinition();
-            IFormulaFormatter formulaFormatter = formatter as IFormulaFormatter;
+        //public async Task<IFormattedValue> VisitFormulaFormatter(IUshortsFormatter formatter)
+        //{
+        //    INumericValue formattedValue = _typesContainer.Resolve<INumericValue>();
+        //    IterationDefinition iterationDefinition = new IterationDefinition();
+        //    IFormulaFormatter formulaFormatter = formatter as IFormulaFormatter;
 
-            iterationDefinition.FormulaString = formulaFormatter.FormulaString;
+        //    iterationDefinition.FormulaString = formulaFormatter.FormulaString;
 
-            iterationDefinition.ArgumentNames = new List<string>();
-            iterationDefinition.ArgumentValues = new List<double>();
-            iterationDefinition.ArgumentNames.Add("x");
-            iterationDefinition.ArgumentValues.Add(_ushortsPayload[0]);
-            iterationDefinition.NumberOfSimbolsAfterComma = formulaFormatter.NumberOfSimbolsAfterComma;
-            if (formulaFormatter.UshortFormattableResources != null)
-            {
-                //  int index = 1;
-                //  foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattableResources)
-                //  {
-                // if (formattableUshortResource is IDeviceValueContaining)
-                // {
-                //     IFormattedValue value = formattableUshortResource.UshortsFormatter
-                //        .Format((formattableUshortResource as IDeviceValueContaining).DeviceUshortsValue);
-                //    if (value is INumericValue)
-                //   {
-                //       double num = (value as INumericValue).NumValue;
-                //        iterationDefinition.ArgumentNames.Add("x" + index++);
-                //       iterationDefinition.ArgumentValues.Add(num);
-                //    }
-                //  }
-                // }
-            }
+        //    iterationDefinition.ArgumentNames = new List<string>();
+        //    iterationDefinition.ArgumentValues = new List<double>();
+        //    iterationDefinition.ArgumentNames.Add("x");
+        //    iterationDefinition.ArgumentValues.Add(_ushortsPayload[0]);
+        //    iterationDefinition.NumberOfSimbolsAfterComma = formulaFormatter.NumberOfSimbolsAfterComma;
+        //    if (formulaFormatter.UshortFormattableResources != null)
+        //    {
+        //        //  int index = 1;
+        //        //  foreach (IUshortFormattable formattableUshortResource in formulaFormatter.UshortFormattableResources)
+        //        //  {
+        //        // if (formattableUshortResource is IDeviceValueContaining)
+        //        // {
+        //        //     IFormattedValue value = formattableUshortResource.UshortsFormatter
+        //        //        .Format((formattableUshortResource as IDeviceValueContaining).DeviceUshortsValue);
+        //        //    if (value is INumericValue)
+        //        //   {
+        //        //       double num = (value as INumericValue).NumValue;
+        //        //        iterationDefinition.ArgumentNames.Add("x" + index++);
+        //        //       iterationDefinition.ArgumentValues.Add(num);
+        //        //    }
+        //        //  }
+        //        // }
+        //    }
 
-            formattedValue.NumValue = MemoizeCalculateResult(iterationDefinition, formulaFormatter.FormulaString,
-                formulaFormatter.NumberOfSimbolsAfterComma);
-            return formattedValue;
-        }
+        //    formattedValue.NumValue = MemoizeCalculateResult(iterationDefinition, formulaFormatter.FormulaString,
+        //        formulaFormatter.NumberOfSimbolsAfterComma);
+        //    return formattedValue;
+        //}
 
-        public async Task<IFormattedValue> VisitFormulaFormatterAsync(IUshortsFormatter formatter,
-            DeviceContext deviceContext)
+        public async Task<IFormattedValue> VisitFormulaFormatter(IUshortsFormatter formatter)
         {
             INumericValue formattedValue = _typesContainer.Resolve<INumericValue>();
             IterationDefinition iterationDefinition = new IterationDefinition();
@@ -170,11 +170,11 @@ namespace Unicon2.Formatting.Visitors
                 int index = 1;
                 foreach (string formattableUshortResource in formulaFormatter.UshortFormattableResources)
                 {
-                    var resource = deviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
+                    var resource = _formattingContext.DeviceContext.DeviceSharedResources.SharedResourcesInContainers.FirstOrDefault(
                         container => container.ResourceName == formattableUshortResource);
 
                     var propValue = await StaticContainer.Container.Resolve<IPropertyValueService>()
-                        .GetValueOfProperty(resource.Resource, deviceContext, true,_isLocal);
+                        .GetValueOfProperty(resource.Resource, _formattingContext.DeviceContext, true,_isLocal);
 
                     if (propValue.Item is INumericValue numericValue)
                     {
@@ -235,7 +235,7 @@ namespace Unicon2.Formatting.Visitors
 
 
 
-        public IFormattedValue VisitString1251Formatter(IUshortsFormatter formatter)
+        public async Task<IFormattedValue> VisitString1251Formatter(IUshortsFormatter formatter)
         {
             IStringValue formattedValue = _typesContainer.Resolve<IStringValue>();
             byte[] bytes = new byte[_ushortsPayload.Length * 2];
@@ -245,7 +245,7 @@ namespace Unicon2.Formatting.Visitors
             return formattedValue;
         }
 
-        public IFormattedValue VisitUshortToIntegerFormatter(IUshortsFormatter formatter)
+        public async Task<IFormattedValue> VisitUshortToIntegerFormatter(IUshortsFormatter formatter)
         {
             if (_ushortsPayload.Length != 2) throw new ArgumentException("Number of words must be equal 2");
             INumericValue numValue = _typesContainer.Resolve<INumericValue>();
@@ -253,7 +253,7 @@ namespace Unicon2.Formatting.Visitors
             return numValue;
         }
 
-        public IFormattedValue VisitDictionaryMatchFormatter(IUshortsFormatter formatter)
+        public async Task<IFormattedValue> VisitDictionaryMatchFormatter(IUshortsFormatter formatter)
         {
             IChosenFromListValue chosenFromListValue = _typesContainer.Resolve<IChosenFromListValue>();
             IDictionaryMatchingFormatter dictionaryMatchingFormatter = formatter as IDictionaryMatchingFormatter;
@@ -272,7 +272,6 @@ namespace Unicon2.Formatting.Visitors
                 return chosenFromListValue;
             }
 
-            ;
             if (dictionaryMatchingFormatter.IsKeysAreNumbersOfBits)
             {
                 BitArray bitArray = new BitArray(new int[] {_ushortsPayload[0]});
@@ -299,7 +298,7 @@ namespace Unicon2.Formatting.Visitors
             return chosenFromListValue;
         }
 
-        public IFormattedValue VisitBitMaskFormatter(IUshortsFormatter formatter)
+        public async Task<IFormattedValue> VisitBitMaskFormatter(IUshortsFormatter formatter)
         {
             IBitMaskFormatter bitMaskFormatter = formatter as IBitMaskFormatter;
             IBitMaskValue bitMaskValue = _typesContainer.Resolve<IBitMaskValue>();
@@ -319,35 +318,21 @@ namespace Unicon2.Formatting.Visitors
             return bitMaskValue;
         }
 
-        public IFormattedValue VisitMatrixFormatter(IUshortsFormatter formatter)
+        public async Task<IFormattedValue> VisitMatrixFormatter(IUshortsFormatter formatter)
         {
             throw new NotImplementedException();
         }
 
-        public IFormattedValue VisitCodeFormatter(IUshortsFormatter formatter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IFormattedValue> VisitCodeFormatterAsync(IUshortsFormatter formatter,
-            DeviceContext deviceContext, bool isLocal)
+        public async Task<IFormattedValue> VisitCodeFormatter(IUshortsFormatter formatter)
         {
             var service = _typesContainer.Resolve<ICodeFormatterService>();
             var codeFormatter = formatter as ICodeFormatter;
 
-            if (_codeFormatterCache.ContainsKey(formatter))
-            {
-                var resFromCache = await _codeFormatterCache[formatter]
-                    .Invoke(new BuiltExpressionFormatContext(deviceContext, _ushortsPayload, isLocal));
-                return resFromCache;
-            }
-
 
             var value = service.GetFormatUshortsFunc(codeFormatter.CodeExpression);
 
-            _codeFormatterCache.TryAdd(formatter, value.Item);
-
-            var res = (await value.Item.Invoke(new BuiltExpressionFormatContext(deviceContext,_ushortsPayload,isLocal)));
+            var res = (await value.Item.Invoke(new BuiltExpressionFormatContext(_formattingContext.DeviceContext,
+                _ushortsPayload, _formattingContext.IsLocal, _formattingContext.ValueOwner)));
             return res;
         }
     }
