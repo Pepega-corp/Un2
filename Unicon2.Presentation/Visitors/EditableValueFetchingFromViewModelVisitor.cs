@@ -34,7 +34,9 @@ namespace Unicon2.Presentation.Visitors
 
         public IFormattedValue VisitStringValueViewModel(IStringValueViewModel stringValueViewModel)
         {
-            throw new System.NotImplementedException();
+            var numericValue = (stringValueViewModel as IStringValueViewModel)?.FormattedValue as IStringValue;
+            numericValue.StrValue = stringValueViewModel.StringValue;
+            return numericValue;
         }
     }
 }

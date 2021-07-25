@@ -101,7 +101,6 @@ namespace Unicon2.Presentation.Subscription
                 deviceDataMemorySubscriptions.Distinct().OrderBy(subscription => subscription.Priority).ToList();
             deviceDataMemorySubscriptions.Distinct().OrderBy(subscription =>subscription.Priority).ToList().ForEach(subscription =>
             {
-                
                 subscription.Execute();
             });
             return Result.Create(true);

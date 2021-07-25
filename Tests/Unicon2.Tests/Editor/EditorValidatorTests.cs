@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Prism.Ioc;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
 using Unicon2.DeviceEditorUtilityModule.ViewModels;
+using Unicon2.Formatting.Editor.ViewModels;
 using Unicon2.Fragments.Configuration.Editor.Factories;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
@@ -176,6 +177,32 @@ namespace Unicon2.Tests.Editor
                     }
                 });
 
+
+            var property3 = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2, _typesContainer);
+
+            property3.DependencyViewModels.Add(
+                new ConditionResultDependencyViewModel(new List<IResultViewModel>(), new List<IConditionViewModel>())
+                {
+                    SelectedConditionViewModel = new RegexMatchConditionViewModel(
+                        _typesContainer.Resolve<ISharedResourcesGlobalViewModel>())
+                    {
+                        ReferencedResourcePropertyName = "Pupa"
+                    }
+                });
+            var property4 = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2, _typesContainer);
+
+
+            property4.DependencyViewModels.Add(
+                new ConditionResultDependencyViewModel(new List<IResultViewModel>(), new List<IConditionViewModel>())
+                {
+                    SelectedConditionViewModel = new RegexMatchConditionViewModel(
+                        _typesContainer.Resolve<ISharedResourcesGlobalViewModel>())
+                    {
+                        ReferencedResourcePropertyName = ""
+                    }
+                });
+
+
             configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
 
 
@@ -185,9 +212,12 @@ namespace Unicon2.Tests.Editor
             var res = _typesContainer.Resolve<IDeviceEditorViewModelValidator>()
                 .ValidateDeviceEditor(new List<IFragmentEditorViewModel>() {configurationEditorViewModel});
 
-            Assert.True(res.Count == 2);
+            Assert.True(res.Count == 4);
             
         }
+
+
+   
 
 
         [Test]
@@ -340,6 +370,180 @@ namespace Unicon2.Tests.Editor
 
             Assert.True(res.Count == 1);
             Assert.True(res[0].ErrorMessage.Contains(ApplicationGlobalNames.StatusMessages.RESOURCE_FOR_DEPENDENCY_NOT_FOUND_MESSAGE));
+
+        }
+
+
+        [Test]
+        public void ValidateEditorPropertySharedResource()
+        {
+
+            IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
+
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var deviceSharedResources = new DeviceSharedResources();
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
+                _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
+
+            sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            var property = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1, _typesContainer);
+
+            property.Name = "Pupa";
+
+            configurationEditorViewModel.SelectedRow = property;
+
+            sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(property, null, false);
+
+            property.Parent = rootGroup;
+
+        
+            var property2 = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2, _typesContainer);
+
+            property2.DependencyViewModels.Add(
+                new ConditionResultDependencyViewModel(new List<IResultViewModel>(), new List<IConditionViewModel>())
+                {
+                    SelectedConditionViewModel = new CompareResourceConditionViewModel(
+                        _typesContainer.Resolve<ISharedResourcesGlobalViewModel>(),
+                        new List<string>(Enum.GetNames(typeof(ConditionsEnum))))
+                    {
+                        ReferencedResourcePropertyName = "Pupa"
+                    }
+                });
+
+
+
+            initialDevice.FragmentEditorViewModels
+                .Add(configurationEditorViewModel);
+
+            var res = _typesContainer.Resolve<IDeviceEditorViewModelValidator>()
+                .ValidateDeviceEditor(new List<IFragmentEditorViewModel>() { configurationEditorViewModel });
+
+            Assert.True(res.Count == 0);
+
+        }
+
+
+        [Test]
+        public void ValidateEditorPropertySharedResourceRegexWithResourceIsString()
+        {
+
+            IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
+
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var deviceSharedResources = new DeviceSharedResources();
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
+                _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
+
+            sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            var property = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1, _typesContainer);
+            property.FormatterParametersViewModel.RelatedUshortsFormatterViewModel=new AsciiStringFormatterViewModel();
+            property.Name = "Pupa";
+
+            configurationEditorViewModel.SelectedRow = property;
+
+            sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(property, null, false);
+
+            property.Parent = rootGroup;
+
+
+            var property2 = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2, _typesContainer);
+
+            property2.DependencyViewModels.Add(
+                new ConditionResultDependencyViewModel(new List<IResultViewModel>(), new List<IConditionViewModel>())
+                {
+                    SelectedConditionViewModel = new RegexMatchConditionViewModel(
+                        _typesContainer.Resolve<ISharedResourcesGlobalViewModel>())
+                    {
+                        ReferencedResourcePropertyName = "Pupa"
+                    }
+                });
+
+
+
+            initialDevice.FragmentEditorViewModels
+                .Add(configurationEditorViewModel);
+
+            var res = _typesContainer.Resolve<IDeviceEditorViewModelValidator>()
+                .ValidateDeviceEditor(new List<IFragmentEditorViewModel>() { configurationEditorViewModel });
+
+            Assert.True(res.Count == 0);
+
+        }
+
+        [Test]
+        public void ValidateEditorPropertySharedResourceRegexWithResourceIsNotString()
+        {
+
+            IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
+
+            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
+                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
+                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
+
+            var deviceSharedResources = new DeviceSharedResources();
+            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
+                _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
+
+            sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            var property = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1, _typesContainer);
+            property.FormatterParametersViewModel.RelatedUshortsFormatterViewModel = new BoolFormatterViewModel();
+            property.Name = "Pupa";
+
+            configurationEditorViewModel.SelectedRow = property;
+
+            sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(property, null, false);
+
+            property.Parent = rootGroup;
+
+
+            var property2 = EditorHelpers.AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 2, _typesContainer);
+
+            property2.DependencyViewModels.Add(
+                new ConditionResultDependencyViewModel(new List<IResultViewModel>(), new List<IConditionViewModel>())
+                {
+                    SelectedConditionViewModel = new RegexMatchConditionViewModel(
+                        _typesContainer.Resolve<ISharedResourcesGlobalViewModel>())
+                    {
+                        ReferencedResourcePropertyName = "Pupa"
+                    }
+                });
+
+
+
+            initialDevice.FragmentEditorViewModels
+                .Add(configurationEditorViewModel);
+
+            var res = _typesContainer.Resolve<IDeviceEditorViewModelValidator>()
+                .ValidateDeviceEditor(new List<IFragmentEditorViewModel>() { configurationEditorViewModel });
+
+            Assert.True(res.Count == 1);
 
         }
     }

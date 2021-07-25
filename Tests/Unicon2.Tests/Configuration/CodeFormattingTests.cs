@@ -130,37 +130,44 @@ namespace Unicon2.Tests.Configuration
 
             var testCases = new List<CodeFormatterTestCase>();
 
-            /*    testCases.Add(new CodeFormatterTestCase("SetResultValue(2 + GetDeviceValue(0) - 1)=>Select(number)",
-                    "SetDeviceValue(GetInputValue() - 2 + 1,0)", new[] { (ushort)1 }, 3, 6, new[] { (ushort)4 }));
-            */
+            //testCases.Add(new CodeFormatterTestCase("SetResultValue(2.5 + GetDeviceValue(0) - 1)=>Select(number)",
+            //    "SetDeviceValue(GetInputValue() - 2 + 1,0)", new[] { (ushort)1 }, 3, 6, new[] { (ushort)4 }));
+
+
+            testCases.Add(new CodeFormatterTestCase("SetResultValue(Multiply(2.51,GetDeviceValue(0)))=>Select(number)",
+                "SetDeviceValue(Divide(GetInputValue(),2.51),0)", new[] { (ushort)4 }, 10.04, 20, new[] { (ushort)8 }));
 
 
 
-            //testCases.Add(new CodeFormatterTestCase("SetResultValue(Add(2,GetDeviceValue(0)))=>Select(number)",
-            //    "SetDeviceValue(Subtract(GetInputValue(),2),0)", new[] { (ushort)1 }, 3, 6, new[] { (ushort)4 }));
-
-            //testCases.Add(new CodeFormatterTestCase(
-            //    "If(GetBitOfResource(0,testResource1),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
-            //    "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource1),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource1),SetDeviceValue(GetInputValue(),0)))"
-            //    , new[] { (ushort)10 }, 10, 11, new[] { (ushort)11 }, ("testResource1", 0), ("testResource1", 0, false)));
-
-            //testCases.Add(new CodeFormatterTestCase(
-            //    "If(GetBitOfResource(0,testResource2),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
-            //    "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource2),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource2),SetDeviceValue(GetInputValue(),0)))"
-            //    , new[] { (ushort)44 }, 44, -455, new[] { (ushort)455 }, ("testResource2", 0), ("testResource2", 1, true)));
+            testCases.Add(new CodeFormatterTestCase("SetResultValue(Multiply(2.5,GetDeviceValue(0)))=>Select(number)",
+                "SetDeviceValue(Divide(GetInputValue(),2.5),0)", new[] { (ushort)4 }, 10, 20, new[] { (ushort)8 }));
 
 
-            //testCases.Add(new CodeFormatterTestCase(
-            //    "If(GetBitOfResource(0,testResource3),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
-            //   "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource3),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource3),SetDeviceValue(GetInputValue(),0)))"
-            //    , new[] { (ushort)22 }, 22, -22, new[] { (ushort)22 }, ("testResource3", 0), ("testResource3", 1, true)));
+            testCases.Add(new CodeFormatterTestCase("SetResultValue(Add(2,GetDeviceValue(0)))=>Select(number)",
+                "SetDeviceValue(Subtract(GetInputValue(),2),0)", new[] { (ushort)1 }, 3, 6, new[] { (ushort)4 }));
+
+            testCases.Add(new CodeFormatterTestCase(
+                "If(GetBitOfResource(0,testResource1),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+                "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource1),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource1),SetDeviceValue(GetInputValue(),0)))"
+                , new[] { (ushort)10 }, 10, 11, new[] { (ushort)11 }, ("testResource1", 0), ("testResource1", 0, false)));
+
+            testCases.Add(new CodeFormatterTestCase(
+                "If(GetBitOfResource(0,testResource2),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+                "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource2),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource2),SetDeviceValue(GetInputValue(),0)))"
+                , new[] { (ushort)44 }, 44, -455, new[] { (ushort)455 }, ("testResource2", 0), ("testResource2", 1, true)));
+
+
+            testCases.Add(new CodeFormatterTestCase(
+                "If(GetBitOfResource(0,testResource3),SetResultValue(InvertSign(GetDeviceValue(0))),SetResultValue(GetDeviceValue(0)))=>Select(number)",
+               "If(Compare(GetInputValue(),0,<),Do(SetBitOfResource(true,0,testResource3),SetDeviceValue(InvertSign(GetInputValue()),0)),Do(SetBitOfResource(false,0,testResource3),SetDeviceValue(GetInputValue(),0)))"
+                , new[] { (ushort)22 }, 22, -22, new[] { (ushort)22 }, ("testResource3", 0), ("testResource3", 1, true)));
 
 
 
-            //testCases.Add(new CodeFormatterTestCase("SetResultValue(ConvertUnsignedToInt16(GetDeviceValue(0)))=>Select(number)",
-            //    "SetDeviceValue(ConvertInt16ToUnsigned(GetInputValue()),0)", new[] { (ushort)10 }, 10, -10, new[] { (ushort)65526 }));
-            //testCases.Add(new CodeFormatterTestCase("SetResultValue(ConvertUnsignedToInt16(GetDeviceValue(0)))=>Select(number)",
-            //    "SetDeviceValue(ConvertInt16ToUnsigned(GetInputValue()),0)", new[] { (ushort)65526 }, -10, 10, new[] { (ushort)10 }));
+            testCases.Add(new CodeFormatterTestCase("SetResultValue(ConvertUnsignedToInt16(GetDeviceValue(0)))=>Select(number)",
+                "SetDeviceValue(ConvertInt16ToUnsigned(GetInputValue()),0)", new[] { (ushort)10 }, 10, -10, new[] { (ushort)65526 }));
+            testCases.Add(new CodeFormatterTestCase("SetResultValue(ConvertUnsignedToInt16(GetDeviceValue(0)))=>Select(number)",
+                "SetDeviceValue(ConvertInt16ToUnsigned(GetInputValue()),0)", new[] { (ushort)65526 }, -10, 10, new[] { (ushort)10 }));
 
 
             var caseForHide=
@@ -174,7 +181,7 @@ namespace Unicon2.Tests.Configuration
                 return true;
             }, true);
 
-            testCases.Add(caseForHide);
+          //  testCases.Add(caseForHide);
 
 
             foreach (var testCase in testCases)

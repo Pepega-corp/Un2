@@ -26,7 +26,8 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
             return new List<IConditionViewModel>()
             {
                 new CompareResourceConditionViewModel(_sharedResourcesGlobalViewModel,
-                    new List<string>(Enum.GetNames(typeof(ConditionsEnum))))
+                    new List<string>(Enum.GetNames(typeof(ConditionsEnum)))),
+                new RegexMatchConditionViewModel(_sharedResourcesGlobalViewModel)
             };
         }
 
@@ -47,6 +48,12 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
                     {
                         SelectedCondition = compareCondition.ConditionsEnum.ToString(),
                         UshortValueToCompare = compareCondition.UshortValueToCompare
+                    };
+                case IRegexMatchCondition regexMatchCondition:
+                    return new RegexMatchConditionViewModel(_sharedResourcesGlobalViewModel)
+                    {
+                        ReferencedResourcePropertyName = regexMatchCondition.ReferencedPropertyResourceName,
+                        RegexPattern = regexMatchCondition.RegexPattern
                     };
             }
 
@@ -69,7 +76,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
                             UshortValueToCompare = compareResourceConditionViewModel.UshortValueToCompare
                         };
                     }
-
                     break;
                 case CompareConditionViewModel compareConditionViewModel:
                     if (Enum.TryParse<ConditionsEnum>(compareConditionViewModel.SelectedCondition,
@@ -81,7 +87,13 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
                             UshortValueToCompare = compareConditionViewModel.UshortValueToCompare
                         };
                     }
-
+                    break;
+                case RegexMatchConditionViewModel regexMatchConditionViewModel:
+                    return new RegexMatchCondition()
+                    {
+                        RegexPattern = regexMatchConditionViewModel.RegexPattern,
+                        ReferencedPropertyResourceName = regexMatchConditionViewModel.ReferencedResourcePropertyName
+                    };
                     break;
             }
 

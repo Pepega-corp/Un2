@@ -33,26 +33,8 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 {
-    public class ConfigurationEditorViewModel : ViewModelBase, IConfigurationEditorViewModel, IChildPositionChangeable
+    public partial class ConfigurationEditorViewModel : ViewModelBase, IConfigurationEditorViewModel, IChildPositionChangeable
     {
-        private readonly IApplicationGlobalCommands _applicationGlobalCommands;
-        private readonly IFormatterEditorFactory _formatterEditorFactory;
-        private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
-        private readonly IDependenciesService _dependenciesService;
-        private readonly DependencyFillHelper _dependencyFillHelper;
-        private readonly BaseValuesFillHelper _baseValuesFillHelper;
-        private readonly ImportPropertiesFromExcelTypeAHelper _importPropertiesFromExcelTypeAHelper;
-        private ObservableCollection<IConfigurationItemViewModel> _allRows;
-        private IEditorConfigurationItemViewModel _selectedRow;
-        private Result<(IEditorConfigurationItemViewModel item,bool isMove)> _bufferConfigurationItem=Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create(false);
-        private ushort _addressIteratorValue;
-        private bool _isAdditionalSettingsOpened;
-        private bool _isMultiEditMode;
-        private List<IEditorConfigurationItemViewModel> _selectedRows;
-        private ObservableCollection<IElementAddingCommand> _elementsAddingCommandCollectionFiltered;
-        private IElementAddingCommand _selectedElementsAddingCommand;
-        private IBaseValuesViewModel _baseValuesViewModel;
-
         public ConfigurationEditorViewModel(
             IApplicationGlobalCommands applicationGlobalCommands,
             Func<IElementAddingCommand> elementAddingCommandAddingFunc,
@@ -121,6 +103,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             BaseValuesViewModel = new BaseValuesViewModel();
             ImportPropertiesFromExcelTypeACommand = new RelayCommand(OnImportPropertiesFromExcelTypeAExecute);
             EditCommand = new RelayCommand(OnEditExecute);
+            SetIsFromBitsToManyPropsViewModel=new SetIsFromBitsToManyPropsViewModel(this);
         }
 
         private DependenciesConfiguration GetDependencyConfigForProperties()
@@ -212,7 +195,7 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             (ShowFormatterParametersCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (ShowFiltersCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (AddDependencyToManyProps as RelayCommand)?.RaiseCanExecuteChanged();
-
+            SetIsFromBitsToManyPropsViewModel.Update();
         }
 
         private bool CanExecuteShowDependencies()
@@ -455,83 +438,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
             }
         }
 
-        public ObservableCollection<IConfigurationItemViewModel> RootConfigurationItemViewModels { get; set; }
-
-        public ObservableCollection<IConfigurationItemViewModel> AllRows
-        {
-            get { return _allRows; }
-            set
-            {
-                _allRows = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public ICommand AddRootGroupElementCommand { get; set; }
-        public ICommand AddRootElementCommand { get; set; }
-        public ICommand EditElementCommand { get; set; }
-        public ICommand DeleteElementCommand { get; set; }
-        public ICommand ShowFormatterParametersCommand { get; set; }
-        public ICommand SetElementUpCommand { get; set; }
-        public ICommand SetElementDownCommand { get; set; }
-        public ICommand OpenConfigurationSettingsCommand { get; set; }
-        public ICommand OpenBasicValuesCommand { get;}
-        public ICommand MigrateComplexPropertiesCommand { get;}
-
-        public ICommand CopyElementCommand { get; }
-        public ICommand CutElementCommand { get; }
-
-        public ICommand OnSelectionChangedCommand { get; }
-
-        public ICommand PasteAsChildElementCommand { get; }
-        public ICommand AddSelectedElementAsResourceCommand { get; }
-        public ICommand EditDescriptionCommand { get; }
-        public ICommand DecreaseAddressCommand { get; }
-        public ICommand IncreaseAddressCommand { get; }
-        public ICommand TriggerAdditionalSettingsCommand { get; }
-        public ICommand AddDependencyToManyProps { get; }
-
-        public ushort AddressIteratorValue
-        {
-	        get => _addressIteratorValue;
-	        set
-	        {
-		        _addressIteratorValue = value; 
-				RaisePropertyChanged();
-	        }
-        }
-
-        public ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollectionFiltered
-        {
-            get => _elementsAddingCommandCollectionFiltered;
-            set
-            {
-                _elementsAddingCommandCollectionFiltered = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        public ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollection { get; set; }
-
-        public bool IsAdditionalSettingsOpened
-        {
-            get => _isAdditionalSettingsOpened;
-            set
-            {
-                _isAdditionalSettingsOpened = value;
-                RaisePropertyChanged();
-            }
-        }
-        public bool IsMultiEditMode
-        {
-            get => _isMultiEditMode;
-            set
-            {
-                _isMultiEditMode = value;
-                RaisePropertyChanged();
-            }
-        }
 
         private bool CanExecuteShowFormatterParameters()
         {
@@ -714,32 +620,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         }
 
 
-        public string StrongName => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
-                                    ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL;
-
-
-
-        public string NameForUiKey => ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION;
-
         public IDeviceFragment BuildDeviceFragment()
         {
             return ConfigurationFragmentFactory.CreateConfiguration(this);
         }
 
-
-        public IFragmentOptionsViewModel FragmentOptionsViewModel { get; set; }
-
-        public IFragmentSettingsViewModel FragmentSettingsViewModel { get; }
-
-        public IBaseValuesViewModel BaseValuesViewModel
-        {
-            get => _baseValuesViewModel;
-            set
-            {
-                _baseValuesViewModel = value; 
-                RaisePropertyChanged();
-            }
-        }
 
         public ICommand ShowDependenciesCommand
         {
@@ -754,28 +639,6 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                 _selectedRows = value;
                 RaisePropertyChanged();
             }
-        }
-
-        public object ShowFiltersCommand { get; }
-
-        public IElementAddingCommand SelectedElementsAddingCommand
-        {
-            get => _selectedElementsAddingCommand;
-            set
-            {
-                _selectedElementsAddingCommand = value; 
-                RaisePropertyChanged();
-            }
-        }
-
-        public ICommand ImportPropertiesFromExcelTypeACommand
-        {
-            get;
-        }
-
-        public ICommand EditCommand
-        {
-            get;
         }
 
         public async Task<Result> Initialize(IDeviceFragment deviceFragment)

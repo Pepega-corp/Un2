@@ -28,7 +28,7 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
         private void OnSubmitExecute()
         {
             if (StaticContainer.Container.Resolve<ISharedResourcesGlobalViewModel>()
-                .CheckDeviceSharedResourcesContainsViewModel(ResourceWithName.Name))
+                .GetResourceViewModelByName(ResourceWithName.Name).IsSuccess)
             { 
                 return;
             }

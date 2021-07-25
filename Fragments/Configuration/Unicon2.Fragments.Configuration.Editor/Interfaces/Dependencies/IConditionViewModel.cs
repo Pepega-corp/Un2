@@ -6,4 +6,9 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies
     {
 
     }
+
+    public interface IConditionWithResourceViewModel
+    {
+        string ReferencedResourcePropertyName { get; set; }
+    }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using org.mariuszgromada.math.mxparser;
 using Unicon2.Formatting.Infrastructure.Model;
@@ -35,9 +36,13 @@ namespace Unicon2.Formatting.Visitors
             throw new ArgumentException();
         }
 
-        public async Task<ushort[]> VisitAsciiStringFormatter(IUshortsFormatter boolFormatter)
+        public async Task<ushort[]> VisitAsciiStringFormatter(IUshortsFormatter formatter)
         {
-            throw new NotImplementedException();
+            byte[] bytes = Encoding.ASCII.GetBytes((_formattedValue as IStringValue).StrValue);
+            var result = new ushort[bytes.Length / 2];
+
+            Buffer.BlockCopy(bytes, 0, result, 0, bytes.Length);
+            return result;
         }
 
         public async Task<ushort[]> VisitTimeFormatter(IUshortsFormatter boolFormatter)
@@ -103,7 +108,11 @@ namespace Unicon2.Formatting.Visitors
 
         public async Task<ushort[]> VisitString1251Formatter(IUshortsFormatter boolFormatter)
         {
-            throw new NotImplementedException();
+            byte[] bytes = Encoding.Default.GetBytes((_formattedValue as IStringValue).StrValue);
+            var result = new ushort[bytes.Length / 2];
+
+            Buffer.BlockCopy(bytes, 0, result, 0, bytes.Length);
+            return result;
         }
 
         public async Task<ushort[]> VisitUshortToIntegerFormatter(IUshortsFormatter boolFormatter)

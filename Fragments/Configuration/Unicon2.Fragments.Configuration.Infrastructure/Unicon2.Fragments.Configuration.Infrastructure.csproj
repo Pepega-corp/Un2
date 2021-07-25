@@ -62,6 +62,7 @@
     <Compile Include="Services\IConfigurationTreeWalker.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Conditions\ICompareCondition.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\Conditions\ICompareResourceCondition.cs" />
+    <Compile Include="StructItemsInterfaces\Dependencies\Conditions\IRegexMatchCondition.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\ICondition.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\IConditionResultDependency.cs" />
     <Compile Include="StructItemsInterfaces\Dependencies\IDependencyResult.cs" />

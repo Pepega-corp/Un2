@@ -9,6 +9,7 @@ using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Infrastructure.Services.LogService;
 
 namespace Unicon2.Fragments.FileOperations.FileOperations
 {
@@ -325,8 +326,9 @@ namespace Unicon2.Fragments.FileOperations.FileOperations
                     return stateStrings;
                 }
             }
-
-            throw new FileOperationException(this.LastCommandStatus == 0 ? 255 : this.LastCommandStatus);
+            StaticContainer.Container.Resolve<ILogService>().LogMessage("Не удалось прочитать файл для программирования");
+            return new string[] { };
+            // throw new FileOperationException(this.LastCommandStatus == 0 ? 255 : this.LastCommandStatus);
         }
         
         private async Task<ushort[]> ReadDataCommand(ushort dataLen)

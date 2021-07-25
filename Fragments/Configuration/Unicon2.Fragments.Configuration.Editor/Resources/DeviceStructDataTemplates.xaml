@@ -44,6 +44,40 @@
         </VirtualizingStackPanel>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type conditions1:RegexMatchConditionViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5" Text="{lex:Loc ReferencedProperty}" />
+                    <lex:LocProxy Name="propProxy" Source="{Binding ReferencedResourcePropertyName, TargetNullValue=NotSet}" />
+                    <TextBlock
+                        MinWidth="150"
+                        Margin="5"
+                        Text="{Binding ElementName=propProxy, Path=Result, Converter={StaticResource IgnoringFailedLocalizationConverter}}" />
+                </StackPanel>
+                <Button
+                    MinWidth="150"
+                    Command="{Binding SelectPropertyFromResourceCommand}"
+                    Content="{lex:Loc SelectFromResources}"
+                    Style="{DynamicResource UniconButtonStyle}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="10">
+                <TextBlock Margin="4" Text="Regex" />
+                <TextBox
+                    MinWidth="100"
+                    Margin="4"
+                    Text="{Binding RegexPattern}" />
+            </StackPanel>
+
+        </Grid>
+    </DataTemplate>
+
 
     <DataTemplate DataType="{x:Type conditions1:CompareResourceConditionViewModel}">
         <Grid>

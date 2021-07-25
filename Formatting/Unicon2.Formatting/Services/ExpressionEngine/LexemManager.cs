@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Unicon2.Formatting.Services.ExpressionEngine.Common;
 using Unicon2.Formatting.Services.ExpressionEngine.Nodes;
@@ -57,6 +58,10 @@ namespace Unicon2.Formatting.Services.ExpressionEngine
             if (double.TryParse(str, out var result))
             {
                 return new NumberNode(result);
+            }
+            if (double.TryParse(str, NumberStyles.AllowDecimalPoint, new NumberFormatInfo(), out var result1))
+            {
+                return new NumberNode(result1);
             }
 
             if (bool.TryParse(str, out var boolResult))

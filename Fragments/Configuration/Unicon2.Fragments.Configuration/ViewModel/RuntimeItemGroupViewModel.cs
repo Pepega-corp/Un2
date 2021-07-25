@@ -36,7 +36,9 @@ namespace Unicon2.Fragments.Configuration.ViewModel
             if (!IsTableView) return;
             if (ChildStructItemViewModels.All(model => model is RuntimeItemGroupViewModel))
             {
-                TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels.ToList(), FilterViewModels);
+                var wasTransponed = TableConfigurationViewModel?.IsTransponed;
+                TableConfigurationViewModel = new TableConfigurationViewModel(ChildStructItemViewModels.ToList(), FilterViewModels,wasTransponed);
+                
             }
         }
         public TableConfigurationViewModel TableConfigurationViewModel

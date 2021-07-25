@@ -111,7 +111,7 @@
     <Compile Include="Editor\CutPasteTests.cs" />
     <Compile Include="Editor\EditorTests.cs" />
     <Compile Include="Editor\EditorValidatorTests.cs" />
-    <Compile Include="Editor\HidePropertyDependencyTests.cs" />
+    <Compile Include="Editor\PropertyDependencyTests.cs" />
     <Compile Include="Journals\Mr301SystemJournalTests.cs" />
     <Compile Include="Measuring\MeasuringTests.cs" />
     <Compile Include="Program.cs" />

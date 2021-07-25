@@ -233,9 +233,12 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Properties
 	    public ObservableCollection<IDependencyViewModel> DependencyViewModels { get; }
         public bool IsFromBits { get; set; }
         public ObservableCollection<IBitViewModel> BitNumbersInWord { get; set; }
+
         public (ushort address, ushort numberOfPoints) GetAddressInfo()
         {
-            return (ushort.Parse(Address), ushort.Parse(NumberOfPoints));
+
+            var address = Address == null ? (ushort)0 : ushort.Parse(Address);
+            return (address, ushort.Parse(NumberOfPoints));
         }
 
         public bool IsHidden

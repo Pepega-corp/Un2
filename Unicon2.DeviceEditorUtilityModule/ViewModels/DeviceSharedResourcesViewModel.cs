@@ -279,12 +279,17 @@ namespace Unicon2.DeviceEditorUtilityModule.ViewModels
 			return _deviceSharedResources.SharedResourcesInContainers.Any(nameable => nameable.Resource == resource);
 		}
 
-		public bool CheckDeviceSharedResourcesContainsViewModel(string resourceName)
-		{
-			return ResourcesCollection.Any(model => model.Name == resourceName);
-		}
+        public Result<INameable> GetResourceViewModelByName(string resourceName)
+        {
+            if (ResourcesCollection.All(model => model.Name != resourceName))
+            {
+                return Result<INameable>.Create(false);
+            }
 
-		public bool CheckDeviceSharedResourcesContainsViewModel(object viewModel)
+            return Result<INameable>.Create(ResourcesCollection.First(model => model.Name == resourceName).RelatedEditorItemViewModel, true);
+        }
+
+        public bool CheckDeviceSharedResourcesContainsViewModel(object viewModel)
 		{
 			return ResourcesCollection.Any(model => model.RelatedEditorItemViewModel == viewModel);
 		}

@@ -98,19 +98,17 @@
     <Compile Include="Helpers\FilterFillHelper.cs" />
     <Compile Include="Helpers\ImportPropertiesFromExcelTypeAHelper.cs" />
     <Compile Include="Helpers\ResultFillHelper.cs" />
-    <Compile Include="Interfaces\Dependencies\IConditionViewModel.cs">
-      <Link>Interfaces\Dependencies\IConditionViewModel.cs</Link>
-    </Compile>
-    <Compile Include="Interfaces\Dependencies\IResultViewModel.cs">
-      <Link>Interfaces\Dependencies\IResultViewModel.cs</Link>
-    </Compile>
+    <Compile Include="Interfaces\Dependencies\IConditionViewModel.cs" />
+    <Compile Include="Interfaces\Dependencies\IResultViewModel.cs" />
     <Compile Include="Interfaces\Filter\IFilterViewModel.cs" />
     <Compile Include="Interfaces\IBaseValuesViewModel.cs" />
     <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
     <Compile Include="ViewModels\BaseValuesViewModel.cs" />
     <Compile Include="ViewModels\BaseValuesWindowViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationEditorViewModel.Properties.cs" />
     <Compile Include="ViewModels\Dependencies\ConditionResultDependencyViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />
+    <Compile Include="ViewModels\Dependencies\Conditions\RegexMatchConditionViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\ApplyFormatterResultViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\BlockInteractionResultViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Results\HidePropertyResultViewModel.cs" />
@@ -119,8 +117,10 @@
     <Compile Include="ViewModels\Filter\FilterViewModel.cs" />
     <Compile Include="ViewModels\IEditableConfigurationItemViewModelVisitor.cs" />
     <Compile Include="ViewModels\IEditorConfigurationItemViewModel.cs" />
+    <Compile Include="ViewModels\SetIsFromBitsToManyPropsViewModel.cs" />
     <Compile Include="ViewModels\Validators\ConfigurationEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\Validators\MissingDependenciesConfigurationValidator.cs" />
+    <Compile Include="ViewModels\Validators\RegexConditionsValidator.cs" />
     <Compile Include="View\BaseValuesWindow.xaml.cs">
       <DependentUpon>BaseValuesWindow.xaml</DependentUpon>
     </Compile>
@@ -254,8 +254,6 @@
       <Name>Unicon2.Fragments.Configuration</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\Dependencies\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1680,4 +1680,10 @@
   <data name="HidePropertyResult" xml:space="preserve">
     <value>@HidePropertyResult</value>
   </data>
+  <data name="RegexMatchCondition" xml:space="preserve">
+    <value>@RegexMatchCondition</value>
+  </data>
+  <data name="RegexResourceFormatterIsNotString" xml:space="preserve">
+    <value>@RegexResourceFormatterIsNotString</value>
+  </data>
 </root>

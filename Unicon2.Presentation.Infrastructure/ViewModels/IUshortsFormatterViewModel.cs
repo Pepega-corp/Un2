@@ -7,4 +7,9 @@ namespace Unicon2.Presentation.Infrastructure.ViewModels
     {
         
     }
+
+    public interface IFormatterInfoService
+    {
+        bool ReturnsString(IUshortsFormatterViewModel formatterViewModel);
+    }
 }

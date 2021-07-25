@@ -299,17 +299,31 @@ namespace Unicon2.Fragments.Configuration.Factories
 			{
 				foreach (var dependency in property.Dependencies)
 				{
-					if (dependency is IConditionResultDependency conditionResultDependency &&
-					    conditionResultDependency.Condition is ICompareResourceCondition compareResourceCondition)
-					{
-						var relatedProperty =
-							_deviceContext.DeviceSharedResources.SharedResourcesInContainers.First(container =>
-									container.ResourceName == compareResourceCondition.ReferencedPropertyResourceName)
-								.Resource as IProperty;
-						memoryOperationAction.Invoke(relatedProperty.Address,
-							relatedProperty.NumberOfPoints);
-					}
-				}
+                    if (dependency is IConditionResultDependency conditionResultDependency)
+                    {
+                        if (conditionResultDependency.Condition is ICompareResourceCondition compareResourceCondition)
+                        {
+                            var relatedProperty =
+                                _deviceContext.DeviceSharedResources.SharedResourcesInContainers.First(container =>
+                                        container.ResourceName ==
+                                        compareResourceCondition.ReferencedPropertyResourceName)
+                                    .Resource as IProperty;
+                            memoryOperationAction.Invoke(relatedProperty.Address,
+                                relatedProperty.NumberOfPoints);
+                        }
+
+                        if (conditionResultDependency.Condition is IRegexMatchCondition regexMatchCondition)
+                        {
+                            var relatedProperty =
+                                _deviceContext.DeviceSharedResources.SharedResourcesInContainers.First(container =>
+                                        container.ResourceName ==
+                                        regexMatchCondition.ReferencedPropertyResourceName)
+                                    .Resource as IProperty;
+                            memoryOperationAction.Invoke(relatedProperty.Address,
+                                relatedProperty.NumberOfPoints);
+                        }
+                    }
+                }
 			}
             memoryOperationAction.Invoke((ushort)(property.Address + AddressOffset),
                 property.NumberOfPoints);

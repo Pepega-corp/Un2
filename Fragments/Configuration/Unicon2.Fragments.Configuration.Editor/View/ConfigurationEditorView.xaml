@@ -449,6 +449,7 @@
                             Command="{Binding AddDependencyToManyProps}"
                             Content="{lex:Loc AddDependency}"
                             Style="{DynamicResource UniconButtonStyle}" />
+                        <!--<CheckBox IsThreeState="True" IsEnabled="{Binding SetIsFromBitsToManyPropsViewModel.IsEnabled}" ToolTip=""></CheckBox>-->
                     </UniformGrid>
 
                 </StackPanel>

@@ -24,7 +24,7 @@ namespace Unicon2.Formatting.Editor.Services
 		        return null;
 	        }
             if (_container.Resolve<ISharedResourcesGlobalViewModel>()
-                .CheckDeviceSharedResourcesContainsViewModel(formatterParametersViewModel.Name))
+                .GetResourceViewModelByName(formatterParametersViewModel.Name).IsSuccess)
             {
                 return _container.Resolve<ISharedResourcesGlobalViewModel>()
                     .GetResourceByName(formatterParametersViewModel.Name) as IUshortsFormatter;

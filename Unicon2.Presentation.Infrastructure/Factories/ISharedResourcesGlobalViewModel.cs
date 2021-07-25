@@ -1,6 +1,7 @@
 ﻿using Unicon2.Infrastructure.DeviceInterfaces.SharedResources;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Infrastructure.Interfaces;
+using Unicon2.Presentation.Infrastructure.ViewModels.Resources;
 
 namespace Unicon2.Presentation.Infrastructure.Factories
 {
@@ -13,7 +14,7 @@ namespace Unicon2.Presentation.Infrastructure.Factories
 
 		//bool CheckDeviceSharedResourcesContainsModel(INameable resource);
         bool CheckDeviceSharedResourcesWithContainersContainsModel(object resource);
-        bool CheckDeviceSharedResourcesContainsViewModel(string viewModelName);
+        Result<INameable> GetResourceViewModelByName(string viewModelName);
         bool CheckDeviceSharedResourcesContainsViewModel(object viewModelName);
 
         void AddAsSharedResource(INameable resourceToAdd,bool askUser=true);

@@ -61,6 +61,7 @@ namespace Unicon2.Formatting.Editor.Module
             container.Register<IFormatterParametersViewModel, FormatterParametersViewModel>();
             container.Register<IEditableValueCopyVisitorProvider, EditableValueCopyVisitorProvider>();
             container.Register<ICodeFormatterService, UniconEngineCodeFormatterService>(true);
+            container.Register<IFormatterInfoService, FormatterInfoService>(true);
 
             IXamlResourcesService xamlResourcesService = container.Resolve<IXamlResourcesService>();
             xamlResourcesService.AddResourceAsGlobal("Resources/FormattersTemplates.xaml", GetType().Assembly);

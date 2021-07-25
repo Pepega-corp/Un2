@@ -16,29 +16,30 @@ using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.Services.Dependencies;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
 using Unicon2.Presentation.Infrastructure.ViewModels;
-using Unicon2.Presentation.Infrastructure.ViewModels.Dependencies;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.Validation;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
 {
-    public class MissingDependenciesConfigurationValidator
+   public class RegexConditionsValidator
     {
         private readonly IFormatterEditorFactory _formatterEditorFactory;
         private readonly ILocalizerService _localizerService;
         private readonly ISharedResourcesGlobalViewModel _sharedResourcesGlobalViewModel;
         private readonly IDependenciesService _dependenciesService;
         private readonly DependencyFillHelper _dependencyFillHelper;
+        private readonly IFormatterInfoService _formatterInfoService;
 
-        public MissingDependenciesConfigurationValidator(IFormatterEditorFactory formatterEditorFactory,
+        public RegexConditionsValidator(IFormatterEditorFactory formatterEditorFactory,
             ILocalizerService localizerService, ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel,
-            IDependenciesService dependenciesService, DependencyFillHelper dependencyFillHelper)
+            IDependenciesService dependenciesService, DependencyFillHelper dependencyFillHelper, IFormatterInfoService formatterInfoService)
         {
             _formatterEditorFactory = formatterEditorFactory;
             _localizerService = localizerService;
             _sharedResourcesGlobalViewModel = sharedResourcesGlobalViewModel;
             _dependenciesService = dependenciesService;
             _dependencyFillHelper = dependencyFillHelper;
+            _formatterInfoService = formatterInfoService;
         }
 
 
@@ -48,21 +49,24 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Validators
             if (configurationEditorViewModel is IPropertyEditorViewModel propertyEditorViewModel &&
                 !(configurationEditorViewModel is IComplexPropertyEditorViewModel))
             {
-                var dependenciesWithResources = propertyEditorViewModel.DependencyViewModels
+                var resources = propertyEditorViewModel.DependencyViewModels
                     .Where(model => model is ConditionResultDependencyViewModel)
                     .Select(model => (model as ConditionResultDependencyViewModel).SelectedConditionViewModel)
-                    .Where(model => model is IConditionWithResourceViewModel)
-                    .Cast<IConditionWithResourceViewModel>()
+                    .Where(model => model is RegexMatchConditionViewModel)
+                    .Cast<RegexMatchConditionViewModel>()
+                    .Select(model => _sharedResourcesGlobalViewModel.GetResourceViewModelByName(model.ReferencedResourcePropertyName))
+                    .Choose()
+                    .Where(nameable =>nameable is IPropertyEditorViewModel )
+                    .Select(nameable => (nameable as IPropertyEditorViewModel).FormatterParametersViewModel)
                     .ToList();
 
-                if (dependenciesWithResources.Any(model =>
-                        string.IsNullOrEmpty(model.ReferencedResourcePropertyName)) ||
-                    dependenciesWithResources.Any(model =>
-                       !_sharedResourcesGlobalViewModel.GetResourceViewModelByName(
-                            model.ReferencedResourcePropertyName).IsSuccess))
+             
+
+
+                if (resources.Any(model =>!_formatterInfoService.ReturnsString(model.RelatedUshortsFormatterViewModel)))
                 {
                     initialErrors.Add(new EditorValidationErrorViewModel(
-                        $"{propertyEditorViewModel.Name} ({_localizerService.GetLocalizedString("Address")}:{propertyEditorViewModel.Address}): {_localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.RESOURCE_FOR_DEPENDENCY_NOT_FOUND_MESSAGE)}",
+                        $"{propertyEditorViewModel.Name} ({_localizerService.GetLocalizedString("Address")}:{propertyEditorViewModel.Address}): {_localizerService.GetLocalizedString(ApplicationGlobalNames.StatusMessages.REGEX_RESOURCE_FORMATTER_IS_NOT_STRING_MESSAGE)}",
                         Result<Action>.Create(
                             () =>
                             {

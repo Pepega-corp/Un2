@@ -10,7 +10,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Configuration.Editor.ViewModels.Dependencies.Conditions
 {
-    public class CompareResourceConditionViewModel : ViewModelBase, IConditionViewModel
+    public class CompareResourceConditionViewModel : ViewModelBase, IConditionViewModel, IConditionWithResourceViewModel
     {
         private string _selectedCondition;
         private ushort _ushortValueToCompare;

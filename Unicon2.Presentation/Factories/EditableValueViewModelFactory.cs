@@ -84,13 +84,15 @@ namespace Unicon2.Presentation.Factories
         }
 
 		public IEditableValueViewModel VisitStringValue(IStringValue stringValue)
-		{
-			return new StringValueViewModel()
-			{
-			    IsEditEnabled = false,
-			    StringValue = stringValue.StrValue
-			};
-		}
+        {
+            var res= InitDefaults(stringValue, new StringValueViewModel()
+            {
+                StringValue = stringValue.StrValue
+            });
+
+            res.IsEditEnabled = false;
+            return res;
+        }
 
 		public IEditableValueViewModel VisitTimeValue(ITimeValue timeValue)
 		{

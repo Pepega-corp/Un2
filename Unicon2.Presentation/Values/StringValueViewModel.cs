@@ -21,6 +21,7 @@ namespace Unicon2.Presentation.Values
             {
                 _stringValue = value;
                 RaisePropertyChanged();
+                SetIsChangedProperty();
             }
         } 
         public override T Accept<T>(IEditableValueViewModelVisitor<T> visitor)

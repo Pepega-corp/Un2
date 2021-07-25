@@ -68,11 +68,15 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
         }
 
         public TableConfigurationViewModel(List<IConfigurationItemViewModel> itemGroupsToTransform,
-            List<RuntimeFilterViewModel> runtimeFilterViewModels)
+            List<RuntimeFilterViewModel> runtimeFilterViewModels, bool? wasTransponed)
         {
             _itemGroupsToTransform = itemGroupsToTransform;
             _runtimeFilterViewModels = runtimeFilterViewModels;
             Initialize();
+            if (wasTransponed.HasValue)
+            {
+                IsTransponed = wasTransponed.Value;
+            }
         }
 
         public DynamicPropertiesTable DynamicPropertiesTable
@@ -155,7 +159,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Table
 
                 foreach (var condition in filterViewModel.Conditions)
                 {
-                    var res = ConditionHelper.CheckCondition(condition as ICompareCondition,valueToCompare);
+                    var res = ConditionHelper.CheckConditionEnum(condition as ICompareCondition,valueToCompare);
                     if (res.IsSuccess && !res.Item)
                     {
                         return false;

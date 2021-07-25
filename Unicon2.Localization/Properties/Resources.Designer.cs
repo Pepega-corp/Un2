@@ -3661,6 +3661,24 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @RegexMatchCondition.
+        /// </summary>
+        public static string RegexMatchCondition {
+            get {
+                return ResourceManager.GetString("RegexMatchCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @RegexResourceFormatterIsNotString.
+        /// </summary>
+        public static string RegexResourceFormatterIsNotString {
+            get {
+                return ResourceManager.GetString("RegexResourceFormatterIsNotString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @Rename.
         /// </summary>
         public static string Rename {

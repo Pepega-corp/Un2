@@ -13,7 +13,7 @@ namespace Unicon2.Fragments.Configuration.ViewModel.Helpers
     public static class ConditionHelper
     {
 
-        public static Result<bool> CheckCondition(ICompareCondition condition,ushort ushortToCompare)
+        public static Result<bool> CheckConditionEnum(ICompareCondition condition,ushort ushortToCompare)
         {
             switch (condition.ConditionsEnum)
             {
