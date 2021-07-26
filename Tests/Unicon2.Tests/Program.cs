@@ -3,6 +3,8 @@ using Prism.Ioc;
 using Unicon2.Fragments.Configuration.Infrastructure.StructItemsInterfaces;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Fragments.Measuring.ViewModel;
+using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.DeviceInterfaces;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Services.ItemChangingContext;
@@ -40,6 +42,10 @@ namespace Unicon2.Tests
 
         public static void CleanProject()
         {
+            var globalCommandsMock = ApplicationGlobalCommandsMock
+                .Create()
+                .WithAskUserGlobalResult(false);
+            StaticContainer.Container?.RegisterInstance<IApplicationGlobalCommands>(globalCommandsMock);
             GetApp().Container.Resolve<IDevicesContainerService>().Refresh();
             GetApp().Container.Resolve<IDevicesContainerService>().ConnectableItemChanged?.Invoke(
                 new ConnectableItemChangingContext(null, ItemModifyingTypeEnum.Refresh));

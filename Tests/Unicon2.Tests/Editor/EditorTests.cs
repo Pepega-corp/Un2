@@ -334,10 +334,7 @@ namespace Unicon2.Tests.Editor
         [Test]
         public void EditorBaseValuesSave()
         {
-            var globalCommandsMock = ApplicationGlobalCommandsMock
-                .Create()
-                .WithAskUserGlobalResult(true);
-            StaticContainer.Container.RegisterInstance<IApplicationGlobalCommands>(globalCommandsMock);
+
             var serializerService = Program.GetApp().Container.Resolve<ISerializerService>();
 
             IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
@@ -372,6 +369,10 @@ namespace Unicon2.Tests.Editor
             Assert.True(result.BaseValues.BaseValues[1].Name == "baseVal2");
 
             Program.CleanProject();
+            var globalCommandsMock = ApplicationGlobalCommandsMock
+                .Create()
+                .WithAskUserGlobalResult(true);
+            StaticContainer.Container.RegisterInstance<IApplicationGlobalCommands>(globalCommandsMock);
             var device = initialDevice.GetDevice();
 
             Program.GetApp().Container.Resolve<IDevicesContainerService>()
@@ -454,7 +455,6 @@ namespace Unicon2.Tests.Editor
             Assert.True(
                 (((device.DeviceFragments.First() as IDeviceConfiguration).RootConfigurationItemList[0] as
                     IItemsGroup).ConfigurationItemList[100] as IProperty).UshortsFormatter is IBoolFormatter);
-
         }
 
 

@@ -1709,8 +1709,9 @@ x2 - название переменной
   </data>
   <data name="SelectFunctionDescription" xml:space="preserve">
     <value>Выбрать тип результирующего значения (значения которое будет выводиться пользователю)
-Сигнатура: Select(x1)
+Сигнатура: Select(x1, x2)
 Где x1 - Тип результирующего значения (number,bool,string)
+x2 - количество знаков после запятой (опционально, можно не указывать)
 Возвращаемое значение: значение приведенное к типу</value>
   </data>
   <data name="GetInputValueFunctionDescription" xml:space="preserve">

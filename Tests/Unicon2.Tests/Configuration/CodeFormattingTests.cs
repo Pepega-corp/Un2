@@ -134,6 +134,11 @@ namespace Unicon2.Tests.Configuration
             //    "SetDeviceValue(GetInputValue() - 2 + 1,0)", new[] { (ushort)1 }, 3, 6, new[] { (ushort)4 }));
 
 
+            testCases.Add(new CodeFormatterTestCase("SetResultValue(Multiply(2.50001,GetDeviceValue(0)))=>Select(number,2)",
+                "SetDeviceValue(Divide(GetInputValue(),2.50001),0)", new[] { (ushort)4 }, 10, 20, new[] { (ushort)8 }));
+
+
+
             testCases.Add(new CodeFormatterTestCase("SetResultValue(Multiply(2.51,GetDeviceValue(0)))=>Select(number)",
                 "SetDeviceValue(Divide(GetInputValue(),2.51),0)", new[] { (ushort)4 }, 10.04, 20, new[] { (ushort)8 }));
 

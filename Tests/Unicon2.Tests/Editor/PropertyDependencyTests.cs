@@ -25,6 +25,8 @@ using Unicon2.Fragments.Configuration.Model.Dependencies.Conditions;
 using Unicon2.Fragments.Configuration.Model.Dependencies.Results;
 using Unicon2.Fragments.Configuration.ViewModel;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
+using Unicon2.Infrastructure.Extensions;
 using Unicon2.Infrastructure.Services;
 using Unicon2.Presentation.Infrastructure.Factories;
 using Unicon2.Presentation.Infrastructure.TreeGrid;
@@ -248,6 +250,120 @@ namespace Unicon2.Tests.Editor
             await TestCore(setupEditor, setupSavedAssertions, setupActRuntime);
         }
 
+
+        [Test]
+        public async Task DependencyForGroupWithRepeatTest()
+        {
+            // get initial file
+            IResultingDeviceViewModel initialDevice = Program.GetApp().Container.Resolve<IResultingDeviceViewModel>();
+            initialDevice.LoadDevice("FileAssets/testFile.json");
+
+            var configurationEditorViewModel =
+                initialDevice.FragmentEditorViewModels.First() as ConfigurationEditorViewModel;
+
+            configurationEditorViewModel.RootConfigurationItemViewModels.Clear();
+
+
+            // setup editor
+
+            var rootGroup = new ConfigurationGroupEditorViewModel()
+            {
+                Name = "root"
+            };
+
+            rootGroup.IsGroupWithReiteration = true;
+            rootGroup.ReiterationStep = 10;
+            rootGroup.SubGroupNames.AddCollection(new List<StringWrapper>()
+            {
+                new StringWrapper("gr1"),
+                new StringWrapper("gr2")
+            });
+
+            var propWithDep = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1, _typesContainer);
+            var propRes = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1, _typesContainer);
+
+            var resourceService = _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
+
+            resourceService.AddAsSharedResourceWithContainer(propRes, "resForProp", false);
+
+            propRes.Address = 1000.ToString();
+            propWithDep.Address = 1100.ToString();
+
+            propRes.Header = "propResource";
+            propWithDep.Header = "propWithDep";
+
+            propWithDep.DependencyViewModels.Add(
+                new ConditionResultDependencyViewModel(new List<IResultViewModel>(),
+                    new List<IConditionViewModel>())
+                {
+                    SelectedConditionViewModel =
+                        new CompareResourceConditionViewModel(resourceService, new List<string>())
+                        {
+                            ReferencedResourcePropertyName = "resForProp",
+                            SelectedCondition = "Less",
+                            UshortValueToCompare = 1
+                        },
+                    SelectedResultViewModel = new HidePropertyResultViewModel()
+                });
+
+
+            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
+
+            // load saved editor in runtime
+
+            Program.CleanProject();
+            var shell = _typesContainer.Resolve<ShellViewModel>();
+
+            var device = initialDevice.GetDevice();
+
+            _typesContainer.Resolve<IDevicesContainerService>()
+                .AddConnectableItem(device);
+            await _typesContainer.Resolve<IDevicesContainerService>()
+                .ConnectDeviceAsync(device, new MockConnection());
+            var deviceViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0];
+
+            var configurationFragmentViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
+                    .First(model => model.NameForUiKey == "Configuration") as
+                RuntimeConfigurationViewModel;
+
+
+            await configurationFragmentViewModel.SetFragmentOpened(true);
+
+            var readCommand = TestsUtils.GetFragmentCommand(configurationFragmentViewModel, "Device", "Read");
+            readCommand.Execute(null);
+            Assert.True(await TestsUtils.WaitUntil(() => readCommand.CanExecute(null), 30000));
+            var propsWithDepRuntime = TestsUtils.FindAllItemViewModelsByName(
+                configurationFragmentViewModel.RootConfigurationItemViewModels.Cast<IConfigurationItemViewModel>()
+                    .ToList(), item => item.Header == "propWithDep");
+
+
+            var propsResRuntime = TestsUtils.FindAllItemViewModelsByName(
+                configurationFragmentViewModel.RootConfigurationItemViewModels.Cast<IConfigurationItemViewModel>()
+                    .ToList(), item => item.Header == "propResource");
+
+
+            Assert.True((propsWithDepRuntime.First() as IRuntimePropertyViewModel).IsHidden);
+
+            ((propsResRuntime.First() as ILocalAndDeviceValueContainingViewModel).LocalValue as IBoolValueViewModel)
+                .BoolValueProperty = true;
+
+            Assert.False((propsWithDepRuntime.First() as IRuntimePropertyViewModel).IsHidden);
+
+            ((propsResRuntime.First() as ILocalAndDeviceValueContainingViewModel).LocalValue as IBoolValueViewModel)
+                .BoolValueProperty = false;
+            Assert.True((propsWithDepRuntime.First() as IRuntimePropertyViewModel).IsHidden);
+
+            Assert.True((propsWithDepRuntime[1] as IRuntimePropertyViewModel).IsHidden);
+
+            ((propsResRuntime[1] as ILocalAndDeviceValueContainingViewModel).LocalValue as IBoolValueViewModel)
+                .BoolValueProperty = true;
+
+            Assert.False((propsWithDepRuntime[1] as IRuntimePropertyViewModel).IsHidden);
+
+            ((propsResRuntime[1] as ILocalAndDeviceValueContainingViewModel).LocalValue as IBoolValueViewModel)
+                .BoolValueProperty = false;
+            Assert.True((propsWithDepRuntime[1] as IRuntimePropertyViewModel).IsHidden);
+        }
 
     }
 }

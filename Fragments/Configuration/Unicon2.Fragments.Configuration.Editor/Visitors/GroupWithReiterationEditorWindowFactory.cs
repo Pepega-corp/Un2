@@ -1,4 +1,5 @@
-﻿using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
+﻿using System;
+using Unicon2.Fragments.Configuration.Editor.Interfaces.Tree;
 using Unicon2.Fragments.Configuration.Editor.View;
 using Unicon2.Fragments.Configuration.Editor.ViewModels;
 
@@ -13,9 +14,16 @@ namespace Unicon2.Fragments.Configuration.Editor.Visitors
             //  {
             //      (parent.Model as IItemsGroup).GroupInfo = configurationItemFactory.ResolveGroupWithReiterationInfo();
             //  }
-            var window = new GroupWithReiterationInfoEditorView();
-            window.DataContext = new GroupWithReiterationEditorViewModel(parent, () => window.Close());
-            window.ShowDialog();
+            try
+            {
+                var window = new GroupWithReiterationInfoEditorView();
+                window.DataContext = new GroupWithReiterationEditorViewModel(parent, () => window.Close());
+                window.ShowDialog();
+            }
+            catch (Exception e)
+            {
+
+            }
         }
     }
 }

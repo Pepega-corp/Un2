@@ -10,10 +10,12 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
     public class SelectNode : IRuleNode
     {
         private readonly FormatterType _formatterType;
+        private readonly int? _numberOfSymbolsAfterComma;
 
-        public SelectNode(FormatterType formatterType)
+        public SelectNode(FormatterType formatterType,int? numberOfSymbolsAfterComma = null)
         {
             _formatterType = formatterType;
+            _numberOfSymbolsAfterComma = numberOfSymbolsAfterComma;
         }
 
         public async Task<object> ExecuteNode(RuleExecutionContext ruleExecutionContext)
@@ -23,7 +25,19 @@ namespace Unicon2.Formatting.Services.ExpressionEngine.Nodes
             {
                 case FormatterType.Number:
                     var numValue = StaticContainer.Container.Resolve<INumericValue>();
-                    res.OnSuccess(o => { numValue.NumValue = (double) o; });
+                    res.OnSuccess(o =>
+                    {
+                        if (_numberOfSymbolsAfterComma.HasValue)
+                        {
+                            var resNum = (double) o;
+                            resNum = Math.Round(resNum, _numberOfSymbolsAfterComma.Value);
+                            numValue.NumValue = resNum;
+                        }
+                        else
+                        {
+                            numValue.NumValue = (double)o;
+                        }
+                    });
                     ruleExecutionContext.SetVariable(VariableNames.RESULT_VALUE, numValue);
                     return res;
                 case FormatterType.Bool:
