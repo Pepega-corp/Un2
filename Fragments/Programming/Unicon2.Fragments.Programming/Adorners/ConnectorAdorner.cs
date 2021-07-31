@@ -74,11 +74,7 @@ namespace Unicon2.Fragments.Programming.Adorners
 
                 if (!rigtConnector.Connected)
                 {
-                    var newConnection = new Connection
-                    {
-                        Points = _pathPoints,
-                        ConnectionNumber = this._schemeTabViewModel.GetNextConnectionNumber()
-                    };
+                    var newConnection = new Connection(_pathPoints, this._schemeTabViewModel.GetNextConnectionNumber());
                     var connectionViewModel = new ConnectionViewModel(newConnection, rigtConnector, leftConnector);
 
                     this._schemeTabViewModel.AddConnectionToProgramm(connectionViewModel);

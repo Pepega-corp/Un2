@@ -91,6 +91,7 @@
     <Compile Include="Behaviors\DesignerItemBehavior.cs" />
     <Compile Include="Behaviors\ElementsLibraryBehavior.cs" />
     <Compile Include="Model\Connection.cs" />
+    <Compile Include="Model\ConnectionSegment.cs" />
     <Compile Include="Model\Connector.cs" />
     <Compile Include="Model\Elements\AlarmJournal.cs" />
     <Compile Include="Model\Elements\And.cs" />
