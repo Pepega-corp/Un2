@@ -5,7 +5,7 @@ using Unicon2.Fragments.Programming.Infrastructure;
 namespace Unicon2.Fragments.Programming.Model
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Connector
+    public class Connector : SegmentPoint
     {
         /// <summary>
         /// Ориентация вывода по отношению к элементу: расположение справа или слева
@@ -15,7 +15,6 @@ namespace Unicon2.Fragments.Programming.Model
         /// Тип вывода: прямой или инверсный
         /// </summary>
         [JsonProperty] public ConnectorType Type { get; set; }
-        [JsonProperty] public Point ConnectorPosition { get; set; }
         /// <summary>
         /// Номер связи
         /// </summary>

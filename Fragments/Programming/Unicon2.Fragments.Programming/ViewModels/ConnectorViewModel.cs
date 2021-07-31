@@ -37,12 +37,12 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// </summary>
         public Point ConnectorPosition
         {
-            get { return this._modelConnector.ConnectorPosition; }
+            get { return this._modelConnector.Position; }
             set
             {
-                this._modelConnector.ConnectorPosition = value;
+                this._modelConnector.Position = value;
                 RaisePropertyChanged();
-                ConnectorPositionChanged?.Invoke(this._modelConnector.ConnectorPosition);
+                ConnectorPositionChanged?.Invoke(this._modelConnector.Position);
             }
         }
 
@@ -148,7 +148,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if (model == null)
                 return;
             
-            this._modelConnector.ConnectorPosition = model.ConnectorPosition;
+            this._modelConnector.Position = model.Position;
             RaisePropertyChanged(nameof(ConnectorPosition));
 
             _modelConnector.Type = model.Type;
