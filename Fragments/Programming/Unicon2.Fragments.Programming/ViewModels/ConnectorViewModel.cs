@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
-    public class ConnectorViewModel : ViewModelBase, IConnectorViewModel
+    public class ConnectorViewModel : ViewModelBase
     {
         private bool _isDragConnection;
         private string _symbol;
-        private IConnector _modelConnector;
-        private IConnectionViewModel _connectionViewModel;
+        private Connector _modelConnector;
+        private ConnectionViewModel _connectionViewModel;
 
         public event Action<Point> ConnectorPositionChanged;
 
-        public ConnectorViewModel(ILogicElementViewModel parent, IConnector model)
+        public ConnectorViewModel(LogicElementViewModel parent, Connector model)
         {
             this.ParentViewModel = parent;
             this._modelConnector = model;
@@ -25,7 +24,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._symbol = string.Empty;
         }
 
-        public ConnectorViewModel(ILogicElementViewModel parent, ConnectorOrientation orientation, ConnectorType type)
+        public ConnectorViewModel(LogicElementViewModel parent, ConnectorOrientation orientation, ConnectorType type)
         {
             this.ParentViewModel = parent;
             this._modelConnector = new Connector(orientation, type);
@@ -47,9 +46,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public ILogicElementViewModel ParentViewModel { get; }
+        public LogicElementViewModel ParentViewModel { get; }
         
-        public IConnector Model
+        public Connector Model
         {
             get => GetModel();
             set => SetModel(value);
@@ -91,7 +90,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public IConnectionViewModel Connection
+        public ConnectionViewModel Connection
         {
             get => this._connectionViewModel;
             set
@@ -138,13 +137,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        private IConnector GetModel()
+        private Connector GetModel()
         {
             this._modelConnector.ConnectionNumber = this.ConnectionNumber;
             return this._modelConnector;
         }
 
-        private void SetModel(IConnector model)
+        private void SetModel(Connector model)
         {
             if (model == null)
                 return;

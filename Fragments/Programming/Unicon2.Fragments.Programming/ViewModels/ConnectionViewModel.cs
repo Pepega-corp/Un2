@@ -7,20 +7,19 @@ using System.Windows;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
+using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Other;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
-using Unicon2.Unity.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
-    public class ConnectionViewModel : ViewModelBase, IConnectionViewModel
+    public class ConnectionViewModel : ViewModelBase, ISchemeElementViewModel
     {
-        private IConnection _model;
-        private IConnectorViewModel _source;
+        private readonly Connection _model;
+        private ConnectorViewModel _source;
         private Point _labelPosition;
         private PathGeometry _path;
         private DoubleCollection _strokeDashArray;
@@ -32,9 +31,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private double _x;
         private double _y;
 
-        public event Action<IConnectionViewModel> NeedDelete;
+        public event Action<ConnectionViewModel> NeedDelete;
 
-        protected ConnectionViewModel(IConnection model, IConnectorViewModel source)
+        protected ConnectionViewModel(Connection model, ConnectorViewModel source)
         {
             this.StrokeDashArray = new DoubleCollection();
             this._currentValue = 0;
@@ -48,16 +47,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._source.ConnectorPositionChanged += OnConnectorPositionChanged;
         }
 
-        public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel sink) : this(model, source)
+        public ConnectionViewModel(Connection model, ConnectorViewModel source, ConnectorViewModel sink) : this(model, source)
         {
-            this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
+            this.SinkConnectors = new ObservableCollection<ConnectorViewModel>();
             SinkConnectors.CollectionChanged += SinkCollectionChanged;
             SinkConnectors.Add(sink);
         }
 
-        public ConnectionViewModel(IConnection model, IConnectorViewModel source, IConnectorViewModel[] sinks) : this(model, source)
+        public ConnectionViewModel(Connection model, ConnectorViewModel source, ConnectorViewModel[] sinks) : this(model, source)
         {
-            this.SinkConnectors = new ObservableCollection<IConnectorViewModel>();
+            this.SinkConnectors = new ObservableCollection<ConnectorViewModel>();
             SinkConnectors.CollectionChanged += SinkCollectionChanged;
             SinkConnectors.AddCollection(sinks);
         }
@@ -96,7 +95,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public IConnectorViewModel SourceConnector
+        public ConnectorViewModel SourceConnector
         {
             get { return this._source; }
             set
@@ -127,7 +126,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public ObservableCollection<IConnectorViewModel> SinkConnectors { get; }
+        public ObservableCollection<ConnectorViewModel> SinkConnectors { get; }
 
         public int ConnectionNumber => this._model.ConnectionNumber;
 
@@ -225,23 +224,29 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public string StrongName => ProgrammingKeys.CONNECTION +
                                     ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public IConnection Model
+        public Connection Model
         {
             get { return this.GetModel(); }
             set { this.SetModel(value); }
         }
                 
-        private IConnection GetModel()
+        private Connection GetModel()
         {
             return this._model;
         }
 
-        private void SetModel(IConnection model)
+        private void SetModel(Connection model)
         {
             this._model.ConnectionNumber = model.ConnectionNumber;
-            this._model.Segments = new List<IConnectionSegment>(model.Segments);
+            this._model.Segments = new List<ConnectionSegment>(model.Segments);
 
-            UpdatePathGeometry(_model.Segments);
+            var points = new List<Point>();
+            foreach (var segment in this._model.Segments)
+            {
+                points.Add(segment.Point1);
+                points.Add(segment.Point2);
+            }
+            UpdatePathGeometry(points);
         }
 
         private void SinkCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -250,7 +255,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 case NotifyCollectionChangedAction.Add:
                 {
-                    foreach (var item in args.NewItems.Cast<IConnectorViewModel>())
+                    foreach (var item in args.NewItems.Cast<ConnectorViewModel>())
                     {
                         item.ConnectorPositionChanged += OnConnectorPositionChanged;
                         item.Connection = this;
@@ -261,7 +266,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 }
                 case NotifyCollectionChangedAction.Remove:
                 {
-                    foreach (var item in args.OldItems.Cast<IConnectorViewModel>())
+                    foreach (var item in args.OldItems.Cast<ConnectorViewModel>())
                     {
                         item.ConnectorPositionChanged -= OnConnectorPositionChanged;
                         item.Connection = null;
@@ -274,7 +279,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 }
                 case NotifyCollectionChangedAction.Reset:
                 {
-                    foreach (var item in args.OldItems.Cast<IConnectorViewModel>())
+                    foreach (var item in args.OldItems.Cast<ConnectorViewModel>())
                     {
                         item.ConnectorPositionChanged -= OnConnectorPositionChanged;
                         item.Connection = null;
@@ -314,9 +319,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     ConnectorParentY = sink.ParentViewModel.Y
                 };
 
-                _model.Segments = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
+                var points = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
 
-                UpdatePathGeometry(_model.Segments);
+                UpdatePathGeometry(points);
             }
         }
 
@@ -341,7 +346,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             
         }
 
-        public IConnectorViewModel GetNearConnector(IConnectorViewModel startConnector)
+        public ConnectorViewModel GetNearConnector(ConnectorViewModel startConnector)
         {
             //TODO get near point in line segment
             return SinkConnectors.First();

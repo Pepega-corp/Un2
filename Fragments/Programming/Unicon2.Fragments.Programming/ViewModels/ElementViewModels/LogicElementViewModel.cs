@@ -2,19 +2,19 @@
 using System.Linq;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
+using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
-    public abstract class LogicElementViewModel : ViewModelBase, ILogicElementViewModel
+    public abstract class LogicElementViewModel : ViewModelBase, ISchemeElementViewModel
     {
         protected IApplicationGlobalCommands _globalCommands;
         protected bool isSelected;
-        protected ILogicElement _logicElementModel;
+        protected LogicElement _logicElementModel;
         protected bool debugMode;
         protected string caption = "";
         protected bool validationError;
@@ -35,7 +35,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
         public abstract string StrongName { get; }
-        public ILogicElement Model => this.GetModel();
+        public LogicElement Model => this.GetModel();
         public string Symbol { get; protected set; }
         public string Caption
         {
@@ -55,7 +55,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
                 RaisePropertyChanged();
             }
         }
-        public ObservableCollection<IConnectorViewModel> ConnectorViewModels { get; protected set; }
+        public ObservableCollection<ConnectorViewModel> ConnectorViewModels { get; protected set; }
         public double X
         {
             get => this._logicElementModel.X;
@@ -109,14 +109,14 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        protected virtual ILogicElement GetModel()
+        protected virtual LogicElement GetModel()
         {
             this._logicElementModel.Connectors.Clear();
             this._logicElementModel.Connectors.AddRange(this.ConnectorViewModels.Select(cvm => cvm.Model));
             return this._logicElementModel;
         }
 
-        protected virtual void SetModel(ILogicElement model)
+        protected virtual void SetModel(LogicElement model)
         {
             X = model.X;
             Y = model.Y;
@@ -127,9 +127,9 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
         
-        public virtual void ResetSettingsTo(ILogicElement model){}
+        public virtual void ResetSettingsTo(LogicElement model){}
 
-        public abstract ILogicElementViewModel Clone();
+        public abstract LogicElementViewModel Clone();
 
         public virtual void OpenPropertyWindow()
         {

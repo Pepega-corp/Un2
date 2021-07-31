@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
@@ -8,13 +9,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
 {
     internal class LogicElementSettingsViewModel : ViewModelBase
     {
-        private ILogicElementViewModel _sourceViewModel;
-        private readonly ILogicElementViewModel _previouseViewModel;
+        private LogicElementViewModel _sourceViewModel;
+        private readonly LogicElementViewModel _previouseViewModel;
 
         public ICommand OkCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public LogicElementSettingsViewModel(ILogicElementViewModel sourceViewModel)
+        public LogicElementSettingsViewModel(LogicElementViewModel sourceViewModel)
         {
             this.LogicElementViewModel = sourceViewModel;
             _previouseViewModel = this._sourceViewModel.Clone();
@@ -23,7 +24,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.CancelCommand = new RelayCommand<Window>(this.OnCloseCommand);
         }
 
-        public ILogicElementViewModel LogicElementViewModel
+        public LogicElementViewModel LogicElementViewModel
         {
             get { return this._sourceViewModel; }
             set

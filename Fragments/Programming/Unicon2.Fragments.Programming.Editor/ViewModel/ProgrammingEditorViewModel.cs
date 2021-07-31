@@ -20,7 +20,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
 {
     public class ProgrammingEditorViewModel : ViewModelBase, IProgrammingEditorViewModel
     {
-        private readonly ILogicElementFactory _logicElementFactory;
+        private readonly ILogicElementEditorFactory _logicElementEditorFactory;
         private readonly IApplicationGlobalCommands _globalCommands;
         private readonly IProgrammModelEditor _model;
         private ILogicElementEditorViewModel _selectedNewLogicElemItem;
@@ -36,14 +36,14 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
         public ICommand RemoveElementCommand { get; }
         public ICommand EditElementCommand { get; }
 
-        public ProgrammingEditorViewModel(IProgrammModelEditor model, IApplicationGlobalCommands globalCommands, ILogicElementFactory logicElementFactory)
+        public ProgrammingEditorViewModel(IProgrammModelEditor model, IApplicationGlobalCommands globalCommands, ILogicElementEditorFactory logicElementEditorFactory)
         {
             this._model = model;
             this._model.LogBinSize = 4096;
             this._globalCommands = globalCommands;
-            this._logicElementFactory = logicElementFactory;
-            this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetBooleanElementsEditorViewModels());
-            this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementFactory.GetAnalogElementsEditorViewModels());
+            this._logicElementEditorFactory = logicElementEditorFactory;
+            this.BooleanElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementEditorFactory.GetBooleanElementsEditorViewModels());
+            this.AnalogElements = new ObservableCollection<ILogicElementEditorViewModel>(this._logicElementEditorFactory.GetAnalogElementsEditorViewModels());
             this.LibraryElements = new ObservableCollection<ILogicElementEditorViewModel>();
 
             this.AddElementCommand = new RelayCommand(this.OnAddElement);
@@ -197,7 +197,7 @@ namespace Unicon2.Fragments.Programming.Editor.ViewModel
                 this._model.Elements.AddRange(model.Elements);
                 this.SelectedLogBinSize = model.LogBinSize.ToString("D");
                 this.LibraryElements.Clear();
-                this.LibraryElements.AddCollection(this._logicElementFactory.GetAllElementsEditorViewModels(this._model.Elements));
+                this.LibraryElements.AddCollection(this._logicElementEditorFactory.GetAllElementsEditorViewModels(this._model.Elements));
 
                 if (this._model.WithHeader)
                 {

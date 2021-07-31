@@ -9,9 +9,9 @@ using Microsoft.Xaml.Behaviors;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Adorners;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.ViewModels;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors
 {
@@ -20,7 +20,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
     // в котором содержится вся нужная информация о VM
     public class DesignerItemBehavior : Behavior<Thumb>
     {
-        private ILogicElementViewModel _currentItemContent;
+        private LogicElementViewModel _currentItemContent;
         private SchemeTabViewModel _tabViewModel;
         private Canvas _designerCanvas;
         private Point? _dragPoint;
@@ -33,7 +33,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             AssociatedObject.MouseMove += this.OnMouseMove;
             AssociatedObject.PreviewMouseDown += this.OnPreviewMouseDown;
             AssociatedObject.MouseDoubleClick += this.OnMouseDoubleClick;
-            this._currentItemContent = AssociatedObject.DataContext as ILogicElementViewModel; //VM текущего элемента
+            this._currentItemContent = AssociatedObject.DataContext as LogicElementViewModel; //VM текущего элемента
             if (this._currentItemContent == null) return;
             this._designerCanvas = CommonHelper.GetDesignerCanvas(AssociatedObject); //Canvas, на котором отображаются элементы
             if (this._designerCanvas != null)
@@ -55,10 +55,10 @@ namespace Unicon2.Fragments.Programming.Behaviors
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (!this._dragPoint.HasValue || e.LeftButton != MouseButtonState.Pressed || this._contentPresenters.Count == 0) return;
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
+            var adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             if (adornerLayer != null )
             {
-                DragItemsAdorner connectorAdorner = new DragItemsAdorner(this._designerCanvas, this._contentPresenters, this._thumbRects, this._dragPoint.Value);
+                var connectorAdorner = new DragItemsAdorner(this._designerCanvas, this._contentPresenters, this._thumbRects, this._dragPoint.Value);
                 adornerLayer.Add(connectorAdorner);
                 e.Handled = true;
             }
@@ -88,15 +88,15 @@ namespace Unicon2.Fragments.Programming.Behaviors
             // перетаскивать будем все выделенные контролы относительно того, который тащим мышкой
             this._contentPresenters.Clear();
             this._contentPresenters.AddRange(this._designerCanvas.Children.OfType<ContentPresenter>()
-                .Where(cc => cc.Content is ILogicElementViewModel && ((ILogicElementViewModel)cc.Content).IsSelected));
+                .Where(cc => cc.Content is LogicElementViewModel && ((LogicElementViewModel)cc.Content).IsSelected));
             // проверка для границ проводится будет по Thumb, а не по ContentPresenter,
             // чтобы сам блок и его выводы располагались в точках, кратных 5
             this._thumbRects.Clear();
-            foreach (ContentPresenter presenter in this._contentPresenters)
+            foreach (var presenter in this._contentPresenters)
             {
-                Thumb thumb = CommonHelper.GetThumbOfPresenter(presenter);
-                Rect boundsRect = VisualTreeHelper.GetDescendantBounds(thumb);
-                Rect thumbRect = thumb.TransformToAncestor(this._designerCanvas).TransformBounds(boundsRect);
+                var thumb = CommonHelper.GetThumbOfPresenter(presenter);
+                var boundsRect = VisualTreeHelper.GetDescendantBounds(thumb);
+                var thumbRect = thumb.TransformToAncestor(this._designerCanvas).TransformBounds(boundsRect);
                 this._thumbRects.Add(thumbRect);
             }
 

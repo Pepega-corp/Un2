@@ -6,11 +6,10 @@ using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
-    public class SystemJournal : LogicElement, IJournal
+    public class SystemJournal : LogicElement
     {
         private const int BIN_SIZE = 4;
         
@@ -28,7 +27,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public SystemJournal()
         {
             this.OutputSignals = new List<string>();
-            this.Connectors = new List<IConnector> { new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
+            this.Connectors = new List<Connector> { new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
         }
 
         public override void CopyLibraryValues(ILibraryElement source)
@@ -42,7 +41,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             this.OutputSignals.AddRange(journalEditor.OutputSignals);
         }
         
-        public override void CopyValues(ILogicElement source)
+        public override void CopyValues(LogicElement source)
         {
             if (source is SystemJournal model)
             {

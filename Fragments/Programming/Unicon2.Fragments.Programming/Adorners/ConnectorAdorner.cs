@@ -6,8 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Infrastructure;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.ViewModels;
@@ -16,7 +14,7 @@ namespace Unicon2.Fragments.Programming.Adorners
 {
     public class ConnectorAdorner : Adorner
     {
-        private ISchemeTabViewModel _schemeTabViewModel;
+        private SchemeTabViewModel _schemeTabViewModel;
         private PathGeometry _pathGeometry;
         private readonly Canvas _designerCanvas;
         private readonly Pen _drawingPen;
@@ -27,7 +25,7 @@ namespace Unicon2.Fragments.Programming.Adorners
         public ConnectorAdorner(Canvas designer, ConnectorViewModel sourceConnectorViewModel) : base(designer)
         {
             this._designerCanvas = designer;
-            this._schemeTabViewModel = this._designerCanvas.DataContext as ISchemeTabViewModel;
+            this._schemeTabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
             this._sourceConnector = sourceConnectorViewModel;
             this._drawingPen = new Pen(Brushes.LightSlateGray, 1)
             {
@@ -60,7 +58,7 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             if (this._hitConnector != null)
             {
-                IConnectorViewModel rigtConnector, leftConnector;
+                ConnectorViewModel rigtConnector, leftConnector;
                 if (this._sourceConnector.Orientation == ConnectorOrientation.RIGHT)
                 {
                     rigtConnector = this._sourceConnector;

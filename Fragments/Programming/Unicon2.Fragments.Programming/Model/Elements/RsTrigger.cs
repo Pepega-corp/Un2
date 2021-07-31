@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
@@ -21,7 +20,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public RsTrigger()
         {
-            Connectors = new List<IConnector>
+            Connectors = new List<Connector>
             {
                 new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT),
                 new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT),
@@ -29,7 +28,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             };
         }
 
-        public override void CopyValues(ILogicElement source)
+        public override void CopyValues(LogicElement source)
         {
             if (source is RsTrigger)
             {

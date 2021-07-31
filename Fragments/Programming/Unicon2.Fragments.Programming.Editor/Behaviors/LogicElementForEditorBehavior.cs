@@ -3,8 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 using Unicon2.Fragments.Programming.Editor.ViewModel;
-using Unicon2.Fragments.Programming.Infrastructure.HelperClasses;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementEditorViewModels;
 
 namespace Unicon2.Fragments.Programming.Editor.Behaviors
 {
@@ -49,9 +47,8 @@ namespace Unicon2.Fragments.Programming.Editor.Behaviors
         {
             if (this._dragStart && e.LeftButton == MouseButtonState.Pressed)
             {
-                //ILogicElementEditorViewModel item = (ILogicElementEditorViewModel)this._selectedItem.Clone();
-                ILogicElementEditorViewModel item = this._programmingEditorViewModel.SelectedNewLogicElemItem;
-                DragEditorElement dragObject = new DragEditorElement(item);
+                var item = this._programmingEditorViewModel.SelectedNewLogicElemItem;
+                var dragObject = new DragEditorElement(item);
                 DragDrop.DoDragDrop(this._listView, dragObject, DragDropEffects.Copy);
                 e.Handled = true;
             }

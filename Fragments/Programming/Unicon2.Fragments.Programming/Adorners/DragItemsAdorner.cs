@@ -7,8 +7,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.ViewModels;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.Adorners
 {
@@ -181,9 +181,9 @@ namespace Unicon2.Fragments.Programming.Adorners
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             // перемещение всех элементов
-            foreach (var control in this._contentPresenters.Where(control => control.Content is ILogicElementViewModel))
+            foreach (var control in this._contentPresenters.Where(control => control.Content is LogicElementViewModel))
             {
-                var item = control.Content as ILogicElementViewModel;
+                var item = control.Content as LogicElementViewModel;
                 if(item == null)
                     continue;
 

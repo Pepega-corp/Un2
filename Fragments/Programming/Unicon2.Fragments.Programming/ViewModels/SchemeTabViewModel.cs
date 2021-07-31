@@ -5,11 +5,11 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Behaviors;
+using Unicon2.Fragments.Programming.Factories;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Commands;
@@ -18,23 +18,23 @@ using Unicon2.Unity.ViewModels;
 namespace Unicon2.Fragments.Programming.ViewModels
 {
     // Вью модель одной схемы
-    public class SchemeTabViewModel : ViewModelBase, ISchemeTabViewModel
+    public class SchemeTabViewModel : ViewModelBase
     {
-        private readonly IProgrammingViewModel _programmingViewModel;
-        private readonly ILogicElementFactory _factory;
+        private readonly ProgrammingViewModel _programmingViewModel;
+        private readonly LogicElementsFactory _elementsFactory;
         public const int CELL_SIZE = 5;
-        private ISchemeModel _model;
+        private SchemeModel _model;
         private bool _isLogicStarted;
         private double _scale;
 
         /// <summary>
         /// Событие закрытия вкладки схемы
         /// </summary>
-        public event Action<ISchemeTabViewModel> CloseTabEvent;
+        public event Action<SchemeTabViewModel> CloseTabEvent;
 
-        public event Func<int, IConnectionViewModel> GetConnection;
+        public event Func<int, ConnectionViewModel> GetConnection;
 
-        public ISchemeModel Model => this.GetModel();
+        public SchemeModel Model => this.GetModel();
         public string StrongName => ProgrammingKeys.SCHEME_TAB + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         /// <summary>
         /// Ссылка на поведение
@@ -76,7 +76,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             get
             {
-                var logicElements = ElementCollection.Where(e => e is ILogicElementViewModel).Cast<ILogicElementViewModel>().ToList();
+                var logicElements = ElementCollection.Where(e => e is LogicElementViewModel).Cast<LogicElementViewModel>().ToList();
                 return logicElements.All(le => le.Connected);
             }
         }
@@ -96,16 +96,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public ICommand CloseTabCommand { get; }
         public ICommand DeleteCommand { get; }
 
-        public SchemeTabViewModel(ISchemeModel model, IProgrammingViewModel programmingViewModel, ILogicElementFactory factory) : this(factory)
+        public SchemeTabViewModel(SchemeModel model, ProgrammingViewModel programmingViewModel, LogicElementsFactory elementsFactory) : this(elementsFactory)
         {
             this._programmingViewModel = programmingViewModel;
-            this._model = model;
             this.Scale = 1.0d;
+            SetModel(model);
         }
 
-        private SchemeTabViewModel(ILogicElementFactory factory)
+        private SchemeTabViewModel(LogicElementsFactory elementsFactory)
         {
-            this._factory = factory;
+            this._elementsFactory = elementsFactory;
             this.ElementCollection = new ObservableCollection<ISchemeElementViewModel>();
             ElementCollection.CollectionChanged += this.ElementCollection_CollectionChanged;
             this.ZoomIncrementCommand = new RelayCommand(this.IncrementZoom);
@@ -122,7 +122,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 {
                     foreach (var element in e.NewItems)
                     {
-                        if(element is IConnectionViewModel connection)
+                        if(element is ConnectionViewModel connection)
                         {
                             connection.NeedDelete += RemoveConnection;
                         }
@@ -136,7 +136,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     {
                         foreach (var element in e.OldItems)
                         {
-                            if (element is IConnectionViewModel connection)
+                            if (element is ConnectionViewModel connection)
                             {
                                 connection.NeedDelete -= RemoveConnection;
                             }
@@ -147,30 +147,30 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        private ISchemeModel GetModel()
+        private SchemeModel GetModel()
         {
-            var logicElementViewModels = this.ElementCollection.Where(ec => ec is ILogicElementViewModel)
-                .Cast<ILogicElementViewModel>().ToArray();
+            var logicElementViewModels = this.ElementCollection.Where(ec => ec is LogicElementViewModel)
+                .Cast<LogicElementViewModel>().ToArray();
             this._model.LogicElements.Clear();
             this._model.LogicElements.AddRange(logicElementViewModels.Select(lvm => lvm.Model));
 
-            var connectionsViewModels = this.ElementCollection.Where(ec => ec is IConnectionViewModel)
-                .Cast<IConnectionViewModel>().ToArray();
+            var connectionsViewModels = this.ElementCollection.Where(ec => ec is ConnectionViewModel)
+                .Cast<ConnectionViewModel>().ToArray();
             this._model.ConnectionNumbers.Clear();
             this._model.ConnectionNumbers.AddRange(connectionsViewModels.Select(c => c.ConnectionNumber));
 
             return this._model;
         }
 
-        private void SetModel(ISchemeModel objModel)
+        private void SetModel(SchemeModel objModel)
         {
             this._model = objModel;
-            var logicElementsViewModels = this._factory.GetAllElementsViewModels(this._model.LogicElements);
+            var logicElementsViewModels = this._elementsFactory.GetAllElementsViewModels(this._model.LogicElements);
             this.ElementCollection.Clear();
             this.ElementCollection.AddCollection(logicElementsViewModels);
         }
 
-        public void AddConnectionToProgramm(IConnectionViewModel connectionViewModel)
+        public void AddConnectionToProgramm(ConnectionViewModel connectionViewModel)
         {
             this._programmingViewModel.AddConnection(connectionViewModel);
         }
@@ -192,7 +192,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void CloseTab()
         {
-            var connections = ElementCollection.Where(ec => ec is IConnectionViewModel).Cast<IConnectionViewModel>();
+            var connections = ElementCollection.Where(ec => ec is ConnectionViewModel).Cast<ConnectionViewModel>();
             foreach(var c in connections)
             {
                 _programmingViewModel.RemoveConnection(c);
@@ -212,14 +212,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void RemoveSelectedConnection()
         {
-            var selectedConnections = this.ElementCollection.Where(e => e is IConnectionViewModel && e.IsSelected).Cast<IConnectionViewModel>().ToList();
+            var selectedConnections = this.ElementCollection.Where(e => e is ConnectionViewModel && e.IsSelected).Cast<ConnectionViewModel>().ToList();
             foreach (var connectionViewModel in selectedConnections.Where(sc => this.ElementCollection.Contains(sc)))
             {
                 RemoveConnection(connectionViewModel);
             }
         }
 
-        private void RemoveConnection(IConnectionViewModel connection)
+        private void RemoveConnection(ConnectionViewModel connection)
         {
             connection.SourceConnector.Connection = null;
             foreach (var sink in connection.SinkConnectors)
@@ -237,10 +237,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void RemoveSelectedElements()
         {
-            var selectedElements = this.ElementCollection.Where(e => e is ILogicElementViewModel && e.IsSelected).Cast<ILogicElementViewModel>().ToList();
+            var selectedElements = this.ElementCollection.Where(e => e is LogicElementViewModel && e.IsSelected).Cast<LogicElementViewModel>().ToList();
             foreach (var element in selectedElements)
             {
-                var removingConnections = new List<IConnectionViewModel>();
+                var removingConnections = new List<ConnectionViewModel>();
                 var connectedConnectors = element.ConnectorViewModels.Where(c => c.Connected).ToList();
                 foreach (var connector in connectedConnectors)
                 {
@@ -278,7 +278,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             (DeleteCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
-        public IConnectionViewModel GetConnectionViewModel(int connectionNumber)
+        public ConnectionViewModel GetConnectionViewModel(int connectionNumber)
         {
             return this.GetConnection?.Invoke(connectionNumber);
         }

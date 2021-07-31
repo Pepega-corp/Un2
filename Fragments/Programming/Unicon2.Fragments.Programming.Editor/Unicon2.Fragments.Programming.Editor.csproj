@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\LogicElementForEditorBehavior.cs" />
+    <Compile Include="DragElementEditor.cs" />
     <Compile Include="Models\LibraryElements\AlarmJournalEditor.cs" />
     <Compile Include="Models\LibraryElements\AndEditor.cs" />
     <Compile Include="Models\LibraryElements\InputEditor.cs" />

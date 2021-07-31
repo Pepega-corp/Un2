@@ -1,15 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Windows;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Connection : IConnection
+    public class Connection
     {
         [JsonProperty] public int ConnectionNumber { get; set; }
-        [JsonProperty] public List<IConnectionSegment> Segments { get; set; }
+        [JsonProperty] public List<ConnectionSegment> Segments { get; set; }
 
         public Connection(List<Point> pathPoints, int connectionNumber)
         {
@@ -20,7 +19,7 @@ namespace Unicon2.Fragments.Programming.Model
                 pathPoints.Add(new Point());
             }
 
-            IConnectionSegment prevSegment = null;
+            ConnectionSegment prevSegment = null;
             for (var i = 0; i < pathPoints.Count; i += 2)
             {
                 
