@@ -34,16 +34,26 @@
     </controls:MetroWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
+
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock
-            MaxWidth="700"
-            Margin="5"
-            HorizontalAlignment="Left"
-            Text="{lex:Loc ConnectionTestingDescription}"
-            TextWrapping="WrapWithOverflow" />
+        <StackPanel Orientation="Vertical">
+            <TextBlock
+                Margin="5"
+                Style="{DynamicResource DialogFormHeadingStyle}"
+                Text="{lex:Loc ConnectionTesting}" />
+            <TextBlock
+                MaxWidth="700"
+                Margin="5"
+                HorizontalAlignment="Left"
+                Text="{lex:Loc ConnectionTestingDescription}"
+                TextWrapping="WrapWithOverflow" />
+        </StackPanel>
+
         <Grid Grid.Row="1" Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -78,7 +88,7 @@
                 Content="{lex:Loc Select}"
                 Style="{DynamicResource UniconButtonStyle}" />
 
-            <VirtualizingStackPanel
+            <StackPanel
                 Grid.Row="1"
                 Grid.Column="0"
                 Orientation="Horizontal">
@@ -130,7 +140,7 @@
                         <VisualBrush Visual="{DynamicResource appbar_information}" />
                     </Rectangle.Fill>
                 </Rectangle>
-            </VirtualizingStackPanel>
+            </StackPanel>
 
             <ItemsControl
                 Name="stringsItemsControl"
@@ -165,15 +175,30 @@
                 Content="{lex:Loc Add}"
                 Style="{DynamicResource UniconButtonStyle}" />
 
-            <Grid Grid.Row="2">
-                <ContentControl
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="{Binding DefaultComPortConfigurationViewModel}" />
-            </Grid>
         </Grid>
-        <VirtualizingStackPanel
-            Grid.Row="2"
+
+        <Grid Grid.Row="2">
+            <ContentControl
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="{Binding DefaultComPortConfigurationViewModel}" />
+        </Grid>
+        <Grid Grid.Row="3">
+            <StackPanel Orientation="Vertical">
+                <TextBlock
+                    Margin="5"
+                    Style="{DynamicResource DialogFormHeadingStyle}"
+                    Text="{lex:Loc OfflineResourceValues}" />
+                <TextBlock
+                    MaxWidth="700"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Text="{lex:Loc OfflineResourceValuesDescription}"
+                    TextWrapping="WrapWithOverflow" /> 
+            </StackPanel>
+        </Grid>
+        <StackPanel
+            Grid.Row="4"
             Margin="5"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
@@ -193,7 +218,7 @@
                 CommandParameter="{Binding ElementName=connectionTestingWindow}"
                 Content="{lex:Loc Cancel}"
                 Style="{DynamicResource UniconButtonStyle}" />
-        </VirtualizingStackPanel>
+        </StackPanel>
 
     </Grid>
 </controls:MetroWindow>

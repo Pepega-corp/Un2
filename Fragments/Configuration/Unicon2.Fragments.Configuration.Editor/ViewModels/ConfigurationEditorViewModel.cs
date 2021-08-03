@@ -267,7 +267,11 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
                         parent.IsCheckable = true;
                         parent.Checked?.Invoke(true);
                     }
-
+                    if (RootConfigurationItemViewModels.Contains(editorConfigurationItemViewModel))
+                    {
+                        RootConfigurationItemViewModels.Remove(editorConfigurationItemViewModel);
+                        // this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModel.Model as IConfigurationItem);
+                    }
                     selectedRowToPaste.PasteAsChild(editorConfigurationItemViewModel);
 
 

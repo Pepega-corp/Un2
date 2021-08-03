@@ -1686,4 +1686,13 @@
   <data name="RegexResourceFormatterIsNotString" xml:space="preserve">
     <value>@RegexResourceFormatterIsNotString</value>
   </data>
+  <data name="ConvertUnsignedToInt16FunctionDescription" xml:space="preserve">
+    <value>@ConvertUnsignedToInt16FunctionDescription</value>
+  </data>
+  <data name="ConvertInt16ToUnsignedFunctionDescription" xml:space="preserve">
+    <value>@ConvertInt16ToUnsignedFunctionDescription</value>
+  </data>
+  <data name="Connection" xml:space="preserve">
+    <value>@Connection</value>
+  </data>
 </root>

@@ -72,7 +72,7 @@ namespace Unicon2.Formatting.Visitors
                 string numstr = (_formattedValue as INumericValue).NumValue.ToString().Replace(',', '.');
                 Expression expression = new Expression("solve(" + "(" + formulaFormatter.FormulaString + ")" + "-" +
                                                        numstr +
-                                                       ",x,0," + ushort.MaxValue + ")");
+                                                       ",x,0," + ushort.MaxValue+1 + ")");
 
                 if (formulaFormatter.UshortFormattableResources != null)
                 {
@@ -95,7 +95,10 @@ namespace Unicon2.Formatting.Visitors
 
                 double x = expression.calculate();
                 if (double.IsNaN(x)) throw new ArgumentException();
-
+                if (x == (double)(ushort.MaxValue + 1))
+                {
+                    x = ushort.MaxValue;
+                }
                 return new[] {(ushort) x};
 
             }

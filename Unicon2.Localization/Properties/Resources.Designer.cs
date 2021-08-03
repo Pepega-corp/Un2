@@ -1078,6 +1078,15 @@ namespace Unicon2.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @Connection.
+        /// </summary>
+        public static string Connection {
+            get {
+                return ResourceManager.GetString("Connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @ConnectionLostGoOfflineQuestion.
         /// </summary>
         public static string ConnectionLostGoOfflineQuestion {
@@ -1128,6 +1137,24 @@ namespace Unicon2.Localization.Properties {
         public static string ConvertedValue {
             get {
                 return ResourceManager.GetString("ConvertedValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ConvertInt16ToUnsignedFunctionDescription.
+        /// </summary>
+        public static string ConvertInt16ToUnsignedFunctionDescription {
+            get {
+                return ResourceManager.GetString("ConvertInt16ToUnsignedFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @ConvertUnsignedToInt16FunctionDescription.
+        /// </summary>
+        public static string ConvertUnsignedToInt16FunctionDescription {
+            get {
+                return ResourceManager.GetString("ConvertUnsignedToInt16FunctionDescription", resourceCulture);
             }
         }
         

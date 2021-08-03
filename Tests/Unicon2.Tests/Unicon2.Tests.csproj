@@ -99,6 +99,7 @@
     <Compile Include="Configuration\ComplexPropertiesMigratorTests.cs" />
     <Compile Include="Configuration\ConfigurationCopyPasteValuesTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
+    <Compile Include="Configuration\RangeTests.cs" />
     <Compile Include="Configuration\WriteConfigurationIfNothingChangesCase.cs" />
     <Compile Include="Connection\AutoLoadTabTests.cs" />
     <Compile Include="Connection\ChangeConnectionCycleMeasuringLoadingCase.cs" />

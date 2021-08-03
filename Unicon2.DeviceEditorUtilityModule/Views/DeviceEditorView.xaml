@@ -236,7 +236,7 @@
                 <Button
                     Margin="3"
                     Command="{Binding ResultingDeviceViewModel.NavigateToConnectionTestingCommand}"
-                    Content="{lex:Loc ConnectionTesting}"
+                    Content="{lex:Loc Connection}"
                     Style="{DynamicResource UniconButtonStyle}" />
             </UniformGrid>
 
