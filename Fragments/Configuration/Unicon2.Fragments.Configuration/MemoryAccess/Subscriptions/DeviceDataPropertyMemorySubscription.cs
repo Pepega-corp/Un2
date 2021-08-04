@@ -64,7 +64,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 {
                     formatterForProperty = await DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
                         _property.Dependencies, _deviceContext, formattingService,
-                        _property?.UshortsFormatter, _offset);
+                        _property?.UshortsFormatter, _offset, false);
                 }
 
                 var value = await formattingService.FormatValueAsync(formatterForProperty, subPropertyUshort.AsCollection(),new FormattingContext(_localAndDeviceValueContainingViewModel,_deviceContext,false));
@@ -81,7 +81,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 {
                     formatterForProperty = await DependentSubscriptionHelpers.GetFormatterConsideringDependencies(
                         _property.Dependencies, _deviceContext, formattingService,
-                        _property?.UshortsFormatter, _offset);
+                        _property?.UshortsFormatter, _offset, false);
                 }
 
                 if (MemoryAccessor.IsMemoryContainsAddresses(

@@ -59,7 +59,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 {
                     formatterForDependentProperty = await 
                         DependentSubscriptionHelpers.GetFormatterConsideringDependencies(_property.Dependencies,
-                            _deviceContext, formattingService, _property.UshortsFormatter, (ushort)_offset);
+                            _deviceContext, formattingService, _property.UshortsFormatter, (ushort)_offset, true);
                 }
 
 
@@ -102,7 +102,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions
                 {
                     formatterForDependentProperty = await 
                         DependentSubscriptionHelpers.GetFormatterConsideringDependencies(_property.Dependencies,
-                            _deviceContext, formattingService, _property.UshortsFormatter, (ushort) _offset);
+                            _deviceContext, formattingService, _property.UshortsFormatter, (ushort) _offset, true);
                 }
 
 

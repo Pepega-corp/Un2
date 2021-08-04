@@ -74,7 +74,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
 
         public static async Task<IUshortsFormatter> GetFormatterConsideringDependencies(List<IDependency> dependencies,
             DeviceContext deviceContext, IFormattingService formattingService,
-            IUshortsFormatter ushortsFormatterInitial, ushort offset)
+            IUshortsFormatter ushortsFormatterInitial, ushort offset, bool isLocal)
         {
             var formatterForDependentProperty = ushortsFormatterInitial;
             foreach (var dependency in dependencies)
@@ -88,7 +88,7 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
                             conditionResultDependency.Result is IApplyFormatterResult applyFormatterResult)
                         {
                             var checkResult = await CheckCondition(compareResourceCondition,
-                                deviceContext, formattingService, true, offset);
+                                deviceContext, formattingService, isLocal, offset);
 
                             if (checkResult.IsSuccess)
                             {

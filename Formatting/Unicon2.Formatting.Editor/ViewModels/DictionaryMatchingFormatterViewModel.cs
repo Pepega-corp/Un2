@@ -163,7 +163,11 @@ namespace Unicon2.Formatting.Editor.ViewModels
             DictionaryMatchingFormatterViewModel cloneDictionaryMatchingFormatterViewModel =
                 new DictionaryMatchingFormatterViewModel();
             cloneDictionaryMatchingFormatterViewModel.KeyValuesDictionary =
-                new ObservableCollection<BindableKeyValuePair<ushort, string>>(this.KeyValuesDictionary.ToList());
+                new ObservableCollection<BindableKeyValuePair<ushort, string>>(this.KeyValuesDictionary.Select(pair =>new BindableKeyValuePair<ushort,string>()
+                {
+                    Key = pair.Key,
+                    Value = pair.Value
+                }).ToList());
             //      cloneDictionaryMatchingFormatterViewModel.InitFromFormatter(this._dictionaryMatchingFormatter.Clone() as IUshortsFormatter);
             cloneDictionaryMatchingFormatterViewModel.DefaultMessage = DefaultMessage;
             cloneDictionaryMatchingFormatterViewModel.UseDefaultMessage = UseDefaultMessage;
