@@ -412,6 +412,30 @@
                 IsTabStop="False"
                 Visibility="{Binding IsMultiEditMode, Converter={StaticResource BoolToVisConverter}}">
                 <StackPanel Margin="0">
+                    <UniformGrid Columns="3">
+
+                        <Button
+                            Margin="3"
+                            Command="{Binding CutElementCommand}"
+                            Content="{lex:Loc Cut}"
+                            IsTabStop="False"
+                            Style="{DynamicResource UniconButtonStyle}" />
+
+                        <Button
+                            Margin="3"
+                            Command="{Binding CopyElementCommand}"
+                            Content="{lex:Loc Copy}"
+                            IsTabStop="False"
+                            Style="{DynamicResource UniconButtonStyle}" />
+
+                        <Button
+                            Margin="3"
+                            Command="{Binding PasteAsChildElementCommand}"
+                            Content="{lex:Loc Paste}"
+                            IsTabStop="False"
+                            Style="{DynamicResource UniconButtonStyle}"
+                            ToolTip="{lex:Loc PasteAsChild}" />
+                    </UniformGrid>
                     <Button
                         Margin="3"
                         Command="{Binding DeleteElementCommand}"

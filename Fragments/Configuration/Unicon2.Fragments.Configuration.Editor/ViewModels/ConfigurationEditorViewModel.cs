@@ -239,62 +239,71 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanPasteAsChildElementElement()
         {
-            return SelectedRow is IAsChildPasteable && _bufferConfigurationItem.IsSuccess;
+            return SelectedRow is IAsChildPasteable && _bufferConfigurationItems.IsSuccess;
         }
 
         private void OnPasteAsChildElementExecute()
         {
-            if (_bufferConfigurationItem.IsSuccess)
+            if (_bufferConfigurationItems.IsSuccess)
             {
-                if (_bufferConfigurationItem.Item.isMove)
+                if (_bufferConfigurationItems.Item.isMove)
                 {
-                    var sharedResourceInfo =
-                         _sharedResourcesGlobalViewModel.GetNameByResourceViewModel(_bufferConfigurationItem.Item.item);
-
-                    var selectedRowToPaste = (SelectedRow as IAsChildPasteable);
-
-
-                    IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
-                        _bufferConfigurationItem.Item.item;
-                    var parent = editorConfigurationItemViewModel.Parent;
+                    var parent = _bufferConfigurationItems.Item.item.First().Parent;
                     parent?.Checked?.Invoke(false);
 
-                    (editorConfigurationItemViewModel as IDeletable).DeleteElement();
-
-
-                    if (parent != null)
+                    foreach (var bufferConfigurationItem in _bufferConfigurationItems.Item.item)
                     {
-                        parent.IsCheckable = true;
-                        parent.Checked?.Invoke(true);
-                    }
-                    if (RootConfigurationItemViewModels.Contains(editorConfigurationItemViewModel))
-                    {
-                        RootConfigurationItemViewModels.Remove(editorConfigurationItemViewModel);
-                        // this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModel.Model as IConfigurationItem);
-                    }
-                    selectedRowToPaste.PasteAsChild(editorConfigurationItemViewModel);
+                        var sharedResourceInfo =
+                            _sharedResourcesGlobalViewModel.GetNameByResourceViewModel(bufferConfigurationItem);
+
+                        var selectedRowToPaste = (SelectedRow as IAsChildPasteable);
+
+                        
+
+                        (bufferConfigurationItem as IDeletable).DeleteElement();
 
 
+                        if (parent != null)
+                        {
+                            parent.IsCheckable = true;
+                            parent.Checked?.Invoke(true);
+                        }
+
+                        if (RootConfigurationItemViewModels.Contains(bufferConfigurationItem))
+                        {
+                            RootConfigurationItemViewModels.Remove(bufferConfigurationItem);
+                            // this._deviceConfiguration.RootConfigurationItemList.Remove(configurationItemViewModel.Model as IConfigurationItem);
+                        }
+
+                        selectedRowToPaste.PasteAsChild(bufferConfigurationItem);
+
+
+
+                      
+                        if (sharedResourceInfo.IsSuccess)
+                        {
+                            _sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(
+                                bufferConfigurationItem, sharedResourceInfo.Item, false);
+                        }
+                    }
                     PrepareAdding();
-                    SelectedRow = editorConfigurationItemViewModel;
+                    SelectedRow = _bufferConfigurationItems.Item.item.First();
                     CompleteAdding();
-                    _bufferConfigurationItem =
-                        Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create(false);
-                    if (sharedResourceInfo.IsSuccess)
-                    {
-                        _sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(editorConfigurationItemViewModel,sharedResourceInfo.Item,false);
-                    }
+                    _bufferConfigurationItems = ResultUtils.Nothing;
                 }
                 else
                 {
                     if (SelectedRow is IAsChildPasteable)
                     {
-                        IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
-                            _bufferConfigurationItem.Item.item.Clone() as IEditorConfigurationItemViewModel;
-                        (SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
+                        foreach (var bufferConfigurationItem in _bufferConfigurationItems.Item.item)
+                        {
+                            IEditorConfigurationItemViewModel editorConfigurationItemViewModel =
+                                bufferConfigurationItem.Clone() as IEditorConfigurationItemViewModel;
+                            (SelectedRow as IAsChildPasteable).PasteAsChild(editorConfigurationItemViewModel);
+                        }
 
                         PrepareAdding();
-                        SelectedRow = editorConfigurationItemViewModel;
+                        SelectedRow = _bufferConfigurationItems.Item.item.First();
                         CompleteAdding();
                     }
                 }
@@ -303,26 +312,28 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
 
         private bool CanExecuteCopyElement()
         {
-            return SelectedRow is ICloneable;
+            return SelectedRows.All(model => model is ICloneable) &&
+                   SelectedRows.GroupBy(model => model.Parent).Count() == 1;
         }
 
         private void OnCopyElementExecute()
         {
-            if (SelectedRow is ICloneable)
+            if (SelectedRows.All(model =>model is ICloneable))
             {
-                _bufferConfigurationItem =
-                    Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create((SelectedRow, false), true);
+                _bufferConfigurationItems =
+                    (SelectedRows, false);
             }
         }
+
         private bool CanExecuteCutElement()
         {
-            return SelectedRow is IDeletable;
+            return SelectedRows.All(model => model is IDeletable) &&
+                   SelectedRows.GroupBy(model => model.Parent).Count() == 1;
         }
 
         private void OnCutElementExecute()
         {
-            _bufferConfigurationItem =
-                Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create((SelectedRow, true), true);
+            _bufferConfigurationItems = (SelectedRows, true);
         }
 
         private void OnOpenConfigurationSettingsExecute()

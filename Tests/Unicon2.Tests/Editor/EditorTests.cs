@@ -174,58 +174,6 @@ namespace Unicon2.Tests.Editor
 
         }
 
-        [Test]
-        public void EditorCopyPropAsSharedResources()
-        {
-            var configurationEditorViewModel = _typesContainer.Resolve<IFragmentEditorViewModel>(
-                ApplicationGlobalNames.FragmentInjectcionStrings.CONFIGURATION +
-                ApplicationGlobalNames.CommonInjectionStrings.EDITOR_VIEWMODEL) as ConfigurationEditorViewModel;
-
-            var deviceSharedResources = new DeviceSharedResources();
-            ISharedResourcesGlobalViewModel sharedResourcesGlobalViewModel =
-                _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
-
-            sharedResourcesGlobalViewModel.InitializeFromResources(deviceSharedResources);
-
-            var rootGroup = new ConfigurationGroupEditorViewModel()
-            {
-                Name = "root"
-            };
-            configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
-
-            var addedRow = AddPropertyViewModel(rootGroup.ChildStructItemViewModels, 1,_typesContainer);
-            
-           configurationEditorViewModel.SelectedRow = addedRow;
-
-         
-           sharedResourcesGlobalViewModel.AddAsSharedResourceWithContainer(addedRow,null, false);
-
-            configurationEditorViewModel.CopyElementCommand.Execute(null);
-
-           configurationEditorViewModel.SelectedRow = rootGroup;
-
-            configurationEditorViewModel.PasteAsChildElementCommand.Execute(null);
-
-
-            var copiedRow = rootGroup.ChildStructItemViewModels[1];
-
-            configurationEditorViewModel.SelectedRow = (IEditorConfigurationItemViewModel) copiedRow;
-
-
-            Assert.True((configurationEditorViewModel.AddSelectedElementAsResourceCommand as RelayCommand).CanExecute(null));
-
-            var result = ConfigurationFragmentFactory.CreateConfiguration(configurationEditorViewModel);
-            Assert.AreEqual(result.RootConfigurationItemList.Count, 1);
-
-            var itemList = (result.RootConfigurationItemList[0] as DefaultItemsGroup).ConfigurationItemList;
-
-            CheckPropertyResultProperty(itemList, 1);
-            CheckPropertyResultProperty(itemList, 1,1);
-
-            Assert.AreEqual(itemList.Count, 2);
-
-        }
-
 
         [Test]
         public void EditorAllFormattersPropFromSharedResourcesSave()
@@ -451,7 +399,9 @@ namespace Unicon2.Tests.Editor
             Assert.AreEqual(group.ChildStructItemViewModels.Count, 111);
 
             Assert.AreEqual(group.ChildStructItemViewModels[49].Header, "U2>> ИО");
-            
+            Assert.True(
+                (((device.DeviceFragments.First() as IDeviceConfiguration).RootConfigurationItemList[0] as
+                    IItemsGroup).ConfigurationItemList[100] as IProperty).IsFromBits);
             Assert.True(
                 (((device.DeviceFragments.First() as IDeviceConfiguration).RootConfigurationItemList[0] as
                     IItemsGroup).ConfigurationItemList[100] as IProperty).UshortsFormatter is IBoolFormatter);

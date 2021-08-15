@@ -109,6 +109,7 @@
     <Compile Include="Device\LoadAllTests.cs" />
     <Compile Include="Editor\AddDependencyToManyPropsTests.cs" />
     <Compile Include="Editor\BitOwnershipHelperTests.cs" />
+    <Compile Include="Editor\CopyPasteTests.cs" />
     <Compile Include="Editor\CutPasteTests.cs" />
     <Compile Include="Editor\EditorTests.cs" />
     <Compile Include="Editor\EditorValidatorTests.cs" />

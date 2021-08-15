@@ -184,7 +184,7 @@ namespace Unicon2.Fragments.ModbusMemory.ViewModels
 			get { return _isQueriesStarted; }
 			set
 			{
-				if (DeviceContext.DataProviderContainer.DataProvider == null) return;
+				if (!DeviceContext.DataProviderContainer.DataProvider.IsSuccess) return;
 				_isQueriesStarted = value;
 				if (value)
 				{

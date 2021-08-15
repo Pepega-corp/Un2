@@ -22,7 +22,6 @@ namespace Unicon2.Fragments.Configuration.Editor.Interfaces.Tree
         ICommand SetElementDownCommand { get; set; }
         ICommand OpenConfigurationSettingsCommand { get; set; }
         ICommand CopyElementCommand { get; }
-        ICommand PasteAsChildElementCommand { get; }
         ICommand AddSelectedElementAsResourceCommand { get; }
         ICommand EditDescriptionCommand { get; }
         ObservableCollection<IElementAddingCommand> ElementsAddingCommandCollection { get; set; }

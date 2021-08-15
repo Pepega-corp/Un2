@@ -26,9 +26,9 @@ namespace Unicon2.Fragments.Configuration.Editor.ViewModels
         private readonly ImportPropertiesFromExcelTypeAHelper _importPropertiesFromExcelTypeAHelper;
         private ObservableCollection<IConfigurationItemViewModel> _allRows;
         private IEditorConfigurationItemViewModel _selectedRow;
-
-        private Result<(IEditorConfigurationItemViewModel item, bool isMove)> _bufferConfigurationItem =
-            Result<(IEditorConfigurationItemViewModel item, bool isMove)>.Create(false);
+        
+        private Result<(List<IEditorConfigurationItemViewModel> item, bool isMove)> _bufferConfigurationItems =
+            ResultUtils.Nothing;
 
         private ushort _addressIteratorValue;
         private bool _isAdditionalSettingsOpened;

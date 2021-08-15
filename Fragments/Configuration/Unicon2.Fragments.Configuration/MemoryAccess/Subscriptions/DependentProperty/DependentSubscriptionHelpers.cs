@@ -115,13 +115,18 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
                 container =>
                     container.ResourceName == dependancyCondition.ReferencedPropertyResourceName).Resource as IProperty;
 
-            var propertyUshorts = (await GetConditionPropertyUshort(dependancyCondition.ReferencedPropertyResourceName,
+            var propertyUshortsRes = (await GetConditionPropertyUshort(dependancyCondition.ReferencedPropertyResourceName,
                 deviceContext, formattingService,
-                isLocal, addressOffset, resourceProperty)).Item;
+                isLocal, addressOffset, resourceProperty));
+
+            if (!propertyUshortsRes.IsSuccess)
+            {
+                return Result<ushort>.Create(false);
+            }
 
             if (resourceProperty.UshortsFormatter != null)
             {
-                var value = await formattingService.FormatValueAsync(resourceProperty.UshortsFormatter, propertyUshorts,
+                var value = await formattingService.FormatValueAsync(resourceProperty.UshortsFormatter, propertyUshortsRes.Item,
                     new FormattingContext(null, deviceContext, isLocal));
 
                 if (double.TryParse(value.AsString(), out double conditionNumber))
@@ -130,11 +135,11 @@ namespace Unicon2.Fragments.Configuration.MemoryAccess.Subscriptions.DependentPr
                 }
                 else
                 {
-                    return Result<ushort>.Create(propertyUshorts.First(), true);
+                    return Result<ushort>.Create(propertyUshortsRes.Item.First(), true);
                 }
             }
 
-            return Result<ushort>.Create(propertyUshorts.First(), true);
+            return Result<ushort>.Create(propertyUshortsRes.Item.First(), true);
         }
 
         private static async Task<Result<ushort[]>> GetConditionPropertyUshort(string resourceName,

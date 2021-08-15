@@ -49,7 +49,7 @@ namespace Unicon2.Tests.Editor
             configurationEditorViewModel.RootConfigurationItemViewModels.Add(rootGroup);
             
 
-            configurationEditorViewModel.SelectedRow = prop1;
+            configurationEditorViewModel.SelectedRows = new List<IEditorConfigurationItemViewModel>(){prop1};
 
 
 

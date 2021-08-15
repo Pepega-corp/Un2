@@ -105,6 +105,7 @@
     <Compile Include="Interfaces\IConfigurationItemEditorViewModelVisitor.cs" />
     <Compile Include="ViewModels\BaseValuesViewModel.cs" />
     <Compile Include="ViewModels\BaseValuesWindowViewModel.cs" />
+    <Compile Include="ViewModels\Commands\PasteCommand.cs" />
     <Compile Include="ViewModels\ConfigurationEditorViewModel.Properties.cs" />
     <Compile Include="ViewModels\Dependencies\ConditionResultDependencyViewModel.cs" />
     <Compile Include="ViewModels\Dependencies\Conditions\CompareResourceConditionViewModel.cs" />

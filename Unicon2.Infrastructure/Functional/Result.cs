@@ -4,24 +4,43 @@ using Unicon2.Infrastructure.Common;
 
 namespace Unicon2.Infrastructure.Functional
 {
-    
-    public class Result<T>
+    public static class ResultUtils
     {
+        public static readonly Nothing Nothing = default(Nothing);
+        public static Result<T> Just<T>(T value) => Result<T>.Create(value, true);
+
+
+        public static Result<TTo> MaybeAs<TTo>(this object o, bool nullMeansNothing = true)
+        {
+            if ((!nullMeansNothing && o == null) || o is TTo)
+                return Just((TTo) o);
+            return Result<TTo>.Nothing;
+        }
+    }
+
+    public struct Result<T>
+    {
+        public static readonly Result<T> Nothing = ResultUtils.Nothing;
+
         private Result(T item, bool isSuccess)
         {
             Item = item;
             IsSuccess = isSuccess;
+            Exception = null;
         }
 
         private Result(bool isSuccess)
         {
             IsSuccess = isSuccess;
+            Exception = null;
+            Item = default(T);
         }
 
         private Result(Exception exception)
         {
             Exception = exception;
             IsSuccess = false;
+            Item = default(T);
         }
 
 
@@ -50,10 +69,11 @@ namespace Unicon2.Infrastructure.Functional
         public static implicit operator Result<T>(T value)
         {
             if(value == null)
-                return new Result<T>(false);
+                return Nothing;
  
             return new Result<T>(value,true);
         }
+
         public Result<T> OnSuccess(Action<T> onSuccessFunc)
         {
             if (IsSuccess)
@@ -111,10 +131,16 @@ namespace Unicon2.Infrastructure.Functional
         public bool IsSuccess { get; }
         public Exception Exception { get; }
 
+        public static implicit operator Result<T>(Nothing nothing)
+        {
+            return Nothing;
+        }
+
     }
 
-    public class Result
+    public partial class Result
     {
+
         public Exception Exception { get; }
 
         private Result(bool isSuccess)

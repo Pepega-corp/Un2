@@ -43,6 +43,10 @@ namespace Unicon2.Presentation.Services
 
                     _applicationGlobalCommands.ShowWindowModal(() => new ExcelListSelectWindow(),
                         windowViewModel);
+                    if (windowViewModel.IsCancelled)
+                    {
+                        return ResultUtils.Nothing;
+                    }
                     return package.Workbook.Worksheets.First(worksheet =>
                         worksheet.Name == windowViewModel.SelectedExcelList);
                 }

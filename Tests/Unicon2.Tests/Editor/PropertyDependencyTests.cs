@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -7,6 +8,7 @@ using Prism.Ioc;
 using Unicon2.Connections.MockConnection.Model;
 using Unicon2.DeviceEditorUtilityModule.Interfaces;
 using Unicon2.Formatting.Editor.ViewModels;
+using Unicon2.Formatting.Editor.ViewModels.FormatterParameters;
 using Unicon2.Formatting.Infrastructure.Model;
 using Unicon2.Fragments.Configuration.Editor.Helpers;
 using Unicon2.Fragments.Configuration.Editor.Interfaces.Dependencies;
@@ -57,7 +59,7 @@ namespace Unicon2.Tests.Editor
             Action<(IPropertyEditorViewModel propWithDep, IPropertyEditorViewModel propRes)> setupEditorProps,
             Action<(IConfigurationItem propWithDepSaved, IConfigurationItem propResSaved)> setupSavedAssertions,
             Action<(IConfigurationItemViewModel propWithDepRuntime, IConfigurationItemViewModel propResRuntime)>
-                setupActRuntime)
+                setupActRuntime, Action<MockConnection> connectionModification = null)
         {
 
             // get initial file
@@ -98,8 +100,11 @@ namespace Unicon2.Tests.Editor
 
             _typesContainer.Resolve<IDevicesContainerService>()
                 .AddConnectableItem(device);
+
+            var connection=new MockConnection();
+            connectionModification?.Invoke(connection);
             await _typesContainer.Resolve<IDevicesContainerService>()
-                .ConnectDeviceAsync(device, new MockConnection());
+                .ConnectDeviceAsync(device, connection);
             var deviceViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0];
 
             var configurationFragmentViewModel = shell.ProjectBrowserViewModel.DeviceViewModels[0].FragmentViewModels
@@ -134,6 +139,82 @@ namespace Unicon2.Tests.Editor
 
 
             setupActRuntime((propWithDepLoaded.Item, propResourceLoaded.Item));
+        }
+
+
+        [Test]
+        public async Task DependencyFromDeviceTest()
+        {
+            Action<(IPropertyEditorViewModel propWithDep, IPropertyEditorViewModel propRes)> setupEditor = tuple =>
+            {
+                tuple.propRes.Address = 1000.ToString();
+                tuple.propWithDep.Address = 1100.ToString();
+
+                tuple.propRes.Header = "propResource";
+                tuple.propWithDep.Header = "propWithDep";
+                var resourceService = _typesContainer.Resolve<ISharedResourcesGlobalViewModel>();
+
+                tuple.propWithDep.FormatterParametersViewModel.RelatedUshortsFormatterViewModel = CreateFormatterViewModel(3,_typesContainer);
+
+                tuple.propWithDep.DependencyViewModels.Add(
+                    new ConditionResultDependencyViewModel(new List<IResultViewModel>(),
+                        new List<IConditionViewModel>())
+                    {
+                        SelectedConditionViewModel =
+                            new CompareResourceConditionViewModel(resourceService, new List<string>())
+                            {
+                                ReferencedResourcePropertyName = "resForProp",
+                                SelectedCondition = "More",
+                                UshortValueToCompare = 1
+                            },
+                        SelectedResultViewModel = new ApplyFormatterResultViewModel(_typesContainer.Resolve<IFormatterEditorFactory>())
+                        {
+                            FormatterParametersViewModel = new FormatterParametersViewModel()
+                            {
+                                IsFromSharedResources = false,
+                                RelatedUshortsFormatterViewModel = new DictionaryMatchingFormatterViewModel()
+                                {
+                                    DefaultMessage = "jopa228",
+                                    UseDefaultMessage = true,
+                                    IsKeysAreNumbersOfBits = true,
+                                    KeyValuesDictionary =
+                                        new ObservableCollection<BindableKeyValuePair<ushort, string>>()
+                                        {
+                                           
+                                        },
+                                }
+                            }
+                        }
+                    });
+            };
+
+
+            Action<(IConfigurationItem propWithDepSaved, IConfigurationItem propResSaved)> setupSavedAssertions =
+                tuple =>
+                {
+                    Assert.True((tuple.propWithDepSaved as IProperty).Dependencies.Count == 1);
+                    Assert.True(
+                        ((tuple.propWithDepSaved as IProperty).Dependencies.First() as ConditionResultDependency).Result
+                        is ApplyFormatterResult);
+                };
+
+            Action<MockConnection> connectionModification = connection =>
+            {
+                connection.MemorySlotDictionary[1000] = 10;
+            };
+
+
+            Action<(IConfigurationItemViewModel propWithDepRuntime, IConfigurationItemViewModel propResRuntime)>
+                setupActRuntime =
+                    tuple =>
+                    {
+                        Assert.True((tuple.propWithDepRuntime as IRuntimePropertyViewModel).DeviceValue is IChosenFromListValueViewModel );
+                        Assert.True(((tuple.propWithDepRuntime as IRuntimePropertyViewModel).DeviceValue as IChosenFromListValueViewModel).SelectedItem=="jopa228");
+
+                    };
+
+
+            await TestCore(setupEditor, setupSavedAssertions, setupActRuntime, connectionModification);
         }
 
         [Test]
@@ -188,7 +269,7 @@ namespace Unicon2.Tests.Editor
                     };
 
 
-           await TestCore(setupEditor, setupSavedAssertions, setupActRuntime);
+            await TestCore(setupEditor, setupSavedAssertions, setupActRuntime);
         }
 
         [Test]

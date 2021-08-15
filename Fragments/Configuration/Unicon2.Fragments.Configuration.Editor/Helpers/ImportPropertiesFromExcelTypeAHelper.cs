@@ -71,6 +71,7 @@ namespace Unicon2.Fragments.Configuration.Editor.Helpers
                         subPropertyViewModel.BitNumbersInWord[
                             15 - importedProperty.SubpropertiesNames.IndexOf(subpropertyName)];
                     subPropertyViewModel.BitNumbersInWord.First(model => model.BitNumber == bitViewModel.BitNumber).IsChecked=true;
+                    subPropertyViewModel.IsFromBits = true;
                     subPropertyViewModel.Address = importedProperties.IndexOf(importedProperty).ToString();
                     subPropertyViewModel.Parent = configurationGroupEditorViewModel;
                     subPropertyViewModel.Name = subpropertyName;
