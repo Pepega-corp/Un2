@@ -4,14 +4,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
-using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Model;
-using Unicon2.Fragments.Programming.Other;
 using Unicon2.Infrastructure;
-using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -19,10 +15,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
     public class ConnectionViewModel : ViewModelBase, ISchemeElementViewModel
     {
         private readonly Connection _model;
-        private ConnectorViewModel _source;
+        // private ConnectorViewModel _source;
         private Point _labelPosition;
-        private PathGeometry _path;
-        private DoubleCollection _strokeDashArray;
         private ushort _currentValue;
         private bool _gotValue;
         private bool _debugMode;
@@ -33,34 +27,30 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public event Action<ConnectionViewModel> NeedDelete;
 
-        protected ConnectionViewModel(Connection model, ConnectorViewModel source)
+        public ConnectionViewModel(Connection model/*, ConnectorViewModel source, params ConnectorViewModel[] sinks*/)
         {
-            this.StrokeDashArray = new DoubleCollection();
+            this._model = model;
             this._currentValue = 0;
             this._gotValue = false;
 
-            this._model = model;
-            _path = new PathGeometry();
+            Segments.CollectionChanged += OnCollectionChanged;
+            foreach (var segmentModel in model.Segments)
+            {
+                Segments.Add(new ConnectionSegmentViewModel(segmentModel));
+            }
 
-            this._source = source;
-            this._source.Connection = this;
-            this._source.ConnectorPositionChanged += OnConnectorPositionChanged;
+            // this._source = source;
+            // this._source.Connection = this;
+            // this._source.ConnectorPositionChanged += OnConnectorPositionChanged;
+
+            // this.SinkConnectors = new ObservableCollection<ConnectorViewModel>();
+            // SinkConnectors.CollectionChanged += SinkCollectionChanged;
+            // SinkConnectors.AddCollection(sinks);
         }
 
-        public ConnectionViewModel(Connection model, ConnectorViewModel source, ConnectorViewModel sink) : this(model, source)
-        {
-            this.SinkConnectors = new ObservableCollection<ConnectorViewModel>();
-            SinkConnectors.CollectionChanged += SinkCollectionChanged;
-            SinkConnectors.Add(sink);
-        }
+        public ObservableCollection<ConnectionSegmentViewModel> Segments { get; } =
+            new ObservableCollection<ConnectionSegmentViewModel>();
 
-        public ConnectionViewModel(Connection model, ConnectorViewModel source, ConnectorViewModel[] sinks) : this(model, source)
-        {
-            this.SinkConnectors = new ObservableCollection<ConnectorViewModel>();
-            SinkConnectors.CollectionChanged += SinkCollectionChanged;
-            SinkConnectors.AddCollection(sinks);
-        }
-        
         public string Name { get; private set; }
 
         public bool IsSelected
@@ -83,50 +73,39 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public PathGeometry Path
-        {
-            get { return this._path; }
-            set
-            {
-                if (Equals(this._path, value))
-                    return;
-                this._path = value;
-                RaisePropertyChanged();
-            }
-        }
-
         public ConnectorViewModel SourceConnector
         {
-            get { return this._source; }
-            set
-            {
-                if(value.Orientation != ConnectorOrientation.RIGHT)
-                    return;
-
-                if (_source != null)
-                {
-                    _source.ConnectorPositionChanged -= OnConnectorPositionChanged;
-                    _source.Connection = null;
-                }
-
-                this._source = value;
-
-                if(_source != null)
-                {
-                    _source.ConnectorPositionChanged += OnConnectorPositionChanged;
-                    _source.Connection = this;
-                }
-                else
-                {
-                    NeedDelete?.Invoke(this);
-                }
-
-                this.UpdatePathGeometry();
-                RaisePropertyChanged();
-            }
+            get => (ConnectorViewModel)Segments.FirstOrDefault(s => s.Point1 is ConnectorViewModel)?.Point1; 
+            // set
+            // {
+                
+                //         if (value.Orientation != ConnectorOrientation.RIGHT)
+                //             return;
+                //
+                //         if (_source != null)
+                //         {
+                //             _source.ConnectorPositionChanged -= OnConnectorPositionChanged;
+                //             _source.Connection = null;
+                //         }
+                //
+                //         this._source = value;
+                //
+                //         if (_source != null)
+                //         {
+                //             _source.ConnectorPositionChanged += OnConnectorPositionChanged;
+                //             _source.Connection = this;
+                //         }
+                //         else
+                //         {
+                //             NeedDelete?.Invoke(this);
+                //         }
+                //
+                //         this.UpdatePathGeometry();
+                //         RaisePropertyChanged();
+            // }
         }
 
-        public ObservableCollection<ConnectorViewModel> SinkConnectors { get; }
+        // public ObservableCollection<ConnectorViewModel> SinkConnectors { get; }
 
         public int ConnectionNumber => this._model.ConnectionNumber;
 
@@ -139,6 +118,10 @@ namespace Unicon2.Fragments.Programming.ViewModels
             set
             {
                 this._debugMode = value;
+                foreach (var segmentViewModel in Segments)
+                {
+                    segmentViewModel.DebugMode = value;
+                }
                 RaisePropertyChanged();
             }
         }
@@ -166,8 +149,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
             get { return this._gotValue; }
             set
             {
-                if (this._gotValue == value) return;
                 this._gotValue = value;
+                foreach (var segmentViewModel in Segments)
+                {
+                    segmentViewModel.GotValue = value;
+                }
                 RaisePropertyChanged();
             }
         }
@@ -183,16 +169,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public DoubleCollection StrokeDashArray
-        {
-            get { return this._strokeDashArray; }
-            set
-            {
-                if (Equals(this._strokeDashArray, value)) return;
-                this._strokeDashArray = value;
-                RaisePropertyChanged();
-            }
-        }
         public double X
         {
             get { return this._x; }
@@ -229,7 +205,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             get { return this.GetModel(); }
             set { this.SetModel(value); }
         }
-                
+
         private Connection GetModel()
         {
             return this._model;
@@ -239,117 +215,72 @@ namespace Unicon2.Fragments.Programming.ViewModels
         {
             this._model.ConnectionNumber = model.ConnectionNumber;
             this._model.Segments = new List<ConnectionSegment>(model.Segments);
-
-            var points = new List<Point>();
-            foreach (var segment in this._model.Segments)
-            {
-                points.Add(segment.Point1);
-                points.Add(segment.Point2);
-            }
-            UpdatePathGeometry(points);
         }
 
-        private void SinkCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch (args.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                {
-                    foreach (var item in args.NewItems.Cast<ConnectorViewModel>())
-                    {
-                        item.ConnectorPositionChanged += OnConnectorPositionChanged;
-                        item.Connection = this;
-                        UpdatePathGeometry();
-                    }
-
-                    break;
-                }
-                case NotifyCollectionChangedAction.Remove:
-                {
-                    foreach (var item in args.OldItems.Cast<ConnectorViewModel>())
-                    {
-                        item.ConnectorPositionChanged -= OnConnectorPositionChanged;
-                        item.Connection = null;
-                    }
-                    if(SinkConnectors.Count == 0)
-                    {
-                        NeedDelete?.Invoke(this);
-                    }
-                    break;
-                }
-                case NotifyCollectionChangedAction.Reset:
-                {
-                    foreach (var item in args.OldItems.Cast<ConnectorViewModel>())
-                    {
-                        item.ConnectorPositionChanged -= OnConnectorPositionChanged;
-                        item.Connection = null;
-                    }
-                    NeedDelete?.Invoke(this);
-                    break;
-                }
-            }
+            RaisePropertyChanged(nameof(SourceConnector));
         }
 
-        private void OnConnectorPositionChanged(Point position)
-        {
-            UpdatePathGeometry();
-        }
-        
-        private void UpdatePathGeometry()
-        {
-            if (this.SourceConnector == null || this.SinkConnectors.Count == 0)
-                return;
-            
-            if (this.SinkConnectors.Count == 1)
-            {
-                var sourceInfo = new PathFinder.ConnectorInfo
-                {
-                    ConnectorPoint = this.SourceConnector.ConnectorPosition,
-                    Orientation = this.SourceConnector.Orientation,
-                    ConnectorParentX = this.SourceConnector.ParentViewModel.X,
-                    ConnectorParentY = this.SourceConnector.ParentViewModel.Y
-                };
+        // private void OnConnectorPositionChanged(Point position)
+        // {
+        //     UpdatePathGeometry();
+        // }
 
-                var sink = this.SinkConnectors[0];
-                var sinkInfo = new PathFinder.ConnectorInfo
-                {
-                    ConnectorPoint = sink.ConnectorPosition,
-                    Orientation = sink.Orientation,
-                    ConnectorParentX = sink.ParentViewModel.X,
-                    ConnectorParentY = sink.ParentViewModel.Y
-                };
+        // private void UpdatePathGeometry()
+        // {
+        //     if (this.SourceConnector == null || this.SinkConnectors.Count == 0)
+        //         return;
+        //
+        //     if (this.SinkConnectors.Count == 1)
+        //     {
+        //         var sourceInfo = new PathFinder.ConnectorInfo
+        //         {
+        //             ConnectorPoint = this.SourceConnector.ConnectorPosition,
+        //             Orientation = this.SourceConnector.Orientation,
+        //             ConnectorParentX = this.SourceConnector.ParentViewModel.X,
+        //             ConnectorParentY = this.SourceConnector.ParentViewModel.Y
+        //         };
+        //
+        //         var sink = this.SinkConnectors[0];
+        //         var sinkInfo = new PathFinder.ConnectorInfo
+        //         {
+        //             ConnectorPoint = sink.ConnectorPosition,
+        //             Orientation = sink.Orientation,
+        //             ConnectorParentX = sink.ParentViewModel.X,
+        //             ConnectorParentY = sink.ParentViewModel.Y
+        //         };
+        //
+        //         var points = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
+        //
+        //         UpdatePathGeometry(points);
+        //     }
+        // }
 
-                var points = PathFinder.GetConnectionLine(sourceInfo, sinkInfo);
+        // private void UpdatePathGeometry(List<Point> points)
+        // {
+        //     if (this.SourceConnector == null || this.SinkConnectors.Count == 0)
+        //         return;
+        //
+        //     if (points.Count > 1)
+        //     {
+        //         var pathFigure = new PathFigure { StartPoint = points[0] };
+        //         for (int i = 1; i < points.Count; i++)
+        //         {
+        //             var lineSegment = new LineSegment(points[i], true);
+        //             pathFigure.Segments.Add(lineSegment);
+        //         }
+        //
+        //         this.Path.Figures.Clear();
+        //         this.Path.Figures.Add(pathFigure);
+        //         RaisePropertyChanged(nameof(this.Path));
+        //     }
+        // }
 
-                UpdatePathGeometry(points);
-            }
-        }
-
-        private void UpdatePathGeometry(List<Point> points)
-        {
-            if (this.SourceConnector == null || this.SinkConnectors.Count == 0)
-                return;
-
-            if (points.Count > 1)
-            {
-                var pathFigure = new PathFigure { StartPoint = points[0] };
-                for (int i = 1; i < points.Count; i++)
-                {
-                    var lineSegment = new LineSegment(points[i], true);
-                    pathFigure.Segments.Add(lineSegment);
-                }
-
-                this.Path.Figures.Clear();
-                this.Path.Figures.Add(pathFigure);
-                RaisePropertyChanged(nameof(this.Path));
-            }
-            
-        }
-
-        public ConnectorViewModel GetNearConnector(ConnectorViewModel startConnector)
-        {
-            //TODO get near point in line segment
-            return SinkConnectors.First();
-        }
+        // public ConnectorViewModel GetNearConnector(ConnectorViewModel startConnector)
+        // {
+        //     //TODO get near point in line segment
+        //     return SinkConnectors.First();
+        // }
     }
 }

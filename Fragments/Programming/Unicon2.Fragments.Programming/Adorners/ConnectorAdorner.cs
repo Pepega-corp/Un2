@@ -30,7 +30,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             this._drawingPen = new Pen(Brushes.LightSlateGray, 1)
             {
                 LineJoin = PenLineJoin.Round,
-                DashStyle = new DashStyle(new List<double> {8, 3}, 0)
+                DashStyle = new DashStyle(new List<double> { 8, 3 }, 0)
             };
 
             Cursor = Cursors.Cross;
@@ -46,6 +46,7 @@ namespace Unicon2.Fragments.Programming.Adorners
                 {
                     this._hitConnector.IsDragConnection = false;
                 }
+
                 this._hitConnector = value;
                 if (this._hitConnector != null)
                 {
@@ -58,31 +59,40 @@ namespace Unicon2.Fragments.Programming.Adorners
         {
             if (this._hitConnector != null)
             {
-                ConnectorViewModel rigtConnector, leftConnector;
+                ConnectorViewModel rightConnector, leftConnector;
                 if (this._sourceConnector.Orientation == ConnectorOrientation.RIGHT)
                 {
-                    rigtConnector = this._sourceConnector;
+                    rightConnector = this._sourceConnector;
                     leftConnector = this._hitConnector;
                 }
                 else
                 {
-                    rigtConnector = this._hitConnector;
+                    rightConnector = this._hitConnector;
                     leftConnector = this._sourceConnector;
                 }
 
-                if (!rigtConnector.Connected)
+                if (rightConnector.Connected)
                 {
-                    var newConnection = new Connection(_pathPoints, this._schemeTabViewModel.GetNextConnectionNumber());
-                    var connectionViewModel = new ConnectionViewModel(newConnection, rigtConnector, leftConnector);
-
-                    this._schemeTabViewModel.AddConnectionToProgramm(connectionViewModel);
-                    this._schemeTabViewModel.ElementCollection.Add(connectionViewModel);
+                    var connectionViewModel =
+                        this._schemeTabViewModel.GetConnectionViewModel(rightConnector.ConnectionNumber);
+                    // connectionViewModel.SinkConnectors.Add(leftConnector);
                 }
                 else
                 {
-                    var connectionViewModel =
-                        this._schemeTabViewModel.GetConnectionViewModel(rigtConnector.ConnectionNumber);
-                    connectionViewModel.SinkConnectors.Add(leftConnector);
+                    var pathSegmentPoints = new List<SegmentPoint>(_pathPoints.Count);
+                    pathSegmentPoints.Add(rightConnector.Model);
+                    for (var i = 1; i < _pathPoints.Count - 1; i++)
+                    {
+                        pathSegmentPoints.Add(new SegmentPoint(_pathPoints[i]));
+                    }
+
+                    pathSegmentPoints.Add(leftConnector.Model);
+                    var newConnection = new Connection(pathSegmentPoints,
+                        this._schemeTabViewModel.GetNextConnectionNumber());
+                    var connectionViewModel = new ConnectionViewModel(newConnection);
+
+                    this._schemeTabViewModel.AddConnectionToProgramm(connectionViewModel);
+                    this._schemeTabViewModel.ElementCollection.Add(connectionViewModel);
                 }
 
                 this._hitConnector.IsDragConnection = false;
@@ -148,7 +158,7 @@ namespace Unicon2.Fragments.Programming.Adorners
 
             if (_pathPoints.Count > 0)
             {
-                var pathFigure = new PathFigure {StartPoint = _pathPoints[0]};
+                var pathFigure = new PathFigure { StartPoint = _pathPoints[0] };
                 for (int i = 1; i < _pathPoints.Count; i++)
                 {
                     var lineSegment = new LineSegment(_pathPoints[i], true);
@@ -168,12 +178,14 @@ namespace Unicon2.Fragments.Programming.Adorners
                 this.HitConnector = null;
                 return;
             }
+
             var fe = (FrameworkElement)hitObject;
             if (fe.Visibility != Visibility.Visible)
             {
                 this.HitConnector = null;
                 return;
             }
+
             var cvm = fe.DataContext as ConnectorViewModel;
             if (cvm == null || cvm.Model.Orientation == this._sourceConnector.Model.Orientation)
             {

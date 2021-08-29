@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace Unicon2.Fragments.Programming.Model
 {
@@ -8,21 +7,26 @@ namespace Unicon2.Fragments.Programming.Model
     public class Connection
     {
         [JsonProperty] public int ConnectionNumber { get; set; }
-        [JsonProperty] public List<ConnectionSegment> Segments { get; set; }
+        [JsonProperty] public List<ConnectionSegment> Segments { get; set; } = new List<ConnectionSegment>();
 
-        public Connection(List<Point> pathPoints, int connectionNumber)
+        public Connection(List<SegmentPoint> pathPoints, int connectionNumber)
         {
             ConnectionNumber = connectionNumber;
 
-            if (pathPoints.Count % 2 != 0)
+            for (var i = 0; i < pathPoints.Count - 1; i++)
             {
-                pathPoints.Add(new Point());
-            }
-
-            ConnectionSegment prevSegment = null;
-            for (var i = 0; i < pathPoints.Count; i += 2)
-            {
-                
+                if (i == 0)
+                {
+                    var segment = new ConnectionSegment(pathPoints[i], pathPoints[i + 1], null);
+                    Segments.Add(segment);
+                }
+                else
+                {
+                    var prevSegment = Segments[i - 1];
+                    var segment = new ConnectionSegment(prevSegment.Point2, pathPoints[i + 1], prevSegment);
+                    Segments.Add(segment);
+                    prevSegment.NextSegments.Add(segment);
+                }
             }
         }
     }

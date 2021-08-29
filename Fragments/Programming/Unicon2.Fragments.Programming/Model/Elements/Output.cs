@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
@@ -28,7 +29,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public Output()
         {
             this.OutputSignals = new List<string>();
-            this.Connectors = new List<Connector> { new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
+            this.Connectors = new List<Connector> { new Connector(new Point(), ConnectorOrientation.LEFT, ConnectorType.DIRECT)};
         }
 
         public override void CopyLibraryValues(ILibraryElement source)

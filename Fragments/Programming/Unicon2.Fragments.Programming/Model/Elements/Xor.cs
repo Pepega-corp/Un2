@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Newtonsoft.Json;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
@@ -22,9 +23,9 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         {
             Connectors = new List<Connector>
             {
-                new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT),
-                new Connector(ConnectorOrientation.LEFT, ConnectorType.DIRECT),
-                new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT)
+                new Connector(new Point(), ConnectorOrientation.LEFT, ConnectorType.DIRECT),
+                new Connector(new Point(), ConnectorOrientation.LEFT, ConnectorType.DIRECT),
+                new Connector(new Point(), ConnectorOrientation.RIGHT, ConnectorType.DIRECT)
             };
         }
 

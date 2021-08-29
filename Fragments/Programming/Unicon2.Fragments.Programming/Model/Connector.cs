@@ -20,7 +20,12 @@ namespace Unicon2.Fragments.Programming.Model
         /// </summary>
         [JsonProperty] public int ConnectionNumber { get; set; }
 
-        public Connector(ConnectorOrientation orientation, ConnectorType type)
+        public Connector(Connector source) : this(source.Position, source.Orientation, source.Type)
+        {
+            
+        }
+
+        public Connector(Point position, ConnectorOrientation orientation, ConnectorType type) : base(position)
         {
             this.Orientation = orientation;
             this.Type = type;

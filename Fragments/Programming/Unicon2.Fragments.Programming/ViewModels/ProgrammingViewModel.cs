@@ -282,7 +282,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     {
                         var connection = this.ConnectionCollection.First(c => c.ConnectionNumber == number);
                         var sinkConnectors = connectorsInScheme.Where(c => c.ConnectionNumber == connection.ConnectionNumber && c.Orientation == ConnectorOrientation.LEFT).ToArray();
-                        connection.SinkConnectors.AddCollection(sinkConnectors);
+                        // connection.SinkConnectors.AddCollection(sinkConnectors);
                         connectionsInScheme.Add(connection);
                     }
                     else
@@ -291,9 +291,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
                         var sourceConnector = connectorsInScheme.First(c => c.ConnectionNumber == number && c.Orientation == ConnectorOrientation.RIGHT);
                         var sinkConnectors = connectorsInScheme.Where(c => c.ConnectionNumber == number && c.Orientation == ConnectorOrientation.LEFT).ToArray();
                         var connectionModel = model.Connections.First(c => c.ConnectionNumber == number);
-                        var connection = new ConnectionViewModel(connectionModel, sourceConnector, sinkConnectors);
-                        connectionsInScheme.Add(connection);
-                        this.ConnectionCollection.Add(connection);
+                        // var connection = new ConnectionViewModel(connectionModel, sourceConnector, sinkConnectors);
+                        // connectionsInScheme.Add(connection);
+                        // this.ConnectionCollection.Add(connection);
                     }
                 }
 
@@ -418,16 +418,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
             foreach (var connector in element.ConnectorViewModels.Where(c => c.Orientation == ConnectorOrientation.RIGHT))
             {
                 var connection = connector.Connection;
-                foreach (var sinkConnector in connection.SinkConnectors)
-                {
-                    var connectedElement = sinkConnector.ParentViewModel;
-                    if (connectedElement.CompilePriority == -1 || connectedElement.CompilePriority > priority)
-                    {
-                        connectedElement.CompilePriority = priority;
-                    }
-
-                    this.SortElementsByPriority(connectedElement);
-                }
+                // foreach (var sinkConnector in connection.SinkConnectors)
+                // {
+                //     var connectedElement = sinkConnector.ParentViewModel;
+                //     if (connectedElement.CompilePriority == -1 || connectedElement.CompilePriority > priority)
+                //     {
+                //         connectedElement.CompilePriority = priority;
+                //     }
+                //
+                //     this.SortElementsByPriority(connectedElement);
+                // }
             }
         }
 

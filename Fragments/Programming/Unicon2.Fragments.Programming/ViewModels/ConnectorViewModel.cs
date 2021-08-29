@@ -7,7 +7,7 @@ using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
-    public class ConnectorViewModel : ViewModelBase
+    public class ConnectorViewModel : SegmentPointViewModel
     {
         private bool _isDragConnection;
         private string _symbol;
@@ -16,7 +16,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public event Action<Point> ConnectorPositionChanged;
 
-        public ConnectorViewModel(LogicElementViewModel parent, Connector model)
+        public ConnectorViewModel(LogicElementViewModel parent, Connector model) : base(model)
         {
             this.ParentViewModel = parent;
             this._modelConnector = model;
@@ -24,14 +24,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._symbol = string.Empty;
         }
 
-        public ConnectorViewModel(LogicElementViewModel parent, ConnectorOrientation orientation, ConnectorType type)
-        {
-            this.ParentViewModel = parent;
-            this._modelConnector = new Connector(orientation, type);
-            this.IsDragConnection = false;
-            this._symbol = string.Empty;
-        }
-       
         /// <summary>
         /// Точка расположения коннектора в DesignerCanvas
         /// </summary>

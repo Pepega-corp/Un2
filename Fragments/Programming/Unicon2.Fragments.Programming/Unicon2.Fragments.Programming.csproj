@@ -152,6 +152,8 @@
     <Compile Include="ViewModels\NewSchemeViewModel.cs" />
     <Compile Include="ViewModels\ProgrammingViewModel.cs" />
     <Compile Include="ViewModels\SchemeTabViewModel.cs" />
+    <Compile Include="ViewModels\ConnectionSegmentViewModel.cs" />
+    <Compile Include="ViewModels\SegmentPointViewModel.cs" />
     <Compile Include="Views\LogicElementSettings.xaml.cs">
       <DependentUpon>LogicElementSettings.xaml</DependentUpon>
     </Compile>
@@ -207,14 +209,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\ElementsResources\Connection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\ElementsResources\Connector.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Page Include="UI\ElementsResources\Connection.xaml" />
+    <Page Include="UI\ElementsResources\Connector.xaml" />
     <Page Include="UI\ElementsResources\InputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

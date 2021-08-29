@@ -221,11 +221,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void RemoveConnection(ConnectionViewModel connection)
         {
-            connection.SourceConnector.Connection = null;
-            foreach (var sink in connection.SinkConnectors)
-            {
-                sink.Connection = null;
-            }
+            // connection.SourceConnector.Connection = null;
+            // foreach (var sink in connection.SinkConnectors)
+            // {
+            //     sink.Connection = null;
+            // }
 
             this._programmingViewModel.RemoveConnection(connection);
 
@@ -251,11 +251,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 }
                 foreach (var removingConnection in removingConnections)
                 {
-                    removingConnection.SourceConnector.Connection = null;
-                    foreach (var sink in removingConnection.SinkConnectors)
-                    {
-                        sink.Connection = null;
-                    }
+                    // removingConnection.SourceConnector.Connection = null;
+                    // foreach (var sink in removingConnection.SinkConnectors)
+                    // {
+                    //     sink.Connection = null;
+                    // }
 
                     this._programmingViewModel.RemoveConnection(removingConnection);
                     if (this.ElementCollection.Contains(removingConnection))

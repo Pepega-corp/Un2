@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
@@ -31,7 +32,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public Input()
         {
-            this.Connectors = new List<Connector> { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
+            this.Connectors = new List<Connector> { new Connector(new Point(), ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
             Bases = new List<string>();
             AllInputSignals = new List<Dictionary<int, string>>();
         }

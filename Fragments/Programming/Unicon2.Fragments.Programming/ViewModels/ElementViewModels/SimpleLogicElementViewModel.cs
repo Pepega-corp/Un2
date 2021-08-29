@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
@@ -113,7 +114,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
             else
             {
-                connector = new ConnectorViewModel(this, ConnectorOrientation.LEFT, ConnectorType.DIRECT);
+                var lastInput = _addInputConnectors.LastOrDefault() ?? Inputs.Last();
+                connector = new ConnectorViewModel(this, new Connector(lastInput.Model));
                 _addInputConnectors.Add(connector);
             }
             InputsForSettings.Add(connector);
@@ -160,7 +162,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             {
                 foreach (var removeConnector in _removeInputConnectors)
                 {
-                    removeConnector.Connection?.SinkConnectors.Remove(removeConnector);
+                    // removeConnector.Connection?.SinkConnectors.Remove(removeConnector);
                     ConnectorViewModels.Remove(removeConnector);
                 }
             }
@@ -191,12 +193,12 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             
             foreach (var input in Inputs)
             {
-                InputsForSettings.Add(new ConnectorViewModel(this, input.Orientation, input.ConnectorType));
+                InputsForSettings.Add(new ConnectorViewModel(this, new Connector(input.Model)));
             }
 
             foreach (var output in Outputs)
             {
-                OutputsForSettings.Add(new ConnectorViewModel(this, output.Orientation, output.ConnectorType));
+                OutputsForSettings.Add(new ConnectorViewModel(this, new Connector(output.Model)));
             }
             
             base.OpenPropertyWindow();

@@ -30,7 +30,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
             Connectors = new List<Connector>();
             foreach (var c in source.Connectors)
             {
-                Connectors.Add(new Connector(c.Orientation, c.Type) { Position = c.Position });
+                Connectors.Add(new Connector(c.Position, c.Orientation, c.Type));
             }
             X = source.X;
             Y = source.Y;

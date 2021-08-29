@@ -4,6 +4,7 @@ using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 
@@ -108,9 +109,9 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public override void OpenPropertyWindow()
         {
-            InputForSetting = new ConnectorViewModel(this, Input.Orientation, Input.ConnectorType);
+            InputForSetting = new ConnectorViewModel(this, new Connector(Input.Model));
             RaisePropertyChanged(nameof(InputForSetting));
-            OutputForSetting = new ConnectorViewModel(this, Output.Orientation, Output.ConnectorType);
+            OutputForSetting = new ConnectorViewModel(this, new Connector(Output.Model));
             RaisePropertyChanged(nameof(OutputForSetting));
             base.OpenPropertyWindow();
         }
