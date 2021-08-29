@@ -3,7 +3,6 @@ using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
-using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
@@ -18,8 +17,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public ConnectorViewModel(LogicElementViewModel parent, Connector model) : base(model)
         {
-            this.ParentViewModel = parent;
             this._modelConnector = model;
+            _modelConnector.ConnectionChanged += OnConnectionChanged;
+            this.ParentViewModel = parent;
             this.IsDragConnection = false;
             this._symbol = string.Empty;
         }
@@ -113,7 +113,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         /// <summary>
         /// Флаг того, что вывод подключен
         /// </summary>
-        public bool Connected => this._connectionViewModel != null;
+        public bool Connected => this._modelConnector.ConnectionSegment != null;
 
         /// <summary>
         /// Символ-подпись вывода
@@ -127,6 +127,11 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this._symbol = value;
                 RaisePropertyChanged();
             }
+        }
+
+        private void OnConnectionChanged()
+        {
+            RaisePropertyChanged(nameof(Connected));
         }
 
         private Connector GetModel()

@@ -87,8 +87,7 @@ namespace Unicon2.Fragments.Programming.Adorners
                     }
 
                     pathSegmentPoints.Add(leftConnector.Model);
-                    var newConnection = new Connection(pathSegmentPoints,
-                        this._schemeTabViewModel.GetNextConnectionNumber());
+                    var newConnection = new Connection(pathSegmentPoints, this._schemeTabViewModel.GetNextConnectionNumber());
                     var connectionViewModel = new ConnectionViewModel(newConnection);
 
                     this._schemeTabViewModel.AddConnectionToProgramm(connectionViewModel);

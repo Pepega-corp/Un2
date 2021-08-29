@@ -86,6 +86,7 @@
     <Compile Include="Adorners\DragItemsAdorner.cs" />
     <Compile Include="Adorners\RubberbandAdorner.cs" />
     <Compile Include="Behaviors\ConnectionBehavior.cs" />
+    <Compile Include="Behaviors\ConnectionSegmentBehavior.cs" />
     <Compile Include="Behaviors\ConnectorBehavior.cs" />
     <Compile Include="Behaviors\DesignerCanvasBehavior.cs" />
     <Compile Include="Behaviors\DesignerItemBehavior.cs" />
@@ -253,6 +254,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Connection\Connection.xaml" />
+    <Page Include="Views\Connection\ConnectionSegmentView.xaml" />
     <Page Include="Views\Connection\Connector.xaml" />
     <Page Include="Views\LogicElementSettings.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -18,8 +18,9 @@ namespace Unicon2.Fragments.Programming.Model
             set => _connection = value;
         }
 
-        public ConnectionSegment(SegmentPoint point1, SegmentPoint point2, ConnectionSegment previousSegment)
+        public ConnectionSegment(Connection connection, SegmentPoint point1, SegmentPoint point2, ConnectionSegment previousSegment)
         {
+            _connection = connection;
             Point1 = point1;
             Point1.ConnectionSegment = this;
             Point2 = point2;

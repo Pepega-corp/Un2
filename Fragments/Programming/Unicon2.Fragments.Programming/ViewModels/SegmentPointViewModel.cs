@@ -13,12 +13,26 @@ namespace Unicon2.Fragments.Programming.ViewModels
             _model = model;
         }
 
-        public Point Position
+        public double X
         {
-            get => _model.Position;
+            get => _model.Position.X;
             set
             {
-                _model.Position = value;
+                var p = _model.Position;
+                p.X = value;
+                _model.Position = p;
+                RaisePropertyChanged();
+            }
+        }
+
+        public double Y
+        {
+            get => _model.Position.Y;
+            set
+            {
+                var p = _model.Position;
+                p.Y = value;
+                _model.Position = p;
                 RaisePropertyChanged();
             }
         }

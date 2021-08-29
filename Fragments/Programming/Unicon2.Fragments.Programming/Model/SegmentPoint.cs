@@ -6,10 +6,10 @@ namespace Unicon2.Fragments.Programming.Model
     [Serializable]
     public class SegmentPoint
     {
-        [NonSerialized] private ConnectionSegment _connectionSegment;
+        [NonSerialized] protected ConnectionSegment _connectionSegment;
         
         public Point Position { get; set; }
-        public ConnectionSegment ConnectionSegment
+        public virtual ConnectionSegment ConnectionSegment
         {
             get => _connectionSegment;
             set => _connectionSegment = value;

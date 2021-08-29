@@ -17,13 +17,13 @@ namespace Unicon2.Fragments.Programming.Model
             {
                 if (i == 0)
                 {
-                    var segment = new ConnectionSegment(pathPoints[i], pathPoints[i + 1], null);
+                    var segment = new ConnectionSegment(this, pathPoints[i], pathPoints[i + 1], null);
                     Segments.Add(segment);
                 }
                 else
                 {
                     var prevSegment = Segments[i - 1];
-                    var segment = new ConnectionSegment(prevSegment.Point2, pathPoints[i + 1], prevSegment);
+                    var segment = new ConnectionSegment(this, prevSegment.Point2, pathPoints[i + 1], prevSegment);
                     Segments.Add(segment);
                     prevSegment.NextSegments.Add(segment);
                 }

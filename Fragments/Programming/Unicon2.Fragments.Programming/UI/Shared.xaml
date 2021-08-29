@@ -233,4 +233,10 @@
         <GradientStop Offset="0.6" Color="#972121" />
         <GradientStop Offset="1" Color="#920202" />
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="ArrowGradient" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="White" />
+        <GradientStop Offset="0.1" Color="GreenYellow" />
+        <GradientStop Offset="0.4" Color="LightGreen" />
+        <GradientStop Offset="1" Color="Green" />
+    </LinearGradientBrush>
 </ResourceDictionary>

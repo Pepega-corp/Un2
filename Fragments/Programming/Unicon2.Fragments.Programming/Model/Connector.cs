@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 
@@ -19,6 +20,22 @@ namespace Unicon2.Fragments.Programming.Model
         /// Номер связи
         /// </summary>
         [JsonProperty] public int ConnectionNumber { get; set; }
+
+        public override ConnectionSegment ConnectionSegment
+        {
+            get => _connectionSegment;
+            set
+            {
+                _connectionSegment = value;
+                if (_connectionSegment != null)
+                {
+                    ConnectionNumber = _connectionSegment.Connection.ConnectionNumber;
+                }
+                ConnectionChanged?.Invoke();
+            }
+        }
+
+        public event Action ConnectionChanged;
 
         public Connector(Connector source) : this(source.Position, source.Orientation, source.Type)
         {
