@@ -2,8 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
@@ -20,7 +18,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         public override string StrongName =>ProgrammingKeys.INPUT + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
         
-        public InputViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
+        public InputViewModel(LogicElement model, IApplicationGlobalCommands globalCommands)
         {
             this._globalCommands = globalCommands;
             this._inputModel = (Input)model;
@@ -31,7 +29,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.Description = "Елемент входного дискретного сигнала";
             this.Symbol = "In";
             this.Signals = new ObservableCollection<string>();
-            this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
+            this.ConnectorViewModels = new ObservableCollection<ConnectorViewModel>();
             this.SetModel(this._inputModel);
         }
 
@@ -92,7 +90,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
         
-        protected override ILogicElement GetModel()
+        protected override LogicElement GetModel()
         {
             _inputModel.Connectors[0] = ConnectorViewModels[0].Model;
             _inputModel.InputSignalNum = this.AllInputSignals[this.BaseIndex]
@@ -101,16 +99,16 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             return _inputModel;
         }
 
-        protected override void SetModel(ILogicElement model)
+        protected override void SetModel(LogicElement model)
         {
-            if (model is IInput input)
+            if (model is Input input)
             {
                 UpdateProperties(input);
                 base.SetModel(model);
             }
         }
 
-        private void UpdateProperties(IInput input)
+        private void UpdateProperties(Input input)
         {
             this.AllInputSignals = input.AllInputSignals;
             this.Bases = input.Bases;
@@ -120,9 +118,9 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.SelectedSignalIndex = this.Signals.IndexOf(selectedSignal);
         }
 
-        public override void ResetSettingsTo(ILogicElement model)
+        public override void ResetSettingsTo(LogicElement model)
         {
-            if (model is IInput input)
+            if (model is Input input)
             {
                 UpdateProperties(input);
             }
@@ -139,7 +137,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.Signals.AddCollection(selectedSignals);
         }
 
-        public override ILogicElementViewModel Clone()
+        public override LogicElementViewModel Clone()
         {
             var model = new Input();
             model.CopyValues(GetModel());

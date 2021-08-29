@@ -2,15 +2,15 @@
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 using System.Windows.Shapes;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Other;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors
 {
     public class ElementsLibraryBehavior : Behavior<Rectangle>
     {
         // вью модель перетаскиваемого объекта
-        private ILogicElementViewModel _selectedItem;
+        private LogicElementViewModel _selectedItem;
         private Rectangle _selectRect;
         private bool _dragStart;
 
@@ -21,7 +21,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             this._selectRect.MouseMove += this.OnMouseMove;
             this._selectRect.MouseLeftButtonDown += this.OnRectClick;
             this._selectRect.MouseLeftButtonUp += this.OnMouseUp;
-            this._selectedItem = (ILogicElementViewModel)this._selectRect.DataContext;
+            this._selectedItem = (LogicElementViewModel)this._selectRect.DataContext;
         }
 
         protected override void OnDetaching()

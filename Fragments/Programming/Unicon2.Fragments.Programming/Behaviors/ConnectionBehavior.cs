@@ -8,8 +8,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Adorners;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Other;
+using Unicon2.Fragments.Programming.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors
 {
@@ -18,14 +18,14 @@ namespace Unicon2.Fragments.Programming.Behaviors
     {
         private const string PATH_NAME = "ConnectionPath"; // должно полностью совпадать с Name у Path в XAML
 
-        private IConnectionViewModel _connectionViewModel;
+        private ConnectionViewModel _connectionViewModel;
         private Canvas _designerCanvas;
-        private ISchemeTabViewModel _tabViewModel;
+        private SchemeTabViewModel _tabViewModel;
         private Ellipse _sinkArea;
         private Path _connectionPath;
         private bool _dragEnter;
 
-        public IConnectorViewModel Connector { get; private set; }
+        public ConnectorViewModel Connector { get; private set; }
 
         protected override void OnAttached()
         {
@@ -35,12 +35,12 @@ namespace Unicon2.Fragments.Programming.Behaviors
             this._sinkArea.MouseMove += this.SinkAreaOnMouseMove;
             this._sinkArea.MouseLeftButtonUp += this.SinkAreaOnMouseLeftButtonUp;
 
-            this.Connector = AssociatedObject.DataContext as IConnectorViewModel;
+            this.Connector = AssociatedObject.DataContext as ConnectorViewModel;
             this._connectionViewModel = Connector.Connection;
 
             this._designerCanvas = CommonHelper.GetDesignerCanvas(this._sinkArea);
 
-            this._tabViewModel = this._designerCanvas.DataContext as ISchemeTabViewModel;
+            this._tabViewModel = this._designerCanvas.DataContext as SchemeTabViewModel;
             
             this._dragEnter = false;
 
@@ -63,7 +63,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
             this._connectionPath.PreviewMouseLeftButtonDown -= this.OnPreviewLeftMouseDown;
         }
 
-        internal void UpdateConnector(IConnectorViewModel hitConnector)
+        internal void UpdateConnector(ConnectorViewModel hitConnector)
         {
             Connector = hitConnector;
         }

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
+using Unicon2.Infrastructure.Interfaces;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class LogicElement : ILogicElement
+    public abstract class LogicElement : IStronglyNamed
     {
         public abstract ElementType ElementType { get; }
         public abstract string Name { get; }
@@ -16,7 +16,7 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public abstract int BinSize { get; }
         public abstract string StrongName { get; }
         [JsonProperty]
-        public List<IConnector> Connectors { get; set; }
+        public List<Connector> Connectors { get; set; }
         [JsonProperty]
         public double X { get; set; }
         [JsonProperty]
@@ -25,9 +25,9 @@ namespace Unicon2.Fragments.Programming.Model.Elements
         public abstract void BinProgramToProperty(ushort[] bin);
         public virtual void CopyLibraryValues(ILibraryElement source) { }
 
-        public virtual void CopyValues(ILogicElement source)
+        public virtual void CopyValues(LogicElement source)
         {
-            Connectors = new List<IConnector>();
+            Connectors = new List<Connector>();
             foreach (var c in source.Connectors)
             {
                 Connectors.Add(new Connector(c.Orientation, c.Type) { ConnectorPosition = c.ConnectorPosition });

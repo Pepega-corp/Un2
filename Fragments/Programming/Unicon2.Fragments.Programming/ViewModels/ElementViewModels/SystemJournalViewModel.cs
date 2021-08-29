@@ -1,7 +1,5 @@
 using System.Collections.ObjectModel;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
@@ -13,7 +11,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         private string _selectedSignal;
         private readonly SystemJournal _model;
 
-        public SystemJournalViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
+        public SystemJournalViewModel(LogicElement model, IApplicationGlobalCommands globalCommands)
         {
             _globalCommands = globalCommands;
             _model = (SystemJournal) model;
@@ -21,7 +19,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ElementName = "Журнал Системы";
             Description = "Елемент выходного дискретного сигнала Журнал Системы";
             Symbol = "ЖС";
-            ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
+            ConnectorViewModels = new ObservableCollection<ConnectorViewModel>();
             OutputSignals = new ObservableCollection<string>();
             SetModel(this._model);
         }
@@ -41,13 +39,13 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        protected override ILogicElement GetModel()
+        protected override LogicElement GetModel()
         {
             _model.Connectors[0] = ConnectorViewModels[0].Model;
             return _model;
         }
 
-        protected override void SetModel(ILogicElement model)
+        protected override void SetModel(LogicElement model)
         {
             if (model is SystemJournal journal)
             {
@@ -63,7 +61,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.SelectedSignal = this.OutputSignals[journal.OutputSignalNum];
         }
 
-        public override void ResetSettingsTo(ILogicElement model)
+        public override void ResetSettingsTo(LogicElement model)
         {
             if (model is SystemJournal journal)
             {
@@ -71,7 +69,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        public override ILogicElementViewModel Clone()
+        public override LogicElementViewModel Clone()
         {
             var model = new SystemJournal();
             model.CopyValues(GetModel());

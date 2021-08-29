@@ -8,15 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Unicon2.Fragments.Programming.Factories;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.Other;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 using Unicon2.Fragments.Programming.Views;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Extensions;
@@ -25,34 +24,35 @@ using Unicon2.Infrastructure.Services;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Infrastructure.Functional;
 using Unicon2.Presentation.Infrastructure.DeviceContext;
+using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces;
 using Unicon2.Presentation.Infrastructure.ViewModels.FragmentInterfaces.FragmentOptions;
 using Unicon2.Unity.Commands;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
 {
-    public class ProgrammingViewModel : ViewModelBase, IProgrammingViewModel
+    public class ProgrammingViewModel : ViewModelBase, IFragmentViewModel
     {
         private readonly IApplicationGlobalCommands _applicationGlobalCommands;
-        private readonly ILogicElementFactory _factory;
+        private readonly LogicElementsFactory _elementsFactory;
         private readonly ISerializerService _serializerService;
         private readonly LogicDeviceProvider _logicDeviceProvider;
-        private IProgramModel _programModel;
+        private ProgramModel _programModel;
         private bool _isLogicStarted;
 
-        public ProgrammingViewModel(IProgramModel model, LogicDeviceProvider logicDeviceProvider,
-            ILogicElementFactory factory, IApplicationGlobalCommands globalCommands, ISerializerService serializerService)
+        public ProgrammingViewModel(ProgramModel model, LogicDeviceProvider logicDeviceProvider,
+            LogicElementsFactory elementsFactory, IApplicationGlobalCommands globalCommands, ISerializerService serializerService)
         {
             this._programModel = model;
             this._applicationGlobalCommands = globalCommands;
-            this._factory = factory;
+            this._elementsFactory = elementsFactory;
 
             this._serializerService = serializerService;
             this._logicDeviceProvider = logicDeviceProvider;
 
-            this.SchemesCollection = new ObservableCollection<ISchemeTabViewModel>();
-            this.ElementsLibrary = new ObservableCollection<ILogicElementViewModel>();
-            this.ConnectionCollection = new ObservableCollection<IConnectionViewModel>();
+            this.SchemesCollection = new ObservableCollection<SchemeTabViewModel>();
+            this.ElementsLibrary = new ObservableCollection<LogicElementViewModel>();
+            this.ConnectionCollection = new ObservableCollection<ConnectionViewModel>();
 
             this.NewSchemeCommand = new RelayCommand(this.CreateNewScheme);
             this.SaveProjectCommand = new RelayCommand(this.SaveProject, this.CanSaveProject);
@@ -106,9 +106,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public ObservableCollection<ISchemeTabViewModel> SchemesCollection { get; }
-        public ObservableCollection<ILogicElementViewModel> ElementsLibrary { get; }
-        public ObservableCollection<IConnectionViewModel> ConnectionCollection { get; }
+        public ObservableCollection<SchemeTabViewModel> SchemesCollection { get; }
+        public ObservableCollection<LogicElementViewModel> ElementsLibrary { get; }
+        public ObservableCollection<ConnectionViewModel> ConnectionCollection { get; }
         public ICommand NewSchemeCommand { get; }
         public ICommand SaveProjectCommand { get; }
         public ICommand LoadProjectCommand { get; }
@@ -120,7 +120,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
         public RelayCommand WriteLogicCommand { get; }
         public ICommand StopEmulationLogic { get; }
 
-        public void AddConnection(IConnectionViewModel connectionViewModel)
+        public void AddConnection(ConnectionViewModel connectionViewModel)
         {
             if (this.ConnectionCollection.Contains(connectionViewModel))
                 return;
@@ -128,7 +128,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this.ConnectionCollection.Add(connectionViewModel);
         }
 
-        public void RemoveConnection(IConnectionViewModel connectionViewModel)
+        public void RemoveConnection(ConnectionViewModel connectionViewModel)
         {
             if (this.ConnectionCollection.Contains(connectionViewModel))
             {
@@ -148,7 +148,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             return number;
         }
 
-        private IConnectionViewModel GetConnectionViewModelByNumber(int connectionNumber)
+        private ConnectionViewModel GetConnectionViewModelByNumber(int connectionNumber)
         {
             return this.ConnectionCollection.FirstOrDefault(c => c.ConnectionNumber == connectionNumber);
         }
@@ -160,16 +160,16 @@ namespace Unicon2.Fragments.Programming.ViewModels
             if (schemeViewModel.DialogResult == MessageDialogResult.Affirmative)
             {
                 var scemeMoedel = new SchemeModel(schemeViewModel.SchemeName, schemeViewModel.SelectedSize);
-                var schemeTabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._factory);
+                var schemeTabViewModel = new SchemeTabViewModel(scemeMoedel, this, this._elementsFactory);
                 schemeTabViewModel.CloseTabEvent += this.OnCloseTab;
                 schemeTabViewModel.GetConnection += this.GetConnectionViewModelByNumber;
                 this.SchemesCollection.Add(schemeTabViewModel);
             }
 
-            (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
+            (this.SaveProjectCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
-        private void OnCloseTab(ISchemeTabViewModel schemeTabViewModel)
+        private void OnCloseTab(SchemeTabViewModel schemeTabViewModel)
         {
             if (this.IsLogicStarted)
             {
@@ -215,7 +215,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             ofd.Filter = $"Logic Project file (*{ProgramModel.EXTENSION})|*{ProgramModel.EXTENSION}";
             if (ofd.ShowDialog() == true)
             {
-                this._programModel = this._serializerService.DeserializeFromFile<IProgramModel>(ofd.FileName);
+                this._programModel = this._serializerService.DeserializeFromFile<ProgramModel>(ofd.FileName);
                 this.UpdateCollections(this._programModel);
                 (this.SaveProjectCommand as RelayCommand).RaiseCanExecuteChanged();
             }
@@ -259,17 +259,17 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._programModel.Connections.AddRange(this.ConnectionCollection.Select(cc => cc.Model));
         }
 
-        private void UpdateCollections(IProgramModel model)
+        private void UpdateCollections(ProgramModel model)
         {
             this.SchemesCollection.Clear();
             this.ConnectionCollection.Clear();
 
             foreach (var schemeModel in model.Schemes)
             {
-                var logicElementsVM = this._factory.GetAllElementsViewModels(schemeModel.LogicElements);
+                var logicElementsVM = this._elementsFactory.GetAllElementsViewModels(schemeModel.LogicElements);
 
-                var connectionsInScheme = new List<IConnectionViewModel>();
-                var connectorsInScheme = new List<IConnectorViewModel>();
+                var connectionsInScheme = new List<ConnectionViewModel>();
+                var connectorsInScheme = new List<ConnectorViewModel>();
 
                 foreach (var logicElementVM in logicElementsVM)
                 {
@@ -297,7 +297,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                     }
                 }
 
-                var schemeVM = new SchemeTabViewModel(schemeModel, this, this._factory);
+                var schemeVM = new SchemeTabViewModel(schemeModel, this, this._elementsFactory);
                 schemeVM.CloseTabEvent += this.OnCloseTab;
                 schemeVM.GetConnection += this.GetConnectionViewModelByNumber;
                 schemeVM.ElementCollection.AddCollection(logicElementsVM);
@@ -307,9 +307,9 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public async Task<Result> Initialize(IDeviceFragment deviceFragment)
+        public Task<Result> Initialize(IDeviceFragment deviceFragment)
         {
-            if (deviceFragment is IProgramModel model)
+            if (deviceFragment is ProgramModel model)
             {
                 this.ProjectName = model.ProjectName;
                 this._programModel.WithHeader = model.WithHeader;
@@ -320,7 +320,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
             else if (deviceFragment is IProgrammModelEditor modelEditor)
             {
-                var logicElementsViewModels = this._factory.GetAllElementsViewModels(modelEditor.Elements);
+                var logicElementsViewModels = this._elementsFactory.GetAllElementsViewModels(modelEditor.Elements);
                 this.ElementsLibrary.AddCollection(logicElementsViewModels);
                 this._programModel.EnableFileDriver = modelEditor.EnableFileDriver;
                 this._programModel.WithHeader = modelEditor.WithHeader;
@@ -328,7 +328,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
                 this._programModel.LogBinSize = modelEditor.LogBinSize;
             }
 
-            return Result.Create(true);
+            return Task.FromResult(Result.Create(true));
         }
 
         private void RaiseCanWriteReadLogicCommands()
@@ -378,7 +378,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private ushort[] Compile()
         {
-            var allElements = this.SchemesCollection.SelectMany(s => s.ElementCollection.Where(e => e is ILogicElementViewModel)).Cast<ILogicElementViewModel>().ToList();
+            var allElements = this.SchemesCollection.SelectMany(s => s.ElementCollection.Where(e => e is LogicElementViewModel)).Cast<LogicElementViewModel>().ToList();
             foreach (var element in allElements)
             {
                 element.CompilePriority = -1;
@@ -411,7 +411,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             return binFile.ToArray();
         }
 
-        private void SortElementsByPriority(ILogicElementViewModel element)
+        private void SortElementsByPriority(LogicElementViewModel element)
         {
             var priority = element.CompilePriority + 1;
 
@@ -454,7 +454,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             return bindata;
         }
 
-        private ushort[] GetSchemeBin(List<ILogicElementViewModel> allElements)
+        private ushort[] GetSchemeBin(List<LogicElementViewModel> allElements)
         {
             var maxPriority = allElements.Max(e => e.CompilePriority);
             var retBin = new List<ushort>();
@@ -528,8 +528,8 @@ namespace Unicon2.Fragments.Programming.ViewModels
             try
             {
                 var logicProjectBytes = await this._logicDeviceProvider.ReadLogicArchive(this._programModel.EnableFileDriver);
-                var programModel = this._serializerService.DeserializeFromBytes<IProgramModel>(logicProjectBytes);
-                Initialize(programModel);
+                var programModel = this._serializerService.DeserializeFromBytes<ProgramModel>(logicProjectBytes);
+                await Initialize(programModel);
                 UpdateCollections(programModel);
                 this.UpdateModelData();
                 this.RaiseCanWriteReadLogicCommands();

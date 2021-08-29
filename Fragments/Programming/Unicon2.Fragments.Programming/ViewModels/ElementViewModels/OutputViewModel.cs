@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
@@ -13,7 +11,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         private string _selectedSignal;
         private readonly Output _outputModel;
 
-        public OutputViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
+        public OutputViewModel(LogicElement model, IApplicationGlobalCommands globalCommands)
         {
             _globalCommands = globalCommands;
             _outputModel = (Output) model;
@@ -21,7 +19,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ElementName = "Выход";
             Description = "Елемент выходного дискретного сигнала";
             Symbol = "Out";
-            ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
+            ConnectorViewModels = new ObservableCollection<ConnectorViewModel>();
             OutputSignals = new ObservableCollection<string>();
             SetModel(this._outputModel);
         }
@@ -41,37 +39,37 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        protected override ILogicElement GetModel()
+        protected override LogicElement GetModel()
         {
             _outputModel.Connectors[0] = ConnectorViewModels[0].Model;
             return _outputModel;
         }
 
-        protected override void SetModel(ILogicElement model)
+        protected override void SetModel(LogicElement model)
         {
-            if (model is IOutput output)
+            if (model is Output output)
             {
                 UpdateProperties(output);
                 base.SetModel(model);
             }
         }
 
-        private void UpdateProperties(IOutput output)
+        private void UpdateProperties(Output output)
         {
             this.OutputSignals.Clear();
             this.OutputSignals.AddCollection(output.OutputSignals);
             this.SelectedSignal = this.OutputSignals[output.OutputSignalNum];
         }
 
-        public override void ResetSettingsTo(ILogicElement model)
+        public override void ResetSettingsTo(LogicElement model)
         {
-            if (model is IOutput output)
+            if (model is Output output)
             {
                 UpdateProperties(output);
             }
         }
 
-        public override ILogicElementViewModel Clone()
+        public override LogicElementViewModel Clone()
         {
             var model = new Output();
             model.CopyValues(GetModel());

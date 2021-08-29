@@ -7,8 +7,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Unicon2.Fragments.Programming.Behaviors;
 using Unicon2.Fragments.Programming.Infrastructure;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Other;
+using Unicon2.Fragments.Programming.ViewModels;
 
 namespace Unicon2.Fragments.Programming.Adorners
 {
@@ -16,10 +16,10 @@ namespace Unicon2.Fragments.Programming.Adorners
     {
         private Canvas _designerCanvas;
         private ConnectionBehavior _behavior;
-        private IConnectionViewModel _connection;
-        private IConnectorViewModel _connector;
+        private ConnectionViewModel _connection;
+        private ConnectorViewModel _connector;
         private Pen _drawingPen; // перо мнимой линии
-        private IConnectorViewModel _hitConnector;
+        private ConnectorViewModel _hitConnector;
         private PathGeometry _currentPath;
 
         public ConnectionAdorner(Canvas designerCanvas, ConnectionBehavior connectionBehavior) : base(designerCanvas)
@@ -39,7 +39,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             Cursor = Cursors.Cross;
         }
 
-        private IConnectorViewModel HitConnector
+        private ConnectorViewModel HitConnector
         {
             set
             {
@@ -154,7 +154,7 @@ namespace Unicon2.Fragments.Programming.Adorners
                 return;
             }
             var fe = (FrameworkElement)hitObject;
-            var cvm = fe.DataContext as IConnectorViewModel;
+            var cvm = fe.DataContext as ConnectorViewModel;
             if (cvm == null || cvm.Orientation == this._connection.SourceConnector.Orientation)
             {
                 this.HitConnector = null;

@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Connector: IConnector
+    public class Connector
     {
         /// <summary>
         /// Ориентация вывода по отношению к элементу: расположение справа или слева

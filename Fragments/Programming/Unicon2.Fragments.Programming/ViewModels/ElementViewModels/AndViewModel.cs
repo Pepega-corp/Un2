@@ -1,6 +1,4 @@
 ﻿using Unicon2.Fragments.Programming.Infrastructure.Keys;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 
@@ -10,7 +8,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
     {
         public override string StrongName => ProgrammingKeys.AND + ApplicationGlobalNames.CommonInjectionStrings.VIEW_MODEL;
 
-        public AndViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands): base(model, globalCommands)
+        public AndViewModel(LogicElement model, IApplicationGlobalCommands globalCommands): base(model, globalCommands)
         {
             this.ElementName = "И";
             this.Description = "Логический элемент И";
@@ -18,7 +16,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             this.SetModel(_logicElementModel);
         }
         
-        public override ILogicElementViewModel Clone()
+        public override LogicElementViewModel Clone()
         {
             var model = new And();
             model.CopyValues(GetModel());

@@ -4,8 +4,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Unicon2.Fragments.Programming.Infrastructure;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
+using Unicon2.Fragments.Programming.Model.Elements;
 using Unicon2.Infrastructure;
 using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.Commands;
@@ -14,8 +14,8 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 {
     public abstract class SimpleLogicElementViewModel : LogicElementViewModel, ISettingsApplicable
     {
-        private List<IConnectorViewModel> _addInputConnectors = new List<IConnectorViewModel>();
-        private List<IConnectorViewModel> _removeInputConnectors = new List<IConnectorViewModel>();
+        private List<ConnectorViewModel> _addInputConnectors = new List<ConnectorViewModel>();
+        private List<ConnectorViewModel> _removeInputConnectors = new List<ConnectorViewModel>();
         
         public ICommand AddInputCommand { get; }
         public ICommand RemoveInputCommand { get; }
@@ -24,26 +24,26 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         /// <summary>
         /// Inputs for scheme
         /// </summary>
-        public ObservableCollection<IConnectorViewModel> Inputs { get; }
+        public ObservableCollection<ConnectorViewModel> Inputs { get; }
         /// <summary>
         /// Outputs for scheme
         /// </summary>
-        public ObservableCollection<IConnectorViewModel> Outputs { get; }
+        public ObservableCollection<ConnectorViewModel> Outputs { get; }
         
-        public ObservableCollection<IConnectorViewModel> InputsForSettings { get; }
-        public ObservableCollection<IConnectorViewModel> OutputsForSettings { get; }
+        public ObservableCollection<ConnectorViewModel> InputsForSettings { get; }
+        public ObservableCollection<ConnectorViewModel> OutputsForSettings { get; }
 
-        protected SimpleLogicElementViewModel(ILogicElement model, IApplicationGlobalCommands globalCommands)
+        protected SimpleLogicElementViewModel(LogicElement model, IApplicationGlobalCommands globalCommands)
         {
             _logicElementModel = model;
             this._globalCommands = globalCommands;
             AddInputCommand = new RelayCommand(AddInput, CanAddInput);
             RemoveInputCommand = new RelayCommand(RemoveInput, CanRemove);
-            Inputs = new ObservableCollection<IConnectorViewModel>();
-            Outputs = new ObservableCollection<IConnectorViewModel>();
-            InputsForSettings = new ObservableCollection<IConnectorViewModel>();
-            OutputsForSettings = new ObservableCollection<IConnectorViewModel>();
-            this.ConnectorViewModels = new ObservableCollection<IConnectorViewModel>();
+            Inputs = new ObservableCollection<ConnectorViewModel>();
+            Outputs = new ObservableCollection<ConnectorViewModel>();
+            InputsForSettings = new ObservableCollection<ConnectorViewModel>();
+            OutputsForSettings = new ObservableCollection<ConnectorViewModel>();
+            this.ConnectorViewModels = new ObservableCollection<ConnectorViewModel>();
             this.ConnectorViewModels.CollectionChanged += OnConnectorsCollectionChanged;
             SetModel(model);
         }
@@ -53,13 +53,13 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             switch (eventArgs.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (var c in eventArgs.NewItems.Cast<IConnectorViewModel>())
+                    foreach (var c in eventArgs.NewItems.Cast<ConnectorViewModel>())
                     {
                         AddConnector(c);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (var c in eventArgs.OldItems.Cast<IConnectorViewModel>())
+                    foreach (var c in eventArgs.OldItems.Cast<ConnectorViewModel>())
                     {
                         RemoveConnector(c);
                     }
@@ -74,7 +74,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             RaisePropertyChanged(nameof(Width));
         }
 
-        private void AddConnector(IConnectorViewModel connector)
+        private void AddConnector(ConnectorViewModel connector)
         {
             if (connector.Orientation == ConnectorOrientation.LEFT)
             {
@@ -86,7 +86,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             }
         }
 
-        private void RemoveConnector(IConnectorViewModel connector)
+        private void RemoveConnector(ConnectorViewModel connector)
         {
             if (connector.Orientation == ConnectorOrientation.LEFT)
             {
@@ -105,7 +105,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         private void AddInput()
         {
-            IConnectorViewModel connector;
+            ConnectorViewModel connector;
             if (_removeInputConnectors.Count > 0)
             {
                 connector = _removeInputConnectors.Last();
@@ -128,7 +128,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
 
         private void RemoveInput()
         {
-            IConnectorViewModel connector;
+            ConnectorViewModel connector;
             if (_addInputConnectors.Count > 0)
             {
                 connector = _addInputConnectors.Last();
@@ -145,7 +145,7 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             ((RelayCommand)AddInputCommand).RaiseCanExecuteChanged();
         }
 
-        public override void ResetSettingsTo(ILogicElement model)
+        public override void ResetSettingsTo(LogicElement model)
         {
             ResetBuffers();
         }

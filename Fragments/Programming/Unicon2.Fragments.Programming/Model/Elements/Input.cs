@@ -6,12 +6,11 @@ using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Infrastructure.Enums;
 using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.Model.EditorElements;
-using Unicon2.Fragments.Programming.Infrastructure.Model.Elements;
 
 namespace Unicon2.Fragments.Programming.Model.Elements
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Input : LogicElement, IInput
+    public class Input : LogicElement
     {
         private const int BIN_SIZE = 3;
 
@@ -32,12 +31,12 @@ namespace Unicon2.Fragments.Programming.Model.Elements
 
         public Input()
         {
-            this.Connectors = new List<IConnector> { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
+            this.Connectors = new List<Connector> { new Connector(ConnectorOrientation.RIGHT, ConnectorType.DIRECT) };
             Bases = new List<string>();
             AllInputSignals = new List<Dictionary<int, string>>();
         }
 
-        public override void CopyValues(ILogicElement source)
+        public override void CopyValues(LogicElement source)
         {
             if (source is Input model)
             {

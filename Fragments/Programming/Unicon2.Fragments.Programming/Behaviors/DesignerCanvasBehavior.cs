@@ -6,9 +6,9 @@ using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 using System.Windows.Media;
 using Unicon2.Fragments.Programming.Adorners;
-using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme.ElementViewModels;
 using Unicon2.Fragments.Programming.Other;
 using Unicon2.Fragments.Programming.ViewModels;
+using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
 
 namespace Unicon2.Fragments.Programming.Behaviors
 {
@@ -203,7 +203,7 @@ namespace Unicon2.Fragments.Programming.Behaviors
         {
             var presenter = sender as ContentPresenter;
 
-            var item = presenter?.Content as ILogicElementViewModel;
+            var item = presenter?.Content as LogicElementViewModel;
             if (item == null)
                 return;
 
