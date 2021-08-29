@@ -9,8 +9,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Shared.xaml" />
         <!--  Ресурсы, в которых описаны DataTemplate всех элементов, как они будут отображаться на Canvas  -->
-        <ResourceDictionary Source="ElementsResources/Connection.xaml" />
-        <ResourceDictionary Source="ElementsResources/Connector.xaml" />
+        <ResourceDictionary Source="../Views/Connection/Connection.xaml" />
+        <ResourceDictionary Source="../Views/Connection/Connector.xaml" />
         <ResourceDictionary Source="ElementsResources/InputView.xaml" />
         <ResourceDictionary Source="ElementsResources/OutputView.xaml" />
         <ResourceDictionary Source="ElementsResources/Inversion.xaml" />

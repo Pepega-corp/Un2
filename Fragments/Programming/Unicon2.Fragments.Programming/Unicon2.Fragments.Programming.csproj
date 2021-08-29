@@ -209,8 +209,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\ElementsResources\Connection.xaml" />
-    <Page Include="UI\ElementsResources\Connector.xaml" />
     <Page Include="UI\ElementsResources\InputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -254,6 +252,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Connection\Connection.xaml" />
+    <Page Include="Views\Connection\Connector.xaml" />
     <Page Include="Views\LogicElementSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
