@@ -13,10 +13,10 @@
                   StrokeStartLineCap="Round"
                   StrokeThickness="1"
                   UseLayoutRounding="True" 
-                  X1="{Binding Point1.X}"
-                  Y1="{Binding Point1.Y}"
-                  X2="{Binding Point2.X}"
-                  Y2="{Binding Point2.Y}"/>
+                  X1="{Binding X1}"
+                  Y1="{Binding Y1}"
+                  X2="{Binding X2}"
+                  Y2="{Binding Y2}"/>
         <!-- </Canvas> -->
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsSelected}" Value="True">

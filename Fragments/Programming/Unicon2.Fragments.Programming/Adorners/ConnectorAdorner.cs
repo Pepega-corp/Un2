@@ -79,16 +79,10 @@ namespace Unicon2.Fragments.Programming.Adorners
                 }
                 else
                 {
-                    var pathSegmentPoints = new List<SegmentPoint>(_pathPoints.Count);
-                    pathSegmentPoints.Add(rightConnector.Model);
-                    for (var i = 1; i < _pathPoints.Count - 1; i++)
-                    {
-                        pathSegmentPoints.Add(new SegmentPoint(_pathPoints[i]));
-                    }
-
-                    pathSegmentPoints.Add(leftConnector.Model);
+                    var pathSegmentPoints = GetSegmentPointsList(rightConnector.Model, leftConnector.Model);
                     var newConnection = new Connection(pathSegmentPoints, this._schemeTabViewModel.GetNextConnectionNumber());
-                    var connectionViewModel = new ConnectionViewModel(newConnection);
+                    var segmentPointsViewModels = CreateSegmentPointsViewModels(pathSegmentPoints, rightConnector, leftConnector);
+                    var connectionViewModel = new ConnectionViewModel(newConnection, segmentPointsViewModels);
 
                     this._schemeTabViewModel.AddConnectionToProgramm(connectionViewModel);
                     this._schemeTabViewModel.ElementCollection.Add(connectionViewModel);
@@ -102,6 +96,39 @@ namespace Unicon2.Fragments.Programming.Adorners
 
             var adornerLayer = AdornerLayer.GetAdornerLayer(this._designerCanvas);
             adornerLayer?.Remove(this);
+        }
+
+        private List<SegmentPoint> GetSegmentPointsList(Connector rightConnector, Connector leftConnector)
+        {
+            var pathSegmentPoints = new List<SegmentPoint>(_pathPoints.Count);
+            pathSegmentPoints.Add(rightConnector);
+            for (var i = 1; i < _pathPoints.Count - 1; i++)
+            {
+                pathSegmentPoints.Add(new SegmentPoint(_pathPoints[i]));
+            }
+
+            pathSegmentPoints.Add(leftConnector);
+            return pathSegmentPoints;
+        }
+        
+        private List<ConnectionSegmentViewModel> CreateSegmentPointsViewModels(List<SegmentPoint> pathSegmentPoints, 
+            ConnectorViewModel rightConnector, ConnectorViewModel leftConnector)
+        {
+            var segmentPointsViewModels = new List<ConnectionSegmentViewModel>();
+            var startSegment = new ConnectionSegmentViewModel(rightConnector, new SegmentPointViewModel(pathSegmentPoints[1]));
+            rightConnector.UpdateSegment(startSegment);
+            segmentPointsViewModels.Add(startSegment);
+            for (var i = 1; i < pathSegmentPoints.Count - 2; i += 2)
+            {
+                segmentPointsViewModels.Add(new ConnectionSegmentViewModel(new SegmentPointViewModel(pathSegmentPoints[i]), 
+                    new SegmentPointViewModel(pathSegmentPoints[i+1])));
+            }
+
+            var lastSegment = new ConnectionSegmentViewModel(new SegmentPointViewModel(pathSegmentPoints[pathSegmentPoints.Count - 2]), leftConnector);
+            leftConnector.UpdateSegment(lastSegment);
+            segmentPointsViewModels.Add(lastSegment);
+
+            return segmentPointsViewModels;
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

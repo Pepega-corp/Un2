@@ -106,7 +106,7 @@ namespace Unicon2.Fragments.Programming.Adorners
             _currentPath = _currentPath ?? new PathGeometry();
 
             List<Point> pathPoints;
-            var sourceConnector = (ConnectorViewModel)_connection.Segments.First().Point1;
+            var sourceConnector = (ConnectorViewModel)_connection.Segments.First(c => c.IsSource).Point1;
             var sourceInfo = new PathFinder.ConnectorInfo
             {
                 ConnectorPoint = sourceConnector.ConnectorPosition,
@@ -152,7 +152,8 @@ namespace Unicon2.Fragments.Programming.Adorners
             }
             var fe = (FrameworkElement)hitObject;
             var cvm = fe.DataContext as ConnectorViewModel;
-            if (cvm == null || cvm.Orientation == _connection.SourceConnector.Orientation)
+            var connectionSource = _connection.SourceSegment.Point1 as ConnectorViewModel;
+            if (cvm == null || connectionSource == null || cvm.Orientation == connectionSource.Orientation)
             {
                 HitConnector = null;
                 return;

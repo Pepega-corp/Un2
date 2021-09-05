@@ -8,6 +8,7 @@ using Unicon2.Fragments.Programming.Infrastructure.Keys;
 using Unicon2.Fragments.Programming.Infrastructure.ViewModels.Scheme;
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Infrastructure;
+using Unicon2.Infrastructure.Common;
 using Unicon2.Unity.ViewModels;
 
 namespace Unicon2.Fragments.Programming.ViewModels
@@ -15,7 +16,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
     public class ConnectionViewModel : ViewModelBase, ISchemeElementViewModel
     {
         private readonly Connection _model;
-        // private ConnectorViewModel _source;
         private Point _labelPosition;
         private ushort _currentValue;
         private bool _gotValue;
@@ -27,25 +27,14 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         public event Action<ConnectionViewModel> NeedDelete;
 
-        public ConnectionViewModel(Connection model/*, ConnectorViewModel source, params ConnectorViewModel[] sinks*/)
+        public ConnectionViewModel(Connection model, List<ConnectionSegmentViewModel> segments)
         {
             this._model = model;
             this._currentValue = 0;
             this._gotValue = false;
 
+            Segments.AddCollection(segments);
             Segments.CollectionChanged += OnCollectionChanged;
-            foreach (var segmentModel in model.Segments)
-            {
-                Segments.Add(new ConnectionSegmentViewModel(segmentModel));
-            }
-
-            // this._source = source;
-            // this._source.Connection = this;
-            // this._source.ConnectorPositionChanged += OnConnectorPositionChanged;
-
-            // this.SinkConnectors = new ObservableCollection<ConnectorViewModel>();
-            // SinkConnectors.CollectionChanged += SinkCollectionChanged;
-            // SinkConnectors.AddCollection(sinks);
         }
 
         public ObservableCollection<ConnectionSegmentViewModel> Segments { get; } =
@@ -73,39 +62,13 @@ namespace Unicon2.Fragments.Programming.ViewModels
             }
         }
 
-        public ConnectorViewModel SourceConnector
+        public ConnectionSegmentViewModel SourceSegment
         {
-            get => (ConnectorViewModel)Segments.FirstOrDefault(s => s.Point1 is ConnectorViewModel)?.Point1; 
-            // set
-            // {
-                
-                //         if (value.Orientation != ConnectorOrientation.RIGHT)
-                //             return;
-                //
-                //         if (_source != null)
-                //         {
-                //             _source.ConnectorPositionChanged -= OnConnectorPositionChanged;
-                //             _source.Connection = null;
-                //         }
-                //
-                //         this._source = value;
-                //
-                //         if (_source != null)
-                //         {
-                //             _source.ConnectorPositionChanged += OnConnectorPositionChanged;
-                //             _source.Connection = this;
-                //         }
-                //         else
-                //         {
-                //             NeedDelete?.Invoke(this);
-                //         }
-                //
-                //         this.UpdatePathGeometry();
-                //         RaisePropertyChanged();
-            // }
+            get => Segments.FirstOrDefault();
         }
 
-        // public ObservableCollection<ConnectorViewModel> SinkConnectors { get; }
+        public ObservableCollection<ConnectionSegmentViewModel> SinkSegments { get; } =
+            new ObservableCollection<ConnectionSegmentViewModel>();
 
         public int ConnectionNumber => this._model.ConnectionNumber;
 
@@ -219,7 +182,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(SourceConnector));
+            RaisePropertyChanged(nameof(SourceSegment));
         }
 
         // private void OnConnectorPositionChanged(Point position)

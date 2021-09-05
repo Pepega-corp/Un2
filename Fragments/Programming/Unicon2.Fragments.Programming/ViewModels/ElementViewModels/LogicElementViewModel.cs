@@ -19,9 +19,6 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
         protected string caption = "";
         protected bool validationError;
         protected string description;
-        private Point _deltaPosition;
-        private bool _xChanged;
-        private bool _yChanged;
 
         public string ElementName { get; protected set; }
         public ElementType ElementType => this._logicElementModel.ElementType;
@@ -61,18 +58,11 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             get => this._logicElementModel.X;
             set
             {
-                this._deltaPosition.X = value - this._logicElementModel.X;
-                if (this._yChanged)
+                var deltaX = value - this._logicElementModel.X;
+                foreach (var connector in ConnectorViewModels)
                 {
-                    this._yChanged = false;
-                    this._xChanged = false;
-                    this.UpdateConnectorsPosition(this._deltaPosition);
+                    connector.X += deltaX;
                 }
-                else
-                {
-                    this._xChanged = true;
-                }
-
                 this._logicElementModel.X = value;
                 RaisePropertyChanged();
             }
@@ -82,32 +72,17 @@ namespace Unicon2.Fragments.Programming.ViewModels.ElementViewModels
             get => this._logicElementModel.Y;
             set
             {
-                this._deltaPosition.Y = value - this._logicElementModel.Y;
-                if (this._xChanged)
+                var deltaY = value - this._logicElementModel.Y;
+                foreach (var connector in ConnectorViewModels)
                 {
-                    this._yChanged = false;
-                    this._xChanged = false;
-                    this.UpdateConnectorsPosition(this._deltaPosition);
+                    connector.Y += deltaY;
                 }
-                else
-                {
-                    this._yChanged = true;
-                }
-
                 this._logicElementModel.Y = value;
                 RaisePropertyChanged();
             }
         }
         public bool Connected => ConnectorViewModels.All(c=>c.Connected);
         public int CompilePriority { get; set; }
-
-        private void UpdateConnectorsPosition(Point deltaPosition)
-        {
-            foreach (var connectorViewModel in this.ConnectorViewModels)
-            {
-                connectorViewModel.UpdateConnectorPosition(deltaPosition);
-            }
-        }
 
         protected virtual LogicElement GetModel()
         {

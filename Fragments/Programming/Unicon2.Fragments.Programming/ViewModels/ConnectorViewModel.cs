@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using Unicon2.Fragments.Programming.Infrastructure;
 using Unicon2.Fragments.Programming.Model;
 using Unicon2.Fragments.Programming.ViewModels.ElementViewModels;
@@ -13,8 +12,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
         private Connector _modelConnector;
         private ConnectionViewModel _connectionViewModel;
 
-        public event Action<Point> ConnectorPositionChanged;
-
         public ConnectorViewModel(LogicElementViewModel parent, Connector model) : base(model)
         {
             this._modelConnector = model;
@@ -24,9 +21,7 @@ namespace Unicon2.Fragments.Programming.ViewModels
             this._symbol = string.Empty;
         }
 
-        /// <summary>
-        /// Точка расположения коннектора в DesignerCanvas
-        /// </summary>
+        
         public Point ConnectorPosition
         {
             get { return this._modelConnector.Position; }
@@ -34,7 +29,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
             {
                 this._modelConnector.Position = value;
                 RaisePropertyChanged();
-                ConnectorPositionChanged?.Invoke(this._modelConnector.Position);
             }
         }
 
@@ -150,14 +144,6 @@ namespace Unicon2.Fragments.Programming.ViewModels
 
             _modelConnector.Type = model.Type;
             RaisePropertyChanged(nameof(this.ConnectorType));
-        }
-
-        public void UpdateConnectorPosition(Point deltaPosition)
-        {
-            var position = this.ConnectorPosition;
-            position.X += deltaPosition.X;
-            position.Y += deltaPosition.Y;
-            this.ConnectorPosition = position;
         }
     }
 }
